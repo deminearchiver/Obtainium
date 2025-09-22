@@ -1297,7 +1297,7 @@ class AppsPageState extends State<AppsPage> {
             physics: const AlwaysScrollableScrollPhysics(),
             controller: scrollController,
             slivers: <Widget>[
-              CustomAppBar(title: tr('appsString')),
+              CustomAppBar(title: Text(tr('appsString'))),
               ...getLoadingWidgets(),
               getDisplayedList(),
             ],
