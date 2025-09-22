@@ -1,7 +1,5 @@
 library;
 
-// TODO: adjust pacakge
-
 // SDK packages
 
 export 'package:flutter/foundation.dart';
