@@ -215,6 +215,9 @@ class _CustomAppBarState extends State<CustomAppBar>
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               DefaultTextStyle(
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.start,
                 style: TextStyle.lerp(
                   _expandedHeadlineTextStyle,
                   _collapsedHeadlineTextStyle,
@@ -232,6 +235,9 @@ class _CustomAppBarState extends State<CustomAppBar>
                   )!,
                 ),
                 DefaultTextStyle(
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.start,
                   style: TextStyle.lerp(
                     _expandedSubtitleTextStyle,
                     _collapsedSubtitleTextStyle,
