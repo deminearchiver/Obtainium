@@ -15,7 +15,10 @@ dependencies:
   material_color_utilities_2025:
     path: ../material_color_utilities
   meta: ^1.17.0
-
+  material_shapes:
+    git: git@github.com:ksokolovskyi/material_shapes.git
+  material_loading_indicator:
+    git: git@github.com:ksokolovskyi/material_loading_indicator.git
 
 dev_dependencies:
   flutter_test:
