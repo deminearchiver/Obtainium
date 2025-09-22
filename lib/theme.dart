@@ -22,6 +22,36 @@ abstract final class LegacyThemeFactory {
         applyTextScaling: false,
         shadows: const [],
       ),
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: colorTheme.surfaceContainer,
+        elevation: 0.0,
+        height: 64.0,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        indicatorColor: colorTheme.secondaryContainer,
+        indicatorShape: const StadiumBorder(),
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          final isSelected = states.contains(WidgetState.selected);
+          return IconThemeData(
+            color: isSelected
+                ? colorScheme.onSecondaryContainer
+                : colorTheme.onSurfaceVariant,
+            fill: isSelected ? 1.0 : 0.0,
+            size: 24.0,
+            opticalSize: 24.0,
+          );
+        }),
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          final isSelected = states.contains(WidgetState.selected);
+          final typeStyle = isSelected
+              ? typescaleTheme.labelMediumEmphasized
+              : typescaleTheme.labelMedium;
+          return typeStyle.toTextStyle(
+            color: isSelected
+                ? colorTheme.secondary
+                : colorTheme.onSurfaceVariant,
+          );
+        }),
+      ),
     );
   }
 }
