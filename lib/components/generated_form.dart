@@ -448,7 +448,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
           onAddPressed() {
             showDialog<Map<String, dynamic>?>(
               context: context,
-              builder: (BuildContext ctx) {
+              builder: (ctx) {
                 return GeneratedFormModal(
                   title: widget.items[r][e].label,
                   items: [
@@ -644,7 +644,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                                         .deleteConfirmationMessage!;
                                 showDialog<Map<String, dynamic>?>(
                                   context: context,
-                                  builder: (BuildContext ctx) {
+                                  builder: (ctx) {
                                     return GeneratedFormModal(
                                       title: message.key,
                                       message: message.value,

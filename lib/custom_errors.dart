@@ -123,7 +123,7 @@ void showMessage(dynamic e, BuildContext context, {bool isError = false}) {
   } else {
     showDialog(
       context: context,
-      builder: (BuildContext ctx) {
+      builder: (ctx) {
         return AlertDialog(
           scrollable: true,
           title: Text(

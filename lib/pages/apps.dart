@@ -36,7 +36,7 @@ void showChangeLogDialog(
 ) {
   showDialog(
     context: context,
-    builder: (BuildContext context) {
+    builder: (context) {
       return GeneratedFormModal(
         title: tr('changes'),
         items: const [],
@@ -812,7 +812,7 @@ class AppsPageState extends State<AppsPage> {
               }
               showDialog<Map<String, dynamic>?>(
                 context: context,
-                builder: (BuildContext ctx) {
+                builder: (ctx) {
                   var totalApps =
                       existingUpdateIdsAllOrSelected.length +
                       newInstallIdsAllOrSelected.length +
@@ -884,7 +884,7 @@ class AppsPageState extends State<AppsPage> {
             cont =
                 await showDialog<Map<String, dynamic>?>(
                   context: context,
-                  builder: (BuildContext ctx) {
+                  builder: (ctx) {
                     return GeneratedFormModal(
                       title: tr('categorize'),
                       items: const [],
@@ -899,7 +899,7 @@ class AppsPageState extends State<AppsPage> {
             // ignore: use_build_context_synchronously
             await showDialog<Map<String, dynamic>?>(
               context: context,
-              builder: (BuildContext ctx) {
+              builder: (ctx) {
                 return GeneratedFormModal(
                   title: tr('categorize'),
                   items: const [],
@@ -932,7 +932,7 @@ class AppsPageState extends State<AppsPage> {
     showMassMarkDialog() {
       return showDialog(
         context: context,
-        builder: (BuildContext ctx) {
+        builder: (ctx) {
           return AlertDialog(
             title: Text(
               tr(
@@ -995,7 +995,7 @@ class AppsPageState extends State<AppsPage> {
     showMoreOptionsDialog() {
       return showDialog(
         context: context,
-        builder: (BuildContext ctx) {
+        builder: (ctx) {
           return AlertDialog(
             scrollable: true,
             content: Padding(
@@ -1156,7 +1156,7 @@ class AppsPageState extends State<AppsPage> {
     showFilterDialog() async {
       var values = await showDialog<Map<String, dynamic>?>(
         context: context,
-        builder: (BuildContext ctx) {
+        builder: (ctx) {
           var vals = filter.toFormValuesMap();
           return GeneratedFormModal(
             initValid: true,

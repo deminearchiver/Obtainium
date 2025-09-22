@@ -211,7 +211,7 @@ class NotificationsProvider {
           const InitializationSettings(
             android: AndroidInitializationSettings('ic_notification'),
           ),
-          onDidReceiveNotificationResponse: (NotificationResponse response) {
+          onDidReceiveNotificationResponse: (response) {
             _showNotificationPayload(response.payload);
           },
         ) ??

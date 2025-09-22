@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
       if (!sp.welcomeShown) {
         await showDialog(
           context: context,
-          builder: (BuildContext ctx) {
+          builder: (ctx) {
             return AlertDialog(
               title: Text(tr('welcome')),
               content: Column(
@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
           var dataStr = Uri.decodeComponent(data);
           if (await showDialog(
                 context: context,
-                builder: (BuildContext ctx) {
+                builder: (ctx) {
                   return GeneratedFormModal(
                     title: tr(
                       'importX',
@@ -318,7 +318,7 @@ class _HomePageState extends State<HomePage> {
                     NavigationDestination(icon: Icon(e.icon), label: e.title),
               )
               .toList(),
-          onDestinationSelected: (int index) async {
+          onDestinationSelected: (index) async {
             HapticFeedback.selectionClick();
             switchToPage(index);
           },

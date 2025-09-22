@@ -444,13 +444,13 @@ Future<File> downloadFile(
       })
       .transform(
         StreamTransformer<List<int>, List<int>>.fromHandlers(
-          handleData: (List<int> data, EventSink<List<int>> s) {
+          handleData: (data, s) {
             downloadBuffer.add(data);
             if (downloadBuffer.length >= downloadBufferSize) {
               s.add(downloadBuffer.takeBytes());
             }
           },
-          handleDone: (EventSink<List<int>> s) {
+          handleDone: (s) {
             if (downloadBuffer.isNotEmpty) {
               s.add(downloadBuffer.takeBytes());
             }
@@ -1027,7 +1027,7 @@ class AppsProvider with ChangeNotifier {
       appFileUrl = await showDialog(
         // ignore: use_build_context_synchronously
         context: context,
-        builder: (BuildContext ctx) {
+        builder: (ctx) {
           return AppFilePicker(
             app: app,
             initVal: appFileUrl,
@@ -1056,7 +1056,7 @@ class AppsProvider with ChangeNotifier {
           await showDialog(
                 // ignore: use_build_context_synchronously
                 context: context,
-                builder: (BuildContext ctx) {
+                builder: (ctx) {
                   return APKOriginWarningDialog(
                     sourceUrl: app.url,
                     apkUrl: appFileUrl!.value,
@@ -1807,7 +1807,7 @@ class AppsProvider with ChangeNotifier {
         .isNotEmpty;
     var values = await showDialog(
       context: context,
-      builder: (BuildContext ctx) {
+      builder: (ctx) {
         return GeneratedFormModal(
           primaryActionColour: Theme.of(context).colorScheme.error,
           title: plural('removeAppQuestion', apps.length),
@@ -2205,7 +2205,7 @@ class _AppFilePickerState extends State<AppFilePicker> {
               title: Text(u.key),
               value: u.value,
               groupValue: fileUrl!.value,
-              onChanged: (String? val) {
+              onChanged: (val) {
                 setState(() {
                   fileUrl = urlsToSelectFrom.where((e) => e.value == val).first;
                 });

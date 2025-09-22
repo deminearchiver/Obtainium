@@ -119,7 +119,7 @@ class _SettingsPageState extends State<SettingsPage> {
     Future<bool> colorPickerDialog() async {
       return ColorPicker(
         color: settingsProvider.themeColor,
-        onColorChanged: (Color color) =>
+        onColorChanged: (color) =>
             setState(() => settingsProvider.themeColor = color),
         actionButtons: const ColorPickerActionButtons(
           okButton: true,
@@ -988,7 +988,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           } else {
                             showDialog(
                               context: context,
-                              builder: (BuildContext ctx) {
+                              builder: (ctx) {
                                 return const LogsDialog();
                               },
                             );
@@ -1066,7 +1066,7 @@ class _LogsDialogState extends State<LogsDialog> {
             var cont =
                 (await showDialog<Map<String, dynamic>?>(
                   context: context,
-                  builder: (BuildContext ctx) {
+                  builder: (ctx) {
                     return GeneratedFormModal(
                       title: tr('appLogs'),
                       items: const [],

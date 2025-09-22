@@ -43,7 +43,7 @@ class _AppPageState extends State<AppPage> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
         NavigationDelegate(
-          onWebResourceError: (WebResourceError error) {
+          onWebResourceError: (error) {
             if (error.isForMainFrame == true) {
               showError(
                 ObtainiumError(error.description, unexpected: true),
@@ -51,7 +51,7 @@ class _AppPageState extends State<AppPage> {
               );
             }
           },
-          onNavigationRequest: (NavigationRequest request) =>
+          onNavigationRequest: (request) =>
               !(request.url.startsWith("http://") ||
                   request.url.startsWith("https://") ||
                   request.url.startsWith("ftp://") ||
@@ -408,7 +408,7 @@ class _AppPageState extends State<AppPage> {
     showMarkUpdatedDialog() {
       return showDialog(
         context: context,
-        builder: (BuildContext ctx) {
+        builder: (ctx) {
           return AlertDialog(
             title: Text(tr('alreadyUpToDateQuestion')),
             actions: [
@@ -439,7 +439,7 @@ class _AppPageState extends State<AppPage> {
     showAdditionalOptionsDialog() async {
       return await showDialog<Map<String, dynamic>?>(
         context: context,
-        builder: (BuildContext ctx) {
+        builder: (ctx) {
           var items = (source?.combinedAppSpecificSettingFormItems ?? []).map((
             row,
           ) {
@@ -581,7 +581,7 @@ class _AppPageState extends State<AppPage> {
                     onPressed: () {
                       showDialog(
                         context: context,
-                        builder: (BuildContext ctx) {
+                        builder: (ctx) {
                           return AlertDialog(
                             scrollable: true,
                             content: getFullInfoColumn(small: true),

@@ -55,7 +55,7 @@ class LogsProvider {
     db ??= await openDatabase(
       dbPath,
       version: 1,
-      onCreate: (Database db, int version) async {
+      onCreate: (db, version) async {
         await db.execute('''
 create table if not exists $logTable ( 
   $idColumn integer primary key autoincrement, 

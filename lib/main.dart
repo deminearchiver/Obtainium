@@ -74,7 +74,7 @@ Future<void> loadTranslations() async {
     useOnlyLangCode: false,
     useFallbackTranslations: true,
     path: localeDir,
-    onLoadError: (FlutterError e) {
+    onLoadError: (e) {
       throw e;
     },
   );
@@ -355,7 +355,7 @@ class _ObtainiumState extends State<Obtainium> {
 
     return WithForegroundTask(
       child: DynamicColorBuilder(
-        builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+        builder: (lightDynamic, darkDynamic) {
           // Decide on a colour/brightness scheme based on OS and user settings
           ColorScheme lightColorScheme;
           ColorScheme darkColorScheme;

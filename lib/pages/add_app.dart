@@ -117,7 +117,7 @@ class AddAppPageState extends State<AddAppPage> {
         // ignore: use_build_context_synchronously
         var values = await showDialog(
           context: context,
-          builder: (BuildContext ctx) {
+          builder: (ctx) {
             return GeneratedFormModal(
               initValid: true,
               title: tr(
@@ -150,7 +150,7 @@ class AddAppPageState extends State<AddAppPage> {
           // ignore: use_build_context_synchronously
           await showDialog(
                 context: context,
-                builder: (BuildContext ctx) {
+                builder: (ctx) {
                   return GeneratedFormModal(
                     title: tr('releaseDateAsVersion'),
                     items: const [],
@@ -310,7 +310,7 @@ class AddAppPageState extends State<AddAppPage> {
         var searchSources =
             await showDialog<List<String>?>(
               context: context,
-              builder: (BuildContext ctx) {
+              builder: (ctx) {
                 return SelectionModal(
                   title: tr(
                     'selectX',
@@ -339,7 +339,7 @@ class AddAppPageState extends State<AddAppPage> {
                     if (e.includeAdditionalOptsInMainSearch) {
                       querySettings = await showDialog<Map<String, dynamic>?>(
                         context: context,
-                        builder: (BuildContext ctx) {
+                        builder: (ctx) {
                           return GeneratedFormModal(
                             title: tr('searchX', args: [e.name]),
                             items: [
@@ -423,7 +423,7 @@ class AddAppPageState extends State<AddAppPage> {
               // ignore: use_build_context_synchronously
               : await showDialog<List<String>?>(
                   context: context,
-                  builder: (BuildContext ctx) {
+                  builder: (ctx) {
                     return SelectionModal(
                       entries: res.map((k, v) => MapEntry(k, v.value)),
                       selectedByDefault: false,
