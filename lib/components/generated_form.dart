@@ -329,6 +329,8 @@ class _GeneratedFormState extends State<GeneratedForm> {
                   });
                 },
                 decoration: InputDecoration(
+                  border: UnderlineInputBorder(),
+                  filled: true,
                   helperText: formItem.label + (formItem.required ? ' *' : ''),
                   hintText: formItem.hint,
                 ),
