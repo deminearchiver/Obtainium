@@ -21,6 +21,7 @@ version: 1.2.6+2322
 workspace:
   - material
   - material_color_utilities
+  - obtainium_i18n
 
 environment:
   sdk: ^3.9.2
@@ -89,7 +90,7 @@ dependencies:
   flutter_foreground_task: ^9.1.0
   material_symbols_icons: ^4.2873.0
 
-dev_dependencies: 
+dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
