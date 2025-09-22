@@ -5,18 +5,24 @@ import 'package:obtainium/flutter.dart';
 const double _kCollapsedHeight = 64.0;
 const double _kExpandedBottomPadding = 12.0;
 
+enum _AppBarType { small, mediumFlexible, largeFlexible }
+
 class CustomAppBar extends StatefulWidget {
   const CustomAppBar({
     super.key,
     this.collapsedContainerColor,
     this.expandedContainerColor,
-    required this.title,
-  });
+    required this.headline,
+    this.subtitle = const Text("Subtitle"),
+  }) : _type = _AppBarType.largeFlexible;
+
+  final _AppBarType _type;
 
   final Color? collapsedContainerColor;
   final Color? expandedContainerColor;
 
-  final Widget title;
+  final Widget headline;
+  final Widget? subtitle;
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -29,15 +35,37 @@ class _CustomAppBarState extends State<CustomAppBar>
   ScrollPosition? _position;
 
   // Collapsed
-  late TypeStyle _collapsedTypeStyle;
-  late TextStyle _collapsedTextStyle;
+  TypeStyle get _collapsedHeadlineTypeStyle =>
+      _typescaleTheme.titleLargeEmphasized;
+  late TextStyle _collapsedHeadlineTextStyle;
+  TypeStyle get _collapsedSubtitleTypeStyle => _typescaleTheme.labelMedium;
+  late TextStyle _collapsedSubtitleTextStyle;
+  double get _collapsedHeadlineSubtitleSpace => 0.0;
   late EdgeInsetsGeometry _collapsedPadding;
+  late double _collapsedContentHeight;
   late Color _collapsedColor;
 
   // Expanded
-  late TypeStyle _expandedTypeStyle;
-  late TextStyle _expandedTextStyle;
+  TypeStyle get _expandedHeadlineTypeStyle => switch (widget._type) {
+    _AppBarType.small => _collapsedHeadlineTypeStyle,
+    _AppBarType.mediumFlexible => _typescaleTheme.headlineMediumEmphasized,
+    _AppBarType.largeFlexible => _typescaleTheme.displaySmallEmphasized,
+  };
+  late TextStyle _expandedHeadlineTextStyle;
+
+  TypeStyle get _expandedSubtitleTypeStyle => switch (widget._type) {
+    _AppBarType.small => _collapsedSubtitleTypeStyle,
+    _AppBarType.mediumFlexible => _typescaleTheme.labelLarge,
+    _AppBarType.largeFlexible => _typescaleTheme.titleMedium,
+  };
+  late TextStyle _expandedSubtitleTextStyle;
+  double get _expandedHeadlineSubtitleSpace => switch (widget._type) {
+    _AppBarType.small => _collapsedHeadlineSubtitleSpace,
+    _AppBarType.mediumFlexible => 4.0,
+    _AppBarType.largeFlexible => 8.0,
+  };
   late EdgeInsetsGeometry _expandedPadding;
+  late double _expandedContentHeight;
   late double _expandedHeight;
   late Color _expandedColor;
 
@@ -48,13 +76,13 @@ class _CustomAppBarState extends State<CustomAppBar>
     final position = _position!;
     if (!position.hasPixels) return;
     final pixels = position.pixels;
-    // Pixels: 0.0 -> 56.0
-    // Height: 120.0 -> 64.0
-    // Value: 0.0 -> 1.0
-    // Height: (expanded) -> (expanded - pixels)
     final heightChange = _expandedHeight - _kCollapsedHeight;
     final oldValue = _controller.value;
-    final newValue = clampDouble(pixels / heightChange, 0.0, 1.0);
+    final newValue = clampDouble(
+      pixels / (heightChange > 0 ? heightChange : _kCollapsedHeight),
+      0.0,
+      1.0,
+    );
     if (oldValue != newValue) {
       _controller.value = newValue;
     }
@@ -77,39 +105,56 @@ class _CustomAppBarState extends State<CustomAppBar>
     _colorTheme = ColorTheme.of(context);
     _typescaleTheme = TypescaleTheme.of(context);
 
-    _collapsedTypeStyle = _typescaleTheme.titleLargeEmphasized;
-    _collapsedTextStyle = _collapsedTypeStyle.toTextStyle(
-      color: _colorTheme.onSurface,
+    final headlineColor = _colorTheme.onSurface;
+    final subtitleColor = _colorTheme.onSurfaceVariant;
+
+    _collapsedHeadlineTextStyle = _collapsedHeadlineTypeStyle.toTextStyle(
+      color: headlineColor,
     );
-    _expandedTypeStyle = _typescaleTheme.displaySmallEmphasized;
-    _expandedTextStyle = _expandedTypeStyle.toTextStyle(
-      color: _colorTheme.onSurface,
+    _expandedHeadlineTextStyle = _expandedHeadlineTypeStyle.toTextStyle(
+      color: headlineColor,
+    );
+
+    _collapsedSubtitleTextStyle = _collapsedSubtitleTypeStyle.toTextStyle(
+      color: subtitleColor,
+    );
+    _expandedSubtitleTextStyle = _expandedSubtitleTypeStyle.toTextStyle(
+      color: subtitleColor,
     );
 
     _collapsedColor =
         widget.collapsedContainerColor ?? _colorTheme.surfaceContainer;
     _expandedColor = widget.expandedContainerColor ?? _colorTheme.surface;
 
-    final collapsedVerticalPadding =
-        (_kCollapsedHeight - _expandedTypeStyle.lineHeight) / 2.0;
+    _collapsedContentHeight =
+        _collapsedHeadlineTypeStyle.lineHeight +
+        (widget.subtitle != null
+            ? _collapsedHeadlineSubtitleSpace +
+                  _collapsedSubtitleTypeStyle.lineHeight
+            : 0.0);
+    _expandedContentHeight = widget._type == _AppBarType.small
+        ? _collapsedContentHeight
+        : _expandedHeadlineTypeStyle.lineHeight +
+              (widget.subtitle != null
+                  ? _expandedHeadlineSubtitleSpace +
+                        _expandedSubtitleTypeStyle.lineHeight
+                  : 0.0);
+
     _collapsedPadding = EdgeInsets.fromLTRB(
       16.0,
-      collapsedVerticalPadding,
+      (_kCollapsedHeight - _collapsedContentHeight) / 2.0,
       16.0,
-      collapsedVerticalPadding,
+      (_kCollapsedHeight - _collapsedContentHeight) / 2.0,
     );
-    _expandedPadding = EdgeInsets.fromLTRB(
-      16.0,
-      0.0,
-      16.0,
-      _kExpandedBottomPadding,
-    );
-    _expandedHeight =
-        _kCollapsedHeight +
-        _expandedTypeStyle.lineHeight +
-        _kExpandedBottomPadding;
+    _expandedPadding = widget._type == _AppBarType.small
+        ? _collapsedPadding
+        : EdgeInsets.fromLTRB(16.0, 0.0, 16.0, _kExpandedBottomPadding);
+    _expandedHeight = widget._type == _AppBarType.small
+        ? _kCollapsedHeight
+        : _kCollapsedHeight + _expandedContentHeight + _kExpandedBottomPadding;
 
-    assert(_expandedHeight > _kCollapsedHeight);
+    assert(_expandedHeight >= _kCollapsedHeight);
+    debugPrint("$_kCollapsedHeight $_expandedHeight");
 
     // Update scroll listener
     final scrollable = Scrollable.of(context, axis: Axis.vertical);
@@ -148,17 +193,42 @@ class _CustomAppBarState extends State<CustomAppBar>
         flexibleSpace: FlexibleSpaceBar(
           expandedTitleScale: 1.0,
           titlePadding: EdgeInsetsGeometry.lerp(
-            _collapsedPadding,
             _expandedPadding,
+            _collapsedPadding,
             _controller.value,
           )!,
-          title: DefaultTextStyle(
-            style: TextStyle.lerp(
-              _expandedTextStyle,
-              _collapsedTextStyle,
-              _controller.value,
-            )!,
-            child: widget.title,
+          title: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              DefaultTextStyle(
+                style: TextStyle.lerp(
+                  _expandedHeadlineTextStyle,
+                  _collapsedHeadlineTextStyle,
+                  _controller.value,
+                )!,
+                child: widget.headline,
+              ),
+              if (widget.subtitle case final subtitle?) ...[
+                SizedBox(
+                  width: double.infinity,
+                  height: lerpDouble(
+                    _expandedHeadlineSubtitleSpace,
+                    _collapsedHeadlineSubtitleSpace,
+                    _controller.value,
+                  )!,
+                ),
+                DefaultTextStyle(
+                  style: TextStyle.lerp(
+                    _expandedSubtitleTextStyle,
+                    _collapsedSubtitleTextStyle,
+                    _controller.value,
+                  )!,
+                  child: subtitle,
+                ),
+              ],
+            ],
           ),
         ),
       ),
