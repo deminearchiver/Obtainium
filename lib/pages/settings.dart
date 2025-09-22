@@ -224,7 +224,10 @@ class _SettingsPageState extends State<SettingsPage> {
 
     var sortDropdown = DropdownButtonFormField(
       isExpanded: true,
-      decoration: InputDecoration(labelText: tr('appSortBy')),
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: tr('appSortBy'),
+      ),
       initialValue: settingsProvider.sortColumn,
       items: [
         DropdownMenuItem(
@@ -253,7 +256,10 @@ class _SettingsPageState extends State<SettingsPage> {
 
     var orderDropdown = DropdownButtonFormField(
       isExpanded: true,
-      decoration: InputDecoration(labelText: tr('appSortOrder')),
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: tr('appSortOrder'),
+      ),
       initialValue: settingsProvider.sortOrder,
       items: [
         DropdownMenuItem(
@@ -273,7 +279,10 @@ class _SettingsPageState extends State<SettingsPage> {
     );
 
     var localeDropdown = DropdownButtonFormField(
-      decoration: InputDecoration(labelText: tr('language')),
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: tr('language'),
+      ),
       initialValue: settingsProvider.forcedLocale,
       items: [
         DropdownMenuItem(value: null, child: Text(tr('followSystem'))),
@@ -356,7 +365,10 @@ class _SettingsPageState extends State<SettingsPage> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: CustomScrollView(
         slivers: <Widget>[
-          CustomAppBar(headline: Text(tr('settings'))),
+          CustomAppBar.largeFlexible(
+            headline: Text("Obtainium"),
+            subtitle: Text(tr('settings')),
+          ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -707,7 +719,10 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                         ),
                         DropdownButtonFormField(
-                          decoration: InputDecoration(labelText: tr('theme')),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: tr('theme'),
+                          ),
                           initialValue: settingsProvider.theme,
                           items: [
                             DropdownMenuItem(

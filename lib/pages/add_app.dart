@@ -734,7 +734,10 @@ class AddAppPageState extends State<AddAppPage> {
       body: CustomScrollView(
         shrinkWrap: true,
         slivers: <Widget>[
-          CustomAppBar(headline: Text(tr('addApp'))),
+          CustomAppBar.largeFlexible(
+            headline: Text("Obtainium"),
+            subtitle: Text(tr('addApp')),
+          ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16),
