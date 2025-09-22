@@ -89,6 +89,8 @@ dependencies:
 
   flutter_foreground_task: ^9.1.0
   material_symbols_icons: ^4.2873.0
+  gpt_markdown: ^1.1.4
+  flutter_md: ^0.0.7
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to
