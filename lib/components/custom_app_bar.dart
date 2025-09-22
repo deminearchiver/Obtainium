@@ -186,8 +186,60 @@ class _CustomAppBarState extends State<CustomAppBar>
     super.dispose();
   }
 
+  Widget _buildFlexibleSpace(BuildContext context) => AnimatedBuilder(
+    animation: _controller,
+    builder: (context, child) => FlexibleSpaceBar(
+      expandedTitleScale: 1.0,
+      titlePadding: EdgeInsetsGeometry.lerp(
+        _expandedPadding,
+        _collapsedPadding,
+        _controller.value,
+      )!,
+      title: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          DefaultTextStyle(
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.start,
+            style: TextStyle.lerp(
+              _expandedHeadlineTextStyle,
+              _collapsedHeadlineTextStyle,
+              _controller.value,
+            )!,
+            child: widget.headline,
+          ),
+          if (widget.subtitle case final subtitle?) ...[
+            SizedBox(
+              width: double.infinity,
+              height: lerpDouble(
+                _expandedHeadlineSubtitleSpace,
+                _collapsedHeadlineSubtitleSpace,
+                _controller.value,
+              )!,
+            ),
+            DefaultTextStyle(
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.start,
+              style: TextStyle.lerp(
+                _expandedSubtitleTextStyle,
+                _collapsedSubtitleTextStyle,
+                _controller.value,
+              )!,
+              child: subtitle,
+            ),
+          ],
+        ],
+      ),
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
+    final flexibleSpace = _buildFlexibleSpace(context);
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) => SliverAppBar(
@@ -197,58 +249,13 @@ class _CustomAppBarState extends State<CustomAppBar>
         expandedHeight: _expandedHeight,
         elevation: 0.0,
         scrolledUnderElevation: 0.0,
+        title: null,
         backgroundColor: Color.lerp(
           _expandedColor,
           _collapsedColor,
           _controller.value,
         )!,
-        flexibleSpace: FlexibleSpaceBar(
-          expandedTitleScale: 1.0,
-          titlePadding: EdgeInsetsGeometry.lerp(
-            _expandedPadding,
-            _collapsedPadding,
-            _controller.value,
-          )!,
-          title: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              DefaultTextStyle(
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.start,
-                style: TextStyle.lerp(
-                  _expandedHeadlineTextStyle,
-                  _collapsedHeadlineTextStyle,
-                  _controller.value,
-                )!,
-                child: widget.headline,
-              ),
-              if (widget.subtitle case final subtitle?) ...[
-                SizedBox(
-                  width: double.infinity,
-                  height: lerpDouble(
-                    _expandedHeadlineSubtitleSpace,
-                    _collapsedHeadlineSubtitleSpace,
-                    _controller.value,
-                  )!,
-                ),
-                DefaultTextStyle(
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.start,
-                  style: TextStyle.lerp(
-                    _expandedSubtitleTextStyle,
-                    _collapsedSubtitleTextStyle,
-                    _controller.value,
-                  )!,
-                  child: subtitle,
-                ),
-              ],
-            ],
-          ),
-        ),
+        flexibleSpace: flexibleSpace,
       ),
     );
   }
