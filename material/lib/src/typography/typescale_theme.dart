@@ -345,7 +345,10 @@ abstract class TypescaleThemeDataPartial with Diagnosticable {
     );
   }
 
-  TextTheme toTextTheme() => TextTheme(
+  @Deprecated("Use toBaselineTextTheme instead.")
+  TextTheme toTextTheme() => toBaselineTextTheme();
+
+  TextTheme toBaselineTextTheme() => TextTheme(
     displayLarge: displayLarge?.toTextStyle(),
     displayMedium: displayMedium?.toTextStyle(),
     displaySmall: displaySmall?.toTextStyle(),
@@ -361,6 +364,24 @@ abstract class TypescaleThemeDataPartial with Diagnosticable {
     labelLarge: labelLarge?.toTextStyle(),
     labelMedium: labelMedium?.toTextStyle(),
     labelSmall: labelSmall?.toTextStyle(),
+  );
+
+  TextTheme toEmphasizedTextTheme() => TextTheme(
+    displayLarge: displayLargeEmphasized?.toTextStyle(),
+    displayMedium: displayMediumEmphasized?.toTextStyle(),
+    displaySmall: displaySmallEmphasized?.toTextStyle(),
+    headlineLarge: headlineLargeEmphasized?.toTextStyle(),
+    headlineMedium: headlineMediumEmphasized?.toTextStyle(),
+    headlineSmall: headlineSmallEmphasized?.toTextStyle(),
+    titleLarge: titleLargeEmphasized?.toTextStyle(),
+    titleMedium: titleMediumEmphasized?.toTextStyle(),
+    titleSmall: titleSmallEmphasized?.toTextStyle(),
+    bodyLarge: bodyLargeEmphasized?.toTextStyle(),
+    bodyMedium: bodyMediumEmphasized?.toTextStyle(),
+    bodySmall: bodySmallEmphasized?.toTextStyle(),
+    labelLarge: labelLargeEmphasized?.toTextStyle(),
+    labelMedium: labelMediumEmphasized?.toTextStyle(),
+    labelSmall: labelSmallEmphasized?.toTextStyle(),
   );
 
   @override
