@@ -366,10 +366,30 @@ class _SettingsPageState extends State<SettingsPage> {
     const height32 = SizedBox(height: 32);
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: ColorTheme.of(context).surfaceContainer,
       body: CustomScrollView(
         slivers: <Widget>[
-          CustomAppBar.largeFlexible(headline: Text(tr('settings'))),
+          CustomAppBar.largeFlexible(
+            expandedContainerColor: ColorTheme.of(context).surfaceContainer,
+            collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
+            headline: Text(tr('settings')),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            sliver: SliverSettingsList(
+              items: [
+                SettingsListItem(
+                  onTap: () {},
+                  leading: const Icon(Symbols.magic_button_rounded),
+                  headline: Text("Use Material You"),
+                  supportingText: Text("Use Dynamic color"),
+                  trailing: Switch(onChanged: (value) {}, value: true),
+                ),
+                SettingsListItem(headline: Text("Hello world!")),
+                SettingsListItem(headline: Text("Hello world!")),
+              ],
+            ),
+          ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -1190,4 +1210,121 @@ class _CategoryEditorSelectorState extends State<CategoryEditorSelector> {
       }),
     );
   }
+}
+
+class SliverSettingsList extends StatelessWidget {
+  const SliverSettingsList({super.key, required this.items});
+
+  final List<SettingsListItem> items;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorTheme = ColorTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final lastIndex = items.length - 1;
+    return SliverList.separated(
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        final item = items[index];
+        final isFirst = index == 0;
+        final isLast = index == lastIndex;
+        final edgeCorner = shapeTheme.corner.largeIncreased;
+        final middleCorner = shapeTheme.corner.extraSmall;
+        final shape = CornersBorder.rounded(
+          corners: Corners.vertical(
+            top: isFirst ? edgeCorner : middleCorner,
+            bottom: isLast ? edgeCorner : middleCorner,
+          ),
+        );
+        return Material(
+          animationDuration: Duration.zero,
+          type: MaterialType.card,
+          clipBehavior: Clip.antiAlias,
+          color: colorTheme.surfaceBright,
+          elevation: 0.0,
+          shape: shape,
+          shadowColor: Colors.transparent,
+          child: InkWell(
+            onTap: item.onTap,
+            onLongPress: item.onLongPress,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: item.supportingText != null ? 72.0 : 56.0,
+              ),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(
+                  16.0,
+                  item.supportingText != null ? 12.0 : 8.0,
+                  16.0,
+                  item.supportingText != null ? 12.0 : 8.0,
+                ),
+                child: Row(
+                  children: [
+                    if (item.leading case final leading?) ...[
+                      IconTheme.merge(
+                        data: IconThemeData(color: colorTheme.onSurfaceVariant),
+                        child: leading,
+                      ),
+                      const SizedBox(width: 12.0),
+                    ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          DefaultTextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            style: typescaleTheme.titleMediumEmphasized
+                                .toTextStyle(color: colorTheme.onSurface),
+                            child: item.headline,
+                          ),
+                          if (item.supportingText case final supportingText?)
+                            DefaultTextStyle(
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: typescaleTheme.bodyMedium.toTextStyle(
+                                color: colorTheme.onSurfaceVariant,
+                              ),
+                              child: supportingText,
+                            ),
+                        ],
+                      ),
+                    ),
+                    if (item.trailing case final trailing?) ...[
+                      const SizedBox(width: 12.0),
+                      trailing,
+                    ],
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+      separatorBuilder: (context, index) => const SizedBox(height: 2.0),
+    );
+  }
+}
+
+class SettingsListItem with Diagnosticable {
+  const SettingsListItem({
+    this.key,
+    this.onTap,
+    this.onLongPress,
+    this.leading,
+    required this.headline,
+    this.supportingText,
+    this.trailing,
+    this.bottom,
+  });
+
+  final Key? key;
+
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
+  final Widget? leading;
+  final Widget headline;
+  final Widget? supportingText;
+  final Widget? trailing;
+  final Widget? bottom;
 }
