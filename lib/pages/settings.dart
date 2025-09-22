@@ -1,4 +1,5 @@
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equations/equations.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
@@ -204,7 +205,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
     var useMaterialThemeSwitch = FutureBuilder(
       builder: (ctx, val) {
-        return ((val.data?.version.sdkInt ?? 0) >= 31)
+        return (val.data ?? false)
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -219,13 +220,14 @@ class _SettingsPageState extends State<SettingsPage> {
               )
             : const SizedBox.shrink();
       },
-      future: DeviceInfoPlugin().androidInfo,
+      future: const DynamicColor().isDynamicColorAvailable(),
     );
 
     var sortDropdown = DropdownButtonFormField(
       isExpanded: true,
       decoration: InputDecoration(
-        border: const OutlineInputBorder(),
+        border: const UnderlineInputBorder(),
+        filled: true,
         labelText: tr('appSortBy'),
       ),
       initialValue: settingsProvider.sortColumn,
@@ -257,7 +259,8 @@ class _SettingsPageState extends State<SettingsPage> {
     var orderDropdown = DropdownButtonFormField(
       isExpanded: true,
       decoration: InputDecoration(
-        border: const OutlineInputBorder(),
+        border: const UnderlineInputBorder(),
+        filled: true,
         labelText: tr('appSortOrder'),
       ),
       initialValue: settingsProvider.sortOrder,
@@ -280,7 +283,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
     var localeDropdown = DropdownButtonFormField(
       decoration: InputDecoration(
-        border: const OutlineInputBorder(),
+        border: const UnderlineInputBorder(),
+        filled: true,
         labelText: tr('language'),
       ),
       initialValue: settingsProvider.forcedLocale,
@@ -717,7 +721,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         ),
                         DropdownButtonFormField(
                           decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
+                            border: const UnderlineInputBorder(),
+                            filled: true,
                             labelText: tr('theme'),
                           ),
                           initialValue: settingsProvider.theme,
