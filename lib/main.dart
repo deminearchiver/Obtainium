@@ -8,6 +8,7 @@ import 'package:obtainium/providers/native_provider.dart';
 import 'package:obtainium/providers/notifications_provider.dart';
 import 'package:obtainium/providers/settings_provider.dart';
 import 'package:obtainium/providers/source_provider.dart';
+import 'package:obtainium/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -286,6 +287,76 @@ class _ObtainiumState extends State<Obtainium> {
     if (!mounted) return;
   }
 
+  Widget _buildTypographyTheme(BuildContext context, Widget child) {
+    return TypographyDefaults.googleMaterial3Expressive.build(context, child);
+  }
+
+  Widget _buildSpringTheme(BuildContext context, Widget child) {
+    return SpringTheme(data: const SpringThemeData.expressive(), child: child);
+  }
+
+  Widget _buildAppWrapper({
+    Widget? child,
+    required Widget Function(BuildContext context, Widget? child) builder,
+  }) {
+    return CombiningBuilder(
+      builders: [_buildTypographyTheme, _buildSpringTheme],
+      child: Builder(builder: (context) => builder(context, child)),
+    );
+  }
+
+  Widget _buildHomeWrapper(BuildContext context, Widget? child) {
+    if (child == null) return const SizedBox.shrink();
+    return child;
+  }
+
+  Widget _buildMaterialApp(BuildContext context) {
+    final settingsProvider = context.watch<SettingsProvider>();
+    final lightColorTheme = ColorThemeData.fromSeed(
+      brightness: Brightness.light,
+      specVersion: DynamicSchemeSpecVersion.spec2025,
+    );
+    final darkColorTheme = ColorThemeData.fromSeed(
+      brightness: Brightness.dark,
+      specVersion: DynamicSchemeSpecVersion.spec2025,
+    );
+    final typescaleTheme = TypescaleTheme.of(context);
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+
+      // Localization
+      title: 'Obtainium',
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+
+      // Theming
+      themeMode: switch (settingsProvider.theme) {
+        ThemeSettings.system => ThemeMode.system,
+        ThemeSettings.light => ThemeMode.light,
+        ThemeSettings.dark => ThemeMode.dark,
+      },
+      theme: LegacyThemeFactory.create(
+        colorTheme: lightColorTheme,
+        typescaleTheme: typescaleTheme,
+      ),
+      darkTheme: LegacyThemeFactory.create(
+        colorTheme: darkColorTheme,
+        typescaleTheme: typescaleTheme,
+      ),
+
+      // Navigation
+      navigatorKey: globalNavigatorKey,
+      builder: _buildHomeWrapper,
+      home: Shortcuts(
+        shortcuts: <LogicalKeySet, Intent>{
+          LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
+        },
+        child: const HomePage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider = context.watch<SettingsProvider>();
@@ -355,65 +426,36 @@ class _ObtainiumState extends State<Obtainium> {
     return WithForegroundTask(
       child: DynamicColorBuilder(
         builder: (lightDynamic, darkDynamic) {
-          // Decide on a colour/brightness scheme based on OS and user settings
-          ColorScheme lightColorScheme;
-          ColorScheme darkColorScheme;
-          if (lightDynamic != null &&
-              darkDynamic != null &&
-              settingsProvider.useMaterialYou) {
-            lightColorScheme = lightDynamic.harmonized();
-            darkColorScheme = darkDynamic.harmonized();
-          } else {
-            lightColorScheme = ColorScheme.fromSeed(
-              seedColor: settingsProvider.themeColor,
-            );
-            darkColorScheme = ColorScheme.fromSeed(
-              seedColor: settingsProvider.themeColor,
-              brightness: Brightness.dark,
-            );
-          }
+          // ColorScheme lightColorScheme;
+          // ColorScheme darkColorScheme;
+          // if (lightDynamic != null &&
+          //     darkDynamic != null &&
+          //     settingsProvider.useMaterialYou) {
+          //   lightColorScheme = lightDynamic.harmonized();
+          //   darkColorScheme = darkDynamic.harmonized();
+          // } else {
+          //   lightColorScheme = ColorScheme.fromSeed(
+          //     seedColor: settingsProvider.themeColor,
+          //   );
+          //   darkColorScheme = ColorScheme.fromSeed(
+          //     seedColor: settingsProvider.themeColor,
+          //     brightness: Brightness.dark,
+          //   );
+          // }
 
           // set the background and surface colors to pure black in the amoled theme
-          if (settingsProvider.useBlackTheme) {
-            darkColorScheme = darkColorScheme
-                .copyWith(surface: Colors.black)
-                .harmonized();
-          }
+          // TODO: set the background and surface colors to pure black in the amoled theme.
+          // TODO: explore usage of Platform.watch in scheme generation code
+          // if (settingsProvider.useBlackTheme) {
+          //   darkColorScheme = darkColorScheme
+          //       .copyWith(surface: Colors.black)
+          //       .harmonized();
+          // }
 
           if (settingsProvider.useSystemFont) NativeFeatures.loadSystemFont();
 
-          return MaterialApp(
-            title: 'Obtainium',
-            localizationsDelegates: context.localizationDelegates,
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
-            navigatorKey: globalNavigatorKey,
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              useMaterial3: true,
-              colorScheme: settingsProvider.theme == ThemeSettings.dark
-                  ? darkColorScheme
-                  : lightColorScheme,
-              fontFamily: settingsProvider.useSystemFont
-                  ? 'SystemFont'
-                  : 'Montserrat',
-            ),
-            darkTheme: ThemeData(
-              useMaterial3: true,
-              colorScheme: settingsProvider.theme == ThemeSettings.light
-                  ? lightColorScheme
-                  : darkColorScheme,
-              fontFamily: settingsProvider.useSystemFont
-                  ? 'SystemFont'
-                  : 'Montserrat',
-            ),
-            home: Shortcuts(
-              shortcuts: <LogicalKeySet, Intent>{
-                LogicalKeySet(LogicalKeyboardKey.select):
-                    const ActivateIntent(),
-              },
-              child: const HomePage(),
-            ),
+          return _buildAppWrapper(
+            builder: (context, child) => _buildMaterialApp(context),
           );
         },
       ),
