@@ -245,10 +245,11 @@ class _ObtainiumState extends State<Obtainium> {
     return null;
   }
 
-  stopForegroundService() async {
+  Future<ServiceRequestResult?> stopForegroundService() async {
     if (await FlutterForegroundTask.isRunningService) {
       return FlutterForegroundTask.stopService();
     }
+    return null;
   }
 
   // void onReceiveForegroundServiceData(Object data) {
