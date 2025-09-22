@@ -8,12 +8,35 @@ const double _kExpandedBottomPadding = 12.0;
 enum _AppBarType { small, mediumFlexible, largeFlexible }
 
 class CustomAppBar extends StatefulWidget {
-  const CustomAppBar({
+  @Deprecated("Use CustomAppBar.largeFlexible instead")
+  const CustomAppBar({super.key, required this.headline})
+    : _type = _AppBarType.largeFlexible,
+      collapsedContainerColor = null,
+      expandedContainerColor = null,
+      subtitle = null;
+
+  const CustomAppBar.small({
     super.key,
     this.collapsedContainerColor,
     this.expandedContainerColor,
     required this.headline,
-    this.subtitle = const Text("Subtitle"),
+    this.subtitle,
+  }) : _type = _AppBarType.small;
+
+  const CustomAppBar.mediumFlexible({
+    super.key,
+    this.collapsedContainerColor,
+    this.expandedContainerColor,
+    required this.headline,
+    this.subtitle,
+  }) : _type = _AppBarType.mediumFlexible;
+
+  const CustomAppBar.largeFlexible({
+    super.key,
+    this.collapsedContainerColor,
+    this.expandedContainerColor,
+    required this.headline,
+    this.subtitle,
   }) : _type = _AppBarType.largeFlexible;
 
   final _AppBarType _type;
@@ -41,8 +64,18 @@ class _CustomAppBarState extends State<CustomAppBar>
   TypeStyle get _collapsedSubtitleTypeStyle => _typescaleTheme.labelMedium;
   late TextStyle _collapsedSubtitleTextStyle;
   double get _collapsedHeadlineSubtitleSpace => 0.0;
-  late EdgeInsetsGeometry _collapsedPadding;
-  late double _collapsedContentHeight;
+  EdgeInsetsGeometry get _collapsedPadding => EdgeInsets.fromLTRB(
+    16.0,
+    (_kCollapsedHeight - _collapsedContentHeight) / 2.0,
+    16.0,
+    (_kCollapsedHeight - _collapsedContentHeight) / 2.0,
+  );
+  double get _collapsedContentHeight =>
+      _collapsedHeadlineTypeStyle.lineHeight +
+      (widget.subtitle != null
+          ? _collapsedHeadlineSubtitleSpace +
+                _collapsedSubtitleTypeStyle.lineHeight
+          : 0.0);
   late Color _collapsedColor;
 
   // Expanded
@@ -64,9 +97,19 @@ class _CustomAppBarState extends State<CustomAppBar>
     _AppBarType.mediumFlexible => 4.0,
     _AppBarType.largeFlexible => 8.0,
   };
-  late EdgeInsetsGeometry _expandedPadding;
-  late double _expandedContentHeight;
-  late double _expandedHeight;
+  EdgeInsetsGeometry get _expandedPadding => widget._type == _AppBarType.small
+      ? _collapsedPadding
+      : EdgeInsets.fromLTRB(16.0, 0.0, 16.0, _kExpandedBottomPadding);
+  double get _expandedContentHeight => widget._type == _AppBarType.small
+      ? _collapsedContentHeight
+      : _expandedHeadlineTypeStyle.lineHeight +
+            (widget.subtitle != null
+                ? _expandedHeadlineSubtitleSpace +
+                      _expandedSubtitleTypeStyle.lineHeight
+                : 0.0);
+  double get _expandedHeight => widget._type == _AppBarType.small
+      ? _kCollapsedHeight
+      : _kCollapsedHeight + _expandedContentHeight + _kExpandedBottomPadding;
   late Color _expandedColor;
 
   late AnimationController _controller;
@@ -121,40 +164,9 @@ class _CustomAppBarState extends State<CustomAppBar>
     _expandedSubtitleTextStyle = _expandedSubtitleTypeStyle.toTextStyle(
       color: subtitleColor,
     );
-
     _collapsedColor =
         widget.collapsedContainerColor ?? _colorTheme.surfaceContainer;
     _expandedColor = widget.expandedContainerColor ?? _colorTheme.surface;
-
-    _collapsedContentHeight =
-        _collapsedHeadlineTypeStyle.lineHeight +
-        (widget.subtitle != null
-            ? _collapsedHeadlineSubtitleSpace +
-                  _collapsedSubtitleTypeStyle.lineHeight
-            : 0.0);
-    _expandedContentHeight = widget._type == _AppBarType.small
-        ? _collapsedContentHeight
-        : _expandedHeadlineTypeStyle.lineHeight +
-              (widget.subtitle != null
-                  ? _expandedHeadlineSubtitleSpace +
-                        _expandedSubtitleTypeStyle.lineHeight
-                  : 0.0);
-
-    _collapsedPadding = EdgeInsets.fromLTRB(
-      16.0,
-      (_kCollapsedHeight - _collapsedContentHeight) / 2.0,
-      16.0,
-      (_kCollapsedHeight - _collapsedContentHeight) / 2.0,
-    );
-    _expandedPadding = widget._type == _AppBarType.small
-        ? _collapsedPadding
-        : EdgeInsets.fromLTRB(16.0, 0.0, 16.0, _kExpandedBottomPadding);
-    _expandedHeight = widget._type == _AppBarType.small
-        ? _kCollapsedHeight
-        : _kCollapsedHeight + _expandedContentHeight + _kExpandedBottomPadding;
-
-    assert(_expandedHeight >= _kCollapsedHeight);
-    debugPrint("$_kCollapsedHeight $_expandedHeight");
 
     // Update scroll listener
     final scrollable = Scrollable.of(context, axis: Axis.vertical);
