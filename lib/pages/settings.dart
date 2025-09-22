@@ -885,35 +885,36 @@ class _SettingsPageState extends State<SettingsPage> {
                           ],
                         ),
                         height16,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(child: Text(tr('disablePageTransitions'))),
-                            Switch(
-                              value: settingsProvider.disablePageTransitions,
-                              onChanged: (value) {
-                                settingsProvider.disablePageTransitions = value;
-                              },
-                            ),
-                          ],
-                        ),
-                        height16,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(child: Text(tr('reversePageTransitions'))),
-                            Switch(
-                              value: settingsProvider.reversePageTransitions,
-                              onChanged: settingsProvider.disablePageTransitions
-                                  ? null
-                                  : (value) {
-                                      settingsProvider.reversePageTransitions =
-                                          value;
-                                    },
-                            ),
-                          ],
-                        ),
-                        height16,
+                        // TODO: uncomment when transitions are reintroduced
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Flexible(child: Text(tr('disablePageTransitions'))),
+                        //     Switch(
+                        //       value: settingsProvider.disablePageTransitions,
+                        //       onChanged: (value) {
+                        //         settingsProvider.disablePageTransitions = value;
+                        //       },
+                        //     ),
+                        //   ],
+                        // ),
+                        // height16,
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     Flexible(child: Text(tr('reversePageTransitions'))),
+                        //     Switch(
+                        //       value: settingsProvider.reversePageTransitions,
+                        //       onChanged: settingsProvider.disablePageTransitions
+                        //           ? null
+                        //           : (value) {
+                        //               settingsProvider.reversePageTransitions =
+                        //                   value;
+                        //             },
+                        //     ),
+                        //   ],
+                        // ),
+                        // height16,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

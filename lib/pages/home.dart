@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:android_intent_plus/android_intent.dart';
-import 'package:animations/animations.dart';
 import 'package:app_links/app_links.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:obtainium/flutter.dart';
@@ -283,32 +282,11 @@ class _HomePageState extends State<HomePage> {
     return WillPopScope(
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        body: PageTransitionSwitcher(
-          duration: Duration(
-            milliseconds: settingsProvider.disablePageTransitions ? 0 : 300,
-          ),
-          reverse: settingsProvider.reversePageTransitions
-              ? !isReversing
-              : isReversing,
-          transitionBuilder:
-              (
-                Widget child,
-                Animation<double> animation,
-                Animation<double> secondaryAnimation,
-              ) {
-                return SharedAxisTransition(
-                  animation: animation,
-                  secondaryAnimation: secondaryAnimation,
-                  transitionType: SharedAxisTransitionType.horizontal,
-                  child: child,
-                );
-              },
-          child: pages
-              .elementAt(
-                selectedIndexHistory.isEmpty ? 0 : selectedIndexHistory.last,
-              )
-              .widget,
-        ),
+        body: pages
+            .elementAt(
+              selectedIndexHistory.isEmpty ? 0 : selectedIndexHistory.last,
+            )
+            .widget,
         bottomNavigationBar: NavigationBar(
           destinations: pages
               .map(
