@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> initDeepLinks() async {
     _appLinks = AppLinks();
 
-    goToAddApp(String data) async {
+    Future<void> goToAddApp(String data) async {
       switchToPage(1);
       while ((pages[1].widget.key as GlobalKey<AddAppPageState>?)
               ?.currentState ==
@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage> {
           ?.linkFn(data);
     }
 
-    interpretLink(Uri uri) async {
+    Future<void> interpretLink(Uri uri) async {
       isLinkActivity = true;
       var action = uri.host;
       var data = uri.path.length > 1 ? uri.path.substring(1) : "";

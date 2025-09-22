@@ -42,7 +42,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
       ),
     );
 
-    urlListImport({String? initValue, bool overrideInitValid = false}) {
+    void urlListImport({String? initValue, bool overrideInitValid = false}) {
       showDialog<Map<String, dynamic>?>(
         context: context,
         builder: (ctx) {
@@ -117,7 +117,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
       });
     }
 
-    runObtainiumExport({bool pickOnly = false}) async {
+    Future<void> runObtainiumExport({bool pickOnly = false}) async {
       HapticFeedback.selectionClick();
       appsProvider
           .export(
@@ -135,7 +135,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
           });
     }
 
-    runObtainiumImport() {
+    void runObtainiumImport() {
       HapticFeedback.selectionClick();
       FilePicker.platform
           .pickFiles()
@@ -179,7 +179,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
           });
     }
 
-    runUrlImport() {
+    void runUrlImport() {
       FilePicker.platform.pickFiles().then((result) {
         if (result != null) {
           urlListImport(
@@ -203,7 +203,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
       });
     }
 
-    runSourceSearch(AppSource source) {
+    void runSourceSearch(AppSource source) {
       () async {
             var values = await showDialog<Map<String, dynamic>?>(
               context: context,
@@ -305,7 +305,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
           });
     }
 
-    runMassSourceImport(MassAppUrlSource source) {
+    void runMassSourceImport(MassAppUrlSource source) {
       () async {
             var values = await showDialog<Map<String, dynamic>?>(
               context: context,
@@ -738,7 +738,7 @@ class _SelectionModalState extends State<SelectionModal> {
         }
       });
     }
-    getSelectAllButton() {
+    Widget getSelectAllButton() {
       if (widget.onlyOneSelectionAllowed) {
         return const SizedBox.shrink();
       }
@@ -795,7 +795,7 @@ class _SelectionModalState extends State<SelectionModal> {
             },
           ),
           ...filteredEntrySelections.keys.map((entry) {
-            selectThis(bool? value) {
+            void selectThis(bool? value) {
               setState(() {
                 value ??= false;
                 if (value! && widget.onlyOneSelectionAllowed) {

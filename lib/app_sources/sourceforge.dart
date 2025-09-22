@@ -60,7 +60,7 @@ class SourceForge extends AppSource {
           .map((e) => e.innerHtml)
           .where((element) => element.startsWith(standardUrl))
           .toList();
-      getVersion(String url) {
+      String? getVersion(String url) {
         try {
           var segments = url
               .substring(standardUrl.length)

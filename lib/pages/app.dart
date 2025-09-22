@@ -69,7 +69,7 @@ class _AppPageState extends State<AppPage> {
             !widget.showOppositeOfPreferredView) ||
         (!settingsProvider.showAppWebpage &&
             widget.showOppositeOfPreferredView);
-    getUpdate(String id, {bool resetVersion = false}) async {
+    Future<void> getUpdate(String id, {bool resetVersion = false}) async {
       try {
         setState(() {
           updating = true;
@@ -125,7 +125,7 @@ class _AppPageState extends State<AppPage> {
       _webViewController.loadRequest(Uri.parse(app.app.url));
     }
 
-    getInfoColumn() {
+    Widget getInfoColumn() {
       String versionLines = '';
       bool installed = app?.app.installedVersion != null;
       bool upToDate = app?.app.installedVersion == app?.app.latestVersion;
@@ -318,7 +318,7 @@ class _AppPageState extends State<AppPage> {
       );
     }
 
-    getFullInfoColumn({bool small = false}) => Column(
+    Widget getFullInfoColumn({bool small = false}) => Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -395,7 +395,7 @@ class _AppPageState extends State<AppPage> {
       ],
     );
 
-    getAppWebView() => app != null
+    Widget getAppWebView() => app != null
         ? WebViewWidget(
             key: ObjectKey(_webViewController),
             controller: _webViewController
@@ -403,7 +403,7 @@ class _AppPageState extends State<AppPage> {
           )
         : Container();
 
-    showMarkUpdatedDialog() {
+    Future<void> showMarkUpdatedDialog() {
       return showDialog(
         context: context,
         builder: (ctx) {
@@ -434,7 +434,7 @@ class _AppPageState extends State<AppPage> {
       );
     }
 
-    showAdditionalOptionsDialog() async {
+    Future<Map<String, dynamic>?>? showAdditionalOptionsDialog() async {
       return await showDialog<Map<String, dynamic>?>(
         context: context,
         builder: (ctx) {
@@ -458,7 +458,7 @@ class _AppPageState extends State<AppPage> {
       );
     }
 
-    handleAdditionalOptionChanges(Map<String, dynamic>? values) {
+    void handleAdditionalOptionChanges(Map<String, dynamic>? values) {
       if (app != null && values != null) {
         Map<String, dynamic> originalSettings = app.app.additionalSettings;
         app.app.additionalSettings = values;
@@ -499,7 +499,7 @@ class _AppPageState extends State<AppPage> {
       }
     }
 
-    getInstallOrUpdateButton() => TextButton(
+    Widget getInstallOrUpdateButton() => TextButton(
       onPressed:
           !updating &&
               (app?.app.installedVersion == null ||
@@ -539,7 +539,7 @@ class _AppPageState extends State<AppPage> {
       ),
     );
 
-    getBottomSheetMenu() => Padding(
+    Widget getBottomSheetMenu() => Padding(
       padding: EdgeInsets.fromLTRB(
         0,
         0,
@@ -660,7 +660,7 @@ class _AppPageState extends State<AppPage> {
       ),
     );
 
-    appScreenAppBar() => AppBar(
+    PreferredSizeWidget appScreenAppBar() => AppBar(
       leading: IconButton(
         icon: const Icon(Symbols.arrow_back_rounded),
         onPressed: () {

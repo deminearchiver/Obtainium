@@ -142,7 +142,7 @@ class AddAppPageState extends State<AddAppPage> {
       }
     }
 
-    getReleaseDateAsVersionConfirmationIfNeeded(
+    Future<bool> getReleaseDateAsVersionConfirmationIfNeeded(
       bool userPickedTrackOnly,
     ) async {
       return (!(additionalSettings['releaseDateAsVersion'] == true &&
@@ -160,7 +160,7 @@ class AddAppPageState extends State<AddAppPage> {
               null));
     }
 
-    addApp({bool resetUserInputAfter = false}) async {
+    Future<void> addApp({bool resetUserInputAfter = false}) async {
       setState(() {
         gettingAppInfo = true;
       });
@@ -297,7 +297,7 @@ class AddAppPageState extends State<AddAppPage> {
       ],
     );
 
-    runSearch({bool filtered = true}) async {
+    Future<void> runSearch({bool filtered = true}) async {
       setState(() {
         searching = true;
       });
@@ -480,7 +480,7 @@ class AddAppPageState extends State<AddAppPage> {
                   ],
                 ],
                 onValueChanges: (values, valid, isBuilding) {
-                  fn() {
+                  void fn() {
                     pickedSourceOverride =
                         (values['overrideSource'] == null ||
                             values['overrideSource'] == '')

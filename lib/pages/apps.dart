@@ -170,7 +170,7 @@ class AppsPageState extends State<AppsPage> {
     var settingsProvider = context.watch<SettingsProvider>();
     var listedApps = appsProvider.getAppValues().toList();
 
-    refresh() {
+    Future<List<App>> refresh() {
       HapticFeedback.lightImpact();
       setState(() {
         refreshingSince = DateTime.now();
@@ -199,7 +199,7 @@ class AppsPageState extends State<AppsPage> {
         .where((element) => listedApps.map((e) => e.app.id).contains(element))
         .toSet();
 
-    toggleAppSelected(App app) {
+    void toggleAppSelected(App app) {
       setState(() {
         if (selectedAppIds.map((e) => e).contains(app.id)) {
           selectedAppIds.removeWhere((a) => a == app.id);
@@ -382,7 +382,7 @@ class AppsPageState extends State<AppsPage> {
         .where((a) => selectedAppIds.contains(a.id))
         .toSet();
 
-    getLoadingWidgets() {
+    List<Widget> getLoadingWidgets() {
       return [
         if (listedApps.isEmpty)
           SliverFillRemaining(
@@ -421,7 +421,7 @@ class AppsPageState extends State<AppsPage> {
       ];
     }
 
-    getUpdateButton(int appIndex) {
+    Widget getUpdateButton(int appIndex) {
       return IconButton(
         visualDensity: VisualDensity.compact,
         color: Theme.of(context).colorScheme.primary,
@@ -447,7 +447,7 @@ class AppsPageState extends State<AppsPage> {
       );
     }
 
-    getAppIcon(int appIndex) {
+    Widget getAppIcon(int appIndex) {
       return GestureDetector(
         child: FutureBuilder(
           future: appsProvider.updateAppIcon(listedApps[appIndex].app.id),
@@ -503,11 +503,11 @@ class AppsPageState extends State<AppsPage> {
       );
     }
 
-    getVersionText(int appIndex) {
+    String getVersionText(int appIndex) {
       return listedApps[appIndex].app.installedVersion ?? tr('notInstalled');
     }
 
-    getChangesButtonString(int appIndex, bool hasChangeLogFn) {
+    String getChangesButtonString(int appIndex, bool hasChangeLogFn) {
       return listedApps[appIndex].app.releaseDate == null
           ? hasChangeLogFn
                 ? tr('changes')
@@ -517,7 +517,7 @@ class AppsPageState extends State<AppsPage> {
             ).format(listedApps[appIndex].app.releaseDate!.toLocal());
     }
 
-    getSingleAppHorizTile(int index) {
+    Widget getSingleAppHorizTile(int index) {
       var showChangesFn = getChangeLogFn(context, listedApps[index].app);
       var hasUpdate =
           listedApps[index].app.installedVersion != null &&
@@ -693,7 +693,7 @@ class AppsPageState extends State<AppsPage> {
       );
     }
 
-    getCategoryCollapsibleTile(int index) {
+    Widget getCategoryCollapsibleTile(int index) {
       var tiles = listedApps
           .asMap()
           .entries
@@ -706,7 +706,8 @@ class AppsPageState extends State<AppsPage> {
           .map((e) => getSingleAppHorizTile(e.key))
           .toList();
 
-      capFirstChar(String str) => str[0].toUpperCase() + str.substring(1);
+      String capFirstChar(String str) =>
+          str[0].toUpperCase() + str.substring(1);
       return ExpansionTile(
         initiallyExpanded: true,
         title: Text(
@@ -719,7 +720,7 @@ class AppsPageState extends State<AppsPage> {
       );
     }
 
-    getSelectAllButton() {
+    Widget getSelectAllButton() {
       return selectedAppIds.isEmpty
           ? TextButton.icon(
               style: const ButtonStyle(visualDensity: VisualDensity.compact),
@@ -749,7 +750,7 @@ class AppsPageState extends State<AppsPage> {
             );
     }
 
-    getMassObtainFunction() {
+    void Function()? getMassObtainFunction() {
       return appsProvider.areDownloadsRunning() ||
               (existingUpdateIdsAllOrSelected.isEmpty &&
                   newInstallIdsAllOrSelected.isEmpty &&
@@ -861,7 +862,7 @@ class AppsPageState extends State<AppsPage> {
             };
     }
 
-    launchCategorizeDialog() {
+    Future<void> Function() launchCategorizeDialog() {
       return () async {
         try {
           Set<String>? preselected;
@@ -927,7 +928,7 @@ class AppsPageState extends State<AppsPage> {
       };
     }
 
-    showMassMarkDialog() {
+    Future<void> showMassMarkDialog() {
       return showDialog(
         context: context,
         builder: (ctx) {
@@ -979,7 +980,7 @@ class AppsPageState extends State<AppsPage> {
       });
     }
 
-    pinSelectedApps() {
+    void pinSelectedApps() {
       var pinStatus = selectedApps.where((element) => element.pinned).isEmpty;
       appsProvider.saveApps(
         selectedApps.map((e) {
@@ -990,7 +991,7 @@ class AppsPageState extends State<AppsPage> {
       Navigator.of(context).pop();
     }
 
-    showMoreOptionsDialog() {
+    Future<void> showMoreOptionsDialog() {
       return showDialog(
         context: context,
         builder: (ctx) {
@@ -1113,7 +1114,7 @@ class AppsPageState extends State<AppsPage> {
       );
     }
 
-    getMainBottomButtons() {
+    List<Widget> getMainBottomButtons() {
       return [
         IconButton(
           visualDensity: VisualDensity.compact,
@@ -1151,7 +1152,7 @@ class AppsPageState extends State<AppsPage> {
       ];
     }
 
-    showFilterDialog() async {
+    Future<void> showFilterDialog() async {
       var values = await showDialog<Map<String, dynamic>?>(
         context: context,
         builder: (ctx) {
@@ -1229,7 +1230,7 @@ class AppsPageState extends State<AppsPage> {
       }
     }
 
-    getFilterButtonsRow() {
+    Widget getFilterButtonsRow() {
       var isFilterOff = filter.isIdenticalTo(neutralFilter, settingsProvider);
       return Row(
         children: [
@@ -1263,7 +1264,7 @@ class AppsPageState extends State<AppsPage> {
       );
     }
 
-    getDisplayedList() {
+    Widget getDisplayedList() {
       return settingsProvider.groupByCategory &&
               !(listedCategories.isEmpty ||
                   (listedCategories.length == 1 && listedCategories[0] == null))

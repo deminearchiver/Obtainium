@@ -400,7 +400,7 @@ class GitHub extends AppSource {
         }
       }
 
-      findReleaseAssetUrls(dynamic release) =>
+      List<dynamic> findReleaseAssetUrls(dynamic release) =>
           (release['assets'] as List<dynamic>?)?.map((e) {
             var url = !e['name'].toString().toLowerCase().endsWith('.apk')
                 ? (e['browser_download_url'] ?? e['url'])

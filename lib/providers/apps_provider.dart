@@ -1036,7 +1036,7 @@ class AppsProvider with ChangeNotifier {
         },
       );
     }
-    getHost(String url) {
+    String? getHost(String url) {
       if (url == 'placeholder') {
         return null;
       }

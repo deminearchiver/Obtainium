@@ -220,7 +220,7 @@ class GeneratedFormSubForm extends GeneratedFormItem {
   });
 
   @override
-  ensureType(val) {
+  dynamic ensureType(val) {
     return val; // Not easy to validate List<Map<String, dynamic>>
   }
 
@@ -446,7 +446,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
             ],
           );
         } else if (widget.items[r][e] is GeneratedFormTagInput) {
-          onAddPressed() {
+          void onAddPressed() {
             showDialog<Map<String, dynamic>?>(
               context: context,
               builder: (ctx) {
@@ -625,7 +625,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: IconButton(
                             onPressed: () {
-                              fn() {
+                              void fn() {
                                 setState(() {
                                   var temp =
                                       values[fieldKey]
