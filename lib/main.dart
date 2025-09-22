@@ -149,6 +149,7 @@ void main() async {
   final np = NotificationsProvider();
   await np.initialize();
   FlutterForegroundTask.initCommunicationPort();
+  await DynamicColorBuilder.preload();
   runApp(
     MultiProvider(
       providers: [
@@ -162,7 +163,9 @@ void main() async {
         path: localeDir,
         fallbackLocale: fallbackLocale,
         useOnlyLangCode: false,
-        child: const Obtainium(),
+        child: DynamicColorBuilder(
+          builder: (context, source) => Obtainium(dynamicColorSource: source),
+        ),
       ),
     ),
   );
@@ -170,7 +173,9 @@ void main() async {
 }
 
 class Obtainium extends StatefulWidget {
-  const Obtainium({super.key});
+  const Obtainium({super.key, required this.dynamicColorSource});
+
+  final DynamicColorSource? dynamicColorSource;
 
   @override
   State<Obtainium> createState() => _ObtainiumState();
@@ -294,15 +299,36 @@ class _ObtainiumState extends State<Obtainium> {
     bool highContrast = false,
   }) {
     if (settingsProvider.useMaterialYou) {
+      final sourceColor = switch (widget.dynamicColorSource) {
+        AccentColorSource(:final accentColor) => accentColor,
+        _ => const Color(0xFF6750A4),
+      };
       final fallback = ColorThemeData.fromSeed(
-        sourceColor: const Color(0xFF6750A4),
+        sourceColor: sourceColor,
         brightness: brightness,
         contrastLevel: highContrast ? 1.0 : 0.0,
         variant: DynamicSchemeVariant.tonalSpot,
         platform: DynamicSchemePlatform.phone,
         specVersion: DynamicSchemeSpecVersion.spec2025,
       );
-      final provided = const ColorThemeDataPartial.from();
+      final provided = switch (widget.dynamicColorSource) {
+        DynamicColorSchemesSource(
+          :final dynamicLightColorScheme,
+          :final dynamicDarkColorScheme,
+        ) =>
+          switch (brightness) {
+            Brightness.light => dynamicLightColorScheme.toColorTheme(),
+            Brightness.dark => dynamicDarkColorScheme.toColorTheme(),
+          },
+        DynamicColorSchemeSource(
+          brightness: final availableBrightness,
+          :final dynamicColorScheme,
+        ) =>
+          availableBrightness == brightness
+              ? dynamicColorScheme.toColorTheme()
+              : null,
+        _ => null,
+      };
       return fallback.merge(provided);
     } else {
       return ColorThemeData.fromSeed(
