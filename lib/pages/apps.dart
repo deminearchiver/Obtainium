@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:obtainium/components/custom_app_bar.dart';
 import 'package:obtainium/components/generated_form.dart';
 import 'package:obtainium/components/generated_form_modal.dart';
@@ -442,11 +443,9 @@ class AppsPageState extends State<AppsPage> {
                       return <String>[];
                     });
               },
-        icon: Icon(
-          listedApps[appIndex].app.additionalSettings['trackOnly'] == true
-              ? Icons.check_circle_outline
-              : Icons.install_mobile,
-        ),
+        icon: listedApps[appIndex].app.additionalSettings['trackOnly'] == true
+            ? const Icon(Symbols.check_circle_rounded, fill: 0)
+            : const Icon(Symbols.install_mobile, fill: 0),
       );
     }
 
@@ -730,7 +729,7 @@ class AppsPageState extends State<AppsPage> {
                 selectThese(listedApps.map((e) => e.app).toList());
               },
               icon: Icon(
-                Icons.select_all_outlined,
+                Symbols.select_all_rounded,
                 color: Theme.of(context).colorScheme.primary,
               ),
               label: Text(listedApps.length.toString()),
@@ -744,8 +743,8 @@ class AppsPageState extends State<AppsPage> {
               },
               icon: Icon(
                 selectedAppIds.isEmpty
-                    ? Icons.select_all_outlined
-                    : Icons.deselect_outlined,
+                    ? Symbols.select_all_rounded
+                    : Symbols.deselect_rounded,
                 color: Theme.of(context).colorScheme.primary,
               ),
               label: Text(selectedAppIds.length.toString()),
@@ -1124,7 +1123,7 @@ class AppsPageState extends State<AppsPage> {
           tooltip: selectedAppIds.isEmpty
               ? tr('installUpdateApps')
               : tr('installUpdateSelectedApps'),
-          icon: const Icon(Icons.file_download_outlined),
+          icon: const Icon(Symbols.download_rounded),
         ),
         IconButton(
           visualDensity: VisualDensity.compact,
@@ -1137,19 +1136,19 @@ class AppsPageState extends State<AppsPage> {
                   );
                 },
           tooltip: tr('removeSelectedApps'),
-          icon: const Icon(Icons.delete_outline_outlined),
+          icon: const Icon(Symbols.delete_rounded, fill: 0),
         ),
         IconButton(
           visualDensity: VisualDensity.compact,
           onPressed: selectedAppIds.isEmpty ? null : launchCategorizeDialog(),
           tooltip: tr('categorize'),
-          icon: const Icon(Icons.category_outlined),
+          icon: const Icon(Symbols.category_rounded, fill: 0),
         ),
         IconButton(
           visualDensity: VisualDensity.compact,
           onPressed: selectedAppIds.isEmpty ? null : showMoreOptionsDialog,
           tooltip: tr('more'),
-          icon: const Icon(Icons.more_horiz),
+          icon: const Icon(Symbols.more_horiz_rounded),
         ),
       ];
     }
@@ -1251,7 +1250,7 @@ class AppsPageState extends State<AppsPage> {
                     });
                   },
             icon: Icon(
-              isFilterOff ? Icons.search_rounded : Icons.search_off_rounded,
+              isFilterOff ? Symbols.search_rounded : Symbols.search_off_rounded,
             ),
           ),
           const SizedBox(width: 10),

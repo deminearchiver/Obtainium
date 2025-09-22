@@ -6,6 +6,7 @@ import 'package:app_links/app_links.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:obtainium/components/generated_form_modal.dart';
 import 'package:obtainium/custom_errors.dart';
 import 'package:obtainium/pages/add_app.dart';
@@ -44,20 +45,25 @@ class _HomePageState extends State<HomePage> {
   List<NavigationPageItem> pages = [
     NavigationPageItem(
       tr('appsString'),
-      Icons.apps,
+      Symbols.apps_rounded,
       AppsPage(key: GlobalKey<AppsPageState>()),
     ),
     NavigationPageItem(
       tr('addApp'),
-      Icons.add,
+      Symbols.add_rounded,
       AddAppPage(key: GlobalKey<AddAppPageState>()),
     ),
     NavigationPageItem(
       tr('importExport'),
-      Icons.import_export,
+      Symbols.import_export_rounded,
       const ImportExportPage(),
     ),
-    NavigationPageItem(tr('settings'), Icons.settings, const SettingsPage()),
+    NavigationPageItem(
+      tr('settings'),
+      // TODO: this icon must have fill: 1
+      Symbols.settings_rounded,
+      const SettingsPage(),
+    ),
   ];
 
   @override

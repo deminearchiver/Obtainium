@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:equations/equations.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:obtainium/components/custom_app_bar.dart';
 import 'package:obtainium/components/generated_form.dart';
 import 'package:obtainium/components/generated_form_modal.dart';
@@ -956,7 +957,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           mode: LaunchMode.externalApplication,
                         );
                       },
-                      icon: const Icon(Icons.code),
+                      icon: const Icon(Symbols.code),
                       tooltip: tr('appSource'),
                     ),
                     IconButton(
@@ -966,7 +967,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           mode: LaunchMode.externalApplication,
                         );
                       },
-                      icon: const Icon(Icons.help_outline_rounded),
+                      icon: const Icon(Symbols.help_rounded, fill: 0),
                       tooltip: tr('wiki'),
                     ),
                     IconButton(
@@ -976,7 +977,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           mode: LaunchMode.externalApplication,
                         );
                       },
-                      icon: const Icon(Icons.apps_rounded),
+                      icon: const Icon(Symbols.apps_rounded),
                       tooltip: tr('crowdsourcedConfigsLabel'),
                     ),
                     IconButton(
@@ -994,7 +995,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           }
                         });
                       },
-                      icon: const Icon(Icons.bug_report_outlined),
+                      icon: const Icon(Symbols.bug_report_rounded, fill: 0),
                       tooltip: tr('appLogs'),
                     ),
                   ],

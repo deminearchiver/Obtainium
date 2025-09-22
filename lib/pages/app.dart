@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:obtainium/components/generated_form_modal.dart';
 import 'package:obtainium/custom_errors.dart';
 import 'package:obtainium/main.dart';
@@ -565,14 +566,14 @@ class _AppPageState extends State<AppPage> {
                             handleAdditionalOptionChanges(values);
                           },
                     tooltip: tr('additionalOptions'),
-                    icon: const Icon(Icons.edit),
+                    icon: const Icon(Symbols.edit_rounded, fill: 1),
                   ),
                 if (app != null && app.installedInfo != null)
                   IconButton(
                     onPressed: () {
                       appsProvider.openAppSettings(app.app.id);
                     },
-                    icon: const Icon(Icons.settings),
+                    icon: const Icon(Symbols.settings_rounded, fill: 1),
                     tooltip: tr('settings'),
                   ),
                 if (app != null && showAppWebpageFinal)
@@ -597,7 +598,7 @@ class _AppPageState extends State<AppPage> {
                         },
                       );
                     },
-                    icon: const Icon(Icons.more_horiz),
+                    icon: const Icon(Symbols.more_horiz_rounded),
                     tooltip: tr('more'),
                   ),
                 if (app?.app.installedVersion != null &&
@@ -609,7 +610,7 @@ class _AppPageState extends State<AppPage> {
                         ? null
                         : showMarkUpdatedDialog,
                     tooltip: tr('markUpdated'),
-                    icon: const Icon(Icons.done),
+                    icon: const Icon(Symbols.done_rounded),
                   ),
                 if ((!isVersionDetectionStandard || trackOnly) &&
                     app?.app.installedVersion != null &&
@@ -621,7 +622,7 @@ class _AppPageState extends State<AppPage> {
                             app!.app.installedVersion = null;
                             appsProvider.saveApps([app.app]);
                           },
-                    icon: const Icon(Icons.restore_rounded),
+                    icon: const Icon(Symbols.restore_rounded),
                     tooltip: tr('resetInstallStatus'),
                   ),
                 const SizedBox(width: 16.0),
@@ -643,7 +644,7 @@ class _AppPageState extends State<AppPage> {
                               });
                         },
                   tooltip: tr('remove'),
-                  icon: const Icon(Icons.delete_outline),
+                  icon: const Icon(Symbols.delete_rounded, fill: 0),
                 ),
               ],
             ),
@@ -663,7 +664,7 @@ class _AppPageState extends State<AppPage> {
 
     appScreenAppBar() => AppBar(
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
+        icon: const Icon(Symbols.arrow_back_rounded),
         onPressed: () {
           Navigator.pop(context);
         },

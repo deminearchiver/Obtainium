@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:hsluv/hsluv.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:obtainium/components/generated_form_modal.dart';
 import 'package:obtainium/providers/source_provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -608,7 +609,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                                 someValueChanged();
                               });
                             },
-                            icon: const Icon(Icons.format_color_fill_rounded),
+                            icon: const Icon(Symbols.format_color_fill_rounded),
                             visualDensity: VisualDensity.compact,
                             tooltip: tr('colour'),
                           ),
@@ -659,7 +660,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                                 fn();
                               }
                             },
-                            icon: const Icon(Icons.remove),
+                            icon: const Icon(Symbols.remove_rounded),
                             visualDensity: VisualDensity.compact,
                             tooltip: tr('remove'),
                           ),
@@ -672,7 +673,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: TextButton.icon(
                             onPressed: onAddPressed,
-                            icon: const Icon(Icons.add),
+                            icon: const Icon(Symbols.add_rounded),
                             label: Text(
                               (widget.items[r][e] as GeneratedFormTagInput)
                                   .label,
@@ -683,7 +684,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: IconButton(
                             onPressed: onAddPressed,
-                            icon: const Icon(Icons.add),
+                            icon: const Icon(Symbols.add_rounded),
                             visualDensity: VisualDensity.compact,
                             tooltip: tr('add'),
                           ),
@@ -762,7 +763,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                         label: Text(
                           '${(widget.items[r][e] as GeneratedFormSubForm).label} (${i + 1})',
                         ),
-                        icon: const Icon(Icons.delete_outline_rounded),
+                        icon: const Icon(Symbols.delete_rounded, fill: 0),
                       ),
                     ],
                   ),
@@ -786,7 +787,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                         forceUpdateKeyCount++;
                         someValueChanged();
                       },
-                      icon: const Icon(Icons.add),
+                      icon: const Icon(Symbols.add_rounded),
                       label: Text(
                         (widget.items[r][e] as GeneratedFormSubForm).label,
                       ),
