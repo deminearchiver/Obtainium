@@ -287,28 +287,32 @@ class _ObtainiumState extends State<Obtainium> {
     if (!mounted) return;
   }
 
-  ColorThemeData _staticColorTheme({
-    required Brightness brightness,
-    bool highContrast = false,
-  }) => ColorThemeData.fromSeed(
-    sourceColor: const Color(0xFF6750A4),
-    brightness: brightness,
-    contrastLevel: highContrast ? 1.0 : 0.0,
-    variant: DynamicSchemeVariant.tonalSpot,
-    platform: DynamicSchemePlatform.phone,
-    specVersion: DynamicSchemeSpecVersion.spec2025,
-  );
-
   ColorThemeData _createColorTheme({
+    required SettingsProvider settingsProvider,
     required Brightness brightness,
     bool highContrast = false,
   }) {
-    final fallback = _staticColorTheme(
-      brightness: brightness,
-      highContrast: highContrast,
-    );
-    final provided = const ColorThemeDataPartial.from();
-    return fallback.merge(provided);
+    if (settingsProvider.useMaterialYou) {
+      final fallback = ColorThemeData.fromSeed(
+        sourceColor: const Color(0xFF6750A4),
+        brightness: brightness,
+        contrastLevel: highContrast ? 1.0 : 0.0,
+        variant: DynamicSchemeVariant.tonalSpot,
+        platform: DynamicSchemePlatform.phone,
+        specVersion: DynamicSchemeSpecVersion.spec2025,
+      );
+      final provided = const ColorThemeDataPartial.from();
+      return fallback.merge(provided);
+    } else {
+      return ColorThemeData.fromSeed(
+        sourceColor: settingsProvider.themeColor,
+        brightness: brightness,
+        contrastLevel: highContrast ? 1.0 : 0.0,
+        variant: DynamicSchemeVariant.tonalSpot,
+        platform: DynamicSchemePlatform.phone,
+        specVersion: DynamicSchemeSpecVersion.spec2025,
+      );
+    }
   }
 
   Widget _buildColorTheme(BuildContext context, Widget child) {
@@ -321,6 +325,7 @@ class _ObtainiumState extends State<Obtainium> {
     final highContrast = MediaQuery.highContrastOf(context);
     return ColorTheme(
       data: _createColorTheme(
+        settingsProvider: settingsProvider,
         brightness: brightness,
         highContrast: highContrast,
       ),
@@ -353,14 +358,6 @@ class _ObtainiumState extends State<Obtainium> {
 
   Widget _buildMaterialApp(BuildContext context) {
     final settingsProvider = context.watch<SettingsProvider>();
-    final lightColorTheme = ColorThemeData.fromSeed(
-      brightness: Brightness.light,
-      specVersion: DynamicSchemeSpecVersion.spec2025,
-    );
-    final darkColorTheme = ColorThemeData.fromSeed(
-      brightness: Brightness.dark,
-      specVersion: DynamicSchemeSpecVersion.spec2025,
-    );
     final typescaleTheme = TypescaleTheme.of(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -378,11 +375,35 @@ class _ObtainiumState extends State<Obtainium> {
         ThemeSettings.dark => ThemeMode.dark,
       },
       theme: LegacyThemeFactory.create(
-        colorTheme: lightColorTheme,
+        colorTheme: _createColorTheme(
+          settingsProvider: settingsProvider,
+          brightness: Brightness.light,
+          highContrast: false,
+        ),
         typescaleTheme: typescaleTheme,
       ),
       darkTheme: LegacyThemeFactory.create(
-        colorTheme: darkColorTheme,
+        colorTheme: _createColorTheme(
+          settingsProvider: settingsProvider,
+          brightness: Brightness.dark,
+          highContrast: false,
+        ),
+        typescaleTheme: typescaleTheme,
+      ),
+      highContrastTheme: LegacyThemeFactory.create(
+        colorTheme: _createColorTheme(
+          settingsProvider: settingsProvider,
+          brightness: Brightness.light,
+          highContrast: true,
+        ),
+        typescaleTheme: typescaleTheme,
+      ),
+      highContrastDarkTheme: LegacyThemeFactory.create(
+        colorTheme: _createColorTheme(
+          settingsProvider: settingsProvider,
+          brightness: Brightness.dark,
+          highContrast: true,
+        ),
         typescaleTheme: typescaleTheme,
       ),
 
