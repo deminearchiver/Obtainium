@@ -566,7 +566,7 @@ class AppsPageState extends State<AppsPage> {
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.end,
                           style: isVersionPseudo(listedApps[index].app)
-                              ? TextStyle(fontStyle: FontStyle.italic)
+                              ? const TextStyle(fontStyle: FontStyle.italic)
                               : null,
                         ),
                       ),
@@ -1301,7 +1301,7 @@ class AppsPageState extends State<AppsPage> {
             controller: scrollController,
             slivers: <Widget>[
               CustomAppBar.largeFlexible(
-                headline: Text("Obtainium"),
+                headline: const Text("Obtainium"),
                 subtitle: Text(tr('appsString')),
               ),
               ...getLoadingWidgets(),

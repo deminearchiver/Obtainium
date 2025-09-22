@@ -4,10 +4,10 @@ import 'package:obtainium/components/generated_form.dart';
 import 'package:obtainium/custom_errors.dart';
 import 'package:obtainium/providers/source_provider.dart';
 
-class DirectAPKLink extends AppSource {
-  HTML html = HTML();
+class DirectApkLink extends AppSource {
+  Html html = Html();
 
-  DirectAPKLink() {
+  DirectApkLink() {
     name = tr('directAPKLink');
     additionalSourceAppSpecificSettingFormItems = [
       ...html.additionalSourceAppSpecificSettingFormItems.where(
@@ -20,7 +20,7 @@ class DirectAPKLink extends AppSource {
           'defaultPseudoVersioningMethod',
           [
             MapEntry('partialAPKHash', tr('partialAPKHash')),
-            MapEntry('ETag', 'ETag'),
+            const MapEntry('ETag', 'ETag'),
           ],
           label: tr('defaultPseudoVersioningMethod'),
           defaultValue: 'partialAPKHash',

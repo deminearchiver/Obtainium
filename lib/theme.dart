@@ -56,7 +56,7 @@ abstract final class LegacyThemeFactory {
         materialTapTargetSize: MaterialTapTargetSize.padded,
         mouseCursor: WidgetStateMouseCursor.clickable,
         splashRadius: 20.0,
-        trackOutlineWidth: WidgetStatePropertyAll(2.0),
+        trackOutlineWidth: const WidgetStatePropertyAll(2.0),
         trackOutlineColor: WidgetStateProperty.resolveWith((states) {
           final isSelected = states.contains(WidgetState.selected);
           final isDisabled = states.contains(WidgetState.disabled);

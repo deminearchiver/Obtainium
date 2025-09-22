@@ -286,7 +286,7 @@ class _AppPageState extends State<AppPage> {
                     );
                   },
                   child: Markdown(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     styleSheet: MarkdownStyleSheet(
                       blockquoteDecoration: BoxDecoration(

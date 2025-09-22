@@ -99,7 +99,7 @@ class _CustomAppBarState extends State<CustomAppBar>
   };
   EdgeInsetsGeometry get _expandedPadding => widget._type == _AppBarType.small
       ? _collapsedPadding
-      : EdgeInsets.fromLTRB(16.0, 0.0, 16.0, _kExpandedBottomPadding);
+      : const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, _kExpandedBottomPadding);
   double get _expandedContentHeight => widget._type == _AppBarType.small
       ? _collapsedContentHeight
       : _expandedHeadlineTypeStyle.lineHeight +

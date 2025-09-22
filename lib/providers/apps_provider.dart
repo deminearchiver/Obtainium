@@ -18,7 +18,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:obtainium/flutter.dart';
 import 'package:http/io_client.dart';
-import 'package:obtainium/app_sources/directAPKLink.dart';
+import 'package:obtainium/app_sources/direct_apk_link.dart';
 import 'package:obtainium/app_sources/html.dart';
 import 'package:obtainium/components/generated_form.dart';
 import 'package:obtainium/components/generated_form_modal.dart';
@@ -358,7 +358,7 @@ Future<File> downloadFile(
     int currentTempFileSize = await tempDownloadedFile.length();
     bool shouldReturn = false;
     while (isDownloading) {
-      await Future.delayed(Duration(seconds: 7));
+      await Future.delayed(const Duration(seconds: 7));
       if (tempDownloadedFile.existsSync()) {
         int newTempFileSize = await tempDownloadedFile.length();
         if (newTempFileSize > currentTempFileSize) {
@@ -1445,11 +1445,11 @@ class AppsProvider with ChangeNotifier {
         ? app.installedInfo?.versionCode.toString()
         : app.installedInfo?.versionName;
     bool isHTMLWithNoVersionDetection =
-        (source.runtimeType == HTML().runtimeType &&
+        (source.runtimeType == Html().runtimeType &&
         (app.app.additionalSettings['versionExtractionRegEx'] as String?)
                 ?.isNotEmpty !=
             true);
-    bool isDirectAPKLink = source.runtimeType == DirectAPKLink().runtimeType;
+    bool isDirectAPKLink = source.runtimeType == DirectApkLink().runtimeType;
     return app.app.additionalSettings['trackOnly'] != true &&
         app.app.additionalSettings['releaseDateAsVersion'] != true &&
         !isHTMLWithNoVersionDetection &&

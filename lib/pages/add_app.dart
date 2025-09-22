@@ -735,7 +735,7 @@ class AddAppPageState extends State<AddAppPage> {
         shrinkWrap: true,
         slivers: <Widget>[
           CustomAppBar.largeFlexible(
-            headline: Text("Obtainium"),
+            headline: const Text("Obtainium"),
             subtitle: Text(tr('addApp')),
           ),
           SliverToBoxAdapter(

@@ -4,8 +4,8 @@ import 'package:http/http.dart';
 import 'package:obtainium/custom_errors.dart';
 import 'package:obtainium/providers/source_provider.dart';
 
-class LiteAPKs extends AppSource {
-  LiteAPKs() {
+class LiteApks extends AppSource {
+  LiteApks() {
     hosts = ['liteapks.com'];
     name = 'LiteAPKs';
   }

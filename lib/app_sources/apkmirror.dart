@@ -9,8 +9,8 @@ import 'package:obtainium/providers/apps_provider.dart';
 import 'package:obtainium/providers/settings_provider.dart';
 import 'package:obtainium/providers/source_provider.dart';
 
-class APKMirror extends AppSource {
-  APKMirror() {
+class ApkMirror extends AppSource {
+  ApkMirror() {
     hosts = ['apkmirror.com'];
     enforceTrackOnly = true;
     showReleaseDateAsVersionToggle = true;

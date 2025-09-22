@@ -3,8 +3,8 @@ import 'package:html/parser.dart';
 import 'package:obtainium/custom_errors.dart';
 import 'package:obtainium/providers/source_provider.dart';
 
-class APKCombo extends AppSource {
-  APKCombo() {
+class ApkCombo extends AppSource {
+  ApkCombo() {
     hosts = ['apkcombo.com'];
     showReleaseDateAsVersionToggle = true;
   }

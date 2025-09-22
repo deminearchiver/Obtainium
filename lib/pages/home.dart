@@ -87,9 +87,9 @@ class _HomePageState extends State<HomePage> {
                         mode: LaunchMode.externalApplication,
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'https://github.com/ImranR98/Obtainium/blob/main/README.md',
-                      style: const TextStyle(
+                      style: TextStyle(
                         decoration: TextDecoration.underline,
                         fontWeight: FontWeight.bold,
                       ),

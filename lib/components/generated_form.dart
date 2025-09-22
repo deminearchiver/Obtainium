@@ -329,7 +329,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                   });
                 },
                 decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
+                  border: const UnderlineInputBorder(),
                   filled: true,
                   helperText: formItem.label + (formItem.required ? ' *' : ''),
                   hintText: formItem.hint,

@@ -15,7 +15,7 @@ import 'package:obtainium/app_sources/apkpure.dart';
 import 'package:obtainium/app_sources/aptoide.dart';
 import 'package:obtainium/app_sources/codeberg.dart';
 import 'package:obtainium/app_sources/coolapk.dart';
-import 'package:obtainium/app_sources/directAPKLink.dart';
+import 'package:obtainium/app_sources/direct_apk_link.dart';
 import 'package:obtainium/app_sources/farsroid.dart';
 import 'package:obtainium/app_sources/fdroid.dart';
 import 'package:obtainium/app_sources/fdroidrepo.dart';
@@ -176,7 +176,7 @@ Map<String, dynamic> appJSONCompatibilityModifiers(Map<String, dynamic> json) {
   if (additionalSettings['dontSortReleasesList'] == true) {
     additionalSettings['sortMethodChoice'] = 'none';
   }
-  if (source.runtimeType == HTML().runtimeType) {
+  if (source.runtimeType == Html().runtimeType) {
     // HTML key rename
     if (originalAdditionalSettings['sortByFileNamesNotLinks'] != null) {
       additionalSettings['sortByLastLinkSegment'] =
@@ -205,7 +205,7 @@ Map<String, dynamic> appJSONCompatibilityModifiers(Map<String, dynamic> json) {
     if (legacySteamSourceApps.contains(additionalSettings['app'] ?? '')) {
       json['url'] = '${json['url']}/mobile';
       var replacementAdditionalSettings = getDefaultValuesFromFormItems(
-        HTML().combinedAppSpecificSettingFormItems,
+        Html().combinedAppSpecificSettingFormItems,
       );
       for (var s in replacementAdditionalSettings.keys) {
         if (additionalSettings.containsKey(s)) {
@@ -230,7 +230,7 @@ Map<String, dynamic> appJSONCompatibilityModifiers(Map<String, dynamic> json) {
         json['lastUpdateCheck'] != null) {
       json['url'] = 'https://updates.signal.org/android/latest.json';
       var replacementAdditionalSettings = getDefaultValuesFromFormItems(
-        HTML().combinedAppSpecificSettingFormItems,
+        Html().combinedAppSpecificSettingFormItems,
       );
       replacementAdditionalSettings['versionExtractionRegEx'] =
           '\\d+.\\d+.\\d+';
@@ -247,7 +247,7 @@ Map<String, dynamic> appJSONCompatibilityModifiers(Map<String, dynamic> json) {
         json['lastUpdateCheck'] != null) {
       json['url'] = 'https://whatsapp.com/android';
       var replacementAdditionalSettings = getDefaultValuesFromFormItems(
-        HTML().combinedAppSpecificSettingFormItems,
+        Html().combinedAppSpecificSettingFormItems,
       );
       replacementAdditionalSettings['refreshBeforeDownload'] = true;
       additionalSettings = replacementAdditionalSettings;
@@ -263,7 +263,7 @@ Map<String, dynamic> appJSONCompatibilityModifiers(Map<String, dynamic> json) {
         json['lastUpdateCheck'] != null) {
       json['url'] = 'https://www.videolan.org/vlc/download-android.html';
       var replacementAdditionalSettings = getDefaultValuesFromFormItems(
-        HTML().combinedAppSpecificSettingFormItems,
+        Html().combinedAppSpecificSettingFormItems,
       );
       replacementAdditionalSettings['refreshBeforeDownload'] = true;
       replacementAdditionalSettings['intermediateLink'] =
@@ -1091,22 +1091,22 @@ class SourceProvider {
     FDroidRepo(),
     IzzyOnDroid(),
     SourceHut(),
-    APKPure(),
+    ApkPure(),
     Aptoide(),
     Uptodown(),
     HuaweiAppGallery(),
     Tencent(),
     CoolApk(),
-    LiteAPKs(),
+    LiteApks(),
     VivoAppStore(),
     Jenkins(),
-    APKMirror(),
+    ApkMirror(),
     RuStore(),
     Farsroid(),
     TelegramApp(),
     NeutronCode(),
-    DirectAPKLink(),
-    HTML(), // This should ALWAYS be the last option as they are tried in order
+    DirectApkLink(),
+    Html(), // This should ALWAYS be the last option as they are tried in order
   ];
 
   // Add more mass url source classes here so they are available via the service
@@ -1199,7 +1199,7 @@ class SourceProvider {
     );
 
     if (source.runtimeType !=
-            HTML().runtimeType && // Some sources do it separately
+            Html().runtimeType && // Some sources do it separately
         source.runtimeType != SourceForge().runtimeType) {
       String? extractedVersion = extractVersion(
         additionalSettings['versionExtractionRegEx'] as String?,

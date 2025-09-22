@@ -379,7 +379,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
       body: CustomScrollView(
         slivers: <Widget>[
           CustomAppBar.largeFlexible(
-            headline: Text("Obtainium"),
+            headline: const Text("Obtainium"),
             subtitle: Text(tr('importExport')),
           ),
           SliverFillRemaining(
@@ -503,7 +503,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                   else
                     Column(
                       children: [
-                        SizedBox(height: 32),
+                        const SizedBox(height: 32),
                         Row(
                           children: [
                             Expanded(
@@ -743,7 +743,7 @@ class _SelectionModalState extends State<SelectionModal> {
     }
     getSelectAllButton() {
       if (widget.onlyOneSelectionAllowed) {
-        return SizedBox.shrink();
+        return const SizedBox.shrink();
       }
       var noneSelected = entrySelections.values.where((v) => v == true).isEmpty;
       return noneSelected

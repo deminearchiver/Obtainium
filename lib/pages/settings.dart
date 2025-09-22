@@ -225,7 +225,7 @@ class _SettingsPageState extends State<SettingsPage> {
     var sortDropdown = DropdownButtonFormField(
       isExpanded: true,
       decoration: InputDecoration(
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
         labelText: tr('appSortBy'),
       ),
       initialValue: settingsProvider.sortColumn,
@@ -257,7 +257,7 @@ class _SettingsPageState extends State<SettingsPage> {
     var orderDropdown = DropdownButtonFormField(
       isExpanded: true,
       decoration: InputDecoration(
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
         labelText: tr('appSortOrder'),
       ),
       initialValue: settingsProvider.sortOrder,
@@ -280,7 +280,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
     var localeDropdown = DropdownButtonFormField(
       decoration: InputDecoration(
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
         labelText: tr('language'),
       ),
       initialValue: settingsProvider.forcedLocale,
@@ -366,7 +366,7 @@ class _SettingsPageState extends State<SettingsPage> {
       body: CustomScrollView(
         slivers: <Widget>[
           CustomAppBar.largeFlexible(
-            headline: Text("Obtainium"),
+            headline: const Text("Obtainium"),
             subtitle: Text(tr('settings')),
           ),
           SliverToBoxAdapter(
@@ -720,7 +720,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         ),
                         DropdownButtonFormField(
                           decoration: InputDecoration(
-                            border: OutlineInputBorder(),
+                            border: const OutlineInputBorder(),
                             labelText: tr('theme'),
                           ),
                           initialValue: settingsProvider.theme,

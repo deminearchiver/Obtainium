@@ -207,7 +207,7 @@ Future<List<MapEntry<String, String>>> grabLinksCommon(
   return links;
 }
 
-class HTML extends AppSource {
+class Html extends AppSource {
   @override
   List<List<GeneratedFormItem>> get combinedAppSpecificSettingFormItems {
     return super.combinedAppSpecificSettingFormItems.map((r) {
@@ -279,7 +279,7 @@ class HTML extends AppSource {
       ),
     ],
   ];
-  HTML() {
+  Html() {
     additionalSourceAppSpecificSettingFormItems = [
       [
         GeneratedFormSubForm('intermediateLink', [
@@ -330,7 +330,7 @@ class HTML extends AppSource {
           [
             MapEntry('partialAPKHash', tr('partialAPKHash')),
             MapEntry('APKLinkHash', tr('APKLinkHash')),
-            MapEntry('ETag', 'ETag'),
+            const MapEntry('ETag', 'ETag'),
           ],
           label: tr('defaultPseudoVersioningMethod'),
           defaultValue: 'partialAPKHash',
