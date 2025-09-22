@@ -19,6 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.2.6+2322
 
 workspace:
+  - material
   - material_color_utilities
 
 environment:
@@ -28,7 +29,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  material:
+    path: material
   path_provider: ^2.1.5
   flutter_fgbg: ^0.7.1
   flutter_local_notifications: ^18.0.1
