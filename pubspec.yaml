@@ -17,6 +17,7 @@ publish_to: none
 version: 1.2.6+2322
 
 workspace:
+  - dynamic_color
   - material
   - material_color_utilities
   - obtainium_i18n
@@ -28,6 +29,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  dynamic_color:
+    path: dynamic_color
   material:
     path: material
   meta: ^1.17.0
@@ -37,7 +40,6 @@ dependencies:
   provider: ^6.1.5+1
   http: ^1.5.0
   webview_flutter: ^4.13.0
-  dynamic_color: ^1.8.1
   html: ^0.15.6
   shared_preferences: ^2.5.3
   url_launcher: ^6.3.2
