@@ -287,6 +287,47 @@ class _ObtainiumState extends State<Obtainium> {
     if (!mounted) return;
   }
 
+  ColorThemeData _staticColorTheme({
+    required Brightness brightness,
+    bool highContrast = false,
+  }) => ColorThemeData.fromSeed(
+    sourceColor: const Color(0xFF6750A4),
+    brightness: brightness,
+    contrastLevel: highContrast ? 1.0 : 0.0,
+    variant: DynamicSchemeVariant.tonalSpot,
+    platform: DynamicSchemePlatform.phone,
+    specVersion: DynamicSchemeSpecVersion.spec2025,
+  );
+
+  ColorThemeData _createColorTheme({
+    required Brightness brightness,
+    bool highContrast = false,
+  }) {
+    final fallback = _staticColorTheme(
+      brightness: brightness,
+      highContrast: highContrast,
+    );
+    final provided = const ColorThemeDataPartial.from();
+    return fallback.merge(provided);
+  }
+
+  Widget _buildColorTheme(BuildContext context, Widget child) {
+    final settingsProvider = context.watch<SettingsProvider>();
+    final brightness = switch (settingsProvider.theme) {
+      ThemeSettings.system => MediaQuery.platformBrightnessOf(context),
+      ThemeSettings.light => Brightness.light,
+      ThemeSettings.dark => Brightness.dark,
+    };
+    final highContrast = MediaQuery.highContrastOf(context);
+    return ColorTheme(
+      data: _createColorTheme(
+        brightness: brightness,
+        highContrast: highContrast,
+      ),
+      child: child,
+    );
+  }
+
   Widget _buildTypographyTheme(BuildContext context, Widget child) {
     return TypographyDefaults.googleMaterial3Expressive.build(context, child);
   }
@@ -300,7 +341,7 @@ class _ObtainiumState extends State<Obtainium> {
     required Widget Function(BuildContext context, Widget? child) builder,
   }) {
     return CombiningBuilder(
-      builders: [_buildTypographyTheme, _buildSpringTheme],
+      builders: [_buildColorTheme, _buildTypographyTheme, _buildSpringTheme],
       child: Builder(builder: (context) => builder(context, child)),
     );
   }
