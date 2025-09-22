@@ -365,10 +365,7 @@ class _SettingsPageState extends State<SettingsPage> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: CustomScrollView(
         slivers: <Widget>[
-          CustomAppBar.largeFlexible(
-            headline: const Text("Obtainium"),
-            subtitle: Text(tr('settings')),
-          ),
+          CustomAppBar.largeFlexible(headline: Text(tr('settings'))),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16),
