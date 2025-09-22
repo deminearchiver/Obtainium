@@ -52,6 +52,75 @@ abstract final class LegacyThemeFactory {
           );
         }),
       ),
+      switchTheme: SwitchThemeData(
+        materialTapTargetSize: MaterialTapTargetSize.padded,
+        mouseCursor: WidgetStateMouseCursor.clickable,
+        splashRadius: 20.0,
+        trackOutlineWidth: WidgetStatePropertyAll(2.0),
+        trackOutlineColor: WidgetStateProperty.resolveWith((states) {
+          final isSelected = states.contains(WidgetState.selected);
+          final isDisabled = states.contains(WidgetState.disabled);
+          final color = isSelected ? colorTheme.primary : colorTheme.outline;
+          return isDisabled ? color.withAlpha(0) : color;
+        }),
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          final isSelected = states.contains(WidgetState.selected);
+          final isDisabled = states.contains(WidgetState.disabled);
+          return isDisabled
+              ? isSelected
+                    ? colorTheme.onSurface.withValues(alpha: 0.10)
+                    : colorTheme.surfaceContainerHighest.withValues(alpha: 0.10)
+              : isSelected
+              ? colorTheme.primary
+              : colorTheme.surfaceContainerHighest;
+        }),
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          final isSelected = states.contains(WidgetState.selected);
+          final isDisabled = states.contains(WidgetState.disabled);
+          return isDisabled
+              ? isSelected
+                    ? colorTheme.surface
+                    : colorTheme.onSurface.withValues(alpha: 0.38)
+              : isSelected
+              ? colorTheme.onPrimary
+              : colorTheme.outline;
+        }),
+        overlayColor: WidgetStateProperty.resolveWith((states) {
+          final isSelected = states.contains(WidgetState.selected);
+          final color = isSelected ? colorTheme.primary : colorTheme.onSurface;
+          if (states.contains(WidgetState.disabled)) {
+            return color.withAlpha(0);
+          }
+          if (states.contains(WidgetState.pressed)) {
+            return color.withValues(alpha: 0.1);
+          }
+          if (states.contains(WidgetState.focused)) {
+            return color.withValues(alpha: 0.1);
+          }
+          if (states.contains(WidgetState.hovered)) {
+            return color.withValues(alpha: 0.08);
+          }
+          return color.withAlpha(0);
+        }),
+        thumbIcon: WidgetStateProperty.resolveWith((states) {
+          final isSelected = states.contains(WidgetState.selected);
+          final isDisabled = states.contains(WidgetState.disabled);
+          return Icon(
+            isSelected ? Symbols.check_rounded : Symbols.close_rounded,
+            size: 16.0,
+            opticalSize: 24.0,
+            color: isDisabled
+                ? isSelected
+                      ? colorTheme.onSurface.withValues(alpha: 0.38)
+                      : colorTheme.surfaceContainerHighest.withValues(
+                          alpha: 0.38,
+                        )
+                : isSelected
+                ? colorTheme.primary
+                : colorTheme.surfaceContainerHighest,
+          );
+        }),
+      ),
     );
   }
 }
