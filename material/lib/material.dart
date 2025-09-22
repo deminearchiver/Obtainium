@@ -16,3 +16,5 @@ export 'src/typography/typeface_theme.dart';
 export 'src/typography/typescale_theme.dart';
 
 export 'src/elevation_theme.dart';
+
+export 'src/loading_indicator.dart';
