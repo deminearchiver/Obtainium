@@ -672,7 +672,10 @@ class _AppPageState extends State<AppPage> {
     return Scaffold(
       appBar: showAppWebpageFinal ? AppBar() : appScreenAppBar(),
       backgroundColor: Theme.of(context).colorScheme.surface,
+      // TODO: replace with a Loading indicator
       body: RefreshIndicator(
+        backgroundColor: ColorTheme.of(context).primaryContainer,
+        color: ColorTheme.of(context).onPrimaryContainer,
         child: showAppWebpageFinal
             ? getAppWebView()
             : CustomScrollView(

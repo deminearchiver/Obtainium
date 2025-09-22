@@ -1287,9 +1287,12 @@ class AppsPageState extends State<AppsPage> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
+      // TODO: replace with a Loading indicator
       body: RefreshIndicator(
         key: _refreshIndicatorKey,
         onRefresh: refresh,
+        backgroundColor: ColorTheme.of(context).primaryContainer,
+        color: ColorTheme.of(context).onPrimaryContainer,
         child: Scrollbar(
           interactive: true,
           controller: scrollController,
