@@ -18,6 +18,9 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # of the product and file versions while build-number is used as the build suffix.
 version: 1.2.6+2322
 
+workspace:
+  - material_color_utilities
+
 environment:
   sdk: ^3.9.2
   flutter: ">=3.35.0"
