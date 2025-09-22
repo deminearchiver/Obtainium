@@ -10,13 +10,11 @@ class DirectAPKLink extends AppSource {
   DirectAPKLink() {
     name = tr('directAPKLink');
     additionalSourceAppSpecificSettingFormItems = [
-      ...html.additionalSourceAppSpecificSettingFormItems
-          .where(
-            (element) => element
-                .where((element) => element.key == 'requestHeader')
-                .isNotEmpty,
-          )
-          ,
+      ...html.additionalSourceAppSpecificSettingFormItems.where(
+        (element) => element
+            .where((element) => element.key == 'requestHeader')
+            .isNotEmpty,
+      ),
       [
         GeneratedFormDropdown(
           'defaultPseudoVersioningMethod',

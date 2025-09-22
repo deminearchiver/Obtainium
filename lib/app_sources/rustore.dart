@@ -86,7 +86,8 @@ class RuStore extends AppSource {
       postBody: {"appId": appDetails['appId'], "firstInstall": true},
     );
     var downloadDetails = (await decodeJsonBody(res1.bodyBytes))['body'];
-    if (res1.statusCode != 200 || downloadDetails['downloadUrls'][0]['url'] == null) {
+    if (res1.statusCode != 200 ||
+        downloadDetails['downloadUrls'][0]['url'] == null) {
       throw NoAPKError();
     }
 

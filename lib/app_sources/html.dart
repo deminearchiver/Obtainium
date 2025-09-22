@@ -249,7 +249,7 @@ class HTML extends AppSource {
     [
       GeneratedFormSwitch(
         'matchLinksOutsideATags',
-        label: tr('matchLinksOutsideATags')
+        label: tr('matchLinksOutsideATags'),
       ),
     ],
     [GeneratedFormSwitch('skipSort', label: tr('skipSort'))],
