@@ -121,6 +121,19 @@ abstract final class LegacyThemeFactory {
           );
         }),
       ),
+      // outlinedButtonTheme: OutlinedButtonThemeData(
+      //   style: ButtonStyle(
+      //     elevation: WidgetStatePropertyAll(0.0),
+      //     side: WidgetStateProperty.resolveWith((states) {
+      //       return BorderSide(
+      //         width: 1.0,
+      //         color: colorTheme.outlineVariant,
+      //         strokeAlign: BorderSide.strokeAlignInside,
+      //         style: BorderStyle.solid,
+      //       );
+      //     }),
+      //   ),
+      // ),
     );
   }
 }
