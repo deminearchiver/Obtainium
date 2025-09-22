@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:obtainium/flutter.dart';
 
 class CustomAppBar extends StatefulWidget {
   const CustomAppBar({super.key, required this.title});

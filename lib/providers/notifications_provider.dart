@@ -2,7 +2,7 @@
 // Contains a set of pre-defined ObtainiumNotification objects that should be used throughout the app
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
+import 'package:obtainium/flutter.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:obtainium/main.dart';
 import 'package:obtainium/providers/settings_provider.dart';

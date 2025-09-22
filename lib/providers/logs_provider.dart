@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
+import 'package:obtainium/flutter.dart';
 import 'package:sqflite/sqflite.dart';
 
 const String logTable = 'logs';

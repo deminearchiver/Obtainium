@@ -2,8 +2,7 @@ import 'dart:math';
 
 import 'package:hsluv/hsluv.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/material_symbols_icons.dart';
+import 'package:obtainium/flutter.dart';
 import 'package:obtainium/components/generated_form_modal.dart';
 import 'package:obtainium/providers/source_provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
