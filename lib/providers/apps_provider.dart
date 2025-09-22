@@ -905,7 +905,7 @@ class AppsProvider with ChangeNotifier {
         msg: tr('appVerifierInstructionToast'),
         toastLength: Toast.LENGTH_LONG,
       );
-      await Share.shareXFiles([f]);
+      await SharePlus.instance.share(ShareParams(files: [f]));
     }
     var newInfo = await pm.getPackageArchiveInfo(
       archiveFilePath: file.file.path,
@@ -1865,7 +1865,7 @@ class AppsProvider with ChangeNotifier {
     apps.forEach((key, value) {
       for (var c in value.app.categories) {
         if (!cats.containsKey(c)) {
-          cats[c] = generateRandomLightColor().value;
+          cats[c] = generateRandomLightColor().toARGB32();
         }
       }
     });

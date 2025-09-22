@@ -372,7 +372,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
           }
           return DropdownButtonFormField(
             decoration: InputDecoration(labelText: formItem.label),
-            value: values[formItem.key],
+            initialValue: values[formItem.key],
             items: formItem.opts!.map((e2) {
               var enabled = formItem.disabledOptKeys?.contains(e2.key) != true;
               return DropdownMenuItem(
@@ -470,7 +470,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                         .where((element) => element.value.value)
                         .isNotEmpty;
                     temp[label] = MapEntry(
-                      generateRandomLightColor().value,
+                      generateRandomLightColor().toARGB32(),
                       !(someSelected && singleSelect),
                     );
                     values[fieldKey] = temp;
@@ -596,7 +596,8 @@ class _GeneratedFormState extends State<GeneratedForm> {
                                 // generate new color, ensure it is not the same
                                 int newColor = oldEntry.value.key;
                                 while (oldEntry.value.key == newColor) {
-                                  newColor = generateRandomLightColor().value;
+                                  newColor = generateRandomLightColor()
+                                      .toARGB32();
                                 }
                                 // Update entry with new color, remain selected
                                 temp.update(

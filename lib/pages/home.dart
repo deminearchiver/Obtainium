@@ -275,6 +275,7 @@ class _HomePageState extends State<HomePage> {
     prevAppCount = appsProvider.apps.length;
     prevIsLoading = appsProvider.loadingApps;
 
+    // TODO: this doesn't seem to do anything because onWillPop is null
     return WillPopScope(
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
