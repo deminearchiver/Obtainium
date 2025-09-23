@@ -386,7 +386,7 @@ class AppsPageState extends State<AppsPage> {
       return [
         if (listedApps.isEmpty)
           SliverFillRemaining(
-            child: Center(
+            child: Align.center(
               child: Text(
                 appsProvider.apps.isEmpty
                     ? appsProvider.loadingApps

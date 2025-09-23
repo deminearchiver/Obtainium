@@ -225,8 +225,7 @@ class _CustomAppBarState extends State<CustomAppBar>
       animation: _controller,
       builder: (context, child) => Padding(
         padding: EdgeInsets.only(top: topPadding),
-        child: Align(
-          alignment: Alignment.bottomCenter,
+        child: Align.bottomCenter(
           child: Padding(
             padding: EdgeInsetsGeometry.lerp(
               _expandedPadding,
