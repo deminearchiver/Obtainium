@@ -25,7 +25,11 @@ export 'package:flutter/material.dart'
         // ---
         // Force migration to Material Symbols
         Icons,
-        AnimatedIcons;
+        AnimatedIcons,
+        // ---
+        Switch,
+        SwitchTheme,
+        SwitchThemeData;
 
 // Third-party packages
 

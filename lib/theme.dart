@@ -52,7 +52,7 @@ abstract final class LegacyThemeFactory {
           );
         }),
       ),
-      switchTheme: SwitchThemeData(
+      switchTheme: SwitchThemeDataLegacy(
         materialTapTargetSize: MaterialTapTargetSize.padded,
         mouseCursor: WidgetStateMouseCursor.clickable,
         splashRadius: 20.0,

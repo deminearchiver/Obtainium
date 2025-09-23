@@ -4,9 +4,14 @@ import 'dart:ui';
 
 import 'package:flutter/scheduler.dart';
 import 'package:material/src/flutter.dart';
+import 'package:flutter/material.dart' as flutter;
 
 import 'deprecated_animation.dart';
 import 'focus_ring.dart';
+
+typedef SwitchLegacy = flutter.Switch;
+typedef SwitchThemeLegacy = flutter.SwitchTheme;
+typedef SwitchThemeDataLegacy = flutter.SwitchThemeData;
 
 class Switch2 extends StatefulWidget {
   const Switch2({super.key, required this.onChanged, required this.value});
