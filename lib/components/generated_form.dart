@@ -777,7 +777,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
               padding: const EdgeInsets.only(bottom: 0, top: 8),
               child: Flex.horizontal(
                 children: [
-                  Expanded(
+                  Flexible.tight(
                     child: ElevatedButton.icon(
                       onPressed: () {
                         values[fieldKey].add(
@@ -820,7 +820,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
           rowItems.add(const SizedBox(width: 20));
         }
         rowItems.add(
-          Expanded(
+          Flexible.tight(
             child: Flex.vertical(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,

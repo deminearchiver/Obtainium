@@ -1254,7 +1254,7 @@ class AppsPageState extends State<AppsPage> {
           ),
           const SizedBox(width: 10),
           const VerticalDivider(),
-          Expanded(
+          Flexible.tight(
             child: Flex.horizontal(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: getMainBottomButtons(),

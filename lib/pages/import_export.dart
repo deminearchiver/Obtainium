@@ -396,7 +396,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                         children: [
                           Flex.horizontal(
                             children: [
-                              Expanded(
+                              Flexible.tight(
                                 child: TextButton(
                                   style: outlineButtonStyle,
                                   onPressed: importInProgress
@@ -411,7 +411,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                                 ),
                               ),
                               const SizedBox(width: 16),
-                              Expanded(
+                              Flexible.tight(
                                 child: TextButton(
                                   style: outlineButtonStyle,
                                   onPressed:
@@ -429,7 +429,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                           const SizedBox(height: 8),
                           Flex.horizontal(
                             children: [
-                              Expanded(
+                              Flexible.tight(
                                 child: TextButton(
                                   style: outlineButtonStyle,
                                   onPressed: importInProgress
@@ -507,7 +507,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                         const SizedBox(height: 32),
                         Flex.horizontal(
                           children: [
-                            Expanded(
+                            Flexible.tight(
                               child: TextButton(
                                 onPressed: importInProgress
                                     ? null
@@ -583,7 +583,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                       ],
                     ),
                   ),
-                  const Spacer(),
+                  const Flexible.space(),
                   const Divider(height: 32),
                   Text(
                     tr('importedAppsIdDisclaimer'),
@@ -901,7 +901,7 @@ class _SelectionModalState extends State<SelectionModal> {
                   },
                 ),
                 const SizedBox(width: 8),
-                Expanded(
+                Flexible.tight(
                   child: Flex.vertical(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,

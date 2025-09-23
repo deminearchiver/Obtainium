@@ -763,9 +763,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(child: sortDropdown),
+                      Flexible.tight(child: sortDropdown),
                       const SizedBox(width: 16),
-                      Expanded(child: orderDropdown),
+                      Flexible.tight(child: orderDropdown),
                     ],
                   ),
                   height16,
@@ -1297,7 +1297,7 @@ class _SettingsListItemLayoutState extends State<SettingsListItemLayout> {
               leading,
               const SizedBox(width: 12.0),
             ],
-            Expanded(
+            Flexible.tight(
               child: Flex.vertical(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,

@@ -304,7 +304,11 @@ class _CustomAppBarState extends State<CustomAppBar>
               right: 0.0,
               height: _collapsedHeight,
               child: Flex.horizontal(
-                children: [?widget.leading, const Spacer(), ?widget.trailing],
+                children: [
+                  ?widget.leading,
+                  const Flexible.space(),
+                  ?widget.trailing,
+                ],
               ),
             ),
           ],

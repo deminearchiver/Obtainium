@@ -624,7 +624,7 @@ class _AppPageState extends State<AppPage> {
                     tooltip: tr('resetInstallStatus'),
                   ),
                 const SizedBox(width: 16.0),
-                Expanded(child: getInstallOrUpdateButton()),
+                Flexible.tight(child: getInstallOrUpdateButton()),
                 const SizedBox(width: 16.0),
                 IconButton(
                   onPressed: app?.downloadProgress != null || updating

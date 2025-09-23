@@ -240,7 +240,7 @@ class AddAppPageState extends State<AddAppPage> {
 
     Widget getUrlInputRow() => Flex.horizontal(
       children: [
-        Expanded(
+        Flexible.tight(
           child: GeneratedForm(
             key: Key(urlInputKey.toString()),
             items: [
@@ -454,7 +454,7 @@ class AddAppPageState extends State<AddAppPage> {
       children: [
         Flex.horizontal(
           children: [
-            Expanded(
+            Flexible.tight(
               child: GeneratedForm(
                 items: [
                   [
@@ -512,7 +512,7 @@ class AddAppPageState extends State<AddAppPage> {
 
     Widget getSearchBarRow() => Flex.horizontal(
       children: [
-        Expanded(
+        Flexible.tight(
           child: GeneratedForm(
             items: [
               [
