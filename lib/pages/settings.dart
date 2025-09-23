@@ -209,7 +209,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Flexible(child: Text(tr('useMaterialYou'))),
+                  Flexible.loose(child: Text(tr('useMaterialYou'))),
                   Switch(
                     value: settingsProvider.useMaterialYou,
                     onChanged: (value) {
@@ -426,7 +426,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Flexible(
+                                    Flexible.loose(
                                       child: Text(
                                         tr('foregroundServiceExplanation'),
                                       ),
@@ -443,7 +443,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Flexible(
+                                    Flexible.loose(
                                       child: Text(
                                         tr('enableBackgroundUpdates'),
                                       ),
@@ -477,7 +477,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Flexible(
+                                          Flexible.loose(
                                             child: Text(
                                               tr('bgUpdatesOnWiFiOnly'),
                                             ),
@@ -498,7 +498,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Flexible(
+                                          Flexible.loose(
                                             child: Text(
                                               tr('bgUpdatesWhileChargingOnly'),
                                             ),
@@ -526,7 +526,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(child: Text(tr('checkOnStart'))),
+                      Flexible.loose(child: Text(tr('checkOnStart'))),
                       Switch(
                         value: settingsProvider.checkOnStart,
                         onChanged: (value) {
@@ -539,7 +539,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(child: Text(tr('checkUpdateOnDetailPage'))),
+                      Flexible.loose(
+                        child: Text(tr('checkUpdateOnDetailPage')),
+                      ),
                       Switch(
                         value: settingsProvider.checkUpdateOnDetailPage,
                         onChanged: (value) {
@@ -552,7 +554,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(
+                      Flexible.loose(
                         child: Text(tr('onlyCheckInstalledOrTrackOnlyApps')),
                       ),
                       Switch(
@@ -569,7 +571,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(child: Text(tr('removeOnExternalUninstall'))),
+                      Flexible.loose(
+                        child: Text(tr('removeOnExternalUninstall')),
+                      ),
                       Switch(
                         value: settingsProvider.removeOnExternalUninstall,
                         onChanged: (value) {
@@ -582,7 +586,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(child: Text(tr('parallelDownloads'))),
+                      Flexible.loose(child: Text(tr('parallelDownloads'))),
                       Switch(
                         value: settingsProvider.parallelDownloads,
                         onChanged: (value) {
@@ -595,7 +599,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(
+                      Flexible.loose(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
@@ -633,7 +637,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(child: Text(tr('useShizuku'))),
+                      Flexible.loose(child: Text(tr('useShizuku'))),
                       Switch(
                         value: settingsProvider.useShizuku,
                         onChanged: (useShizuku) {
@@ -680,7 +684,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(child: Text(tr('shizukuPretendToBeGooglePlay'))),
+                      Flexible.loose(
+                        child: Text(tr('shizukuPretendToBeGooglePlay')),
+                      ),
                       Switch(
                         value: settingsProvider.shizukuPretendToBeGooglePlay,
                         onChanged: (value) {
@@ -741,7 +747,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Flexible(child: Text(tr('useBlackTheme'))),
+                        Flexible.loose(child: Text(tr('useBlackTheme'))),
                         Switch(
                           value: settingsProvider.useBlackTheme,
                           onChanged: (value) {
@@ -777,7 +783,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   //                 mainAxisAlignment:
                   //                     MainAxisAlignment.spaceBetween,
                   //                 children: [
-                  //                   Flexible(
+                  //                   Flexible.loose(
                   //                     child: Text(tr('useSystemFont')),
                   //                   ),
                   //                   Switch(
@@ -809,7 +815,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(child: Text(tr('showWebInAppView'))),
+                      Flexible.loose(child: Text(tr('showWebInAppView'))),
                       Switch(
                         value: settingsProvider.showAppWebpage,
                         onChanged: (value) {
@@ -822,7 +828,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(child: Text(tr('pinUpdates'))),
+                      Flexible.loose(child: Text(tr('pinUpdates'))),
                       Switch(
                         value: settingsProvider.pinUpdates,
                         onChanged: (value) {
@@ -835,7 +841,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(child: Text(tr('moveNonInstalledAppsToBottom'))),
+                      Flexible.loose(
+                        child: Text(tr('moveNonInstalledAppsToBottom')),
+                      ),
                       Switch(
                         value: settingsProvider.buryNonInstalled,
                         onChanged: (value) {
@@ -848,7 +856,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(child: Text(tr('groupByCategory'))),
+                      Flexible.loose(child: Text(tr('groupByCategory'))),
                       Switch(
                         value: settingsProvider.groupByCategory,
                         onChanged: (value) {
@@ -861,7 +869,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(child: Text(tr('dontShowTrackOnlyWarnings'))),
+                      Flexible.loose(
+                        child: Text(tr('dontShowTrackOnlyWarnings')),
+                      ),
                       Switch(
                         value: settingsProvider.hideTrackOnlyWarning,
                         onChanged: (value) {
@@ -874,7 +884,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(child: Text(tr('dontShowAPKOriginWarnings'))),
+                      Flexible.loose(
+                        child: Text(tr('dontShowAPKOriginWarnings')),
+                      ),
                       Switch(
                         value: settingsProvider.hideAPKOriginWarning,
                         onChanged: (value) {
@@ -888,7 +900,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   //   children: [
-                  //     Flexible(child: Text(tr('disablePageTransitions'))),
+                  //     Flexible.loose(child: Text(tr('disablePageTransitions'))),
                   //     Switch(
                   //       value: settingsProvider.disablePageTransitions,
                   //       onChanged: (value) {
@@ -901,7 +913,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   //   children: [
-                  //     Flexible(child: Text(tr('reversePageTransitions'))),
+                  //     Flexible.loose(child: Text(tr('reversePageTransitions'))),
                   //     Switch(
                   //       value: settingsProvider.reversePageTransitions,
                   //       onChanged: settingsProvider.disablePageTransitions
@@ -917,7 +929,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Flexible(child: Text(tr('highlightTouchTargets'))),
+                      Flexible.loose(child: Text(tr('highlightTouchTargets'))),
                       Switch(
                         value: settingsProvider.highlightTouchTargets,
                         onChanged: (value) {

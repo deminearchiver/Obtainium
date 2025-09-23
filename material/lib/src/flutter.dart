@@ -8,10 +8,29 @@ export 'package:flutter/services.dart';
 
 export 'package:flutter/physics.dart';
 
-export 'package:flutter/rendering.dart';
+export 'package:flutter/rendering.dart'
+    hide
+        FlexParentData,
+        RenderFlex,
+        FloatingHeaderSnapConfiguration,
+        PersistentHeaderShowOnScreenConfiguration,
+        OverScrollHeaderStretchConfiguration;
 
 export 'package:flutter/material.dart'
     hide
+        // package:layout
+        // ---
+        Align,
+        Center,
+        Flex,
+        Row,
+        Column,
+        Flexible,
+        Expanded,
+        Spacer,
+        // ---
+        // package:material
+        // ---
         WidgetStateProperty,
         WidgetStatesConstraint,
         WidgetStateMap,
@@ -38,4 +57,5 @@ export 'package:material_symbols_icons/material_symbols_icons.dart';
 
 // Internal packages
 
+export 'package:layout/layout.dart';
 export 'package:material/material.dart';
