@@ -1248,55 +1248,11 @@ class SliverSettingsList extends StatelessWidget {
           child: InkWell(
             onTap: item.onTap,
             onLongPress: item.onLongPress,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: item.supportingText != null ? 72.0 : 56.0,
-              ),
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(
-                  16.0,
-                  item.supportingText != null ? 12.0 : 8.0,
-                  16.0,
-                  item.supportingText != null ? 12.0 : 8.0,
-                ),
-                child: Row(
-                  children: [
-                    if (item.leading case final leading?) ...[
-                      IconTheme.merge(
-                        data: IconThemeData(color: colorTheme.onSurfaceVariant),
-                        child: leading,
-                      ),
-                      const SizedBox(width: 12.0),
-                    ],
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          DefaultTextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            style: typescaleTheme.titleMediumEmphasized
-                                .toTextStyle(color: colorTheme.onSurface),
-                            child: item.headline,
-                          ),
-                          if (item.supportingText case final supportingText?)
-                            DefaultTextStyle(
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: typescaleTheme.bodyMedium.toTextStyle(
-                                color: colorTheme.onSurfaceVariant,
-                              ),
-                              child: supportingText,
-                            ),
-                        ],
-                      ),
-                    ),
-                    if (item.trailing case final trailing?) ...[
-                      const SizedBox(width: 12.0),
-                      trailing,
-                    ],
-                  ],
-                ),
-              ),
+            child: SettingsListItemLayout(
+              leading: item.leading,
+              headline: item.headline,
+              supportingText: item.supportingText,
+              trailing: item.trailing,
             ),
           ),
         );
@@ -1327,4 +1283,82 @@ class SettingsListItem with Diagnosticable {
   final Widget? supportingText;
   final Widget? trailing;
   final Widget? bottom;
+}
+
+class SettingsListItemLayout extends StatefulWidget {
+  const SettingsListItemLayout({
+    super.key,
+    this.leading,
+    required this.headline,
+    this.supportingText,
+    this.trailing,
+  });
+
+  final Widget? leading;
+  final Widget headline;
+  final Widget? supportingText;
+  final Widget? trailing;
+
+  @override
+  State<SettingsListItemLayout> createState() => _SettingsListItemLayoutState();
+}
+
+class _SettingsListItemLayoutState extends State<SettingsListItemLayout> {
+  @override
+  Widget build(BuildContext context) {
+    final colorTheme = ColorTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        minHeight: widget.supportingText != null ? 72.0 : 56.0,
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.0,
+          vertical: widget.supportingText != null ? 12.0 : 8.0,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (widget.leading case final leading?) ...[
+              leading,
+              const SizedBox(width: 12.0),
+            ],
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  DefaultTextStyle(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: typescaleTheme.titleMediumEmphasized.toTextStyle(
+                      color: colorTheme.onSurface,
+                    ),
+                    child: widget.headline,
+                  ),
+                  if (widget.supportingText case final supportingText?)
+                    DefaultTextStyle(
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: typescaleTheme.bodyMedium.toTextStyle(
+                        color: colorTheme.onSurfaceVariant,
+                      ),
+                      child: supportingText,
+                    ),
+                ],
+              ),
+            ),
+            if (widget.trailing case final trailing?) ...[
+              const SizedBox(width: 12.0),
+              trailing,
+            ],
+          ],
+        ),
+      ),
+    );
+  }
 }
