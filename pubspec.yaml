@@ -33,6 +33,8 @@ dependencies:
     sdk: flutter
   dynamic_color:
     path: dynamic_color
+  layout:
+    path: layout
   material:
     path: material
   meta: ^1.17.0

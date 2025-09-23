@@ -12,6 +12,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  layout:
+    path: ../layout
   material_color_utilities_2025:
     path: ../material_color_utilities
   meta: ^1.17.0
