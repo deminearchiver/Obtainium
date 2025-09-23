@@ -442,8 +442,8 @@ class AppsPageState extends State<AppsPage> {
                     });
               },
         icon: listedApps[appIndex].app.additionalSettings['trackOnly'] == true
-            ? const Icon(Symbols.check_circle_rounded, fill: 0)
-            : const Icon(Symbols.install_mobile, fill: 0),
+            ? const IconLegacy(Symbols.check_circle_rounded, fill: 0)
+            : const IconLegacy(Symbols.install_mobile, fill: 0),
       );
     }
 
@@ -727,7 +727,7 @@ class AppsPageState extends State<AppsPage> {
               onPressed: () {
                 selectThese(listedApps.map((e) => e.app).toList());
               },
-              icon: Icon(
+              icon: IconLegacy(
                 Symbols.select_all_rounded,
                 color: Theme.of(context).colorScheme.primary,
               ),
@@ -740,7 +740,7 @@ class AppsPageState extends State<AppsPage> {
                     ? selectThese(listedApps.map((e) => e.app).toList())
                     : clearSelected();
               },
-              icon: Icon(
+              icon: IconLegacy(
                 selectedAppIds.isEmpty
                     ? Symbols.select_all_rounded
                     : Symbols.deselect_rounded,
@@ -1122,7 +1122,7 @@ class AppsPageState extends State<AppsPage> {
           tooltip: selectedAppIds.isEmpty
               ? tr('installUpdateApps')
               : tr('installUpdateSelectedApps'),
-          icon: const Icon(Symbols.download_rounded),
+          icon: const IconLegacy(Symbols.download_rounded),
         ),
         IconButton(
           visualDensity: VisualDensity.compact,
@@ -1135,19 +1135,19 @@ class AppsPageState extends State<AppsPage> {
                   );
                 },
           tooltip: tr('removeSelectedApps'),
-          icon: const Icon(Symbols.delete_rounded, fill: 0),
+          icon: const IconLegacy(Symbols.delete_rounded, fill: 0),
         ),
         IconButton(
           visualDensity: VisualDensity.compact,
           onPressed: selectedAppIds.isEmpty ? null : launchCategorizeDialog(),
           tooltip: tr('categorize'),
-          icon: const Icon(Symbols.category_rounded, fill: 0),
+          icon: const IconLegacy(Symbols.category_rounded, fill: 0),
         ),
         IconButton(
           visualDensity: VisualDensity.compact,
           onPressed: selectedAppIds.isEmpty ? null : showMoreOptionsDialog,
           tooltip: tr('more'),
-          icon: const Icon(Symbols.more_horiz_rounded),
+          icon: const IconLegacy(Symbols.more_horiz_rounded),
         ),
       ];
     }
@@ -1248,7 +1248,7 @@ class AppsPageState extends State<AppsPage> {
                       filter = AppsFilter();
                     });
                   },
-            icon: Icon(
+            icon: IconLegacy(
               isFilterOff ? Symbols.search_rounded : Symbols.search_off_rounded,
             ),
           ),

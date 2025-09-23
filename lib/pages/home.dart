@@ -290,8 +290,10 @@ class _HomePageState extends State<HomePage> {
         bottomNavigationBar: NavigationBar(
           destinations: pages
               .map(
-                (e) =>
-                    NavigationDestination(icon: Icon(e.icon), label: e.title),
+                (e) => NavigationDestination(
+                  icon: IconLegacy(e.icon),
+                  label: e.title,
+                ),
               )
               .toList(),
           onDestinationSelected: (index) async {

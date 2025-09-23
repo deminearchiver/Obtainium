@@ -380,7 +380,7 @@ class _SettingsPageState extends State<SettingsPage> {
           //     items: [
           //       SettingsListItem(
           //         onTap: () {},
-          //         leading: const Icon(Symbols.magic_button_rounded),
+          //         leading: const IconLegacy(Symbols.magic_button_rounded),
           //         headline: Text("Use Material You"),
           //         supportingText: Text("Use Dynamic color"),
           //         trailing: Switch(onChanged: (value) {}, value: true),
@@ -966,7 +966,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           mode: LaunchMode.externalApplication,
                         );
                       },
-                      icon: const Icon(Symbols.code),
+                      icon: const IconLegacy(Symbols.code),
                       tooltip: tr('appSource'),
                     ),
                     IconButton(
@@ -976,7 +976,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           mode: LaunchMode.externalApplication,
                         );
                       },
-                      icon: const Icon(Symbols.help_rounded, fill: 0),
+                      icon: const IconLegacy(Symbols.help_rounded, fill: 0),
                       tooltip: tr('wiki'),
                     ),
                     IconButton(
@@ -986,7 +986,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           mode: LaunchMode.externalApplication,
                         );
                       },
-                      icon: const Icon(Symbols.apps_rounded),
+                      icon: const IconLegacy(Symbols.apps_rounded),
                       tooltip: tr('crowdsourcedConfigsLabel'),
                     ),
                     IconButton(
@@ -1004,7 +1004,10 @@ class _SettingsPageState extends State<SettingsPage> {
                           }
                         });
                       },
-                      icon: const Icon(Symbols.bug_report_rounded, fill: 0),
+                      icon: const IconLegacy(
+                        Symbols.bug_report_rounded,
+                        fill: 0,
+                      ),
                       tooltip: tr('appLogs'),
                     ),
                   ],

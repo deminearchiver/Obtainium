@@ -610,7 +610,9 @@ class _GeneratedFormState extends State<GeneratedForm> {
                                 someValueChanged();
                               });
                             },
-                            icon: const Icon(Symbols.format_color_fill_rounded),
+                            icon: const IconLegacy(
+                              Symbols.format_color_fill_rounded,
+                            ),
                             visualDensity: VisualDensity.compact,
                             tooltip: tr('colour'),
                           ),
@@ -661,7 +663,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                                 fn();
                               }
                             },
-                            icon: const Icon(Symbols.remove_rounded),
+                            icon: const IconLegacy(Symbols.remove_rounded),
                             visualDensity: VisualDensity.compact,
                             tooltip: tr('remove'),
                           ),
@@ -674,7 +676,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: TextButton.icon(
                             onPressed: onAddPressed,
-                            icon: const Icon(Symbols.add_rounded),
+                            icon: const IconLegacy(Symbols.add_rounded),
                             label: Text(
                               (widget.items[r][e] as GeneratedFormTagInput)
                                   .label,
@@ -685,7 +687,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                           padding: const EdgeInsets.symmetric(horizontal: 4),
                           child: IconButton(
                             onPressed: onAddPressed,
-                            icon: const Icon(Symbols.add_rounded),
+                            icon: const IconLegacy(Symbols.add_rounded),
                             visualDensity: VisualDensity.compact,
                             tooltip: tr('add'),
                           ),
@@ -764,7 +766,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                         label: Text(
                           '${(widget.items[r][e] as GeneratedFormSubForm).label} (${i + 1})',
                         ),
-                        icon: const Icon(Symbols.delete_rounded, fill: 0),
+                        icon: const IconLegacy(Symbols.delete_rounded, fill: 0),
                       ),
                     ],
                   ),
@@ -788,7 +790,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                         forceUpdateKeyCount++;
                         someValueChanged();
                       },
-                      icon: const Icon(Symbols.add_rounded),
+                      icon: const IconLegacy(Symbols.add_rounded),
                       label: Text(
                         (widget.items[r][e] as GeneratedFormSubForm).label,
                       ),
