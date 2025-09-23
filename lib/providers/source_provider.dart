@@ -686,8 +686,7 @@ abstract class AppSource {
     bool followRedirects = true,
     Object? postBody,
   }) async {
-    var sp = SettingsProvider();
-    await sp.initializeSettings();
+    var sp = await SettingsProvider.ensureInitialized();
     getSourceConfigValues(additionalSettings, sp);
     var additionalSettingsPlusSourceConfig = {
       ...additionalSettings,

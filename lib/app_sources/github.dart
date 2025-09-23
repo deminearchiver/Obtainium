@@ -282,8 +282,7 @@ class GitHub extends AppSource {
   }
 
   Future<String?> getTokenIfAny(Map<String, dynamic> additionalSettings) async {
-    SettingsProvider settingsProvider = SettingsProvider();
-    await settingsProvider.initializeSettings();
+    final settingsProvider = await SettingsProvider.ensureInitialized();
     var sourceConfig = await getSourceConfigValues(
       additionalSettings,
       settingsProvider,
@@ -344,8 +343,7 @@ class GitHub extends AppSource {
     Map<String, dynamic> additionalSettings, {
     Function(Response)? onHttpErrorCode,
   }) async {
-    SettingsProvider settingsProvider = SettingsProvider();
-    await settingsProvider.initializeSettings();
+    final settingsProvider = await SettingsProvider.ensureInitialized();
     var sourceConfigSettingValues = await getSourceConfigValues(
       additionalSettings,
       settingsProvider,
@@ -733,8 +731,7 @@ class GitHub extends AppSource {
     String query, {
     Map<String, dynamic> querySettings = const {},
   }) async {
-    var sp = SettingsProvider();
-    await sp.initializeSettings();
+    var sp = await SettingsProvider.ensureInitialized();
     var sourceConfigSettingValues = await getSourceConfigValues({}, sp);
     var results = await searchCommon(
       query,

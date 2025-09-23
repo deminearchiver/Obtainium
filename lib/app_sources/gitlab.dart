@@ -76,8 +76,7 @@ class GitLab extends AppSource {
   }
 
   Future<String?> getPATIfAny(Map<String, dynamic> additionalSettings) async {
-    SettingsProvider settingsProvider = SettingsProvider();
-    await settingsProvider.initializeSettings();
+    final settingsProvider = await SettingsProvider.ensureInitialized();
     var sourceConfig = await getSourceConfigValues(
       additionalSettings,
       settingsProvider,

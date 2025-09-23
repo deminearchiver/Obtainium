@@ -98,13 +98,14 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    SettingsProvider settingsProvider = context.watch<SettingsProvider>();
-    SourceProvider sourceProvider = SourceProvider();
-    if (settingsProvider.prefs == null) settingsProvider.initializeSettings();
+    final settingsProvider = context.watch<SettingsProvider>();
+    final sourceProvider = SourceProvider();
+    // if (settingsProvider.prefsWithCache == null)
+    //   settingsProvider.initializeSettings();
     initUpdateIntervalInterpolator();
     processIntervalSliderValue(settingsProvider.updateIntervalSliderVal);
 
-    var followSystemThemeExplanation = FutureBuilder(
+    final followSystemThemeExplanation = FutureBuilder(
       builder: (ctx, val) {
         return ((val.data?.version.sdkInt ?? 30) < 29)
             ? Text(
@@ -178,7 +179,7 @@ class _SettingsPageState extends State<SettingsPage> {
       );
     }
 
-    var colorPicker = ListTile(
+    final colorPicker = ListTile(
       dense: true,
       contentPadding: EdgeInsets.zero,
       title: Text(tr('selectX', args: [tr('colour').toLowerCase()])),
@@ -203,7 +204,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
     );
 
-    var useMaterialThemeSwitch = FutureBuilder(
+    final useMaterialThemeSwitch = FutureBuilder(
       builder: (ctx, val) {
         return (val.data ?? false)
             ? Row(
@@ -223,7 +224,7 @@ class _SettingsPageState extends State<SettingsPage> {
       future: const DynamicColor().isDynamicColorAvailable(),
     );
 
-    var sortDropdown = DropdownButtonFormField(
+    final sortDropdown = DropdownButtonFormField(
       isExpanded: true,
       decoration: InputDecoration(
         border: const UnderlineInputBorder(),
@@ -281,7 +282,7 @@ class _SettingsPageState extends State<SettingsPage> {
       },
     );
 
-    var localeDropdown = DropdownButtonFormField(
+    final localeDropdown = DropdownButtonFormField(
       decoration: InputDecoration(
         border: const UnderlineInputBorder(),
         filled: true,
@@ -304,7 +305,7 @@ class _SettingsPageState extends State<SettingsPage> {
       },
     );
 
-    var intervalSlider = Slider(
+    final intervalSlider = Slider(
       value: settingsProvider.updateIntervalSliderVal,
       max: updateIntervalNodes.length.toDouble(),
       divisions: updateIntervalNodes.length * 20,
@@ -328,7 +329,7 @@ class _SettingsPageState extends State<SettingsPage> {
       },
     );
 
-    var sourceSpecificFields = sourceProvider.sources.map((e) {
+    final sourceSpecificFields = sourceProvider.sources.map((e) {
       if (e.sourceConfigSettingFormItems.isNotEmpty) {
         return GeneratedForm(
           items: e.sourceConfigSettingFormItems.map((e) {
@@ -342,7 +343,7 @@ class _SettingsPageState extends State<SettingsPage> {
           onValueChanges: (values, valid, isBuilding) {
             if (valid && !isBuilding) {
               values.forEach((key, value) {
-                var formItem = e.sourceConfigSettingFormItems
+                final formItem = e.sourceConfigSettingFormItems
                     .where((i) => i.key == key)
                     .firstOrNull;
                 if (formItem is GeneratedFormSwitch) {
@@ -359,41 +360,41 @@ class _SettingsPageState extends State<SettingsPage> {
       }
     });
 
-    const height8 = SizedBox(height: 8);
+    const Widget height8 = SizedBox(height: 8);
 
-    const height16 = SizedBox(height: 16);
+    const Widget height16 = SizedBox(height: 16);
 
-    const height32 = SizedBox(height: 32);
+    const Widget height32 = SizedBox(height: 32);
 
     return Scaffold(
-      backgroundColor: ColorTheme.of(context).surfaceContainer,
+      backgroundColor: ColorTheme.of(context).surface,
       body: CustomScrollView(
         slivers: <Widget>[
           CustomAppBar.largeFlexible(
-            expandedContainerColor: ColorTheme.of(context).surfaceContainer,
+            expandedContainerColor: ColorTheme.of(context).surface,
             collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
             headline: Text(tr('settings')),
           ),
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            sliver: SliverSettingsList(
-              items: [
-                SettingsListItem(
-                  onTap: () {},
-                  leading: const Icon(Symbols.magic_button_rounded),
-                  headline: Text("Use Material You"),
-                  supportingText: Text("Use Dynamic color"),
-                  trailing: Switch(onChanged: (value) {}, value: true),
-                ),
-                SettingsListItem(headline: Text("Hello world!")),
-                SettingsListItem(headline: Text("Hello world!")),
-              ],
-            ),
-          ),
+          // SliverPadding(
+          //   padding: EdgeInsets.symmetric(horizontal: 16.0),
+          //   sliver: SliverSettingsList(
+          //     items: [
+          //       SettingsListItem(
+          //         onTap: () {},
+          //         leading: const Icon(Symbols.magic_button_rounded),
+          //         headline: Text("Use Material You"),
+          //         supportingText: Text("Use Dynamic color"),
+          //         trailing: Switch(onChanged: (value) {}, value: true),
+          //       ),
+          //       SettingsListItem(headline: Text("Hello world!")),
+          //       SettingsListItem(headline: Text("Hello world!")),
+          //     ],
+          //   ),
+          // ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16),
-              child: settingsProvider.prefs == null
+              child: settingsProvider.prefsWithCache == null
                   ? const SizedBox()
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -797,46 +798,47 @@ class _SettingsPageState extends State<SettingsPage> {
                         ),
                         height16,
                         localeDropdown,
-                        FutureBuilder(
-                          builder: (ctx, val) {
-                            return (val.data?.version.sdkInt ?? 0) >= 34
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      height16,
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Flexible(
-                                            child: Text(tr('useSystemFont')),
-                                          ),
-                                          Switch(
-                                            value:
-                                                settingsProvider.useSystemFont,
-                                            onChanged: (useSystemFont) {
-                                              if (useSystemFont) {
-                                                NativeFeatures.loadSystemFont()
-                                                    .then((val) {
-                                                      settingsProvider
-                                                              .useSystemFont =
-                                                          true;
-                                                    });
-                                              } else {
-                                                settingsProvider.useSystemFont =
-                                                    false;
-                                              }
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  )
-                                : const SizedBox.shrink();
-                          },
-                          future: DeviceInfoPlugin().androidInfo,
-                        ),
+                        // TODO: uncomment if system font support is reintroduced
+                        // FutureBuilder(
+                        //   builder: (ctx, val) {
+                        //     return (val.data?.version.sdkInt ?? 0) >= 34
+                        //         ? Column(
+                        //             crossAxisAlignment:
+                        //                 CrossAxisAlignment.start,
+                        //             children: [
+                        //               height16,
+                        //               Row(
+                        //                 mainAxisAlignment:
+                        //                     MainAxisAlignment.spaceBetween,
+                        //                 children: [
+                        //                   Flexible(
+                        //                     child: Text(tr('useSystemFont')),
+                        //                   ),
+                        //                   Switch(
+                        //                     value:
+                        //                         settingsProvider.useSystemFont,
+                        //                     onChanged: (useSystemFont) {
+                        //                       if (useSystemFont) {
+                        //                         NativeFeatures.loadSystemFont()
+                        //                             .then((val) {
+                        //                               settingsProvider
+                        //                                       .useSystemFont =
+                        //                                   true;
+                        //                             });
+                        //                       } else {
+                        //                         settingsProvider.useSystemFont =
+                        //                             false;
+                        //                       }
+                        //                     },
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //             ],
+                        //           )
+                        //         : const SizedBox.shrink();
+                        //   },
+                        //   future: DeviceInfoPlugin().androidInfo,
+                        // ),
                         height16,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -990,7 +992,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     IconButton(
                       onPressed: () {
                         launchUrlString(
-                          settingsProvider.sourceUrl,
+                          SettingsProvider.sourceUrl,
                           mode: LaunchMode.externalApplication,
                         );
                       },

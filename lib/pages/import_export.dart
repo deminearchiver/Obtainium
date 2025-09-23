@@ -375,10 +375,14 @@ class _ImportExportPageState extends State<ImportExportPage> {
     });
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: ColorTheme.of(context).surface,
       body: CustomScrollView(
         slivers: <Widget>[
-          CustomAppBar.largeFlexible(headline: Text(tr('importExport'))),
+          CustomAppBar.largeFlexible(
+            expandedContainerColor: ColorTheme.of(context).surface,
+            collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
+            headline: Text(tr('importExport')),
+          ),
           SliverFillRemaining(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),

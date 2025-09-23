@@ -507,7 +507,7 @@ class AppsProvider with ChangeNotifier {
   late StreamSubscription<FGBGType>? foregroundSubscription;
   late Directory APKDir;
   late Directory iconsCacheDir;
-  late SettingsProvider settingsProvider = SettingsProvider();
+  late SettingsProvider settingsProvider;
 
   Iterable<AppInMemory> getAppValues() => apps.values.map((a) => a.deepCopy());
 
@@ -521,7 +521,8 @@ class AppsProvider with ChangeNotifier {
       }
     });
     () async {
-      await settingsProvider.initializeSettings();
+      // TODO: this might error
+      settingsProvider = await SettingsProvider.ensureInitialized();
       var cacheDirs = await getExternalCacheDirectories();
       if (cacheDirs?.isNotEmpty ?? false) {
         APKDir = cacheDirs!.first;
@@ -2015,13 +2016,16 @@ class AppsProvider with ChangeNotifier {
       shouldExportSettings = overrideExportSettings;
     }
     if (shouldExportSettings > 0) {
-      var settingsValueKeys = settingsProvider.prefs?.getKeys();
+      var settingsValueKeys = settingsProvider.prefsWithCache?.keys;
       if (shouldExportSettings < 2) {
         settingsValueKeys?.removeWhere((k) => k.endsWith('-creds'));
       }
       finalExport['settings'] = Map<String, Object?>.fromEntries(
         (settingsValueKeys
-                ?.map((key) => MapEntry(key, settingsProvider.prefs?.get(key)))
+                ?.map(
+                  (key) =>
+                      MapEntry(key, settingsProvider.prefsWithCache?.get(key)),
+                )
                 .toList()) ??
             [],
       );
@@ -2104,18 +2108,18 @@ class AppsProvider with ChangeNotifier {
       var settingsMap = decodedJSON['settings'] as Map<String, Object?>;
       settingsMap.forEach((key, value) {
         if (value is int) {
-          settingsProvider.prefs?.setInt(key, value);
+          settingsProvider.prefsWithCache?.setInt(key, value);
         } else if (value is double) {
-          settingsProvider.prefs?.setDouble(key, value);
+          settingsProvider.prefsWithCache?.setDouble(key, value);
         } else if (value is bool) {
-          settingsProvider.prefs?.setBool(key, value);
+          settingsProvider.prefsWithCache?.setBool(key, value);
         } else if (value is List) {
-          settingsProvider.prefs?.setStringList(
+          settingsProvider.prefsWithCache?.setStringList(
             key,
             value.map((e) => e as String).toList(),
           );
         } else {
-          settingsProvider.prefs?.setString(key, value as String);
+          settingsProvider.prefsWithCache?.setString(key, value as String);
         }
       });
     }

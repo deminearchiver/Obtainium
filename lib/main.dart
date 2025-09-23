@@ -62,8 +62,7 @@ final globalNavigatorKey = GlobalKey<NavigatorState>();
 Future<void> loadTranslations() async {
   // See easy_localization/issues/210
   await EasyLocalizationController.initEasyLocation();
-  var s = SettingsProvider();
-  await s.initializeSettings();
+  var s = await SettingsProvider.ensureInitialized();
   var forceLocale = s.forcedLocale;
   final controller = EasyLocalizationController(
     saveLocale: true,
@@ -150,11 +149,12 @@ void main() async {
   await np.initialize();
   FlutterForegroundTask.initCommunicationPort();
   await DynamicColorBuilder.preload();
+  final settingsProvider = await SettingsProvider.ensureInitialized();
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AppsProvider()),
-        ChangeNotifierProvider(create: (context) => SettingsProvider()),
+        ChangeNotifierProvider(create: (context) => settingsProvider),
         Provider(create: (context) => np),
         Provider(create: (context) => LogsProvider()),
       ],
@@ -464,43 +464,40 @@ class _ObtainiumState extends State<Obtainium> {
         BackgroundFetch.start();
       }
     }
-    if (settingsProvider.prefs == null) {
-      settingsProvider.initializeSettings();
-    } else {
-      bool isFirstRun = settingsProvider.checkAndFlipFirstRun();
-      if (isFirstRun) {
-        logs.add('This is the first ever run of Obtainium.');
-        // If this is the first run, add Obtainium to the Apps list
-        if (!fdroid) {
-          getInstalledInfo(obtainiumId)
-              .then((value) {
-                if (value?.versionName != null) {
-                  appsProvider.saveApps([
-                    App(
-                      obtainiumId,
-                      obtainiumUrl,
-                      'ImranR98',
-                      'Obtainium',
-                      value!.versionName,
-                      value.versionName!,
-                      [],
-                      0,
-                      {
-                        'versionDetection': true,
-                        'apkFilterRegEx': 'fdroid',
-                        'invertAPKFilter': true,
-                      },
-                      null,
-                      false,
-                    ),
-                  ], onlyIfExists: false);
-                }
-              })
-              .catchError((err) {
-                print(err);
-              });
-        }
+    bool isFirstRun = settingsProvider.checkAndFlipFirstRun();
+    if (isFirstRun) {
+      logs.add('This is the first ever run of Obtainium.');
+      // If this is the first run, add Obtainium to the Apps list
+      if (!fdroid) {
+        getInstalledInfo(obtainiumId)
+            .then((value) {
+              if (value?.versionName != null) {
+                appsProvider.saveApps([
+                  App(
+                    obtainiumId,
+                    obtainiumUrl,
+                    'ImranR98',
+                    'Obtainium',
+                    value!.versionName,
+                    value.versionName!,
+                    [],
+                    0,
+                    {
+                      'versionDetection': true,
+                      'apkFilterRegEx': 'fdroid',
+                      'invertAPKFilter': true,
+                    },
+                    null,
+                    false,
+                  ),
+                ], onlyIfExists: false);
+              }
+            })
+            .catchError((err) {
+              print(err);
+            });
       }
+
       if (!supportedLocales.map((e) => e.key).contains(context.locale) ||
           (settingsProvider.forcedLocale == null &&
               context.deviceLocale != context.locale)) {
@@ -541,7 +538,7 @@ class _ObtainiumState extends State<Obtainium> {
           //       .harmonized();
           // }
 
-          if (settingsProvider.useSystemFont) NativeFeatures.loadSystemFont();
+          // if (settingsProvider.useSystemFont) NativeFeatures.loadSystemFont();
 
           return _buildAppWrapper(
             builder: (context, child) => _buildMaterialApp(context),
