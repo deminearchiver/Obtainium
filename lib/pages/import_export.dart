@@ -394,7 +394,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                     builder: (context, snapshot) {
                       return Column(
                         children: [
-                          Row(
+                          Flex.horizontal(
                             children: [
                               Expanded(
                                 child: TextButton(
@@ -427,7 +427,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                             ],
                           ),
                           const SizedBox(height: 8),
-                          Row(
+                          Flex.horizontal(
                             children: [
                               Expanded(
                                 child: TextButton(
@@ -505,7 +505,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                     Column(
                       children: [
                         const SizedBox(height: 32),
-                        Row(
+                        Flex.horizontal(
                           children: [
                             Expanded(
                               child: TextButton(
@@ -892,7 +892,7 @@ class _SelectionModalState extends State<SelectionModal> {
               ),
             );
 
-            var multiSelectTile = Row(
+            var multiSelectTile = Flex.horizontal(
               children: [
                 Checkbox(
                   value: entrySelections[entry],

@@ -460,7 +460,7 @@ class AppsPageState extends State<AppsPage> {
                       listedApps[appIndex].installedInfo == null ? 0.6 : 1,
                     ),
                   )
-                : Row(
+                : Flex.horizontal(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -523,7 +523,7 @@ class AppsPageState extends State<AppsPage> {
           listedApps[index].app.installedVersion != null &&
           listedApps[index].app.installedVersion !=
               listedApps[index].app.latestVersion;
-      Widget trailingRow = Row(
+      Widget trailingRow = Flex.horizontal(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -554,7 +554,7 @@ class AppsPageState extends State<AppsPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Row(
+                  Flex.horizontal(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
@@ -572,7 +572,7 @@ class AppsPageState extends State<AppsPage> {
                       ),
                     ],
                   ),
-                  Row(
+                  Flex.horizontal(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
@@ -1232,7 +1232,7 @@ class AppsPageState extends State<AppsPage> {
 
     Widget getFilterButtonsRow() {
       var isFilterOff = filter.isIdenticalTo(neutralFilter, settingsProvider);
-      return Row(
+      return Flex.horizontal(
         children: [
           getSelectAllButton(),
           IconButton(
@@ -1255,7 +1255,7 @@ class AppsPageState extends State<AppsPage> {
           const SizedBox(width: 10),
           const VerticalDivider(),
           Expanded(
-            child: Row(
+            child: Flex.horizontal(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: getMainBottomButtons(),
             ),

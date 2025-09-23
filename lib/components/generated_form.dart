@@ -427,7 +427,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
       for (var e = 0; e < formInputs[r].length; e++) {
         String fieldKey = widget.items[r][e].key;
         if (widget.items[r][e] is GeneratedFormSwitch) {
-          formInputs[r][e] = Row(
+          formInputs[r][e] = Flex.horizontal(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible.loose(child: Text(widget.items[r][e].label)),
@@ -745,7 +745,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                       );
                     },
                   ),
-                  Row(
+                  Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton.icon(
@@ -775,7 +775,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
           subformColumn.add(
             Padding(
               padding: const EdgeInsets.only(bottom: 0, top: 8),
-              child: Row(
+              child: Flex.horizontal(
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
@@ -840,7 +840,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
       child: Column(
         children: [
           ...rows.map(
-            (row) => Row(
+            (row) => Flex.horizontal(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [...row.map((e) => e)],

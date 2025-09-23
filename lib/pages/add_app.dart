@@ -238,7 +238,7 @@ class AddAppPageState extends State<AddAppPage> {
       }
     }
 
-    Widget getUrlInputRow() => Row(
+    Widget getUrlInputRow() => Flex.horizontal(
       children: [
         Expanded(
           child: GeneratedForm(
@@ -452,7 +452,7 @@ class AddAppPageState extends State<AddAppPage> {
 
     Widget getHTMLSourceOverrideDropdown() => Column(
       children: [
-        Row(
+        Flex.horizontal(
           children: [
             Expanded(
               child: GeneratedForm(
@@ -510,7 +510,7 @@ class AddAppPageState extends State<AddAppPage> {
         pickedSource == null &&
         userInput.isEmpty;
 
-    Widget getSearchBarRow() => Row(
+    Widget getSearchBarRow() => Flex.horizontal(
       children: [
         Expanded(
           child: GeneratedForm(

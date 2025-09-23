@@ -206,7 +206,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final useMaterialThemeSwitch = FutureBuilder(
       builder: (ctx, val) {
         return (val.data ?? false)
-            ? Row(
+            ? Flex.horizontal(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible.loose(child: Text(tr('useMaterialYou'))),
@@ -422,7 +422,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
+                                Flex.horizontal(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
@@ -439,7 +439,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     ),
                                   ],
                                 ),
-                                Row(
+                                Flex.horizontal(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
@@ -473,7 +473,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   Column(
                                     children: [
                                       height16,
-                                      Row(
+                                      Flex.horizontal(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
@@ -494,7 +494,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                         ],
                                       ),
                                       height16,
-                                      Row(
+                                      Flex.horizontal(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
@@ -523,7 +523,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     future: DeviceInfoPlugin().androidInfo,
                   ),
                   height16,
-                  Row(
+                  Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible.loose(child: Text(tr('checkOnStart'))),
@@ -536,7 +536,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   height16,
-                  Row(
+                  Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible.loose(
@@ -551,7 +551,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   height16,
-                  Row(
+                  Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible.loose(
@@ -568,7 +568,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   height16,
-                  Row(
+                  Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible.loose(
@@ -583,7 +583,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   height16,
-                  Row(
+                  Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible.loose(child: Text(tr('parallelDownloads'))),
@@ -596,7 +596,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   height16,
-                  Row(
+                  Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible.loose(
@@ -634,7 +634,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   height16,
-                  Row(
+                  Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible.loose(child: Text(tr('useShizuku'))),
@@ -681,7 +681,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   height16,
-                  Row(
+                  Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible.loose(
@@ -744,7 +744,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     followSystemThemeExplanation,
                   height16,
                   if (settingsProvider.theme != ThemeSettings.light)
-                    Row(
+                    Flex.horizontal(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Flexible.loose(child: Text(tr('useBlackTheme'))),
@@ -759,7 +759,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   height8,
                   useMaterialThemeSwitch,
                   if (!settingsProvider.useMaterialYou) colorPicker,
-                  Row(
+                  Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -779,7 +779,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   //                 CrossAxisAlignment.start,
                   //             children: [
                   //               height16,
-                  //               Row(
+                  //               Flex.horizontal(
                   //                 mainAxisAlignment:
                   //                     MainAxisAlignment.spaceBetween,
                   //                 children: [
@@ -812,7 +812,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   //   future: DeviceInfoPlugin().androidInfo,
                   // ),
                   height16,
-                  Row(
+                  Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible.loose(child: Text(tr('showWebInAppView'))),
@@ -825,7 +825,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   height16,
-                  Row(
+                  Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible.loose(child: Text(tr('pinUpdates'))),
@@ -838,7 +838,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   height16,
-                  Row(
+                  Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible.loose(
@@ -853,7 +853,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   height16,
-                  Row(
+                  Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible.loose(child: Text(tr('groupByCategory'))),
@@ -866,7 +866,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   height16,
-                  Row(
+                  Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible.loose(
@@ -881,7 +881,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   height16,
-                  Row(
+                  Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible.loose(
@@ -897,7 +897,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   height16,
                   // TODO: uncomment when transitions are reintroduced
-                  // Row(
+                  // Flex.horizontal(
                   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   //   children: [
                   //     Flexible.loose(child: Text(tr('disablePageTransitions'))),
@@ -910,7 +910,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   //   ],
                   // ),
                   // height16,
-                  // Row(
+                  // Flex.horizontal(
                   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   //   children: [
                   //     Flexible.loose(child: Text(tr('reversePageTransitions'))),
@@ -926,7 +926,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   //   ],
                   // ),
                   // height16,
-                  Row(
+                  Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible.loose(child: Text(tr('highlightTouchTargets'))),
@@ -956,7 +956,7 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Column(
               children: [
                 const Divider(height: 32),
-                Row(
+                Flex.horizontal(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     IconButton(
@@ -1288,7 +1288,7 @@ class _SettingsListItemLayoutState extends State<SettingsListItemLayout> {
           horizontal: 16.0,
           vertical: widget.supportingText != null ? 12.0 : 8.0,
         ),
-        child: Row(
+        child: Flex.horizontal(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

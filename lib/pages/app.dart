@@ -218,7 +218,7 @@ class _AppPageState extends State<AppPage> {
                         showError(e, context);
                       }
                     },
-              child: Row(
+              child: Flex.horizontal(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
@@ -327,7 +327,7 @@ class _AppPageState extends State<AppPage> {
           future: appsProvider.updateAppIcon(app?.app.id, ignoreCache: true),
           builder: (ctx, val) {
             return app?.icon != null
-                ? Row(
+                ? Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
@@ -551,7 +551,7 @@ class _AppPageState extends State<AppPage> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-            child: Row(
+            child: Flex.horizontal(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 if (source != null &&
