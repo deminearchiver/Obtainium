@@ -334,9 +334,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
       ),
     );
 
-    // TODO: migrate to new Align widget
-    // final handleChild = Align.center(
-    final handleChild = Center(
+    final handleChild = Align.center(
       child: IconTheme.merge(
         data: iconTheme,
         child: isSelected
@@ -345,9 +343,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
       ),
     );
     return RepaintBoundary(
-      // TODO: migrate to new Align widget
-      // child: Align.center(
-      child: Center(
+      child: Align.center(
         widthFactor: 1.0,
         heightFactor: 1.0,
         child: Material(
@@ -366,9 +362,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
             },
             child: FocusRing(
               visible: states.contains(WidgetState.focused),
-              // TODO: migrate to new Align widget
-              // layoutBuilder: (context, info, child) => Align.center(
-              layoutBuilder: (context, info, child) => Center(
+              layoutBuilder: (context, info, child) => Align.center(
                 child: SizedBox.fromSize(size: trackSize, child: child),
               ),
               // hasFocus: states.contains(WidgetState.focused),
@@ -562,17 +556,12 @@ class _SwitchFocusIndicatorState extends State<_SwitchFocusIndicator>
     );
     final translationOffset = Offset(translateX, translateY);
     return IgnorePointer(
-      // TODO: migrate to new Align widget
-      // child: Align.topLeft(
-      child: Align(
-        alignment: Alignment.topLeft,
+      child: Align.topLeft(
         child: Transform.translate(
           offset: translationOffset,
           child: SizedBox.fromSize(
             size: scaledChildSize,
-            // TODO: migrate to new Align widget
-            // child: Align.center(
-            child: Center(
+            child: Align.center(
               child: SizedBox.fromSize(
                 size: scaledFocusIndicatorSize,
                 child: child,
@@ -598,17 +587,12 @@ class _SwitchFocusIndicatorState extends State<_SwitchFocusIndicator>
       trackSize.height + focusIndicatorOffset * 2.0,
     );
     return IgnorePointer(
-      // TODO: migrate to new Align widget
-      // child: Align.topLeft(
-      child: Align(
-        alignment: Alignment.topLeft,
+      child: Align.topLeft(
         child: Transform(
           transform: info.childPaintTransform,
           child: SizedBox.fromSize(
             size: info.childSize,
-            // TODO: migrate to new Align widget
-            // child: Align.center(
-            child: Center(
+            child: Align.center(
               child: SizedBox.fromSize(size: focusIndicatorSize, child: child),
             ),
           ),

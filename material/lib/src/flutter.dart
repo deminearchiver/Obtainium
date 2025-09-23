@@ -10,6 +10,7 @@ export 'package:flutter/physics.dart';
 
 export 'package:flutter/rendering.dart'
     hide
+        RenderPadding,
         FlexParentData,
         RenderFlex,
         FloatingHeaderSnapConfiguration,
@@ -20,6 +21,7 @@ export 'package:flutter/material.dart'
     hide
         // package:layout
         // ---
+        Padding,
         Align,
         Center,
         Flex,

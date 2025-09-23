@@ -278,9 +278,7 @@ class Icon extends StatelessWidget {
         child: SizedBox(
           width: iconSize,
           height: iconSize,
-          // TODO: migrate to new Align widget
-          // child: Align.center(child: iconWidget),
-          child: Center(child: iconWidget),
+          child: Align.center(child: iconWidget),
         ),
       ),
     );

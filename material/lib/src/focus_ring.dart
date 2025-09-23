@@ -1,8 +1,6 @@
 import 'package:material/src/flutter.dart';
 import 'package:flutter/scheduler.dart';
 
-import 'margin.dart';
-
 enum FocusRingPosition { inward, outward }
 
 extension OverlayChildLayoutInfoExtension on OverlayChildLayoutInfo {
@@ -206,10 +204,7 @@ class _FocusRingState extends State<FocusRing>
     );
     final wrappedChild = widget.layoutBuilder(context, info, child);
     return IgnorePointer(
-      // TODO: migrate to new Align widget
-      // child: Align.topLeft(
-      child: Align(
-        alignment: Alignment.topLeft,
+      child: Align.topLeft(
         child: Transform(
           transform: info.childPaintTransform,
           child: SizedBox.fromSize(size: info.childSize, child: wrappedChild),
@@ -220,8 +215,7 @@ class _FocusRingState extends State<FocusRing>
 
   Widget _buildIndicator(BuildContext context) => AnimatedBuilder(
     animation: _animationController,
-    // TODO: migrate to external Margin
-    builder: (context, _) => Margin(
+    builder: (context, _) => Padding(
       padding: EdgeInsetsGeometry.all(
         widget.inward
             ? _focusRingThemeData.inwardOffset
