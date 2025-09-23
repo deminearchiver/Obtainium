@@ -18,6 +18,7 @@ version: 1.2.6+2322
 
 workspace:
   - dynamic_color
+  - dynamic_color/example
   - material
   - material_color_utilities
   - obtainium_i18n
@@ -90,6 +91,7 @@ dependencies:
   gpt_markdown: ^1.1.4
   flutter_md: ^0.0.7
   flutter_markdown_plus: ^1.0.5
+  skeletonizer: ^2.1.0+1
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to
