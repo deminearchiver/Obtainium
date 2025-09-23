@@ -13,17 +13,17 @@ typedef SwitchLegacy = flutter.Switch;
 typedef SwitchThemeLegacy = flutter.SwitchTheme;
 typedef SwitchThemeDataLegacy = flutter.SwitchThemeData;
 
-class Switch2 extends StatefulWidget {
-  const Switch2({super.key, required this.onChanged, required this.value});
+class Switch extends StatefulWidget {
+  const Switch({super.key, required this.onChanged, required this.value});
 
   final ValueChanged<bool>? onChanged;
   final bool value;
 
   @override
-  State<Switch2> createState() => _Switch2State();
+  State<Switch> createState() => _SwitchState();
 }
 
-class _Switch2State extends State<Switch2> with TickerProviderStateMixin {
+class _SwitchState extends State<Switch> with TickerProviderStateMixin {
   late final WidgetStatesController _statesController;
 
   late final SpringImplicitAnimation<double> _handlePosition;
@@ -187,7 +187,7 @@ class _Switch2State extends State<Switch2> with TickerProviderStateMixin {
   }
 
   @override
-  void didUpdateWidget(covariant Switch2 oldWidget) {
+  void didUpdateWidget(covariant Switch oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.onChanged != oldWidget.onChanged) {
       if (widget.onChanged == null) {

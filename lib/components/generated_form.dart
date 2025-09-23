@@ -432,7 +432,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
             children: [
               Flexible(child: Text(widget.items[r][e].label)),
               const SizedBox(width: 8),
-              Switch2(
+              Switch(
                 value: values[fieldKey],
                 onChanged: (widget.items[r][e] as GeneratedFormSwitch).disabled
                     ? null
