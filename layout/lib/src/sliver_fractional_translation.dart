@@ -152,9 +152,11 @@ class RenderSliverFractionalTranslation extends RenderProxySliver {
   @override
   void applyPaintTransform(RenderSliver child, Matrix4 transform) {
     final size = getAbsoluteSize();
-    transform.translate(
+    transform.translateByDouble(
       translation.dx * size.width,
       translation.dy * size.height,
+      0.0,
+      1.0,
     );
   }
 
