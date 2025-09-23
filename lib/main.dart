@@ -448,10 +448,10 @@ class _ObtainiumState extends State<Obtainium> {
 
   @override
   Widget build(BuildContext context) {
-    SettingsProvider settingsProvider = context.watch<SettingsProvider>();
-    AppsProvider appsProvider = context.read<AppsProvider>();
-    LogsProvider logs = context.read<LogsProvider>();
-    NotificationsProvider notifs = context.read<NotificationsProvider>();
+    final settingsProvider = context.watch<SettingsProvider>();
+    final appsProvider = context.read<AppsProvider>();
+    final logs = context.read<LogsProvider>();
+    final notifs = context.read<NotificationsProvider>();
     if (settingsProvider.updateInterval == 0) {
       stopForegroundService();
       BackgroundFetch.stop();
@@ -464,7 +464,7 @@ class _ObtainiumState extends State<Obtainium> {
         BackgroundFetch.start();
       }
     }
-    bool isFirstRun = settingsProvider.checkAndFlipFirstRun();
+    final isFirstRun = settingsProvider.checkAndFlipFirstRun();
     if (isFirstRun) {
       logs.add('This is the first ever run of Obtainium.');
       // If this is the first run, add Obtainium to the Apps list
@@ -510,40 +510,8 @@ class _ObtainiumState extends State<Obtainium> {
     });
 
     return WithForegroundTask(
-      child: DynamicColorBuilder(
-        builder: (lightDynamic, darkDynamic) {
-          // ColorScheme lightColorScheme;
-          // ColorScheme darkColorScheme;
-          // if (lightDynamic != null &&
-          //     darkDynamic != null &&
-          //     settingsProvider.useMaterialYou) {
-          //   lightColorScheme = lightDynamic.harmonized();
-          //   darkColorScheme = darkDynamic.harmonized();
-          // } else {
-          //   lightColorScheme = ColorScheme.fromSeed(
-          //     seedColor: settingsProvider.themeColor,
-          //   );
-          //   darkColorScheme = ColorScheme.fromSeed(
-          //     seedColor: settingsProvider.themeColor,
-          //     brightness: Brightness.dark,
-          //   );
-          // }
-
-          // set the background and surface colors to pure black in the amoled theme
-          // TODO: set the background and surface colors to pure black in the amoled theme.
-          // TODO: explore usage of Platform.watch in scheme generation code
-          // if (settingsProvider.useBlackTheme) {
-          //   darkColorScheme = darkColorScheme
-          //       .copyWith(surface: Colors.black)
-          //       .harmonized();
-          // }
-
-          // if (settingsProvider.useSystemFont) NativeFeatures.loadSystemFont();
-
-          return _buildAppWrapper(
-            builder: (context, child) => _buildMaterialApp(context),
-          );
-        },
+      child: _buildAppWrapper(
+        builder: (context, child) => _buildMaterialApp(context),
       ),
     );
   }
