@@ -12,6 +12,17 @@ export 'package:flutter/rendering.dart';
 
 export 'package:flutter/material.dart'
     hide
+        WidgetStateProperty,
+        WidgetStatesConstraint,
+        WidgetStateMap,
+        WidgetStateMapper,
+        WidgetStatePropertyAll,
+        WidgetStatesController,
+        // ---
+        Icon,
+        IconTheme,
+        IconThemeData,
+        // ---
         // Force migration to Material Symbols
         Icons,
         AnimatedIcons;

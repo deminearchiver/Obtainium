@@ -11,7 +11,7 @@ abstract final class LegacyThemeFactory {
       visualDensity: VisualDensity.standard,
       splashFactory: InkSparkle.splashFactory,
       textTheme: typescaleTheme.toBaselineTextTheme(),
-      iconTheme: IconThemeData(
+      iconTheme: IconThemeDataLegacy(
         color: colorTheme.onSurface,
         opacity: 1.0,
         size: 24.0,
@@ -31,7 +31,7 @@ abstract final class LegacyThemeFactory {
         indicatorShape: const StadiumBorder(),
         iconTheme: WidgetStateProperty.resolveWith((states) {
           final isSelected = states.contains(WidgetState.selected);
-          return IconThemeData(
+          return IconThemeDataLegacy(
             color: isSelected
                 ? colorScheme.onSecondaryContainer
                 : colorTheme.onSurfaceVariant,
@@ -105,7 +105,7 @@ abstract final class LegacyThemeFactory {
         thumbIcon: WidgetStateProperty.resolveWith((states) {
           final isSelected = states.contains(WidgetState.selected);
           final isDisabled = states.contains(WidgetState.disabled);
-          return Icon(
+          return IconLegacy(
             isSelected ? Symbols.check_rounded : Symbols.close_rounded,
             size: 16.0,
             opticalSize: 24.0,
