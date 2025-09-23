@@ -1,6 +1,5 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart' as flutter;
-import 'package:flutter/rendering.dart';
-import 'package:flutter/src/foundation/basic_types.dart';
 import 'package:flutter/widgets.dart';
 
 @immutable
