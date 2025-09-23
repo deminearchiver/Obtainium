@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
           builder: (ctx) {
             return AlertDialog(
               title: Text(tr('welcome')),
-              content: Column(
+              content: Flex.vertical(
                 mainAxisSize: MainAxisSize.min,
                 spacing: 20,
                 children: [
@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  Column(
+                  Flex.vertical(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(tr('batteryOptimizationNote')),

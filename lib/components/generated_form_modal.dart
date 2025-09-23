@@ -41,7 +41,7 @@ class _GeneratedFormModalState extends State<GeneratedFormModal> {
     return AlertDialog(
       scrollable: true,
       title: Text(widget.title),
-      content: Column(
+      content: Flex.vertical(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (widget.message.isNotEmpty) Text(widget.message),

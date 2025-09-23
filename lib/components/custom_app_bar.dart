@@ -233,7 +233,7 @@ class _CustomAppBarState extends State<CustomAppBar>
               _collapsedPadding,
               _controller.value,
             )!,
-            child: Column(
+            child: Flex.vertical(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,

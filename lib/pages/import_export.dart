@@ -386,13 +386,13 @@ class _ImportExportPageState extends State<ImportExportPage> {
           SliverFillRemaining(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              child: Column(
+              child: Flex.vertical(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   FutureBuilder(
                     future: settingsProvider.getExportDir(),
                     builder: (context, snapshot) {
-                      return Column(
+                      return Flex.vertical(
                         children: [
                           Flex.horizontal(
                             children: [
@@ -444,7 +444,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                             ],
                           ),
                           if (snapshot.data != null)
-                            Column(
+                            Flex.vertical(
                               children: [
                                 const SizedBox(height: 16),
                                 GeneratedForm(
@@ -494,7 +494,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                     },
                   ),
                   if (importInProgress)
-                    const Column(
+                    const Flex.vertical(
                       children: [
                         SizedBox(height: 14),
                         LinearProgressIndicator(),
@@ -502,7 +502,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                       ],
                     )
                   else
-                    Column(
+                    Flex.vertical(
                       children: [
                         const SizedBox(height: 32),
                         Flex.horizontal(
@@ -568,7 +568,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                       ],
                     ),
                   ...sourceProvider.massUrlSources.map(
-                    (source) => Column(
+                    (source) => Flex.vertical(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         const SizedBox(height: 8),
@@ -624,7 +624,7 @@ class _ImportErrorDialogState extends State<ImportErrorDialog> {
     return AlertDialog(
       scrollable: true,
       title: Text(tr('importErrors')),
-      content: Column(
+      content: Flex.vertical(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
@@ -643,7 +643,7 @@ class _ImportErrorDialogState extends State<ImportErrorDialog> {
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           ...widget.errors.map((e) {
-            return Column(
+            return Flex.vertical(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 16),
@@ -771,7 +771,7 @@ class _SelectionModalState extends State<SelectionModal> {
     return AlertDialog(
       scrollable: true,
       title: Text(widget.title ?? tr('pick')),
-      content: Column(
+      content: Flex.vertical(
         children: [
           GeneratedForm(
             items: [
@@ -819,7 +819,7 @@ class _SelectionModalState extends State<SelectionModal> {
                         mode: LaunchMode.externalApplication,
                       );
                     },
-              child: Column(
+              child: Flex.vertical(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -902,7 +902,7 @@ class _SelectionModalState extends State<SelectionModal> {
                 ),
                 const SizedBox(width: 8),
                 Expanded(
-                  child: Column(
+                  child: Flex.vertical(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

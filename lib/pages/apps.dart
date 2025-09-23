@@ -550,7 +550,7 @@ class AppsPageState extends State<AppsPage> {
               padding: settingsProvider.highlightTouchTargets
                   ? const EdgeInsetsDirectional.fromSTEB(12, 0, 12, 0)
                   : const EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
-              child: Column(
+              child: Flex.vertical(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -999,7 +999,7 @@ class AppsPageState extends State<AppsPage> {
             scrollable: true,
             content: Padding(
               padding: const EdgeInsets.only(top: 6),
-              child: Column(
+              child: Flex.vertical(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TextButton(

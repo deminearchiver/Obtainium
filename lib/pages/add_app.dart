@@ -450,7 +450,7 @@ class AddAppPageState extends State<AddAppPage> {
       }
     }
 
-    Widget getHTMLSourceOverrideDropdown() => Column(
+    Widget getHTMLSourceOverrideDropdown() => Flex.vertical(
       children: [
         Flex.horizontal(
           children: [
@@ -546,7 +546,7 @@ class AddAppPageState extends State<AddAppPage> {
       ],
     );
 
-    Widget getAdditionalOptsCol() => Column(
+    Widget getAdditionalOptsCol() => Flex.vertical(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 16),
@@ -577,7 +577,7 @@ class AddAppPageState extends State<AddAppPage> {
             }
           },
         ),
-        Column(
+        Flex.vertical(
           children: [
             const SizedBox(height: 16),
             CategoryEditorSelector(
@@ -738,7 +738,7 @@ class AddAppPageState extends State<AddAppPage> {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16),
-              child: Column(
+              child: Flex.vertical(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

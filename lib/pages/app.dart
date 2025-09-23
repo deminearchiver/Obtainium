@@ -159,13 +159,13 @@ class _AppPageState extends State<AppPage> {
             '$infoLines\n${app?.app.apkUrls.length == 1 ? app?.app.apkUrls[0].key : plural('apk', app?.app.apkUrls.length ?? 0)}';
       }
       var changeLogFn = app != null ? getChangeLogFn(context, app.app) : null;
-      return Column(
+      return Flex.vertical(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 24),
-            child: Column(
+            child: Flex.vertical(
               children: [
                 const SizedBox(height: 8),
                 Text(
@@ -270,7 +270,7 @@ class _AppPageState extends State<AppPage> {
           ),
           if (app?.app.additionalSettings['about'] is String &&
               app?.app.additionalSettings['about'].isNotEmpty)
-            Column(
+            Flex.vertical(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(height: 48),
@@ -318,7 +318,7 @@ class _AppPageState extends State<AppPage> {
       );
     }
 
-    Widget getFullInfoColumn({bool small = false}) => Column(
+    Widget getFullInfoColumn({bool small = false}) => Flex.vertical(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -546,7 +546,7 @@ class _AppPageState extends State<AppPage> {
         0,
         MediaQuery.of(context).padding.bottom,
       ),
-      child: Column(
+      child: Flex.vertical(
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
@@ -681,7 +681,7 @@ class _AppPageState extends State<AppPage> {
             : CustomScrollView(
                 slivers: [
                   SliverToBoxAdapter(
-                    child: Column(children: [getFullInfoColumn()]),
+                    child: Flex.vertical(children: [getFullInfoColumn()]),
                   ),
                 ],
               ),

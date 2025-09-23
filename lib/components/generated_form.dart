@@ -483,7 +483,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
             });
           }
 
-          formInputs[r][e] = Column(
+          formInputs[r][e] = Flex.vertical(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if ((values[fieldKey] as Map<String, MapEntry<int, bool>>?)
@@ -491,7 +491,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                       true &&
                   (widget.items[r][e] as GeneratedFormTagInput)
                       .showLabelWhenNotEmpty)
-                Column(
+                Flex.vertical(
                   crossAxisAlignment:
                       (widget.items[r][e] as GeneratedFormTagInput).alignment ==
                           WrapAlignment.center
@@ -708,7 +708,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
               ),
             );
             subformColumn.add(
-              Column(
+              Flex.vertical(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (!compact) const SizedBox(height: 16),
@@ -798,7 +798,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
               ),
             ),
           );
-          formInputs[r][e] = Column(children: subformColumn);
+          formInputs[r][e] = Flex.vertical(children: subformColumn);
         }
       }
     }
@@ -821,7 +821,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
         }
         rowItems.add(
           Expanded(
-            child: Column(
+            child: Flex.vertical(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -837,7 +837,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
 
     return Form(
       key: _formKey,
-      child: Column(
+      child: Flex.vertical(
         children: [
           ...rows.map(
             (row) => Flex.horizontal(

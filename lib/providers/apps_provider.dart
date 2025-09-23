@@ -2195,7 +2195,7 @@ class _AppFilePickerState extends State<AppFilePicker> {
             ? tr('selectX', args: [lowerCaseIfEnglish(tr('releaseAsset'))])
             : tr('pickAnAPK'),
       ),
-      content: Column(
+      content: Flex.vertical(
         children: [
           urlsToSelectFrom.length > 1
               ? Text(

@@ -393,7 +393,7 @@ class _SettingsPageState extends State<SettingsPage> {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16),
-              child: Column(
+              child: Flex.vertical(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -419,7 +419,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       return (settingsProvider.updateInterval > 0) &&
                               (((val.data?.version.sdkInt ?? 0) >= 30) ||
                                   settingsProvider.useShizuku)
-                          ? Column(
+                          ? Flex.vertical(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Flex.horizontal(
@@ -470,7 +470,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ),
                                 height8,
                                 if (settingsProvider.enableBackgroundUpdates)
-                                  Column(
+                                  Flex.vertical(
                                     children: [
                                       height16,
                                       Flex.horizontal(
@@ -600,7 +600,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible.loose(
-                        child: Column(
+                        child: Flex.vertical(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -774,7 +774,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   // FutureBuilder(
                   //   builder: (ctx, val) {
                   //     return (val.data?.version.sdkInt ?? 0) >= 34
-                  //         ? Column(
+                  //         ? Flex.vertical(
                   //             crossAxisAlignment:
                   //                 CrossAxisAlignment.start,
                   //             children: [
@@ -953,7 +953,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           SliverToBoxAdapter(
-            child: Column(
+            child: Flex.vertical(
               children: [
                 const Divider(height: 32),
                 Flex.horizontal(
@@ -1051,7 +1051,7 @@ class _LogsDialogState extends State<LogsDialog> {
     return AlertDialog(
       scrollable: true,
       title: Text(tr('appLogs')),
-      content: Column(
+      content: Flex.vertical(
         children: [
           DropdownButtonFormField(
             initialValue: days.first,
@@ -1298,7 +1298,7 @@ class _SettingsListItemLayoutState extends State<SettingsListItemLayout> {
               const SizedBox(width: 12.0),
             ],
             Expanded(
-              child: Column(
+              child: Flex.vertical(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
