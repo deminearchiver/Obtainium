@@ -108,28 +108,34 @@ class _RenderCustomScrollbar extends RenderProxySliver {
     final trackEnd = geometry!.paintExtent;
     final trackLength = trackEnd - trackStart;
 
-    // final value = geometry!.paintExtent;
-    // final nextSliverExtent =
-    // constraints.remainingPaintExtent - geometry!.paintExtent;
-    final nextSliverExtent1 = constraints.scrollOffset;
-    final nextSliverExtent2 =
+    final nextSliverExtent =
         constraints.remainingPaintExtent - geometry!.paintExtent;
     final previousSliverExtent = constraints.precedingScrollExtent;
-    final value = (
-      constraints.scrollOffset,
-      constraints.remainingPaintExtent - constraints.scrollOffset,
-    );
+    final scrolled =
+        constraints.scrollOffset + constraints.overlap - nextSliverExtent;
+    final fixedAfterOverlapStart =
+        constraints.remainingPaintExtent - constraints.overlap;
     // final value =
-    //     (constraints.scrollOffset - constraints.overlap - nextSliverExtent) /
-    //     (geometry!.scrollExtent - constraints.overlap - nextSliverExtent);
+    //     scrolled /
+    //     (constraints.viewportMainAxisExtent -
+    //         nextSliverExtent -
+    //         previousSliverExtent);
+    final value = scrolled;
 
-    debugPrint("$value");
+    debugPrint("value: $value");
+    debugPrint(
+      "other: "
+      "${constraints.remainingPaintExtent - constraints.overlap}"
+      " ${geometry!.paintExtent - constraints.scrollOffset}"
+      " ${previousSliverExtent - constraints.overlap}"
+      " trackLength: ${trackLength}",
+    );
 
     final trackRect = Rect.fromLTRB(
       0.0,
       // TODO: uncomment
-      // trackStart + trackLength * clampDouble(value, 0.0, 1.0),
-      trackStart,
+      trackStart + trackLength * clampDouble(value, 0.0, 1.0),
+      // trackStart,
       16.0,
       trackEnd,
     );
