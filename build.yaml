@@ -1,0 +1,27 @@
+targets:
+  $default:
+    builders:
+      flutter_gen_runner:
+        options:
+          output: lib/assets/
+          line_length: 80
+
+          parse_metadata: true
+
+          images:
+            parse_animation: true
+
+          fonts:
+              outputs:
+                package_parameter_enabled: true
+
+          assets:
+            outputs:
+              package_parameter_enabled: true
+              directory_path_enabled: true
+
+          integrations:
+            image: true
+            flutter_svg: true
+            lottie: false
+            rive: false
