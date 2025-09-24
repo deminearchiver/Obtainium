@@ -98,6 +98,8 @@ dependencies:
   super_keyboard: ^0.2.2
   super_editor: ^0.3.0-dev.33
   super_editor_markdown: ^0.2.0
+  freezed_annotation: ^3.1.0
+  json_annotation: ^4.9.0
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -106,6 +108,10 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+  build_runner: ^2.7.1
+  json_serializable: ^6.11.1
+  freezed: ^3.2.3
+  flutter_gen_runner: ^5.12.0
 
 dependency_overrides:
   material_color_utilities: ^0.13.0
