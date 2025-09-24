@@ -23,6 +23,8 @@ export 'src/typography/typescale_theme.dart';
 
 export 'src/elevation_theme.dart';
 
+export 'src/focus_ring.dart';
+
 export 'src/loading_indicator.dart';
 
 export 'src/switch.dart';
