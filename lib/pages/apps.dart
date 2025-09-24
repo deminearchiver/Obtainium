@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:obtainium/components/custom_scrollbar.dart';
+import 'package:obtainium/components/custom_scrollbar_3.dart';
 import 'package:obtainium/flutter.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:obtainium/components/custom_app_bar.dart';
@@ -1294,16 +1296,43 @@ class AppsPageState extends State<AppsPage> {
         onRefresh: refresh,
         backgroundColor: ColorTheme.of(context).primaryContainer,
         color: ColorTheme.of(context).onPrimaryContainer,
-        child: Scrollbar(
-          interactive: true,
+        child: CustomScrollbar(
           controller: scrollController,
+          interactive: true,
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             controller: scrollController,
             slivers: <Widget>[
+              // if (!kDebugMode)
               CustomAppBar.largeFlexible(headline: Text(tr('appsString'))),
-              ...getLoadingWidgets(),
-              getDisplayedList(),
+              // TODO: either finish CustomScrollbar3 or use nested_scroll_view_plus
+              if (kDebugMode) ...[
+                CustomScrollbar3(
+                  sliver: SliverMainAxisGroup(
+                    // slivers: [...getLoadingWidgets(), getDisplayedList()],
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: Container(
+                          color: Colors.amber.shade100,
+                          width: double.infinity,
+                          height: 1500.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    color: Colors.green,
+                    width: double.infinity,
+                    height: 128.0,
+                    child: Align.center(child: Text("Another one")),
+                  ),
+                ),
+              ] else ...[
+                ...getLoadingWidgets(),
+                getDisplayedList(),
+              ],
             ],
           ),
         ),

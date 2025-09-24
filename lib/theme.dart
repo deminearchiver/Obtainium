@@ -19,6 +19,15 @@ abstract final class LegacyThemeFactory {
       visualDensity: VisualDensity.standard,
       splashFactory: InkSparkle.splashFactory,
       textTheme: typescaleTheme.toBaselineTextTheme(),
+      // TODO: remove this after migration to CustomScrollbar
+      scrollbarTheme: ScrollbarThemeData(
+        thickness: const WidgetStatePropertyAll(8.0),
+        radius: const Radius.circular(4.0),
+        minThumbLength: 48.0,
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          return colorTheme.primary;
+        }),
+      ),
       iconTheme: IconThemeDataLegacy(
         color: colorTheme.onSurface,
         opacity: 1.0,
