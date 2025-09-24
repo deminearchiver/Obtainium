@@ -1,5 +1,13 @@
 import 'package:obtainium/flutter.dart';
 
+// ignore: implementation_imports
+import 'package:obtainium_fonts/src/assets/fonts.gen.dart';
+
+const String _roboto = "Roboto";
+const String _robotoFlex = Fonts.robotoFlex;
+const String _googleSans = Fonts.googleSans;
+const String _googleSansFlex = Fonts.googleSansFlex;
+
 abstract final class LegacyThemeFactory {
   static ThemeData create({
     required ColorThemeData colorTheme,
@@ -226,16 +234,16 @@ class TypographyDefaults with Diagnosticable {
   static const TypographyDefaults material3Baseline = TypographyDefaults.from(
     typeface: TypefaceThemeDataPartial.from(
       // Roboto was the default typeface for M3 Baseline
-      brand: ["Roboto"],
-      plain: ["Roboto"],
+      brand: [_roboto],
+      plain: [_roboto],
     ),
   );
 
   static const TypographyDefaults material3Expressive = TypographyDefaults.from(
     typeface: TypefaceThemeDataPartial.from(
       // M3 Expressive introduced variable font support
-      brand: ["Roboto Flex", "Roboto"],
-      plain: ["Roboto Flex", "Roboto"],
+      brand: [_robotoFlex, _roboto],
+      plain: [_robotoFlex, _roboto],
     ),
   );
 
@@ -243,8 +251,8 @@ class TypographyDefaults with Diagnosticable {
       TypographyDefaults.from(
         typeface: TypefaceThemeDataPartial.from(
           // Google Sans (not "Flex") doesn't support ROND.
-          brand: ["Google Sans", "Roboto"],
-          plain: ["Google Sans", "Roboto"],
+          brand: [_googleSans, _roboto],
+          plain: [_googleSans, _roboto],
         ),
         typescale: TypescaleThemeDataPartial.from(
           // ROND wasn't used before the introduction of GM3 Expressive.
@@ -290,8 +298,8 @@ class TypographyDefaults with Diagnosticable {
       // This particular information was ripped from a file
       // located at the path "/product/etc/fonts_customization.xml"
       // on a Google Pixel with Android 16 QPR1 beta 3 (Material 3 Expressive)
-      brand: ["Google Sans Flex", "Roboto Flex", "Google Sans", "Roboto"],
-      plain: ["Google Sans Flex", "Roboto Flex", "Google Sans", "Roboto"],
+      brand: [_googleSansFlex, _robotoFlex, _googleSans, _roboto],
+      plain: [_googleSansFlex, _robotoFlex, _googleSans, _roboto],
     ),
     typescale: TypescaleThemeDataPartial.from(
       displayLarge: TypeStylePartial.from(rond: 0.0),

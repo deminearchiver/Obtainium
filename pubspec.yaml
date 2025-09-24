@@ -22,6 +22,7 @@ workspace:
   - layout
   - material
   - material_color_utilities
+  - obtainium_fonts
   - obtainium_i18n
 
 environment:
@@ -37,6 +38,8 @@ dependencies:
     path: layout
   material:
     path: material
+  obtainium_fonts:
+    path: obtainium_fonts
   meta: ^1.17.0
   path_provider: ^2.1.5
   flutter_fgbg: ^0.7.1
@@ -161,38 +164,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
-
-  fonts:
-      - family: Montserrat
-        fonts:
-          - asset: assets/fonts/Montserrat-Regular.ttf
-
-      - family: Roboto Flex
-        fonts:
-          - asset: assets/fonts/robotoflex/RobotoFlex-VariableFont_GRAD,XOPQ,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght.ttf
-
-      - family: Google Sans
-        fonts:
-          - asset: assets/fonts/googlerestricted/GoogleSans-Regular.ttf
-            style: normal
-          - asset: assets/fonts/googlerestricted/GoogleSans-Italic.ttf
-            style: italic
-
-      - family: Google Sans Clock
-        fonts:
-          - asset: assets/fonts/googlerestricted/GoogleSansClock-Regular.ttf
-            style: normal
-
-      - family: Google Sans Flex
-        fonts:
-          - asset: assets/fonts/googlerestricted/GoogleSansFlex-Regular.ttf
-
-      - family: Google Sans Flex Clock
-        fonts:
-          - asset: assets/fonts/googlerestricted/GoogleSansFlexClock-Regular.ttf
-
-      - family: Google Sans Rounded
-        fonts:
-          - asset: assets/fonts/googlesansrounded/GoogleSansRounded-Regular.ttf
-            style: normal
-            weight: 400

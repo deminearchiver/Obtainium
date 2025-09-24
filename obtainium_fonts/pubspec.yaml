@@ -1,0 +1,54 @@
+name: obtainium_fonts
+description: "A new Flutter package project."
+version: 0.0.1
+homepage:
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.9.2
+  flutter: ">=3.35.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  meta: ^1.17.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_gen_runner: ^5.12.0
+  build_runner: ^2.7.1
+
+flutter:
+  fonts:
+    - family: Roboto Flex
+      fonts:
+        - asset: assets/fonts/robotoflex/RobotoFlex-VariableFont_GRAD,XOPQ,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght.ttf
+
+    - family: Google Sans
+      fonts:
+        - asset: assets/fonts/googlerestricted/GoogleSans-Regular.ttf
+          style: normal
+        - asset: assets/fonts/googlerestricted/GoogleSans-Italic.ttf
+          style: italic
+
+    - family: Google Sans Clock
+      fonts:
+        - asset: assets/fonts/googlerestricted/GoogleSansClock-Regular.ttf
+          style: normal
+
+    - family: Google Sans Flex
+      fonts:
+        - asset: assets/fonts/googlerestricted/GoogleSansFlex-Regular.ttf
+
+    - family: Google Sans Flex Clock
+      fonts:
+        - asset: assets/fonts/googlerestricted/GoogleSansFlexClock-Regular.ttf
+
+    - family: Google Sans Rounded
+      fonts:
+        - asset: assets/fonts/googlesansrounded/GoogleSansRounded-Regular.ttf
+          style: normal
+          weight: 400
