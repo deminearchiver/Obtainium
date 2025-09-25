@@ -497,7 +497,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                     const Flex.vertical(
                       children: [
                         SizedBox(height: 14),
-                        LinearProgressIndicator(),
+                        LinearProgressIndicator(value: null),
                         SizedBox(height: 14),
                       ],
                     )

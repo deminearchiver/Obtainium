@@ -48,6 +48,10 @@ export 'package:flutter/material.dart'
         Icons,
         AnimatedIcons,
         // ---
+        CircularProgressIndicator,
+        LinearProgressIndicator,
+        ProgressIndicator,
+        // ---
         Switch,
         SwitchTheme,
         SwitchThemeData;

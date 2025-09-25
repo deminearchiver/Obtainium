@@ -27,4 +27,6 @@ export 'src/focus_ring.dart';
 
 export 'src/loading_indicator.dart';
 
+export 'src/progress_indicator.dart';
+
 export 'src/switch.dart';

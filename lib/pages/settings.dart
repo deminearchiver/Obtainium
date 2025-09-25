@@ -373,8 +373,39 @@ class _SettingsPageState extends State<SettingsPage> {
             expandedContainerColor: ColorTheme.of(context).surface,
             collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
             headline: Text(tr('settings')),
-            subtitle: kDebugMode ? const Text("Debug") : null,
+            subtitle: kDebugMode
+                ? const Text("This text appears only in debug mode")
+                : null,
           ),
+          // if (kDebugMode)
+          //   const SliverToBoxAdapter(
+          //     child: Align.center(
+          //       child: SizedBox.square(
+          //         // dimension: 240.0,
+          //         child: CircularProgressIndicator(
+          //           // strokeWidth: 32.0,
+          //           // trackGap: 32.0,
+          //           value: null,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // if (kDebugMode)
+          //   const SliverToBoxAdapter(
+          //     child: Align.center(
+          //       child: SizedBox(
+          //         width: 220.0,
+          //         child: LinearProgressIndicator(
+          //           // strokeWidth: 32.0,
+          //           // trackGap: 32.0,
+          //           minHeight: 16.0,
+          //           trackGap: 16.0,
+          //           borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          //           value: null,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
           // SliverPadding(
           //   padding: EdgeInsets.symmetric(horizontal: 16.0),
           //   sliver: SliverSettingsList(
