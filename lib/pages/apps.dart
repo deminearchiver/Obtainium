@@ -527,6 +527,9 @@ class AppsPageState extends State<AppsPage> {
           listedApps[index].app.installedVersion != null &&
           listedApps[index].app.installedVersion !=
               listedApps[index].app.latestVersion;
+      final isSelected = selectedAppIds
+          .map((e) => e)
+          .contains(listedApps[index].app.id);
       Widget trailingRow = Flex.horizontal(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -542,13 +545,19 @@ class AppsPageState extends State<AppsPage> {
             ),
             color:
                 settingsProvider.highlightTouchTargets && showChangesFn != null
-                ? ColorTheme.of(context).surfaceContainer
+                ? isSelected
+                      ? ColorTheme.of(context).secondaryContainer
+                      : ColorTheme.of(context).surfaceContainer
                 : Colors.transparent,
 
             child: InkWell(
               onTap: showChangesFn,
               overlayColor: WidgetStateLayerColor(
-                color: WidgetStatePropertyAll(ColorTheme.of(context).onSurface),
+                color: WidgetStatePropertyAll(
+                  isSelected
+                      ? ColorTheme.of(context).onSecondaryContainer
+                      : ColorTheme.of(context).onSurface,
+                ),
                 opacity: StateTheme.of(context).stateLayerOpacity,
               ),
               child: Padding(
@@ -611,7 +620,8 @@ class AppsPageState extends State<AppsPage> {
       if (stops.length == 2) {
         stops[0] = 0.9999;
       }
-      return Container(
+      return DecoratedBox(
+        position: DecorationPosition.foreground,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             stops: stops,
@@ -629,37 +639,36 @@ class AppsPageState extends State<AppsPage> {
         ),
         child: ListTile(
           tileColor: listedApps[index].app.pinned
-              ? Colors.grey.withValues(alpha: 0.1)
+              ? ColorTheme.of(context).surfaceContainerLow
               : Colors.transparent,
-          selectedTileColor: ColorTheme.of(
-            context,
-          ).primary.withValues(alpha: listedApps[index].app.pinned ? 0.2 : 0.1),
-          selected: selectedAppIds
-              .map((e) => e)
-              .contains(listedApps[index].app.id),
+          selectedTileColor: ColorTheme.of(context).secondaryContainer,
+          selected: isSelected,
           onLongPress: () {
             toggleAppSelected(listedApps[index].app);
           },
           leading: getAppIcon(index),
+
           title: Text(
             maxLines: 1,
             listedApps[index].name,
-            style: TextStyle(
-              overflow: TextOverflow.ellipsis,
-              fontWeight: listedApps[index].app.pinned
-                  ? FontWeight.bold
-                  : FontWeight.normal,
-            ),
+            style: TypescaleTheme.of(context).titleMediumEmphasized
+                .toTextStyle(
+                  color: isSelected
+                      ? ColorTheme.of(context).onSecondaryContainer
+                      : ColorTheme.of(context).onSurface,
+                )
+                .copyWith(overflow: TextOverflow.ellipsis),
           ),
           subtitle: Text(
             tr('byX', args: [listedApps[index].author]),
             maxLines: 1,
-            style: TextStyle(
-              overflow: TextOverflow.ellipsis,
-              fontWeight: listedApps[index].app.pinned
-                  ? FontWeight.bold
-                  : FontWeight.normal,
-            ),
+            style: TypescaleTheme.of(context).bodyMedium
+                .toTextStyle(
+                  color: isSelected
+                      ? ColorTheme.of(context).onSecondaryContainer
+                      : ColorTheme.of(context).onSurfaceVariant,
+                )
+                .copyWith(overflow: TextOverflow.ellipsis),
           ),
           trailing: listedApps[index].downloadProgress != null
               ? SizedBox(
