@@ -188,14 +188,13 @@ class _HomePageState extends State<HomePage> {
                 },
               ) !=
               null) {
-            // ignore: use_build_context_synchronously
             var appsProvider = context.read<AppsProvider>();
             var result = await appsProvider.import(
               action == 'app'
                   ? '{ "apps": [$dataStr] }'
                   : '{ "apps": $dataStr }',
             );
-            // ignore: use_build_context_synchronously
+
             showMessage(
               tr(
                 'importedX',

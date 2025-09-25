@@ -1025,7 +1025,6 @@ class AppsProvider with ChangeNotifier {
     if ((urlsToSelectFrom.length > 1 || evenIfSingleChoice) &&
         context != null) {
       appFileUrl = await showDialog(
-        // ignore: use_build_context_synchronously
         context: context,
         builder: (ctx) {
           return AppFilePicker(
@@ -1054,7 +1053,6 @@ class AppsProvider with ChangeNotifier {
         context != null) {
       if (!(settingsProvider.hideAPKOriginWarning) &&
           await showDialog(
-                // ignore: use_build_context_synchronously
                 context: context,
                 builder: (ctx) {
                   return APKOriginWarningDialog(
@@ -1103,7 +1101,6 @@ class AppsProvider with ChangeNotifier {
         await checkUpdate(apps[id]!.app.id);
       }
       if (!trackOnly) {
-        // ignore: use_build_context_synchronously
         apkUrl = await confirmAppFileUrl(apps[id]!.app, context, false);
       }
       if (apkUrl != null) {
@@ -1165,7 +1162,6 @@ class AppsProvider with ChangeNotifier {
                 true;
         if (downloadedFile != null) {
           if (needBGWorkaround) {
-            // ignore: use_build_context_synchronously
             installApk(
               downloadedFile,
               contextIfNewInstall,
@@ -1173,7 +1169,6 @@ class AppsProvider with ChangeNotifier {
               shizukuPretendToBeGooglePlay: shizukuPretendToBeGooglePlay,
             );
           } else {
-            // ignore: use_build_context_synchronously
             sayInstalled = await installApk(
               downloadedFile,
               contextIfNewInstall,
@@ -1182,14 +1177,12 @@ class AppsProvider with ChangeNotifier {
           }
         } else {
           if (needBGWorkaround) {
-            // ignore: use_build_context_synchronously
             installXApkDir(
               downloadedDir!,
               contextIfNewInstall,
               needsBGWorkaround: true,
             );
           } else {
-            // ignore: use_build_context_synchronously
             sayInstalled = await installXApkDir(
               downloadedDir!,
               contextIfNewInstall,
@@ -1229,14 +1222,12 @@ class AppsProvider with ChangeNotifier {
       DownloadedApk? downloadedFile;
       DownloadedXApkDir? downloadedDir;
       try {
-        var downloadedArtifact =
-            // ignore: use_build_context_synchronously
-            await downloadApp(
-              apps[id]!.app,
-              context,
-              notificationsProvider: notificationsProvider,
-              useExisting: useExisting,
-            );
+        var downloadedArtifact = await downloadApp(
+          apps[id]!.app,
+          context,
+          notificationsProvider: notificationsProvider,
+          useExisting: useExisting,
+        );
         if (downloadedArtifact is DownloadedApk) {
           downloadedFile = downloadedArtifact;
         } else {
@@ -1261,7 +1252,6 @@ class AppsProvider with ChangeNotifier {
           }
         }
         if (!willBeSilent && context != null && !settingsProvider.useShizuku) {
-          // ignore: use_build_context_synchronously
           await waitForUserToReturnToForeground(context);
         }
       } catch (e) {
@@ -1329,7 +1319,6 @@ class AppsProvider with ChangeNotifier {
       }
       if (apps[id]!.app.apkUrls.isNotEmpty ||
           apps[id]!.app.otherAssetUrls.isNotEmpty) {
-        // ignore: use_build_context_synchronously
         MapEntry<String, String>? tempFileUrl = await confirmAppFileUrl(
           apps[id]!.app,
           context,

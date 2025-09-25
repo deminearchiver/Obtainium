@@ -247,24 +247,21 @@ class _ImportExportPageState extends State<ImportExportPage> {
                 querySettings: values,
               );
               if (urlsWithDescriptions.isNotEmpty) {
-                var selectedUrls =
-                    // ignore: use_build_context_synchronously
-                    await showDialog<List<String>?>(
-                      context: context,
-                      builder: (ctx) {
-                        return SelectionModal(
-                          entries: urlsWithDescriptions,
-                          selectedByDefault: false,
-                        );
-                      },
+                var selectedUrls = await showDialog<List<String>?>(
+                  context: context,
+                  builder: (ctx) {
+                    return SelectionModal(
+                      entries: urlsWithDescriptions,
+                      selectedByDefault: false,
                     );
+                  },
+                );
                 if (selectedUrls != null && selectedUrls.isNotEmpty) {
                   var errors = await appsProvider.addAppsByURL(
                     selectedUrls,
                     sourceOverride: source,
                   );
                   if (errors.isEmpty) {
-                    // ignore: use_build_context_synchronously
                     showMessage(
                       tr(
                         'importedX',
@@ -275,7 +272,6 @@ class _ImportExportPageState extends State<ImportExportPage> {
                       context,
                     );
                   } else {
-                    // ignore: use_build_context_synchronously
                     showDialog(
                       context: context,
                       builder: (ctx) {
@@ -322,18 +318,15 @@ class _ImportExportPageState extends State<ImportExportPage> {
               var urlsWithDescriptions = await source.getUrlsWithDescriptions(
                 values.values.map((e) => e.toString()).toList(),
               );
-              var selectedUrls =
-                  // ignore: use_build_context_synchronously
-                  await showDialog<List<String>?>(
-                    context: context,
-                    builder: (ctx) {
-                      return SelectionModal(entries: urlsWithDescriptions);
-                    },
-                  );
+              var selectedUrls = await showDialog<List<String>?>(
+                context: context,
+                builder: (ctx) {
+                  return SelectionModal(entries: urlsWithDescriptions);
+                },
+              );
               if (selectedUrls != null) {
                 var errors = await appsProvider.addAppsByURL(selectedUrls);
                 if (errors.isEmpty) {
-                  // ignore: use_build_context_synchronously
                   showMessage(
                     tr(
                       'importedX',
@@ -342,7 +335,6 @@ class _ImportExportPageState extends State<ImportExportPage> {
                     context,
                   );
                 } else {
-                  // ignore: use_build_context_synchronously
                   showDialog(
                     context: context,
                     builder: (ctx) {

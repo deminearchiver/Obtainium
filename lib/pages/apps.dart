@@ -879,7 +879,6 @@ class AppsPageState extends State<AppsPage> {
                 null;
           }
           if (cont) {
-            // ignore: use_build_context_synchronously
             await showDialog<Map<String, dynamic>?>(
               context: context,
               builder: (ctx) {
