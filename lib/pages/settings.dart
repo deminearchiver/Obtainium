@@ -686,6 +686,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               settingsProvider.useShizuku = resCode!.startsWith(
                                 'granted',
                               );
+                              if (!context.mounted) return;
                               switch (resCode) {
                                 case 'binder_not_found':
                                   showError(
@@ -1030,6 +1031,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     IconButton(
                       onPressed: () {
                         context.read<LogsProvider>().get().then((logs) {
+                          if (!context.mounted) return;
                           if (logs.isEmpty) {
                             showMessage(ObtainiumError(tr('noLogs')), context);
                           } else {
@@ -1128,7 +1130,7 @@ class _LogsDialogState extends State<LogsDialog> {
                 null;
             if (cont) {
               logsProvider.clear();
-              Navigator.of(context).pop();
+              if (context.mounted) Navigator.of(context).pop();
             }
           },
           child: Text(tr('remove')),
