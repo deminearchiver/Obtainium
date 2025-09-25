@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:obtainium/flutter.dart';
 
 class CustomScrollbar3 extends StatefulWidget {
@@ -121,15 +123,42 @@ class _RenderCustomScrollbar extends RenderProxySliver {
     //         nextSliverExtent -
     //         previousSliverExtent);
     final value = scrolled;
-
     debugPrint("value: $value");
-    debugPrint(
-      "other: "
-      "${constraints.remainingPaintExtent - constraints.overlap}"
-      " ${geometry!.paintExtent - constraints.scrollOffset}"
-      " ${previousSliverExtent - constraints.overlap}"
-      " trackLength: ${trackLength}",
+    // if (value > 0.0) {
+
+    // 0 on no scroll, 56 after the app bar is collapsed (when overlap starts)
+    final thing2 = math.max(
+      0.0,
+      -(constraints.viewportMainAxisExtent -
+          geometry!.layoutExtent -
+          constraints.precedingScrollExtent +
+          constraints.overlap -
+          nextSliverExtent),
     );
+
+    debugPrint(
+      // "other: "
+      // "${(constraints.remainingPaintExtent - constraints.overlap).toStringAsFixed(2)}"
+      // " ${(geometry!.paintExtent - constraints.scrollOffset).toStringAsFixed(2)}"
+      // " ${(previousSliverExtent - constraints.overlap).toStringAsFixed(2)}"
+      // " scrolled: ${scrolled.toStringAsFixed(2)}"
+      // " scrollOffset: ${constraints.scrollOffset.toStringAsFixed(2)}"
+      // " trackLength: ${trackLength.toStringAsFixed(2)}"
+      // " nextSliverExtent: ${nextSliverExtent.toStringAsFixed(2)}"
+      " A: ${(constraints.scrollOffset + constraints.overlap).toStringAsFixed(2)}"
+      " B: ${(constraints.remainingPaintExtent - constraints.overlap).toStringAsFixed(2)}"
+      " C: ${(constraints.remainingPaintExtent + constraints.precedingScrollExtent - constraints.overlap).toStringAsFixed(2)}"
+      " D: ${(constraints.precedingScrollExtent - constraints.overlap).toStringAsFixed(2)}"
+      " E: ${(constraints.remainingPaintExtent - constraints.overlap).toStringAsFixed(2)}"
+      " F: ${(geometry!.layoutExtent - constraints.overlap - thing2 + nextSliverExtent).toStringAsFixed(2)}"
+      " G: ${((constraints.scrollOffset + constraints.overlap - nextSliverExtent) * (geometry!.layoutExtent - constraints.overlap - thing2 + nextSliverExtent) / (constraints.viewportMainAxisExtent)).toStringAsFixed(2)}"
+      " H: ${(geometry!.paintExtent - constraints.overlap - thing2 + nextSliverExtent).toStringAsFixed(2)}"
+      " I: ${((constraints.scrollOffset + constraints.overlap - nextSliverExtent) / (geometry!.scrollExtent - thing2)).toStringAsFixed(2)}"
+      " J: ${(geometry!.scrollExtent / constraints.viewportMainAxisExtent).toStringAsFixed(2)}"
+      " K: ${((geometry!.paintExtent + thing2 - constraints.overlap) / (constraints.viewportMainAxisExtent - thing2)).toStringAsFixed(2)}"
+      " K: ${(scrolled / constraints.viewportMainAxisExtent).toStringAsFixed(2)}",
+    );
+    // }
 
     final trackRect = Rect.fromLTRB(
       0.0,

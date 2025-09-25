@@ -1311,12 +1311,10 @@ class AppsPageState extends State<AppsPage> {
                   sliver: SliverMainAxisGroup(
                     // slivers: [...getLoadingWidgets(), getDisplayedList()],
                     slivers: [
-                      SliverToBoxAdapter(
-                        child: Container(
-                          color: Colors.amber.shade100,
-                          width: double.infinity,
-                          height: 1500.0,
-                        ),
+                      SliverList.builder(
+                        itemCount: 100,
+                        itemBuilder: (context, index) =>
+                            ListTile(title: Text("Item ${index + 1}")),
                       ),
                     ],
                   ),
