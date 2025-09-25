@@ -22,6 +22,7 @@ class CustomAppBar extends StatefulWidget {
     required this.headline,
     this.subtitle,
     this.trailing,
+    this.bottom,
   }) : _type = _AppBarType.small;
 
   const CustomAppBar.mediumFlexible({
@@ -38,6 +39,7 @@ class CustomAppBar extends StatefulWidget {
     required this.headline,
     this.subtitle,
     this.trailing,
+    this.bottom,
   }) : _type = _AppBarType.mediumFlexible;
 
   const CustomAppBar.largeFlexible({
@@ -54,6 +56,7 @@ class CustomAppBar extends StatefulWidget {
     required this.headline,
     this.subtitle,
     this.trailing,
+    this.bottom,
   }) : _type = _AppBarType.largeFlexible;
 
   final _AppBarType _type;
@@ -74,6 +77,7 @@ class CustomAppBar extends StatefulWidget {
   final Widget headline;
   final Widget? subtitle;
   final Widget? trailing;
+  final PreferredSizeWidget? bottom;
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -163,29 +167,33 @@ class _CustomAppBarState extends State<CustomAppBar>
   Color get _expandedColor =>
       widget.expandedContainerColor ?? _colorTheme.surface;
 
-  late AnimationController _controller;
+  final _ValueNotifier<double> _controller = _ValueNotifier(0.0);
 
   void _scrollPositionListener() {
+    final oldValue = _controller.value;
+    final newValue = _calculateValue();
+    if (oldValue != newValue) {
+      // _controller.value = newValue;
+      _controller.setValueWith(newValue, notify: true);
+    }
+  }
+
+  double _calculateValue() {
     assert(_position != null);
     final position = _position!;
-    if (!position.hasPixels) return;
+    assert(position.hasPixels);
     final pixels = position.pixels;
-    final heightChange = _expandedHeight - _collapsedHeight;
-    final oldValue = _controller.value;
-    final newValue = clampDouble(
-      pixels / (heightChange > 0 ? heightChange : _collapsedHeight),
+    final heightDifference = _expandedHeight - _collapsedHeight;
+    return clampDouble(
+      pixels / (heightDifference > 0.0 ? heightDifference : _collapsedHeight),
       0.0,
       1.0,
     );
-    if (oldValue != newValue) {
-      _controller.value = newValue;
-    }
   }
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, value: 0.0);
   }
 
   @override
@@ -208,6 +216,8 @@ class _CustomAppBarState extends State<CustomAppBar>
       newPosition.addListener(_scrollPositionListener);
     }
     _position = newPosition;
+    // _controller.value = _calculateValue();
+    _controller.setValueWith(_calculateValue(), notify: false);
   }
 
   @override
@@ -221,15 +231,26 @@ class _CustomAppBarState extends State<CustomAppBar>
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
     final topPadding = MediaQuery.paddingOf(context).top;
-    final flexibleSpace = AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) => Padding(
-        padding: EdgeInsets.only(top: topPadding),
-        child: Align.bottomCenter(
+    final Widget flexibleSpace = Padding(
+      padding: EdgeInsets.only(top: topPadding),
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, _) => Align(
+          alignment: Alignment.lerp(
+            Alignment.bottomCenter,
+            Alignment.center,
+            _controller.value,
+          )!,
           child: Padding(
             padding: EdgeInsetsGeometry.lerp(
               _expandedPadding,
-              _collapsedPadding,
+              _collapsedPadding.clamp(
+                EdgeInsets.zero,
+                const EdgeInsets.symmetric(
+                  horizontal: double.infinity,
+                  vertical: 0.0,
+                ),
+              ),
               _controller.value,
             )!,
             child: Flex.vertical(
@@ -275,9 +296,27 @@ class _CustomAppBarState extends State<CustomAppBar>
         ),
       ),
     );
+    final Widget stack = Stack(
+      children: [
+        flexibleSpace,
+        Positioned(
+          left: 0.0,
+          top: topPadding,
+          right: 0.0,
+          height: _collapsedHeight,
+          child: Flex.horizontal(
+            children: [
+              ?widget.leading,
+              const Flexible.space(),
+              ?widget.trailing,
+            ],
+          ),
+        ),
+      ],
+    );
     return AnimatedBuilder(
       animation: _controller,
-      builder: (context, child) => SliverAppBar(
+      builder: (context, _) => SliverAppBar(
         pinned: true,
         automaticallyImplyLeading: false,
         collapsedHeight: _collapsedHeight,
@@ -294,25 +333,35 @@ class _CustomAppBarState extends State<CustomAppBar>
           _collapsedColor,
           _controller.value,
         )!,
-        flexibleSpace: Stack(
-          children: [
-            flexibleSpace,
-            Positioned(
-              left: 0.0,
-              top: topPadding,
-              right: 0.0,
-              height: _collapsedHeight,
-              child: Flex.horizontal(
-                children: [
-                  ?widget.leading,
-                  const Flexible.space(),
-                  ?widget.trailing,
-                ],
-              ),
-            ),
-          ],
-        ),
+        flexibleSpace: stack,
+        bottom: widget.bottom,
       ),
     );
   }
+}
+
+// TODO: remove this unless OWN setState() gets called in listener
+class _ValueNotifier<T extends Object?> extends ChangeNotifier
+    implements ValueListenable<T> {
+  _ValueNotifier(T value) : _value = value {
+    if (kFlutterMemoryAllocationsEnabled) {
+      ChangeNotifier.maybeDispatchObjectCreation(this);
+    }
+  }
+
+  T _value;
+
+  @override
+  T get value => _value;
+
+  set value(T value) => setValueWith(value, notify: true);
+
+  void setValueWith(T value, {required bool notify}) {
+    if (_value == value) return;
+    _value = value;
+    if (notify) notifyListeners();
+  }
+
+  @override
+  String toString() => "${describeIdentity(this)}($value)";
 }

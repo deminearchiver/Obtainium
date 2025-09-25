@@ -373,6 +373,7 @@ class _SettingsPageState extends State<SettingsPage> {
             expandedContainerColor: ColorTheme.of(context).surface,
             collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
             headline: Text(tr('settings')),
+            subtitle: kDebugMode ? const Text("Debug") : null,
           ),
           // SliverPadding(
           //   padding: EdgeInsets.symmetric(horizontal: 16.0),
