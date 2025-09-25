@@ -174,6 +174,8 @@ class AppsPageState extends State<AppsPage> {
     var settingsProvider = context.watch<SettingsProvider>();
     var listedApps = appsProvider.getAppValues().toList();
 
+    final colorTheme = ColorTheme.of(context);
+
     Future<List<App>> refresh() {
       HapticFeedback.lightImpact();
       setState(() {
@@ -428,7 +430,7 @@ class AppsPageState extends State<AppsPage> {
     Widget getUpdateButton(int appIndex) {
       return IconButton(
         visualDensity: VisualDensity.compact,
-        color: ColorTheme.of(context).primary,
+        color: colorTheme.primary,
         tooltip:
             listedApps[appIndex].app.additionalSettings['trackOnly'] == true
             ? tr('markUpdated')
@@ -546,8 +548,8 @@ class AppsPageState extends State<AppsPage> {
             color:
                 settingsProvider.highlightTouchTargets && showChangesFn != null
                 ? isSelected
-                      ? ColorTheme.of(context).secondaryContainer
-                      : ColorTheme.of(context).surfaceContainer
+                      ? colorTheme.secondaryContainer
+                      : colorTheme.surfaceContainer
                 : Colors.transparent,
 
             child: InkWell(
@@ -555,8 +557,8 @@ class AppsPageState extends State<AppsPage> {
               overlayColor: WidgetStateLayerColor(
                 color: WidgetStatePropertyAll(
                   isSelected
-                      ? ColorTheme.of(context).onSecondaryContainer
-                      : ColorTheme.of(context).onSurface,
+                      ? colorTheme.onSecondaryContainer
+                      : colorTheme.onSurface,
                 ),
                 opacity: StateTheme.of(context).stateLayerOpacity,
               ),
@@ -638,10 +640,11 @@ class AppsPageState extends State<AppsPage> {
           ),
         ),
         child: ListTile(
+          minTileHeight: 72.0,
           tileColor: listedApps[index].app.pinned
-              ? ColorTheme.of(context).surfaceContainerLow
+              ? colorTheme.surfaceContainerHighest
               : Colors.transparent,
-          selectedTileColor: ColorTheme.of(context).secondaryContainer,
+          selectedTileColor: colorTheme.secondaryContainer,
           selected: isSelected,
           onLongPress: () {
             toggleAppSelected(listedApps[index].app);
@@ -654,8 +657,8 @@ class AppsPageState extends State<AppsPage> {
             style: TypescaleTheme.of(context).titleMediumEmphasized
                 .toTextStyle(
                   color: isSelected
-                      ? ColorTheme.of(context).onSecondaryContainer
-                      : ColorTheme.of(context).onSurface,
+                      ? colorTheme.onSecondaryContainer
+                      : colorTheme.onSurface,
                 )
                 .copyWith(overflow: TextOverflow.ellipsis),
           ),
@@ -665,8 +668,8 @@ class AppsPageState extends State<AppsPage> {
             style: TypescaleTheme.of(context).bodyMedium
                 .toTextStyle(
                   color: isSelected
-                      ? ColorTheme.of(context).onSecondaryContainer
-                      : ColorTheme.of(context).onSurfaceVariant,
+                      ? colorTheme.onSecondaryContainer
+                      : colorTheme.onSurfaceVariant,
                 )
                 .copyWith(overflow: TextOverflow.ellipsis),
           ),
@@ -731,36 +734,6 @@ class AppsPageState extends State<AppsPage> {
         trailing: Text(tiles.length.toString()),
         children: tiles,
       );
-    }
-
-    Widget getSelectAllButton() {
-      return selectedAppIds.isEmpty
-          ? TextButton.icon(
-              style: const ButtonStyle(visualDensity: VisualDensity.compact),
-              onPressed: () {
-                selectThese(listedApps.map((e) => e.app).toList());
-              },
-              icon: IconLegacy(
-                Symbols.select_all_rounded,
-                color: ColorTheme.of(context).primary,
-              ),
-              label: Text(listedApps.length.toString()),
-            )
-          : TextButton.icon(
-              style: const ButtonStyle(visualDensity: VisualDensity.compact),
-              onPressed: () {
-                selectedAppIds.isEmpty
-                    ? selectThese(listedApps.map((e) => e.app).toList())
-                    : clearSelected();
-              },
-              icon: IconLegacy(
-                selectedAppIds.isEmpty
-                    ? Symbols.select_all_rounded
-                    : Symbols.deselect_rounded,
-                color: ColorTheme.of(context).primary,
-              ),
-              label: Text(selectedAppIds.length.toString()),
-            );
     }
 
     void Function()? getMassObtainFunction() {
@@ -1005,164 +978,377 @@ class AppsPageState extends State<AppsPage> {
     }
 
     Future<void> showMoreOptionsDialog() {
-      return showDialog(
-        context: context,
-        builder: (ctx) {
-          return AlertDialog(
-            scrollable: true,
-            content: Padding(
-              padding: const EdgeInsets.only(top: 6),
-              child: Flex.vertical(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  TextButton(
-                    onPressed: pinSelectedApps,
-                    child: Text(
-                      selectedApps.where((element) => element.pinned).isEmpty
-                          ? tr('pinToTop')
-                          : tr('unpinFromTop'),
+      if (kDebugMode) {
+        return showModalBottomSheet(
+          context: context,
+          useRootNavigator: true,
+          isDismissible: true,
+          clipBehavior: Clip.antiAlias,
+          elevation: 0.0,
+          shape: CornersBorder.rounded(
+            corners: Corners.vertical(
+              top: ShapeTheme.of(context).corner.extraLarge,
+              bottom: ShapeTheme.of(context).corner.none,
+            ),
+          ),
+          showDragHandle: true,
+          backgroundColor: colorTheme.surfaceContainerLow,
+          builder: (context) => ListTileTheme(
+            data: ListTileThemeData(
+              minTileHeight: 56.0,
+              iconColor: colorTheme.onSurfaceVariant,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8.0,
+              ),
+              horizontalTitleGap: 12.0,
+              titleTextStyle: TypescaleTheme.of(
+                context,
+              ).titleMediumEmphasized.toTextStyle(color: colorTheme.onSurface),
+            ),
+            child: Flex.vertical(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ListTile(
+                  onTap: pinSelectedApps,
+                  leading: SizedBox(
+                    width: 40.0,
+                    height: 40.0,
+                    child: Material(
+                      animationDuration: Duration.zero,
+                      type: MaterialType.card,
+                      clipBehavior: Clip.antiAlias,
+                      color: colorTheme.surfaceContainerHighest,
+                      shape: CornersBorder.rounded(
+                        corners: Corners.all(
+                          ShapeTheme.of(context).corner.full,
+                        ),
+                      ),
+                      child:
+                          selectedApps
+                              .where((element) => element.pinned)
+                              .isEmpty
+                          ? const IconLegacy(Symbols.keep_rounded, fill: 1.0)
+                          : const IconLegacy(
+                              Symbols.keep_off_rounded,
+                              fill: 1.0,
+                            ),
                     ),
                   ),
-                  const Divider(),
-                  TextButton(
-                    onPressed: () {
+                  title: Text(
+                    selectedApps.where((element) => element.pinned).isEmpty
+                        ? tr('pinToTop')
+                        : tr('unpinFromTop'),
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    String urls = '';
+                    for (var a in selectedApps) {
+                      urls += '${a.url}\n';
+                    }
+                    urls = urls.substring(0, urls.length - 1);
+                    SharePlus.instance.share(
+                      ShareParams(
+                        text: urls,
+                        subject: 'Obtainium - ${tr('appsString')}',
+                      ),
+                    );
+                    Navigator.of(context).pop();
+                  },
+                  leading: SizedBox(
+                    width: 40.0,
+                    height: 40.0,
+                    child: Material(
+                      animationDuration: Duration.zero,
+                      type: MaterialType.card,
+                      clipBehavior: Clip.antiAlias,
+                      color: colorTheme.surfaceContainerHighest,
+                      shape: CornersBorder.rounded(
+                        corners: Corners.all(
+                          ShapeTheme.of(context).corner.full,
+                        ),
+                      ),
+                      child: const IconLegacy(Symbols.share_rounded, fill: 1.0),
+                    ),
+                  ),
+                  title: Text(tr('shareSelectedAppURLs')),
+                ),
+                if (selectedAppIds.isNotEmpty)
+                  ListTile(
+                    onTap: () {
                       String urls = '';
                       for (var a in selectedApps) {
-                        urls += '${a.url}\n';
+                        urls +=
+                            'https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/${Uri.encodeComponent(jsonEncode({'id': a.id, 'url': a.url, 'author': a.author, 'name': a.name, 'preferredApkIndex': a.preferredApkIndex, 'additionalSettings': jsonEncode(a.additionalSettings), 'overrideSource': a.overrideSource}))}\n\n';
                       }
-                      urls = urls.substring(0, urls.length - 1);
                       SharePlus.instance.share(
                         ShareParams(
                           text: urls,
                           subject: 'Obtainium - ${tr('appsString')}',
                         ),
                       );
-                      Navigator.of(context).pop();
                     },
-                    child: Text(tr('shareSelectedAppURLs')),
-                  ),
-                  const Divider(),
-                  TextButton(
-                    onPressed: selectedAppIds.isEmpty
-                        ? null
-                        : () {
-                            String urls = '';
-                            for (var a in selectedApps) {
-                              urls +=
-                                  'https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/${Uri.encodeComponent(jsonEncode({'id': a.id, 'url': a.url, 'author': a.author, 'name': a.name, 'preferredApkIndex': a.preferredApkIndex, 'additionalSettings': jsonEncode(a.additionalSettings), 'overrideSource': a.overrideSource}))}\n\n';
-                            }
-                            SharePlus.instance.share(
-                              ShareParams(
-                                text: urls,
-                                subject: 'Obtainium - ${tr('appsString')}',
-                              ),
-                            );
-                          },
-                    child: Text(tr('shareAppConfigLinks')),
-                  ),
-                  const Divider(),
-                  TextButton(
-                    onPressed: selectedAppIds.isEmpty
-                        ? null
-                        : () {
-                            var encoder = const JsonEncoder.withIndent("    ");
-                            var exportJSON = encoder.convert(
-                              appsProvider.generateExportJSON(
-                                appIds: selectedApps.map((e) => e.id).toList(),
-                                overrideExportSettings: 0,
-                              ),
-                            );
-                            String fn =
-                                '${tr('obtainiumExportHyphenatedLowercase')}-${DateTime.now().toIso8601String().replaceAll(':', '-')}-count-${selectedApps.length}';
-                            XFile f = XFile.fromData(
-                              Uint8List.fromList(utf8.encode(exportJSON)),
-                              mimeType: 'application/json',
-                              name: fn,
-                            );
-                            SharePlus.instance.share(
-                              ShareParams(
-                                files: [f],
-                                fileNameOverrides: ['$fn.json'],
-                              ),
-                            );
-                          },
-                    child: Text('${tr('share')} - ${tr('obtainiumExport')}'),
-                  ),
-                  const Divider(),
-                  TextButton(
-                    onPressed: () {
-                      appsProvider
-                          .downloadAppAssets(
-                            selectedApps.map((e) => e.id).toList(),
-                            globalNavigatorKey.currentContext ?? context,
-                          )
-                          .catchError(
-                            // ignore: invalid_return_type_for_catch_error
-                            (e) => showError(
-                              e,
-                              globalNavigatorKey.currentContext ?? context,
-                            ),
-                          );
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      tr(
-                        'downloadX',
-                        args: [lowerCaseIfEnglish(tr('releaseAsset'))],
+                    leading: SizedBox(
+                      width: 40.0,
+                      height: 40.0,
+                      child: Material(
+                        animationDuration: Duration.zero,
+                        type: MaterialType.card,
+                        clipBehavior: Clip.antiAlias,
+                        color: colorTheme.surfaceContainerHighest,
+                        shape: CornersBorder.rounded(
+                          corners: Corners.all(
+                            ShapeTheme.of(context).corner.full,
+                          ),
+                        ),
+                        child: const IconLegacy(
+                          Symbols.share_rounded,
+                          fill: 1.0,
+                        ),
                       ),
                     ),
+                    title: Text(tr('shareAppConfigLinks')),
                   ),
-                  const Divider(),
-                  TextButton(
-                    onPressed: appsProvider.areDownloadsRunning()
-                        ? null
-                        : showMassMarkDialog,
-                    child: Text(tr('markSelectedAppsUpdated')),
+                if (selectedAppIds.isNotEmpty)
+                  ListTile(
+                    onTap: () {
+                      var encoder = const JsonEncoder.withIndent("    ");
+                      var exportJSON = encoder.convert(
+                        appsProvider.generateExportJSON(
+                          appIds: selectedApps.map((e) => e.id).toList(),
+                          overrideExportSettings: 0,
+                        ),
+                      );
+                      String fn =
+                          '${tr('obtainiumExportHyphenatedLowercase')}-${DateTime.now().toIso8601String().replaceAll(':', '-')}-count-${selectedApps.length}';
+                      XFile f = XFile.fromData(
+                        Uint8List.fromList(utf8.encode(exportJSON)),
+                        mimeType: 'application/json',
+                        name: fn,
+                      );
+                      SharePlus.instance.share(
+                        ShareParams(
+                          files: [f],
+                          fileNameOverrides: ['$fn.json'],
+                        ),
+                      );
+                    },
+                    leading: SizedBox(
+                      width: 40.0,
+                      height: 40.0,
+                      child: Material(
+                        animationDuration: Duration.zero,
+                        type: MaterialType.card,
+                        clipBehavior: Clip.antiAlias,
+                        color: colorTheme.surfaceContainerHighest,
+                        shape: CornersBorder.rounded(
+                          corners: Corners.all(
+                            ShapeTheme.of(context).corner.full,
+                          ),
+                        ),
+                        child: const IconLegacy(
+                          Symbols.share_rounded,
+                          fill: 1.0,
+                        ),
+                      ),
+                    ),
+                    title: Text('${tr('share')} - ${tr('obtainiumExport')}'),
                   ),
-                ],
-              ),
+                ListTile(
+                  onTap: () {
+                    appsProvider
+                        .downloadAppAssets(
+                          selectedApps.map((e) => e.id).toList(),
+                          globalNavigatorKey.currentContext ?? context,
+                        )
+                        .catchError(
+                          // ignore: invalid_return_type_for_catch_error
+                          (e) => showError(
+                            e,
+                            globalNavigatorKey.currentContext ?? context,
+                          ),
+                        );
+                    Navigator.of(context).pop();
+                  },
+                  leading: SizedBox(
+                    width: 40.0,
+                    height: 40.0,
+                    child: Material(
+                      animationDuration: Duration.zero,
+                      type: MaterialType.card,
+                      clipBehavior: Clip.antiAlias,
+                      color: colorTheme.surfaceContainerHighest,
+                      shape: CornersBorder.rounded(
+                        corners: Corners.all(
+                          ShapeTheme.of(context).corner.full,
+                        ),
+                      ),
+                      child: const IconLegacy(Symbols.download_rounded),
+                    ),
+                  ),
+                  title: Text(
+                    tr(
+                      'downloadX',
+                      args: [lowerCaseIfEnglish(tr('releaseAsset'))],
+                    ),
+                  ),
+                ),
+                ListTile(
+                  onTap: appsProvider.areDownloadsRunning()
+                      ? null
+                      : showMassMarkDialog,
+                  leading: SizedBox(
+                    width: 40.0,
+                    height: 40.0,
+                    child: Material(
+                      animationDuration: Duration.zero,
+                      type: MaterialType.card,
+                      clipBehavior: Clip.antiAlias,
+                      color: colorTheme.surfaceContainerHighest,
+                      shape: CornersBorder.rounded(
+                        corners: Corners.all(
+                          ShapeTheme.of(context).corner.full,
+                        ),
+                      ),
+                      child: const IconLegacy(Symbols.done_all_rounded),
+                    ),
+                  ),
+                  title: Text(tr('markSelectedAppsUpdated')),
+                ),
+                const SizedBox(height: 16.0),
+                SizedBox(height: MediaQuery.paddingOf(context).bottom),
+              ],
             ),
-          );
-        },
-      );
-    }
-
-    List<Widget> getMainBottomButtons() {
-      return [
-        IconButton(
-          visualDensity: VisualDensity.compact,
-          onPressed: getMassObtainFunction(),
-          tooltip: selectedAppIds.isEmpty
-              ? tr('installUpdateApps')
-              : tr('installUpdateSelectedApps'),
-          icon: const IconLegacy(Symbols.download_rounded),
-        ),
-        IconButton(
-          visualDensity: VisualDensity.compact,
-          onPressed: selectedAppIds.isEmpty
-              ? null
-              : () {
-                  appsProvider.removeAppsWithModal(
-                    context,
-                    selectedApps.toList(),
-                  );
-                },
-          tooltip: tr('removeSelectedApps'),
-          icon: const IconLegacy(Symbols.delete_rounded, fill: 0),
-        ),
-        IconButton(
-          visualDensity: VisualDensity.compact,
-          onPressed: selectedAppIds.isEmpty ? null : launchCategorizeDialog(),
-          tooltip: tr('categorize'),
-          icon: const IconLegacy(Symbols.category_rounded, fill: 0),
-        ),
-        IconButton(
-          visualDensity: VisualDensity.compact,
-          onPressed: selectedAppIds.isEmpty ? null : showMoreOptionsDialog,
-          tooltip: tr('more'),
-          icon: const IconLegacy(Symbols.more_horiz_rounded),
-        ),
-      ];
+          ),
+        );
+      } else {
+        return showDialog(
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              scrollable: true,
+              content: Padding(
+                padding: const EdgeInsets.only(top: 6),
+                child: Flex.vertical(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    TextButton(
+                      onPressed: pinSelectedApps,
+                      child: Text(
+                        selectedApps.where((element) => element.pinned).isEmpty
+                            ? tr('pinToTop')
+                            : tr('unpinFromTop'),
+                      ),
+                    ),
+                    const Divider(),
+                    TextButton(
+                      onPressed: () {
+                        String urls = '';
+                        for (var a in selectedApps) {
+                          urls += '${a.url}\n';
+                        }
+                        urls = urls.substring(0, urls.length - 1);
+                        SharePlus.instance.share(
+                          ShareParams(
+                            text: urls,
+                            subject: 'Obtainium - ${tr('appsString')}',
+                          ),
+                        );
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(tr('shareSelectedAppURLs')),
+                    ),
+                    const Divider(),
+                    TextButton(
+                      onPressed: selectedAppIds.isEmpty
+                          ? null
+                          : () {
+                              String urls = '';
+                              for (var a in selectedApps) {
+                                urls +=
+                                    'https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/${Uri.encodeComponent(jsonEncode({'id': a.id, 'url': a.url, 'author': a.author, 'name': a.name, 'preferredApkIndex': a.preferredApkIndex, 'additionalSettings': jsonEncode(a.additionalSettings), 'overrideSource': a.overrideSource}))}\n\n';
+                              }
+                              SharePlus.instance.share(
+                                ShareParams(
+                                  text: urls,
+                                  subject: 'Obtainium - ${tr('appsString')}',
+                                ),
+                              );
+                            },
+                      child: Text(tr('shareAppConfigLinks')),
+                    ),
+                    const Divider(),
+                    TextButton(
+                      onPressed: selectedAppIds.isEmpty
+                          ? null
+                          : () {
+                              var encoder = const JsonEncoder.withIndent(
+                                "    ",
+                              );
+                              var exportJSON = encoder.convert(
+                                appsProvider.generateExportJSON(
+                                  appIds: selectedApps
+                                      .map((e) => e.id)
+                                      .toList(),
+                                  overrideExportSettings: 0,
+                                ),
+                              );
+                              String fn =
+                                  '${tr('obtainiumExportHyphenatedLowercase')}-${DateTime.now().toIso8601String().replaceAll(':', '-')}-count-${selectedApps.length}';
+                              XFile f = XFile.fromData(
+                                Uint8List.fromList(utf8.encode(exportJSON)),
+                                mimeType: 'application/json',
+                                name: fn,
+                              );
+                              SharePlus.instance.share(
+                                ShareParams(
+                                  files: [f],
+                                  fileNameOverrides: ['$fn.json'],
+                                ),
+                              );
+                            },
+                      child: Text('${tr('share')} - ${tr('obtainiumExport')}'),
+                    ),
+                    const Divider(),
+                    TextButton(
+                      onPressed: () {
+                        appsProvider
+                            .downloadAppAssets(
+                              selectedApps.map((e) => e.id).toList(),
+                              globalNavigatorKey.currentContext ?? context,
+                            )
+                            .catchError(
+                              // ignore: invalid_return_type_for_catch_error
+                              (e) => showError(
+                                e,
+                                globalNavigatorKey.currentContext ?? context,
+                              ),
+                            );
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        tr(
+                          'downloadX',
+                          args: [lowerCaseIfEnglish(tr('releaseAsset'))],
+                        ),
+                      ),
+                    ),
+                    const Divider(),
+                    TextButton(
+                      onPressed: appsProvider.areDownloadsRunning()
+                          ? null
+                          : showMassMarkDialog,
+                      child: Text(tr('markSelectedAppsUpdated')),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      }
     }
 
     Future<void> showFilterDialog() async {
@@ -1243,40 +1429,6 @@ class AppsPageState extends State<AppsPage> {
       }
     }
 
-    Widget getFilterButtonsRow() {
-      var isFilterOff = filter.isIdenticalTo(neutralFilter, settingsProvider);
-      return Flex.horizontal(
-        children: [
-          getSelectAllButton(),
-          IconButton(
-            color: ColorTheme.of(context).primary,
-            style: const ButtonStyle(visualDensity: VisualDensity.compact),
-            tooltip: isFilterOff
-                ? tr('filterApps')
-                : '${tr('filter')} - ${tr('remove')}',
-            onPressed: isFilterOff
-                ? showFilterDialog
-                : () {
-                    setState(() {
-                      filter = AppsFilter();
-                    });
-                  },
-            icon: IconLegacy(
-              isFilterOff ? Symbols.search_rounded : Symbols.search_off_rounded,
-            ),
-          ),
-          const SizedBox(width: 10),
-          const VerticalDivider(),
-          Flexible.tight(
-            child: Flex.horizontal(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: getMainBottomButtons(),
-            ),
-          ),
-        ],
-      );
-    }
-
     Widget getDisplayedList() {
       return settingsProvider.groupByCategory &&
               !(listedCategories.isEmpty ||
@@ -1301,15 +1453,353 @@ class AppsPageState extends State<AppsPage> {
 
     const bool kDebugCustomScrollbar = false;
     const bool kCustomScrollbarVisible = kDebugMode && kDebugCustomScrollbar;
+    final isFilterOff = filter.isIdenticalTo(neutralFilter, settingsProvider);
+    final hasSelection = selectedAppIds.isNotEmpty;
+
+    // TODO: uncomment when needed
+    // final windowWidthSizeClass = WindowWidthSizeClass.of(context);
+    // final isCompact = windowWidthSizeClass <= WindowWidthSizeClass.compact;
+
+    Widget getDockedToolbar() {
+      final Widget filterButton = IconButton(
+        onPressed: isFilterOff
+            ? showFilterDialog
+            : () {
+                setState(() {
+                  filter = AppsFilter();
+                });
+              },
+        style: ButtonStyle(
+          padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+          minimumSize: const WidgetStatePropertyAll(Size.zero),
+          maximumSize: const WidgetStatePropertyAll(Size.infinite),
+          fixedSize: const WidgetStatePropertyAll(Size(52.0, 40.0)),
+          shape: WidgetStatePropertyAll(
+            CornersBorder.rounded(
+              corners: Corners.all(ShapeTheme.of(context).corner.full),
+            ),
+          ),
+          overlayColor: WidgetStateLayerColor(
+            color: WidgetStatePropertyAll(colorTheme.onSurfaceVariant),
+            opacity: StateTheme.of(context).stateLayerOpacity,
+          ),
+          backgroundColor: WidgetStateProperty.resolveWith(
+            (states) => states.contains(WidgetState.disabled) && !hasSelection
+                ? colorTheme.onSurface.withValues(alpha: 0.1)
+                : colorTheme.surfaceBright,
+          ),
+          iconColor: WidgetStateProperty.resolveWith(
+            (states) => states.contains(WidgetState.disabled)
+                ? colorTheme.onSurface.withValues(alpha: 0.38)
+                : colorTheme.onSurfaceVariant,
+          ),
+        ),
+        icon: IconLegacy(
+          isFilterOff ? Symbols.search_rounded : Symbols.search_off_rounded,
+        ),
+        tooltip: isFilterOff
+            ? tr('filterApps')
+            : '${tr('filter')} - ${tr('remove')}',
+      );
+      final Widget selectButton = IconButton(
+        onPressed: () => hasSelection
+            ? clearSelected()
+            : selectThese(listedApps.map((e) => e.app).toList()),
+        style: ButtonStyle(
+          padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+          minimumSize: const WidgetStatePropertyAll(Size.zero),
+          maximumSize: const WidgetStatePropertyAll(Size.infinite),
+          fixedSize: const WidgetStatePropertyAll(Size(52.0, 40.0)),
+          shape: WidgetStatePropertyAll(
+            CornersBorder.rounded(
+              corners: Corners.all(
+                hasSelection
+                    ? ShapeTheme.of(context).corner.medium
+                    : ShapeTheme.of(context).corner.full,
+              ),
+            ),
+          ),
+          overlayColor: WidgetStateLayerColor(
+            color: WidgetStatePropertyAll(
+              hasSelection ? colorTheme.primary : colorTheme.onSurfaceVariant,
+            ),
+            opacity: StateTheme.of(context).stateLayerOpacity,
+          ),
+          backgroundColor: WidgetStateProperty.resolveWith(
+            (states) => hasSelection
+                ? states.contains(WidgetState.disabled) && !hasSelection
+                      ? colorTheme.onSurface.withValues(alpha: 0.1)
+                      : colorTheme.surfaceBright
+                : Colors.transparent,
+          ),
+          iconColor: WidgetStateProperty.resolveWith(
+            (states) => states.contains(WidgetState.disabled)
+                ? colorTheme.onSurface.withValues(alpha: 0.38)
+                : hasSelection
+                ? colorTheme.primary
+                : colorTheme.onSurfaceVariant,
+          ),
+        ),
+        icon: hasSelection
+            ? const IconLegacy(Symbols.deselect_rounded)
+            : const IconLegacy(Symbols.select_all_rounded),
+        tooltip: hasSelection
+            ? selectedAppIds.length.toString()
+            : listedApps.length.toString(),
+      );
+      final Widget downloadButton = IconButton(
+        onPressed: getMassObtainFunction(),
+        style: ButtonStyle(
+          padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+          minimumSize: const WidgetStatePropertyAll(Size.zero),
+          maximumSize: const WidgetStatePropertyAll(Size.infinite),
+          // TODO: decide which style to use
+          // fixedSize: const WidgetStatePropertyAll(
+          //   Size(48.0, 48.0),
+          // ),
+          // shape: WidgetStatePropertyAll(
+          //   CornersBorder.rounded(
+          //     corners: Corners.all(
+          //       ShapeTheme.of(context).corner.large,
+          //     ),
+          //   ),
+          // ),
+          fixedSize: const WidgetStatePropertyAll(Size(52.0, 40.0)),
+          shape: WidgetStatePropertyAll(
+            CornersBorder.rounded(
+              corners: Corners.all(ShapeTheme.of(context).corner.full),
+            ),
+          ),
+          overlayColor: WidgetStateLayerColor(
+            color: WidgetStatePropertyAll(colorTheme.onPrimary),
+            opacity: StateTheme.of(context).stateLayerOpacity,
+          ),
+          backgroundColor: WidgetStateProperty.resolveWith(
+            (states) => states.contains(WidgetState.disabled)
+                ? colorTheme.onSurface.withValues(alpha: 0.1)
+                : colorTheme.primary,
+          ),
+          iconColor: WidgetStateProperty.resolveWith(
+            (states) => states.contains(WidgetState.disabled)
+                ? colorTheme.onSurface.withValues(alpha: 0.38)
+                : colorTheme.onPrimary,
+          ),
+        ),
+        icon: const IconLegacy(Symbols.download_rounded),
+        tooltip: hasSelection
+            ? tr('installUpdateSelectedApps')
+            : tr('installUpdateApps'),
+      );
+      final removeButton = IconButton(
+        onPressed: hasSelection
+            ? () {
+                appsProvider.removeAppsWithModal(
+                  context,
+                  selectedApps.toList(),
+                );
+              }
+            : null,
+        style: ButtonStyle(
+          padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+          minimumSize: const WidgetStatePropertyAll(Size.zero),
+          maximumSize: const WidgetStatePropertyAll(Size.infinite),
+          fixedSize: const WidgetStatePropertyAll(Size(40.0, 40.0)),
+          shape: WidgetStatePropertyAll(
+            CornersBorder.rounded(
+              corners: Corners.all(ShapeTheme.of(context).corner.medium),
+            ),
+          ),
+          overlayColor: WidgetStateLayerColor(
+            color: WidgetStatePropertyAll(
+              hasSelection ? colorTheme.error : colorTheme.onSurfaceVariant,
+            ),
+            opacity: StateTheme.of(context).stateLayerOpacity,
+          ),
+          backgroundColor: WidgetStateProperty.resolveWith(
+            (states) => hasSelection
+                ? states.contains(WidgetState.disabled) && !hasSelection
+                      ? colorTheme.onSurface.withValues(alpha: 0.1)
+                      : colorTheme.surfaceBright
+                : Colors.transparent,
+          ),
+          iconColor: WidgetStateProperty.resolveWith(
+            (states) => states.contains(WidgetState.disabled)
+                ? colorTheme.onSurface.withValues(alpha: 0.38)
+                : hasSelection
+                ? colorTheme.error
+                : colorTheme.onSurfaceVariant,
+          ),
+        ),
+        icon: const IconLegacy(Symbols.delete_rounded, fill: 0.0),
+        tooltip: tr('removeSelectedApps'),
+      );
+      final Widget categorizeButton = IconButton(
+        onPressed: hasSelection ? launchCategorizeDialog() : null,
+        style: ButtonStyle(
+          padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+          minimumSize: const WidgetStatePropertyAll(Size.zero),
+          maximumSize: const WidgetStatePropertyAll(Size.infinite),
+          fixedSize: const WidgetStatePropertyAll(Size(40.0, 40.0)),
+          shape: WidgetStatePropertyAll(
+            CornersBorder.rounded(
+              corners: Corners.all(ShapeTheme.of(context).corner.medium),
+            ),
+          ),
+          overlayColor: WidgetStateLayerColor(
+            color: WidgetStatePropertyAll(colorTheme.onSurfaceVariant),
+            opacity: StateTheme.of(context).stateLayerOpacity,
+          ),
+          backgroundColor: WidgetStateProperty.resolveWith(
+            (states) => hasSelection
+                ? states.contains(WidgetState.disabled) && !hasSelection
+                      ? colorTheme.onSurface.withValues(alpha: 0.1)
+                      : colorTheme.surfaceBright
+                : Colors.transparent,
+          ),
+          iconColor: WidgetStateProperty.resolveWith(
+            (states) => states.contains(WidgetState.disabled)
+                ? colorTheme.onSurface.withValues(alpha: 0.38)
+                : colorTheme.onSurfaceVariant,
+          ),
+        ),
+        icon: const IconLegacy(Symbols.category_rounded, fill: 1.0),
+        tooltip: tr('categorize'),
+      );
+      final Widget moreButton = IconButton(
+        onPressed: hasSelection ? showMoreOptionsDialog : null,
+        style: ButtonStyle(
+          padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+          minimumSize: const WidgetStatePropertyAll(Size.zero),
+          maximumSize: const WidgetStatePropertyAll(Size.infinite),
+          fixedSize: const WidgetStatePropertyAll(Size(32.0, 40.0)),
+          shape: WidgetStatePropertyAll(
+            CornersBorder.rounded(
+              corners: Corners.all(ShapeTheme.of(context).corner.full),
+            ),
+          ),
+          overlayColor: WidgetStateLayerColor(
+            color: WidgetStatePropertyAll(colorTheme.onSurfaceVariant),
+            opacity: StateTheme.of(context).stateLayerOpacity,
+          ),
+          backgroundColor: WidgetStateProperty.resolveWith(
+            (states) => hasSelection
+                ? states.contains(WidgetState.disabled) && !hasSelection
+                      ? colorTheme.onSurface.withValues(alpha: 0.1)
+                      : colorTheme.surfaceBright
+                : Colors.transparent,
+          ),
+          iconColor: WidgetStateProperty.resolveWith(
+            (states) => states.contains(WidgetState.disabled)
+                ? colorTheme.onSurface.withValues(alpha: 0.38)
+                : colorTheme.onSurfaceVariant,
+          ),
+        ),
+        icon: const IconLegacy(Symbols.more_vert_rounded),
+        tooltip: tr('more'),
+      );
+      return Align.bottomCenter(
+        heightFactor: 1.0,
+        child: SizedBox(
+          width: double.infinity,
+          height: 64.0,
+          child: Material(
+            animationDuration: Duration.zero,
+            type: MaterialType.card,
+            clipBehavior: Clip.antiAlias,
+            color: colorTheme.surfaceContainer,
+            shape: CornersBorder.rounded(
+              corners: Corners.vertical(
+                // TODO: consider the following design choice:
+                // top: ShapeTheme.of(context).corner.extraLarge,
+                top: ShapeTheme.of(context).corner.none,
+                bottom: ShapeTheme.of(context).corner.none,
+              ),
+            ),
+            // TODO: improve compact layout (it's not production ready)
+            child: false
+                // ignore: dead_code
+                ? Flex.horizontal(
+                    children: [
+                      Flexible.tight(
+                        flex: 4,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
+                          child: Flex.horizontal(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              filterButton,
+                              const Flexible.space(),
+                              selectButton,
+                            ],
+                          ),
+                        ),
+                      ),
+                      Flexible.tight(
+                        flex: 3,
+                        child: Align.center(child: downloadButton),
+                      ),
+                      Flexible.tight(
+                        flex: 4,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 16.0 - 8.0),
+                          child: Flex.horizontal(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              removeButton,
+                              const Flexible.space(),
+                              categorizeButton,
+                              const Flexible.space(),
+                              moreButton,
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : Flex.horizontal(
+                    children: [
+                      Flexible.tight(
+                        child: Flex.horizontal(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const SizedBox(width: 16.0),
+                            filterButton,
+                            const SizedBox(width: 12.0),
+                            selectButton,
+                            const SizedBox(width: 12.0),
+                          ],
+                        ),
+                      ),
+                      downloadButton,
+                      Flexible.tight(
+                        child: Flex.horizontal(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const SizedBox(width: 12.0 - 4.0),
+                            removeButton,
+                            const SizedBox(width: 12.0 - 4.0 - 4.0),
+                            categorizeButton,
+                            const SizedBox(width: 12.0 - 8.0 - 4.0),
+                            moreButton,
+                            const SizedBox(width: 16.0 - 8.0),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
-      backgroundColor: ColorTheme.of(context).surface,
+      backgroundColor: colorTheme.surface,
       // TODO: replace with a Loading indicator
       body: RefreshIndicator(
         key: _refreshIndicatorKey,
         onRefresh: refresh,
-        backgroundColor: ColorTheme.of(context).primaryContainer,
-        color: ColorTheme.of(context).onPrimaryContainer,
+        backgroundColor: colorTheme.primaryContainer,
+        color: colorTheme.onPrimaryContainer,
         child: CustomScrollbar(
           controller: scrollController,
           interactive: true,
@@ -1350,9 +1840,9 @@ class AppsPageState extends State<AppsPage> {
           ),
         ),
       ),
-      persistentFooterButtons: appsProvider.apps.isEmpty
-          ? null
-          : [getFilterButtonsRow()],
+      bottomNavigationBar: appsProvider.apps.isNotEmpty
+          ? getDockedToolbar()
+          : null,
     );
   }
 }
