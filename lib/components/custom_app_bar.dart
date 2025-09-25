@@ -19,7 +19,7 @@ class CustomAppBar extends StatefulWidget {
     this.collapsedSubtitleTextStyle,
     this.expandedSubtitleTextStyle,
     this.leading,
-    required this.headline,
+    this.headline,
     this.subtitle,
     this.trailing,
     this.bottom,
@@ -36,7 +36,7 @@ class CustomAppBar extends StatefulWidget {
     this.collapsedSubtitleTextStyle,
     this.expandedSubtitleTextStyle,
     this.leading,
-    required this.headline,
+    this.headline,
     this.subtitle,
     this.trailing,
     this.bottom,
@@ -53,7 +53,7 @@ class CustomAppBar extends StatefulWidget {
     this.collapsedSubtitleTextStyle,
     this.expandedSubtitleTextStyle,
     this.leading,
-    required this.headline,
+    this.headline,
     this.subtitle,
     this.trailing,
     this.bottom,
@@ -74,7 +74,7 @@ class CustomAppBar extends StatefulWidget {
   final TextStyle? expandedSubtitleTextStyle;
 
   final Widget? leading;
-  final Widget headline;
+  final Widget? headline;
   final Widget? subtitle;
   final Widget? trailing;
   final PreferredSizeWidget? bottom;
@@ -231,74 +231,78 @@ class _CustomAppBarState extends State<CustomAppBar>
   Widget build(BuildContext context) {
     assert(debugCheckHasMediaQuery(context));
     final topPadding = MediaQuery.paddingOf(context).top;
-    final Widget flexibleSpace = Padding(
-      padding: EdgeInsets.only(top: topPadding),
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (context, _) => Align(
-          alignment: Alignment.lerp(
-            Alignment.bottomCenter,
-            Alignment.center,
-            _controller.value,
-          )!,
-          child: Padding(
-            padding: EdgeInsetsGeometry.lerp(
-              _expandedPadding,
-              _collapsedPadding.clamp(
-                EdgeInsets.zero,
-                const EdgeInsets.symmetric(
-                  horizontal: double.infinity,
-                  vertical: 0.0,
-                ),
-              ),
-              _controller.value,
-            )!,
-            child: Flex.vertical(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                DefaultTextStyle(
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.start,
-                  style: TextStyle.lerp(
-                    _expandedHeadlineTextStyle,
-                    _collapsedHeadlineTextStyle,
+    final headline = widget.headline;
+    final subtitle = widget.subtitle;
+    final Widget stack = Stack(
+      fit: StackFit.expand,
+      children: [
+        if (headline != null || subtitle != null)
+          Padding(
+            padding: EdgeInsets.only(top: topPadding),
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (context, _) => Align(
+                alignment: Alignment.lerp(
+                  Alignment.bottomCenter,
+                  Alignment.center,
+                  _controller.value,
+                )!,
+                child: Padding(
+                  padding: EdgeInsetsGeometry.lerp(
+                    _expandedPadding,
+                    _collapsedPadding.clamp(
+                      EdgeInsets.zero,
+                      const EdgeInsets.symmetric(
+                        horizontal: double.infinity,
+                        vertical: 0.0,
+                      ),
+                    ),
                     _controller.value,
                   )!,
-                  child: widget.headline,
+                  child: Flex.vertical(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      if (headline != null)
+                        DefaultTextStyle(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.start,
+                          style: TextStyle.lerp(
+                            _expandedHeadlineTextStyle,
+                            _collapsedHeadlineTextStyle,
+                            _controller.value,
+                          )!,
+                          child: headline,
+                        ),
+                      if (subtitle != null) ...[
+                        SizedBox(
+                          width: double.infinity,
+                          height: lerpDouble(
+                            _expandedHeadlineSubtitleSpace,
+                            _collapsedHeadlineSubtitleSpace,
+                            _controller.value,
+                          )!,
+                        ),
+                        DefaultTextStyle(
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.start,
+                          style: TextStyle.lerp(
+                            _expandedSubtitleTextStyle,
+                            _collapsedSubtitleTextStyle,
+                            _controller.value,
+                          )!,
+                          child: subtitle,
+                        ),
+                      ],
+                    ],
+                  ),
                 ),
-                if (widget.subtitle case final subtitle?) ...[
-                  SizedBox(
-                    width: double.infinity,
-                    height: lerpDouble(
-                      _expandedHeadlineSubtitleSpace,
-                      _collapsedHeadlineSubtitleSpace,
-                      _controller.value,
-                    )!,
-                  ),
-                  DefaultTextStyle(
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.start,
-                    style: TextStyle.lerp(
-                      _expandedSubtitleTextStyle,
-                      _collapsedSubtitleTextStyle,
-                      _controller.value,
-                    )!,
-                    child: subtitle,
-                  ),
-                ],
-              ],
+              ),
             ),
           ),
-        ),
-      ),
-    );
-    final Widget stack = Stack(
-      children: [
-        flexibleSpace,
         Positioned(
           left: 0.0,
           top: topPadding,
