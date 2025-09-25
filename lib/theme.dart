@@ -158,6 +158,21 @@ abstract final class LegacyThemeFactory {
           color: colorTheme.inverseOnSurface,
         ),
       ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: colorTheme.surfaceContainerHigh,
+        clipBehavior: Clip.antiAlias,
+        elevation: 0.0,
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        shape: CornersBorder.rounded(
+          corners: Corners.all(shapeTheme.corner.extraLarge),
+        ),
+        titleTextStyle: typescaleTheme.headlineSmall.toTextStyle(
+          color: colorTheme.onSurface,
+        ),
+        constraints: const BoxConstraints(minWidth: 280.0, maxWidth: 560.0),
+        insetPadding: const EdgeInsets.all(56.0),
+      ),
     );
   }
 }
