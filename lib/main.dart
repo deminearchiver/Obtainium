@@ -384,6 +384,7 @@ class _ObtainiumState extends State<Obtainium> {
 
   Widget _buildMaterialApp(BuildContext context) {
     final settingsProvider = context.watch<SettingsProvider>();
+    final shapeTheme = ShapeTheme.of(context);
     final typescaleTheme = TypescaleTheme.of(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -406,6 +407,7 @@ class _ObtainiumState extends State<Obtainium> {
           brightness: Brightness.light,
           highContrast: false,
         ),
+        shapeTheme: shapeTheme,
         typescaleTheme: typescaleTheme,
       ),
       darkTheme: LegacyThemeFactory.create(
@@ -414,6 +416,7 @@ class _ObtainiumState extends State<Obtainium> {
           brightness: Brightness.dark,
           highContrast: false,
         ),
+        shapeTheme: shapeTheme,
         typescaleTheme: typescaleTheme,
       ),
       highContrastTheme: LegacyThemeFactory.create(
@@ -422,6 +425,7 @@ class _ObtainiumState extends State<Obtainium> {
           brightness: Brightness.light,
           highContrast: true,
         ),
+        shapeTheme: shapeTheme,
         typescaleTheme: typescaleTheme,
       ),
       highContrastDarkTheme: LegacyThemeFactory.create(
@@ -430,6 +434,7 @@ class _ObtainiumState extends State<Obtainium> {
           brightness: Brightness.dark,
           highContrast: true,
         ),
+        shapeTheme: shapeTheme,
         typescaleTheme: typescaleTheme,
       ),
 

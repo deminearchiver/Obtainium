@@ -11,6 +11,7 @@ const String _googleSansFlex = Fonts.googleSansFlex;
 abstract final class LegacyThemeFactory {
   static ThemeData create({
     required ColorThemeData colorTheme,
+    required ShapeThemeData shapeTheme,
     required TypescaleThemeData typescaleTheme,
   }) {
     final colorScheme = colorTheme.toLegacy();
@@ -141,6 +142,21 @@ abstract final class LegacyThemeFactory {
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         // ignore: deprecated_member_use
         year2023: false,
+      ),
+      tooltipTheme: TooltipThemeData(
+        waitDuration: const Duration(milliseconds: 500),
+        constraints: const BoxConstraints(minHeight: 24.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        decoration: ShapeDecoration(
+          shape: CornersBorder.rounded(
+            corners: Corners.all(shapeTheme.corner.extraSmall),
+          ),
+          color: colorTheme.inverseSurface,
+        ),
+        textAlign: TextAlign.start,
+        textStyle: typescaleTheme.bodySmall.toTextStyle(
+          color: colorTheme.inverseOnSurface,
+        ),
       ),
     );
   }
