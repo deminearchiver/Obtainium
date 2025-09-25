@@ -89,9 +89,11 @@ class _AppPageState extends State<AppPage> {
         // ignore: use_build_context_synchronously
         showError(err, context);
       } finally {
-        setState(() {
-          updating = false;
-        });
+        if (context.mounted) {
+          setState(() {
+            updating = false;
+          });
+        }
       }
     }
 

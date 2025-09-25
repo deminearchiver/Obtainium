@@ -173,6 +173,11 @@ abstract final class LegacyThemeFactory {
         constraints: const BoxConstraints(minWidth: 280.0, maxWidth: 560.0),
         insetPadding: const EdgeInsets.all(56.0),
       ),
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+        },
+      ),
     );
   }
 }

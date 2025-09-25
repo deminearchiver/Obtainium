@@ -220,21 +220,24 @@ class AddAppPageState extends State<AddAppPage> {
           app.categories = pickedCategories;
           await appsProvider.saveApps([app], onlyIfExists: false);
         }
-        if (app != null) {
-          Navigator.push(
-            globalNavigatorKey.currentContext ?? context,
+        if (app != null && context.mounted) {
+          (globalNavigatorKey.currentState ?? Navigator.of(context)).push(
             MaterialPageRoute(builder: (context) => AppPage(appId: app!.id)),
           );
         }
       } catch (e) {
-        showError(e, context);
+        if (context.mounted) {
+          showError(e, context);
+        }
       } finally {
-        setState(() {
-          gettingAppInfo = false;
-          if (resetUserInputAfter) {
-            changeUserInput('', false, true);
-          }
-        });
+        if (context.mounted) {
+          setState(() {
+            gettingAppInfo = false;
+            if (resetUserInputAfter) {
+              changeUserInput('', false, true);
+            }
+          });
+        }
       }
     }
 

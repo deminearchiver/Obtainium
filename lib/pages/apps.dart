@@ -496,8 +496,7 @@ class AppsPageState extends State<AppsPage> {
           pm.openApp(listedApps[appIndex].app.id);
         },
         onLongPress: () {
-          Navigator.push(
-            context,
+          Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => AppPage(
                 appId: listedApps[appIndex].app.id,
@@ -696,8 +695,7 @@ class AppsPageState extends State<AppsPage> {
             if (selectedAppIds.isNotEmpty) {
               toggleAppSelected(listedApps[index].app);
             } else {
-              Navigator.push(
-                context,
+              Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) =>
                       AppPage(appId: listedApps[index].app.id),
