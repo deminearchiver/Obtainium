@@ -37,6 +37,7 @@ void showChangeLogDialog(
   showDialog(
     context: context,
     builder: (context) {
+      // TODO: completely redesign this dialog, turning it into a bottom sheet
       return GeneratedFormModal(
         title: tr('changes'),
         items: const [],
@@ -66,6 +67,7 @@ void showChangeLogDialog(
               ? SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height - 350,
+                  // TODO: create markdown styles for M3E
                   child: Markdown(
                     styleSheet: MarkdownStyleSheet(
                       blockquoteDecoration: BoxDecoration(
@@ -531,64 +533,64 @@ class AppsPageState extends State<AppsPage> {
         children: [
           hasUpdate ? getUpdateButton(index) : const SizedBox.shrink(),
           hasUpdate ? const SizedBox(width: 5) : const SizedBox.shrink(),
-          GestureDetector(
-            onTap: showChangesFn,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color:
-                    settingsProvider.highlightTouchTargets &&
-                        showChangesFn != null
-                    ? (Theme.of(context).brightness == Brightness.light
-                              ? Theme.of(context).primaryColor
-                              : Theme.of(context).primaryColorLight)
-                          .withAlpha(
-                            Theme.of(context).brightness == Brightness.light
-                                ? 20
-                                : 40,
-                          )
-                    : null,
+          Material(
+            animationDuration: Duration.zero,
+            type: MaterialType.card,
+            clipBehavior: Clip.antiAlias,
+            shape: CornersBorder.rounded(
+              corners: Corners.all(ShapeTheme.of(context).corner.medium),
+            ),
+            color:
+                settingsProvider.highlightTouchTargets && showChangesFn != null
+                ? ColorTheme.of(context).surfaceContainer
+                : Colors.transparent,
+
+            child: InkWell(
+              onTap: showChangesFn,
+              overlayColor: WidgetStateLayerColor(
+                color: WidgetStatePropertyAll(ColorTheme.of(context).onSurface),
+                opacity: StateTheme.of(context).stateLayerOpacity,
               ),
-              padding: settingsProvider.highlightTouchTargets
-                  ? const EdgeInsetsDirectional.fromSTEB(12, 0, 12, 0)
-                  : const EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
-              child: Flex.vertical(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Flex.horizontal(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        constraints: BoxConstraints(
-                          maxWidth: MediaQuery.of(context).size.width / 4,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+                child: Flex.vertical(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Flex.horizontal(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width / 4,
+                          ),
+                          child: Text(
+                            getVersionText(index),
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.end,
+                            style: isVersionPseudo(listedApps[index].app)
+                                ? const TextStyle(fontStyle: FontStyle.italic)
+                                : null,
+                          ),
                         ),
-                        child: Text(
-                          getVersionText(index),
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.end,
-                          style: isVersionPseudo(listedApps[index].app)
-                              ? const TextStyle(fontStyle: FontStyle.italic)
-                              : null,
+                      ],
+                    ),
+                    Flex.horizontal(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          getChangesButtonString(index, showChangesFn != null),
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            decoration: showChangesFn != null
+                                ? TextDecoration.underline
+                                : TextDecoration.none,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Flex.horizontal(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        getChangesButtonString(index, showChangesFn != null),
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          decoration: showChangesFn != null
-                              ? TextDecoration.underline
-                              : TextDecoration.none,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

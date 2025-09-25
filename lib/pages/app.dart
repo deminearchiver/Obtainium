@@ -208,57 +208,80 @@ class _AppPageState extends State<AppPage> {
           ),
           if (app?.app.apkUrls.isNotEmpty == true ||
               app?.app.otherAssetUrls.isNotEmpty == true)
-            GestureDetector(
-              onTap: app?.app == null || updating
-                  ? null
-                  : () async {
-                      try {
-                        await appsProvider.downloadAppAssets([
-                          app!.app.id,
-                        ], context);
-                      } catch (e) {
-                        showError(e, context);
-                      }
-                    },
-              child: Flex.horizontal(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: settingsProvider.highlightTouchTargets
-                          ? (Theme.of(context).brightness == Brightness.light
-                                    ? Theme.of(context).primaryColor
-                                    : Theme.of(context).primaryColorLight)
-                                .withAlpha(
-                                  Theme.of(context).brightness ==
-                                          Brightness.light
-                                      ? 20
-                                      : 40,
-                                )
-                          : null,
-                    ),
-                    padding: settingsProvider.highlightTouchTargets
-                        ? const EdgeInsetsDirectional.fromSTEB(12, 6, 12, 6)
-                        : const EdgeInsetsDirectional.fromSTEB(0, 6, 0, 6),
-                    margin: const EdgeInsetsDirectional.fromSTEB(0, 6, 0, 0),
-                    child: Text(
-                      tr(
-                        'downloadX',
-                        args: [lowerCaseIfEnglish(tr('releaseAsset'))],
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Align.center(
+                widthFactor: 1.0,
+                heightFactor: 1.0,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minWidth: 48.0,
+                    minHeight: 32.0,
+                  ),
+                  child: Material(
+                    animationDuration: Duration.zero,
+                    type: MaterialType.card,
+                    clipBehavior: Clip.antiAlias,
+                    shape: CornersBorder.rounded(
+                      corners: Corners.all(
+                        ShapeTheme.of(context).corner.medium,
                       ),
-                      textAlign: TextAlign.center,
-                      style: TypescaleTheme.of(context).labelSmall
-                          .toTextStyle()
-                          .copyWith(
-                            decoration: TextDecoration.underline,
-                            fontStyle: FontStyle.italic,
-                          ),
+                    ),
+                    color: ColorTheme.of(context).surfaceContainer,
+                    child: InkWell(
+                      onTap: app?.app == null || updating
+                          ? null
+                          : () async {
+                              try {
+                                await appsProvider.downloadAppAssets([
+                                  app!.app.id,
+                                ], context);
+                              } catch (e) {
+                                if (context.mounted) {
+                                  showError(e, context);
+                                }
+                              }
+                            },
+                      overlayColor: WidgetStateLayerColor(
+                        color: WidgetStatePropertyAll(
+                          ColorTheme.of(context).onSurfaceVariant,
+                        ),
+                        opacity: StateTheme.of(context).stateLayerOpacity,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0,
+                          vertical: 6.0,
+                        ),
+                        child: Flex.horizontal(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Flexible.loose(
+                              child: Text(
+                                tr(
+                                  'downloadX',
+                                  args: [
+                                    lowerCaseIfEnglish(tr('releaseAsset')),
+                                  ],
+                                ),
+                                style: TypescaleTheme.of(context).labelLarge
+                                    .toTextStyle(
+                                      color: ColorTheme.of(
+                                        context,
+                                      ).onSurfaceVariant,
+                                    ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ],
+                ),
               ),
             ),
+
           const SizedBox(height: 48),
           CategoryEditorSelector(
             alignment: WrapAlignment.center,
