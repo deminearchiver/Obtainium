@@ -632,12 +632,12 @@ class _ImportErrorDialogState extends State<ImportErrorDialog> {
                 widget.urlsLength.toString(),
               ],
             ),
-            style: Theme.of(context).textTheme.bodyLarge,
+            style: TypescaleTheme.of(context).bodyLarge.toTextStyle(),
           ),
           const SizedBox(height: 16),
           Text(
             tr('followingURLsHadErrors'),
-            style: Theme.of(context).textTheme.bodyLarge,
+            style: TypescaleTheme.of(context).bodyLarge.toTextStyle(),
           ),
           ...widget.errors.map((e) {
             return Flex.vertical(

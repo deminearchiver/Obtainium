@@ -752,7 +752,9 @@ class AddAppPageState extends State<AddAppPage> {
                         return val.data != null && val.data!.isNotEmpty
                             ? Text(
                                 val.data!,
-                                style: Theme.of(context).textTheme.bodySmall,
+                                style: TypescaleTheme.of(
+                                  context,
+                                ).bodySmall.toTextStyle(),
                               )
                             : const SizedBox();
                       },

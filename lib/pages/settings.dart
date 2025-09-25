@@ -109,7 +109,7 @@ class _SettingsPageState extends State<SettingsPage> {
         return ((val.data?.version.sdkInt ?? 30) < 29)
             ? Text(
                 tr('followSystemThemeExplanation'),
-                style: Theme.of(context).textTheme.labelSmall,
+                style: TypescaleTheme.of(context).labelSmall.toTextStyle(),
               )
             : const SizedBox.shrink();
       },
@@ -140,7 +140,7 @@ class _SettingsPageState extends State<SettingsPage> {
         },
         title: Text(
           tr('selectX', args: [tr('colour').toLowerCase()]),
-          style: Theme.of(context).textTheme.titleLarge,
+          style: TypescaleTheme.of(context).titleLarge.toTextStyle(),
         ),
         wheelDiameter: 192,
         wheelSquareBorderRadius: 32,
@@ -153,8 +153,10 @@ class _SettingsPageState extends State<SettingsPage> {
         customColorSwatchesAndNames: colorsNameMap,
         showMaterialName: true,
         showColorName: true,
-        materialNameTextStyle: Theme.of(context).textTheme.bodySmall,
-        colorNameTextStyle: Theme.of(context).textTheme.bodySmall,
+        materialNameTextStyle: TypescaleTheme.of(
+          context,
+        ).bodySmall.toTextStyle(),
+        colorNameTextStyle: TypescaleTheme.of(context).bodySmall.toTextStyle(),
         copyPasteBehavior: const ColorPickerCopyPasteBehavior(
           longPressMenu: true,
         ),
@@ -494,11 +496,15 @@ class _SettingsPageState extends State<SettingsPage> {
                                 height8,
                                 Text(
                                   tr('backgroundUpdateReqsExplanation'),
-                                  style: Theme.of(context).textTheme.labelSmall,
+                                  style: TypescaleTheme.of(
+                                    context,
+                                  ).labelSmall.toTextStyle(),
                                 ),
                                 Text(
                                   tr('backgroundUpdateLimitsExplanation'),
-                                  style: Theme.of(context).textTheme.labelSmall,
+                                  style: TypescaleTheme.of(
+                                    context,
+                                  ).labelSmall.toTextStyle(),
                                 ),
                                 height8,
                                 if (settingsProvider.enableBackgroundUpdates)

@@ -395,7 +395,7 @@ class AppsPageState extends State<AppsPage> {
                           ? tr('pleaseWait')
                           : tr('noApps')
                     : tr('noAppsForFilter'),
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: TypescaleTheme.of(context).headlineMedium.toTextStyle(),
                 textAlign: TextAlign.center,
               ),
             ),

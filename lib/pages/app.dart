@@ -184,7 +184,8 @@ class _AppPageState extends State<AppPage> {
                               ? tr('changes')
                               : app!.app.releaseDate!.toLocal().toString(),
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.labelSmall!
+                          style: TypescaleTheme.of(context).labelSmall
+                              .toTextStyle()
                               .copyWith(
                                 decoration: changeLogFn != null
                                     ? TextDecoration.underline
@@ -247,10 +248,12 @@ class _AppPageState extends State<AppPage> {
                         args: [lowerCaseIfEnglish(tr('releaseAsset'))],
                       ),
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                        decoration: TextDecoration.underline,
-                        fontStyle: FontStyle.italic,
-                      ),
+                      style: TypescaleTheme.of(context).labelSmall
+                          .toTextStyle()
+                          .copyWith(
+                            decoration: TextDecoration.underline,
+                            fontStyle: FontStyle.italic,
+                          ),
                     ),
                   ),
                 ],
@@ -351,15 +354,15 @@ class _AppPageState extends State<AppPage> {
           app?.name ?? tr('app'),
           textAlign: TextAlign.center,
           style: small
-              ? Theme.of(context).textTheme.displaySmall
-              : Theme.of(context).textTheme.displayLarge,
+              ? TypescaleTheme.of(context).displaySmall.toTextStyle()
+              : TypescaleTheme.of(context).displayLarge.toTextStyle(),
         ),
         Text(
           tr('byX', args: [app?.author ?? tr('unknown')]),
           textAlign: TextAlign.center,
           style: small
-              ? Theme.of(context).textTheme.headlineSmall
-              : Theme.of(context).textTheme.headlineMedium,
+              ? TypescaleTheme.of(context).headlineSmall.toTextStyle()
+              : TypescaleTheme.of(context).headlineMedium.toTextStyle(),
         ),
         const SizedBox(height: 24),
         GestureDetector(
@@ -380,7 +383,7 @@ class _AppPageState extends State<AppPage> {
           child: Text(
             app?.app.url ?? '',
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.labelSmall!.copyWith(
+            style: TypescaleTheme.of(context).labelSmall.toTextStyle().copyWith(
               decoration: TextDecoration.underline,
               fontStyle: FontStyle.italic,
             ),
@@ -389,7 +392,7 @@ class _AppPageState extends State<AppPage> {
         Text(
           app?.app.id ?? '',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.labelSmall,
+          style: TypescaleTheme.of(context).labelSmall.toTextStyle(),
         ),
         getInfoColumn(),
         const SizedBox(height: 150),
