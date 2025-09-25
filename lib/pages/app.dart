@@ -548,7 +548,7 @@ class _AppPageState extends State<AppPage> {
                   // ignore: use_build_context_synchronously
                   showMessage(successMessage, context);
                 }
-                if (res.isNotEmpty && mounted) {
+                if (res.isNotEmpty && context.mounted) {
                   Navigator.of(context).pop();
                 }
               } catch (e) {
@@ -665,7 +665,7 @@ class _AppPageState extends State<AppPage> {
                                 app != null ? [app.app] : [],
                               )
                               .then((value) {
-                                if (value == true) {
+                                if (value == true && context.mounted) {
                                   Navigator.of(context).pop();
                                 }
                               });
