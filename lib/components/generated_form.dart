@@ -752,7 +752,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                     children: [
                       TextButton.icon(
                         style: TextButton.styleFrom(
-                          foregroundColor: Theme.of(context).colorScheme.error,
+                          foregroundColor: ColorTheme.of(context).error,
                         ),
                         onPressed: (values[fieldKey].length > 0)
                             ? () {

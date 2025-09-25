@@ -400,7 +400,7 @@ class _AppPageState extends State<AppPage> {
         ? WebViewWidget(
             key: ObjectKey(_webViewController),
             controller: _webViewController
-              ..setBackgroundColor(Theme.of(context).colorScheme.surface),
+              ..setBackgroundColor(ColorTheme.of(context).surface),
           )
         : Container();
 
@@ -663,7 +663,7 @@ class _AppPageState extends State<AppPage> {
 
     return Scaffold(
       appBar: showAppWebpageFinal ? AppBar() : null,
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: ColorTheme.of(context).surface,
       // TODO: replace with a Loading indicator
       body: RefreshIndicator(
         backgroundColor: ColorTheme.of(context).primaryContainer,

@@ -553,7 +553,7 @@ class AddAppPageState extends State<AddAppPage> {
         Text(
           tr('additionalOptsFor', args: [pickedSource?.name ?? tr('source')]),
           style: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
+            color: ColorTheme.of(context).primary,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -729,7 +729,7 @@ class AddAppPageState extends State<AddAppPage> {
     );
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: ColorTheme.of(context).surface,
       bottomNavigationBar: pickedSource == null ? getSourcesListWidget() : null,
       body: CustomScrollView(
         shrinkWrap: true,

@@ -426,7 +426,7 @@ class AppsPageState extends State<AppsPage> {
     Widget getUpdateButton(int appIndex) {
       return IconButton(
         visualDensity: VisualDensity.compact,
-        color: Theme.of(context).colorScheme.primary,
+        color: ColorTheme.of(context).primary,
         tooltip:
             listedApps[appIndex].app.additionalSettings['trackOnly'] == true
             ? tr('markUpdated')
@@ -629,9 +629,9 @@ class AppsPageState extends State<AppsPage> {
           tileColor: listedApps[index].app.pinned
               ? Colors.grey.withValues(alpha: 0.1)
               : Colors.transparent,
-          selectedTileColor: Theme.of(context).colorScheme.primary.withValues(
-            alpha: listedApps[index].app.pinned ? 0.2 : 0.1,
-          ),
+          selectedTileColor: ColorTheme.of(
+            context,
+          ).primary.withValues(alpha: listedApps[index].app.pinned ? 0.2 : 0.1),
           selected: selectedAppIds
               .map((e) => e)
               .contains(listedApps[index].app.id),
@@ -731,7 +731,7 @@ class AppsPageState extends State<AppsPage> {
               },
               icon: IconLegacy(
                 Symbols.select_all_rounded,
-                color: Theme.of(context).colorScheme.primary,
+                color: ColorTheme.of(context).primary,
               ),
               label: Text(listedApps.length.toString()),
             )
@@ -746,7 +746,7 @@ class AppsPageState extends State<AppsPage> {
                 selectedAppIds.isEmpty
                     ? Symbols.select_all_rounded
                     : Symbols.deselect_rounded,
-                color: Theme.of(context).colorScheme.primary,
+                color: ColorTheme.of(context).primary,
               ),
               label: Text(selectedAppIds.length.toString()),
             );
@@ -1238,7 +1238,7 @@ class AppsPageState extends State<AppsPage> {
         children: [
           getSelectAllButton(),
           IconButton(
-            color: Theme.of(context).colorScheme.primary,
+            color: ColorTheme.of(context).primary,
             style: const ButtonStyle(visualDensity: VisualDensity.compact),
             tooltip: isFilterOff
                 ? tr('filterApps')
@@ -1292,7 +1292,7 @@ class AppsPageState extends State<AppsPage> {
     const bool kCustomScrollbarVisible = kDebugMode && kDebugCustomScrollbar;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: ColorTheme.of(context).surface,
       // TODO: replace with a Loading indicator
       body: RefreshIndicator(
         key: _refreshIndicatorKey,

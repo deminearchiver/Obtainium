@@ -281,7 +281,7 @@ class _HomePageState extends State<HomePage> {
     // TODO: this doesn't seem to do anything because onWillPop is null
     return WillPopScope(
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: ColorTheme.of(context).surface,
         body: pages
             .elementAt(
               selectedIndexHistory.isEmpty ? 0 : selectedIndexHistory.last,

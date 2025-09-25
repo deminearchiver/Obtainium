@@ -432,7 +432,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     tr('updates'),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: ColorTheme.of(context).primary,
                     ),
                   ),
                   //intervalDropdown,
@@ -732,7 +732,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     tr('sourceSpecific'),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: ColorTheme.of(context).primary,
                     ),
                   ),
                   ...sourceSpecificFields,
@@ -741,7 +741,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     tr('appearance'),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: ColorTheme.of(context).primary,
                     ),
                   ),
                   DropdownButtonFormField(
@@ -975,7 +975,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     tr('categories'),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: ColorTheme.of(context).primary,
                     ),
                   ),
                   height16,
