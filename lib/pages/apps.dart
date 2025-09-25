@@ -1288,6 +1288,9 @@ class AppsPageState extends State<AppsPage> {
             );
     }
 
+    const bool kDebugCustomScrollbar = false;
+    const bool kCustomScrollbarVisible = kDebugMode && kDebugCustomScrollbar;
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       // TODO: replace with a Loading indicator
@@ -1306,7 +1309,8 @@ class AppsPageState extends State<AppsPage> {
               // if (!kDebugMode)
               CustomAppBar.largeFlexible(headline: Text(tr('appsString'))),
               // TODO: either finish CustomScrollbar3 or use nested_scroll_view_plus
-              if (kDebugMode) ...[
+              // ignore: dead_code
+              if (kCustomScrollbarVisible) ...[
                 CustomScrollbar3(
                   sliver: SliverMainAxisGroup(
                     // slivers: [...getLoadingWidgets(), getDisplayedList()],

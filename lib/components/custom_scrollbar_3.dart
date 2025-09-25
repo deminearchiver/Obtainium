@@ -32,7 +32,8 @@ class _CustomScrollbar3State extends State<CustomScrollbar3> {
 }
 
 class _CustomScrollbar extends SingleChildRenderObjectWidget {
-  const _CustomScrollbar({super.key, Widget? sliver}) : super(child: sliver);
+  const _CustomScrollbar({super.key, required Widget sliver})
+    : super(child: sliver);
 
   @override
   _RenderCustomScrollbar createRenderObject(BuildContext context) {
@@ -48,6 +49,13 @@ class _CustomScrollbar extends SingleChildRenderObjectWidget {
 
 class _RenderCustomScrollbar extends RenderProxySliver {
   _RenderCustomScrollbar({RenderSliver? child}) : super(child);
+
+  @override
+  void performLayout() {
+    assert(child != null);
+    child!.layout(constraints, parentUsesSize: true);
+    geometry = child!.geometry;
+  }
 
   @override
   void paint(PaintingContext context, Offset offset) {
@@ -122,7 +130,7 @@ class _RenderCustomScrollbar extends RenderProxySliver {
     //     (constraints.viewportMainAxisExtent -
     //         nextSliverExtent -
     //         previousSliverExtent);
-    final value = scrolled;
+    double value = scrolled;
     debugPrint("value: $value");
     // if (value > 0.0) {
 
@@ -154,9 +162,9 @@ class _RenderCustomScrollbar extends RenderProxySliver {
       " G: ${((constraints.scrollOffset + constraints.overlap - nextSliverExtent) * (geometry!.layoutExtent - constraints.overlap - thing2 + nextSliverExtent) / (constraints.viewportMainAxisExtent)).toStringAsFixed(2)}"
       " H: ${(geometry!.paintExtent - constraints.overlap - thing2 + nextSliverExtent).toStringAsFixed(2)}"
       " I: ${((constraints.scrollOffset + constraints.overlap - nextSliverExtent) / (geometry!.scrollExtent - thing2)).toStringAsFixed(2)}"
-      " J: ${(geometry!.scrollExtent / constraints.viewportMainAxisExtent).toStringAsFixed(2)}"
-      " K: ${((geometry!.paintExtent + thing2 - constraints.overlap) / (constraints.viewportMainAxisExtent - thing2)).toStringAsFixed(2)}"
-      " K: ${(scrolled / constraints.viewportMainAxisExtent).toStringAsFixed(2)}",
+      " J: ${((geometry!.paintExtent + thing2 - constraints.overlap) / (constraints.viewportMainAxisExtent - thing2)).toStringAsFixed(2)}"
+      " K: ${((constraints.scrollOffset + constraints.overlap - nextSliverExtent) / (constraints.viewportMainAxisExtent)).toStringAsFixed(2)}"
+      " L: ${((geometry!.scrollExtent) / (constraints.viewportMainAxisExtent)).toStringAsFixed(2)}",
     );
     // }
 
