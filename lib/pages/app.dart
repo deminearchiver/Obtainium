@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:obtainium/components/custom_app_bar.dart';
 import 'package:obtainium/flutter.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:obtainium/components/generated_form_modal.dart';
@@ -660,17 +661,8 @@ class _AppPageState extends State<AppPage> {
       ),
     );
 
-    PreferredSizeWidget appScreenAppBar() => AppBar(
-      leading: IconButton(
-        icon: const IconLegacy(Symbols.arrow_back_rounded),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-    );
-
     return Scaffold(
-      appBar: showAppWebpageFinal ? AppBar() : appScreenAppBar(),
+      appBar: showAppWebpageFinal ? AppBar() : null,
       backgroundColor: Theme.of(context).colorScheme.surface,
       // TODO: replace with a Loading indicator
       body: RefreshIndicator(
@@ -680,6 +672,20 @@ class _AppPageState extends State<AppPage> {
             ? getAppWebView()
             : CustomScrollView(
                 slivers: [
+                  CustomAppBar.small(
+                    leading: Padding(
+                      padding: const EdgeInsets.only(
+                        // This accounts for padding of 4.0
+                        left: 8.0,
+                      ),
+                      child: IconButton(
+                        icon: const IconLegacy(Symbols.arrow_back_rounded),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  ),
                   SliverToBoxAdapter(
                     child: Flex.vertical(children: [getFullInfoColumn()]),
                   ),
