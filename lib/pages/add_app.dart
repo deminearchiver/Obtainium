@@ -113,7 +113,6 @@ class AddAppPageState extends State<AddAppPage> {
       var useTrackOnly = userPickedTrackOnly || pickedSource!.enforceTrackOnly;
       if (useTrackOnly &&
           (!settingsProvider.hideTrackOnlyWarning || ignoreHideSetting)) {
-        // ignore: use_build_context_synchronously
         var values = await showDialog(
           context: context,
           builder: (ctx) {
@@ -146,7 +145,6 @@ class AddAppPageState extends State<AddAppPage> {
       bool userPickedTrackOnly,
     ) async {
       return (!(additionalSettings['releaseDateAsVersion'] == true &&
-          // ignore: use_build_context_synchronously
           await showDialog(
                 context: context,
                 builder: (ctx) {
@@ -182,7 +180,7 @@ class AddAppPageState extends State<AddAppPage> {
           );
           // Only download the APK here if you need to for the package ID
           if (isTempId(app) && app.additionalSettings['trackOnly'] != true) {
-            // ignore: use_build_context_synchronously
+            if (!context.mounted) return;
             var apkUrl = await appsProvider.confirmAppFileUrl(
               app,
               context,
@@ -195,7 +193,6 @@ class AddAppPageState extends State<AddAppPage> {
                 .map((e) => e.value)
                 .toList()
                 .indexOf(apkUrl.value);
-            // ignore: use_build_context_synchronously
             var downloadedArtifact = await appsProvider.downloadApp(
               app,
               globalNavigatorKey.currentContext,
@@ -394,7 +391,7 @@ class AddAppPageState extends State<AddAppPage> {
                       rethrow;
                     } else {
                       err.unexpected = true;
-                      showError(err, context);
+                      if (context.mounted) showError(err, context);
                       return null;
                     }
                   }
@@ -420,9 +417,9 @@ class AddAppPageState extends State<AddAppPage> {
           if (res.isEmpty) {
             throw ObtainiumError(tr('noResults'));
           }
+          if (!context.mounted) return;
           List<String>? selectedUrls = res.isEmpty
               ? []
-              // ignore: use_build_context_synchronously
               : await showDialog<List<String>?>(
                   context: context,
                   builder: (ctx) {
@@ -445,11 +442,13 @@ class AddAppPageState extends State<AddAppPage> {
           }
         }
       } catch (e) {
-        showError(e, context);
+        if (context.mounted) showError(e, context);
       } finally {
-        setState(() {
-          searching = false;
-        });
+        if (context.mounted) {
+          setState(() {
+            searching = false;
+          });
+        }
       }
     }
 
