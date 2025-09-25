@@ -2005,7 +2005,7 @@ class AppsProvider with ChangeNotifier {
       shouldExportSettings = overrideExportSettings;
     }
     if (shouldExportSettings > 0) {
-      var settingsValueKeys = settingsProvider.prefsWithCache?.keys;
+      var settingsValueKeys = settingsProvider.prefsWithCache.keys;
       if (shouldExportSettings < 2) {
         settingsValueKeys?.removeWhere((k) => k.endsWith('-creds'));
       }
@@ -2013,7 +2013,7 @@ class AppsProvider with ChangeNotifier {
         (settingsValueKeys
                 ?.map(
                   (key) =>
-                      MapEntry(key, settingsProvider.prefsWithCache?.get(key)),
+                      MapEntry(key, settingsProvider.prefsWithCache.get(key)),
                 )
                 .toList()) ??
             [],
@@ -2097,18 +2097,18 @@ class AppsProvider with ChangeNotifier {
       var settingsMap = decodedJSON['settings'] as Map<String, Object?>;
       settingsMap.forEach((key, value) {
         if (value is int) {
-          settingsProvider.prefsWithCache?.setInt(key, value);
+          settingsProvider.prefsWithCache.setInt(key, value);
         } else if (value is double) {
-          settingsProvider.prefsWithCache?.setDouble(key, value);
+          settingsProvider.prefsWithCache.setDouble(key, value);
         } else if (value is bool) {
-          settingsProvider.prefsWithCache?.setBool(key, value);
+          settingsProvider.prefsWithCache.setBool(key, value);
         } else if (value is List) {
-          settingsProvider.prefsWithCache?.setStringList(
+          settingsProvider.prefsWithCache.setStringList(
             key,
             value.map((e) => e as String).toList(),
           );
         } else {
-          settingsProvider.prefsWithCache?.setString(key, value as String);
+          settingsProvider.prefsWithCache.setString(key, value as String);
         }
       });
     }
