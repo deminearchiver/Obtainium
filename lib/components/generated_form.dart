@@ -6,6 +6,7 @@ import 'package:obtainium/flutter.dart';
 import 'package:obtainium/components/generated_form_modal.dart';
 import 'package:obtainium/providers/source_provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:collection/collection.dart';
 
 abstract class GeneratedFormItem {
   late String key;
@@ -507,6 +508,8 @@ class _GeneratedFormState extends State<GeneratedForm> {
                 alignment:
                     (widget.items[r][e] as GeneratedFormTagInput).alignment,
                 crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 12.0,
+                runSpacing: 8.0,
                 children: [
                   // (values[fieldKey] as Map<String, MapEntry<int, bool>>?)
                   //             ?.isEmpty ==
@@ -516,183 +519,485 @@ class _GeneratedFormState extends State<GeneratedForm> {
                   //             .emptyMessage,
                   //       )
                   //     : const SizedBox.shrink(),
+                  // TODO: get rid of category colors across the app
+                  // TODO: make categories be tags
                   ...(values[fieldKey] as Map<String, MapEntry<int, bool>>?)
                           ?.entries
                           .map((e2) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 4,
-                              ),
-                              child: ChoiceChip(
-                                label: Text(e2.key),
-                                backgroundColor: Color(
-                                  e2.value.key,
-                                ).withAlpha(50),
-                                selectedColor: Color(e2.value.key),
-                                visualDensity: VisualDensity.compact,
-                                selected: e2.value.value,
-                                onSelected: (value) {
-                                  setState(() {
+                            final isSelected = e2.value.value;
+                            return FilledButton(
+                              onPressed: () {
+                                final value = !isSelected;
+                                setState(() {
+                                  (values[fieldKey]
+                                      as Map<String, MapEntry<int, bool>>)[e2
+                                      .key] = MapEntry(
                                     (values[fieldKey]
-                                        as Map<String, MapEntry<int, bool>>)[e2
-                                        .key] = MapEntry(
-                                      (values[fieldKey]
-                                              as Map<
-                                                String,
-                                                MapEntry<int, bool>
-                                              >)[e2.key]!
-                                          .key,
-                                      value,
-                                    );
-                                    if ((widget.items[r][e]
-                                                as GeneratedFormTagInput)
-                                            .singleSelect &&
-                                        value == true) {
-                                      for (var key
-                                          in (values[fieldKey]
+                                            as Map<
+                                              String,
+                                              MapEntry<int, bool>
+                                            >)[e2.key]!
+                                        .key,
+                                    value,
+                                  );
+                                  if ((widget.items[r][e]
+                                              as GeneratedFormTagInput)
+                                          .singleSelect &&
+                                      value == true) {
+                                    for (var key
+                                        in (values[fieldKey]
+                                                as Map<
+                                                  String,
+                                                  MapEntry<int, bool>
+                                                >)
+                                            .keys) {
+                                      if (key != e2.key) {
+                                        (values[fieldKey]
+                                            as Map<
+                                              String,
+                                              MapEntry<int, bool>
+                                            >)[key] = MapEntry(
+                                          (values[fieldKey]
                                                   as Map<
                                                     String,
                                                     MapEntry<int, bool>
-                                                  >)
-                                              .keys) {
-                                        if (key != e2.key) {
-                                          (values[fieldKey]
-                                              as Map<
-                                                String,
-                                                MapEntry<int, bool>
-                                              >)[key] = MapEntry(
-                                            (values[fieldKey]
-                                                    as Map<
-                                                      String,
-                                                      MapEntry<int, bool>
-                                                    >)[key]!
-                                                .key,
-                                            false,
-                                          );
-                                        }
+                                                  >)[key]!
+                                              .key,
+                                          false,
+                                        );
                                       }
                                     }
-                                    someValueChanged();
-                                  });
-                                },
-                              ),
-                            );
-                          }) ??
-                      [const SizedBox.shrink()],
-                  (values[fieldKey] as Map<String, MapEntry<int, bool>>?)
-                              ?.values
-                              .where((e) => e.value)
-                              .length ==
-                          1
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                          child: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                var temp =
-                                    values[fieldKey]
-                                        as Map<String, MapEntry<int, bool>>;
-                                // get selected category str where bool is true
-                                final oldEntry = temp.entries.firstWhere(
-                                  (entry) => entry.value.value,
-                                );
-                                // generate new color, ensure it is not the same
-                                int newColor = oldEntry.value.key;
-                                while (oldEntry.value.key == newColor) {
-                                  newColor = generateRandomLightColor()
-                                      .toARGB32();
-                                }
-                                // Update entry with new color, remain selected
-                                temp.update(
-                                  oldEntry.key,
-                                  (old) => MapEntry(newColor, old.value),
-                                );
-                                values[fieldKey] = temp;
-                                someValueChanged();
-                              });
-                            },
-                            icon: const IconLegacy(
-                              Symbols.format_color_fill_rounded,
-                            ),
-                            visualDensity: VisualDensity.compact,
-                            tooltip: tr('colour'),
-                          ),
-                        )
-                      : const SizedBox.shrink(),
-                  (values[fieldKey] as Map<String, MapEntry<int, bool>>?)
-                              ?.values
-                              .where((e) => e.value)
-                              .isNotEmpty ==
-                          true
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                          child: IconButton(
-                            onPressed: () {
-                              void fn() {
-                                setState(() {
-                                  var temp =
-                                      values[fieldKey]
-                                          as Map<String, MapEntry<int, bool>>;
-                                  temp.removeWhere((key, value) => value.value);
-                                  values[fieldKey] = temp;
+                                  }
                                   someValueChanged();
                                 });
-                              }
-
-                              if ((widget.items[r][e] as GeneratedFormTagInput)
-                                      .deleteConfirmationMessage !=
-                                  null) {
-                                var message =
-                                    (widget.items[r][e]
-                                            as GeneratedFormTagInput)
-                                        .deleteConfirmationMessage!;
-                                showDialog<Map<String, dynamic>?>(
-                                  context: context,
-                                  builder: (ctx) {
-                                    return GeneratedFormModal(
-                                      title: message.key,
-                                      message: message.value,
-                                      items: const [],
-                                    );
-                                  },
-                                ).then((value) {
-                                  if (value != null) {
-                                    fn();
-                                  }
-                                });
-                              } else {
-                                fn();
-                              }
-                            },
-                            icon: const IconLegacy(Symbols.remove_rounded),
-                            visualDensity: VisualDensity.compact,
-                            tooltip: tr('remove'),
-                          ),
-                        )
-                      : const SizedBox.shrink(),
-                  (values[fieldKey] as Map<String, MapEntry<int, bool>>?)
-                              ?.isEmpty ==
-                          true
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                          child: TextButton.icon(
-                            onPressed: onAddPressed,
-                            icon: const IconLegacy(Symbols.add_rounded),
-                            label: Text(
-                              (widget.items[r][e] as GeneratedFormTagInput)
-                                  .label,
+                              },
+                              style: ButtonStyle(
+                                animationDuration: Duration.zero,
+                                elevation: const WidgetStatePropertyAll(0.0),
+                                shadowColor: WidgetStateColor.transparent,
+                                minimumSize: const WidgetStatePropertyAll(
+                                  Size(48.0, 40.0),
+                                ),
+                                fixedSize: const WidgetStatePropertyAll(null),
+                                maximumSize: const WidgetStatePropertyAll(
+                                  Size.infinite,
+                                ),
+                                padding: const WidgetStatePropertyAll(
+                                  EdgeInsets.symmetric(
+                                    horizontal: 16.0,
+                                    vertical: 10.0,
+                                  ),
+                                ),
+                                iconSize: const WidgetStatePropertyAll(20.0),
+                                shape: WidgetStatePropertyAll(
+                                  CornersBorder.rounded(
+                                    corners: Corners.all(
+                                      isSelected
+                                          ? ShapeTheme.of(context).corner.medium
+                                          : ShapeTheme.of(context).corner.full,
+                                    ),
+                                  ),
+                                ),
+                                overlayColor: WidgetStateLayerColor(
+                                  color: WidgetStatePropertyAll(
+                                    isSelected
+                                        ? ColorTheme.of(context).onSecondary
+                                        : ColorTheme.of(
+                                            context,
+                                          ).onSecondaryContainer,
+                                  ),
+                                  opacity: StateTheme.of(
+                                    context,
+                                  ).stateLayerOpacity,
+                                ),
+                                backgroundColor:
+                                    WidgetStateProperty.resolveWith(
+                                      (states) =>
+                                          states.contains(WidgetState.disabled)
+                                          ? ColorTheme.of(
+                                              context,
+                                            ).onSurface.withValues(alpha: 0.1)
+                                          : isSelected
+                                          ? ColorTheme.of(context).secondary
+                                          : ColorTheme.of(
+                                              context,
+                                            ).secondaryContainer,
+                                    ),
+                                foregroundColor:
+                                    WidgetStateProperty.resolveWith(
+                                      (states) =>
+                                          states.contains(WidgetState.disabled)
+                                          ? ColorTheme.of(
+                                              context,
+                                            ).onSurface.withValues(alpha: 0.38)
+                                          : isSelected
+                                          ? ColorTheme.of(context).onSecondary
+                                          : ColorTheme.of(
+                                              context,
+                                            ).onSecondaryContainer,
+                                    ),
+                                textStyle: WidgetStateProperty.resolveWith(
+                                  (states) =>
+                                      (isSelected
+                                              ? TypescaleTheme.of(
+                                                  context,
+                                                ).labelLargeEmphasized
+                                              : TypescaleTheme.of(
+                                                  context,
+                                                ).labelLarge)
+                                          .toTextStyle(),
+                                ),
+                              ),
+                              child: Text(
+                                e2.key,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            );
+                            // return Padding(
+                            //   padding: const EdgeInsets.symmetric(
+                            //     horizontal: 4,
+                            //   ),
+                            //   child: ChoiceChip(
+                            //     label: Text(e2.key),
+                            //     backgroundColor: Color(
+                            //       e2.value.key,
+                            //     ).withAlpha(50),
+                            //     selectedColor: Color(e2.value.key),
+                            //     visualDensity: VisualDensity.compact,
+                            //     selected: e2.value.value,
+                            // onSelected: (value) {
+                            //   setState(() {
+                            //     (values[fieldKey]
+                            //         as Map<String, MapEntry<int, bool>>)[e2
+                            //         .key] = MapEntry(
+                            //       (values[fieldKey]
+                            //               as Map<
+                            //                 String,
+                            //                 MapEntry<int, bool>
+                            //               >)[e2.key]!
+                            //           .key,
+                            //       value,
+                            //     );
+                            //     if ((widget.items[r][e]
+                            //                 as GeneratedFormTagInput)
+                            //             .singleSelect &&
+                            //         value == true) {
+                            //       for (var key
+                            //           in (values[fieldKey]
+                            //                   as Map<
+                            //                     String,
+                            //                     MapEntry<int, bool>
+                            //                   >)
+                            //               .keys) {
+                            //         if (key != e2.key) {
+                            //           (values[fieldKey]
+                            //               as Map<
+                            //                 String,
+                            //                 MapEntry<int, bool>
+                            //               >)[key] = MapEntry(
+                            //             (values[fieldKey]
+                            //                     as Map<
+                            //                       String,
+                            //                       MapEntry<int, bool>
+                            //                     >)[key]!
+                            //                 .key,
+                            //             false,
+                            //           );
+                            //         }
+                            //       }
+                            //     }
+                            //     someValueChanged();
+                            //   });
+                            // },
+                            //   ),
+                            // );
+                          }) ??
+                      [const SizedBox.shrink()],
+                ],
+              ),
+              Flex.horizontal(
+                mainAxisAlignment:
+                    (values[fieldKey] as Map<String, MapEntry<int, bool>>?)
+                            ?.isEmpty ==
+                        true
+                    ? MainAxisAlignment.center
+                    : MainAxisAlignment.center,
+                children: [
+                  if ((values[fieldKey] as Map<String, MapEntry<int, bool>>?)
+                          ?.values
+                          .where((e) => e.value)
+                          .length ==
+                      1) ...[
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          var temp =
+                              values[fieldKey]
+                                  as Map<String, MapEntry<int, bool>>;
+                          // get selected category str where bool is true
+                          final oldEntry = temp.entries.firstWhere(
+                            (entry) => entry.value.value,
+                          );
+                          // generate new color, ensure it is not the same
+                          int newColor = oldEntry.value.key;
+                          while (oldEntry.value.key == newColor) {
+                            newColor = generateRandomLightColor().toARGB32();
+                          }
+                          // Update entry with new color, remain selected
+                          temp.update(
+                            oldEntry.key,
+                            (old) => MapEntry(newColor, old.value),
+                          );
+                          values[fieldKey] = temp;
+                          someValueChanged();
+                        });
+                      },
+                      style: ButtonStyle(
+                        animationDuration: Duration.zero,
+                        elevation: const WidgetStatePropertyAll(0.0),
+                        shadowColor: WidgetStateColor.transparent,
+                        minimumSize: const WidgetStatePropertyAll(Size.zero),
+                        fixedSize: const WidgetStatePropertyAll(
+                          Size(52.0, 40.0),
+                        ),
+                        maximumSize: const WidgetStatePropertyAll(
+                          Size.infinite,
+                        ),
+                        padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+                        iconSize: const WidgetStatePropertyAll(24.0),
+                        shape: WidgetStatePropertyAll(
+                          CornersBorder.rounded(
+                            corners: Corners.all(
+                              ShapeTheme.of(context).corner.full,
                             ),
                           ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                          child: IconButton(
-                            onPressed: onAddPressed,
-                            icon: const IconLegacy(Symbols.add_rounded),
-                            visualDensity: VisualDensity.compact,
-                            tooltip: tr('add'),
+                        ),
+                        overlayColor: WidgetStateLayerColor(
+                          color: WidgetStatePropertyAll(
+                            ColorTheme.of(context).onSurfaceVariant,
+                          ),
+                          opacity: StateTheme.of(context).stateLayerOpacity,
+                        ),
+                        backgroundColor: WidgetStateProperty.resolveWith(
+                          (states) => states.contains(WidgetState.disabled)
+                              ? ColorTheme.of(
+                                  context,
+                                ).onSurface.withValues(alpha: 0.1)
+                              : ColorTheme.of(context).surfaceContainer,
+                        ),
+                        iconColor: WidgetStateProperty.resolveWith(
+                          (states) => states.contains(WidgetState.disabled)
+                              ? ColorTheme.of(
+                                  context,
+                                ).onSurface.withValues(alpha: 0.38)
+                              : ColorTheme.of(context).onSurfaceVariant,
+                        ),
+                      ),
+                      icon: const IconLegacy(Symbols.format_color_fill_rounded),
+                      tooltip: tr('colour'),
+                    ),
+                    const SizedBox(width: 12.0),
+                  ],
+                  if ((values[fieldKey] as Map<String, MapEntry<int, bool>>?)
+                          ?.values
+                          .where((e) => e.value)
+                          .isNotEmpty ==
+                      true) ...[
+                    IconButton(
+                      onPressed: () {
+                        void fn() {
+                          setState(() {
+                            var temp =
+                                values[fieldKey]
+                                    as Map<String, MapEntry<int, bool>>;
+                            temp.removeWhere((key, value) => value.value);
+                            values[fieldKey] = temp;
+                            someValueChanged();
+                          });
+                        }
+
+                        if ((widget.items[r][e] as GeneratedFormTagInput)
+                                .deleteConfirmationMessage !=
+                            null) {
+                          var message =
+                              (widget.items[r][e] as GeneratedFormTagInput)
+                                  .deleteConfirmationMessage!;
+                          showDialog<Map<String, dynamic>?>(
+                            context: context,
+                            builder: (ctx) {
+                              return GeneratedFormModal(
+                                title: message.key,
+                                message: message.value,
+                                items: const [],
+                              );
+                            },
+                          ).then((value) {
+                            if (value != null) {
+                              fn();
+                            }
+                          });
+                        } else {
+                          fn();
+                        }
+                      },
+                      style: ButtonStyle(
+                        animationDuration: Duration.zero,
+                        elevation: const WidgetStatePropertyAll(0.0),
+                        shadowColor: WidgetStateColor.transparent,
+                        minimumSize: const WidgetStatePropertyAll(Size.zero),
+                        fixedSize: const WidgetStatePropertyAll(
+                          Size(52.0, 40.0),
+                        ),
+                        maximumSize: const WidgetStatePropertyAll(
+                          Size.infinite,
+                        ),
+                        padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+                        iconSize: const WidgetStatePropertyAll(24.0),
+                        shape: WidgetStatePropertyAll(
+                          CornersBorder.rounded(
+                            corners: Corners.all(
+                              ShapeTheme.of(context).corner.full,
+                            ),
                           ),
                         ),
+                        overlayColor: WidgetStateLayerColor(
+                          color: WidgetStatePropertyAll(
+                            ColorTheme.of(context).onSurfaceVariant,
+                          ),
+                          opacity: StateTheme.of(context).stateLayerOpacity,
+                        ),
+                        backgroundColor: WidgetStateProperty.resolveWith(
+                          (states) => states.contains(WidgetState.disabled)
+                              ? ColorTheme.of(
+                                  context,
+                                ).onSurface.withValues(alpha: 0.1)
+                              : ColorTheme.of(context).surfaceContainer,
+                        ),
+                        iconColor: WidgetStateProperty.resolveWith(
+                          (states) => states.contains(WidgetState.disabled)
+                              ? ColorTheme.of(
+                                  context,
+                                ).onSurface.withValues(alpha: 0.38)
+                              : ColorTheme.of(context).onSurfaceVariant,
+                        ),
+                      ),
+                      icon: const IconLegacy(Symbols.remove_rounded),
+                      tooltip: tr('remove'),
+                    ),
+                    const SizedBox(width: 12.0),
+                  ],
+                  if ((values[fieldKey] as Map<String, MapEntry<int, bool>>?)
+                          ?.isEmpty ==
+                      true)
+                    FilledButton.icon(
+                      onPressed: onAddPressed,
+                      style: ButtonStyle(
+                        animationDuration: Duration.zero,
+                        elevation: const WidgetStatePropertyAll(0.0),
+                        shadowColor: WidgetStateColor.transparent,
+                        minimumSize: const WidgetStatePropertyAll(
+                          Size(48.0, 40.0),
+                        ),
+                        fixedSize: const WidgetStatePropertyAll(null),
+                        maximumSize: const WidgetStatePropertyAll(
+                          Size.infinite,
+                        ),
+                        padding: const WidgetStatePropertyAll(
+                          EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                            vertical: 10.0,
+                          ),
+                        ),
+                        iconSize: const WidgetStatePropertyAll(20.0),
+                        shape: WidgetStatePropertyAll(
+                          CornersBorder.rounded(
+                            corners: Corners.all(
+                              ShapeTheme.of(context).corner.medium,
+                            ),
+                          ),
+                        ),
+
+                        overlayColor: WidgetStateLayerColor(
+                          color: WidgetStatePropertyAll(
+                            ColorTheme.of(context).onSurfaceVariant,
+                          ),
+                          opacity: StateTheme.of(context).stateLayerOpacity,
+                        ),
+                        backgroundColor: WidgetStateProperty.resolveWith(
+                          (states) => states.contains(WidgetState.disabled)
+                              ? ColorTheme.of(
+                                  context,
+                                ).onSurface.withValues(alpha: 0.1)
+                              : ColorTheme.of(context).surfaceContainer,
+                        ),
+                        foregroundColor: WidgetStateProperty.resolveWith(
+                          (states) => states.contains(WidgetState.disabled)
+                              ? ColorTheme.of(
+                                  context,
+                                ).onSurface.withValues(alpha: 0.38)
+                              : ColorTheme.of(context).onSurfaceVariant,
+                        ),
+                        textStyle: WidgetStateProperty.resolveWith(
+                          (states) => TypescaleTheme.of(
+                            context,
+                          ).labelLarge.toTextStyle(),
+                        ),
+                      ),
+                      icon: const IconLegacy(Symbols.add_rounded),
+                      label: Text(
+                        (widget.items[r][e] as GeneratedFormTagInput).label,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )
+                  else
+                    IconButton(
+                      onPressed: onAddPressed,
+                      style: ButtonStyle(
+                        animationDuration: Duration.zero,
+                        elevation: const WidgetStatePropertyAll(0.0),
+                        shadowColor: WidgetStateColor.transparent,
+                        minimumSize: const WidgetStatePropertyAll(Size.zero),
+                        fixedSize: const WidgetStatePropertyAll(
+                          Size(52.0, 40.0),
+                        ),
+                        maximumSize: const WidgetStatePropertyAll(
+                          Size.infinite,
+                        ),
+                        padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+                        iconSize: const WidgetStatePropertyAll(24.0),
+                        shape: WidgetStatePropertyAll(
+                          CornersBorder.rounded(
+                            corners: Corners.all(
+                              ShapeTheme.of(context).corner.full,
+                            ),
+                          ),
+                        ),
+                        overlayColor: WidgetStateLayerColor(
+                          color: WidgetStatePropertyAll(
+                            ColorTheme.of(context).onSurfaceVariant,
+                          ),
+                          opacity: StateTheme.of(context).stateLayerOpacity,
+                        ),
+                        backgroundColor: WidgetStateProperty.resolveWith(
+                          (states) => states.contains(WidgetState.disabled)
+                              ? ColorTheme.of(
+                                  context,
+                                ).onSurface.withValues(alpha: 0.1)
+                              : ColorTheme.of(context).surfaceContainer,
+                        ),
+                        iconColor: WidgetStateProperty.resolveWith(
+                          (states) => states.contains(WidgetState.disabled)
+                              ? ColorTheme.of(
+                                  context,
+                                ).onSurface.withValues(alpha: 0.38)
+                              : ColorTheme.of(context).onSurfaceVariant,
+                        ),
+                      ),
+                      icon: const IconLegacy(Symbols.add_rounded),
+                      tooltip: tr('add'),
+                    ),
                 ],
               ),
             ],
