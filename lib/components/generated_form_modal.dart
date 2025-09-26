@@ -110,7 +110,7 @@ class _GeneratedFormModalState extends State<GeneratedFormModal> {
           ),
         ),
         widget.singleNullReturnButton == null
-            ? TextButton(
+            ? FilledButton(
                 style: ButtonStyle(
                   animationDuration: Duration.zero,
                   elevation: const WidgetStatePropertyAll(0.0),
