@@ -23,126 +23,59 @@ class HomePage extends StatefulWidget {
 }
 
 class NavigationPageItem {
-  late String title;
-  late IconData icon;
-  late Widget widget;
+  const NavigationPageItem(this.destination, this.widget);
 
-  NavigationPageItem(this.title, this.icon, this.widget);
+  final NavigationDestination destination;
+  final Widget widget;
 }
 
 class _HomePageState extends State<HomePage> {
-  List<int> selectedIndexHistory = [];
-  bool isReversing = false;
-  int prevAppCount = -1;
-  bool prevIsLoading = true;
-  late AppLinks _appLinks;
+  final AppLinks _appLinks = AppLinks();
   StreamSubscription<Uri>? _linkSubscription;
-  bool isLinkActivity = false;
+  bool _isLinkActivity = false;
+
+  final List<int> _selectedIndexHistory = <int>[];
+  int _prevAppCount = -1;
+  bool _prevIsLoading = true;
 
   List<NavigationPageItem> pages = [
     NavigationPageItem(
-      tr('appsString'),
-      Symbols.apps_rounded,
+      NavigationDestination(
+        icon: const IconLegacy(Symbols.apps_rounded, fill: 0.0),
+        selectedIcon: const IconLegacy(Symbols.apps_rounded, fill: 1.0),
+        label: tr("appsString"),
+      ),
       AppsPage(key: GlobalKey<AppsPageState>()),
     ),
     NavigationPageItem(
-      tr('addApp'),
-      Symbols.add_rounded,
+      NavigationDestination(
+        icon: const IconLegacy(Symbols.add_rounded, fill: 0.0),
+        selectedIcon: const IconLegacy(Symbols.add_rounded, fill: 1.0),
+        label: tr("addApp"),
+      ),
       AddAppPage(key: GlobalKey<AddAppPageState>()),
     ),
     NavigationPageItem(
-      tr('importExport'),
-      Symbols.import_export_rounded,
+      NavigationDestination(
+        icon: const IconLegacy(Symbols.swap_vert_rounded, fill: 0.0),
+        selectedIcon: const IconLegacy(Symbols.swap_vert_rounded, fill: 1.0),
+        label: tr("importExport"),
+      ),
       const ImportExportPage(),
     ),
     NavigationPageItem(
-      tr('settings'),
-      // TODO: this icon must have fill: 1
-      Symbols.settings_rounded,
+      NavigationDestination(
+        icon: const IconLegacy(Symbols.settings_rounded, fill: 0.0),
+        selectedIcon: const IconLegacy(Symbols.settings_rounded, fill: 1.0),
+        label: tr("settings"),
+      ),
       const SettingsPage(),
     ),
   ];
 
-  @override
-  void initState() {
-    super.initState();
-    initDeepLinks();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      var sp = context.read<SettingsProvider>();
-      if (!sp.welcomeShown) {
-        await showDialog(
-          context: context,
-          builder: (ctx) {
-            return AlertDialog(
-              title: Text(tr('welcome')),
-              content: Flex.vertical(
-                mainAxisSize: MainAxisSize.min,
-                spacing: 20,
-                children: [
-                  Text(tr('documentationLinksNote')),
-                  GestureDetector(
-                    onTap: () {
-                      launchUrlString(
-                        'https://github.com/ImranR98/Obtainium/blob/main/README.md',
-                        mode: LaunchMode.externalApplication,
-                      );
-                    },
-                    child: const Text(
-                      'https://github.com/ImranR98/Obtainium/blob/main/README.md',
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Flex.vertical(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(tr('batteryOptimizationNote')),
-                      GestureDetector(
-                        onTap: () {
-                          final intent = AndroidIntent(
-                            action:
-                                'android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS',
-                            package:
-                                obtainiumId, // Replace with your app's package name
-                          );
-
-                          intent.launch();
-                        },
-                        child: Text(
-                          tr('settings'),
-                          style: const TextStyle(
-                            decoration: TextDecoration.underline,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    sp.welcomeShown = true;
-                    Navigator.of(context).pop(null);
-                  },
-                  child: Text(tr('ok')),
-                ),
-              ],
-            );
-          },
-        );
-      }
-    });
-  }
-
-  Future<void> initDeepLinks() async {
-    _appLinks = AppLinks();
-
+  Future<void> _initDeepLinks() async {
     Future<void> goToAddApp(String data) async {
-      switchToPage(1);
+      _switchToPage(1);
       while ((pages[1].widget.key as GlobalKey<AddAppPageState>?)
               ?.currentState ==
           null) {
@@ -153,7 +86,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     Future<void> interpretLink(Uri uri) async {
-      isLinkActivity = true;
+      _isLinkActivity = true;
       var action = uri.host;
       var data = uri.path.length > 1 ? uri.path.substring(1) : "";
       try {
@@ -188,6 +121,7 @@ class _HomePageState extends State<HomePage> {
                 },
               ) !=
               null) {
+            if (!mounted) return;
             var appsProvider = context.read<AppsProvider>();
             var result = await appsProvider.import(
               action == 'app'
@@ -195,6 +129,7 @@ class _HomePageState extends State<HomePage> {
                   : '{ "apps": $dataStr }',
             );
 
+            if (!mounted) return;
             showMessage(
               tr(
                 'importedX',
@@ -207,6 +142,7 @@ class _HomePageState extends State<HomePage> {
           throw ObtainiumError(tr('unknown'));
         }
       } catch (e) {
+        if (!mounted) return;
         showError(e, context);
       }
     }
@@ -228,17 +164,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void setIsReversing(int targetIndex) {
-    bool reversing =
-        selectedIndexHistory.isNotEmpty &&
-        selectedIndexHistory.last > targetIndex;
-    setState(() {
-      isReversing = reversing;
-    });
-  }
-
-  Future<void> switchToPage(int index) async {
-    setIsReversing(index);
+  Future<void> _switchToPage(int index) async {
     if (index == 0) {
       while ((pages[0].widget.key as GlobalKey<AppsPageState>).currentState !=
           null) {
@@ -246,17 +172,17 @@ class _HomePageState extends State<HomePage> {
         await Future.delayed(const Duration(microseconds: 1));
       }
       setState(() {
-        selectedIndexHistory.clear();
+        _selectedIndexHistory.clear();
       });
-    } else if (selectedIndexHistory.isEmpty ||
-        (selectedIndexHistory.isNotEmpty &&
-            selectedIndexHistory.last != index)) {
+    } else if (_selectedIndexHistory.isEmpty ||
+        (_selectedIndexHistory.isNotEmpty &&
+            _selectedIndexHistory.last != index)) {
       setState(() {
-        int existingInd = selectedIndexHistory.indexOf(index);
+        int existingInd = _selectedIndexHistory.indexOf(index);
         if (existingInd >= 0) {
-          selectedIndexHistory.removeAt(existingInd);
+          _selectedIndexHistory.removeAt(existingInd);
         }
-        selectedIndexHistory.add(index);
+        _selectedIndexHistory.add(index);
       });
     }
   }
@@ -292,52 +218,159 @@ class _HomePageState extends State<HomePage> {
   // }
 
   @override
-  Widget build(BuildContext context) {
-    AppsProvider appsProvider = context.watch<AppsProvider>();
-    SettingsProvider settingsProvider = context.watch<SettingsProvider>();
+  void initState() {
+    super.initState();
+    _initDeepLinks();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) return;
+      var sp = context.read<SettingsProvider>();
+      if (!sp.welcomeShown) {
+        await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text(tr('welcome')),
+            content: Flex.vertical(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 20,
+              children: [
+                Text(tr('documentationLinksNote')),
+                GestureDetector(
+                  onTap: () {
+                    launchUrlString(
+                      'https://github.com/ImranR98/Obtainium/blob/main/README.md',
+                      mode: LaunchMode.externalApplication,
+                    );
+                  },
+                  child: const Text(
+                    'https://github.com/ImranR98/Obtainium/blob/main/README.md',
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Flex.vertical(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(tr('batteryOptimizationNote')),
+                    GestureDetector(
+                      onTap: () {
+                        const intent = AndroidIntent(
+                          action:
+                              'android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS',
+                          package:
+                              obtainiumId, // Replace with your app's package name
+                        );
 
-    if (!prevIsLoading &&
-        prevAppCount >= 0 &&
-        appsProvider.apps.length > prevAppCount &&
-        selectedIndexHistory.isNotEmpty &&
-        selectedIndexHistory.last == 1 &&
-        !isLinkActivity) {
-      switchToPage(0);
+                        intent.launch();
+                      },
+                      child: Text(
+                        tr('settings'),
+                        style: const TextStyle(
+                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  sp.welcomeShown = true;
+                  Navigator.of(context).pop();
+                },
+                style: ButtonStyle(
+                  animationDuration: Duration.zero,
+                  elevation: const WidgetStatePropertyAll(0.0),
+                  shadowColor: WidgetStateColor.transparent,
+                  minimumSize: const WidgetStatePropertyAll(Size(48.0, 40.0)),
+                  fixedSize: const WidgetStatePropertyAll(null),
+                  maximumSize: const WidgetStatePropertyAll(Size.infinite),
+                  padding: const WidgetStatePropertyAll(
+                    EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                  ),
+                  iconSize: const WidgetStatePropertyAll(20.0),
+                  shape: WidgetStatePropertyAll(
+                    CornersBorder.rounded(
+                      corners: Corners.all(ShapeTheme.of(context).corner.full),
+                    ),
+                  ),
+                  overlayColor: WidgetStateLayerColor(
+                    color: WidgetStatePropertyAll(
+                      ColorTheme.of(context).primary,
+                    ),
+                    opacity: StateTheme.of(context).stateLayerOpacity,
+                  ),
+                  backgroundColor: WidgetStateProperty.resolveWith(
+                    (states) => states.contains(WidgetState.disabled)
+                        ? ColorTheme.of(
+                            context,
+                          ).onSurface.withValues(alpha: 0.1)
+                        : Colors.transparent,
+                  ),
+                  foregroundColor: WidgetStateProperty.resolveWith(
+                    (states) => states.contains(WidgetState.disabled)
+                        ? ColorTheme.of(
+                            context,
+                          ).onSurface.withValues(alpha: 0.38)
+                        : ColorTheme.of(context).primary,
+                  ),
+                  textStyle: WidgetStateProperty.resolveWith(
+                    (states) =>
+                        TypescaleTheme.of(context).labelLarge.toTextStyle(),
+                  ),
+                ),
+                child: Text(tr('ok')),
+              ),
+            ],
+          ),
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _linkSubscription?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final appsProvider = context.watch<AppsProvider>();
+
+    if (!_prevIsLoading &&
+        _prevAppCount >= 0 &&
+        appsProvider.apps.length > _prevAppCount &&
+        _selectedIndexHistory.isNotEmpty &&
+        _selectedIndexHistory.last == 1 &&
+        !_isLinkActivity) {
+      _switchToPage(0);
     }
-    prevAppCount = appsProvider.apps.length;
-    prevIsLoading = appsProvider.loadingApps;
+    _prevAppCount = appsProvider.apps.length;
+    _prevIsLoading = appsProvider.loadingApps;
 
     // TODO: this doesn't seem to do anything because onWillPop is null
     return Scaffold(
       backgroundColor: ColorTheme.of(context).surface,
       body: pages
           .elementAt(
-            selectedIndexHistory.isEmpty ? 0 : selectedIndexHistory.last,
+            _selectedIndexHistory.isEmpty ? 0 : _selectedIndexHistory.last,
           )
           .widget,
       bottomNavigationBar: NavigationBar(
-        destinations: pages
-            .map(
-              (e) => NavigationDestination(
-                icon: IconLegacy(e.icon),
-                label: e.title,
-              ),
-            )
-            .toList(),
         onDestinationSelected: (index) async {
           HapticFeedback.selectionClick();
-          switchToPage(index);
+          _switchToPage(index);
         },
-        selectedIndex: selectedIndexHistory.isEmpty
+        selectedIndex: _selectedIndexHistory.isEmpty
             ? 0
-            : selectedIndexHistory.last,
+            : _selectedIndexHistory.last,
+        destinations: pages.map((e) => e.destination).toList(),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _linkSubscription?.cancel();
   }
 }
