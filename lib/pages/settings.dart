@@ -386,20 +386,18 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
       overlayColor: WidgetStateLayerColor(
-        color: WidgetStatePropertyAll(
-          ColorTheme.of(context).onSecondaryContainer,
-        ),
+        color: WidgetStatePropertyAll(ColorTheme.of(context).onSecondary),
         opacity: StateTheme.of(context).stateLayerOpacity,
       ),
       backgroundColor: WidgetStateProperty.resolveWith(
         (states) => states.contains(WidgetState.disabled)
             ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
-            : ColorTheme.of(context).secondaryContainer,
+            : ColorTheme.of(context).secondary,
       ),
       iconColor: WidgetStateProperty.resolveWith(
         (states) => states.contains(WidgetState.disabled)
             ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
-            : ColorTheme.of(context).onSecondaryContainer,
+            : ColorTheme.of(context).onSecondary,
       ),
     );
 
