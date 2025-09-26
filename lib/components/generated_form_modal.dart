@@ -93,7 +93,11 @@ class _GeneratedFormModalState extends State<GeneratedFormModal> {
               color: WidgetStatePropertyAll(ColorTheme.of(context).primary),
               opacity: StateTheme.of(context).stateLayerOpacity,
             ),
-            backgroundColor: WidgetStateColor.transparent,
+            backgroundColor: WidgetStateProperty.resolveWith(
+              (states) => states.contains(WidgetState.disabled)
+                  ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
+                  : Colors.transparent,
+            ),
             foregroundColor: WidgetStateProperty.resolveWith(
               (states) => states.contains(WidgetState.disabled)
                   ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
@@ -107,68 +111,66 @@ class _GeneratedFormModalState extends State<GeneratedFormModal> {
             widget.singleNullReturnButton == null
                 ? tr('cancel')
                 : widget.singleNullReturnButton!,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
-        widget.singleNullReturnButton == null
-            ? FilledButton(
-                style: ButtonStyle(
-                  animationDuration: Duration.zero,
-                  elevation: const WidgetStatePropertyAll(0.0),
-                  shadowColor: WidgetStateColor.transparent,
-                  minimumSize: const WidgetStatePropertyAll(Size(48.0, 40.0)),
-                  fixedSize: const WidgetStatePropertyAll(null),
-                  maximumSize: const WidgetStatePropertyAll(Size.infinite),
-                  padding: const WidgetStatePropertyAll(
-                    EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-                  ),
-                  iconSize: const WidgetStatePropertyAll(20.0),
-                  shape: WidgetStatePropertyAll(
-                    CornersBorder.rounded(
-                      corners: Corners.all(ShapeTheme.of(context).corner.full),
-                    ),
-                  ),
-                  overlayColor: WidgetStateLayerColor(
-                    color: WidgetStatePropertyAll(
-                      ColorTheme.of(context).onSecondaryContainer,
-                    ),
-                    opacity: StateTheme.of(context).stateLayerOpacity,
-                  ),
-                  backgroundColor: WidgetStateProperty.resolveWith(
-                    (states) => states.contains(WidgetState.disabled)
-                        ? ColorTheme.of(
-                            context,
-                          ).onSurface.withValues(alpha: 0.1)
-                        : ColorTheme.of(context).secondaryContainer,
-                  ),
-                  foregroundColor: WidgetStateProperty.resolveWith(
-                    (states) => states.contains(WidgetState.disabled)
-                        ? ColorTheme.of(
-                            context,
-                          ).onSurface.withValues(alpha: 0.38)
-                        : ColorTheme.of(context).onSecondaryContainer,
-                  ),
-                  textStyle: WidgetStateProperty.resolveWith(
-                    (states) =>
-                        TypescaleTheme.of(context).labelLarge.toTextStyle(),
-                  ),
+        if (widget.singleNullReturnButton == null)
+          TextButton(
+            onPressed: !valid
+                ? null
+                : () {
+                    if (valid) {
+                      HapticFeedback.selectionClick();
+                      Navigator.of(context).pop(values);
+                    }
+                  },
+            // TODO: find usages of primaryActionColour
+            // style: widget.primaryActionColour == null
+            //     ? null
+            //     : TextButton.styleFrom(
+            //         foregroundColor: widget.primaryActionColour,
+            //       ),
+            style: ButtonStyle(
+              animationDuration: Duration.zero,
+              elevation: const WidgetStatePropertyAll(0.0),
+              shadowColor: WidgetStateColor.transparent,
+              minimumSize: const WidgetStatePropertyAll(Size(48.0, 40.0)),
+              fixedSize: const WidgetStatePropertyAll(null),
+              maximumSize: const WidgetStatePropertyAll(Size.infinite),
+              padding: const WidgetStatePropertyAll(
+                EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              ),
+              iconSize: const WidgetStatePropertyAll(20.0),
+              shape: WidgetStatePropertyAll(
+                CornersBorder.rounded(
+                  corners: Corners.all(ShapeTheme.of(context).corner.full),
                 ),
-                // TODO: find usages of primaryActionColour
-                // style: widget.primaryActionColour == null
-                //     ? null
-                //     : TextButton.styleFrom(
-                //         foregroundColor: widget.primaryActionColour,
-                //       ),
-                onPressed: !valid
-                    ? null
-                    : () {
-                        if (valid) {
-                          HapticFeedback.selectionClick();
-                          Navigator.of(context).pop(values);
-                        }
-                      },
-                child: Text(tr('continue')),
-              )
-            : const SizedBox.shrink(),
+              ),
+              overlayColor: WidgetStateLayerColor(
+                color: WidgetStatePropertyAll(ColorTheme.of(context).primary),
+                opacity: StateTheme.of(context).stateLayerOpacity,
+              ),
+              backgroundColor: WidgetStateProperty.resolveWith(
+                (states) => states.contains(WidgetState.disabled)
+                    ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
+                    : Colors.transparent,
+              ),
+              foregroundColor: WidgetStateProperty.resolveWith(
+                (states) => states.contains(WidgetState.disabled)
+                    ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
+                    : ColorTheme.of(context).primary,
+              ),
+              textStyle: WidgetStateProperty.resolveWith(
+                (states) => TypescaleTheme.of(context).labelLarge.toTextStyle(),
+              ),
+            ),
+            child: Text(
+              tr('continue'),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
       ],
     );
   }
