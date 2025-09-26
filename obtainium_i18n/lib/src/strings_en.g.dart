@@ -49,8 +49,9 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 
   // Translations
 
-  /// en: 'Not a valid {} app URL'
-  String get invalidURLForSource => 'Not a valid {} app URL';
+  /// en: 'Not a valid $sourceName app URL'
+  String invalidURLForSource({required Object sourceName}) =>
+      'Not a valid ${sourceName} app URL';
 
   /// en: 'Could not find a suitable release'
   String get noReleaseFound => 'Could not find a suitable release';
@@ -142,8 +143,8 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
   /// en: 'Wrong number of arguments provided'
   String get wrongArgNum => 'Wrong number of arguments provided';
 
-  /// en: '{} is track-only'
-  String get xIsTrackOnly => '{} is track-only';
+  /// en: '$x is track-only'
+  String xIsTrackOnly({required Object x}) => '${x} is track-only';
 
   /// en: 'Source'
   String get source => 'Source';
@@ -190,8 +191,9 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
   /// en: 'Search'
   String get search => 'Search';
 
-  /// en: 'Additional options for {}'
-  String get additionalOptsFor => 'Additional options for {}';
+  /// en: 'Additional options for $x'
+  String additionalOptsFor({required Object x}) =>
+      'Additional options for ${x}';
 
   /// en: 'Supported sources'
   String get supportedSources => 'Supported sources';
@@ -211,11 +213,12 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
   /// en: 'No apps for filter'
   String get noAppsForFilter => 'No apps for filter';
 
-  /// en: 'By {}'
-  String get byX => 'By {}';
+  /// en: 'By $x'
+  String byX({required Object x}) => 'By ${x}';
 
-  /// en: 'Progress: {}%'
-  String get percentProgress => 'Progress: {}%';
+  /// en: 'Progress: $percentage%'
+  String percentProgress({required Object percentage}) =>
+      'Progress: ${percentage}%';
 
   /// en: 'Please wait'
   String get pleaseWait => 'Please wait';
@@ -232,12 +235,12 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
   /// en: 'Select all'
   String get selectAll => 'Select all';
 
-  /// en: 'Deselect {}'
-  String get deselectX => 'Deselect {}';
+  /// en: 'Deselect $x'
+  String deselectX({required Object x}) => 'Deselect ${x}';
 
-  /// en: '{} will be removed from Obtainium but remain installed on device.'
-  String get xWillBeRemovedButRemainInstalled =>
-      '{} will be removed from Obtainium but remain installed on device.';
+  /// en: '$x will be removed from Obtainium but remain installed on device.'
+  String xWillBeRemovedButRemainInstalled({required Object x}) =>
+      '${x} will be removed from Obtainium but remain installed on device.';
 
   /// en: 'Remove selected apps?'
   String get removeSelectedAppsQuestion => 'Remove selected apps?';
@@ -245,17 +248,18 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
   /// en: 'Remove selected apps'
   String get removeSelectedApps => 'Remove selected apps';
 
-  /// en: 'Update {}'
-  String get updateX => 'Update {}';
+  /// en: 'Update $x'
+  String updateX({required Object x}) => 'Update ${x}';
 
-  /// en: 'Install {}'
-  String get installX => 'Install {}';
+  /// en: 'Install $x'
+  String installX({required Object x}) => 'Install ${x}';
 
-  /// en: 'Mark {} (track-only) as updated'
-  String get markXTrackOnlyAsUpdated => 'Mark {}\n(track-only)\nas updated';
+  /// en: 'Mark $x (track-only) as updated'
+  String markXTrackOnlyAsUpdated({required Object x}) =>
+      'Mark ${x}\n(track-only)\nas updated';
 
-  /// en: 'Change {}'
-  String get changeX => 'Change {}';
+  /// en: 'Change $x'
+  String changeX({required Object x}) => 'Change ${x}';
 
   /// en: 'Install/update apps'
   String get installUpdateApps => 'Install/update apps';
@@ -263,8 +267,9 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
   /// en: 'Install/update selected apps'
   String get installUpdateSelectedApps => 'Install/update selected apps';
 
-  /// en: 'Mark {} selected apps as updated?'
-  String get markXSelectedAppsAsUpdated => 'Mark {} selected apps as updated?';
+  /// en: 'Mark $x selected apps as updated?'
+  String markXSelectedAppsAsUpdated({required Object x}) =>
+      'Mark ${x} selected apps as updated?';
 
   /// en: 'No'
   String get no => 'No';
@@ -335,8 +340,8 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
   /// en: 'Settings'
   String get settings => 'Settings';
 
-  /// en: 'Exported to {}'
-  String get exportedTo => 'Exported to {}';
+  /// en: 'Exported to $x'
+  String exportedTo({required Object x}) => 'Exported to ${x}';
 
   /// en: 'Obtainium export'
   String get obtainiumExport => 'Obtainium export';
@@ -344,8 +349,8 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
   /// en: 'Invalid input'
   String get invalidInput => 'Invalid input';
 
-  /// en: 'Imported {}'
-  String get importedX => 'Imported {}';
+  /// en: 'Imported $x'
+  String importedX({required Object x}) => 'Imported ${x}';
 
   /// en: 'Obtainium import'
   String get obtainiumImport => 'Obtainium import';
@@ -362,14 +367,14 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
   /// en: 'Line'
   String get line => 'Line';
 
-  /// en: 'Search {}'
-  String get searchX => 'Search {}';
+  /// en: 'Search $x'
+  String searchX({required Object x}) => 'Search ${x}';
 
   /// en: 'No results found'
   String get noResults => 'No results found';
 
-  /// en: 'Import {}'
-  String get importX => 'Import {}';
+  /// en: 'Import $x'
+  String importX({required Object x}) => 'Import ${x}';
 
   /// en: 'Imported apps may incorrectly show as "not installed". To fix this, re-install them through Obtainium. This should not affect app data. Only affects URL and third-party import methods.'
   String get importedAppsIdDisclaimer =>
@@ -378,8 +383,9 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
   /// en: 'Import errors'
   String get importErrors => 'Import errors';
 
-  /// en: '{} of {} apps imported.'
-  String get importedXOfYApps => '{} of {} apps imported.';
+  /// en: '$x of $y apps imported.'
+  String importedXOfYApps({required Object x, required Object y}) =>
+      '${x} of ${y} apps imported.';
 
   /// en: 'The following URLs had errors:'
   String get followingURLsHadErrors => 'The following URLs had errors:';
@@ -478,12 +484,13 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
   /// en: 'Pick an APK'
   String get pickAnAPK => 'Pick an APK';
 
-  /// en: '{} has more than one package:'
-  String get appHasMoreThanOnePackage => '{} has more than one package:';
+  /// en: '$x has more than one package:'
+  String appHasMoreThanOnePackage({required Object x}) =>
+      '${x} has more than one package:';
 
-  /// en: 'Your device supports the {} CPU architecture.'
-  String get deviceSupportsXArch =>
-      'Your device supports the {} CPU architecture.';
+  /// en: 'Your device supports the $x CPU architecture.'
+  String deviceSupportsXArch({required Object x}) =>
+      'Your device supports the ${x} CPU architecture.';
 
   /// en: 'Your device supports the following CPU architectures:'
   String get deviceSupportsFollowingArchs =>
@@ -492,9 +499,12 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
   /// en: 'Warning'
   String get warning => 'Warning';
 
-  /// en: 'The app source is '{}' but the release package comes from '{}'. Continue?'
-  String get sourceIsXButPackageFromYPrompt =>
-      'The app source is \'{}\' but the release package comes from \'{}\'. Continue?';
+  /// en: 'The app source is '$x' but the release package comes from '$y'. Continue?'
+  String sourceIsXButPackageFromYPrompt({
+    required Object x,
+    required Object y,
+  }) =>
+      'The app source is \'${x}\' but the release package comes from \'${y}\'. Continue?';
 
   /// en: 'Updates available'
   String get updatesAvailable => 'Updates available';
@@ -1142,12 +1152,12 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
         other: 'Remove apps?',
       );
 
-  /// en: '(one) {Too many requests (rate limited) - try again in {} minute} (other) {Too many requests (rate limited) - try again in {} minutes}'
+  /// en: '(one) {Too many requests (rate limited) - try again in $n minute} (other) {Too many requests (rate limited) - try again in $n minutes}'
   String tooManyRequestsTryAgainInMinutes({required num n}) =>
       (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(
         n,
-        one: 'Too many requests (rate limited) - try again in {} minute',
-        other: 'Too many requests (rate limited) - try again in {} minutes',
+        one: 'Too many requests (rate limited) - try again in ${n} minute',
+        other: 'Too many requests (rate limited) - try again in ${n} minutes',
       );
 
   /// en: '(one) {BG update checking encountered a {}, will schedule a retry check in {} minute} (other) {BG update checking encountered a {}, will schedule a retry check in {} minutes}'
