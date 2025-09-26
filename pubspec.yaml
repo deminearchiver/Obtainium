@@ -106,6 +106,7 @@ dependencies:
   flutter_svg: ^2.2.1
   vector_graphics: ^1.1.19
   collection: ^1.19.1
+  nested_scroll_view_plus: ^3.0.0
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to
