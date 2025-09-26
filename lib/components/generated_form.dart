@@ -784,7 +784,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                               ? ColorTheme.of(
                                   context,
                                 ).onSurface.withValues(alpha: 0.1)
-                              : ColorTheme.of(context).surfaceContainer,
+                              : ColorTheme.of(context).surfaceBright,
                         ),
                         iconColor: WidgetStateProperty.resolveWith(
                           (states) => states.contains(WidgetState.disabled)
@@ -872,7 +872,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                               ? ColorTheme.of(
                                   context,
                                 ).onSurface.withValues(alpha: 0.1)
-                              : ColorTheme.of(context).surfaceContainer,
+                              : ColorTheme.of(context).surfaceBright,
                         ),
                         iconColor: WidgetStateProperty.resolveWith(
                           (states) => states.contains(WidgetState.disabled)
@@ -929,7 +929,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                               ? ColorTheme.of(
                                   context,
                                 ).onSurface.withValues(alpha: 0.1)
-                              : ColorTheme.of(context).surfaceContainer,
+                              : ColorTheme.of(context).surfaceBright,
                         ),
                         foregroundColor: WidgetStateProperty.resolveWith(
                           (states) => states.contains(WidgetState.disabled)
@@ -985,7 +985,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                               ? ColorTheme.of(
                                   context,
                                 ).onSurface.withValues(alpha: 0.1)
-                              : ColorTheme.of(context).surfaceContainer,
+                              : ColorTheme.of(context).surfaceBright,
                         ),
                         iconColor: WidgetStateProperty.resolveWith(
                           (states) => states.contains(WidgetState.disabled)
