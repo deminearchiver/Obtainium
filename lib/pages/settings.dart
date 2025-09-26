@@ -410,6 +410,7 @@ class _SettingsPageState extends State<SettingsPage> {
             expandedContainerColor: ColorTheme.of(context).surfaceContainer,
             collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
             title: Text(tr('settings')),
+            // subtitle: kDebugMode ? const Text("Debug mode") : null,
           ),
           // if (kDebugMode)
           //   const SliverToBoxAdapter(

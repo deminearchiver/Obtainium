@@ -5,12 +5,19 @@ import 'package:obtainium/flutter.dart';
 const double _kCollapsedHeight = 64.0;
 const double _kExpandedBottomPadding = 12.0;
 
+// TODO: this is used in container color animation in Compose Material 3
+const Curve _kFastOutLinearIn = Cubic(0.4, 0.0, 1.0, 1.0);
+
 enum CustomAppBarType { small, mediumFlexible, largeFlexible }
+
+enum CustomAppBarBehavior { duplicate, stretch }
 
 class CustomAppBar extends StatefulWidget {
   const CustomAppBar({
     super.key,
+    // TODO: reorder CustomAppBar properties
     required this.type,
+    this.behavior,
     this.collapsedPadding,
     this.expandedPadding,
     this.collapsedContainerColor,
@@ -27,6 +34,7 @@ class CustomAppBar extends StatefulWidget {
   });
 
   final CustomAppBarType type;
+  final CustomAppBarBehavior? behavior;
 
   final EdgeInsetsGeometry? collapsedPadding;
   final EdgeInsetsGeometry? expandedPadding;
@@ -50,41 +58,41 @@ class CustomAppBar extends StatefulWidget {
   State<CustomAppBar> createState() => _CustomAppBarState();
 }
 
-class _CustomAppBarState extends State<CustomAppBar>
-    with SingleTickerProviderStateMixin {
+class _CustomAppBarState extends State<CustomAppBar> {
   late ColorThemeData _colorTheme;
   late TypescaleThemeData _typescaleTheme;
   ScrollPosition? _position;
 
-  // Collapsed
+  CustomAppBarBehavior get _behavior {
+    if (widget.behavior case final behavior?) {
+      return behavior;
+    }
+    // TODO: improve logic for resolving the default value of CustomAppBar.behavior
+    if (_expandedColor == _collapsedColor) {
+      return CustomAppBarBehavior.stretch;
+    }
+    return CustomAppBarBehavior.duplicate;
+  }
+
   TypeStyle get _collapsedTitleTypeStyle =>
       _typescaleTheme.titleLargeEmphasized;
+
   TextStyle get _collapsedTitleTextStyle =>
       _collapsedTitleTypeStyle.toTextStyle(color: _colorTheme.onSurface);
+
   TypeStyle get _collapsedSubtitleTypeStyle => _typescaleTheme.labelMedium;
+
   TextStyle get _collapsedSubtitleTextStyle => _collapsedSubtitleTypeStyle
       .toTextStyle(color: _colorTheme.onSurfaceVariant);
+
   double get _collapsedTitleSubtitleSpace => 0.0;
 
-  EdgeInsetsGeometry get _collapsedPadding {
-    final collapsedPadding = widget.collapsedPadding;
-    final topBottomPadding = (_collapsedHeight - _collapsedContentHeight) / 2.0;
-    if (collapsedPadding != null) {
-      return collapsedPadding
-          .clamp(
-            EdgeInsets.zero,
-            const EdgeInsets.symmetric(
-              horizontal: double.infinity,
-              vertical: 0.0,
-            ),
-          )
-          .add(
-            EdgeInsets.symmetric(horizontal: 0.0, vertical: topBottomPadding),
-          );
-    } else {
-      return EdgeInsets.symmetric(horizontal: 16.0, vertical: topBottomPadding);
-    }
-  }
+  EdgeInsetsGeometry get _collapsedPadding =>
+      widget.collapsedPadding?.clamp(
+        EdgeInsets.zero,
+        const EdgeInsets.symmetric(horizontal: double.infinity, vertical: 0.0),
+      ) ??
+      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0);
 
   double get _collapsedContentHeight =>
       _collapsedTitleTypeStyle.lineHeight +
@@ -92,16 +100,18 @@ class _CustomAppBarState extends State<CustomAppBar>
           ? _collapsedTitleSubtitleSpace +
                 _collapsedSubtitleTypeStyle.lineHeight
           : 0.0);
+
   double get _collapsedHeight => _kCollapsedHeight;
+
   Color get _collapsedColor =>
       widget.collapsedContainerColor ?? _colorTheme.surfaceContainer;
 
-  // Expanded
   TypeStyle get _expandedTitleTypeStyle => switch (widget.type) {
     CustomAppBarType.small => _collapsedTitleTypeStyle,
     CustomAppBarType.mediumFlexible => _typescaleTheme.titleMediumEmphasized,
     CustomAppBarType.largeFlexible => _typescaleTheme.displaySmallEmphasized,
   };
+
   TextStyle get _expandedTitleTextStyle =>
       _expandedTitleTypeStyle.toTextStyle(color: _colorTheme.onSurface);
 
@@ -110,18 +120,22 @@ class _CustomAppBarState extends State<CustomAppBar>
     CustomAppBarType.mediumFlexible => _typescaleTheme.labelLarge,
     CustomAppBarType.largeFlexible => _typescaleTheme.titleMedium,
   };
+
   TextStyle get _expandedSubtitleTextStyle => _expandedSubtitleTypeStyle
       .toTextStyle(color: _colorTheme.onSurfaceVariant);
+
   double get _expandedTitleSubtitleSpace => switch (widget.type) {
     CustomAppBarType.small => _collapsedTitleSubtitleSpace,
     CustomAppBarType.mediumFlexible => 4.0,
     CustomAppBarType.largeFlexible => 8.0,
   };
+
   EdgeInsetsGeometry get _expandedPadding =>
       widget.type == CustomAppBarType.small
       ? _collapsedPadding
       : widget.expandedPadding ??
             const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, _kExpandedBottomPadding);
+
   double get _expandedContentHeight => widget.type == CustomAppBarType.small
       ? _collapsedContentHeight
       : _expandedTitleTypeStyle.lineHeight +
@@ -129,13 +143,21 @@ class _CustomAppBarState extends State<CustomAppBar>
                 ? _expandedTitleSubtitleSpace +
                       _expandedSubtitleTypeStyle.lineHeight
                 : 0.0);
+
   double get _expandedHeight => widget.type == CustomAppBarType.small
       ? _collapsedHeight
       : _collapsedHeight + _expandedContentHeight + _expandedPadding.vertical;
+
   Color get _expandedColor =>
       widget.expandedContainerColor ?? _colorTheme.surface;
 
   final _ValueNotifier<double> _controller = _ValueNotifier(0.0);
+
+  final Tween<Color?> _containerColorTween = ColorTween();
+
+  // TODO: decide if such initialization should be inside initState or not
+  late final Animatable<Color?> _containerColorAnimatable = _containerColorTween
+      .chain(CurveTween(curve: _kFastOutLinearIn));
 
   void _scrollPositionListener() {
     final oldValue = _controller.value;
@@ -157,16 +179,6 @@ class _CustomAppBarState extends State<CustomAppBar>
       0.0,
       1.0,
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(covariant CustomAppBar oldWidget) {
-    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -201,95 +213,65 @@ class _CustomAppBarState extends State<CustomAppBar>
     final topPadding = MediaQuery.paddingOf(context).top;
     final title = widget.title;
     final subtitle = widget.subtitle;
+    _containerColorTween.begin = _expandedColor;
+    _containerColorTween.end = _collapsedColor;
 
-    Widget _buildScope(Widget child) {
+    Widget wrapWithScope({required Widget child}) {
       return _CustomAppBarScope(state: this, child: child);
     }
 
-    final Widget stack = Stack(
-      fit: StackFit.expand,
-      children: [
-        if (title != null || subtitle != null)
-          Padding(
-            padding: EdgeInsets.only(top: topPadding),
-            child: AnimatedBuilder(
-              animation: _controller,
-              builder: (context, _) => Align(
-                alignment: Alignment.lerp(
-                  Alignment.bottomCenter,
-                  Alignment.center,
-                  _controller.value,
-                )!,
-                child: Padding(
-                  padding: EdgeInsetsGeometry.lerp(
-                    _expandedPadding,
-                    _collapsedPadding.clamp(
-                      EdgeInsets.zero,
-                      const EdgeInsets.symmetric(
-                        horizontal: double.infinity,
-                        vertical: 0.0,
-                      ),
+    final Widget stack = Padding(
+      padding: EdgeInsets.only(top: topPadding),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          if (title != null || subtitle != null)
+            wrapWithScope(
+              child: _expandedHeight > _collapsedHeight
+                  ? switch (_behavior) {
+                      CustomAppBarBehavior.duplicate =>
+                        _CustomAppBarDuplicatingFlexibleSpace(
+                          expandedTitle: title,
+                          expandedSubtitle: subtitle,
+                          collapsedTitle: title,
+                          collapsedSubtitle: subtitle,
+                        ),
+                      CustomAppBarBehavior.stretch =>
+                        _CustomAppBarStretchingFlexibleSpace(
+                          title: title,
+                          subtitle: subtitle,
+                        ),
+                    }
+                  : _CustomAppBarAlwaysCollapsedFlexibleSpace(
+                      title: title,
+                      subtitle: subtitle,
                     ),
-                    _controller.value,
-                  )!,
-                  child: Flex.vertical(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      if (title != null)
-                        DefaultTextStyle(
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.start,
-                          style: TextStyle.lerp(
-                            _expandedTitleTextStyle,
-                            _collapsedTitleTextStyle,
-                            _controller.value,
-                          )!,
-                          child: title,
-                        ),
-                      if (subtitle != null) ...[
-                        SizedBox(
-                          width: double.infinity,
-                          height: lerpDouble(
-                            _expandedTitleSubtitleSpace,
-                            _collapsedTitleSubtitleSpace,
-                            _controller.value,
-                          )!,
-                        ),
-                        DefaultTextStyle(
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.start,
-                          style: TextStyle.lerp(
-                            _expandedSubtitleTextStyle,
-                            _collapsedSubtitleTextStyle,
-                            _controller.value,
-                          )!,
-                          child: subtitle,
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-              ),
+            ),
+          // if (title != null || subtitle != null)
+          //   wrapWithScope(
+          //     child: _CustomAppBarDuplicatingFlexibleSpace(
+          //       collapsedTitle: title,
+          //       collapsedSubtitle: subtitle,
+
+          //       expandedTitle: title,
+          //       expandedSubtitle: subtitle,
+          //     ),
+          //   ),
+          Positioned(
+            left: 0.0,
+            top: 0.0,
+            right: 0.0,
+            height: _collapsedHeight,
+            child: Flex.horizontal(
+              children: [
+                ?widget.leading,
+                const Flexible.space(),
+                ?widget.trailing,
+              ],
             ),
           ),
-        Positioned(
-          left: 0.0,
-          top: topPadding,
-          right: 0.0,
-          height: _collapsedHeight,
-          child: Flex.horizontal(
-            children: [
-              ?widget.leading,
-              const Flexible.space(),
-              ?widget.trailing,
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
     return AnimatedBuilder(
       animation: _controller,
@@ -305,11 +287,9 @@ class _CustomAppBarState extends State<CustomAppBar>
         title: null,
         actions: const [],
         actionsPadding: EdgeInsets.zero,
-        backgroundColor: Color.lerp(
-          _expandedColor,
-          _collapsedColor,
-          _controller.value,
-        )!,
+        backgroundColor: _expandedColor == _collapsedColor
+            ? _expandedColor
+            : _containerColorAnimatable.transform(_controller.value)!,
         flexibleSpace: stack,
         bottom: widget.bottom,
       ),
@@ -319,6 +299,7 @@ class _CustomAppBarState extends State<CustomAppBar>
 
 class _CustomAppBarScope extends InheritedWidget {
   const _CustomAppBarScope({
+    // ignore: unused_element_parameter
     super.key,
     required this.state,
     required super.child,
@@ -345,6 +326,322 @@ class _CustomAppBarScope extends InheritedWidget {
     final result = maybeOf(context);
     assert(result != null);
     return result!;
+  }
+}
+
+class _CustomAppBarAlwaysCollapsedFlexibleSpace extends StatefulWidget {
+  const _CustomAppBarAlwaysCollapsedFlexibleSpace({
+    super.key,
+    this.title,
+    this.subtitle,
+  }) : assert(title != null || subtitle != null);
+
+  final Widget? title;
+  final Widget? subtitle;
+
+  @override
+  State<_CustomAppBarAlwaysCollapsedFlexibleSpace> createState() =>
+      _CustomAppBarAlwaysCollapsedFlexibleSpaceState();
+}
+
+class _CustomAppBarAlwaysCollapsedFlexibleSpaceState
+    extends State<_CustomAppBarAlwaysCollapsedFlexibleSpace> {
+  late _CustomAppBarState _state;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _state = _CustomAppBarScope.of(context).state;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: _state._collapsedHeight,
+      child: Padding(
+        padding: _state._collapsedPadding,
+        child: Flex.vertical(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (widget.title case final title?)
+              DefaultTextStyle(
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.start,
+                style: _state._collapsedTitleTextStyle,
+                child: title,
+              ),
+            if (widget.subtitle case final subtitle?) ...[
+              SizedBox(
+                width: double.infinity,
+                height: _state._collapsedTitleSubtitleSpace,
+              ),
+              DefaultTextStyle(
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.start,
+                style: _state._collapsedSubtitleTextStyle,
+                child: subtitle,
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CustomAppBarDuplicatingFlexibleSpace extends StatefulWidget {
+  const _CustomAppBarDuplicatingFlexibleSpace({
+    super.key,
+    // TODO: reorder _CustomAppBarDuplicatingHeader properties
+    this.collapsedTitle,
+    this.collapsedSubtitle,
+    this.expandedTitle,
+    this.expandedSubtitle,
+  }) : assert(
+         (expandedTitle != null || expandedSubtitle != null) ||
+             (collapsedTitle != null || collapsedSubtitle != null),
+       );
+
+  final Widget? collapsedTitle;
+  final Widget? collapsedSubtitle;
+
+  final Widget? expandedTitle;
+  final Widget? expandedSubtitle;
+
+  @override
+  State<_CustomAppBarDuplicatingFlexibleSpace> createState() =>
+      _CustomAppBarDuplicatingFlexibleSpaceState();
+}
+
+class _CustomAppBarDuplicatingFlexibleSpaceState
+    extends State<_CustomAppBarDuplicatingFlexibleSpace> {
+  late _CustomAppBarState _state;
+
+  final Animatable<double> _collapsedOpacityTween = Tween<double>(
+    begin: 0.0,
+    end: 1.0,
+  ).chain(CurveTween(curve: const Cubic(0.8, 0.0, 0.8, 0.15)));
+
+  final Animatable<double> _expandedOpacityTween = Tween<double>(
+    begin: 1.0,
+    end: 0.0,
+  );
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _state = _CustomAppBarScope.of(context).state;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final animation = _state._controller;
+
+    final hangingHeight = _state._expandedHeight - _state._collapsedHeight;
+
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (context, child) {
+        final hideCollapsedSemantics = animation.value < 0.5;
+        final hideExpandedSemantics = !hideCollapsedSemantics;
+        return Flex.vertical(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ExcludeSemantics(
+              excluding: hideCollapsedSemantics,
+              child: SizedBox(
+                height: _state._collapsedHeight,
+                child: Padding(
+                  padding: _state._collapsedPadding,
+                  child: Opacity(
+                    opacity: _collapsedOpacityTween.transform(animation.value),
+                    child: Flex.vertical(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        if (widget.collapsedTitle case final collapsedTitle?)
+                          DefaultTextStyle(
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.start,
+                            style: _state._collapsedTitleTextStyle,
+                            child: collapsedTitle,
+                          ),
+                        if (widget.collapsedSubtitle
+                            case final collapsedSubtitle?) ...[
+                          SizedBox(
+                            width: double.infinity,
+                            height: _state._collapsedTitleSubtitleSpace,
+                          ),
+                          DefaultTextStyle(
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.start,
+                            style: _state._collapsedSubtitleTextStyle,
+                            child: collapsedSubtitle,
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            ExcludeSemantics(
+              excluding: hideExpandedSemantics,
+              child: ClipRect(
+                child: SizedBox(
+                  height: lerpDouble(hangingHeight, 0.0, animation.value),
+                  child: OverflowBox(
+                    minHeight: 0.0,
+                    maxHeight: hangingHeight,
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: _state._expandedPadding,
+                      child: Opacity(
+                        opacity: _expandedOpacityTween.transform(
+                          animation.value,
+                        ),
+                        child: Flex.vertical(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            if (widget.expandedTitle case final expandedTitle?)
+                              DefaultTextStyle(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.start,
+                                style: _state._expandedTitleTextStyle,
+                                child: expandedTitle,
+                              ),
+                            if (widget.expandedSubtitle
+                                case final expandedSubtitle?) ...[
+                              SizedBox(
+                                width: double.infinity,
+                                height: _state._expandedTitleSubtitleSpace,
+                              ),
+                              DefaultTextStyle(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.start,
+                                style: _state._expandedSubtitleTextStyle,
+                                child: expandedSubtitle,
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _CustomAppBarStretchingFlexibleSpace extends StatefulWidget {
+  const _CustomAppBarStretchingFlexibleSpace({
+    super.key,
+    this.title,
+    this.subtitle,
+  }) : assert(title != null || subtitle != null);
+
+  final Widget? title;
+  final Widget? subtitle;
+
+  @override
+  State<_CustomAppBarStretchingFlexibleSpace> createState() =>
+      _CustomAppBarStretchingFlexibleSpaceState();
+}
+
+class _CustomAppBarStretchingFlexibleSpaceState
+    extends State<_CustomAppBarStretchingFlexibleSpace> {
+  late _CustomAppBarState _state;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _state = _CustomAppBarScope.of(context).state;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final animation = _state._controller;
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (context, _) => Align(
+        alignment: Alignment.lerp(
+          _state._collapsedHeight == _state._expandedHeight
+              ? Alignment.center
+              : Alignment.bottomCenter,
+          Alignment.center,
+          animation.value,
+        )!,
+        child: Padding(
+          padding: EdgeInsetsGeometry.lerp(
+            _state._expandedPadding,
+            _state._collapsedPadding.clamp(
+              EdgeInsets.zero,
+              const EdgeInsets.symmetric(
+                horizontal: double.infinity,
+                vertical: 0.0,
+              ),
+            ),
+            animation.value,
+          )!,
+          child: Flex.vertical(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (widget.title case final title?)
+                DefaultTextStyle(
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.start,
+                  style: TextStyle.lerp(
+                    _state._expandedTitleTextStyle,
+                    _state._collapsedTitleTextStyle,
+                    animation.value,
+                  )!,
+                  child: title,
+                ),
+              if (widget.subtitle case final subtitle?) ...[
+                SizedBox(
+                  width: double.infinity,
+                  height: lerpDouble(
+                    _state._expandedTitleSubtitleSpace,
+                    _state._collapsedTitleSubtitleSpace,
+                    animation.value,
+                  )!,
+                ),
+                DefaultTextStyle(
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.start,
+                  style: TextStyle.lerp(
+                    _state._expandedSubtitleTextStyle,
+                    _state._collapsedSubtitleTextStyle,
+                    animation.value,
+                  )!,
+                  child: subtitle,
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
