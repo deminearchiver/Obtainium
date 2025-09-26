@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart' show CupertinoScrollBehavior;
 import 'package:obtainium/flutter.dart';
 import 'package:obtainium/app_sources/fdroidrepo.dart';
 import 'package:obtainium/components/custom_app_bar.dart';
@@ -27,17 +28,9 @@ class _ImportExportPageState extends State<ImportExportPage> {
 
   @override
   Widget build(BuildContext context) {
-    SourceProvider sourceProvider = SourceProvider();
-    var appsProvider = context.watch<AppsProvider>();
-    var settingsProvider = context.watch<SettingsProvider>();
-
-    var outlineButtonStyle = ButtonStyle(
-      shape: WidgetStateProperty.all(
-        StadiumBorder(
-          side: BorderSide(width: 1, color: ColorTheme.of(context).primary),
-        ),
-      ),
-    );
+    final sourceProvider = SourceProvider();
+    final appsProvider = context.watch<AppsProvider>();
+    final settingsProvider = context.watch<SettingsProvider>();
 
     void urlListImport({String? initValue, bool overrideInitValid = false}) {
       showDialog<Map<String, dynamic>?>(
@@ -364,74 +357,250 @@ class _ImportExportPageState extends State<ImportExportPage> {
     });
 
     return Scaffold(
-      backgroundColor: ColorTheme.of(context).surface,
+      backgroundColor: ColorTheme.of(context).surfaceContainer,
       body: CustomScrollView(
         slivers: <Widget>[
           CustomAppBar.largeFlexible(
-            expandedContainerColor: ColorTheme.of(context).surface,
+            expandedContainerColor: ColorTheme.of(context).surfaceContainer,
             collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
             headline: Text(tr('importExport')),
           ),
-          SliverFillRemaining(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              child: Flex.vertical(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+          _DecoratedSliver(
+            position: DecorationPosition.background,
+            decoration: ShapeDecoration(
+              shape: CornersBorder.rounded(
+                corners: Corners.all(ShapeTheme.of(context).corner.large),
+              ),
+              color: ColorTheme.of(context).surfaceContainerLow,
+            ),
+            sliver: SliverPadding(
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+              sliver: SliverList.list(
                 children: [
                   FutureBuilder(
                     future: settingsProvider.getExportDir(),
                     builder: (context, snapshot) {
+                      final hasExportDir = snapshot.hasData;
                       return Flex.vertical(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Flex.horizontal(
-                            children: [
-                              Flexible.tight(
-                                child: TextButton(
-                                  style: outlineButtonStyle,
-                                  onPressed: importInProgress
-                                      ? null
-                                      : () {
-                                          runObtainiumExport(pickOnly: true);
-                                        },
-                                  child: Text(
-                                    tr('pickExportDir'),
-                                    textAlign: TextAlign.center,
+                          FilledButton(
+                            onPressed: importInProgress
+                                ? null
+                                : () {
+                                    runObtainiumExport(pickOnly: true);
+                                  },
+                            style: ButtonStyle(
+                              animationDuration: Duration.zero,
+                              elevation: const WidgetStatePropertyAll(0.0),
+                              shadowColor: WidgetStateColor.transparent,
+                              minimumSize: const WidgetStatePropertyAll(
+                                Size(48.0, 56.0),
+                              ),
+                              fixedSize: const WidgetStatePropertyAll(null),
+                              maximumSize: const WidgetStatePropertyAll(
+                                Size.infinite,
+                              ),
+                              padding: const WidgetStatePropertyAll(
+                                EdgeInsets.symmetric(
+                                  horizontal: 24.0,
+                                  vertical: 16.0,
+                                ),
+                              ),
+                              iconSize: const WidgetStatePropertyAll(24.0),
+                              shape: WidgetStatePropertyAll(
+                                CornersBorder.rounded(
+                                  corners: Corners.all(
+                                    ShapeTheme.of(context).corner.large,
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 16),
-                              Flexible.tight(
-                                child: TextButton(
-                                  style: outlineButtonStyle,
-                                  onPressed:
-                                      importInProgress || snapshot.data == null
-                                      ? null
-                                      : runObtainiumExport,
-                                  child: Text(
-                                    tr('obtainiumExport'),
-                                    textAlign: TextAlign.center,
+                              overlayColor: WidgetStateLayerColor(
+                                color: WidgetStatePropertyAll(
+                                  hasExportDir
+                                      ? ColorTheme.of(context).onSurfaceVariant
+                                      : ColorTheme.of(
+                                          context,
+                                        ).onSecondaryContainer,
+                                ),
+                                opacity: StateTheme.of(
+                                  context,
+                                ).stateLayerOpacity,
+                              ),
+                              backgroundColor: WidgetStateProperty.resolveWith(
+                                (states) =>
+                                    states.contains(WidgetState.disabled)
+                                    ? ColorTheme.of(
+                                        context,
+                                      ).onSurface.withValues(alpha: 0.1)
+                                    : hasExportDir
+                                    ? ColorTheme.of(context).surfaceBright
+                                    : ColorTheme.of(context).secondaryContainer,
+                              ),
+                              foregroundColor: WidgetStateProperty.resolveWith(
+                                (states) =>
+                                    states.contains(WidgetState.disabled)
+                                    ? ColorTheme.of(
+                                        context,
+                                      ).onSurface.withValues(alpha: 0.38)
+                                    : hasExportDir
+                                    ? ColorTheme.of(context).onSurfaceVariant
+                                    : ColorTheme.of(
+                                        context,
+                                      ).onSecondaryContainer,
+                              ),
+                              textStyle: WidgetStateProperty.resolveWith(
+                                (states) =>
+                                    (hasExportDir
+                                            ? TypescaleTheme.of(
+                                                context,
+                                              ).titleMedium
+                                            : TypescaleTheme.of(
+                                                context,
+                                              ).titleMediumEmphasized)
+                                        .toTextStyle(),
+                              ),
+                            ),
+                            child: Text(
+                              tr('pickExportDir'),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          const SizedBox(height: 8.0),
+                          FilledButton(
+                            onPressed: importInProgress || snapshot.data == null
+                                ? null
+                                : runObtainiumExport,
+                            style: ButtonStyle(
+                              animationDuration: Duration.zero,
+                              elevation: const WidgetStatePropertyAll(0.0),
+                              shadowColor: WidgetStateColor.transparent,
+                              minimumSize: const WidgetStatePropertyAll(
+                                Size(48.0, 56.0),
+                              ),
+                              fixedSize: const WidgetStatePropertyAll(null),
+                              maximumSize: const WidgetStatePropertyAll(
+                                Size.infinite,
+                              ),
+                              padding: const WidgetStatePropertyAll(
+                                EdgeInsets.symmetric(
+                                  horizontal: 24.0,
+                                  vertical: 16.0,
+                                ),
+                              ),
+                              iconSize: const WidgetStatePropertyAll(24.0),
+                              shape: WidgetStatePropertyAll(
+                                CornersBorder.rounded(
+                                  corners: Corners.all(
+                                    ShapeTheme.of(context).corner.large,
                                   ),
                                 ),
                               ),
-                            ],
+                              overlayColor: WidgetStateLayerColor(
+                                color: WidgetStatePropertyAll(
+                                  ColorTheme.of(context).onTertiaryContainer,
+                                ),
+                                opacity: StateTheme.of(
+                                  context,
+                                ).stateLayerOpacity,
+                              ),
+                              backgroundColor: WidgetStateProperty.resolveWith(
+                                (states) =>
+                                    states.contains(WidgetState.disabled)
+                                    ? ColorTheme.of(
+                                        context,
+                                      ).onSurface.withValues(alpha: 0.1)
+                                    : ColorTheme.of(context).tertiaryContainer,
+                              ),
+                              foregroundColor: WidgetStateProperty.resolveWith(
+                                (states) =>
+                                    states.contains(WidgetState.disabled)
+                                    ? ColorTheme.of(
+                                        context,
+                                      ).onSurface.withValues(alpha: 0.38)
+                                    : ColorTheme.of(
+                                        context,
+                                      ).onTertiaryContainer,
+                              ),
+                              textStyle: WidgetStateProperty.resolveWith(
+                                (states) => TypescaleTheme.of(
+                                  context,
+                                ).titleMediumEmphasized.toTextStyle(),
+                              ),
+                            ),
+                            child: Text(
+                              tr('obtainiumExport'),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                           const SizedBox(height: 8),
-                          Flex.horizontal(
-                            children: [
-                              Flexible.tight(
-                                child: TextButton(
-                                  style: outlineButtonStyle,
-                                  onPressed: importInProgress
-                                      ? null
-                                      : runObtainiumImport,
-                                  child: Text(
-                                    tr('obtainiumImport'),
-                                    textAlign: TextAlign.center,
+                          FilledButton(
+                            onPressed: importInProgress
+                                ? null
+                                : runObtainiumImport,
+                            style: ButtonStyle(
+                              animationDuration: Duration.zero,
+                              elevation: const WidgetStatePropertyAll(0.0),
+                              shadowColor: WidgetStateColor.transparent,
+                              minimumSize: const WidgetStatePropertyAll(
+                                Size(48.0, 56.0),
+                              ),
+                              fixedSize: const WidgetStatePropertyAll(null),
+                              maximumSize: const WidgetStatePropertyAll(
+                                Size.infinite,
+                              ),
+                              padding: const WidgetStatePropertyAll(
+                                EdgeInsets.symmetric(
+                                  horizontal: 24.0,
+                                  vertical: 16.0,
+                                ),
+                              ),
+                              iconSize: const WidgetStatePropertyAll(24.0),
+                              shape: WidgetStatePropertyAll(
+                                CornersBorder.rounded(
+                                  corners: Corners.all(
+                                    ShapeTheme.of(context).corner.large,
                                   ),
                                 ),
                               ),
-                            ],
+                              overlayColor: WidgetStateLayerColor(
+                                color: WidgetStatePropertyAll(
+                                  ColorTheme.of(context).onPrimaryContainer,
+                                ),
+                                opacity: StateTheme.of(
+                                  context,
+                                ).stateLayerOpacity,
+                              ),
+                              backgroundColor: WidgetStateProperty.resolveWith(
+                                (states) =>
+                                    states.contains(WidgetState.disabled)
+                                    ? ColorTheme.of(
+                                        context,
+                                      ).onSurface.withValues(alpha: 0.1)
+                                    : ColorTheme.of(context).primaryContainer,
+                              ),
+                              foregroundColor: WidgetStateProperty.resolveWith(
+                                (states) =>
+                                    states.contains(WidgetState.disabled)
+                                    ? ColorTheme.of(
+                                        context,
+                                      ).onSurface.withValues(alpha: 0.38)
+                                    : ColorTheme.of(context).onPrimaryContainer,
+                              ),
+                              textStyle: WidgetStateProperty.resolveWith(
+                                (states) => TypescaleTheme.of(
+                                  context,
+                                ).titleMediumEmphasized.toTextStyle(),
+                              ),
+                            ),
+                            child: Text(
+                              tr('obtainiumImport'),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
+
                           if (snapshot.data != null)
                             Flex.vertical(
                               children: [
@@ -492,67 +661,221 @@ class _ImportExportPageState extends State<ImportExportPage> {
                     )
                   else
                     Flex.vertical(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         const SizedBox(height: 32),
-                        Flex.horizontal(
-                          children: [
-                            Flexible.tight(
-                              child: TextButton(
-                                onPressed: importInProgress
-                                    ? null
-                                    : () async {
-                                        var searchSourceName =
-                                            await showDialog<List<String>?>(
-                                              context: context,
-                                              builder: (ctx) {
-                                                return SelectionModal(
-                                                  title: tr(
-                                                    'selectX',
-                                                    args: [
-                                                      tr(
-                                                        'source',
-                                                      ).toLowerCase(),
-                                                    ],
-                                                  ),
-                                                  entries: sourceStrings,
-                                                  selectedByDefault: false,
-                                                  onlyOneSelectionAllowed: true,
-                                                  titlesAreLinks: false,
-                                                );
-                                              },
-                                            ) ??
-                                            [];
-                                        var searchSource = sourceProvider
-                                            .sources
-                                            .where(
-                                              (e) => searchSourceName.contains(
-                                                e.name,
-                                              ),
-                                            )
-                                            .toList();
-                                        if (searchSource.isNotEmpty) {
-                                          runSourceSearch(searchSource[0]);
-                                        }
-                                      },
-                                child: Text(
-                                  tr(
-                                    'searchX',
-                                    args: [lowerCaseIfEnglish(tr('source'))],
-                                  ),
+                        FilledButton(
+                          onPressed: importInProgress
+                              ? null
+                              : () async {
+                                  var searchSourceName =
+                                      await showDialog<List<String>?>(
+                                        context: context,
+                                        builder: (ctx) {
+                                          return SelectionModal(
+                                            title: tr(
+                                              'selectX',
+                                              args: [
+                                                tr('source').toLowerCase(),
+                                              ],
+                                            ),
+                                            entries: sourceStrings,
+                                            selectedByDefault: false,
+                                            onlyOneSelectionAllowed: true,
+                                            titlesAreLinks: false,
+                                          );
+                                        },
+                                      ) ??
+                                      [];
+                                  var searchSource = sourceProvider.sources
+                                      .where(
+                                        (e) =>
+                                            searchSourceName.contains(e.name),
+                                      )
+                                      .toList();
+                                  if (searchSource.isNotEmpty) {
+                                    runSourceSearch(searchSource[0]);
+                                  }
+                                },
+                          style: ButtonStyle(
+                            animationDuration: Duration.zero,
+                            elevation: const WidgetStatePropertyAll(0.0),
+                            shadowColor: WidgetStateColor.transparent,
+                            minimumSize: const WidgetStatePropertyAll(
+                              Size(48.0, 56.0),
+                            ),
+                            fixedSize: const WidgetStatePropertyAll(null),
+                            maximumSize: const WidgetStatePropertyAll(
+                              Size.infinite,
+                            ),
+                            padding: const WidgetStatePropertyAll(
+                              EdgeInsets.symmetric(
+                                horizontal: 24.0,
+                                vertical: 16.0,
+                              ),
+                            ),
+                            iconSize: const WidgetStatePropertyAll(24.0),
+                            shape: WidgetStatePropertyAll(
+                              CornersBorder.rounded(
+                                corners: Corners.all(
+                                  ShapeTheme.of(context).corner.full,
                                 ),
                               ),
                             ),
-                          ],
+                            overlayColor: WidgetStateLayerColor(
+                              color: WidgetStatePropertyAll(
+                                ColorTheme.of(context).onSurfaceVariant,
+                              ),
+                              opacity: StateTheme.of(context).stateLayerOpacity,
+                            ),
+                            backgroundColor: WidgetStateProperty.resolveWith(
+                              (states) => states.contains(WidgetState.disabled)
+                                  ? ColorTheme.of(
+                                      context,
+                                    ).onSurface.withValues(alpha: 0.1)
+                                  : ColorTheme.of(context).surfaceBright,
+                            ),
+                            foregroundColor: WidgetStateProperty.resolveWith(
+                              (states) => states.contains(WidgetState.disabled)
+                                  ? ColorTheme.of(
+                                      context,
+                                    ).onSurface.withValues(alpha: 0.38)
+                                  : ColorTheme.of(context).onSurfaceVariant,
+                            ),
+                            textStyle: WidgetStateProperty.resolveWith(
+                              (states) => TypescaleTheme.of(
+                                context,
+                              ).titleMedium.toTextStyle(),
+                            ),
+                          ),
+                          child: Text(
+                            tr(
+                              'searchX',
+                              args: [lowerCaseIfEnglish(tr('source'))],
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                         const SizedBox(height: 8),
-                        TextButton(
+                        FilledButton(
                           onPressed: importInProgress ? null : urlListImport,
-                          child: Text(tr('importFromURLList')),
+                          style: ButtonStyle(
+                            animationDuration: Duration.zero,
+                            elevation: const WidgetStatePropertyAll(0.0),
+                            shadowColor: WidgetStateColor.transparent,
+                            minimumSize: const WidgetStatePropertyAll(
+                              Size(48.0, 56.0),
+                            ),
+                            fixedSize: const WidgetStatePropertyAll(null),
+                            maximumSize: const WidgetStatePropertyAll(
+                              Size.infinite,
+                            ),
+                            padding: const WidgetStatePropertyAll(
+                              EdgeInsets.symmetric(
+                                horizontal: 24.0,
+                                vertical: 16.0,
+                              ),
+                            ),
+                            iconSize: const WidgetStatePropertyAll(24.0),
+                            shape: WidgetStatePropertyAll(
+                              CornersBorder.rounded(
+                                corners: Corners.all(
+                                  ShapeTheme.of(context).corner.full,
+                                ),
+                              ),
+                            ),
+                            overlayColor: WidgetStateLayerColor(
+                              color: WidgetStatePropertyAll(
+                                ColorTheme.of(context).onSurfaceVariant,
+                              ),
+                              opacity: StateTheme.of(context).stateLayerOpacity,
+                            ),
+                            backgroundColor: WidgetStateProperty.resolveWith(
+                              (states) => states.contains(WidgetState.disabled)
+                                  ? ColorTheme.of(
+                                      context,
+                                    ).onSurface.withValues(alpha: 0.1)
+                                  : ColorTheme.of(context).surfaceBright,
+                            ),
+                            foregroundColor: WidgetStateProperty.resolveWith(
+                              (states) => states.contains(WidgetState.disabled)
+                                  ? ColorTheme.of(
+                                      context,
+                                    ).onSurface.withValues(alpha: 0.38)
+                                  : ColorTheme.of(context).onSurfaceVariant,
+                            ),
+                            textStyle: WidgetStateProperty.resolveWith(
+                              (states) => TypescaleTheme.of(
+                                context,
+                              ).titleMedium.toTextStyle(),
+                            ),
+                          ),
+                          child: Text(
+                            tr('importFromURLList'),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                         const SizedBox(height: 8),
-                        TextButton(
+                        FilledButton(
                           onPressed: importInProgress ? null : runUrlImport,
-                          child: Text(tr('importFromURLsInFile')),
+                          style: ButtonStyle(
+                            animationDuration: Duration.zero,
+                            elevation: const WidgetStatePropertyAll(0.0),
+                            shadowColor: WidgetStateColor.transparent,
+                            minimumSize: const WidgetStatePropertyAll(
+                              Size(48.0, 56.0),
+                            ),
+                            fixedSize: const WidgetStatePropertyAll(null),
+                            maximumSize: const WidgetStatePropertyAll(
+                              Size.infinite,
+                            ),
+                            padding: const WidgetStatePropertyAll(
+                              EdgeInsets.symmetric(
+                                horizontal: 24.0,
+                                vertical: 16.0,
+                              ),
+                            ),
+                            iconSize: const WidgetStatePropertyAll(24.0),
+                            shape: WidgetStatePropertyAll(
+                              CornersBorder.rounded(
+                                corners: Corners.all(
+                                  ShapeTheme.of(context).corner.full,
+                                ),
+                              ),
+                            ),
+                            overlayColor: WidgetStateLayerColor(
+                              color: WidgetStatePropertyAll(
+                                ColorTheme.of(context).onSurfaceVariant,
+                              ),
+                              opacity: StateTheme.of(context).stateLayerOpacity,
+                            ),
+                            backgroundColor: WidgetStateProperty.resolveWith(
+                              (states) => states.contains(WidgetState.disabled)
+                                  ? ColorTheme.of(
+                                      context,
+                                    ).onSurface.withValues(alpha: 0.1)
+                                  : ColorTheme.of(context).surfaceBright,
+                            ),
+                            foregroundColor: WidgetStateProperty.resolveWith(
+                              (states) => states.contains(WidgetState.disabled)
+                                  ? ColorTheme.of(
+                                      context,
+                                    ).onSurface.withValues(alpha: 0.38)
+                                  : ColorTheme.of(context).onSurfaceVariant,
+                            ),
+                            textStyle: WidgetStateProperty.resolveWith(
+                              (states) => TypescaleTheme.of(
+                                context,
+                              ).titleMedium.toTextStyle(),
+                            ),
+                          ),
+                          child: Text(
+                            tr('importFromURLsInFile'),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),
@@ -561,18 +884,72 @@ class _ImportExportPageState extends State<ImportExportPage> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         const SizedBox(height: 8),
-                        TextButton(
+                        FilledButton(
                           onPressed: importInProgress
                               ? null
                               : () {
                                   runMassSourceImport(source);
                                 },
-                          child: Text(tr('importX', args: [source.name])),
+                          style: ButtonStyle(
+                            animationDuration: Duration.zero,
+                            elevation: const WidgetStatePropertyAll(0.0),
+                            shadowColor: WidgetStateColor.transparent,
+                            minimumSize: const WidgetStatePropertyAll(
+                              Size(48.0, 56.0),
+                            ),
+                            fixedSize: const WidgetStatePropertyAll(null),
+                            maximumSize: const WidgetStatePropertyAll(
+                              Size.infinite,
+                            ),
+                            padding: const WidgetStatePropertyAll(
+                              EdgeInsets.symmetric(
+                                horizontal: 24.0,
+                                vertical: 16.0,
+                              ),
+                            ),
+                            iconSize: const WidgetStatePropertyAll(24.0),
+                            shape: WidgetStatePropertyAll(
+                              CornersBorder.rounded(
+                                corners: Corners.all(
+                                  ShapeTheme.of(context).corner.full,
+                                ),
+                              ),
+                            ),
+                            overlayColor: WidgetStateLayerColor(
+                              color: WidgetStatePropertyAll(
+                                ColorTheme.of(context).onSurfaceVariant,
+                              ),
+                              opacity: StateTheme.of(context).stateLayerOpacity,
+                            ),
+                            backgroundColor: WidgetStateProperty.resolveWith(
+                              (states) => states.contains(WidgetState.disabled)
+                                  ? ColorTheme.of(
+                                      context,
+                                    ).onSurface.withValues(alpha: 0.1)
+                                  : ColorTheme.of(context).surfaceBright,
+                            ),
+                            foregroundColor: WidgetStateProperty.resolveWith(
+                              (states) => states.contains(WidgetState.disabled)
+                                  ? ColorTheme.of(
+                                      context,
+                                    ).onSurface.withValues(alpha: 0.38)
+                                  : ColorTheme.of(context).onSurfaceVariant,
+                            ),
+                            textStyle: WidgetStateProperty.resolveWith(
+                              (states) => TypescaleTheme.of(
+                                context,
+                              ).titleMedium.toTextStyle(),
+                            ),
+                          ),
+                          child: Text(
+                            tr('importX', args: [source.name]),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  const Flexible.space(),
                   const Divider(height: 32),
                   Text(
                     tr('importedAppsIdDisclaimer'),
@@ -957,5 +1334,241 @@ class _SelectionModalState extends State<SelectionModal> {
         ),
       ],
     );
+  }
+}
+
+/// A sliver widget that paints a [Decoration] either before or after its child
+/// paints.
+///
+/// Unlike [DecoratedBox], this widget expects its child to be a sliver, and
+/// must be placed in a widget that expects a sliver.
+///
+/// If the child sliver has infinite [SliverGeometry.scrollExtent], then we only
+/// draw the decoration down to the bottom [SliverGeometry.cacheExtent], and
+/// it is necessary to ensure that the bottom border does not creep
+/// above the top of the bottom cache. This can happen if the bottom has a
+/// border radius larger than the extent of the cache area.
+///
+/// Commonly used with [BoxDecoration].
+///
+///
+/// {@tool dartpad}
+/// This sample shows a radial gradient that draws a moon on a night sky:
+///
+/// ** See code in examples/api/lib/widgets/sliver/decorated_sliver.0.dart **
+/// {@end-tool}
+///
+/// {@tool dartpad}
+/// This example demonstrates how the [CustomScrollView.clipBehavior]
+/// impacts a decorated sliver's appearance.
+///
+/// The [Switch] determines whether clipping is enabled, and
+/// the [Slider] adjusts the height of window.
+///
+/// ** See code in examples/api/lib/widgets/sliver/decorated_sliver.1.dart **
+/// {@end-tool}
+///
+/// This widget does not apply any additional clipping to its [child].
+/// To clip a child based on the [Decoration]'s shape, consider using
+/// a [ClipPath] widget.
+///
+/// See also:
+///
+///  * [DecoratedBox], the version of this class that works with RenderBox widgets.
+///  * [Decoration], which you can extend to provide other effects with
+///    [_DecoratedSliver].
+///  * [CustomPaint], another way to draw custom effects from the widget layer.
+class _DecoratedSliver extends SingleChildRenderObjectWidget {
+  /// Creates a widget that paints a [Decoration].
+  ///
+  /// By default the decoration paints behind the child.
+  const _DecoratedSliver({
+    super.key,
+    required this.decoration,
+    this.position = DecorationPosition.background,
+    Widget? sliver,
+  }) : super(child: sliver);
+
+  /// What decoration to paint.
+  ///
+  /// Commonly a [BoxDecoration].
+  final Decoration decoration;
+
+  /// Whether to paint the box decoration behind or in front of the child.
+  final DecorationPosition position;
+
+  @override
+  _RenderDecoratedSliver createRenderObject(BuildContext context) {
+    return _RenderDecoratedSliver(
+      decoration: decoration,
+      position: position,
+      configuration: createLocalImageConfiguration(context),
+    );
+  }
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    _RenderDecoratedSliver renderObject,
+  ) {
+    renderObject
+      ..decoration = decoration
+      ..position = position
+      ..configuration = createLocalImageConfiguration(context);
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    final String label = switch (position) {
+      DecorationPosition.background => "bg",
+      DecorationPosition.foreground => "fg",
+    };
+    properties.add(
+      EnumProperty<DecorationPosition>(
+        "position",
+        position,
+        level: DiagnosticLevel.hidden,
+      ),
+    );
+    properties.add(DiagnosticsProperty<Decoration>(label, decoration));
+  }
+}
+
+/// Paints a [Decoration] either before or after its child paints.
+///
+/// If the child has infinite scroll extent, then the [Decoration] paints itself up to the
+/// bottom cache extent.
+class _RenderDecoratedSliver extends RenderProxySliver {
+  /// Creates a decorated sliver.
+  ///
+  /// The [decoration], [position], and [configuration] arguments must not be
+  /// null. By default the decoration paints behind the child.
+  ///
+  /// The [ImageConfiguration] will be passed to the decoration (with the size
+  /// filled in) to let it resolve images.
+  _RenderDecoratedSliver({
+    required Decoration decoration,
+    DecorationPosition position = DecorationPosition.background,
+    ImageConfiguration configuration = ImageConfiguration.empty,
+  }) : _decoration = decoration,
+       _position = position,
+       _configuration = configuration;
+
+  /// What decoration to paint.
+  ///
+  /// Commonly a [BoxDecoration].
+  Decoration get decoration => _decoration;
+  Decoration _decoration;
+  set decoration(Decoration value) {
+    if (value == decoration) {
+      return;
+    }
+    _decoration = value;
+    _painter?.dispose();
+    _painter = decoration.createBoxPainter(markNeedsPaint);
+    markNeedsPaint();
+  }
+
+  /// Whether to paint the box decoration behind or in front of the child.
+  DecorationPosition get position => _position;
+  DecorationPosition _position;
+  set position(DecorationPosition value) {
+    if (value == position) {
+      return;
+    }
+    _position = value;
+    markNeedsPaint();
+  }
+
+  /// The settings to pass to the decoration when painting, so that it can
+  /// resolve images appropriately. See [ImageProvider.resolve] and
+  /// [BoxPainter.paint].
+  ///
+  /// The [ImageConfiguration.textDirection] field is also used by
+  /// direction-sensitive [Decoration]s for painting and hit-testing.
+  ImageConfiguration get configuration => _configuration;
+  ImageConfiguration _configuration;
+  set configuration(ImageConfiguration value) {
+    if (value == configuration) {
+      return;
+    }
+    _configuration = value;
+    markNeedsPaint();
+  }
+
+  BoxPainter? _painter;
+
+  @override
+  void attach(covariant PipelineOwner owner) {
+    _painter = decoration.createBoxPainter(markNeedsPaint);
+    super.attach(owner);
+  }
+
+  @override
+  void detach() {
+    _painter?.dispose();
+    _painter = null;
+    super.detach();
+  }
+
+  @override
+  void dispose() {
+    _painter?.dispose();
+    _painter = null;
+    super.dispose();
+  }
+
+  @override
+  void paint(PaintingContext context, Offset offset) {
+    if (child == null || !child!.geometry!.visible) {
+      return;
+    }
+    // In the case where the child sliver has infinite scroll extent, the decoration
+    // should only extend down to the bottom cache extent.
+
+    // Original implementation:
+    // final double cappedMainAxisExtent = child!.geometry!.scrollExtent.isInfinite
+    //     ? constraints.scrollOffset +
+    //           child!.geometry!.cacheExtent +
+    //           constraints.cacheOrigin
+    //     : child!.geometry!.scrollExtent;
+    // final (Size childSize, Offset scrollOffset) = switch (constraints.axis) {
+    //   Axis.horizontal => (
+    //     Size(cappedMainAxisExtent, constraints.crossAxisExtent),
+    //     Offset(-constraints.scrollOffset, 0.0),
+    //   ),
+    //   Axis.vertical => (
+    //     Size(constraints.crossAxisExtent, cappedMainAxisExtent),
+    //     Offset(0.0, -constraints.scrollOffset),
+    //   ),
+    // };
+
+    final double cappedMainAxisExtent =
+        child!.geometry!.paintExtent - constraints.overlap;
+    final (Size childSize, Offset scrollOffset) = switch (constraints.axis) {
+      Axis.horizontal => (
+        Size(cappedMainAxisExtent, constraints.crossAxisExtent),
+        Offset(constraints.overlap, 0.0),
+      ),
+      Axis.vertical => (
+        Size(constraints.crossAxisExtent, cappedMainAxisExtent),
+        Offset(0.0, constraints.overlap),
+      ),
+    };
+    offset += (child!.parentData! as SliverPhysicalParentData).paintOffset;
+    void paintDecoration() => _painter!.paint(
+      context.canvas,
+      offset + scrollOffset,
+      configuration.copyWith(size: childSize),
+    );
+    switch (position) {
+      case DecorationPosition.background:
+        paintDecoration();
+        context.paintChild(child!, offset);
+      case DecorationPosition.foreground:
+        context.paintChild(child!, offset);
+        paintDecoration();
+    }
   }
 }
