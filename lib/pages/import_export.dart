@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:nested_scroll_view_plus/nested_scroll_view_plus.dart';
@@ -361,14 +362,61 @@ class _ImportExportPageState extends State<ImportExportPage> {
       collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
       headline: Text(tr('importExport')),
     );
+
+    final ButtonStyle otherImportButtonsStyle = ButtonStyle(
+      animationDuration: Duration.zero,
+      elevation: const WidgetStatePropertyAll(0.0),
+      shadowColor: WidgetStateColor.transparent,
+      minimumSize: const WidgetStatePropertyAll(Size(48.0, 40.0)),
+      fixedSize: const WidgetStatePropertyAll(null),
+      maximumSize: const WidgetStatePropertyAll(Size.infinite),
+      padding: const WidgetStatePropertyAll(
+        EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+      ),
+      iconSize: const WidgetStatePropertyAll(20.0),
+      shape: WidgetStatePropertyAll(
+        CornersBorder.rounded(
+          corners: Corners.all(ShapeTheme.of(context).corner.full),
+        ),
+      ),
+      overlayColor: WidgetStateLayerColor(
+        color: WidgetStatePropertyAll(ColorTheme.of(context).onSurfaceVariant),
+        opacity: StateTheme.of(context).stateLayerOpacity,
+      ),
+      backgroundColor: WidgetStateProperty.resolveWith(
+        (states) => states.contains(WidgetState.disabled)
+            ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
+            : ColorTheme.of(context).surfaceBright,
+      ),
+      foregroundColor: WidgetStateProperty.resolveWith(
+        (states) => states.contains(WidgetState.disabled)
+            ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
+            : ColorTheme.of(context).onSurfaceVariant,
+      ),
+      textStyle: WidgetStateProperty.resolveWith(
+        (states) => TypescaleTheme.of(context).labelLarge.toTextStyle(),
+      ),
+    );
+
     Widget getSliverList() => SliverPadding(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      padding: const EdgeInsets.fromLTRB(16.0, 16.0 - 8.0, 16.0, 16.0),
       sliver: SliverList.list(
         children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Text(
+              tr("obtainiumExport"),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TypescaleTheme.of(
+                context,
+              ).labelLarge.toTextStyle(color: ColorTheme.of(context).secondary),
+            ),
+          ),
           FutureBuilder(
             future: settingsProvider.getExportDir(),
             builder: (context, snapshot) {
-              final hasExportDir = snapshot.hasData;
+              final hasExportDir = snapshot.data != null;
               return Flex.vertical(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -402,7 +450,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                         color: WidgetStatePropertyAll(
                           hasExportDir
                               ? ColorTheme.of(context).onSurfaceVariant
-                              : ColorTheme.of(context).onSecondaryContainer,
+                              : ColorTheme.of(context).onPrimary,
                         ),
                         opacity: StateTheme.of(context).stateLayerOpacity,
                       ),
@@ -413,7 +461,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                               ).onSurface.withValues(alpha: 0.1)
                             : hasExportDir
                             ? ColorTheme.of(context).surfaceBright
-                            : ColorTheme.of(context).secondaryContainer,
+                            : ColorTheme.of(context).primary,
                       ),
                       foregroundColor: WidgetStateProperty.resolveWith(
                         (states) => states.contains(WidgetState.disabled)
@@ -422,7 +470,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                               ).onSurface.withValues(alpha: 0.38)
                             : hasExportDir
                             ? ColorTheme.of(context).onSurfaceVariant
-                            : ColorTheme.of(context).onSecondaryContainer,
+                            : ColorTheme.of(context).onPrimary,
                       ),
                       textStyle: WidgetStateProperty.resolveWith(
                         (states) =>
@@ -496,7 +544,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  if (snapshot.data != null)
+                  if (hasExportDir)
                     Flex.vertical(
                       children: [
                         const SizedBox(height: 16),
@@ -544,7 +592,18 @@ class _ImportExportPageState extends State<ImportExportPage> {
               );
             },
           ),
-          const Divider(height: 32.0),
+          const SizedBox(height: 12.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Text(
+              tr("obtainiumImport"),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TypescaleTheme.of(
+                context,
+              ).labelLarge.toTextStyle(color: ColorTheme.of(context).secondary),
+            ),
+          ),
           FilledButton(
             onPressed: importInProgress ? null : runObtainiumImport,
             style: ButtonStyle(
@@ -601,7 +660,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
             Flex.vertical(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 8.0),
+                const SizedBox(height: 8.0 - 4.0),
                 FilledButton(
                   onPressed: importInProgress
                       ? null
@@ -630,153 +689,25 @@ class _ImportExportPageState extends State<ImportExportPage> {
                             runSourceSearch(searchSource[0]);
                           }
                         },
-                  style: ButtonStyle(
-                    animationDuration: Duration.zero,
-                    elevation: const WidgetStatePropertyAll(0.0),
-                    shadowColor: WidgetStateColor.transparent,
-                    minimumSize: const WidgetStatePropertyAll(Size(48.0, 56.0)),
-                    fixedSize: const WidgetStatePropertyAll(null),
-                    maximumSize: const WidgetStatePropertyAll(Size.infinite),
-                    padding: const WidgetStatePropertyAll(
-                      EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                    ),
-                    iconSize: const WidgetStatePropertyAll(24.0),
-                    shape: WidgetStatePropertyAll(
-                      CornersBorder.rounded(
-                        corners: Corners.all(
-                          ShapeTheme.of(context).corner.full,
-                        ),
-                      ),
-                    ),
-                    overlayColor: WidgetStateLayerColor(
-                      color: WidgetStatePropertyAll(
-                        ColorTheme.of(context).onSurfaceVariant,
-                      ),
-                      opacity: StateTheme.of(context).stateLayerOpacity,
-                    ),
-                    backgroundColor: WidgetStateProperty.resolveWith(
-                      (states) => states.contains(WidgetState.disabled)
-                          ? ColorTheme.of(
-                              context,
-                            ).onSurface.withValues(alpha: 0.1)
-                          : ColorTheme.of(context).surfaceBright,
-                    ),
-                    foregroundColor: WidgetStateProperty.resolveWith(
-                      (states) => states.contains(WidgetState.disabled)
-                          ? ColorTheme.of(
-                              context,
-                            ).onSurface.withValues(alpha: 0.38)
-                          : ColorTheme.of(context).onSurfaceVariant,
-                    ),
-                    textStyle: WidgetStateProperty.resolveWith(
-                      (states) =>
-                          TypescaleTheme.of(context).titleMedium.toTextStyle(),
-                    ),
-                  ),
+                  style: otherImportButtonsStyle,
                   child: Text(
                     tr('searchX', args: [lowerCaseIfEnglish(tr('source'))]),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const SizedBox(height: 8),
                 FilledButton(
                   onPressed: importInProgress ? null : urlListImport,
-                  style: ButtonStyle(
-                    animationDuration: Duration.zero,
-                    elevation: const WidgetStatePropertyAll(0.0),
-                    shadowColor: WidgetStateColor.transparent,
-                    minimumSize: const WidgetStatePropertyAll(Size(48.0, 56.0)),
-                    fixedSize: const WidgetStatePropertyAll(null),
-                    maximumSize: const WidgetStatePropertyAll(Size.infinite),
-                    padding: const WidgetStatePropertyAll(
-                      EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                    ),
-                    iconSize: const WidgetStatePropertyAll(24.0),
-                    shape: WidgetStatePropertyAll(
-                      CornersBorder.rounded(
-                        corners: Corners.all(
-                          ShapeTheme.of(context).corner.full,
-                        ),
-                      ),
-                    ),
-                    overlayColor: WidgetStateLayerColor(
-                      color: WidgetStatePropertyAll(
-                        ColorTheme.of(context).onSurfaceVariant,
-                      ),
-                      opacity: StateTheme.of(context).stateLayerOpacity,
-                    ),
-                    backgroundColor: WidgetStateProperty.resolveWith(
-                      (states) => states.contains(WidgetState.disabled)
-                          ? ColorTheme.of(
-                              context,
-                            ).onSurface.withValues(alpha: 0.1)
-                          : ColorTheme.of(context).surfaceBright,
-                    ),
-                    foregroundColor: WidgetStateProperty.resolveWith(
-                      (states) => states.contains(WidgetState.disabled)
-                          ? ColorTheme.of(
-                              context,
-                            ).onSurface.withValues(alpha: 0.38)
-                          : ColorTheme.of(context).onSurfaceVariant,
-                    ),
-                    textStyle: WidgetStateProperty.resolveWith(
-                      (states) =>
-                          TypescaleTheme.of(context).titleMedium.toTextStyle(),
-                    ),
-                  ),
+                  style: otherImportButtonsStyle,
                   child: Text(
                     tr('importFromURLList'),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const SizedBox(height: 8),
                 FilledButton(
                   onPressed: importInProgress ? null : runUrlImport,
-                  style: ButtonStyle(
-                    animationDuration: Duration.zero,
-                    elevation: const WidgetStatePropertyAll(0.0),
-                    shadowColor: WidgetStateColor.transparent,
-                    minimumSize: const WidgetStatePropertyAll(Size(48.0, 56.0)),
-                    fixedSize: const WidgetStatePropertyAll(null),
-                    maximumSize: const WidgetStatePropertyAll(Size.infinite),
-                    padding: const WidgetStatePropertyAll(
-                      EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                    ),
-                    iconSize: const WidgetStatePropertyAll(24.0),
-                    shape: WidgetStatePropertyAll(
-                      CornersBorder.rounded(
-                        corners: Corners.all(
-                          ShapeTheme.of(context).corner.full,
-                        ),
-                      ),
-                    ),
-                    overlayColor: WidgetStateLayerColor(
-                      color: WidgetStatePropertyAll(
-                        ColorTheme.of(context).onSurfaceVariant,
-                      ),
-                      opacity: StateTheme.of(context).stateLayerOpacity,
-                    ),
-                    backgroundColor: WidgetStateProperty.resolveWith(
-                      (states) => states.contains(WidgetState.disabled)
-                          ? ColorTheme.of(
-                              context,
-                            ).onSurface.withValues(alpha: 0.1)
-                          : ColorTheme.of(context).surfaceBright,
-                    ),
-                    foregroundColor: WidgetStateProperty.resolveWith(
-                      (states) => states.contains(WidgetState.disabled)
-                          ? ColorTheme.of(
-                              context,
-                            ).onSurface.withValues(alpha: 0.38)
-                          : ColorTheme.of(context).onSurfaceVariant,
-                    ),
-                    textStyle: WidgetStateProperty.resolveWith(
-                      (states) =>
-                          TypescaleTheme.of(context).titleMedium.toTextStyle(),
-                    ),
-                  ),
+                  style: otherImportButtonsStyle,
                   child: Text(
                     tr('importFromURLsInFile'),
                     maxLines: 2,
@@ -789,56 +720,13 @@ class _ImportExportPageState extends State<ImportExportPage> {
             (source) => Flex.vertical(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 8),
                 FilledButton(
                   onPressed: importInProgress
                       ? null
                       : () {
                           runMassSourceImport(source);
                         },
-                  style: ButtonStyle(
-                    animationDuration: Duration.zero,
-                    elevation: const WidgetStatePropertyAll(0.0),
-                    shadowColor: WidgetStateColor.transparent,
-                    minimumSize: const WidgetStatePropertyAll(Size(48.0, 56.0)),
-                    fixedSize: const WidgetStatePropertyAll(null),
-                    maximumSize: const WidgetStatePropertyAll(Size.infinite),
-                    padding: const WidgetStatePropertyAll(
-                      EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-                    ),
-                    iconSize: const WidgetStatePropertyAll(24.0),
-                    shape: WidgetStatePropertyAll(
-                      CornersBorder.rounded(
-                        corners: Corners.all(
-                          ShapeTheme.of(context).corner.full,
-                        ),
-                      ),
-                    ),
-                    overlayColor: WidgetStateLayerColor(
-                      color: WidgetStatePropertyAll(
-                        ColorTheme.of(context).onSurfaceVariant,
-                      ),
-                      opacity: StateTheme.of(context).stateLayerOpacity,
-                    ),
-                    backgroundColor: WidgetStateProperty.resolveWith(
-                      (states) => states.contains(WidgetState.disabled)
-                          ? ColorTheme.of(
-                              context,
-                            ).onSurface.withValues(alpha: 0.1)
-                          : ColorTheme.of(context).surfaceBright,
-                    ),
-                    foregroundColor: WidgetStateProperty.resolveWith(
-                      (states) => states.contains(WidgetState.disabled)
-                          ? ColorTheme.of(
-                              context,
-                            ).onSurface.withValues(alpha: 0.38)
-                          : ColorTheme.of(context).onSurfaceVariant,
-                    ),
-                    textStyle: WidgetStateProperty.resolveWith(
-                      (states) =>
-                          TypescaleTheme.of(context).titleMedium.toTextStyle(),
-                    ),
-                  ),
+                  style: otherImportButtonsStyle,
                   child: Text(
                     tr('importX', args: [source.name]),
                     maxLines: 2,
@@ -851,10 +739,11 @@ class _ImportExportPageState extends State<ImportExportPage> {
           const Divider(height: 32),
           Text(
             tr('importedAppsIdDisclaimer'),
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12),
+            textAlign: TextAlign.start,
+            style: TypescaleTheme.of(context).bodyMedium.toTextStyle(
+              color: ColorTheme.of(context).onSurfaceVariant,
+            ),
           ),
-          const SizedBox(height: 8),
         ],
       ),
     );
@@ -1473,8 +1362,20 @@ class _RenderDecoratedSliver extends RenderProxySliver {
     //   ),
     // };
 
+    // The remaining space in the viewportMainAxisExtent. Can be <= 0 if we have
+    // scrolled beyond the extent of the screen.
+    // double extent =
+    //     constraints.viewportMainAxisExtent - constraints.precedingScrollExtent;
+
+    // The maxExtent includes any overscrolled area. Can be < 0 if we have
+    // overscroll in the opposite direction, away from the end of the list.
+    // double maxExtent =
+    //     constraints.remainingPaintExtent - math.min(constraints.overlap, 0.0);
+
+    final nextSliverExtent =
+        constraints.remainingPaintExtent - child!.geometry!.paintExtent;
     final double cappedMainAxisExtent =
-        child!.geometry!.paintExtent - constraints.overlap;
+        geometry!.paintExtent - constraints.overlap + nextSliverExtent;
     final (Size childSize, Offset scrollOffset) = switch (constraints.axis) {
       Axis.horizontal => (
         Size(cappedMainAxisExtent, constraints.crossAxisExtent),
