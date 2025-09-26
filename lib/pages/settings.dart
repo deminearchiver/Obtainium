@@ -405,7 +405,8 @@ class _SettingsPageState extends State<SettingsPage> {
       backgroundColor: ColorTheme.of(context).surfaceContainer,
       body: CustomScrollView(
         slivers: <Widget>[
-          CustomAppBar.largeFlexible(
+          CustomAppBar(
+            type: CustomAppBarType.largeFlexible,
             expandedContainerColor: ColorTheme.of(context).surfaceContainer,
             collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
             title: Text(tr('settings')),

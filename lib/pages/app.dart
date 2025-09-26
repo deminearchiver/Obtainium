@@ -742,7 +742,8 @@ class _AppPageState extends State<AppPage> {
             ? getAppWebView()
             : CustomScrollView(
                 slivers: [
-                  CustomAppBar.small(
+                  CustomAppBar(
+                    type: CustomAppBarType.small,
                     leading: Padding(
                       padding: const EdgeInsets.only(left: 16.0 - 4.0),
                       child: IconButton(

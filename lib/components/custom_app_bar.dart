@@ -5,11 +5,12 @@ import 'package:obtainium/flutter.dart';
 const double _kCollapsedHeight = 64.0;
 const double _kExpandedBottomPadding = 12.0;
 
-enum _AppBarType { small, mediumFlexible, largeFlexible }
+enum CustomAppBarType { small, mediumFlexible, largeFlexible }
 
 class CustomAppBar extends StatefulWidget {
-  const CustomAppBar.small({
+  const CustomAppBar({
     super.key,
+    required this.type,
     this.collapsedPadding,
     this.expandedPadding,
     this.collapsedContainerColor,
@@ -23,43 +24,9 @@ class CustomAppBar extends StatefulWidget {
     this.subtitle,
     this.trailing,
     this.bottom,
-  }) : _type = _AppBarType.small;
+  });
 
-  const CustomAppBar.mediumFlexible({
-    super.key,
-    this.collapsedPadding,
-    this.expandedPadding,
-    this.collapsedContainerColor,
-    this.expandedContainerColor,
-    this.collapsedTitleTextStyle,
-    this.expandedTitleTextStyle,
-    this.collapsedSubtitleTextStyle,
-    this.expandedSubtitleTextStyle,
-    this.leading,
-    this.title,
-    this.subtitle,
-    this.trailing,
-    this.bottom,
-  }) : _type = _AppBarType.mediumFlexible;
-
-  const CustomAppBar.largeFlexible({
-    super.key,
-    this.collapsedPadding,
-    this.expandedPadding,
-    this.collapsedContainerColor,
-    this.expandedContainerColor,
-    this.collapsedTitleTextStyle,
-    this.expandedTitleTextStyle,
-    this.collapsedSubtitleTextStyle,
-    this.expandedSubtitleTextStyle,
-    this.leading,
-    this.title,
-    this.subtitle,
-    this.trailing,
-    this.bottom,
-  }) : _type = _AppBarType.largeFlexible;
-
-  final _AppBarType _type;
+  final CustomAppBarType type;
 
   final EdgeInsetsGeometry? collapsedPadding;
   final EdgeInsetsGeometry? expandedPadding;
@@ -130,38 +97,39 @@ class _CustomAppBarState extends State<CustomAppBar>
       widget.collapsedContainerColor ?? _colorTheme.surfaceContainer;
 
   // Expanded
-  TypeStyle get _expandedTitleTypeStyle => switch (widget._type) {
-    _AppBarType.small => _collapsedTitleTypeStyle,
-    _AppBarType.mediumFlexible => _typescaleTheme.titleMediumEmphasized,
-    _AppBarType.largeFlexible => _typescaleTheme.displaySmallEmphasized,
+  TypeStyle get _expandedTitleTypeStyle => switch (widget.type) {
+    CustomAppBarType.small => _collapsedTitleTypeStyle,
+    CustomAppBarType.mediumFlexible => _typescaleTheme.titleMediumEmphasized,
+    CustomAppBarType.largeFlexible => _typescaleTheme.displaySmallEmphasized,
   };
   TextStyle get _expandedTitleTextStyle =>
       _expandedTitleTypeStyle.toTextStyle(color: _colorTheme.onSurface);
 
-  TypeStyle get _expandedSubtitleTypeStyle => switch (widget._type) {
-    _AppBarType.small => _collapsedSubtitleTypeStyle,
-    _AppBarType.mediumFlexible => _typescaleTheme.labelLarge,
-    _AppBarType.largeFlexible => _typescaleTheme.titleMedium,
+  TypeStyle get _expandedSubtitleTypeStyle => switch (widget.type) {
+    CustomAppBarType.small => _collapsedSubtitleTypeStyle,
+    CustomAppBarType.mediumFlexible => _typescaleTheme.labelLarge,
+    CustomAppBarType.largeFlexible => _typescaleTheme.titleMedium,
   };
   TextStyle get _expandedSubtitleTextStyle => _expandedSubtitleTypeStyle
       .toTextStyle(color: _colorTheme.onSurfaceVariant);
-  double get _expandedTitleSubtitleSpace => switch (widget._type) {
-    _AppBarType.small => _collapsedTitleSubtitleSpace,
-    _AppBarType.mediumFlexible => 4.0,
-    _AppBarType.largeFlexible => 8.0,
+  double get _expandedTitleSubtitleSpace => switch (widget.type) {
+    CustomAppBarType.small => _collapsedTitleSubtitleSpace,
+    CustomAppBarType.mediumFlexible => 4.0,
+    CustomAppBarType.largeFlexible => 8.0,
   };
-  EdgeInsetsGeometry get _expandedPadding => widget._type == _AppBarType.small
+  EdgeInsetsGeometry get _expandedPadding =>
+      widget.type == CustomAppBarType.small
       ? _collapsedPadding
       : widget.expandedPadding ??
             const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, _kExpandedBottomPadding);
-  double get _expandedContentHeight => widget._type == _AppBarType.small
+  double get _expandedContentHeight => widget.type == CustomAppBarType.small
       ? _collapsedContentHeight
       : _expandedTitleTypeStyle.lineHeight +
             (widget.subtitle != null
                 ? _expandedTitleSubtitleSpace +
                       _expandedSubtitleTypeStyle.lineHeight
                 : 0.0);
-  double get _expandedHeight => widget._type == _AppBarType.small
+  double get _expandedHeight => widget.type == CustomAppBarType.small
       ? _collapsedHeight
       : _collapsedHeight + _expandedContentHeight + _expandedPadding.vertical;
   Color get _expandedColor =>

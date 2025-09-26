@@ -1805,7 +1805,10 @@ class AppsPageState extends State<AppsPage> {
             controller: scrollController,
             slivers: <Widget>[
               // if (!kDebugMode)
-              CustomAppBar.largeFlexible(title: Text(tr('appsString'))),
+              CustomAppBar(
+                type: CustomAppBarType.largeFlexible,
+                title: Text(tr('appsString')),
+              ),
               // TODO: either finish CustomScrollbar3 or use nested_scroll_view_plus
               // ignore: dead_code
               if (kCustomScrollbarVisible) ...[

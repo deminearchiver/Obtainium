@@ -358,7 +358,8 @@ class _ImportExportPageState extends State<ImportExportPage> {
       sourceStrings[s.name] = [s.name];
     });
 
-    Widget getSliverAppBar() => CustomAppBar.largeFlexible(
+    Widget getSliverAppBar() => CustomAppBar(
+      type: CustomAppBarType.largeFlexible,
       expandedContainerColor: ColorTheme.of(context).surfaceContainer,
       collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
       title: Text(tr('importExport')),
