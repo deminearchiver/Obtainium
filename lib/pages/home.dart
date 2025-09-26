@@ -261,6 +261,36 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  // TODO: migrate to use PopScope for top-level navigation history handling
+
+  // The tricky part is that onPopInvokedWithResult gets called AFTER a pop
+  // has NOT been prevented, so the logic of the previous onWillPop callback
+  // becomes useless. A suggestion is to use either ModalRoute.registerPopEntry
+  // or ModalRoute.addLocalHistoryEntry in this scenario. Until this gets
+  // implemented, top-level navigation history is unsupported, attempting to
+  // pop a top-level route pops the whole application.
+
+  // Future<bool> _onWillPop() async {
+  //   if (isLinkActivity &&
+  //       selectedIndexHistory.length == 1 &&
+  //       selectedIndexHistory.last == 1) {
+  //     return true;
+  //   }
+  //   setIsReversing(
+  //     selectedIndexHistory.length >= 2
+  //         ? selectedIndexHistory.reversed.toList()[1]
+  //         : 0,
+  //   );
+  //   if (selectedIndexHistory.isNotEmpty) {
+  //     setState(() {
+  //       selectedIndexHistory.removeLast();
+  //     });
+  //     return false;
+  //   }
+  //   return !(pages[0].widget.key as GlobalKey<AppsPageState>).currentState!
+  //       .clearSelected();
+  // }
+
   @override
   Widget build(BuildContext context) {
     AppsProvider appsProvider = context.watch<AppsProvider>();
@@ -278,52 +308,30 @@ class _HomePageState extends State<HomePage> {
     prevIsLoading = appsProvider.loadingApps;
 
     // TODO: this doesn't seem to do anything because onWillPop is null
-    return WillPopScope(
-      child: Scaffold(
-        backgroundColor: ColorTheme.of(context).surface,
-        body: pages
-            .elementAt(
-              selectedIndexHistory.isEmpty ? 0 : selectedIndexHistory.last,
+    return Scaffold(
+      backgroundColor: ColorTheme.of(context).surface,
+      body: pages
+          .elementAt(
+            selectedIndexHistory.isEmpty ? 0 : selectedIndexHistory.last,
+          )
+          .widget,
+      bottomNavigationBar: NavigationBar(
+        destinations: pages
+            .map(
+              (e) => NavigationDestination(
+                icon: IconLegacy(e.icon),
+                label: e.title,
+              ),
             )
-            .widget,
-        bottomNavigationBar: NavigationBar(
-          destinations: pages
-              .map(
-                (e) => NavigationDestination(
-                  icon: IconLegacy(e.icon),
-                  label: e.title,
-                ),
-              )
-              .toList(),
-          onDestinationSelected: (index) async {
-            HapticFeedback.selectionClick();
-            switchToPage(index);
-          },
-          selectedIndex: selectedIndexHistory.isEmpty
-              ? 0
-              : selectedIndexHistory.last,
-        ),
+            .toList(),
+        onDestinationSelected: (index) async {
+          HapticFeedback.selectionClick();
+          switchToPage(index);
+        },
+        selectedIndex: selectedIndexHistory.isEmpty
+            ? 0
+            : selectedIndexHistory.last,
       ),
-      onWillPop: () async {
-        if (isLinkActivity &&
-            selectedIndexHistory.length == 1 &&
-            selectedIndexHistory.last == 1) {
-          return true;
-        }
-        setIsReversing(
-          selectedIndexHistory.length >= 2
-              ? selectedIndexHistory.reversed.toList()[1]
-              : 0,
-        );
-        if (selectedIndexHistory.isNotEmpty) {
-          setState(() {
-            selectedIndexHistory.removeLast();
-          });
-          return false;
-        }
-        return !(pages[0].widget.key as GlobalKey<AppsPageState>).currentState!
-            .clearSelected();
-      },
     );
   }
 
