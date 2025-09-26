@@ -233,6 +233,11 @@ class _CustomAppBarState extends State<CustomAppBar>
     final topPadding = MediaQuery.paddingOf(context).top;
     final headline = widget.headline;
     final subtitle = widget.subtitle;
+
+    Widget _buildScope(Widget child) {
+      return _CustomAppBarScope(state: this, child: child);
+    }
+
     final Widget stack = Stack(
       fit: StackFit.expand,
       children: [
@@ -341,6 +346,37 @@ class _CustomAppBarState extends State<CustomAppBar>
         bottom: widget.bottom,
       ),
     );
+  }
+}
+
+class _CustomAppBarScope extends InheritedWidget {
+  const _CustomAppBarScope({
+    super.key,
+    required this.state,
+    required super.child,
+  });
+
+  final _CustomAppBarState state;
+
+  @override
+  bool updateShouldNotify(_CustomAppBarScope oldWidget) {
+    return state != oldWidget.state;
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<_CustomAppBarState>("state", state));
+  }
+
+  static _CustomAppBarScope? maybeOf(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<_CustomAppBarScope>();
+  }
+
+  static _CustomAppBarScope of(BuildContext context) {
+    final result = maybeOf(context);
+    assert(result != null);
+    return result!;
   }
 }
 
