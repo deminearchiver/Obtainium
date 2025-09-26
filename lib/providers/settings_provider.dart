@@ -127,7 +127,7 @@ class SettingsProvider with ChangeNotifier {
   }
 
   bool get useMaterialYou {
-    return prefsWithCache.getBool('useMaterialYou') ?? false;
+    return prefsWithCache.getBool('useMaterialYou') ?? true;
   }
 
   set useMaterialYou(bool useMaterialYou) {
