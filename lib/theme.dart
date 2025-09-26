@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:obtainium/flutter.dart';
 
 // ignore: implementation_imports
@@ -177,6 +179,18 @@ abstract final class LegacyThemeFactory {
         color: colorTheme.outlineVariant,
         thickness: 1.0,
         radius: BorderRadius.zero,
+      ),
+      sliderTheme: SliderThemeData(
+        // ignore: deprecated_member_use
+        year2023: false,
+        overlayColor: Colors.transparent,
+        padding: EdgeInsets.zero,
+        showValueIndicator: ShowValueIndicator.onDrag,
+        valueIndicatorShape: const _SliderValueIndicatorShapeYear2024(),
+        valueIndicatorColor: colorTheme.inverseSurface,
+        valueIndicatorTextStyle: typescaleTheme.labelLarge.toTextStyle(
+          color: colorTheme.inverseOnSurface,
+        ),
       ),
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
@@ -375,4 +389,196 @@ class TypographyDefaults with Diagnosticable {
       labelSmallEmphasized: TypeStylePartial.from(rond: 100.0),
     ),
   );
+}
+
+class _SliderValueIndicatorShapeYear2024 extends SliderComponentShape {
+  const _SliderValueIndicatorShapeYear2024();
+
+  static const _SliderValueIndicatorPathPainterYear2024 _pathPainter =
+      _SliderValueIndicatorPathPainterYear2024();
+
+  @override
+  Size getPreferredSize(
+    bool isEnabled,
+    bool isDiscrete, {
+    TextPainter? labelPainter,
+    double? textScaleFactor,
+  }) {
+    assert(labelPainter != null);
+    assert(textScaleFactor != null && textScaleFactor >= 0);
+    return _pathPainter.getPreferredSize(labelPainter!, textScaleFactor!);
+  }
+
+  @override
+  void paint(
+    PaintingContext context,
+    Offset center, {
+    required Animation<double> activationAnimation,
+    required Animation<double> enableAnimation,
+    required bool isDiscrete,
+    required TextPainter labelPainter,
+    required RenderBox parentBox,
+    required SliderThemeData sliderTheme,
+    required TextDirection textDirection,
+    required double value,
+    required double textScaleFactor,
+    required Size sizeWithOverflow,
+  }) {
+    final Canvas canvas = context.canvas;
+    final double scale = activationAnimation.value;
+    _pathPainter.paint(
+      parentBox: parentBox,
+      canvas: canvas,
+      center: center,
+      scale: scale,
+      labelPainter: labelPainter,
+      textScaleFactor: textScaleFactor,
+      sizeWithOverflow: sizeWithOverflow,
+      backgroundPaintColor: sliderTheme.valueIndicatorColor!,
+      strokePaintColor: sliderTheme.valueIndicatorStrokeColor,
+    );
+  }
+}
+
+class _SliderValueIndicatorPathPainterYear2024 {
+  const _SliderValueIndicatorPathPainterYear2024();
+
+  static const EdgeInsets _labelPadding = EdgeInsets.symmetric(
+    horizontal: 16.0,
+    vertical: 12.0,
+  );
+  static const double _minLabelWidth = 16.0;
+  static const double _rectYOffset = 12.0;
+
+  Size getPreferredSize(TextPainter labelPainter, double textScaleFactor) {
+    final width =
+        math.max(_minLabelWidth, labelPainter.width) +
+        _labelPadding.horizontal * textScaleFactor;
+    final height =
+        (labelPainter.height + _labelPadding.vertical) * textScaleFactor;
+    return Size(width, height);
+  }
+
+  double getHorizontalShift({
+    required RenderBox parentBox,
+    required Offset center,
+    required TextPainter labelPainter,
+    required double textScaleFactor,
+    required Size sizeWithOverflow,
+    required double scale,
+  }) {
+    assert(!sizeWithOverflow.isEmpty);
+
+    const double edgePadding = 8.0;
+    final double rectangleWidth = _upperRectangleWidth(labelPainter, scale);
+
+    /// Value indicator draws on the Overlay and by using the global Offset
+    /// we are making sure we use the bounds of the Overlay instead of the Slider.
+    final Offset globalCenter = parentBox.localToGlobal(center);
+
+    // The rectangle must be shifted towards the center so that it minimizes the
+    // chance of it rendering outside the bounds of the render box. If the shift
+    // is negative, then the lobe is shifted from right to left, and if it is
+    // positive, then the lobe is shifted from left to right.
+    final double overflowLeft = math.max(
+      0,
+      rectangleWidth / 2 - globalCenter.dx + edgePadding,
+    );
+    final double overflowRight = math.max(
+      0,
+      rectangleWidth / 2 -
+          (sizeWithOverflow.width - globalCenter.dx - edgePadding),
+    );
+
+    if (rectangleWidth < sizeWithOverflow.width) {
+      return overflowLeft - overflowRight;
+    } else if (overflowLeft - overflowRight > 0) {
+      return overflowLeft - (edgePadding * textScaleFactor);
+    } else {
+      return -overflowRight + (edgePadding * textScaleFactor);
+    }
+  }
+
+  double _upperRectangleWidth(TextPainter labelPainter, double scale) {
+    final double unscaledWidth =
+        math.max(_minLabelWidth, labelPainter.width) + _labelPadding.horizontal;
+    return unscaledWidth * scale;
+  }
+
+  double _upperRectangleHeight(TextPainter labelPainter, double scale) {
+    final unscaledHeight = labelPainter.height + _labelPadding.vertical;
+    return unscaledHeight * scale;
+  }
+
+  void paint({
+    required RenderBox parentBox,
+    required Canvas canvas,
+    required Offset center,
+    required double scale,
+    required TextPainter labelPainter,
+    required double textScaleFactor,
+    required Size sizeWithOverflow,
+    required Color backgroundPaintColor,
+    Color? strokePaintColor,
+  }) {
+    if (scale == 0.0) {
+      // Zero scale essentially means "do not draw anything", so it's safe to just return.
+      return;
+    }
+    assert(!sizeWithOverflow.isEmpty);
+
+    final rectangleWidth = _upperRectangleWidth(labelPainter, scale);
+    final rectangleHeight = _upperRectangleHeight(labelPainter, scale);
+    final halfRectangleHeight = rectangleHeight / 2.0;
+    final double horizontalShift = getHorizontalShift(
+      parentBox: parentBox,
+      center: center,
+      labelPainter: labelPainter,
+      textScaleFactor: textScaleFactor,
+      sizeWithOverflow: sizeWithOverflow,
+      scale: scale,
+    );
+
+    final Rect upperRect = Rect.fromLTWH(
+      -rectangleWidth / 2 + horizontalShift,
+      -_rectYOffset - rectangleHeight,
+      rectangleWidth,
+      rectangleHeight,
+    );
+
+    final Paint fillPaint = Paint()..color = backgroundPaintColor;
+
+    canvas.save();
+    // Prepare the canvas for the base of the tooltip, which is relative to the
+    // center of the thumb.
+    canvas.translate(center.dx, center.dy - _labelPadding.bottom - 4.0);
+    canvas.scale(scale, scale);
+
+    final RRect rrect = RRect.fromRectAndRadius(
+      upperRect,
+      Radius.circular(upperRect.height / 2),
+    );
+    if (strokePaintColor != null) {
+      final Paint strokePaint = Paint()
+        ..color = strokePaintColor
+        ..strokeWidth = 1.0
+        ..style = PaintingStyle.stroke;
+      canvas.drawRRect(rrect, strokePaint);
+    }
+
+    canvas.drawRRect(rrect, fillPaint);
+
+    // The label text is centered within the value indicator.
+    final double bottomTipToUpperRectTranslateY =
+        -halfRectangleHeight / 2 - upperRect.height;
+    canvas.translate(0, bottomTipToUpperRectTranslateY);
+    final Offset boxCenter = Offset(horizontalShift, upperRect.height / 2.3);
+    final Offset halfLabelPainterOffset = Offset(
+      labelPainter.width / 2,
+      labelPainter.height / 2,
+    );
+    final Offset labelOffset = boxCenter - halfLabelPainterOffset;
+    labelPainter.paint(canvas, labelOffset);
+    canvas.restore();
+  }
 }
