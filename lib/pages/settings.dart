@@ -104,7 +104,7 @@ class _SettingsPageState extends State<SettingsPage> {
     initUpdateIntervalInterpolator();
     processIntervalSliderValue(settingsProvider.updateIntervalSliderVal);
 
-    final followSystemThemeExplanation = FutureBuilder(
+    final Widget followSystemThemeExplanation = FutureBuilder(
       builder: (ctx, val) {
         return ((val.data?.version.sdkInt ?? 30) < 29)
             ? Text(
@@ -180,7 +180,7 @@ class _SettingsPageState extends State<SettingsPage> {
       );
     }
 
-    final colorPicker = ListTile(
+    final Widget colorPicker = ListTile(
       dense: true,
       contentPadding: EdgeInsets.zero,
       title: Text(tr('selectX', args: [tr('colour').toLowerCase()])),
@@ -205,7 +205,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
     );
 
-    final useMaterialThemeSwitch = FutureBuilder(
+    final Widget useMaterialThemeSwitch = FutureBuilder(
       builder: (ctx, val) {
         return (val.data ?? false)
             ? Flex.horizontal(
@@ -225,78 +225,83 @@ class _SettingsPageState extends State<SettingsPage> {
       future: const DynamicColor().isDynamicColorAvailable(),
     );
 
-    final sortDropdown = DropdownButtonFormField(
-      isExpanded: true,
-      decoration: InputDecoration(
-        border: const UnderlineInputBorder(),
+    final Widget sortDropdown = DropdownMenuFormField<SortColumnSettings>(
+      expandedInsets: EdgeInsets.zero,
+      inputDecorationTheme: const InputDecorationThemeData(
+        border: UnderlineInputBorder(),
         filled: true,
-        labelText: tr('appSortBy'),
       ),
-      initialValue: settingsProvider.sortColumn,
-      items: [
-        DropdownMenuItem(
+      label: Text(tr('appSortBy')),
+      initialSelection: settingsProvider.sortColumn,
+      dropdownMenuEntries: [
+        DropdownMenuEntry(
           value: SortColumnSettings.authorName,
-          child: Text(tr('authorName')),
+          label: tr('authorName'),
         ),
-        DropdownMenuItem(
+        DropdownMenuEntry(
           value: SortColumnSettings.nameAuthor,
-          child: Text(tr('nameAuthor')),
+          label: tr('nameAuthor'),
         ),
-        DropdownMenuItem(
+        DropdownMenuEntry(
           value: SortColumnSettings.added,
-          child: Text(tr('asAdded')),
+          label: tr('asAdded'),
         ),
-        DropdownMenuItem(
+        DropdownMenuEntry(
           value: SortColumnSettings.releaseDate,
-          child: Text(tr('releaseDate')),
+          label: tr('releaseDate'),
         ),
       ],
-      onChanged: (value) {
+      onSelected: (value) {
         if (value != null) {
           settingsProvider.sortColumn = value;
         }
       },
     );
 
-    var orderDropdown = DropdownButtonFormField(
-      isExpanded: true,
-      decoration: InputDecoration(
-        border: const UnderlineInputBorder(),
+    final Widget orderDropdown = DropdownMenuFormField<SortOrderSettings>(
+      expandedInsets: EdgeInsets.zero,
+      inputDecorationTheme: const InputDecorationThemeData(
+        border: UnderlineInputBorder(),
         filled: true,
-        labelText: tr('appSortOrder'),
       ),
-      initialValue: settingsProvider.sortOrder,
-      items: [
-        DropdownMenuItem(
+      label: Text(tr('appSortOrder')),
+      initialSelection: settingsProvider.sortOrder,
+      dropdownMenuEntries: [
+        DropdownMenuEntry(
           value: SortOrderSettings.ascending,
-          child: Text(tr('ascending')),
+          label: tr('ascending'),
         ),
-        DropdownMenuItem(
+        DropdownMenuEntry(
           value: SortOrderSettings.descending,
-          child: Text(tr('descending')),
+          label: tr('descending'),
         ),
       ],
-      onChanged: (value) {
+      onSelected: (value) {
         if (value != null) {
           settingsProvider.sortOrder = value;
         }
       },
     );
 
-    final localeDropdown = DropdownButtonFormField(
-      decoration: InputDecoration(
-        border: const UnderlineInputBorder(),
+    final Widget localeDropdown = DropdownMenuFormField<Locale?>(
+      expandedInsets: EdgeInsets.zero,
+      inputDecorationTheme: const InputDecorationThemeData(
+        border: UnderlineInputBorder(),
         filled: true,
-        labelText: tr('language'),
       ),
-      initialValue: settingsProvider.forcedLocale,
-      items: [
-        DropdownMenuItem(value: null, child: Text(tr('followSystem'))),
+      label: Text(tr('language')),
+      enableFilter: true,
+      enableSearch: true,
+      requestFocusOnTap: true,
+
+      initialSelection: settingsProvider.forcedLocale,
+      dropdownMenuEntries: [
+        DropdownMenuEntry(value: null, label: tr('followSystem')),
         ...supportedLocales.map(
-          (e) => DropdownMenuItem(value: e.key, child: Text(e.value)),
+          (e) => DropdownMenuEntry(value: e.key, label: e.value),
         ),
       ],
-      onChanged: (value) {
+      onSelected: (value) {
         settingsProvider.forcedLocale = value;
         if (value != null) {
           context.setLocale(value);
@@ -306,7 +311,7 @@ class _SettingsPageState extends State<SettingsPage> {
       },
     );
 
-    final intervalSlider = Slider(
+    final Widget intervalSlider = Slider(
       value: settingsProvider.updateIntervalSliderVal,
       max: updateIntervalNodes.length.toDouble(),
       divisions: updateIntervalNodes.length * 20,
@@ -375,9 +380,6 @@ class _SettingsPageState extends State<SettingsPage> {
             expandedContainerColor: ColorTheme.of(context).surface,
             collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
             headline: Text(tr('settings')),
-            subtitle: kDebugMode
-                ? const Text("This text appears only in debug mode")
-                : null,
           ),
           // if (kDebugMode)
           //   const SliverToBoxAdapter(
@@ -751,28 +753,29 @@ class _SettingsPageState extends State<SettingsPage> {
                       color: ColorTheme.of(context).primary,
                     ),
                   ),
-                  DropdownButtonFormField(
-                    decoration: InputDecoration(
-                      border: const UnderlineInputBorder(),
+                  DropdownMenuFormField<ThemeSettings>(
+                    expandedInsets: EdgeInsets.zero,
+                    inputDecorationTheme: const InputDecorationThemeData(
+                      border: UnderlineInputBorder(),
                       filled: true,
-                      labelText: tr('theme'),
                     ),
-                    initialValue: settingsProvider.theme,
-                    items: [
-                      DropdownMenuItem(
+                    label: Text(tr("theme")),
+                    initialSelection: settingsProvider.theme,
+                    dropdownMenuEntries: [
+                      DropdownMenuEntry(
                         value: ThemeSettings.system,
-                        child: Text(tr('followSystem')),
+                        label: tr("followSystem"),
                       ),
-                      DropdownMenuItem(
+                      DropdownMenuEntry(
                         value: ThemeSettings.light,
-                        child: Text(tr('light')),
+                        label: tr("light"),
                       ),
-                      DropdownMenuItem(
+                      DropdownMenuEntry(
                         value: ThemeSettings.dark,
-                        child: Text(tr('dark')),
+                        label: tr("dark"),
                       ),
                     ],
-                    onChanged: (value) {
+                    onSelected: (value) {
                       if (value != null) {
                         settingsProvider.theme = value;
                       }
@@ -1076,7 +1079,7 @@ class _LogsDialogState extends State<LogsDialog> {
 
   @override
   Widget build(BuildContext context) {
-    var logsProvider = context.read<LogsProvider>();
+    final logsProvider = context.read<LogsProvider>();
     void filterLogs(int days) {
       logsProvider
           .get(after: DateTime.now().subtract(Duration(days: days)))
@@ -1097,15 +1100,18 @@ class _LogsDialogState extends State<LogsDialog> {
       title: Text(tr('appLogs')),
       content: Flex.vertical(
         children: [
-          DropdownButtonFormField(
-            initialValue: days.first,
-            items: days
+          DropdownMenuFormField<int>(
+            expandedInsets: EdgeInsets.zero,
+            inputDecorationTheme: const InputDecorationThemeData(
+              border: OutlineInputBorder(),
+            ),
+            initialSelection: days.first,
+            dropdownMenuEntries: days
                 .map(
-                  (e) =>
-                      DropdownMenuItem(value: e, child: Text(plural('day', e))),
+                  (e) => DropdownMenuEntry(value: e, label: plural("day", e)),
                 )
                 .toList(),
-            onChanged: (d) {
+            onSelected: (d) {
               filterLogs(d ?? 7);
             },
           ),
@@ -1116,7 +1122,7 @@ class _LogsDialogState extends State<LogsDialog> {
       actions: [
         TextButton(
           onPressed: () async {
-            var cont =
+            final cont =
                 (await showDialog<Map<String, dynamic>?>(
                   context: context,
                   builder: (ctx) {
@@ -1180,8 +1186,8 @@ class _CategoryEditorSelectorState extends State<CategoryEditorSelector> {
 
   @override
   Widget build(BuildContext context) {
-    var settingsProvider = context.watch<SettingsProvider>();
-    var appsProvider = context.watch<AppsProvider>();
+    final settingsProvider = context.watch<SettingsProvider>();
+    final appsProvider = context.watch<AppsProvider>();
     storedValues = settingsProvider.categories.map(
       (key, value) => MapEntry(
         key,

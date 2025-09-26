@@ -372,26 +372,27 @@ class _GeneratedFormState extends State<GeneratedForm> {
           if (formItem.opts!.isEmpty) {
             return Text(tr('dropdownNoOptsError'));
           }
-          return DropdownButtonFormField(
-            decoration: InputDecoration(labelText: formItem.label),
-            initialValue: values[formItem.key],
-            items: formItem.opts!.map((e2) {
-              var enabled = formItem.disabledOptKeys?.contains(e2.key) != true;
-              return DropdownMenuItem(
-                value: e2.key,
-                enabled: enabled,
-                child: Opacity(
-                  opacity: enabled ? 1 : 0.5,
-                  child: Text(e2.value),
-                ),
-              );
-            }).toList(),
-            onChanged: (value) {
-              setState(() {
-                values[formItem.key] = value ?? formItem.opts!.first.key;
-                someValueChanged();
-              });
-            },
+          return DropdownMenuFormField<Object?>(
+            expandedInsets: EdgeInsets.zero,
+            inputDecorationTheme: const InputDecorationThemeData(
+              border: UnderlineInputBorder(),
+              filled: true,
+            ),
+            label: Text(formItem.label),
+            initialSelection: values[formItem.key],
+            dropdownMenuEntries: formItem.opts!
+                .map(
+                  (e2) => DropdownMenuEntry(
+                    value: e2.key,
+                    enabled: formItem.disabledOptKeys?.contains(e2.key) != true,
+                    label: e2.value,
+                  ),
+                )
+                .toList(),
+            onSelected: (value) => setState(() {
+              values[formItem.key] = value ?? formItem.opts!.first.key;
+              someValueChanged();
+            }),
           );
         } else if (formItem is GeneratedFormSubForm) {
           values[formItem.key] = [];
