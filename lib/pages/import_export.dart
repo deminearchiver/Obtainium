@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart' show CupertinoScrollBehavior;
+import 'package:nested_scroll_view_plus/nested_scroll_view_plus.dart';
 import 'package:obtainium/flutter.dart';
 import 'package:obtainium/app_sources/fdroidrepo.dart';
 import 'package:obtainium/components/custom_app_bar.dart';
@@ -356,616 +356,545 @@ class _ImportExportPageState extends State<ImportExportPage> {
       sourceStrings[s.name] = [s.name];
     });
 
-    return Scaffold(
-      backgroundColor: ColorTheme.of(context).surfaceContainer,
-      body: CustomScrollView(
-        slivers: <Widget>[
-          CustomAppBar.largeFlexible(
-            expandedContainerColor: ColorTheme.of(context).surfaceContainer,
-            collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
-            headline: Text(tr('importExport')),
-          ),
-          _DecoratedSliver(
-            position: DecorationPosition.background,
-            decoration: ShapeDecoration(
-              shape: CornersBorder.rounded(
-                corners: Corners.all(ShapeTheme.of(context).corner.large),
-              ),
-              color: ColorTheme.of(context).surfaceContainerLow,
-            ),
-            sliver: SliverPadding(
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-              sliver: SliverList.list(
+    Widget getSliverAppBar() => CustomAppBar.largeFlexible(
+      expandedContainerColor: ColorTheme.of(context).surfaceContainer,
+      collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
+      headline: Text(tr('importExport')),
+    );
+    Widget getSliverList() => SliverPadding(
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      sliver: SliverList.list(
+        children: [
+          FutureBuilder(
+            future: settingsProvider.getExportDir(),
+            builder: (context, snapshot) {
+              final hasExportDir = snapshot.hasData;
+              return Flex.vertical(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  FutureBuilder(
-                    future: settingsProvider.getExportDir(),
-                    builder: (context, snapshot) {
-                      final hasExportDir = snapshot.hasData;
-                      return Flex.vertical(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          FilledButton(
-                            onPressed: importInProgress
-                                ? null
-                                : () {
-                                    runObtainiumExport(pickOnly: true);
-                                  },
-                            style: ButtonStyle(
-                              animationDuration: Duration.zero,
-                              elevation: const WidgetStatePropertyAll(0.0),
-                              shadowColor: WidgetStateColor.transparent,
-                              minimumSize: const WidgetStatePropertyAll(
-                                Size(48.0, 56.0),
-                              ),
-                              fixedSize: const WidgetStatePropertyAll(null),
-                              maximumSize: const WidgetStatePropertyAll(
-                                Size.infinite,
-                              ),
-                              padding: const WidgetStatePropertyAll(
-                                EdgeInsets.symmetric(
-                                  horizontal: 24.0,
-                                  vertical: 16.0,
-                                ),
-                              ),
-                              iconSize: const WidgetStatePropertyAll(24.0),
-                              shape: WidgetStatePropertyAll(
-                                CornersBorder.rounded(
-                                  corners: Corners.all(
-                                    ShapeTheme.of(context).corner.large,
-                                  ),
-                                ),
-                              ),
-                              overlayColor: WidgetStateLayerColor(
-                                color: WidgetStatePropertyAll(
-                                  hasExportDir
-                                      ? ColorTheme.of(context).onSurfaceVariant
-                                      : ColorTheme.of(
-                                          context,
-                                        ).onSecondaryContainer,
-                                ),
-                                opacity: StateTheme.of(
-                                  context,
-                                ).stateLayerOpacity,
-                              ),
-                              backgroundColor: WidgetStateProperty.resolveWith(
-                                (states) =>
-                                    states.contains(WidgetState.disabled)
-                                    ? ColorTheme.of(
-                                        context,
-                                      ).onSurface.withValues(alpha: 0.1)
-                                    : hasExportDir
-                                    ? ColorTheme.of(context).surfaceBright
-                                    : ColorTheme.of(context).secondaryContainer,
-                              ),
-                              foregroundColor: WidgetStateProperty.resolveWith(
-                                (states) =>
-                                    states.contains(WidgetState.disabled)
-                                    ? ColorTheme.of(
-                                        context,
-                                      ).onSurface.withValues(alpha: 0.38)
-                                    : hasExportDir
-                                    ? ColorTheme.of(context).onSurfaceVariant
-                                    : ColorTheme.of(
-                                        context,
-                                      ).onSecondaryContainer,
-                              ),
-                              textStyle: WidgetStateProperty.resolveWith(
-                                (states) =>
-                                    (hasExportDir
-                                            ? TypescaleTheme.of(
-                                                context,
-                                              ).titleMedium
-                                            : TypescaleTheme.of(
-                                                context,
-                                              ).titleMediumEmphasized)
-                                        .toTextStyle(),
-                              ),
-                            ),
-                            child: Text(
-                              tr('pickExportDir'),
-                              textAlign: TextAlign.center,
-                            ),
+                  FilledButton(
+                    onPressed: importInProgress
+                        ? null
+                        : () {
+                            runObtainiumExport(pickOnly: true);
+                          },
+                    style: ButtonStyle(
+                      animationDuration: Duration.zero,
+                      elevation: const WidgetStatePropertyAll(0.0),
+                      shadowColor: WidgetStateColor.transparent,
+                      minimumSize: const WidgetStatePropertyAll(
+                        Size(48.0, 56.0),
+                      ),
+                      fixedSize: const WidgetStatePropertyAll(null),
+                      maximumSize: const WidgetStatePropertyAll(Size.infinite),
+                      padding: const WidgetStatePropertyAll(
+                        EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                      ),
+                      iconSize: const WidgetStatePropertyAll(24.0),
+                      shape: WidgetStatePropertyAll(
+                        CornersBorder.rounded(
+                          corners: Corners.all(
+                            ShapeTheme.of(context).corner.large,
                           ),
-                          const SizedBox(height: 8.0),
-                          FilledButton(
-                            onPressed: importInProgress || snapshot.data == null
-                                ? null
-                                : runObtainiumExport,
-                            style: ButtonStyle(
-                              animationDuration: Duration.zero,
-                              elevation: const WidgetStatePropertyAll(0.0),
-                              shadowColor: WidgetStateColor.transparent,
-                              minimumSize: const WidgetStatePropertyAll(
-                                Size(48.0, 56.0),
-                              ),
-                              fixedSize: const WidgetStatePropertyAll(null),
-                              maximumSize: const WidgetStatePropertyAll(
-                                Size.infinite,
-                              ),
-                              padding: const WidgetStatePropertyAll(
-                                EdgeInsets.symmetric(
-                                  horizontal: 24.0,
-                                  vertical: 16.0,
-                                ),
-                              ),
-                              iconSize: const WidgetStatePropertyAll(24.0),
-                              shape: WidgetStatePropertyAll(
-                                CornersBorder.rounded(
-                                  corners: Corners.all(
-                                    ShapeTheme.of(context).corner.large,
-                                  ),
-                                ),
-                              ),
-                              overlayColor: WidgetStateLayerColor(
-                                color: WidgetStatePropertyAll(
-                                  ColorTheme.of(context).onTertiaryContainer,
-                                ),
-                                opacity: StateTheme.of(
-                                  context,
-                                ).stateLayerOpacity,
-                              ),
-                              backgroundColor: WidgetStateProperty.resolveWith(
-                                (states) =>
-                                    states.contains(WidgetState.disabled)
-                                    ? ColorTheme.of(
+                        ),
+                      ),
+                      overlayColor: WidgetStateLayerColor(
+                        color: WidgetStatePropertyAll(
+                          hasExportDir
+                              ? ColorTheme.of(context).onSurfaceVariant
+                              : ColorTheme.of(context).onSecondaryContainer,
+                        ),
+                        opacity: StateTheme.of(context).stateLayerOpacity,
+                      ),
+                      backgroundColor: WidgetStateProperty.resolveWith(
+                        (states) => states.contains(WidgetState.disabled)
+                            ? ColorTheme.of(
+                                context,
+                              ).onSurface.withValues(alpha: 0.1)
+                            : hasExportDir
+                            ? ColorTheme.of(context).surfaceBright
+                            : ColorTheme.of(context).secondaryContainer,
+                      ),
+                      foregroundColor: WidgetStateProperty.resolveWith(
+                        (states) => states.contains(WidgetState.disabled)
+                            ? ColorTheme.of(
+                                context,
+                              ).onSurface.withValues(alpha: 0.38)
+                            : hasExportDir
+                            ? ColorTheme.of(context).onSurfaceVariant
+                            : ColorTheme.of(context).onSecondaryContainer,
+                      ),
+                      textStyle: WidgetStateProperty.resolveWith(
+                        (states) =>
+                            (hasExportDir
+                                    ? TypescaleTheme.of(context).titleMedium
+                                    : TypescaleTheme.of(
                                         context,
-                                      ).onSurface.withValues(alpha: 0.1)
-                                    : ColorTheme.of(context).tertiaryContainer,
-                              ),
-                              foregroundColor: WidgetStateProperty.resolveWith(
-                                (states) =>
-                                    states.contains(WidgetState.disabled)
-                                    ? ColorTheme.of(
-                                        context,
-                                      ).onSurface.withValues(alpha: 0.38)
-                                    : ColorTheme.of(
-                                        context,
-                                      ).onTertiaryContainer,
-                              ),
-                              textStyle: WidgetStateProperty.resolveWith(
-                                (states) => TypescaleTheme.of(
-                                  context,
-                                ).titleMediumEmphasized.toTextStyle(),
-                              ),
-                            ),
-                            child: Text(
-                              tr('obtainiumExport'),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          FilledButton(
-                            onPressed: importInProgress
-                                ? null
-                                : runObtainiumImport,
-                            style: ButtonStyle(
-                              animationDuration: Duration.zero,
-                              elevation: const WidgetStatePropertyAll(0.0),
-                              shadowColor: WidgetStateColor.transparent,
-                              minimumSize: const WidgetStatePropertyAll(
-                                Size(48.0, 56.0),
-                              ),
-                              fixedSize: const WidgetStatePropertyAll(null),
-                              maximumSize: const WidgetStatePropertyAll(
-                                Size.infinite,
-                              ),
-                              padding: const WidgetStatePropertyAll(
-                                EdgeInsets.symmetric(
-                                  horizontal: 24.0,
-                                  vertical: 16.0,
-                                ),
-                              ),
-                              iconSize: const WidgetStatePropertyAll(24.0),
-                              shape: WidgetStatePropertyAll(
-                                CornersBorder.rounded(
-                                  corners: Corners.all(
-                                    ShapeTheme.of(context).corner.large,
-                                  ),
-                                ),
-                              ),
-                              overlayColor: WidgetStateLayerColor(
-                                color: WidgetStatePropertyAll(
-                                  ColorTheme.of(context).onPrimaryContainer,
-                                ),
-                                opacity: StateTheme.of(
-                                  context,
-                                ).stateLayerOpacity,
-                              ),
-                              backgroundColor: WidgetStateProperty.resolveWith(
-                                (states) =>
-                                    states.contains(WidgetState.disabled)
-                                    ? ColorTheme.of(
-                                        context,
-                                      ).onSurface.withValues(alpha: 0.1)
-                                    : ColorTheme.of(context).primaryContainer,
-                              ),
-                              foregroundColor: WidgetStateProperty.resolveWith(
-                                (states) =>
-                                    states.contains(WidgetState.disabled)
-                                    ? ColorTheme.of(
-                                        context,
-                                      ).onSurface.withValues(alpha: 0.38)
-                                    : ColorTheme.of(context).onPrimaryContainer,
-                              ),
-                              textStyle: WidgetStateProperty.resolveWith(
-                                (states) => TypescaleTheme.of(
-                                  context,
-                                ).titleMediumEmphasized.toTextStyle(),
-                              ),
-                            ),
-                            child: Text(
-                              tr('obtainiumImport'),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-
-                          if (snapshot.data != null)
-                            Flex.vertical(
-                              children: [
-                                const SizedBox(height: 16),
-                                GeneratedForm(
-                                  items: [
-                                    [
-                                      GeneratedFormSwitch(
-                                        'autoExportOnChanges',
-                                        label: tr('autoExportOnChanges'),
-                                        defaultValue: settingsProvider
-                                            .autoExportOnChanges,
-                                      ),
-                                    ],
-                                    [
-                                      GeneratedFormDropdown(
-                                        'exportSettings',
-                                        [
-                                          MapEntry('0', tr('none')),
-                                          MapEntry('1', tr('excludeSecrets')),
-                                          MapEntry('2', tr('all')),
-                                        ],
-                                        label: tr('includeSettings'),
-                                        defaultValue: settingsProvider
-                                            .exportSettings
-                                            .toString(),
-                                      ),
-                                    ],
-                                  ],
-                                  onValueChanges: (value, valid, isBuilding) {
-                                    if (valid && !isBuilding) {
-                                      if (value['autoExportOnChanges'] !=
-                                          null) {
-                                        settingsProvider.autoExportOnChanges =
-                                            value['autoExportOnChanges'] ==
-                                            true;
-                                      }
-                                      if (value['exportSettings'] != null) {
-                                        settingsProvider.exportSettings =
-                                            int.parse(value['exportSettings']);
-                                      }
-                                    }
-                                  },
-                                ),
-                              ],
-                            ),
-                        ],
-                      );
-                    },
+                                      ).titleMediumEmphasized)
+                                .toTextStyle(),
+                      ),
+                    ),
+                    child: Text(
+                      tr('pickExportDir'),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                  if (importInProgress)
-                    const Flex.vertical(
-                      children: [
-                        SizedBox(height: 14),
-                        LinearProgressIndicator(value: null),
-                        SizedBox(height: 14),
-                      ],
-                    )
-                  else
+                  const SizedBox(height: 8.0),
+                  FilledButton(
+                    onPressed: importInProgress || snapshot.data == null
+                        ? null
+                        : runObtainiumExport,
+                    style: ButtonStyle(
+                      animationDuration: Duration.zero,
+                      elevation: const WidgetStatePropertyAll(0.0),
+                      shadowColor: WidgetStateColor.transparent,
+                      minimumSize: const WidgetStatePropertyAll(
+                        Size(48.0, 56.0),
+                      ),
+                      fixedSize: const WidgetStatePropertyAll(null),
+                      maximumSize: const WidgetStatePropertyAll(Size.infinite),
+                      padding: const WidgetStatePropertyAll(
+                        EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                      ),
+                      iconSize: const WidgetStatePropertyAll(24.0),
+                      shape: WidgetStatePropertyAll(
+                        CornersBorder.rounded(
+                          corners: Corners.all(
+                            ShapeTheme.of(context).corner.large,
+                          ),
+                        ),
+                      ),
+                      overlayColor: WidgetStateLayerColor(
+                        color: WidgetStatePropertyAll(
+                          ColorTheme.of(context).onPrimary,
+                        ),
+                        opacity: StateTheme.of(context).stateLayerOpacity,
+                      ),
+                      backgroundColor: WidgetStateProperty.resolveWith(
+                        (states) => states.contains(WidgetState.disabled)
+                            ? ColorTheme.of(
+                                context,
+                              ).onSurface.withValues(alpha: 0.1)
+                            : ColorTheme.of(context).primary,
+                      ),
+                      foregroundColor: WidgetStateProperty.resolveWith(
+                        (states) => states.contains(WidgetState.disabled)
+                            ? ColorTheme.of(
+                                context,
+                              ).onSurface.withValues(alpha: 0.38)
+                            : ColorTheme.of(context).onPrimary,
+                      ),
+                      textStyle: WidgetStateProperty.resolveWith(
+                        (states) => TypescaleTheme.of(
+                          context,
+                        ).titleMediumEmphasized.toTextStyle(),
+                      ),
+                    ),
+                    child: Text(
+                      tr('obtainiumExport'),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  if (snapshot.data != null)
                     Flex.vertical(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const SizedBox(height: 32),
-                        FilledButton(
-                          onPressed: importInProgress
-                              ? null
-                              : () async {
-                                  var searchSourceName =
-                                      await showDialog<List<String>?>(
-                                        context: context,
-                                        builder: (ctx) {
-                                          return SelectionModal(
-                                            title: tr(
-                                              'selectX',
-                                              args: [
-                                                tr('source').toLowerCase(),
-                                              ],
-                                            ),
-                                            entries: sourceStrings,
-                                            selectedByDefault: false,
-                                            onlyOneSelectionAllowed: true,
-                                            titlesAreLinks: false,
-                                          );
-                                        },
-                                      ) ??
-                                      [];
-                                  var searchSource = sourceProvider.sources
-                                      .where(
-                                        (e) =>
-                                            searchSourceName.contains(e.name),
-                                      )
-                                      .toList();
-                                  if (searchSource.isNotEmpty) {
-                                    runSourceSearch(searchSource[0]);
-                                  }
-                                },
-                          style: ButtonStyle(
-                            animationDuration: Duration.zero,
-                            elevation: const WidgetStatePropertyAll(0.0),
-                            shadowColor: WidgetStateColor.transparent,
-                            minimumSize: const WidgetStatePropertyAll(
-                              Size(48.0, 56.0),
-                            ),
-                            fixedSize: const WidgetStatePropertyAll(null),
-                            maximumSize: const WidgetStatePropertyAll(
-                              Size.infinite,
-                            ),
-                            padding: const WidgetStatePropertyAll(
-                              EdgeInsets.symmetric(
-                                horizontal: 24.0,
-                                vertical: 16.0,
+                        const SizedBox(height: 16),
+                        GeneratedForm(
+                          items: [
+                            [
+                              GeneratedFormSwitch(
+                                'autoExportOnChanges',
+                                label: tr('autoExportOnChanges'),
+                                defaultValue:
+                                    settingsProvider.autoExportOnChanges,
                               ),
-                            ),
-                            iconSize: const WidgetStatePropertyAll(24.0),
-                            shape: WidgetStatePropertyAll(
-                              CornersBorder.rounded(
-                                corners: Corners.all(
-                                  ShapeTheme.of(context).corner.full,
-                                ),
+                            ],
+                            [
+                              GeneratedFormDropdown(
+                                'exportSettings',
+                                [
+                                  MapEntry('0', tr('none')),
+                                  MapEntry('1', tr('excludeSecrets')),
+                                  MapEntry('2', tr('all')),
+                                ],
+                                label: tr('includeSettings'),
+                                defaultValue: settingsProvider.exportSettings
+                                    .toString(),
                               ),
-                            ),
-                            overlayColor: WidgetStateLayerColor(
-                              color: WidgetStatePropertyAll(
-                                ColorTheme.of(context).onSurfaceVariant,
-                              ),
-                              opacity: StateTheme.of(context).stateLayerOpacity,
-                            ),
-                            backgroundColor: WidgetStateProperty.resolveWith(
-                              (states) => states.contains(WidgetState.disabled)
-                                  ? ColorTheme.of(
-                                      context,
-                                    ).onSurface.withValues(alpha: 0.1)
-                                  : ColorTheme.of(context).surfaceBright,
-                            ),
-                            foregroundColor: WidgetStateProperty.resolveWith(
-                              (states) => states.contains(WidgetState.disabled)
-                                  ? ColorTheme.of(
-                                      context,
-                                    ).onSurface.withValues(alpha: 0.38)
-                                  : ColorTheme.of(context).onSurfaceVariant,
-                            ),
-                            textStyle: WidgetStateProperty.resolveWith(
-                              (states) => TypescaleTheme.of(
-                                context,
-                              ).titleMedium.toTextStyle(),
-                            ),
-                          ),
-                          child: Text(
-                            tr(
-                              'searchX',
-                              args: [lowerCaseIfEnglish(tr('source'))],
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        FilledButton(
-                          onPressed: importInProgress ? null : urlListImport,
-                          style: ButtonStyle(
-                            animationDuration: Duration.zero,
-                            elevation: const WidgetStatePropertyAll(0.0),
-                            shadowColor: WidgetStateColor.transparent,
-                            minimumSize: const WidgetStatePropertyAll(
-                              Size(48.0, 56.0),
-                            ),
-                            fixedSize: const WidgetStatePropertyAll(null),
-                            maximumSize: const WidgetStatePropertyAll(
-                              Size.infinite,
-                            ),
-                            padding: const WidgetStatePropertyAll(
-                              EdgeInsets.symmetric(
-                                horizontal: 24.0,
-                                vertical: 16.0,
-                              ),
-                            ),
-                            iconSize: const WidgetStatePropertyAll(24.0),
-                            shape: WidgetStatePropertyAll(
-                              CornersBorder.rounded(
-                                corners: Corners.all(
-                                  ShapeTheme.of(context).corner.full,
-                                ),
-                              ),
-                            ),
-                            overlayColor: WidgetStateLayerColor(
-                              color: WidgetStatePropertyAll(
-                                ColorTheme.of(context).onSurfaceVariant,
-                              ),
-                              opacity: StateTheme.of(context).stateLayerOpacity,
-                            ),
-                            backgroundColor: WidgetStateProperty.resolveWith(
-                              (states) => states.contains(WidgetState.disabled)
-                                  ? ColorTheme.of(
-                                      context,
-                                    ).onSurface.withValues(alpha: 0.1)
-                                  : ColorTheme.of(context).surfaceBright,
-                            ),
-                            foregroundColor: WidgetStateProperty.resolveWith(
-                              (states) => states.contains(WidgetState.disabled)
-                                  ? ColorTheme.of(
-                                      context,
-                                    ).onSurface.withValues(alpha: 0.38)
-                                  : ColorTheme.of(context).onSurfaceVariant,
-                            ),
-                            textStyle: WidgetStateProperty.resolveWith(
-                              (states) => TypescaleTheme.of(
-                                context,
-                              ).titleMedium.toTextStyle(),
-                            ),
-                          ),
-                          child: Text(
-                            tr('importFromURLList'),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        FilledButton(
-                          onPressed: importInProgress ? null : runUrlImport,
-                          style: ButtonStyle(
-                            animationDuration: Duration.zero,
-                            elevation: const WidgetStatePropertyAll(0.0),
-                            shadowColor: WidgetStateColor.transparent,
-                            minimumSize: const WidgetStatePropertyAll(
-                              Size(48.0, 56.0),
-                            ),
-                            fixedSize: const WidgetStatePropertyAll(null),
-                            maximumSize: const WidgetStatePropertyAll(
-                              Size.infinite,
-                            ),
-                            padding: const WidgetStatePropertyAll(
-                              EdgeInsets.symmetric(
-                                horizontal: 24.0,
-                                vertical: 16.0,
-                              ),
-                            ),
-                            iconSize: const WidgetStatePropertyAll(24.0),
-                            shape: WidgetStatePropertyAll(
-                              CornersBorder.rounded(
-                                corners: Corners.all(
-                                  ShapeTheme.of(context).corner.full,
-                                ),
-                              ),
-                            ),
-                            overlayColor: WidgetStateLayerColor(
-                              color: WidgetStatePropertyAll(
-                                ColorTheme.of(context).onSurfaceVariant,
-                              ),
-                              opacity: StateTheme.of(context).stateLayerOpacity,
-                            ),
-                            backgroundColor: WidgetStateProperty.resolveWith(
-                              (states) => states.contains(WidgetState.disabled)
-                                  ? ColorTheme.of(
-                                      context,
-                                    ).onSurface.withValues(alpha: 0.1)
-                                  : ColorTheme.of(context).surfaceBright,
-                            ),
-                            foregroundColor: WidgetStateProperty.resolveWith(
-                              (states) => states.contains(WidgetState.disabled)
-                                  ? ColorTheme.of(
-                                      context,
-                                    ).onSurface.withValues(alpha: 0.38)
-                                  : ColorTheme.of(context).onSurfaceVariant,
-                            ),
-                            textStyle: WidgetStateProperty.resolveWith(
-                              (states) => TypescaleTheme.of(
-                                context,
-                              ).titleMedium.toTextStyle(),
-                            ),
-                          ),
-                          child: Text(
-                            tr('importFromURLsInFile'),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                            ],
+                          ],
+                          onValueChanges: (value, valid, isBuilding) {
+                            if (valid && !isBuilding) {
+                              if (value['autoExportOnChanges'] != null) {
+                                settingsProvider.autoExportOnChanges =
+                                    value['autoExportOnChanges'] == true;
+                              }
+                              if (value['exportSettings'] != null) {
+                                settingsProvider.exportSettings = int.parse(
+                                  value['exportSettings'],
+                                );
+                              }
+                            }
+                          },
                         ),
                       ],
                     ),
-                  ...sourceProvider.massUrlSources.map(
-                    (source) => Flex.vertical(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const SizedBox(height: 8),
-                        FilledButton(
-                          onPressed: importInProgress
-                              ? null
-                              : () {
-                                  runMassSourceImport(source);
-                                },
-                          style: ButtonStyle(
-                            animationDuration: Duration.zero,
-                            elevation: const WidgetStatePropertyAll(0.0),
-                            shadowColor: WidgetStateColor.transparent,
-                            minimumSize: const WidgetStatePropertyAll(
-                              Size(48.0, 56.0),
-                            ),
-                            fixedSize: const WidgetStatePropertyAll(null),
-                            maximumSize: const WidgetStatePropertyAll(
-                              Size.infinite,
-                            ),
-                            padding: const WidgetStatePropertyAll(
-                              EdgeInsets.symmetric(
-                                horizontal: 24.0,
-                                vertical: 16.0,
-                              ),
-                            ),
-                            iconSize: const WidgetStatePropertyAll(24.0),
-                            shape: WidgetStatePropertyAll(
-                              CornersBorder.rounded(
-                                corners: Corners.all(
-                                  ShapeTheme.of(context).corner.full,
-                                ),
-                              ),
-                            ),
-                            overlayColor: WidgetStateLayerColor(
-                              color: WidgetStatePropertyAll(
-                                ColorTheme.of(context).onSurfaceVariant,
-                              ),
-                              opacity: StateTheme.of(context).stateLayerOpacity,
-                            ),
-                            backgroundColor: WidgetStateProperty.resolveWith(
-                              (states) => states.contains(WidgetState.disabled)
-                                  ? ColorTheme.of(
-                                      context,
-                                    ).onSurface.withValues(alpha: 0.1)
-                                  : ColorTheme.of(context).surfaceBright,
-                            ),
-                            foregroundColor: WidgetStateProperty.resolveWith(
-                              (states) => states.contains(WidgetState.disabled)
-                                  ? ColorTheme.of(
-                                      context,
-                                    ).onSurface.withValues(alpha: 0.38)
-                                  : ColorTheme.of(context).onSurfaceVariant,
-                            ),
-                            textStyle: WidgetStateProperty.resolveWith(
-                              (states) => TypescaleTheme.of(
-                                context,
-                              ).titleMedium.toTextStyle(),
-                            ),
-                          ),
-                          child: Text(
-                            tr('importX', args: [source.name]),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Divider(height: 32),
-                  Text(
-                    tr('importedAppsIdDisclaimer'),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontSize: 12,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
                 ],
+              );
+            },
+          ),
+          const Divider(height: 32.0),
+          FilledButton(
+            onPressed: importInProgress ? null : runObtainiumImport,
+            style: ButtonStyle(
+              animationDuration: Duration.zero,
+              elevation: const WidgetStatePropertyAll(0.0),
+              shadowColor: WidgetStateColor.transparent,
+              minimumSize: const WidgetStatePropertyAll(Size(48.0, 56.0)),
+              fixedSize: const WidgetStatePropertyAll(null),
+              maximumSize: const WidgetStatePropertyAll(Size.infinite),
+              padding: const WidgetStatePropertyAll(
+                EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+              ),
+              iconSize: const WidgetStatePropertyAll(24.0),
+              shape: WidgetStatePropertyAll(
+                CornersBorder.rounded(
+                  corners: Corners.all(ShapeTheme.of(context).corner.large),
+                ),
+              ),
+              overlayColor: WidgetStateLayerColor(
+                color: WidgetStatePropertyAll(ColorTheme.of(context).onPrimary),
+                opacity: StateTheme.of(context).stateLayerOpacity,
+              ),
+              backgroundColor: WidgetStateProperty.resolveWith(
+                (states) => states.contains(WidgetState.disabled)
+                    ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
+                    : ColorTheme.of(context).primary,
+              ),
+              foregroundColor: WidgetStateProperty.resolveWith(
+                (states) => states.contains(WidgetState.disabled)
+                    ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
+                    : ColorTheme.of(context).onPrimary,
+              ),
+              textStyle: WidgetStateProperty.resolveWith(
+                (states) => TypescaleTheme.of(
+                  context,
+                ).titleMediumEmphasized.toTextStyle(),
               ),
             ),
+            child: Text(
+              tr('obtainiumImport'),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
+          if (importInProgress)
+            const Flex.vertical(
+              children: [
+                SizedBox(height: 14),
+                LinearProgressIndicator(value: null),
+                SizedBox(height: 14),
+              ],
+            )
+          else
+            Flex.vertical(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 8.0),
+                FilledButton(
+                  onPressed: importInProgress
+                      ? null
+                      : () async {
+                          var searchSourceName =
+                              await showDialog<List<String>?>(
+                                context: context,
+                                builder: (ctx) {
+                                  return SelectionModal(
+                                    title: tr(
+                                      'selectX',
+                                      args: [tr('source').toLowerCase()],
+                                    ),
+                                    entries: sourceStrings,
+                                    selectedByDefault: false,
+                                    onlyOneSelectionAllowed: true,
+                                    titlesAreLinks: false,
+                                  );
+                                },
+                              ) ??
+                              [];
+                          var searchSource = sourceProvider.sources
+                              .where((e) => searchSourceName.contains(e.name))
+                              .toList();
+                          if (searchSource.isNotEmpty) {
+                            runSourceSearch(searchSource[0]);
+                          }
+                        },
+                  style: ButtonStyle(
+                    animationDuration: Duration.zero,
+                    elevation: const WidgetStatePropertyAll(0.0),
+                    shadowColor: WidgetStateColor.transparent,
+                    minimumSize: const WidgetStatePropertyAll(Size(48.0, 56.0)),
+                    fixedSize: const WidgetStatePropertyAll(null),
+                    maximumSize: const WidgetStatePropertyAll(Size.infinite),
+                    padding: const WidgetStatePropertyAll(
+                      EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                    ),
+                    iconSize: const WidgetStatePropertyAll(24.0),
+                    shape: WidgetStatePropertyAll(
+                      CornersBorder.rounded(
+                        corners: Corners.all(
+                          ShapeTheme.of(context).corner.full,
+                        ),
+                      ),
+                    ),
+                    overlayColor: WidgetStateLayerColor(
+                      color: WidgetStatePropertyAll(
+                        ColorTheme.of(context).onSurfaceVariant,
+                      ),
+                      opacity: StateTheme.of(context).stateLayerOpacity,
+                    ),
+                    backgroundColor: WidgetStateProperty.resolveWith(
+                      (states) => states.contains(WidgetState.disabled)
+                          ? ColorTheme.of(
+                              context,
+                            ).onSurface.withValues(alpha: 0.1)
+                          : ColorTheme.of(context).surfaceBright,
+                    ),
+                    foregroundColor: WidgetStateProperty.resolveWith(
+                      (states) => states.contains(WidgetState.disabled)
+                          ? ColorTheme.of(
+                              context,
+                            ).onSurface.withValues(alpha: 0.38)
+                          : ColorTheme.of(context).onSurfaceVariant,
+                    ),
+                    textStyle: WidgetStateProperty.resolveWith(
+                      (states) =>
+                          TypescaleTheme.of(context).titleMedium.toTextStyle(),
+                    ),
+                  ),
+                  child: Text(
+                    tr('searchX', args: [lowerCaseIfEnglish(tr('source'))]),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                FilledButton(
+                  onPressed: importInProgress ? null : urlListImport,
+                  style: ButtonStyle(
+                    animationDuration: Duration.zero,
+                    elevation: const WidgetStatePropertyAll(0.0),
+                    shadowColor: WidgetStateColor.transparent,
+                    minimumSize: const WidgetStatePropertyAll(Size(48.0, 56.0)),
+                    fixedSize: const WidgetStatePropertyAll(null),
+                    maximumSize: const WidgetStatePropertyAll(Size.infinite),
+                    padding: const WidgetStatePropertyAll(
+                      EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                    ),
+                    iconSize: const WidgetStatePropertyAll(24.0),
+                    shape: WidgetStatePropertyAll(
+                      CornersBorder.rounded(
+                        corners: Corners.all(
+                          ShapeTheme.of(context).corner.full,
+                        ),
+                      ),
+                    ),
+                    overlayColor: WidgetStateLayerColor(
+                      color: WidgetStatePropertyAll(
+                        ColorTheme.of(context).onSurfaceVariant,
+                      ),
+                      opacity: StateTheme.of(context).stateLayerOpacity,
+                    ),
+                    backgroundColor: WidgetStateProperty.resolveWith(
+                      (states) => states.contains(WidgetState.disabled)
+                          ? ColorTheme.of(
+                              context,
+                            ).onSurface.withValues(alpha: 0.1)
+                          : ColorTheme.of(context).surfaceBright,
+                    ),
+                    foregroundColor: WidgetStateProperty.resolveWith(
+                      (states) => states.contains(WidgetState.disabled)
+                          ? ColorTheme.of(
+                              context,
+                            ).onSurface.withValues(alpha: 0.38)
+                          : ColorTheme.of(context).onSurfaceVariant,
+                    ),
+                    textStyle: WidgetStateProperty.resolveWith(
+                      (states) =>
+                          TypescaleTheme.of(context).titleMedium.toTextStyle(),
+                    ),
+                  ),
+                  child: Text(
+                    tr('importFromURLList'),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                FilledButton(
+                  onPressed: importInProgress ? null : runUrlImport,
+                  style: ButtonStyle(
+                    animationDuration: Duration.zero,
+                    elevation: const WidgetStatePropertyAll(0.0),
+                    shadowColor: WidgetStateColor.transparent,
+                    minimumSize: const WidgetStatePropertyAll(Size(48.0, 56.0)),
+                    fixedSize: const WidgetStatePropertyAll(null),
+                    maximumSize: const WidgetStatePropertyAll(Size.infinite),
+                    padding: const WidgetStatePropertyAll(
+                      EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                    ),
+                    iconSize: const WidgetStatePropertyAll(24.0),
+                    shape: WidgetStatePropertyAll(
+                      CornersBorder.rounded(
+                        corners: Corners.all(
+                          ShapeTheme.of(context).corner.full,
+                        ),
+                      ),
+                    ),
+                    overlayColor: WidgetStateLayerColor(
+                      color: WidgetStatePropertyAll(
+                        ColorTheme.of(context).onSurfaceVariant,
+                      ),
+                      opacity: StateTheme.of(context).stateLayerOpacity,
+                    ),
+                    backgroundColor: WidgetStateProperty.resolveWith(
+                      (states) => states.contains(WidgetState.disabled)
+                          ? ColorTheme.of(
+                              context,
+                            ).onSurface.withValues(alpha: 0.1)
+                          : ColorTheme.of(context).surfaceBright,
+                    ),
+                    foregroundColor: WidgetStateProperty.resolveWith(
+                      (states) => states.contains(WidgetState.disabled)
+                          ? ColorTheme.of(
+                              context,
+                            ).onSurface.withValues(alpha: 0.38)
+                          : ColorTheme.of(context).onSurfaceVariant,
+                    ),
+                    textStyle: WidgetStateProperty.resolveWith(
+                      (states) =>
+                          TypescaleTheme.of(context).titleMedium.toTextStyle(),
+                    ),
+                  ),
+                  child: Text(
+                    tr('importFromURLsInFile'),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ...sourceProvider.massUrlSources.map(
+            (source) => Flex.vertical(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 8),
+                FilledButton(
+                  onPressed: importInProgress
+                      ? null
+                      : () {
+                          runMassSourceImport(source);
+                        },
+                  style: ButtonStyle(
+                    animationDuration: Duration.zero,
+                    elevation: const WidgetStatePropertyAll(0.0),
+                    shadowColor: WidgetStateColor.transparent,
+                    minimumSize: const WidgetStatePropertyAll(Size(48.0, 56.0)),
+                    fixedSize: const WidgetStatePropertyAll(null),
+                    maximumSize: const WidgetStatePropertyAll(Size.infinite),
+                    padding: const WidgetStatePropertyAll(
+                      EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+                    ),
+                    iconSize: const WidgetStatePropertyAll(24.0),
+                    shape: WidgetStatePropertyAll(
+                      CornersBorder.rounded(
+                        corners: Corners.all(
+                          ShapeTheme.of(context).corner.full,
+                        ),
+                      ),
+                    ),
+                    overlayColor: WidgetStateLayerColor(
+                      color: WidgetStatePropertyAll(
+                        ColorTheme.of(context).onSurfaceVariant,
+                      ),
+                      opacity: StateTheme.of(context).stateLayerOpacity,
+                    ),
+                    backgroundColor: WidgetStateProperty.resolveWith(
+                      (states) => states.contains(WidgetState.disabled)
+                          ? ColorTheme.of(
+                              context,
+                            ).onSurface.withValues(alpha: 0.1)
+                          : ColorTheme.of(context).surfaceBright,
+                    ),
+                    foregroundColor: WidgetStateProperty.resolveWith(
+                      (states) => states.contains(WidgetState.disabled)
+                          ? ColorTheme.of(
+                              context,
+                            ).onSurface.withValues(alpha: 0.38)
+                          : ColorTheme.of(context).onSurfaceVariant,
+                    ),
+                    textStyle: WidgetStateProperty.resolveWith(
+                      (states) =>
+                          TypescaleTheme.of(context).titleMedium.toTextStyle(),
+                    ),
+                  ),
+                  child: Text(
+                    tr('importX', args: [source.name]),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Divider(height: 32),
+          Text(
+            tr('importedAppsIdDisclaimer'),
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12),
+          ),
+          const SizedBox(height: 8),
         ],
       ),
+    );
+
+    final Decoration decoration = ShapeDecoration(
+      shape: CornersBorder.rounded(
+        corners: Corners.all(ShapeTheme.of(context).corner.large),
+      ),
+      color: ColorTheme.of(context).surfaceContainerLow,
+    );
+
+    const bool kUseNestedScrollView = false;
+
+    return Scaffold(
+      backgroundColor: ColorTheme.of(context).surfaceContainer,
+      body: kUseNestedScrollView
+          // ignore: dead_code
+          ? NestedScrollViewPlus(
+              overscrollBehavior: OverscrollBehavior.outer,
+              scrollBehavior: ScrollConfiguration.of(context),
+              headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                getSliverAppBar(),
+              ],
+              body: DecoratedBox(
+                position: DecorationPosition.background,
+                decoration: decoration,
+                child: CustomScrollView(slivers: [getSliverList()]),
+              ),
+            )
+          // ignore: dead_code
+          : CustomScrollView(
+              slivers: [
+                getSliverAppBar(),
+                _DecoratedSliver(
+                  position: DecorationPosition.background,
+                  decoration: decoration,
+                  sliver: getSliverList(),
+                ),
+              ],
+            ),
     );
   }
 }
