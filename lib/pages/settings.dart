@@ -782,20 +782,21 @@ class _SettingsPageState extends State<SettingsPage> {
                   if (settingsProvider.theme == ThemeSettings.system)
                     followSystemThemeExplanation,
                   height16,
-                  if (settingsProvider.theme != ThemeSettings.light)
-                    Flex.horizontal(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible.loose(child: Text(tr('useBlackTheme'))),
-                        Switch(
-                          value: settingsProvider.useBlackTheme,
-                          onChanged: (value) {
-                            settingsProvider.useBlackTheme = value;
-                          },
-                        ),
-                      ],
-                    ),
-                  height8,
+                  // TODO: decide if useBlackTheme shall be reintroduced
+                  // if (settingsProvider.theme != ThemeSettings.light)
+                  //   Flex.horizontal(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       Flexible.loose(child: Text(tr('useBlackTheme'))),
+                  //       Switch(
+                  //         value: settingsProvider.useBlackTheme,
+                  //         onChanged: (value) {
+                  //           settingsProvider.useBlackTheme = value;
+                  //         },
+                  //       ),
+                  //     ],
+                  //   ),
+                  // height8,
                   useMaterialThemeSwitch,
                   if (!settingsProvider.useMaterialYou) colorPicker,
                   Flex.horizontal(

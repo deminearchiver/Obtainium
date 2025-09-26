@@ -135,14 +135,15 @@ class SettingsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool get useBlackTheme {
-    return prefsWithCache.getBool('useBlackTheme') ?? false;
-  }
+  // TODO: decide if useBlackTheme shall be reintroduced
+  // bool get useBlackTheme {
+  //   return prefsWithCache.getBool('useBlackTheme') ?? false;
+  // }
 
-  set useBlackTheme(bool useBlackTheme) {
-    prefsWithCache.setBool('useBlackTheme', useBlackTheme);
-    notifyListeners();
-  }
+  // set useBlackTheme(bool useBlackTheme) {
+  //   prefsWithCache.setBool('useBlackTheme', useBlackTheme);
+  //   notifyListeners();
+  // }
 
   int get updateInterval {
     return prefsWithCache.getInt('updateInterval') ?? 360;
