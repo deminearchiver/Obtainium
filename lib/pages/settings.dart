@@ -3,6 +3,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equations/equations.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
+import 'package:obtainium/components/custom_decorated_sliver.dart';
 import 'package:obtainium/flutter.dart';
 import 'package:obtainium/components/custom_app_bar.dart';
 import 'package:obtainium/components/generated_form.dart';
@@ -99,8 +100,6 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     final settingsProvider = context.watch<SettingsProvider>();
     final sourceProvider = SourceProvider();
-    // if (settingsProvider.prefsWithCache == null)
-    //   settingsProvider.initializeSettings();
     initUpdateIntervalInterpolator();
     processIntervalSliderValue(settingsProvider.updateIntervalSliderVal);
 
@@ -372,12 +371,44 @@ class _SettingsPageState extends State<SettingsPage> {
 
     const Widget height32 = SizedBox(height: 32);
 
+    final ButtonStyle footerButtonsStyle = ButtonStyle(
+      animationDuration: Duration.zero,
+      elevation: const WidgetStatePropertyAll(0.0),
+      shadowColor: WidgetStateColor.transparent,
+      minimumSize: const WidgetStatePropertyAll(Size.zero),
+      fixedSize: const WidgetStatePropertyAll(Size(72.0, 56.0)),
+      maximumSize: const WidgetStatePropertyAll(Size.infinite),
+      padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+      iconSize: const WidgetStatePropertyAll(24.0),
+      shape: WidgetStatePropertyAll(
+        CornersBorder.rounded(
+          corners: Corners.all(ShapeTheme.of(context).corner.full),
+        ),
+      ),
+      overlayColor: WidgetStateLayerColor(
+        color: WidgetStatePropertyAll(
+          ColorTheme.of(context).onSecondaryContainer,
+        ),
+        opacity: StateTheme.of(context).stateLayerOpacity,
+      ),
+      backgroundColor: WidgetStateProperty.resolveWith(
+        (states) => states.contains(WidgetState.disabled)
+            ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
+            : ColorTheme.of(context).secondaryContainer,
+      ),
+      iconColor: WidgetStateProperty.resolveWith(
+        (states) => states.contains(WidgetState.disabled)
+            ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
+            : ColorTheme.of(context).onSecondaryContainer,
+      ),
+    );
+
     return Scaffold(
-      backgroundColor: ColorTheme.of(context).surface,
+      backgroundColor: ColorTheme.of(context).surfaceContainer,
       body: CustomScrollView(
         slivers: <Widget>[
           CustomAppBar.largeFlexible(
-            expandedContainerColor: ColorTheme.of(context).surface,
+            expandedContainerColor: ColorTheme.of(context).surfaceContainer,
             collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
             headline: Text(tr('settings')),
           ),
@@ -426,11 +457,17 @@ class _SettingsPageState extends State<SettingsPage> {
           //     ],
           //   ),
           // ),
-          SliverToBoxAdapter(
-            child: Padding(
+          CustomDecoratedSliver(
+            position: DecorationPosition.background,
+            decoration: ShapeDecoration(
+              shape: CornersBorder.rounded(
+                corners: Corners.all(ShapeTheme.of(context).corner.large),
+              ),
+              color: ColorTheme.of(context).surfaceContainerLow,
+            ),
+            sliver: SliverPadding(
               padding: const EdgeInsets.all(16),
-              child: Flex.vertical(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              sliver: SliverList.list(
                 children: [
                   Text(
                     tr('updates'),
@@ -991,73 +1028,73 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   height16,
                   const CategoryEditorSelector(showLabelWhenNotEmpty: false),
+                  height16,
+                  Flex.horizontal(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          launchUrlString(
+                            SettingsProvider.sourceUrl,
+                            mode: LaunchMode.externalApplication,
+                          );
+                        },
+                        style: footerButtonsStyle,
+                        icon: const IconLegacy(Symbols.code),
+                        tooltip: tr('appSource'),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          launchUrlString(
+                            'https://wiki.obtainium.imranr.dev/',
+                            mode: LaunchMode.externalApplication,
+                          );
+                        },
+                        style: footerButtonsStyle,
+                        icon: const IconLegacy(Symbols.help_rounded, fill: 1.0),
+                        tooltip: tr('wiki'),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          launchUrlString(
+                            'https://apps.obtainium.imranr.dev/',
+                            mode: LaunchMode.externalApplication,
+                          );
+                        },
+                        style: footerButtonsStyle,
+                        icon: const IconLegacy(Symbols.apps_rounded),
+                        tooltip: tr('crowdsourcedConfigsLabel'),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          context.read<LogsProvider>().get().then((logs) {
+                            if (!context.mounted) return;
+                            if (logs.isEmpty) {
+                              showMessage(
+                                ObtainiumError(tr('noLogs')),
+                                context,
+                              );
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (ctx) {
+                                  return const LogsDialog();
+                                },
+                              );
+                            }
+                          });
+                        },
+                        style: footerButtonsStyle,
+                        icon: const IconLegacy(
+                          Symbols.bug_report_rounded,
+                          fill: 1.0,
+                        ),
+                        tooltip: tr('appLogs'),
+                      ),
+                    ],
+                  ),
                 ],
               ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Flex.vertical(
-              children: [
-                const Divider(height: 32),
-                Flex.horizontal(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        launchUrlString(
-                          SettingsProvider.sourceUrl,
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      icon: const IconLegacy(Symbols.code),
-                      tooltip: tr('appSource'),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        launchUrlString(
-                          'https://wiki.obtainium.imranr.dev/',
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      icon: const IconLegacy(Symbols.help_rounded, fill: 0),
-                      tooltip: tr('wiki'),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        launchUrlString(
-                          'https://apps.obtainium.imranr.dev/',
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      icon: const IconLegacy(Symbols.apps_rounded),
-                      tooltip: tr('crowdsourcedConfigsLabel'),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        context.read<LogsProvider>().get().then((logs) {
-                          if (!context.mounted) return;
-                          if (logs.isEmpty) {
-                            showMessage(ObtainiumError(tr('noLogs')), context);
-                          } else {
-                            showDialog(
-                              context: context,
-                              builder: (ctx) {
-                                return const LogsDialog();
-                              },
-                            );
-                          }
-                        });
-                      },
-                      icon: const IconLegacy(
-                        Symbols.bug_report_rounded,
-                        fill: 0,
-                      ),
-                      tooltip: tr('appLogs'),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-              ],
             ),
           ),
         ],
