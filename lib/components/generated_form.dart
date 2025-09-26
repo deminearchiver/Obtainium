@@ -751,10 +751,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
                   Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      TextButton.icon(
-                        style: TextButton.styleFrom(
-                          foregroundColor: ColorTheme.of(context).error,
-                        ),
+                      FilledButton.icon(
                         onPressed: (values[fieldKey].length > 0)
                             ? () {
                                 var temp = List.from(values[fieldKey]);
@@ -764,10 +761,63 @@ class _GeneratedFormState extends State<GeneratedForm> {
                                 someValueChanged();
                               }
                             : null,
-                        label: Text(
-                          '${(widget.items[r][e] as GeneratedFormSubForm).label} (${i + 1})',
+                        style: ButtonStyle(
+                          animationDuration: Duration.zero,
+                          elevation: const WidgetStatePropertyAll(0.0),
+                          shadowColor: WidgetStateColor.transparent,
+                          minimumSize: const WidgetStatePropertyAll(
+                            Size(48.0, 32.0),
+                          ),
+                          fixedSize: const WidgetStatePropertyAll(null),
+                          maximumSize: const WidgetStatePropertyAll(
+                            Size.infinite,
+                          ),
+                          padding: const WidgetStatePropertyAll(
+                            EdgeInsets.symmetric(
+                              horizontal: 12.0,
+                              vertical: 6.0,
+                            ),
+                          ),
+                          iconSize: const WidgetStatePropertyAll(20.0),
+                          shape: WidgetStatePropertyAll(
+                            CornersBorder.rounded(
+                              corners: Corners.all(
+                                ShapeTheme.of(context).corner.medium,
+                              ),
+                            ),
+                          ),
+                          overlayColor: WidgetStateLayerColor(
+                            color: WidgetStatePropertyAll(
+                              ColorTheme.of(context).error,
+                            ),
+                            opacity: StateTheme.of(context).stateLayerOpacity,
+                          ),
+                          backgroundColor: WidgetStateProperty.resolveWith(
+                            (states) => states.contains(WidgetState.disabled)
+                                ? ColorTheme.of(
+                                    context,
+                                  ).onSurface.withValues(alpha: 0.1)
+                                : Colors.transparent,
+                          ),
+                          foregroundColor: WidgetStateProperty.resolveWith(
+                            (states) => states.contains(WidgetState.disabled)
+                                ? ColorTheme.of(
+                                    context,
+                                  ).onSurface.withValues(alpha: 0.38)
+                                : ColorTheme.of(context).error,
+                          ),
+                          textStyle: WidgetStateProperty.resolveWith((states) {
+                            return TypescaleTheme.of(
+                              context,
+                            ).labelLarge.toTextStyle();
+                          }),
                         ),
                         icon: const IconLegacy(Symbols.delete_rounded, fill: 0),
+                        label: Text(
+                          '${(widget.items[r][e] as GeneratedFormSubForm).label} (${i + 1})',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   ),
@@ -781,7 +831,7 @@ class _GeneratedFormState extends State<GeneratedForm> {
               child: Flex.horizontal(
                 children: [
                   Flexible.tight(
-                    child: ElevatedButton.icon(
+                    child: FilledButton.icon(
                       onPressed: () {
                         values[fieldKey].add(
                           getDefaultValuesFromFormItems(
@@ -791,9 +841,68 @@ class _GeneratedFormState extends State<GeneratedForm> {
                         forceUpdateKeyCount++;
                         someValueChanged();
                       },
+                      style: ButtonStyle(
+                        animationDuration: Duration.zero,
+                        elevation: const WidgetStatePropertyAll(0.0),
+                        shadowColor: WidgetStateColor.transparent,
+                        minimumSize: const WidgetStatePropertyAll(
+                          Size(48.0, 40.0),
+                        ),
+                        fixedSize: const WidgetStatePropertyAll(null),
+                        maximumSize: const WidgetStatePropertyAll(
+                          Size.infinite,
+                        ),
+                        padding: const WidgetStatePropertyAll(
+                          EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                            vertical: 10.0,
+                          ),
+                        ),
+                        iconSize: const WidgetStatePropertyAll(20.0),
+                        shape: WidgetStatePropertyAll(
+                          CornersBorder.rounded(
+                            corners: Corners.all(
+                              ShapeTheme.of(context).corner.full,
+                            ),
+                          ),
+                        ),
+                        side: WidgetStatePropertyAll(
+                          BorderSide(
+                            width: 1.0,
+                            color: ColorTheme.of(context).outlineVariant,
+                          ),
+                        ),
+                        overlayColor: WidgetStateLayerColor(
+                          color: WidgetStatePropertyAll(
+                            ColorTheme.of(context).onSurfaceVariant,
+                          ),
+                          opacity: StateTheme.of(context).stateLayerOpacity,
+                        ),
+                        backgroundColor: WidgetStateProperty.resolveWith(
+                          (states) => states.contains(WidgetState.disabled)
+                              ? ColorTheme.of(
+                                  context,
+                                ).onSurface.withValues(alpha: 0.1)
+                              : Colors.transparent,
+                        ),
+                        foregroundColor: WidgetStateProperty.resolveWith(
+                          (states) => states.contains(WidgetState.disabled)
+                              ? ColorTheme.of(
+                                  context,
+                                ).onSurface.withValues(alpha: 0.38)
+                              : ColorTheme.of(context).onSurfaceVariant,
+                        ),
+                        textStyle: WidgetStateProperty.resolveWith((states) {
+                          return TypescaleTheme.of(
+                            context,
+                          ).labelLarge.toTextStyle();
+                        }),
+                      ),
                       icon: const IconLegacy(Symbols.add_rounded),
                       label: Text(
                         (widget.items[r][e] as GeneratedFormSubForm).label,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
