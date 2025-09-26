@@ -806,11 +806,11 @@ class _GeneratedFormState extends State<GeneratedForm> {
                                   ).onSurface.withValues(alpha: 0.38)
                                 : ColorTheme.of(context).error,
                           ),
-                          textStyle: WidgetStateProperty.resolveWith((states) {
-                            return TypescaleTheme.of(
+                          textStyle: WidgetStateProperty.resolveWith(
+                            (states) => TypescaleTheme.of(
                               context,
-                            ).labelLarge.toTextStyle();
-                          }),
+                            ).labelLarge.toTextStyle(),
+                          ),
                         ),
                         icon: const IconLegacy(Symbols.delete_rounded, fill: 0),
                         label: Text(
@@ -892,11 +892,11 @@ class _GeneratedFormState extends State<GeneratedForm> {
                                 ).onSurface.withValues(alpha: 0.38)
                               : ColorTheme.of(context).onSurfaceVariant,
                         ),
-                        textStyle: WidgetStateProperty.resolveWith((states) {
-                          return TypescaleTheme.of(
+                        textStyle: WidgetStateProperty.resolveWith(
+                          (states) => TypescaleTheme.of(
                             context,
-                          ).labelLarge.toTextStyle();
-                        }),
+                          ).labelLarge.toTextStyle(),
+                        ),
                       ),
                       icon: const IconLegacy(Symbols.add_rounded),
                       label: Text(

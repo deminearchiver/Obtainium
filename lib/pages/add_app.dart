@@ -239,8 +239,11 @@ class AddAppPageState extends State<AddAppPage> {
     }
 
     Widget getUrlInputRow() => Flex.horizontal(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // TODO: make TextFields height 56dp across the app
         Flexible.tight(
+          flex: 2,
           child: GeneratedForm(
             key: Key(urlInputKey.toString()),
             items: [
@@ -277,23 +280,98 @@ class AddAppPageState extends State<AddAppPage> {
           ),
         ),
         const SizedBox(width: 16),
-        gettingAppInfo
-            ? const CircularProgressIndicator(value: null)
-            : ElevatedButton(
-                onPressed:
-                    doingSomething ||
-                        pickedSource == null ||
-                        (pickedSource!
-                                .combinedAppSpecificSettingFormItems
-                                .isNotEmpty &&
-                            !additionalSettingsValid)
-                    ? null
-                    : () {
-                        HapticFeedback.selectionClick();
-                        addApp();
-                      },
-                child: Text(tr('add')),
+        Flexible.tight(
+          flex: 1,
+          child: FilledButton(
+            onPressed:
+                doingSomething ||
+                    pickedSource == null ||
+                    (pickedSource!
+                            .combinedAppSpecificSettingFormItems
+                            .isNotEmpty &&
+                        !additionalSettingsValid)
+                ? null
+                : () {
+                    HapticFeedback.selectionClick();
+                    addApp();
+                  },
+            style: ButtonStyle(
+              animationDuration: Duration.zero,
+              elevation: const WidgetStatePropertyAll(0.0),
+              shadowColor: WidgetStateColor.transparent,
+              minimumSize: const WidgetStatePropertyAll(Size(48.0, 56.0)),
+              fixedSize: const WidgetStatePropertyAll(null),
+              maximumSize: const WidgetStatePropertyAll(Size.infinite),
+              padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+              iconSize: const WidgetStatePropertyAll(24.0),
+              shape: WidgetStatePropertyAll(
+                CornersBorder.rounded(
+                  corners: Corners.all(ShapeTheme.of(context).corner.full),
+                ),
               ),
+
+              overlayColor: WidgetStateLayerColor(
+                color: WidgetStatePropertyAll(ColorTheme.of(context).onPrimary),
+                opacity: StateTheme.of(context).stateLayerOpacity,
+              ),
+              backgroundColor: WidgetStateProperty.resolveWith(
+                (states) => states.contains(WidgetState.disabled)
+                    ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
+                    : ColorTheme.of(context).primary,
+              ),
+              foregroundColor: WidgetStateProperty.resolveWith(
+                (states) => states.contains(WidgetState.disabled)
+                    ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
+                    : ColorTheme.of(context).onPrimary,
+              ),
+              textStyle: WidgetStateProperty.resolveWith(
+                (states) =>
+                    (states.contains(WidgetState.disabled)
+                            ? TypescaleTheme.of(context).titleMedium
+                            : TypescaleTheme.of(context).titleMediumEmphasized)
+                        .toTextStyle(),
+              ),
+            ),
+            child: Stack(
+              children: [
+                Visibility.maintain(
+                  visible: !gettingAppInfo,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24.0,
+                      vertical: 16.0,
+                    ),
+                    child: Align.center(
+                      widthFactor: 1.0,
+                      heightFactor: 1.0,
+                      child: Text(
+                        tr('add'),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                ),
+                if (gettingAppInfo)
+                  Positioned.fill(
+                    child: Align.center(
+                      child: SizedBox.square(
+                        dimension: 36.0,
+                        child: CircularProgressIndicator(
+                          value: null,
+                          strokeWidth: 3.0,
+                          color: ColorTheme.of(
+                            context,
+                          ).onSurface.withValues(alpha: 0.38),
+                          backgroundColor: Colors.transparent,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
       ],
     );
 
@@ -513,8 +591,10 @@ class AddAppPageState extends State<AddAppPage> {
         userInput.isEmpty;
 
     Widget getSearchBarRow() => Flex.horizontal(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Flexible.tight(
+          flex: 2,
           child: GeneratedForm(
             items: [
               [
@@ -534,17 +614,92 @@ class AddAppPageState extends State<AddAppPage> {
             },
           ),
         ),
-        const SizedBox(width: 16),
-        searching
-            ? const CircularProgressIndicator(value: null)
-            : ElevatedButton(
-                onPressed: searchQuery.isEmpty || doingSomething
-                    ? null
-                    : () {
-                        runSearch();
-                      },
-                child: Text(tr('search')),
+        const SizedBox(width: 8.0),
+        Flexible.tight(
+          flex: 1,
+          child: FilledButton(
+            onPressed: searchQuery.isEmpty || doingSomething
+                ? null
+                : () {
+                    runSearch();
+                  },
+            style: ButtonStyle(
+              animationDuration: Duration.zero,
+              elevation: const WidgetStatePropertyAll(0.0),
+              shadowColor: WidgetStateColor.transparent,
+              minimumSize: const WidgetStatePropertyAll(Size(48.0, 56.0)),
+              fixedSize: const WidgetStatePropertyAll(null),
+              maximumSize: const WidgetStatePropertyAll(Size.infinite),
+              padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+              iconSize: const WidgetStatePropertyAll(24.0),
+              shape: WidgetStatePropertyAll(
+                CornersBorder.rounded(
+                  corners: Corners.all(ShapeTheme.of(context).corner.full),
+                ),
               ),
+
+              overlayColor: WidgetStateLayerColor(
+                color: WidgetStatePropertyAll(ColorTheme.of(context).onPrimary),
+                opacity: StateTheme.of(context).stateLayerOpacity,
+              ),
+              backgroundColor: WidgetStateProperty.resolveWith(
+                (states) => states.contains(WidgetState.disabled)
+                    ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
+                    : ColorTheme.of(context).primary,
+              ),
+              foregroundColor: WidgetStateProperty.resolveWith(
+                (states) => states.contains(WidgetState.disabled)
+                    ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
+                    : ColorTheme.of(context).onPrimary,
+              ),
+              textStyle: WidgetStateProperty.resolveWith(
+                (states) =>
+                    (states.contains(WidgetState.disabled)
+                            ? TypescaleTheme.of(context).titleMedium
+                            : TypescaleTheme.of(context).titleMediumEmphasized)
+                        .toTextStyle(),
+              ),
+            ),
+            child: Stack(
+              children: [
+                Visibility.maintain(
+                  visible: !searching,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24.0,
+                      vertical: 16.0,
+                    ),
+                    child: Align.center(
+                      widthFactor: 1.0,
+                      heightFactor: 1.0,
+                      child: Text(
+                        tr('search'),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                ),
+                if (searching)
+                  Positioned.fill(
+                    child: Align.center(
+                      child: SizedBox.square(
+                        dimension: 36.0,
+                        child: CircularProgressIndicator(
+                          value: null,
+                          strokeWidth: 3.0,
+                          color: ColorTheme.of(
+                            context,
+                          ).onSurface.withValues(alpha: 0.38),
+                          backgroundColor: Colors.transparent,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
       ],
     );
 
