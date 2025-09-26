@@ -361,7 +361,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
     Widget getSliverAppBar() => CustomAppBar.largeFlexible(
       expandedContainerColor: ColorTheme.of(context).surfaceContainer,
       collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
-      headline: Text(tr('importExport')),
+      title: Text(tr('importExport')),
     );
 
     final ButtonStyle otherImportButtonsStyle = ButtonStyle(

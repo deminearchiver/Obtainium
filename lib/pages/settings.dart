@@ -408,7 +408,7 @@ class _SettingsPageState extends State<SettingsPage> {
           CustomAppBar.largeFlexible(
             expandedContainerColor: ColorTheme.of(context).surfaceContainer,
             collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
-            headline: Text(tr('settings')),
+            title: Text(tr('settings')),
           ),
           // if (kDebugMode)
           //   const SliverToBoxAdapter(
