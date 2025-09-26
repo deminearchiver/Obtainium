@@ -68,6 +68,10 @@ class _GeneratedFormModalState extends State<GeneratedFormModal> {
           if (widget.additionalWidgets.isNotEmpty) ...widget.additionalWidgets,
         ],
       ),
+      actionsPadding: const EdgeInsets.symmetric(
+        horizontal: 24.0,
+        vertical: 24.0 - 4.0,
+      ),
       actions: [
         TextButton(
           onPressed: () {
