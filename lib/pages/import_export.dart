@@ -409,9 +409,9 @@ class _ImportExportPageState extends State<ImportExportPage> {
               tr("obtainiumExport"),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TypescaleTheme.of(
-                context,
-              ).labelLarge.toTextStyle(color: ColorTheme.of(context).secondary),
+              style: TypescaleTheme.of(context).labelLarge.toTextStyle(
+                color: ColorTheme.of(context).onSurfaceVariant,
+              ),
             ),
           ),
           FutureBuilder(
@@ -600,9 +600,9 @@ class _ImportExportPageState extends State<ImportExportPage> {
               tr("obtainiumImport"),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TypescaleTheme.of(
-                context,
-              ).labelLarge.toTextStyle(color: ColorTheme.of(context).secondary),
+              style: TypescaleTheme.of(context).labelLarge.toTextStyle(
+                color: ColorTheme.of(context).onSurfaceVariant,
+              ),
             ),
           ),
           FilledButton(
