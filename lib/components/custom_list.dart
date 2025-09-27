@@ -7,6 +7,8 @@ class ListItemInkWell extends StatelessWidget {
     super.key,
     // State
     this.statesController,
+    this.stateLayerColor,
+    this.stateLayerOpacity,
     // Focus
     this.focusNode,
     this.canRequestFocus = true,
@@ -20,6 +22,8 @@ class ListItemInkWell extends StatelessWidget {
   });
 
   final WidgetStatesController? statesController;
+  final WidgetStateProperty<Color>? stateLayerColor;
+  final WidgetStateProperty<double>? stateLayerOpacity;
 
   final FocusNode? focusNode;
   final bool canRequestFocus;
@@ -41,12 +45,12 @@ class ListItemInkWell extends StatelessWidget {
       canRequestFocus: canRequestFocus,
       onFocusChange: onFocusChange,
       autofocus: autofocus,
-      overlayColor: WidgetStateLayerColor(
-        color: WidgetStatePropertyAll(colorTheme.onSurface),
-        opacity: stateTheme.stateLayerOpacity,
-      ),
       onTap: onTap,
       onLongPress: onLongPress,
+      overlayColor: WidgetStateLayerColor(
+        color: stateLayerColor ?? WidgetStatePropertyAll(colorTheme.onSurface),
+        opacity: stateLayerOpacity ?? stateTheme.stateLayerOpacity,
+      ),
       child: child,
     );
   }
