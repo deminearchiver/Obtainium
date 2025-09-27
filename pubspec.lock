@@ -1580,10 +1580,10 @@ packages:
     dependency: "direct main"
     description:
       name: super_editor
-      sha256: "2b64aa38ac7d88dd0eac44853a723db65c904535448d700f38b275d125572c82"
+      sha256: "71419d91cdb2ab442dd8c21cbec6377a6b71af5652de27f95b882ac9647f27ef"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0-dev.33"
+    version: "0.3.0-dev.34"
   super_editor_markdown:
     dependency: "direct main"
     description:
