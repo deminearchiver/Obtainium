@@ -18,6 +18,7 @@ class CustomAppBar extends StatefulWidget {
     this.scrollController,
     required this.type,
     this.behavior,
+    this.primary = true,
     this.floating = false,
     this.pinned = true,
     this.snap = false,
@@ -42,6 +43,7 @@ class CustomAppBar extends StatefulWidget {
 
   final CustomAppBarType type;
   final CustomAppBarBehavior? behavior;
+  final bool primary;
   final bool floating;
   final bool pinned;
   final bool snap;
@@ -267,11 +269,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    final topPadding = MediaQuery.maybePaddingOf(context)?.top ?? 0.0;
-
-    Widget wrapWithScope({required Widget child}) {
-      return _CustomAppBarScope(state: this, child: child);
-    }
+    final topPadding = widget.primary
+        ? MediaQuery.maybePaddingOf(context)?.top ?? 0.0
+        : 0.0;
 
     final Widget flexibleSpace = Padding(
       padding: EdgeInsets.only(top: topPadding),
@@ -314,10 +314,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
         ],
       ),
     );
-    return wrapWithScope(
+    return _CustomAppBarScope(
+      state: this,
       child: AnimatedBuilder(
         animation: _animation,
         builder: (context, _) => SliverAppBar(
+          primary: widget.primary,
           floating: widget.floating,
           pinned: widget.pinned,
           snap: widget.snap,
@@ -411,11 +413,9 @@ class _CustomAppBarAlwaysCollapsedFlexibleSpace extends StatelessWidget {
                 style: state._collapsedTitleTextStyle,
                 child: title,
               ),
-            if (subtitle case final subtitle?) ...[
-              SizedBox(
-                width: double.infinity,
-                height: state._collapsedTitleSubtitleSpace,
-              ),
+            if (title != null && subtitle != null)
+              SizedBox(height: state._collapsedTitleSubtitleSpace),
+            if (subtitle case final subtitle?)
               DefaultTextStyle(
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -423,7 +423,6 @@ class _CustomAppBarAlwaysCollapsedFlexibleSpace extends StatelessWidget {
                 style: state._collapsedSubtitleTextStyle,
                 child: subtitle,
               ),
-            ],
           ],
         ),
       ),
@@ -504,12 +503,11 @@ class _CustomAppBarDuplicatingFlexibleSpaceState
                             style: state._collapsedTitleTextStyle,
                             child: collapsedTitle,
                           ),
+                        if (widget.collapsedTitle != null &&
+                            widget.collapsedSubtitle != null)
+                          SizedBox(height: state._collapsedTitleSubtitleSpace),
                         if (widget.collapsedSubtitle
-                            case final collapsedSubtitle?) ...[
-                          SizedBox(
-                            width: double.infinity,
-                            height: state._collapsedTitleSubtitleSpace,
-                          ),
+                            case final collapsedSubtitle?)
                           DefaultTextStyle(
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -517,7 +515,6 @@ class _CustomAppBarDuplicatingFlexibleSpaceState
                             style: state._collapsedSubtitleTextStyle,
                             child: collapsedSubtitle,
                           ),
-                        ],
                       ],
                     ),
                   ),
@@ -552,12 +549,13 @@ class _CustomAppBarDuplicatingFlexibleSpaceState
                                 style: state._expandedTitleTextStyle,
                                 child: expandedTitle,
                               ),
-                            if (widget.expandedSubtitle
-                                case final expandedSubtitle?) ...[
+                            if (widget.expandedTitle != null &&
+                                widget.expandedSubtitle != null)
                               SizedBox(
-                                width: double.infinity,
                                 height: state._expandedTitleSubtitleSpace,
                               ),
+                            if (widget.expandedSubtitle
+                                case final expandedSubtitle?)
                               DefaultTextStyle(
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -565,7 +563,6 @@ class _CustomAppBarDuplicatingFlexibleSpaceState
                                 style: state._expandedSubtitleTextStyle,
                                 child: expandedSubtitle,
                               ),
-                            ],
                           ],
                         ),
                       ),
@@ -636,15 +633,15 @@ class _CustomAppBarStretchingFlexibleSpace extends StatelessWidget {
                   )!,
                   child: title,
                 ),
-              if (subtitle case final subtitle?) ...[
+              if (title != null && subtitle != null)
                 SizedBox(
-                  width: double.infinity,
                   height: lerpDouble(
                     state._expandedTitleSubtitleSpace,
                     state._collapsedTitleSubtitleSpace,
                     animation.value,
                   )!,
                 ),
+              if (subtitle case final subtitle?)
                 DefaultTextStyle(
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -656,7 +653,6 @@ class _CustomAppBarStretchingFlexibleSpace extends StatelessWidget {
                   )!,
                   child: subtitle,
                 ),
-              ],
             ],
           ),
         ),
