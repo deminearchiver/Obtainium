@@ -193,6 +193,12 @@ abstract final class LegacyThemeFactory {
           color: colorTheme.inverseOnSurface,
         ),
       ),
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        shape: CornersBorder.rounded(
+          corners: Corners.all(shapeTheme.corner.extraSmall),
+        ),
+      ),
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
           TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
@@ -202,8 +208,8 @@ abstract final class LegacyThemeFactory {
   }
 }
 
-abstract final class MarkdownStyleSheetFactory {
-  static MarkdownStyleSheet dialogStyleOf(BuildContext context) {
+abstract final class MarkdownThemeFactory {
+  static MarkdownStyleSheet defaultStylesheetOf(BuildContext context) {
     final colorTheme = ColorTheme.of(context);
     final typescaleTheme = TypescaleTheme.of(context);
 
