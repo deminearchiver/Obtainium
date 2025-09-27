@@ -429,18 +429,18 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
       overlayColor: WidgetStateLayerColor(
-        color: WidgetStatePropertyAll(ColorTheme.of(context).onSecondary),
+        color: WidgetStatePropertyAll(ColorTheme.of(context).onSurfaceVariant),
         opacity: StateTheme.of(context).stateLayerOpacity,
       ),
       backgroundColor: WidgetStateProperty.resolveWith(
         (states) => states.contains(WidgetState.disabled)
             ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
-            : ColorTheme.of(context).secondary,
+            : ColorTheme.of(context).surfaceBright,
       ),
       iconColor: WidgetStateProperty.resolveWith(
         (states) => states.contains(WidgetState.disabled)
             ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
-            : ColorTheme.of(context).onSecondary,
+            : ColorTheme.of(context).onSurfaceVariant,
       ),
     );
 
@@ -521,7 +521,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                     ),
                   ),
-                  height12,
+                  height8,
                   _ListItemContainer(
                     isFirst: true,
                     child: Flex.vertical(
@@ -1234,69 +1234,89 @@ class _SettingsPageState extends State<SettingsPage> {
                   height16,
                   const CategoryEditorSelector(showLabelWhenNotEmpty: false),
                   height16,
-                  Flex.horizontal(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          launchUrlString(
-                            SettingsProvider.sourceUrl,
-                            mode: LaunchMode.externalApplication,
-                          );
-                        },
-                        style: footerButtonsStyle,
-                        icon: const IconLegacy(Symbols.code),
-                        tooltip: tr('appSource'),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      tr("about"),
+                      style: TypescaleTheme.of(context).labelLarge.toTextStyle(
+                        color: ColorTheme.of(context).onSurfaceVariant,
                       ),
-                      IconButton(
-                        onPressed: () {
-                          launchUrlString(
-                            'https://wiki.obtainium.imranr.dev/',
-                            mode: LaunchMode.externalApplication,
-                          );
-                        },
-                        style: footerButtonsStyle,
-                        icon: const IconLegacy(Symbols.help_rounded, fill: 1.0),
-                        tooltip: tr('wiki'),
+                    ),
+                  ),
+                  height8,
+                  _ListItemContainer(
+                    isFirst: true,
+                    child: ListItemInkWell(
+                      onTap: () => launchUrlString(
+                        SettingsProvider.sourceUrl,
+                        mode: LaunchMode.externalApplication,
                       ),
-                      IconButton(
-                        onPressed: () {
-                          launchUrlString(
-                            'https://apps.obtainium.imranr.dev/',
-                            mode: LaunchMode.externalApplication,
-                          );
-                        },
-                        style: footerButtonsStyle,
-                        icon: const IconLegacy(Symbols.apps_rounded),
-                        tooltip: tr('crowdsourcedConfigsLabel'),
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        leading: const Icon(Symbols.code_rounded),
+                        headline: Text(tr("appSource"), maxLines: 3),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          context.read<LogsProvider>().get().then((logs) {
-                            if (!context.mounted) return;
-                            if (logs.isEmpty) {
-                              showMessage(
-                                ObtainiumError(tr('noLogs')),
-                                context,
-                              );
-                            } else {
-                              showDialog(
-                                context: context,
-                                builder: (ctx) {
-                                  return const LogsDialog();
-                                },
-                              );
-                            }
-                          });
-                        },
-                        style: footerButtonsStyle,
-                        icon: const IconLegacy(
+                    ),
+                  ),
+                  const SizedBox(height: 2.0),
+                  _ListItemContainer(
+                    child: ListItemInkWell(
+                      onTap: () => launchUrlString(
+                        "https://wiki.obtainium.imranr.dev/",
+                        mode: LaunchMode.externalApplication,
+                      ),
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        leading: const Icon(Symbols.help_rounded, fill: 1.0),
+                        headline: Text(tr("wiki"), maxLines: 3),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 2.0),
+                  _ListItemContainer(
+                    child: ListItemInkWell(
+                      onTap: () => launchUrlString(
+                        "https://apps.obtainium.imranr.dev/",
+                        mode: LaunchMode.externalApplication,
+                      ),
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        leading: const Icon(Symbols.apps_rounded),
+                        headline: Text(
+                          tr("crowdsourcedConfigsLabel"),
+                          maxLines: 3,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 2.0),
+                  _ListItemContainer(
+                    isLast: true,
+                    child: ListItemInkWell(
+                      onTap: () => context.read<LogsProvider>().get().then((
+                        logs,
+                      ) {
+                        if (!context.mounted) return;
+                        if (logs.isEmpty) {
+                          showMessage(ObtainiumError(tr('noLogs')), context);
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (ctx) {
+                              return const LogsDialog();
+                            },
+                          );
+                        }
+                      }),
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        leading: const Icon(
                           Symbols.bug_report_rounded,
                           fill: 1.0,
                         ),
-                        tooltip: tr('appLogs'),
+                        headline: Text(tr("appLogs"), maxLines: 3),
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),
