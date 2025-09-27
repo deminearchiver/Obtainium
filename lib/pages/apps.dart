@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:obtainium/components/custom_decorated_sliver.dart';
+import 'package:obtainium/components/custom_list.dart';
 import 'package:obtainium/components/custom_scrollbar.dart';
 import 'package:obtainium/components/custom_scrollbar_3.dart';
 import 'package:obtainium/flutter.dart';
@@ -1427,25 +1430,118 @@ class AppsPageState extends State<AppsPage> {
     }
 
     Widget getDisplayedList() {
-      return settingsProvider.groupByCategory &&
-              !(listedCategories.isEmpty ||
-                  (listedCategories.length == 1 && listedCategories[0] == null))
-          ? SliverList(
-              delegate: SliverChildBuilderDelegate((
-                BuildContext context,
-                int index,
-              ) {
-                return getCategoryCollapsibleTile(index);
-              }, childCount: listedCategories.length),
-            )
-          : SliverList(
-              delegate: SliverChildBuilderDelegate((
-                BuildContext context,
-                int index,
-              ) {
-                return getSingleAppHorizTile(index);
-              }, childCount: listedApps.length),
-            );
+      if (settingsProvider.groupByCategory &&
+          !(listedCategories.isEmpty ||
+              (listedCategories.length == 1 && listedCategories[0] == null))) {
+        return SliverList.builder(
+          itemCount: listedCategories.length,
+          itemBuilder: (context, index) => getCategoryCollapsibleTile(index),
+        );
+      }
+      // ignore: dead_code
+      if (kDebugMode) {
+        final pinnedApps = listedApps;
+        // final pinnedApps = listedApps
+        //     .where((element) => element.app.pinned)
+        //     .toList(growable: false);
+        // final unpinnedApps = listedApps
+        //     .whereNot((element) => element.app.pinned)
+        //     .toList(growable: false);
+        const double spacing = 2.0;
+        return SliverList.list(
+          children: [
+            const SizedBox(height: 16.0),
+            ...pinnedApps.mapIndexed((index, e) {
+              final isSelected = selectedAppIds.contains(e.app.id);
+              return Padding(
+                padding: EdgeInsets.fromLTRB(
+                  16.0,
+                  index > 0 ? spacing / 2.0 : 0.0,
+                  16.0,
+                  index < pinnedApps.length - 1 ? spacing / 2.0 : 0.0,
+                ),
+                child: _ListItemContainer(
+                  isFirst: index == 0,
+                  isLast: index == pinnedApps.length - 1,
+
+                  containerShape: isSelected
+                      ? CornersBorder.rounded(
+                          corners: Corners.all(
+                            ShapeTheme.of(context).corner.largeIncreased,
+                          ),
+                        )
+                      : null,
+                  containerColor: isSelected
+                      ? colorTheme.secondaryContainer
+                      : colorTheme.surfaceBright,
+                  child: ListItemInkWell(
+                    stateLayerColor: WidgetStatePropertyAll(
+                      isSelected
+                          ? colorTheme.onSecondaryContainer
+                          : colorTheme.onSurface,
+                    ),
+                    onTap: () {
+                      if (selectedAppIds.isNotEmpty) {
+                        toggleAppSelected(e.app);
+                      } else {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => AppPage(appId: e.app.id),
+                          ),
+                        );
+                      }
+                    },
+                    onLongPress: () => toggleAppSelected(e.app),
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      padding: const EdgeInsets.fromLTRB(
+                        16.0,
+                        12.0,
+                        16.0,
+                        12.0,
+                      ),
+                      leading: SizedBox.square(
+                        dimension: 40.0,
+                        child: getAppIcon(index),
+                      ),
+                      headline: Text(
+                        e.name,
+                        maxLines: 1,
+                        style: TextStyle(
+                          color: isSelected
+                              ? colorTheme.onSecondaryContainer
+                              : null,
+                        ),
+                      ),
+                      supportingText: Text(
+                        tr("byX", args: [e.author]),
+                        maxLines: 1,
+                        style: TextStyle(
+                          color: isSelected
+                              ? colorTheme.onSecondaryContainer
+                              : null,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }),
+            const SizedBox(height: 16.0),
+          ],
+        );
+      }
+      return SliverPadding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        sliver: SliverList.builder(
+          itemCount: listedApps.length,
+          itemBuilder: (context, index) => Material(
+            type: MaterialType.transparency,
+            color: Colors.transparent,
+            child: getSingleAppHorizTile(index),
+          ),
+        ),
+      );
     }
 
     const bool kDebugCustomScrollbar = false;
@@ -1790,13 +1886,16 @@ class AppsPageState extends State<AppsPage> {
     }
 
     return Scaffold(
-      backgroundColor: colorTheme.surface,
+      backgroundColor: colorTheme.surfaceContainer,
       // TODO: replace with a Loading indicator
       body: RefreshIndicator(
         key: _refreshIndicatorKey,
-        onRefresh: refresh,
+        edgeOffset: 0.0,
+        displacement: MediaQuery.paddingOf(context).top + (64.0 - 49.0) / 2.0,
+        elevation: 0.0,
         backgroundColor: colorTheme.primaryContainer,
         color: colorTheme.onPrimaryContainer,
+        onRefresh: refresh,
         child: CustomScrollbar(
           controller: scrollController,
           interactive: true,
@@ -1807,6 +1906,8 @@ class AppsPageState extends State<AppsPage> {
               // if (!kDebugMode)
               CustomAppBar(
                 type: CustomAppBarType.largeFlexible,
+                expandedContainerColor: colorTheme.surfaceContainer,
+                collapsedContainerColor: colorTheme.surfaceContainer,
                 title: Text(tr('appsString')),
               ),
               // TODO: either finish CustomScrollbar3 or use nested_scroll_view_plus
@@ -1832,10 +1933,19 @@ class AppsPageState extends State<AppsPage> {
                     child: Align.center(child: Text("Another one")),
                   ),
                 ),
-              ] else ...[
-                ...getLoadingWidgets(),
-                getDisplayedList(),
-              ],
+              ] else
+                CustomDecoratedSliver(
+                  position: DecorationPosition.background,
+                  decoration: ShapeDecoration(
+                    shape: CornersBorder.rounded(
+                      corners: Corners.all(ShapeTheme.of(context).corner.large),
+                    ),
+                    color: colorTheme.surfaceContainerLow,
+                  ),
+                  sliver: SliverMainAxisGroup(
+                    slivers: [...getLoadingWidgets(), getDisplayedList()],
+                  ),
+                ),
             ],
           ),
         ),
@@ -1894,4 +2004,44 @@ class AppsFilter {
       includeNonInstalled == other.includeNonInstalled &&
       settingsProvider.setEqual(categoryFilter, other.categoryFilter) &&
       sourceFilter.trim() == other.sourceFilter.trim();
+}
+
+class _ListItemContainer extends StatelessWidget {
+  const _ListItemContainer({
+    super.key,
+    this.isFirst = false,
+    this.isLast = false,
+    this.containerShape,
+    this.containerColor,
+    required this.child,
+  });
+
+  final bool isFirst;
+  final bool isLast;
+  final ShapeBorder? containerShape;
+  final Color? containerColor;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final edgeCorner = shapeTheme.corner.largeIncreased;
+    final middleCorner = shapeTheme.corner.extraSmall;
+    return Material(
+      animationDuration: Duration.zero,
+      type: MaterialType.card,
+      clipBehavior: Clip.antiAlias,
+      color: containerColor ?? colorTheme.surfaceBright,
+      shape:
+          containerShape ??
+          CornersBorder.rounded(
+            corners: Corners.vertical(
+              top: isFirst ? edgeCorner : middleCorner,
+              bottom: isLast ? edgeCorner : middleCorner,
+            ),
+          ),
+      child: child,
+    );
+  }
 }
