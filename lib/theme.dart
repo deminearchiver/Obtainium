@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:obtainium/flutter.dart';
 
 // ignore: implementation_imports
@@ -197,6 +198,22 @@ abstract final class LegacyThemeFactory {
           TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
         },
       ),
+    );
+  }
+}
+
+abstract final class MarkdownStyleSheetFactory {
+  static MarkdownStyleSheet dialogStyleOf(BuildContext context) {
+    final colorTheme = ColorTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+
+    return MarkdownStyleSheet(
+      p: typescaleTheme.bodyMedium.toTextStyle(color: colorTheme.onSurface),
+      a: TextStyle(color: colorTheme.primary),
+      h3: typescaleTheme.headlineSmall.toTextStyle(color: colorTheme.onSurface),
+      em: const TextStyle(fontStyle: FontStyle.italic),
+      strong: const TextStyle(fontWeight: FontWeight.bold),
+      del: const TextStyle(decoration: TextDecoration.lineThrough),
     );
   }
 }
