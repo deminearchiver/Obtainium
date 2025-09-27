@@ -18,6 +18,11 @@ class CustomAppBar extends StatefulWidget {
     this.scrollController,
     required this.type,
     this.behavior,
+    this.floating = false,
+    this.pinned = true,
+    this.snap = false,
+    this.stretch = false,
+    this.systemOverlayStyle,
     this.collapsedPadding,
     this.expandedPadding,
     this.collapsedContainerColor,
@@ -37,6 +42,11 @@ class CustomAppBar extends StatefulWidget {
 
   final CustomAppBarType type;
   final CustomAppBarBehavior? behavior;
+  final bool floating;
+  final bool pinned;
+  final bool snap;
+  final bool stretch;
+  final SystemUiOverlayStyle? systemOverlayStyle;
 
   final EdgeInsetsGeometry? collapsedPadding;
   final EdgeInsetsGeometry? expandedPadding;
@@ -308,7 +318,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
       child: AnimatedBuilder(
         animation: _animation,
         builder: (context, _) => SliverAppBar(
-          pinned: true,
+          floating: widget.floating,
+          pinned: widget.pinned,
+          snap: widget.snap,
+          stretch: widget.stretch,
+          systemOverlayStyle: widget.systemOverlayStyle,
           automaticallyImplyLeading: false,
           collapsedHeight: _collapsedHeight,
           expandedHeight: _expandedHeight,
