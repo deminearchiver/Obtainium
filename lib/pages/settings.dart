@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:equations/equations.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:obtainium/components/custom_decorated_sliver.dart';
+import 'package:obtainium/components/custom_list.dart';
 import 'package:obtainium/flutter.dart';
 import 'package:obtainium/components/custom_app_bar.dart';
 import 'package:obtainium/components/generated_form.dart';
@@ -102,6 +103,30 @@ class _SettingsPageState extends State<SettingsPage> {
     final sourceProvider = SourceProvider();
     initUpdateIntervalInterpolator();
     processIntervalSliderValue(settingsProvider.updateIntervalSliderVal);
+
+    void onUseShizukuChanged(bool useShizuku) {
+      if (useShizuku) {
+        ShizukuApkInstaller.checkPermission().then((resCode) {
+          settingsProvider.useShizuku = resCode!.startsWith('granted');
+          if (!context.mounted) return;
+          switch (resCode) {
+            case 'binder_not_found':
+              showError(ObtainiumError(tr('shizukuBinderNotFound')), context);
+            case 'old_shizuku':
+              showError(ObtainiumError(tr('shizukuOld')), context);
+            case 'old_android_with_adb':
+              showError(
+                ObtainiumError(tr('shizukuOldAndroidWithADB')),
+                context,
+              );
+            case 'denied':
+              showError(ObtainiumError(tr('cancelled')), context);
+          }
+        });
+      } else {
+        settingsProvider.useShizuku = false;
+      }
+    }
 
     final Widget followSystemThemeExplanation = FutureBuilder(
       builder: (ctx, val) {
@@ -203,25 +228,43 @@ class _SettingsPageState extends State<SettingsPage> {
         },
       ),
     );
-
     final Widget useMaterialThemeSwitch = FutureBuilder(
-      builder: (ctx, val) {
-        return (val.data ?? false)
-            ? Flex.horizontal(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible.loose(child: Text(tr('useMaterialYou'))),
-                  Switch(
-                    value: settingsProvider.useMaterialYou,
-                    onChanged: (value) {
-                      settingsProvider.useMaterialYou = value;
-                    },
-                  ),
-                ],
-              )
-            : const SizedBox.shrink();
-      },
       future: const DynamicColor().isDynamicColorAvailable(),
+      builder: (ctx, snapshot) {
+        final isDynamicColorAvailable = snapshot.data ?? false;
+        if (!isDynamicColorAvailable) return const SizedBox.shrink();
+        return _ListItemContainer(
+          isFirst: true,
+          isLast: true,
+          child: ListItemInkWell(
+            onTap: () => settingsProvider.useMaterialYou =
+                !settingsProvider.useMaterialYou,
+            child: ListItemLayout(
+              isMultiline: true,
+              padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0 - 8.0, 12.0),
+              headline: Text(tr("useMaterialYou"), maxLines: 2),
+              trailing: ExcludeFocus(
+                child: Switch(
+                  onChanged: (value) => settingsProvider.useMaterialYou = value,
+                  value: settingsProvider.useMaterialYou,
+                ),
+              ),
+            ),
+          ),
+        );
+        // return Flex.horizontal(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     Flexible.loose(child: Text(tr('useMaterialYou'))),
+        //     Switch(
+        //       value: settingsProvider.useMaterialYou,
+        //       onChanged: (value) {
+        //         settingsProvider.useMaterialYou = value;
+        //       },
+        //     ),
+        //   ],
+        // );
+      },
     );
 
     final Widget sortDropdown = DropdownMenuFormField<SortColumnSettings>(
@@ -315,23 +358,17 @@ class _SettingsPageState extends State<SettingsPage> {
       max: updateIntervalNodes.length.toDouble(),
       divisions: updateIntervalNodes.length * 20,
       label: updateIntervalLabel,
-      onChanged: (double value) {
-        setState(() {
-          settingsProvider.updateIntervalSliderVal = value;
-          processIntervalSliderValue(value);
-        });
-      },
-      onChangeStart: (double value) {
-        setState(() {
-          showIntervalLabel = false;
-        });
-      },
-      onChangeEnd: (double value) {
-        setState(() {
-          showIntervalLabel = true;
-          settingsProvider.updateInterval = updateInterval;
-        });
-      },
+      onChanged: (value) => setState(() {
+        settingsProvider.updateIntervalSliderVal = value;
+        processIntervalSliderValue(value);
+      }),
+      onChangeStart: (value) => setState(() {
+        showIntervalLabel = false;
+      }),
+      onChangeEnd: (value) => setState(() {
+        showIntervalLabel = true;
+        settingsProvider.updateInterval = updateInterval;
+      }),
     );
 
     final sourceSpecificFields = sourceProvider.sources.map((e) {
@@ -365,11 +402,17 @@ class _SettingsPageState extends State<SettingsPage> {
       }
     });
 
-    const Widget height8 = SizedBox(height: 8);
+    const Widget height4 = SizedBox(height: 4.0);
 
-    const Widget height16 = SizedBox(height: 16);
+    const Widget height8 = SizedBox(height: 8.0);
 
-    const Widget height32 = SizedBox(height: 32);
+    const Widget height12 = SizedBox(height: 12.0);
+
+    const Widget height16 = SizedBox(height: 16.0);
+
+    const Widget height24 = SizedBox(height: 24.0);
+
+    const Widget height32 = SizedBox(height: 32.0);
 
     final ButtonStyle footerButtonsStyle = ButtonStyle(
       animationDuration: Duration.zero,
@@ -469,24 +512,41 @@ class _SettingsPageState extends State<SettingsPage> {
               padding: const EdgeInsets.all(16),
               sliver: SliverList.list(
                 children: [
-                  Text(
-                    tr('updates'),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: ColorTheme.of(context).primary,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      tr("updates"),
+                      style: TypescaleTheme.of(context).labelLarge.toTextStyle(
+                        color: ColorTheme.of(context).onSurfaceVariant,
+                      ),
                     ),
                   ),
-                  //intervalDropdown,
-                  height16,
-                  if (showIntervalLabel)
-                    SizedBox(
-                      child: Text(
-                        "${tr('bgUpdateCheckInterval')}: $updateIntervalLabel",
-                      ),
-                    )
-                  else
-                    const SizedBox(height: 16),
-                  intervalSlider,
+                  height12,
+                  _ListItemContainer(
+                    isFirst: true,
+                    child: Flex.vertical(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        ListItemLayout(
+                          isMultiline: true,
+                          headline: Text(tr("bgUpdateCheckInterval")),
+                          supportingText: Visibility.maintain(
+                            visible: showIntervalLabel,
+                            child: Text(updateIntervalLabel, maxLines: 1),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            16.0,
+                            0.0,
+                            16.0,
+                            12.0,
+                          ),
+                          child: intervalSlider,
+                        ),
+                      ],
+                    ),
+                  ),
                   FutureBuilder(
                     builder: (ctx, val) {
                       return (settingsProvider.updateInterval > 0) &&
@@ -495,101 +555,174 @@ class _SettingsPageState extends State<SettingsPage> {
                           ? Flex.vertical(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Flex.horizontal(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Flexible.loose(
-                                      child: Text(
-                                        tr('foregroundServiceExplanation'),
+                                const SizedBox(height: 2.0),
+                                _ListItemContainer(
+                                  child: ListItemInkWell(
+                                    onTap: () => settingsProvider.useFGService =
+                                        !settingsProvider.useFGService,
+                                    child: ListItemLayout(
+                                      isMultiline: true,
+                                      padding: const EdgeInsets.fromLTRB(
+                                        16.0,
+                                        12.0,
+                                        16.0 - 8.0,
+                                        12.0,
+                                      ),
+                                      headline: Text(
+                                        tr("foregroundServiceExplanation"),
+                                        maxLines: 3,
+                                      ),
+                                      trailing: ExcludeFocus(
+                                        child: Switch(
+                                          onChanged: (value) =>
+                                              settingsProvider.useFGService =
+                                                  value,
+                                          value: settingsProvider.useFGService,
+                                        ),
                                       ),
                                     ),
-                                    Switch(
-                                      value: settingsProvider.useFGService,
-                                      onChanged: (value) {
-                                        settingsProvider.useFGService = value;
-                                      },
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                                Flex.horizontal(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Flexible.loose(
-                                      child: Text(
-                                        tr('enableBackgroundUpdates'),
+                                const SizedBox(height: 2.0),
+                                _ListItemContainer(
+                                  child: Flex.vertical(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ListItemInkWell(
+                                        onTap: () =>
+                                            settingsProvider
+                                                    .enableBackgroundUpdates =
+                                                !settingsProvider
+                                                    .enableBackgroundUpdates,
+                                        child: ListItemLayout(
+                                          isMultiline: false,
+                                          padding: const EdgeInsets.fromLTRB(
+                                            16.0,
+                                            8.0,
+                                            16.0 - 8.0,
+                                            8.0,
+                                          ),
+                                          headline: Text(
+                                            tr("enableBackgroundUpdates"),
+                                          ),
+                                          trailing: ExcludeFocus(
+                                            child: Switch(
+                                              onChanged: (value) =>
+                                                  settingsProvider
+                                                          .enableBackgroundUpdates =
+                                                      value,
+                                              value: settingsProvider
+                                                  .enableBackgroundUpdates,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    Switch(
-                                      value: settingsProvider
-                                          .enableBackgroundUpdates,
-                                      onChanged: (value) {
-                                        settingsProvider
-                                                .enableBackgroundUpdates =
-                                            value;
-                                      },
-                                    ),
-                                  ],
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                          16.0,
+                                          0.0,
+                                          16.0,
+                                          12.0,
+                                        ),
+                                        child: DefaultTextStyle(
+                                          style: TypescaleTheme.of(context)
+                                              .bodyMedium
+                                              .toTextStyle(
+                                                color: ColorTheme.of(
+                                                  context,
+                                                ).onSurfaceVariant,
+                                              ),
+                                          child: Flex.vertical(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            spacing: 8.0,
+                                            children: [
+                                              Text(
+                                                tr(
+                                                  'backgroundUpdateReqsExplanation',
+                                                ),
+                                              ),
+                                              Text(
+                                                tr(
+                                                  'backgroundUpdateLimitsExplanation',
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                height8,
-                                Text(
-                                  tr('backgroundUpdateReqsExplanation'),
-                                  style: TypescaleTheme.of(
-                                    context,
-                                  ).labelSmall.toTextStyle(),
-                                ),
-                                Text(
-                                  tr('backgroundUpdateLimitsExplanation'),
-                                  style: TypescaleTheme.of(
-                                    context,
-                                  ).labelSmall.toTextStyle(),
-                                ),
-                                height8,
                                 if (settingsProvider.enableBackgroundUpdates)
                                   Flex.vertical(
                                     children: [
-                                      height16,
-                                      Flex.horizontal(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Flexible.loose(
-                                            child: Text(
-                                              tr('bgUpdatesOnWiFiOnly'),
-                                            ),
-                                          ),
-                                          Switch(
-                                            value: settingsProvider
-                                                .bgUpdatesOnWiFiOnly,
-                                            onChanged: (value) {
+                                      const SizedBox(height: 2.0),
+                                      _ListItemContainer(
+                                        child: ListItemInkWell(
+                                          onTap: () =>
                                               settingsProvider
                                                       .bgUpdatesOnWiFiOnly =
-                                                  value;
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                      height16,
-                                      Flex.horizontal(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Flexible.loose(
-                                            child: Text(
-                                              tr('bgUpdatesWhileChargingOnly'),
+                                                  !settingsProvider
+                                                      .bgUpdatesOnWiFiOnly,
+                                          child: ListItemLayout(
+                                            isMultiline: true,
+                                            padding: const EdgeInsets.fromLTRB(
+                                              16.0,
+                                              12.0,
+                                              16.0 - 8.0,
+                                              12.0,
+                                            ),
+                                            headline: Text(
+                                              tr("bgUpdatesOnWiFiOnly"),
+                                              maxLines: 3,
+                                            ),
+                                            trailing: ExcludeFocus(
+                                              child: Switch(
+                                                onChanged: (value) =>
+                                                    settingsProvider
+                                                            .bgUpdatesOnWiFiOnly =
+                                                        value,
+                                                value: settingsProvider
+                                                    .bgUpdatesOnWiFiOnly,
+                                              ),
                                             ),
                                           ),
-                                          Switch(
-                                            value: settingsProvider
-                                                .bgUpdatesWhileChargingOnly,
-                                            onChanged: (value) {
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2.0),
+                                      _ListItemContainer(
+                                        child: ListItemInkWell(
+                                          onTap: () =>
                                               settingsProvider
                                                       .bgUpdatesWhileChargingOnly =
-                                                  value;
-                                            },
+                                                  !settingsProvider
+                                                      .bgUpdatesWhileChargingOnly,
+                                          child: ListItemLayout(
+                                            isMultiline: true,
+                                            padding: const EdgeInsets.fromLTRB(
+                                              16.0,
+                                              12.0,
+                                              16.0 - 8.0,
+                                              12.0,
+                                            ),
+                                            headline: Text(
+                                              tr("bgUpdatesWhileChargingOnly"),
+                                              maxLines: 3,
+                                            ),
+                                            trailing: ExcludeFocus(
+                                              child: Switch(
+                                                onChanged: (value) =>
+                                                    settingsProvider
+                                                            .bgUpdatesWhileChargingOnly =
+                                                        value,
+                                                value: settingsProvider
+                                                    .bgUpdatesWhileChargingOnly,
+                                              ),
+                                            ),
                                           ),
-                                        ],
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -599,197 +732,267 @@ class _SettingsPageState extends State<SettingsPage> {
                     },
                     future: DeviceInfoPlugin().androidInfo,
                   ),
-                  height16,
-                  Flex.horizontal(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible.loose(child: Text(tr('checkOnStart'))),
-                      Switch(
-                        value: settingsProvider.checkOnStart,
-                        onChanged: (value) {
-                          settingsProvider.checkOnStart = value;
-                        },
-                      ),
-                    ],
-                  ),
-                  height16,
-                  Flex.horizontal(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible.loose(
-                        child: Text(tr('checkUpdateOnDetailPage')),
-                      ),
-                      Switch(
-                        value: settingsProvider.checkUpdateOnDetailPage,
-                        onChanged: (value) {
-                          settingsProvider.checkUpdateOnDetailPage = value;
-                        },
-                      ),
-                    ],
-                  ),
-                  height16,
-                  Flex.horizontal(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible.loose(
-                        child: Text(tr('onlyCheckInstalledOrTrackOnlyApps')),
-                      ),
-                      Switch(
-                        value:
-                            settingsProvider.onlyCheckInstalledOrTrackOnlyApps,
-                        onChanged: (value) {
-                          settingsProvider.onlyCheckInstalledOrTrackOnlyApps =
-                              value;
-                        },
-                      ),
-                    ],
-                  ),
-                  height16,
-                  Flex.horizontal(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible.loose(
-                        child: Text(tr('removeOnExternalUninstall')),
-                      ),
-                      Switch(
-                        value: settingsProvider.removeOnExternalUninstall,
-                        onChanged: (value) {
-                          settingsProvider.removeOnExternalUninstall = value;
-                        },
-                      ),
-                    ],
-                  ),
-                  height16,
-                  Flex.horizontal(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible.loose(child: Text(tr('parallelDownloads'))),
-                      Switch(
-                        value: settingsProvider.parallelDownloads,
-                        onChanged: (value) {
-                          settingsProvider.parallelDownloads = value;
-                        },
-                      ),
-                    ],
-                  ),
-                  height16,
-                  Flex.horizontal(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible.loose(
-                        child: Flex.vertical(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(tr('beforeNewInstallsShareToAppVerifier')),
-                            GestureDetector(
-                              onTap: () {
-                                launchUrlString(
-                                  'https://github.com/soupslurpr/AppVerifier',
-                                  mode: LaunchMode.externalApplication,
-                                );
-                              },
-                              child: Text(
-                                tr('about'),
-                                style: const TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
+                  const SizedBox(height: 2.0),
+                  _ListItemContainer(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.checkOnStart =
+                          !settingsProvider.checkOnStart,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(tr("checkOnStart"), maxLines: 3),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onChanged: (value) =>
+                                settingsProvider.checkOnStart = value,
+                            value: settingsProvider.checkOnStart,
+                          ),
                         ),
                       ),
-                      Switch(
-                        value: settingsProvider
-                            .beforeNewInstallsShareToAppVerifier,
-                        onChanged: (value) {
-                          settingsProvider.beforeNewInstallsShareToAppVerifier =
-                              value;
-                        },
-                      ),
-                    ],
-                  ),
-                  height16,
-                  Flex.horizontal(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible.loose(child: Text(tr('useShizuku'))),
-                      Switch(
-                        value: settingsProvider.useShizuku,
-                        onChanged: (useShizuku) {
-                          if (useShizuku) {
-                            ShizukuApkInstaller.checkPermission().then((
-                              resCode,
-                            ) {
-                              settingsProvider.useShizuku = resCode!.startsWith(
-                                'granted',
-                              );
-                              if (!context.mounted) return;
-                              switch (resCode) {
-                                case 'binder_not_found':
-                                  showError(
-                                    ObtainiumError(tr('shizukuBinderNotFound')),
-                                    context,
-                                  );
-                                case 'old_shizuku':
-                                  showError(
-                                    ObtainiumError(tr('shizukuOld')),
-                                    context,
-                                  );
-                                case 'old_android_with_adb':
-                                  showError(
-                                    ObtainiumError(
-                                      tr('shizukuOldAndroidWithADB'),
-                                    ),
-                                    context,
-                                  );
-                                case 'denied':
-                                  showError(
-                                    ObtainiumError(tr('cancelled')),
-                                    context,
-                                  );
-                              }
-                            });
-                          } else {
-                            settingsProvider.useShizuku = false;
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                  height16,
-                  Flex.horizontal(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible.loose(
-                        child: Text(tr('shizukuPretendToBeGooglePlay')),
-                      ),
-                      Switch(
-                        value: settingsProvider.shizukuPretendToBeGooglePlay,
-                        onChanged: (value) {
-                          settingsProvider.shizukuPretendToBeGooglePlay = value;
-                        },
-                      ),
-                    ],
-                  ),
-                  height32,
-                  Text(
-                    tr('sourceSpecific'),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: ColorTheme.of(context).primary,
                     ),
                   ),
+                  const SizedBox(height: 2.0),
+                  _ListItemContainer(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.checkUpdateOnDetailPage =
+                          !settingsProvider.checkUpdateOnDetailPage,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(
+                          tr("checkUpdateOnDetailPage"),
+                          maxLines: 3,
+                        ),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onChanged: (value) =>
+                                settingsProvider.checkUpdateOnDetailPage =
+                                    value,
+                            value: settingsProvider.checkUpdateOnDetailPage,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 2.0),
+                  _ListItemContainer(
+                    child: ListItemInkWell(
+                      onTap: () =>
+                          settingsProvider.onlyCheckInstalledOrTrackOnlyApps =
+                              !settingsProvider
+                                  .onlyCheckInstalledOrTrackOnlyApps,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(
+                          tr("onlyCheckInstalledOrTrackOnlyApps"),
+                          maxLines: 3,
+                        ),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onChanged: (value) =>
+                                settingsProvider
+                                        .onlyCheckInstalledOrTrackOnlyApps =
+                                    value,
+                            value: settingsProvider
+                                .onlyCheckInstalledOrTrackOnlyApps,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 2.0),
+                  _ListItemContainer(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.removeOnExternalUninstall =
+                          !settingsProvider.removeOnExternalUninstall,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(
+                          tr("removeOnExternalUninstall"),
+                          maxLines: 3,
+                        ),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onChanged: (value) =>
+                                settingsProvider.removeOnExternalUninstall =
+                                    value,
+                            value: settingsProvider.removeOnExternalUninstall,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 2.0),
+                  _ListItemContainer(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.parallelDownloads =
+                          !settingsProvider.parallelDownloads,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(tr("parallelDownloads"), maxLines: 3),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onChanged: (value) =>
+                                settingsProvider.parallelDownloads = value,
+                            value: settingsProvider.parallelDownloads,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 2.0),
+                  _ListItemContainer(
+                    child: Flex.vertical(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        ListItemInkWell(
+                          onTap: () =>
+                              settingsProvider
+                                      .beforeNewInstallsShareToAppVerifier =
+                                  !settingsProvider
+                                      .beforeNewInstallsShareToAppVerifier,
+                          child: ListItemLayout(
+                            isMultiline: true,
+                            padding: const EdgeInsets.fromLTRB(
+                              16.0,
+                              12.0,
+                              16.0 - 8.0,
+                              12.0,
+                            ),
+                            headline: Text(
+                              tr("beforeNewInstallsShareToAppVerifier"),
+                              maxLines: 3,
+                            ),
+                            trailing: ExcludeFocus(
+                              child: Switch(
+                                onChanged: (value) =>
+                                    settingsProvider
+                                            .beforeNewInstallsShareToAppVerifier =
+                                        value,
+                                value: settingsProvider
+                                    .beforeNewInstallsShareToAppVerifier,
+                              ),
+                            ),
+                          ),
+                        ),
+                        ListItemInkWell(
+                          onTap: () => launchUrlString(
+                            "https://github.com/soupslurpr/AppVerifier",
+                            mode: LaunchMode.externalApplication,
+                          ),
+                          child: ListItemLayout(
+                            leading: const Icon(Symbols.open_in_new_rounded),
+                            supportingText: Text(tr("about")),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 2.0),
+                  _ListItemContainer(
+                    child: ListItemInkWell(
+                      onTap: () =>
+                          onUseShizukuChanged(!settingsProvider.useShizuku),
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(tr("useShizuku"), maxLines: 3),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onChanged: onUseShizukuChanged,
+                            value: settingsProvider.useShizuku,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 2.0),
+                  _ListItemContainer(
+                    isLast: true,
+                    child: ListItemInkWell(
+                      onTap: () =>
+                          settingsProvider.shizukuPretendToBeGooglePlay =
+                              !settingsProvider.shizukuPretendToBeGooglePlay,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(
+                          tr("shizukuPretendToBeGooglePlay"),
+                          maxLines: 3,
+                        ),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onChanged: (value) =>
+                                settingsProvider.shizukuPretendToBeGooglePlay =
+                                    value,
+                            value:
+                                settingsProvider.shizukuPretendToBeGooglePlay,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12.0 + 8.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      tr("sourceSpecific"),
+                      style: TypescaleTheme.of(context).labelLarge.toTextStyle(
+                        color: ColorTheme.of(context).onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+                  height8,
                   ...sourceSpecificFields,
-                  height32,
-                  Text(
-                    tr('appearance'),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: ColorTheme.of(context).primary,
+                  const SizedBox(height: 12.0 + 8.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      tr("appearance"),
+                      style: TypescaleTheme.of(context).labelLarge.toTextStyle(
+                        color: ColorTheme.of(context).onSurfaceVariant,
+                      ),
                     ),
                   ),
+                  height8,
                   DropdownMenuFormField<ThemeSettings>(
                     expandedInsets: EdgeInsets.zero,
                     inputDecorationTheme: const InputDecorationThemeData(
@@ -821,23 +1024,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   height8,
                   if (settingsProvider.theme == ThemeSettings.system)
                     followSystemThemeExplanation,
-                  height16,
-                  // TODO: decide if useBlackTheme shall be reintroduced
-                  // if (settingsProvider.theme != ThemeSettings.light)
-                  //   Flex.horizontal(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: [
-                  //       Flexible.loose(child: Text(tr('useBlackTheme'))),
-                  //       Switch(
-                  //         value: settingsProvider.useBlackTheme,
-                  //         onChanged: (value) {
-                  //           settingsProvider.useBlackTheme = value;
-                  //         },
-                  //       ),
-                  //     ],
-                  //   ),
-                  // height8,
+                  height4,
                   useMaterialThemeSwitch,
+                  height12,
                   if (!settingsProvider.useMaterialYou) colorPicker,
                   Flex.horizontal(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -850,180 +1039,196 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   height16,
                   localeDropdown,
-                  // TODO: uncomment if system font support is reintroduced
-                  // FutureBuilder(
-                  //   builder: (ctx, val) {
-                  //     return (val.data?.version.sdkInt ?? 0) >= 34
-                  //         ? Flex.vertical(
-                  //             crossAxisAlignment:
-                  //                 CrossAxisAlignment.start,
-                  //             children: [
-                  //               height16,
-                  //               Flex.horizontal(
-                  //                 mainAxisAlignment:
-                  //                     MainAxisAlignment.spaceBetween,
-                  //                 children: [
-                  //                   Flexible.loose(
-                  //                     child: Text(tr('useSystemFont')),
-                  //                   ),
-                  //                   Switch(
-                  //                     value:
-                  //                         settingsProvider.useSystemFont,
-                  //                     onChanged: (useSystemFont) {
-                  //                       if (useSystemFont) {
-                  //                         NativeFeatures.loadSystemFont()
-                  //                             .then((val) {
-                  //                               settingsProvider
-                  //                                       .useSystemFont =
-                  //                                   true;
-                  //                             });
-                  //                       } else {
-                  //                         settingsProvider.useSystemFont =
-                  //                             false;
-                  //                       }
-                  //                     },
-                  //                   ),
-                  //                 ],
-                  //               ),
-                  //             ],
-                  //           )
-                  //         : const SizedBox.shrink();
-                  //   },
-                  //   future: DeviceInfoPlugin().androidInfo,
-                  // ),
                   height16,
-                  Flex.horizontal(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible.loose(child: Text(tr('showWebInAppView'))),
-                      Switch(
-                        value: settingsProvider.showAppWebpage,
-                        onChanged: (value) {
-                          settingsProvider.showAppWebpage = value;
-                        },
+                  _ListItemContainer(
+                    isFirst: true,
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.showAppWebpage =
+                          !settingsProvider.showAppWebpage,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(tr("showWebInAppView"), maxLines: 3),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onChanged: (value) =>
+                                settingsProvider.showAppWebpage = value,
+                            value: settingsProvider.showAppWebpage,
+                          ),
+                        ),
                       ),
-                    ],
+                    ),
                   ),
-                  height16,
-                  Flex.horizontal(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible.loose(child: Text(tr('pinUpdates'))),
-                      Switch(
-                        value: settingsProvider.pinUpdates,
-                        onChanged: (value) {
-                          settingsProvider.pinUpdates = value;
-                        },
+                  const SizedBox(height: 2.0),
+                  _ListItemContainer(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.pinUpdates =
+                          !settingsProvider.pinUpdates,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(tr("pinUpdates"), maxLines: 3),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onChanged: (value) =>
+                                settingsProvider.pinUpdates = value,
+                            value: settingsProvider.pinUpdates,
+                          ),
+                        ),
                       ),
-                    ],
+                    ),
                   ),
-                  height16,
-                  Flex.horizontal(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible.loose(
-                        child: Text(tr('moveNonInstalledAppsToBottom')),
+                  const SizedBox(height: 2.0),
+                  _ListItemContainer(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.buryNonInstalled =
+                          !settingsProvider.buryNonInstalled,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(
+                          tr("moveNonInstalledAppsToBottom"),
+                          maxLines: 3,
+                        ),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onChanged: (value) =>
+                                settingsProvider.buryNonInstalled = value,
+                            value: settingsProvider.buryNonInstalled,
+                          ),
+                        ),
                       ),
-                      Switch(
-                        value: settingsProvider.buryNonInstalled,
-                        onChanged: (value) {
-                          settingsProvider.buryNonInstalled = value;
-                        },
-                      ),
-                    ],
+                    ),
                   ),
-                  height16,
-                  Flex.horizontal(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible.loose(child: Text(tr('groupByCategory'))),
-                      Switch(
-                        value: settingsProvider.groupByCategory,
-                        onChanged: (value) {
-                          settingsProvider.groupByCategory = value;
-                        },
+                  const SizedBox(height: 2.0),
+                  _ListItemContainer(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.groupByCategory =
+                          !settingsProvider.groupByCategory,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(tr("groupByCategory"), maxLines: 3),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onChanged: (value) =>
+                                settingsProvider.groupByCategory = value,
+                            value: settingsProvider.groupByCategory,
+                          ),
+                        ),
                       ),
-                    ],
+                    ),
                   ),
-                  height16,
-                  Flex.horizontal(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible.loose(
-                        child: Text(tr('dontShowTrackOnlyWarnings')),
+                  const SizedBox(height: 2.0),
+                  _ListItemContainer(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.hideTrackOnlyWarning =
+                          !settingsProvider.hideTrackOnlyWarning,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(
+                          tr("dontShowTrackOnlyWarnings"),
+                          maxLines: 3,
+                        ),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onChanged: (value) =>
+                                settingsProvider.hideTrackOnlyWarning = value,
+                            value: settingsProvider.hideTrackOnlyWarning,
+                          ),
+                        ),
                       ),
-                      Switch(
-                        value: settingsProvider.hideTrackOnlyWarning,
-                        onChanged: (value) {
-                          settingsProvider.hideTrackOnlyWarning = value;
-                        },
-                      ),
-                    ],
+                    ),
                   ),
-                  height16,
-                  Flex.horizontal(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible.loose(
-                        child: Text(tr('dontShowAPKOriginWarnings')),
+                  const SizedBox(height: 2.0),
+                  _ListItemContainer(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.hideAPKOriginWarning =
+                          !settingsProvider.hideAPKOriginWarning,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(
+                          tr("dontShowAPKOriginWarnings"),
+                          maxLines: 3,
+                        ),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onChanged: (value) =>
+                                settingsProvider.hideAPKOriginWarning = value,
+                            value: settingsProvider.hideAPKOriginWarning,
+                          ),
+                        ),
                       ),
-                      Switch(
-                        value: settingsProvider.hideAPKOriginWarning,
-                        onChanged: (value) {
-                          settingsProvider.hideAPKOriginWarning = value;
-                        },
-                      ),
-                    ],
+                    ),
                   ),
-                  height16,
-                  // TODO: uncomment when transitions are reintroduced
-                  // Flex.horizontal(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     Flexible.loose(child: Text(tr('disablePageTransitions'))),
-                  //     Switch(
-                  //       value: settingsProvider.disablePageTransitions,
-                  //       onChanged: (value) {
-                  //         settingsProvider.disablePageTransitions = value;
-                  //       },
-                  //     ),
-                  //   ],
-                  // ),
-                  // height16,
-                  // Flex.horizontal(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     Flexible.loose(child: Text(tr('reversePageTransitions'))),
-                  //     Switch(
-                  //       value: settingsProvider.reversePageTransitions,
-                  //       onChanged: settingsProvider.disablePageTransitions
-                  //           ? null
-                  //           : (value) {
-                  //               settingsProvider.reversePageTransitions =
-                  //                   value;
-                  //             },
-                  //     ),
-                  //   ],
-                  // ),
-                  // height16,
-                  Flex.horizontal(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible.loose(child: Text(tr('highlightTouchTargets'))),
-                      Switch(
-                        value: settingsProvider.highlightTouchTargets,
-                        onChanged: (value) {
-                          settingsProvider.highlightTouchTargets = value;
-                        },
+                  const SizedBox(height: 2.0),
+                  _ListItemContainer(
+                    isLast: true,
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.highlightTouchTargets =
+                          !settingsProvider.highlightTouchTargets,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(
+                          tr("highlightTouchTargets"),
+                          maxLines: 3,
+                        ),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onChanged: (value) =>
+                                settingsProvider.highlightTouchTargets = value,
+                            value: settingsProvider.highlightTouchTargets,
+                          ),
+                        ),
                       ),
-                    ],
+                    ),
                   ),
-                  height32,
-                  Text(
-                    tr('categories'),
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: ColorTheme.of(context).primary,
+                  const SizedBox(height: 12.0 + 8.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      tr("categories"),
+                      style: TypescaleTheme.of(context).labelLarge.toTextStyle(
+                        color: ColorTheme.of(context).onSurfaceVariant,
+                      ),
                     ),
                   ),
                   height16,
@@ -1267,6 +1472,40 @@ class _CategoryEditorSelectorState extends State<CategoryEditorSelector> {
           }
         }
       }),
+    );
+  }
+}
+
+class _ListItemContainer extends StatelessWidget {
+  const _ListItemContainer({
+    super.key,
+    this.isFirst = false,
+    this.isLast = false,
+    required this.child,
+  });
+
+  final bool isFirst;
+  final bool isLast;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final edgeCorner = shapeTheme.corner.largeIncreased;
+    final middleCorner = shapeTheme.corner.extraSmall;
+    return Material(
+      animationDuration: Duration.zero,
+      type: MaterialType.card,
+      clipBehavior: Clip.antiAlias,
+      color: colorTheme.surfaceBright,
+      shape: CornersBorder.rounded(
+        corners: Corners.vertical(
+          top: isFirst ? edgeCorner : middleCorner,
+          bottom: isLast ? edgeCorner : middleCorner,
+        ),
+      ),
+      child: child,
     );
   }
 }
