@@ -80,16 +80,32 @@ class CustomAppBar extends StatefulWidget {
   }
 
   static Animation<double>? maybeAnimationOf(BuildContext context) {
-    return _CustomAppBarScope.maybeOf(context)?.state._animation;
+    return _maybeStateOf(context)?._animation;
   }
 
   static Animation<double> animationOf(BuildContext context) {
-    return _CustomAppBarScope.of(context).state._animation;
+    return _stateOf(context)._animation;
   }
 
+  static final Animatable<double> _expandedOpacityAnimatable = Tween<double>(
+    begin: 1.0,
+    end: 0.0,
+  );
+  static final Animatable<double> _collapsedOpacityAnimatable = Tween<double>(
+    begin: 0.0,
+    end: 1.0,
+  ).chain(CurveTween(curve: const Cubic(0.8, 0.0, 0.8, 0.15)));
+
   static Animation<double> containerColorFractionAnimation(
-    Animation<double> animation,
-  ) => CurveTween(curve: _kFastOutLinearIn).animate(animation);
+    Animation<double> parent,
+  ) => CurveTween(curve: _kFastOutLinearIn).animate(parent);
+
+  static Animation<double> expandedOpacityAnimation(Animation<double> parent) =>
+      _expandedOpacityAnimatable.animate(parent);
+
+  static Animation<double> collapsedOpacityAnimation(
+    Animation<double> parent,
+  ) => _collapsedOpacityAnimatable.animate(parent);
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
@@ -457,22 +473,27 @@ class _CustomAppBarDuplicatingFlexibleSpace extends StatefulWidget {
 
 class _CustomAppBarDuplicatingFlexibleSpaceState
     extends State<_CustomAppBarDuplicatingFlexibleSpace> {
-  final Animatable<double> _collapsedOpacityTween = Tween<double>(
-    begin: 0.0,
-    end: 1.0,
-  ).chain(CurveTween(curve: const Cubic(0.8, 0.0, 0.8, 0.15)));
+  late _CustomAppBarState _state;
+  late Animation<double> _expandedOpacityAnimation;
+  late Animation<double> _collapsedOpacityAnimation;
 
-  final Animatable<double> _expandedOpacityTween = Tween<double>(
-    begin: 1.0,
-    end: 0.0,
-  );
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _state = CustomAppBar._stateOf(context);
+    _expandedOpacityAnimation = CustomAppBar.expandedOpacityAnimation(
+      _state._animation,
+    );
+    _collapsedOpacityAnimation = CustomAppBar.collapsedOpacityAnimation(
+      _state._animation,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final state = CustomAppBar._stateOf(context);
-    final Animation<double> animation = state._animation;
+    final Animation<double> animation = _state._animation;
 
-    final hangingHeight = state._expandedHeight - state._collapsedHeight;
+    final hangingHeight = _state._expandedHeight - _state._collapsedHeight;
 
     return AnimatedBuilder(
       animation: animation,
@@ -485,11 +506,11 @@ class _CustomAppBarDuplicatingFlexibleSpaceState
             ExcludeSemantics(
               excluding: hideCollapsedSemantics,
               child: SizedBox(
-                height: state._collapsedHeight,
+                height: _state._collapsedHeight,
                 child: Padding(
-                  padding: state._collapsedPadding,
+                  padding: _state._collapsedPadding,
                   child: Opacity(
-                    opacity: _collapsedOpacityTween.transform(animation.value),
+                    opacity: _collapsedOpacityAnimation.value,
                     child: Flex.vertical(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -500,19 +521,19 @@ class _CustomAppBarDuplicatingFlexibleSpaceState
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.start,
-                            style: state._collapsedTitleTextStyle,
+                            style: _state._collapsedTitleTextStyle,
                             child: collapsedTitle,
                           ),
                         if (widget.collapsedTitle != null &&
                             widget.collapsedSubtitle != null)
-                          SizedBox(height: state._collapsedTitleSubtitleSpace),
+                          SizedBox(height: _state._collapsedTitleSubtitleSpace),
                         if (widget.collapsedSubtitle
                             case final collapsedSubtitle?)
                           DefaultTextStyle(
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.start,
-                            style: state._collapsedSubtitleTextStyle,
+                            style: _state._collapsedSubtitleTextStyle,
                             child: collapsedSubtitle,
                           ),
                       ],
@@ -531,11 +552,9 @@ class _CustomAppBarDuplicatingFlexibleSpaceState
                     maxHeight: hangingHeight,
                     alignment: Alignment.bottomCenter,
                     child: Padding(
-                      padding: state._expandedPadding,
+                      padding: _state._expandedPadding,
                       child: Opacity(
-                        opacity: _expandedOpacityTween.transform(
-                          animation.value,
-                        ),
+                        opacity: _expandedOpacityAnimation.value,
                         child: Flex.vertical(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -546,13 +565,13 @@ class _CustomAppBarDuplicatingFlexibleSpaceState
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.start,
-                                style: state._expandedTitleTextStyle,
+                                style: _state._expandedTitleTextStyle,
                                 child: expandedTitle,
                               ),
                             if (widget.expandedTitle != null &&
                                 widget.expandedSubtitle != null)
                               SizedBox(
-                                height: state._expandedTitleSubtitleSpace,
+                                height: _state._expandedTitleSubtitleSpace,
                               ),
                             if (widget.expandedSubtitle
                                 case final expandedSubtitle?)
@@ -560,7 +579,7 @@ class _CustomAppBarDuplicatingFlexibleSpaceState
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.start,
-                                style: state._expandedSubtitleTextStyle,
+                                style: _state._expandedSubtitleTextStyle,
                                 child: expandedSubtitle,
                               ),
                           ],
