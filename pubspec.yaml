@@ -93,7 +93,7 @@ dependencies:
   flutter_charset_detector: ^5.0.0
 
   flutter_foreground_task: ^9.1.0
-  material_symbols_icons: ^4.2873.0
+  material_symbols_icons: ^4.2874.0
   gpt_markdown: ^1.1.4
   flutter_md: ^0.0.7
   flutter_markdown_plus: ^1.0.5
@@ -118,8 +118,6 @@ dev_dependencies:
 dependency_overrides:
   material_color_utilities: ^0.13.0
   meta: ^1.17.0
-  lints: ^6.0.0
-  flutter_lints: ^6.0.0
 
 flutter_launcher_icons:
   android: "ic_launcher"

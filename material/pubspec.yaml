@@ -21,7 +21,7 @@ dependencies:
     git: git@github.com:ksokolovskyi/material_shapes.git
   material_loading_indicator:
     git: git@github.com:ksokolovskyi/material_loading_indicator.git
-  material_symbols_icons: ^4.2873.0
+  material_symbols_icons: ^4.2874.0
   collection: ^1.19.1
   async: ^2.13.0
 
