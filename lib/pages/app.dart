@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:obtainium/components/custom_app_bar.dart';
 import 'package:obtainium/components/custom_decorated_sliver.dart';
+import 'package:obtainium/components/custom_list.dart';
 import 'package:obtainium/flutter.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:obtainium/components/generated_form_modal.dart';
@@ -399,6 +400,79 @@ class _AppPageState extends State<AppPage> {
                 ),
         ),
         const SizedBox(height: 24),
+        if (kDebugMode) ...[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: _ListItemContainer(
+              isFirst: true,
+              child: ListItemInkWell(
+                onTap: () {
+                  if (app?.app.url != null) {
+                    launchUrlString(
+                      app?.app.url ?? "",
+                      mode: LaunchMode.externalApplication,
+                    );
+                  }
+                },
+                onLongPress: () {
+                  Clipboard.setData(ClipboardData(text: app?.app.url ?? ''));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(tr("copiedToClipboard"))),
+                  );
+                },
+                child: ListItemLayout(
+                  isMultiline: true,
+                  leading: SizedBox.square(
+                    dimension: 40.0,
+                    child: Material(
+                      animationDuration: Duration.zero,
+                      type: MaterialType.card,
+                      clipBehavior: Clip.antiAlias,
+                      shape: CornersBorder.rounded(
+                        corners: Corners.all(
+                          ShapeTheme.of(context).corner.full,
+                        ),
+                      ),
+                      color: ColorTheme.of(context).primaryFixedDim,
+                      child: Icon(
+                        Symbols.link_rounded,
+                        color: ColorTheme.of(context).onPrimaryFixedVariant,
+                      ),
+                    ),
+                  ),
+                  headline: Text(app?.app.url ?? "", maxLines: 3),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 2.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: _ListItemContainer(
+              child: ListItemLayout(
+                isMultiline: true,
+                leading: SizedBox.square(
+                  dimension: 40.0,
+                  child: Material(
+                    animationDuration: Duration.zero,
+                    type: MaterialType.card,
+                    clipBehavior: Clip.antiAlias,
+                    shape: CornersBorder.rounded(
+                      corners: Corners.all(ShapeTheme.of(context).corner.full),
+                    ),
+                    color: ColorTheme.of(context).secondaryFixedDim,
+                    child: Icon(
+                      Symbols.package_2_rounded,
+                      fill: 1.0,
+                      color: ColorTheme.of(context).onSecondaryFixedVariant,
+                    ),
+                  ),
+                ),
+                headline: Text(app?.app.id ?? "", maxLines: 3),
+              ),
+            ),
+          ),
+        ],
         GestureDetector(
           onTap: () {
             if (app?.app.url != null) {
@@ -428,7 +502,7 @@ class _AppPageState extends State<AppPage> {
           style: TypescaleTheme.of(context).labelSmall.toTextStyle(),
         ),
         getInfoColumn(),
-        const SizedBox(height: 150),
+        const SizedBox(height: 16.0),
       ],
     );
 
