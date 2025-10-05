@@ -1906,9 +1906,10 @@ class AppsPageState extends State<AppsPage> {
               // if (!kDebugMode)
               CustomAppBar(
                 type: CustomAppBarType.largeFlexible,
+                behavior: CustomAppBarBehavior.duplicate,
                 expandedContainerColor: colorTheme.surfaceContainer,
                 collapsedContainerColor: colorTheme.surfaceContainer,
-                title: Text(tr('appsString')),
+                title: Text(tr("appsString")),
               ),
               // TODO: either finish CustomScrollbar3 or use nested_scroll_view_plus
               // ignore: dead_code

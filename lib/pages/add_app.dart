@@ -893,7 +893,8 @@ class AddAppPageState extends State<AddAppPage> {
         slivers: <Widget>[
           CustomAppBar(
             type: CustomAppBarType.largeFlexible,
-            title: Text(tr('addApp')),
+            behavior: CustomAppBarBehavior.duplicate,
+            title: Text(tr("addApp")),
           ),
           SliverToBoxAdapter(
             child: Padding(

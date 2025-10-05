@@ -457,7 +457,7 @@ class _SettingsPageState extends State<SettingsPage> {
             behavior: CustomAppBarBehavior.duplicate,
             expandedContainerColor: colorTheme.surfaceContainer,
             collapsedContainerColor: colorTheme.surfaceContainer,
-            title: Text(tr('settings')),
+            title: Text(tr("settings")),
             // subtitle: kDebugMode ? const Text("Debug mode") : null,
           ),
           SliverPadding(
