@@ -34,6 +34,11 @@ class _ImportExportPageState extends State<ImportExportPage> {
     final appsProvider = context.watch<AppsProvider>();
     final settingsProvider = context.watch<SettingsProvider>();
 
+    final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+
     void urlListImport({String? initValue, bool overrideInitValid = false}) {
       showDialog<Map<String, dynamic>?>(
         context: context,
@@ -360,8 +365,8 @@ class _ImportExportPageState extends State<ImportExportPage> {
 
     Widget getSliverAppBar() => CustomAppBar(
       type: CustomAppBarType.largeFlexible,
-      expandedContainerColor: ColorTheme.of(context).surfaceContainer,
-      collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
+      expandedContainerColor: colorTheme.surfaceContainer,
+      collapsedContainerColor: colorTheme.surfaceContainer,
       title: Text(tr('importExport')),
     );
 
@@ -377,26 +382,24 @@ class _ImportExportPageState extends State<ImportExportPage> {
       ),
       iconSize: const WidgetStatePropertyAll(20.0),
       shape: WidgetStatePropertyAll(
-        CornersBorder.rounded(
-          corners: Corners.all(ShapeTheme.of(context).corner.full),
-        ),
+        CornersBorder.rounded(corners: Corners.all(shapeTheme.corner.full)),
       ),
       overlayColor: WidgetStateLayerColor(
-        color: WidgetStatePropertyAll(ColorTheme.of(context).onSurfaceVariant),
-        opacity: StateTheme.of(context).stateLayerOpacity,
+        color: WidgetStatePropertyAll(colorTheme.onSurfaceVariant),
+        opacity: stateTheme.stateLayerOpacity,
       ),
       backgroundColor: WidgetStateProperty.resolveWith(
         (states) => states.contains(WidgetState.disabled)
-            ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
-            : ColorTheme.of(context).surfaceBright,
+            ? colorTheme.onSurface.withValues(alpha: 0.1)
+            : colorTheme.surfaceBright,
       ),
       foregroundColor: WidgetStateProperty.resolveWith(
         (states) => states.contains(WidgetState.disabled)
-            ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
-            : ColorTheme.of(context).onSurfaceVariant,
+            ? colorTheme.onSurface.withValues(alpha: 0.38)
+            : colorTheme.onSurfaceVariant,
       ),
       textStyle: WidgetStateProperty.resolveWith(
-        (states) => TypescaleTheme.of(context).labelLarge.toTextStyle(),
+        (states) => typescaleTheme.labelLarge.toTextStyle(),
       ),
     );
 
@@ -410,8 +413,8 @@ class _ImportExportPageState extends State<ImportExportPage> {
               tr("obtainiumExport"),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TypescaleTheme.of(context).labelLarge.toTextStyle(
-                color: ColorTheme.of(context).onSurfaceVariant,
+              style: typescaleTheme.labelLarge.toTextStyle(
+                color: colorTheme.onSurfaceVariant,
               ),
             ),
           ),
@@ -443,18 +446,16 @@ class _ImportExportPageState extends State<ImportExportPage> {
                       iconSize: const WidgetStatePropertyAll(24.0),
                       shape: WidgetStatePropertyAll(
                         CornersBorder.rounded(
-                          corners: Corners.all(
-                            ShapeTheme.of(context).corner.large,
-                          ),
+                          corners: Corners.all(shapeTheme.corner.large),
                         ),
                       ),
                       overlayColor: WidgetStateLayerColor(
                         color: WidgetStatePropertyAll(
                           hasExportDir
-                              ? ColorTheme.of(context).onSurfaceVariant
-                              : ColorTheme.of(context).onPrimary,
+                              ? colorTheme.onSurfaceVariant
+                              : colorTheme.onPrimary,
                         ),
-                        opacity: StateTheme.of(context).stateLayerOpacity,
+                        opacity: stateTheme.stateLayerOpacity,
                       ),
                       backgroundColor: WidgetStateProperty.resolveWith(
                         (states) => states.contains(WidgetState.disabled)
@@ -462,8 +463,8 @@ class _ImportExportPageState extends State<ImportExportPage> {
                                 context,
                               ).onSurface.withValues(alpha: 0.1)
                             : hasExportDir
-                            ? ColorTheme.of(context).surfaceBright
-                            : ColorTheme.of(context).primary,
+                            ? colorTheme.surfaceBright
+                            : colorTheme.primary,
                       ),
                       foregroundColor: WidgetStateProperty.resolveWith(
                         (states) => states.contains(WidgetState.disabled)
@@ -471,13 +472,13 @@ class _ImportExportPageState extends State<ImportExportPage> {
                                 context,
                               ).onSurface.withValues(alpha: 0.38)
                             : hasExportDir
-                            ? ColorTheme.of(context).onSurfaceVariant
-                            : ColorTheme.of(context).onPrimary,
+                            ? colorTheme.onSurfaceVariant
+                            : colorTheme.onPrimary,
                       ),
                       textStyle: WidgetStateProperty.resolveWith(
                         (states) =>
                             (hasExportDir
-                                    ? TypescaleTheme.of(context).titleMedium
+                                    ? typescaleTheme.titleMedium
                                     : TypescaleTheme.of(
                                         context,
                                       ).titleMediumEmphasized)
@@ -509,30 +510,26 @@ class _ImportExportPageState extends State<ImportExportPage> {
                       iconSize: const WidgetStatePropertyAll(24.0),
                       shape: WidgetStatePropertyAll(
                         CornersBorder.rounded(
-                          corners: Corners.all(
-                            ShapeTheme.of(context).corner.large,
-                          ),
+                          corners: Corners.all(shapeTheme.corner.large),
                         ),
                       ),
                       overlayColor: WidgetStateLayerColor(
-                        color: WidgetStatePropertyAll(
-                          ColorTheme.of(context).onPrimary,
-                        ),
-                        opacity: StateTheme.of(context).stateLayerOpacity,
+                        color: WidgetStatePropertyAll(colorTheme.onPrimary),
+                        opacity: stateTheme.stateLayerOpacity,
                       ),
                       backgroundColor: WidgetStateProperty.resolveWith(
                         (states) => states.contains(WidgetState.disabled)
                             ? ColorTheme.of(
                                 context,
                               ).onSurface.withValues(alpha: 0.1)
-                            : ColorTheme.of(context).primary,
+                            : colorTheme.primary,
                       ),
                       foregroundColor: WidgetStateProperty.resolveWith(
                         (states) => states.contains(WidgetState.disabled)
                             ? ColorTheme.of(
                                 context,
                               ).onSurface.withValues(alpha: 0.38)
-                            : ColorTheme.of(context).onPrimary,
+                            : colorTheme.onPrimary,
                       ),
                       textStyle: WidgetStateProperty.resolveWith(
                         (states) => TypescaleTheme.of(
@@ -601,8 +598,8 @@ class _ImportExportPageState extends State<ImportExportPage> {
               tr("obtainiumImport"),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TypescaleTheme.of(context).labelLarge.toTextStyle(
-                color: ColorTheme.of(context).onSurfaceVariant,
+              style: typescaleTheme.labelLarge.toTextStyle(
+                color: colorTheme.onSurfaceVariant,
               ),
             ),
           ),
@@ -621,22 +618,22 @@ class _ImportExportPageState extends State<ImportExportPage> {
               iconSize: const WidgetStatePropertyAll(24.0),
               shape: WidgetStatePropertyAll(
                 CornersBorder.rounded(
-                  corners: Corners.all(ShapeTheme.of(context).corner.large),
+                  corners: Corners.all(shapeTheme.corner.large),
                 ),
               ),
               overlayColor: WidgetStateLayerColor(
-                color: WidgetStatePropertyAll(ColorTheme.of(context).onPrimary),
-                opacity: StateTheme.of(context).stateLayerOpacity,
+                color: WidgetStatePropertyAll(colorTheme.onPrimary),
+                opacity: stateTheme.stateLayerOpacity,
               ),
               backgroundColor: WidgetStateProperty.resolveWith(
                 (states) => states.contains(WidgetState.disabled)
-                    ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
-                    : ColorTheme.of(context).primary,
+                    ? colorTheme.onSurface.withValues(alpha: 0.1)
+                    : colorTheme.primary,
               ),
               foregroundColor: WidgetStateProperty.resolveWith(
                 (states) => states.contains(WidgetState.disabled)
-                    ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
-                    : ColorTheme.of(context).onPrimary,
+                    ? colorTheme.onSurface.withValues(alpha: 0.38)
+                    : colorTheme.onPrimary,
               ),
               textStyle: WidgetStateProperty.resolveWith(
                 (states) => TypescaleTheme.of(
@@ -742,8 +739,8 @@ class _ImportExportPageState extends State<ImportExportPage> {
           Text(
             tr('importedAppsIdDisclaimer'),
             textAlign: TextAlign.start,
-            style: TypescaleTheme.of(context).bodyMedium.toTextStyle(
-              color: ColorTheme.of(context).onSurfaceVariant,
+            style: typescaleTheme.bodyMedium.toTextStyle(
+              color: colorTheme.onSurfaceVariant,
             ),
           ),
         ],
@@ -752,15 +749,15 @@ class _ImportExportPageState extends State<ImportExportPage> {
 
     final Decoration decoration = ShapeDecoration(
       shape: CornersBorder.rounded(
-        corners: Corners.all(ShapeTheme.of(context).corner.large),
+        corners: Corners.all(shapeTheme.corner.large),
       ),
-      color: ColorTheme.of(context).surfaceContainerLow,
+      color: colorTheme.surfaceContainerLow,
     );
 
     const bool kUseNestedScrollView = false;
 
     return Scaffold(
-      backgroundColor: ColorTheme.of(context).surfaceContainer,
+      backgroundColor: colorTheme.surfaceContainer,
       body: kUseNestedScrollView
           // ignore: dead_code
           ? NestedScrollViewPlus(
@@ -807,6 +804,7 @@ class ImportErrorDialog extends StatefulWidget {
 class _ImportErrorDialogState extends State<ImportErrorDialog> {
   @override
   Widget build(BuildContext context) {
+    final typescaleTheme = TypescaleTheme.of(context);
     return AlertDialog(
       scrollable: true,
       title: Text(tr('importErrors')),
@@ -821,12 +819,12 @@ class _ImportErrorDialogState extends State<ImportErrorDialog> {
                 widget.urlsLength.toString(),
               ],
             ),
-            style: TypescaleTheme.of(context).bodyLarge.toTextStyle(),
+            style: typescaleTheme.bodyLarge.toTextStyle(),
           ),
           const SizedBox(height: 16),
           Text(
             tr('followingURLsHadErrors'),
-            style: TypescaleTheme.of(context).bodyLarge.toTextStyle(),
+            style: typescaleTheme.bodyLarge.toTextStyle(),
           ),
           ...widget.errors.map((e) {
             return Flex.vertical(
