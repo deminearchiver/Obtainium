@@ -1,10 +1,15 @@
 import 'dart:math' as math;
 import 'dart:ui';
 
-import 'package:flutter/material.dart' as flutter;
+// import 'package:flutter/material.dart' as flutter;
 
 import 'package:material/src/deprecated_animation.dart';
 import 'package:material/src/flutter.dart';
+
+// typedef RadioLegacy = flutter.Radio;
+// typedef RadioThemeLegacy = flutter.RadioTheme;
+// typedef RadioThemeDataLegacy = flutter.RadioThemeData;
+// typedef RadioListTileLegacy = flutter.RadioListTile;
 
 class RadioButton extends StatefulWidget {
   const RadioButton({super.key, required this.onTap, required this.selected});
@@ -195,6 +200,8 @@ class _RadioButtonState extends State<RadioButton>
         label: null,
         checked: widget.selected,
         child: Align.center(
+          widthFactor: 1.0,
+          heightFactor: 1.0,
           child: Material(
             animationDuration: Duration.zero,
             type: MaterialType.transparency,
@@ -466,6 +473,317 @@ class _RenderAnimatedRadioButton extends RenderBox
       },
     );
   }
+}
+
+class RadioGroupButton<T extends Object?> extends StatefulWidget {
+  const RadioGroupButton({
+    super.key,
+    required this.value,
+    this.groupValue,
+    this.onChanged,
+    this.toggleable = false,
+    this.focusNode,
+    this.autofocus = false,
+    this.enabled,
+    this.groupRegistry,
+  });
+
+  /// {@macro flutter.widget.RawRadio.value}
+  final T value;
+
+  /// {@macro flutter.material.Radio.groupValue}
+  @Deprecated("Use a RadioGroup ancestor to manage group value instead.")
+  final T? groupValue;
+
+  /// {@macro flutter.material.Radio.onChanged}
+  /// Called when the user selects this radio button.
+  ///
+  /// The radio button passes [value] as a parameter to this callback. The radio
+  /// button does not actually change state until the parent widget rebuilds the
+  /// radio button with the new [groupValue].
+  ///
+  /// If null, the radio button will be displayed as disabled.
+  ///
+  /// The provided callback will not be invoked if this radio button is already
+  /// selected and [toggleable] is not set to true.
+  ///
+  /// If the [toggleable] is set to true, tapping a already selected radio will
+  /// invoke this callback with `null` as value.
+  ///
+  /// The callback provided to [onChanged] should update the state of the parent
+  /// [StatefulWidget] using the [State.setState] method, so that the parent
+  /// gets rebuilt.
+  ///
+  /// For example:
+  ///
+  /// ```dart
+  /// RadioGroupButton<SingingCharacter>(
+  ///   value: SingingCharacter.lafayette,
+  ///   groupValue: _character,
+  ///   onChanged: (SingingCharacter? newValue) {
+  ///     setState(() {
+  ///       _character = newValue;
+  ///     });
+  ///   },
+  /// )
+  /// ```
+  ///
+  /// This is deprecated, use [RadioGroup] to handle value change instead.
+  @Deprecated(
+    "Use RadioGroup to handle value change instead. "
+    "This feature was deprecated after v3.32.0-0.0.pre.",
+  )
+  final ValueChanged<T?>? onChanged;
+
+  /// {@macro flutter.widget.RawRadio.toggleable}
+  final bool toggleable;
+
+  /// {@macro flutter.widgets.Focus.focusNode}
+  final FocusNode? focusNode;
+
+  /// {@macro flutter.widgets.Focus.autofocus}
+  final bool autofocus;
+
+  /// Whether this widget is interactive.
+  ///
+  /// If not provided, this widget will be interactable if one of the following
+  /// is true:
+  ///
+  /// * Having a [RadioGroup] with the same type T above this widget.
+  /// * A [groupRegistry] is provided.
+  ///
+  /// If this is set to true, one of the above condition must also be true.
+  /// Otherwise, an assertion error is thrown.
+  final bool? enabled;
+
+  /// {@macro flutter.widget.RawRadio.groupRegistry}
+  ///
+  /// Unless provided, the [BuildContext] will be used to look up the ancestor
+  /// [RadioGroupRegistry].
+  final RadioGroupRegistry<T>? groupRegistry;
+
+  @override
+  State<RadioGroupButton<T>> createState() => _RadioGroupButtonState<T>();
+}
+
+class _RadioGroupButtonState<T extends Object?>
+    extends State<RadioGroupButton<T>> {
+  FocusNode? _internalFocusNode;
+  FocusNode get _focusNode =>
+      widget.focusNode ?? (_internalFocusNode ??= FocusNode());
+
+  bool get _enabled =>
+      widget.enabled ??
+      (widget.onChanged != null ||
+          widget.groupRegistry != null ||
+          RadioGroup.maybeOf<T>(context) != null);
+
+  _LegacyRadioGroupRegistry<T>? _internalRadioRegistry;
+  RadioGroupRegistry<T> get _effectiveRegistry {
+    if (widget.groupRegistry != null) {
+      return widget.groupRegistry!;
+    }
+
+    final RadioGroupRegistry<T>? inheritedRegistry = RadioGroup.maybeOf<T>(
+      context,
+    );
+    if (inheritedRegistry != null) {
+      return inheritedRegistry;
+    }
+
+    // Handles deprecated API.
+    return _internalRadioRegistry ??= _LegacyRadioGroupRegistry<T>(this);
+  }
+
+  @override
+  void dispose() {
+    _internalFocusNode?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    assert(
+      !(widget.enabled ?? false) ||
+          widget.onChanged != null ||
+          widget.groupRegistry != null ||
+          RadioGroup.maybeOf<T>(context) != null,
+      'Radio is enabled but has no Radio.onChange or registry above',
+    );
+
+    // TODO: remove this if not needed due to an internal transparent Material
+    assert(debugCheckHasMaterial(context));
+
+    return _RawRadio(
+      value: widget.value,
+      // mouseCursor: WidgetStateMouseCursor.clickable,
+      toggleable: widget.toggleable,
+      focusNode: _focusNode,
+      autofocus: widget.autofocus,
+      groupRegistry: _effectiveRegistry,
+      enabled: _enabled,
+      builder: (context, state) => RadioButton(
+        onTap: () => state.onChanged?.call(!state.value),
+        selected: state.value,
+      ),
+    );
+  }
+}
+
+class _RawRadio<T extends Object?> extends StatefulWidget {
+  /// Creates a radio button.
+  ///
+  /// If [enabled] is true, the [groupRegistry] must not be null.
+  const _RawRadio({
+    super.key,
+    required this.value,
+    // required this.mouseCursor,
+    required this.toggleable,
+    required this.focusNode,
+    required this.autofocus,
+    required this.groupRegistry,
+    required this.enabled,
+    required this.builder,
+  }) : assert(
+         !enabled || groupRegistry != null,
+         'an enabled raw radio must have a registry',
+       );
+
+  /// {@macro flutter.widget.RawRadio.value}
+  final T value;
+
+  // /// {@macro flutter.widget.RawRadio.mouseCursor}
+  // final WidgetStateProperty<MouseCursor> mouseCursor;
+
+  /// {@macro flutter.widget.RawRadio.toggleable}
+  final bool toggleable;
+
+  /// {@macro flutter.widgets.Focus.focusNode}
+  final FocusNode focusNode;
+
+  /// {@macro flutter.widgets.Focus.autofocus}
+  final bool autofocus;
+
+  /// The builder for the radio button visual.
+  ///
+  /// Use the input `state` to determine the current state of the radio.
+  ///
+  /// {@macro flutter.widgets.ToggleableStateMixin.buildToggleableWithChild}
+  final Widget Function(BuildContext context, _RawRadioState<T> state) builder;
+
+  /// Whether this widget is enabled.
+  final bool enabled;
+
+  /// {@macro flutter.widget.RawRadio.groupRegistry}
+  ///
+  /// {@macro flutter.widget.RawRadio.groupValue}
+  final RadioGroupRegistry<T>? groupRegistry;
+
+  @override
+  State<_RawRadio<T>> createState() => _RawRadioState<T>();
+}
+
+class _RawRadioState<T extends Object?> extends State<_RawRadio<T>>
+    with RadioClient<T> {
+  /// Handle selection status changed.
+  ///
+  /// if `selected` is false, nothing happens.
+  ///
+  /// if `selected` is true, select this radio. i.e. [Radio.onChanged] is called
+  /// with [Radio.value]. This also updates the group value in [RadioGroup] if it
+  /// is in use.
+  ///
+  /// if `selected` is null, unselect this radio. Same as `selected` is true
+  /// except group value is set to null.
+  void _handleChanged(bool? selected) {
+    assert(registry != null);
+    if (!(selected ?? true)) {
+      return;
+    }
+    if (selected ?? false) {
+      registry!.onChanged(widget.value);
+    } else {
+      registry!.onChanged(null);
+    }
+  }
+
+  @override
+  FocusNode get focusNode => widget.focusNode;
+
+  @override
+  T get radioValue => widget.value;
+
+  ValueChanged<bool?>? get onChanged =>
+      registry != null ? _handleChanged : null;
+
+  @override
+  bool get tristate => widget.toggleable;
+
+  bool get value => widget.value == registry?.groupValue;
+
+  bool get isInteractive => widget.enabled;
+
+  @override
+  void initState() {
+    super.initState();
+    // [ToggleableStateMixin] is not used so this could be below
+    // the init state
+    registry = widget.groupRegistry;
+  }
+
+  @override
+  void didUpdateWidget(covariant _RawRadio<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    registry = widget.groupRegistry;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // TODO: investigate why this is below dispose in the original implementation
+    registry = null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bool? accessibilitySelected;
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        accessibilitySelected = null;
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+        accessibilitySelected = value;
+    }
+    return Semantics(
+      inMutuallyExclusiveGroup: true,
+      checked: value,
+      selected: accessibilitySelected,
+      child: widget.builder(context, this),
+    );
+  }
+}
+
+/// A registry for deprecated API.
+// TODO(chunhtai): Remove this once deprecated API is removed.
+class _LegacyRadioGroupRegistry<T> extends RadioGroupRegistry<T> {
+  _LegacyRadioGroupRegistry(this.state);
+
+  final _RadioGroupButtonState<T> state;
+
+  @override
+  T? get groupValue => state.widget.groupValue;
+
+  @override
+  ValueChanged<T?> get onChanged => state.widget.onChanged!;
+
+  @override
+  void registerClient(RadioClient<T> radio) {}
+
+  @override
+  void unregisterClient(RadioClient<T> radio) {}
 }
 
 class _ValueListenable<T extends Object?> extends ValueListenable<T> {
