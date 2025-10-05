@@ -1064,7 +1064,7 @@ class _SelectionModalState extends State<SelectionModal> {
                       },
                       child: descriptionText,
                     ),
-              leading: Radio<String>(
+              leading: RadioGroupButton<String>(
                 value: entry.key,
                 groupValue: selectedEntries.isEmpty
                     ? null
@@ -1079,11 +1079,9 @@ class _SelectionModalState extends State<SelectionModal> {
 
             var multiSelectTile = Flex.horizontal(
               children: [
-                CheckboxLegacy(
-                  value: entrySelections[entry],
-                  onChanged: (value) {
-                    selectThis(value);
-                  },
+                Checkbox.biState(
+                  checked: entrySelections[entry]!,
+                  onCheckedChange: (value) => selectThis(value),
                 ),
                 const SizedBox(width: 8),
                 Flexible.tight(
