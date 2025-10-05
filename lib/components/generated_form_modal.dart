@@ -38,12 +38,16 @@ class _GeneratedFormModalState extends State<GeneratedFormModal> {
 
   @override
   Widget build(BuildContext context) {
+    final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
     return AlertDialog(
       scrollable: true,
       title: Text(
         widget.title,
-        style: TypescaleTheme.of(context).headlineSmallEmphasized.toTextStyle(
-          color: ColorTheme.of(context).onSurface,
+        style: typescaleTheme.headlineSmallEmphasized.toTextStyle(
+          color: colorTheme.onSurface,
         ),
       ),
       content: Flex.vertical(
@@ -90,25 +94,25 @@ class _GeneratedFormModalState extends State<GeneratedFormModal> {
             iconSize: const WidgetStatePropertyAll(20.0),
             shape: WidgetStatePropertyAll(
               CornersBorder.rounded(
-                corners: Corners.all(ShapeTheme.of(context).corner.full),
+                corners: Corners.all(shapeTheme.corner.full),
               ),
             ),
             overlayColor: WidgetStateLayerColor(
-              color: WidgetStatePropertyAll(ColorTheme.of(context).primary),
-              opacity: StateTheme.of(context).stateLayerOpacity,
+              color: WidgetStatePropertyAll(colorTheme.primary),
+              opacity: stateTheme.stateLayerOpacity,
             ),
             backgroundColor: WidgetStateProperty.resolveWith(
               (states) => states.contains(WidgetState.disabled)
-                  ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
+                  ? colorTheme.onSurface.withValues(alpha: 0.1)
                   : Colors.transparent,
             ),
             foregroundColor: WidgetStateProperty.resolveWith(
               (states) => states.contains(WidgetState.disabled)
-                  ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
-                  : ColorTheme.of(context).primary,
+                  ? colorTheme.onSurface.withValues(alpha: 0.38)
+                  : colorTheme.primary,
             ),
             textStyle: WidgetStateProperty.resolveWith(
-              (states) => TypescaleTheme.of(context).labelLarge.toTextStyle(),
+              (states) => typescaleTheme.labelLarge.toTextStyle(),
             ),
           ),
           child: Text(
@@ -148,25 +152,25 @@ class _GeneratedFormModalState extends State<GeneratedFormModal> {
               iconSize: const WidgetStatePropertyAll(20.0),
               shape: WidgetStatePropertyAll(
                 CornersBorder.rounded(
-                  corners: Corners.all(ShapeTheme.of(context).corner.full),
+                  corners: Corners.all(shapeTheme.corner.full),
                 ),
               ),
               overlayColor: WidgetStateLayerColor(
-                color: WidgetStatePropertyAll(ColorTheme.of(context).primary),
-                opacity: StateTheme.of(context).stateLayerOpacity,
+                color: WidgetStatePropertyAll(colorTheme.primary),
+                opacity: stateTheme.stateLayerOpacity,
               ),
               backgroundColor: WidgetStateProperty.resolveWith(
                 (states) => states.contains(WidgetState.disabled)
-                    ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
+                    ? colorTheme.onSurface.withValues(alpha: 0.1)
                     : Colors.transparent,
               ),
               foregroundColor: WidgetStateProperty.resolveWith(
                 (states) => states.contains(WidgetState.disabled)
-                    ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
-                    : ColorTheme.of(context).primary,
+                    ? colorTheme.onSurface.withValues(alpha: 0.38)
+                    : colorTheme.primary,
               ),
               textStyle: WidgetStateProperty.resolveWith(
-                (states) => TypescaleTheme.of(context).labelLarge.toTextStyle(),
+                (states) => typescaleTheme.labelLarge.toTextStyle(),
               ),
             ),
             child: Text(
