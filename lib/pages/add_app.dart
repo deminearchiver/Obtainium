@@ -104,6 +104,11 @@ class AddAppPageState extends State<AddAppPage> {
     NotificationsProvider notificationsProvider = context
         .read<NotificationsProvider>();
 
+    final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+
     bool doingSomething = gettingAppInfo || searching;
 
     Future<bool> getTrackOnlyConfirmationIfNeeded(
@@ -306,29 +311,29 @@ class AddAppPageState extends State<AddAppPage> {
               iconSize: const WidgetStatePropertyAll(24.0),
               shape: WidgetStatePropertyAll(
                 CornersBorder.rounded(
-                  corners: Corners.all(ShapeTheme.of(context).corner.full),
+                  corners: Corners.all(shapeTheme.corner.full),
                 ),
               ),
 
               overlayColor: WidgetStateLayerColor(
-                color: WidgetStatePropertyAll(ColorTheme.of(context).onPrimary),
-                opacity: StateTheme.of(context).stateLayerOpacity,
+                color: WidgetStatePropertyAll(colorTheme.onPrimary),
+                opacity: stateTheme.stateLayerOpacity,
               ),
               backgroundColor: WidgetStateProperty.resolveWith(
                 (states) => states.contains(WidgetState.disabled)
-                    ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
-                    : ColorTheme.of(context).primary,
+                    ? colorTheme.onSurface.withValues(alpha: 0.1)
+                    : colorTheme.primary,
               ),
               foregroundColor: WidgetStateProperty.resolveWith(
                 (states) => states.contains(WidgetState.disabled)
-                    ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
-                    : ColorTheme.of(context).onPrimary,
+                    ? colorTheme.onSurface.withValues(alpha: 0.38)
+                    : colorTheme.onPrimary,
               ),
               textStyle: WidgetStateProperty.resolveWith(
                 (states) =>
                     (states.contains(WidgetState.disabled)
-                            ? TypescaleTheme.of(context).titleMedium
-                            : TypescaleTheme.of(context).titleMediumEmphasized)
+                            ? typescaleTheme.titleMedium
+                            : typescaleTheme.titleMediumEmphasized)
                         .toTextStyle(),
               ),
             ),
@@ -634,29 +639,29 @@ class AddAppPageState extends State<AddAppPage> {
               iconSize: const WidgetStatePropertyAll(24.0),
               shape: WidgetStatePropertyAll(
                 CornersBorder.rounded(
-                  corners: Corners.all(ShapeTheme.of(context).corner.full),
+                  corners: Corners.all(shapeTheme.corner.full),
                 ),
               ),
 
               overlayColor: WidgetStateLayerColor(
-                color: WidgetStatePropertyAll(ColorTheme.of(context).onPrimary),
-                opacity: StateTheme.of(context).stateLayerOpacity,
+                color: WidgetStatePropertyAll(colorTheme.onPrimary),
+                opacity: stateTheme.stateLayerOpacity,
               ),
               backgroundColor: WidgetStateProperty.resolveWith(
                 (states) => states.contains(WidgetState.disabled)
-                    ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
-                    : ColorTheme.of(context).primary,
+                    ? colorTheme.onSurface.withValues(alpha: 0.1)
+                    : colorTheme.primary,
               ),
               foregroundColor: WidgetStateProperty.resolveWith(
                 (states) => states.contains(WidgetState.disabled)
-                    ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
-                    : ColorTheme.of(context).onPrimary,
+                    ? colorTheme.onSurface.withValues(alpha: 0.38)
+                    : colorTheme.onPrimary,
               ),
               textStyle: WidgetStateProperty.resolveWith(
                 (states) =>
                     (states.contains(WidgetState.disabled)
-                            ? TypescaleTheme.of(context).titleMedium
-                            : TypescaleTheme.of(context).titleMediumEmphasized)
+                            ? typescaleTheme.titleMedium
+                            : typescaleTheme.titleMediumEmphasized)
                         .toTextStyle(),
               ),
             ),
@@ -710,7 +715,7 @@ class AddAppPageState extends State<AddAppPage> {
         Text(
           tr('additionalOptsFor', args: [pickedSource?.name ?? tr('source')]),
           style: TextStyle(
-            color: ColorTheme.of(context).primary,
+            color: colorTheme.primary,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -886,7 +891,7 @@ class AddAppPageState extends State<AddAppPage> {
     );
 
     return Scaffold(
-      backgroundColor: ColorTheme.of(context).surface,
+      backgroundColor: colorTheme.surface,
       bottomNavigationBar: pickedSource == null ? getSourcesListWidget() : null,
       body: CustomScrollView(
         shrinkWrap: true,
