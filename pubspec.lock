@@ -1325,10 +1325,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_android
-      sha256: bd14436108211b0d4ee5038689a56d4ae3620fd72fd6036e113bf1345bc74d9e
+      sha256: "0b0f98d535319cb5cdd4f65783c2a54ee6d417a2f093dbb18be3e36e4c3d181f"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.13"
+    version: "2.4.14"
   shared_preferences_foundation:
     dependency: transitive
     description:
@@ -1436,26 +1436,26 @@ packages:
     dependency: transitive
     description:
       name: slang
-      sha256: b02c531f453c328a1343818c64d730357ac140860147c9a29030fdfc82039266
+      sha256: "47182d10ce284e232f25a02eb74a421a11e7eb6a6fab9ab84fd8182bb0761130"
       url: "https://pub.dev"
     source: hosted
-    version: "4.8.1"
+    version: "4.9.0"
   slang_build_runner:
     dependency: transitive
     description:
       name: slang_build_runner
-      sha256: c1cf6525aee9afa9411d689908e6638f2da0ad581ce59eb11132d5f976450c8c
+      sha256: "99b2f3c88f65c302fd604148b6ed567f59c944f1b5c87baa9ab8c3453b1038a6"
       url: "https://pub.dev"
     source: hosted
-    version: "4.8.1"
+    version: "4.9.0"
   slang_flutter:
     dependency: transitive
     description:
       name: slang_flutter
-      sha256: "7a5e55f2b1ec99e06354a5213b992d34017efacccba8ffc6066cfc5517cc0282"
+      sha256: "5ecf841d6252c05ea335920ec299bb7edbb860eb793eebb4b40f68b9d148a571"
       url: "https://pub.dev"
     source: hosted
-    version: "4.8.0"
+    version: "4.9.0"
   source_gen:
     dependency: transitive
     description:
@@ -1716,10 +1716,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_android
-      sha256: "199bc33e746088546a39cc5f36bac5a278c5e53b40cb3196f99e7345fdcfae6b"
+      sha256: c0fb544b9ac7efa10254efaf00a951615c362d1ea1877472f8f6c0fa00fcf15b
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.22"
+    version: "6.3.23"
   url_launcher_ios:
     dependency: transitive
     description:
@@ -1820,10 +1820,10 @@ packages:
     dependency: transitive
     description:
       name: watcher
-      sha256: "5bf046f41320ac97a469d506261797f35254fa61c641741ef32dacda98b7d39c"
+      sha256: "592ab6e2892f67760543fb712ff0177f4ec76c031f02f5b4ff8d3fc5eb9fb61a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.3"
+    version: "1.1.4"
   web:
     dependency: transitive
     description:
@@ -1876,10 +1876,10 @@ packages:
     dependency: transitive
     description:
       name: webview_flutter_android
-      sha256: "3c4eb4fcc252b40c2b5ce7be20d0481428b70f3ff589b0a8b8aaeb64c6bed701"
+      sha256: "21507ea5a326ceeba4d29dea19e37d92d53d9959cfc746317b9f9f7a57418d87"
       url: "https://pub.dev"
     source: hosted
-    version: "4.10.2"
+    version: "4.10.3"
   webview_flutter_platform_interface:
     dependency: transitive
     description:
