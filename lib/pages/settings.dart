@@ -101,6 +101,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     final settingsProvider = context.watch<SettingsProvider>();
     final sourceProvider = SourceProvider();
+
     initUpdateIntervalInterpolator();
     processIntervalSliderValue(settingsProvider.updateIntervalSliderVal);
 
@@ -450,876 +451,814 @@ class _SettingsPageState extends State<SettingsPage> {
         slivers: <Widget>[
           CustomAppBar(
             type: CustomAppBarType.largeFlexible,
+            behavior: CustomAppBarBehavior.duplicate,
             expandedContainerColor: ColorTheme.of(context).surfaceContainer,
             collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
             title: Text(tr('settings')),
             // subtitle: kDebugMode ? const Text("Debug mode") : null,
           ),
-          // if (kDebugMode)
-          //   const SliverToBoxAdapter(
-          //     child: Align.center(
-          //       child: SizedBox.square(
-          //         // dimension: 240.0,
-          //         child: CircularProgressIndicator(
-          //           // strokeWidth: 32.0,
-          //           // trackGap: 32.0,
-          //           value: null,
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // if (kDebugMode)
-          //   const SliverToBoxAdapter(
-          //     child: Align.center(
-          //       child: SizedBox(
-          //         width: 220.0,
-          //         child: LinearProgressIndicator(
-          //           // strokeWidth: 32.0,
-          //           // trackGap: 32.0,
-          //           minHeight: 16.0,
-          //           trackGap: 16.0,
-          //           borderRadius: BorderRadius.all(Radius.circular(8.0)),
-          //           value: null,
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // SliverPadding(
-          //   padding: EdgeInsets.symmetric(horizontal: 16.0),
-          //   sliver: SliverSettingsList(
-          //     items: [
-          //       SettingsListItem(
-          //         onTap: () {},
-          //         leading: const IconLegacy(Symbols.magic_button_rounded),
-          //         headline: Text("Use Material You"),
-          //         supportingText: Text("Use Dynamic color"),
-          //         trailing: Switch(onChanged: (value) {}, value: true),
-          //       ),
-          //       SettingsListItem(headline: Text("Hello world!")),
-          //       SettingsListItem(headline: Text("Hello world!")),
-          //     ],
-          //   ),
-          // ),
-          CustomDecoratedSliver(
-            position: DecorationPosition.background,
-            decoration: ShapeDecoration(
-              shape: CornersBorder.rounded(
-                corners: Corners.all(ShapeTheme.of(context).corner.large),
-              ),
-              color: ColorTheme.of(context).surfaceContainerLow,
-            ),
-            sliver: SliverPadding(
-              padding: const EdgeInsets.all(16),
-              sliver: SliverList.list(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      tr("updates"),
-                      style: TypescaleTheme.of(context).labelLarge.toTextStyle(
-                        color: ColorTheme.of(context).onSurfaceVariant,
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+            sliver: SliverList.list(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    tr("updates"),
+                    style: TypescaleTheme.of(context).labelLarge.toTextStyle(
+                      color: ColorTheme.of(context).onSurfaceVariant,
+                    ),
+                  ),
+                ),
+                height8,
+                _ListItemContainer(
+                  isFirst: true,
+                  child: Flex.vertical(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ListItemLayout(
+                        isMultiline: true,
+                        headline: Text(tr("bgUpdateCheckInterval")),
+                        supportingText: Visibility.maintain(
+                          visible: showIntervalLabel,
+                          child: Text(updateIntervalLabel, maxLines: 1),
+                        ),
                       ),
-                    ),
-                  ),
-                  height8,
-                  _ListItemContainer(
-                    isFirst: true,
-                    child: Flex.vertical(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        ListItemLayout(
-                          isMultiline: true,
-                          headline: Text(tr("bgUpdateCheckInterval")),
-                          supportingText: Visibility.maintain(
-                            visible: showIntervalLabel,
-                            child: Text(updateIntervalLabel, maxLines: 1),
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          0.0,
+                          16.0,
+                          12.0,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                            16.0,
-                            0.0,
-                            16.0,
-                            12.0,
-                          ),
-                          child: intervalSlider,
-                        ),
-                      ],
-                    ),
+                        child: intervalSlider,
+                      ),
+                    ],
                   ),
-                  FutureBuilder(
-                    builder: (ctx, val) {
-                      return (settingsProvider.updateInterval > 0) &&
-                              (((val.data?.version.sdkInt ?? 0) >= 30) ||
-                                  settingsProvider.useShizuku)
-                          ? Flex.vertical(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 2.0),
-                                _ListItemContainer(
-                                  child: ListItemInkWell(
-                                    onTap: () => settingsProvider.useFGService =
-                                        !settingsProvider.useFGService,
-                                    child: ListItemLayout(
-                                      isMultiline: true,
-                                      padding: const EdgeInsets.fromLTRB(
-                                        16.0,
-                                        12.0,
-                                        16.0 - 8.0,
-                                        12.0,
-                                      ),
-                                      headline: Text(
-                                        tr("foregroundServiceExplanation"),
-                                        maxLines: 3,
-                                      ),
-                                      trailing: ExcludeFocus(
-                                        child: Switch(
-                                          onChanged: (value) =>
-                                              settingsProvider.useFGService =
-                                                  value,
-                                          value: settingsProvider.useFGService,
-                                        ),
+                ),
+                FutureBuilder(
+                  builder: (ctx, val) {
+                    return (settingsProvider.updateInterval > 0) &&
+                            (((val.data?.version.sdkInt ?? 0) >= 30) ||
+                                settingsProvider.useShizuku)
+                        ? Flex.vertical(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 2.0),
+                              _ListItemContainer(
+                                child: ListItemInkWell(
+                                  onTap: () => settingsProvider.useFGService =
+                                      !settingsProvider.useFGService,
+                                  child: ListItemLayout(
+                                    isMultiline: true,
+                                    padding: const EdgeInsets.fromLTRB(
+                                      16.0,
+                                      12.0,
+                                      16.0 - 8.0,
+                                      12.0,
+                                    ),
+                                    headline: Text(
+                                      tr("foregroundServiceExplanation"),
+                                      maxLines: 3,
+                                    ),
+                                    trailing: ExcludeFocus(
+                                      child: Switch(
+                                        onChanged: (value) =>
+                                            settingsProvider.useFGService =
+                                                value,
+                                        value: settingsProvider.useFGService,
                                       ),
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 2.0),
-                                _ListItemContainer(
-                                  child: Flex.vertical(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      ListItemInkWell(
+                              ),
+                              const SizedBox(height: 2.0),
+                              _ListItemContainer(
+                                child: Flex.vertical(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ListItemInkWell(
+                                      onTap: () =>
+                                          settingsProvider
+                                                  .enableBackgroundUpdates =
+                                              !settingsProvider
+                                                  .enableBackgroundUpdates,
+                                      child: ListItemLayout(
+                                        isMultiline: false,
+                                        padding: const EdgeInsets.fromLTRB(
+                                          16.0,
+                                          8.0,
+                                          16.0 - 8.0,
+                                          8.0,
+                                        ),
+                                        headline: Text(
+                                          tr("enableBackgroundUpdates"),
+                                        ),
+                                        trailing: ExcludeFocus(
+                                          child: Switch(
+                                            onChanged: (value) =>
+                                                settingsProvider
+                                                        .enableBackgroundUpdates =
+                                                    value,
+                                            value: settingsProvider
+                                                .enableBackgroundUpdates,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        16.0,
+                                        0.0,
+                                        16.0,
+                                        12.0,
+                                      ),
+                                      child: DefaultTextStyle(
+                                        style: TypescaleTheme.of(context)
+                                            .bodyMedium
+                                            .toTextStyle(
+                                              color: ColorTheme.of(
+                                                context,
+                                              ).onSurfaceVariant,
+                                            ),
+                                        child: Flex.vertical(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          spacing: 8.0,
+                                          children: [
+                                            Text(
+                                              tr(
+                                                'backgroundUpdateReqsExplanation',
+                                              ),
+                                            ),
+                                            Text(
+                                              tr(
+                                                'backgroundUpdateLimitsExplanation',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              if (settingsProvider.enableBackgroundUpdates)
+                                Flex.vertical(
+                                  children: [
+                                    const SizedBox(height: 2.0),
+                                    _ListItemContainer(
+                                      child: ListItemInkWell(
                                         onTap: () =>
                                             settingsProvider
-                                                    .enableBackgroundUpdates =
+                                                    .bgUpdatesOnWiFiOnly =
                                                 !settingsProvider
-                                                    .enableBackgroundUpdates,
+                                                    .bgUpdatesOnWiFiOnly,
                                         child: ListItemLayout(
-                                          isMultiline: false,
+                                          isMultiline: true,
                                           padding: const EdgeInsets.fromLTRB(
                                             16.0,
-                                            8.0,
+                                            12.0,
                                             16.0 - 8.0,
-                                            8.0,
+                                            12.0,
                                           ),
                                           headline: Text(
-                                            tr("enableBackgroundUpdates"),
+                                            tr("bgUpdatesOnWiFiOnly"),
+                                            maxLines: 3,
                                           ),
                                           trailing: ExcludeFocus(
                                             child: Switch(
                                               onChanged: (value) =>
                                                   settingsProvider
-                                                          .enableBackgroundUpdates =
+                                                          .bgUpdatesOnWiFiOnly =
                                                       value,
                                               value: settingsProvider
-                                                  .enableBackgroundUpdates,
+                                                  .bgUpdatesOnWiFiOnly,
                                             ),
                                           ),
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                          16.0,
-                                          0.0,
-                                          16.0,
-                                          12.0,
-                                        ),
-                                        child: DefaultTextStyle(
-                                          style: TypescaleTheme.of(context)
-                                              .bodyMedium
-                                              .toTextStyle(
-                                                color: ColorTheme.of(
-                                                  context,
-                                                ).onSurfaceVariant,
-                                              ),
-                                          child: Flex.vertical(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            spacing: 8.0,
-                                            children: [
-                                              Text(
-                                                tr(
-                                                  'backgroundUpdateReqsExplanation',
-                                                ),
-                                              ),
-                                              Text(
-                                                tr(
-                                                  'backgroundUpdateLimitsExplanation',
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                if (settingsProvider.enableBackgroundUpdates)
-                                  Flex.vertical(
-                                    children: [
-                                      const SizedBox(height: 2.0),
-                                      _ListItemContainer(
-                                        child: ListItemInkWell(
-                                          onTap: () =>
-                                              settingsProvider
-                                                      .bgUpdatesOnWiFiOnly =
-                                                  !settingsProvider
-                                                      .bgUpdatesOnWiFiOnly,
-                                          child: ListItemLayout(
-                                            isMultiline: true,
-                                            padding: const EdgeInsets.fromLTRB(
-                                              16.0,
-                                              12.0,
-                                              16.0 - 8.0,
-                                              12.0,
-                                            ),
-                                            headline: Text(
-                                              tr("bgUpdatesOnWiFiOnly"),
-                                              maxLines: 3,
-                                            ),
-                                            trailing: ExcludeFocus(
-                                              child: Switch(
-                                                onChanged: (value) =>
-                                                    settingsProvider
-                                                            .bgUpdatesOnWiFiOnly =
-                                                        value,
-                                                value: settingsProvider
-                                                    .bgUpdatesOnWiFiOnly,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 2.0),
-                                      _ListItemContainer(
-                                        child: ListItemInkWell(
-                                          onTap: () =>
-                                              settingsProvider
-                                                      .bgUpdatesWhileChargingOnly =
-                                                  !settingsProvider
-                                                      .bgUpdatesWhileChargingOnly,
-                                          child: ListItemLayout(
-                                            isMultiline: true,
-                                            padding: const EdgeInsets.fromLTRB(
-                                              16.0,
-                                              12.0,
-                                              16.0 - 8.0,
-                                              12.0,
-                                            ),
-                                            headline: Text(
-                                              tr("bgUpdatesWhileChargingOnly"),
-                                              maxLines: 3,
-                                            ),
-                                            trailing: ExcludeFocus(
-                                              child: Switch(
-                                                onChanged: (value) =>
-                                                    settingsProvider
-                                                            .bgUpdatesWhileChargingOnly =
-                                                        value,
-                                                value: settingsProvider
+                                    ),
+                                    const SizedBox(height: 2.0),
+                                    _ListItemContainer(
+                                      child: ListItemInkWell(
+                                        onTap: () =>
+                                            settingsProvider
+                                                    .bgUpdatesWhileChargingOnly =
+                                                !settingsProvider
                                                     .bgUpdatesWhileChargingOnly,
-                                              ),
+                                        child: ListItemLayout(
+                                          isMultiline: true,
+                                          padding: const EdgeInsets.fromLTRB(
+                                            16.0,
+                                            12.0,
+                                            16.0 - 8.0,
+                                            12.0,
+                                          ),
+                                          headline: Text(
+                                            tr("bgUpdatesWhileChargingOnly"),
+                                            maxLines: 3,
+                                          ),
+                                          trailing: ExcludeFocus(
+                                            child: Switch(
+                                              onChanged: (value) =>
+                                                  settingsProvider
+                                                          .bgUpdatesWhileChargingOnly =
+                                                      value,
+                                              value: settingsProvider
+                                                  .bgUpdatesWhileChargingOnly,
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                              ],
-                            )
-                          : const SizedBox.shrink();
-                    },
-                    future: DeviceInfoPlugin().androidInfo,
-                  ),
-                  const SizedBox(height: 2.0),
-                  _ListItemContainer(
-                    child: ListItemInkWell(
-                      onTap: () => settingsProvider.checkOnStart =
-                          !settingsProvider.checkOnStart,
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          12.0,
-                          16.0 - 8.0,
-                          12.0,
-                        ),
-                        headline: Text(tr("checkOnStart"), maxLines: 3),
-                        trailing: ExcludeFocus(
-                          child: Switch(
-                            onChanged: (value) =>
-                                settingsProvider.checkOnStart = value,
-                            value: settingsProvider.checkOnStart,
-                          ),
+                                    ),
+                                  ],
+                                ),
+                            ],
+                          )
+                        : const SizedBox.shrink();
+                  },
+                  future: DeviceInfoPlugin().androidInfo,
+                ),
+                const SizedBox(height: 2.0),
+                _ListItemContainer(
+                  child: ListItemInkWell(
+                    onTap: () => settingsProvider.checkOnStart =
+                        !settingsProvider.checkOnStart,
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      padding: const EdgeInsets.fromLTRB(
+                        16.0,
+                        12.0,
+                        16.0 - 8.0,
+                        12.0,
+                      ),
+                      headline: Text(tr("checkOnStart"), maxLines: 3),
+                      trailing: ExcludeFocus(
+                        child: Switch(
+                          onChanged: (value) =>
+                              settingsProvider.checkOnStart = value,
+                          value: settingsProvider.checkOnStart,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 2.0),
-                  _ListItemContainer(
-                    child: ListItemInkWell(
-                      onTap: () => settingsProvider.checkUpdateOnDetailPage =
-                          !settingsProvider.checkUpdateOnDetailPage,
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          12.0,
-                          16.0 - 8.0,
-                          12.0,
-                        ),
-                        headline: Text(
-                          tr("checkUpdateOnDetailPage"),
-                          maxLines: 3,
-                        ),
-                        trailing: ExcludeFocus(
-                          child: Switch(
-                            onChanged: (value) =>
-                                settingsProvider.checkUpdateOnDetailPage =
-                                    value,
-                            value: settingsProvider.checkUpdateOnDetailPage,
-                          ),
+                ),
+                const SizedBox(height: 2.0),
+                _ListItemContainer(
+                  child: ListItemInkWell(
+                    onTap: () => settingsProvider.checkUpdateOnDetailPage =
+                        !settingsProvider.checkUpdateOnDetailPage,
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      padding: const EdgeInsets.fromLTRB(
+                        16.0,
+                        12.0,
+                        16.0 - 8.0,
+                        12.0,
+                      ),
+                      headline: Text(
+                        tr("checkUpdateOnDetailPage"),
+                        maxLines: 3,
+                      ),
+                      trailing: ExcludeFocus(
+                        child: Switch(
+                          onChanged: (value) =>
+                              settingsProvider.checkUpdateOnDetailPage = value,
+                          value: settingsProvider.checkUpdateOnDetailPage,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 2.0),
-                  _ListItemContainer(
-                    child: ListItemInkWell(
-                      onTap: () =>
-                          settingsProvider.onlyCheckInstalledOrTrackOnlyApps =
-                              !settingsProvider
-                                  .onlyCheckInstalledOrTrackOnlyApps,
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          12.0,
-                          16.0 - 8.0,
-                          12.0,
-                        ),
-                        headline: Text(
-                          tr("onlyCheckInstalledOrTrackOnlyApps"),
-                          maxLines: 3,
-                        ),
-                        trailing: ExcludeFocus(
-                          child: Switch(
-                            onChanged: (value) =>
-                                settingsProvider
-                                        .onlyCheckInstalledOrTrackOnlyApps =
-                                    value,
-                            value: settingsProvider
-                                .onlyCheckInstalledOrTrackOnlyApps,
-                          ),
-                        ),
+                ),
+                const SizedBox(height: 2.0),
+                _ListItemContainer(
+                  child: ListItemInkWell(
+                    onTap: () =>
+                        settingsProvider.onlyCheckInstalledOrTrackOnlyApps =
+                            !settingsProvider.onlyCheckInstalledOrTrackOnlyApps,
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      padding: const EdgeInsets.fromLTRB(
+                        16.0,
+                        12.0,
+                        16.0 - 8.0,
+                        12.0,
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 2.0),
-                  _ListItemContainer(
-                    child: ListItemInkWell(
-                      onTap: () => settingsProvider.removeOnExternalUninstall =
-                          !settingsProvider.removeOnExternalUninstall,
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          12.0,
-                          16.0 - 8.0,
-                          12.0,
-                        ),
-                        headline: Text(
-                          tr("removeOnExternalUninstall"),
-                          maxLines: 3,
-                        ),
-                        trailing: ExcludeFocus(
-                          child: Switch(
-                            onChanged: (value) =>
-                                settingsProvider.removeOnExternalUninstall =
-                                    value,
-                            value: settingsProvider.removeOnExternalUninstall,
-                          ),
-                        ),
+                      headline: Text(
+                        tr("onlyCheckInstalledOrTrackOnlyApps"),
+                        maxLines: 3,
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 2.0),
-                  _ListItemContainer(
-                    child: ListItemInkWell(
-                      onTap: () => settingsProvider.parallelDownloads =
-                          !settingsProvider.parallelDownloads,
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          12.0,
-                          16.0 - 8.0,
-                          12.0,
-                        ),
-                        headline: Text(tr("parallelDownloads"), maxLines: 3),
-                        trailing: ExcludeFocus(
-                          child: Switch(
-                            onChanged: (value) =>
-                                settingsProvider.parallelDownloads = value,
-                            value: settingsProvider.parallelDownloads,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 2.0),
-                  _ListItemContainer(
-                    child: Flex.vertical(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        ListItemInkWell(
-                          onTap: () =>
+                      trailing: ExcludeFocus(
+                        child: Switch(
+                          onChanged: (value) =>
                               settingsProvider
-                                      .beforeNewInstallsShareToAppVerifier =
-                                  !settingsProvider
-                                      .beforeNewInstallsShareToAppVerifier,
-                          child: ListItemLayout(
-                            isMultiline: true,
-                            padding: const EdgeInsets.fromLTRB(
-                              16.0,
-                              12.0,
-                              16.0 - 8.0,
-                              12.0,
-                            ),
-                            headline: Text(
-                              tr("beforeNewInstallsShareToAppVerifier"),
-                              maxLines: 3,
-                            ),
-                            trailing: ExcludeFocus(
-                              child: Switch(
-                                onChanged: (value) =>
-                                    settingsProvider
-                                            .beforeNewInstallsShareToAppVerifier =
-                                        value,
-                                value: settingsProvider
-                                    .beforeNewInstallsShareToAppVerifier,
-                              ),
-                            ),
-                          ),
-                        ),
-                        ListItemInkWell(
-                          onTap: () => launchUrlString(
-                            "https://github.com/soupslurpr/AppVerifier",
-                            mode: LaunchMode.externalApplication,
-                          ),
-                          child: ListItemLayout(
-                            leading: const Icon(Symbols.open_in_new_rounded),
-                            supportingText: Text(tr("about")),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 2.0),
-                  _ListItemContainer(
-                    child: ListItemInkWell(
-                      onTap: () =>
-                          onUseShizukuChanged(!settingsProvider.useShizuku),
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          12.0,
-                          16.0 - 8.0,
-                          12.0,
-                        ),
-                        headline: Text(tr("useShizuku"), maxLines: 3),
-                        trailing: ExcludeFocus(
-                          child: Switch(
-                            onChanged: onUseShizukuChanged,
-                            value: settingsProvider.useShizuku,
-                          ),
+                                      .onlyCheckInstalledOrTrackOnlyApps =
+                                  value,
+                          value: settingsProvider
+                              .onlyCheckInstalledOrTrackOnlyApps,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 2.0),
-                  _ListItemContainer(
-                    isLast: true,
-                    child: ListItemInkWell(
-                      onTap: () =>
-                          settingsProvider.shizukuPretendToBeGooglePlay =
-                              !settingsProvider.shizukuPretendToBeGooglePlay,
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          12.0,
-                          16.0 - 8.0,
-                          12.0,
-                        ),
-                        headline: Text(
-                          tr("shizukuPretendToBeGooglePlay"),
-                          maxLines: 3,
-                        ),
-                        trailing: ExcludeFocus(
-                          child: Switch(
-                            onChanged: (value) =>
-                                settingsProvider.shizukuPretendToBeGooglePlay =
-                                    value,
-                            value:
-                                settingsProvider.shizukuPretendToBeGooglePlay,
-                          ),
+                ),
+                const SizedBox(height: 2.0),
+                _ListItemContainer(
+                  child: ListItemInkWell(
+                    onTap: () => settingsProvider.removeOnExternalUninstall =
+                        !settingsProvider.removeOnExternalUninstall,
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      padding: const EdgeInsets.fromLTRB(
+                        16.0,
+                        12.0,
+                        16.0 - 8.0,
+                        12.0,
+                      ),
+                      headline: Text(
+                        tr("removeOnExternalUninstall"),
+                        maxLines: 3,
+                      ),
+                      trailing: ExcludeFocus(
+                        child: Switch(
+                          onChanged: (value) =>
+                              settingsProvider.removeOnExternalUninstall =
+                                  value,
+                          value: settingsProvider.removeOnExternalUninstall,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 12.0 + 8.0),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      tr("sourceSpecific"),
-                      style: TypescaleTheme.of(context).labelLarge.toTextStyle(
-                        color: ColorTheme.of(context).onSurfaceVariant,
+                ),
+                const SizedBox(height: 2.0),
+                _ListItemContainer(
+                  child: ListItemInkWell(
+                    onTap: () => settingsProvider.parallelDownloads =
+                        !settingsProvider.parallelDownloads,
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      padding: const EdgeInsets.fromLTRB(
+                        16.0,
+                        12.0,
+                        16.0 - 8.0,
+                        12.0,
+                      ),
+                      headline: Text(tr("parallelDownloads"), maxLines: 3),
+                      trailing: ExcludeFocus(
+                        child: Switch(
+                          onChanged: (value) =>
+                              settingsProvider.parallelDownloads = value,
+                          value: settingsProvider.parallelDownloads,
+                        ),
                       ),
                     ),
                   ),
-                  height8,
-                  ...sourceSpecificFields,
-                  const SizedBox(height: 12.0 + 8.0),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      tr("appearance"),
-                      style: TypescaleTheme.of(context).labelLarge.toTextStyle(
-                        color: ColorTheme.of(context).onSurfaceVariant,
-                      ),
-                    ),
-                  ),
-                  height8,
-                  DropdownMenuFormField<ThemeSettings>(
-                    expandedInsets: EdgeInsets.zero,
-                    inputDecorationTheme: const InputDecorationThemeData(
-                      border: UnderlineInputBorder(),
-                      filled: true,
-                    ),
-                    label: Text(tr("theme")),
-                    initialSelection: settingsProvider.theme,
-                    dropdownMenuEntries: [
-                      DropdownMenuEntry(
-                        value: ThemeSettings.system,
-                        label: tr("followSystem"),
-                      ),
-                      DropdownMenuEntry(
-                        value: ThemeSettings.light,
-                        label: tr("light"),
-                      ),
-                      DropdownMenuEntry(
-                        value: ThemeSettings.dark,
-                        label: tr("dark"),
-                      ),
-                    ],
-                    onSelected: (value) {
-                      if (value != null) {
-                        settingsProvider.theme = value;
-                      }
-                    },
-                  ),
-                  height8,
-                  if (settingsProvider.theme == ThemeSettings.system)
-                    followSystemThemeExplanation,
-                  height4,
-                  useMaterialThemeSwitch,
-                  height12,
-                  if (!settingsProvider.useMaterialYou) colorPicker,
-                  Flex.horizontal(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                ),
+                const SizedBox(height: 2.0),
+                _ListItemContainer(
+                  child: Flex.vertical(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Flexible.tight(child: sortDropdown),
-                      const SizedBox(width: 16),
-                      Flexible.tight(child: orderDropdown),
+                      ListItemInkWell(
+                        onTap: () =>
+                            settingsProvider
+                                    .beforeNewInstallsShareToAppVerifier =
+                                !settingsProvider
+                                    .beforeNewInstallsShareToAppVerifier,
+                        child: ListItemLayout(
+                          isMultiline: true,
+                          padding: const EdgeInsets.fromLTRB(
+                            16.0,
+                            12.0,
+                            16.0 - 8.0,
+                            12.0,
+                          ),
+                          headline: Text(
+                            tr("beforeNewInstallsShareToAppVerifier"),
+                            maxLines: 3,
+                          ),
+                          trailing: ExcludeFocus(
+                            child: Switch(
+                              onChanged: (value) =>
+                                  settingsProvider
+                                          .beforeNewInstallsShareToAppVerifier =
+                                      value,
+                              value: settingsProvider
+                                  .beforeNewInstallsShareToAppVerifier,
+                            ),
+                          ),
+                        ),
+                      ),
+                      ListItemInkWell(
+                        onTap: () => launchUrlString(
+                          "https://github.com/soupslurpr/AppVerifier",
+                          mode: LaunchMode.externalApplication,
+                        ),
+                        child: ListItemLayout(
+                          leading: const Icon(Symbols.open_in_new_rounded),
+                          supportingText: Text(tr("about")),
+                        ),
+                      ),
                     ],
                   ),
-                  height16,
-                  localeDropdown,
-                  height16,
-                  _ListItemContainer(
-                    isFirst: true,
-                    child: ListItemInkWell(
-                      onTap: () => settingsProvider.showAppWebpage =
-                          !settingsProvider.showAppWebpage,
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          12.0,
-                          16.0 - 8.0,
-                          12.0,
-                        ),
-                        headline: Text(tr("showWebInAppView"), maxLines: 3),
-                        trailing: ExcludeFocus(
-                          child: Switch(
-                            onChanged: (value) =>
-                                settingsProvider.showAppWebpage = value,
-                            value: settingsProvider.showAppWebpage,
-                          ),
+                ),
+                const SizedBox(height: 2.0),
+                _ListItemContainer(
+                  child: ListItemInkWell(
+                    onTap: () =>
+                        onUseShizukuChanged(!settingsProvider.useShizuku),
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      padding: const EdgeInsets.fromLTRB(
+                        16.0,
+                        12.0,
+                        16.0 - 8.0,
+                        12.0,
+                      ),
+                      headline: Text(tr("useShizuku"), maxLines: 3),
+                      trailing: ExcludeFocus(
+                        child: Switch(
+                          onChanged: onUseShizukuChanged,
+                          value: settingsProvider.useShizuku,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 2.0),
-                  _ListItemContainer(
-                    child: ListItemInkWell(
-                      onTap: () => settingsProvider.pinUpdates =
-                          !settingsProvider.pinUpdates,
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          12.0,
-                          16.0 - 8.0,
-                          12.0,
-                        ),
-                        headline: Text(tr("pinUpdates"), maxLines: 3),
-                        trailing: ExcludeFocus(
-                          child: Switch(
-                            onChanged: (value) =>
-                                settingsProvider.pinUpdates = value,
-                            value: settingsProvider.pinUpdates,
-                          ),
+                ),
+                const SizedBox(height: 2.0),
+                _ListItemContainer(
+                  isLast: true,
+                  child: ListItemInkWell(
+                    onTap: () => settingsProvider.shizukuPretendToBeGooglePlay =
+                        !settingsProvider.shizukuPretendToBeGooglePlay,
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      padding: const EdgeInsets.fromLTRB(
+                        16.0,
+                        12.0,
+                        16.0 - 8.0,
+                        12.0,
+                      ),
+                      headline: Text(
+                        tr("shizukuPretendToBeGooglePlay"),
+                        maxLines: 3,
+                      ),
+                      trailing: ExcludeFocus(
+                        child: Switch(
+                          onChanged: (value) =>
+                              settingsProvider.shizukuPretendToBeGooglePlay =
+                                  value,
+                          value: settingsProvider.shizukuPretendToBeGooglePlay,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 2.0),
-                  _ListItemContainer(
-                    child: ListItemInkWell(
-                      onTap: () => settingsProvider.buryNonInstalled =
-                          !settingsProvider.buryNonInstalled,
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          12.0,
-                          16.0 - 8.0,
-                          12.0,
-                        ),
-                        headline: Text(
-                          tr("moveNonInstalledAppsToBottom"),
-                          maxLines: 3,
-                        ),
-                        trailing: ExcludeFocus(
-                          child: Switch(
-                            onChanged: (value) =>
-                                settingsProvider.buryNonInstalled = value,
-                            value: settingsProvider.buryNonInstalled,
-                          ),
+                ),
+                const SizedBox(height: 12.0 + 8.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    tr("sourceSpecific"),
+                    style: TypescaleTheme.of(context).labelLarge.toTextStyle(
+                      color: ColorTheme.of(context).onSurfaceVariant,
+                    ),
+                  ),
+                ),
+                height8,
+                ...sourceSpecificFields,
+                const SizedBox(height: 12.0 + 8.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    tr("appearance"),
+                    style: TypescaleTheme.of(context).labelLarge.toTextStyle(
+                      color: ColorTheme.of(context).onSurfaceVariant,
+                    ),
+                  ),
+                ),
+                height8,
+                DropdownMenuFormField<ThemeSettings>(
+                  expandedInsets: EdgeInsets.zero,
+                  inputDecorationTheme: const InputDecorationThemeData(
+                    border: UnderlineInputBorder(),
+                    filled: true,
+                  ),
+                  label: Text(tr("theme")),
+                  initialSelection: settingsProvider.theme,
+                  dropdownMenuEntries: [
+                    DropdownMenuEntry(
+                      value: ThemeSettings.system,
+                      label: tr("followSystem"),
+                    ),
+                    DropdownMenuEntry(
+                      value: ThemeSettings.light,
+                      label: tr("light"),
+                    ),
+                    DropdownMenuEntry(
+                      value: ThemeSettings.dark,
+                      label: tr("dark"),
+                    ),
+                  ],
+                  onSelected: (value) {
+                    if (value != null) {
+                      settingsProvider.theme = value;
+                    }
+                  },
+                ),
+                height8,
+                if (settingsProvider.theme == ThemeSettings.system)
+                  followSystemThemeExplanation,
+                height4,
+                useMaterialThemeSwitch,
+                height12,
+                if (!settingsProvider.useMaterialYou) colorPicker,
+                Flex.horizontal(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Flexible.tight(child: sortDropdown),
+                    const SizedBox(width: 16),
+                    Flexible.tight(child: orderDropdown),
+                  ],
+                ),
+                height16,
+                localeDropdown,
+                height16,
+                _ListItemContainer(
+                  isFirst: true,
+                  child: ListItemInkWell(
+                    onTap: () => settingsProvider.showAppWebpage =
+                        !settingsProvider.showAppWebpage,
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      padding: const EdgeInsets.fromLTRB(
+                        16.0,
+                        12.0,
+                        16.0 - 8.0,
+                        12.0,
+                      ),
+                      headline: Text(tr("showWebInAppView"), maxLines: 3),
+                      trailing: ExcludeFocus(
+                        child: Switch(
+                          onChanged: (value) =>
+                              settingsProvider.showAppWebpage = value,
+                          value: settingsProvider.showAppWebpage,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 2.0),
-                  _ListItemContainer(
-                    child: ListItemInkWell(
-                      onTap: () => settingsProvider.groupByCategory =
-                          !settingsProvider.groupByCategory,
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          12.0,
-                          16.0 - 8.0,
-                          12.0,
-                        ),
-                        headline: Text(tr("groupByCategory"), maxLines: 3),
-                        trailing: ExcludeFocus(
-                          child: Switch(
-                            onChanged: (value) =>
-                                settingsProvider.groupByCategory = value,
-                            value: settingsProvider.groupByCategory,
-                          ),
-                        ),
+                ),
+                const SizedBox(height: 2.0),
+                _ListItemContainer(
+                  child: ListItemInkWell(
+                    onTap: () => settingsProvider.pinUpdates =
+                        !settingsProvider.pinUpdates,
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      padding: const EdgeInsets.fromLTRB(
+                        16.0,
+                        12.0,
+                        16.0 - 8.0,
+                        12.0,
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 2.0),
-                  _ListItemContainer(
-                    child: ListItemInkWell(
-                      onTap: () => settingsProvider.hideTrackOnlyWarning =
-                          !settingsProvider.hideTrackOnlyWarning,
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          12.0,
-                          16.0 - 8.0,
-                          12.0,
-                        ),
-                        headline: Text(
-                          tr("dontShowTrackOnlyWarnings"),
-                          maxLines: 3,
-                        ),
-                        trailing: ExcludeFocus(
-                          child: Switch(
-                            onChanged: (value) =>
-                                settingsProvider.hideTrackOnlyWarning = value,
-                            value: settingsProvider.hideTrackOnlyWarning,
-                          ),
+                      headline: Text(tr("pinUpdates"), maxLines: 3),
+                      trailing: ExcludeFocus(
+                        child: Switch(
+                          onChanged: (value) =>
+                              settingsProvider.pinUpdates = value,
+                          value: settingsProvider.pinUpdates,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 2.0),
-                  _ListItemContainer(
-                    child: ListItemInkWell(
-                      onTap: () => settingsProvider.hideAPKOriginWarning =
-                          !settingsProvider.hideAPKOriginWarning,
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          12.0,
-                          16.0 - 8.0,
-                          12.0,
-                        ),
-                        headline: Text(
-                          tr("dontShowAPKOriginWarnings"),
-                          maxLines: 3,
-                        ),
-                        trailing: ExcludeFocus(
-                          child: Switch(
-                            onChanged: (value) =>
-                                settingsProvider.hideAPKOriginWarning = value,
-                            value: settingsProvider.hideAPKOriginWarning,
-                          ),
-                        ),
+                ),
+                const SizedBox(height: 2.0),
+                _ListItemContainer(
+                  child: ListItemInkWell(
+                    onTap: () => settingsProvider.buryNonInstalled =
+                        !settingsProvider.buryNonInstalled,
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      padding: const EdgeInsets.fromLTRB(
+                        16.0,
+                        12.0,
+                        16.0 - 8.0,
+                        12.0,
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 2.0),
-                  _ListItemContainer(
-                    isLast: true,
-                    child: ListItemInkWell(
-                      onTap: () => settingsProvider.highlightTouchTargets =
-                          !settingsProvider.highlightTouchTargets,
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          12.0,
-                          16.0 - 8.0,
-                          12.0,
-                        ),
-                        headline: Text(
-                          tr("highlightTouchTargets"),
-                          maxLines: 3,
-                        ),
-                        trailing: ExcludeFocus(
-                          child: Switch(
-                            onChanged: (value) =>
-                                settingsProvider.highlightTouchTargets = value,
-                            value: settingsProvider.highlightTouchTargets,
-                          ),
+                      headline: Text(
+                        tr("moveNonInstalledAppsToBottom"),
+                        maxLines: 3,
+                      ),
+                      trailing: ExcludeFocus(
+                        child: Switch(
+                          onChanged: (value) =>
+                              settingsProvider.buryNonInstalled = value,
+                          value: settingsProvider.buryNonInstalled,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 12.0 + 8.0),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      tr("categories"),
-                      style: TypescaleTheme.of(context).labelLarge.toTextStyle(
-                        color: ColorTheme.of(context).onSurfaceVariant,
+                ),
+                const SizedBox(height: 2.0),
+                _ListItemContainer(
+                  child: ListItemInkWell(
+                    onTap: () => settingsProvider.groupByCategory =
+                        !settingsProvider.groupByCategory,
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      padding: const EdgeInsets.fromLTRB(
+                        16.0,
+                        12.0,
+                        16.0 - 8.0,
+                        12.0,
                       ),
-                    ),
-                  ),
-                  height16,
-                  const CategoryEditorSelector(showLabelWhenNotEmpty: false),
-                  height16,
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      tr("about"),
-                      style: TypescaleTheme.of(context).labelLarge.toTextStyle(
-                        color: ColorTheme.of(context).onSurfaceVariant,
-                      ),
-                    ),
-                  ),
-                  height8,
-                  _ListItemContainer(
-                    isFirst: true,
-                    child: ListItemInkWell(
-                      onTap: () => launchUrlString(
-                        SettingsProvider.sourceUrl,
-                        mode: LaunchMode.externalApplication,
-                      ),
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        leading: const Icon(Symbols.code_rounded),
-                        headline: Text(tr("appSource"), maxLines: 3),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 2.0),
-                  _ListItemContainer(
-                    child: ListItemInkWell(
-                      onTap: () => launchUrlString(
-                        "https://wiki.obtainium.imranr.dev/",
-                        mode: LaunchMode.externalApplication,
-                      ),
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        leading: const Icon(Symbols.help_rounded, fill: 1.0),
-                        headline: Text(tr("wiki"), maxLines: 3),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 2.0),
-                  _ListItemContainer(
-                    child: ListItemInkWell(
-                      onTap: () => launchUrlString(
-                        "https://apps.obtainium.imranr.dev/",
-                        mode: LaunchMode.externalApplication,
-                      ),
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        leading: const Icon(Symbols.apps_rounded),
-                        headline: Text(
-                          tr("crowdsourcedConfigsLabel"),
-                          maxLines: 3,
+                      headline: Text(tr("groupByCategory"), maxLines: 3),
+                      trailing: ExcludeFocus(
+                        child: Switch(
+                          onChanged: (value) =>
+                              settingsProvider.groupByCategory = value,
+                          value: settingsProvider.groupByCategory,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 2.0),
-                  _ListItemContainer(
-                    isLast: true,
-                    child: ListItemInkWell(
-                      onTap: () => context.read<LogsProvider>().get().then((
-                        logs,
-                      ) {
-                        if (!context.mounted) return;
-                        if (logs.isEmpty) {
-                          showMessage(ObtainiumError(tr('noLogs')), context);
-                        } else {
-                          showDialog(
-                            context: context,
-                            builder: (ctx) {
-                              return const LogsDialog();
-                            },
-                          );
-                        }
-                      }),
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        leading: const Icon(
-                          Symbols.bug_report_rounded,
-                          fill: 1.0,
+                ),
+                const SizedBox(height: 2.0),
+                _ListItemContainer(
+                  child: ListItemInkWell(
+                    onTap: () => settingsProvider.hideTrackOnlyWarning =
+                        !settingsProvider.hideTrackOnlyWarning,
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      padding: const EdgeInsets.fromLTRB(
+                        16.0,
+                        12.0,
+                        16.0 - 8.0,
+                        12.0,
+                      ),
+                      headline: Text(
+                        tr("dontShowTrackOnlyWarnings"),
+                        maxLines: 3,
+                      ),
+                      trailing: ExcludeFocus(
+                        child: Switch(
+                          onChanged: (value) =>
+                              settingsProvider.hideTrackOnlyWarning = value,
+                          value: settingsProvider.hideTrackOnlyWarning,
                         ),
-                        headline: Text(tr("appLogs"), maxLines: 3),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 2.0),
+                _ListItemContainer(
+                  child: ListItemInkWell(
+                    onTap: () => settingsProvider.hideAPKOriginWarning =
+                        !settingsProvider.hideAPKOriginWarning,
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      padding: const EdgeInsets.fromLTRB(
+                        16.0,
+                        12.0,
+                        16.0 - 8.0,
+                        12.0,
+                      ),
+                      headline: Text(
+                        tr("dontShowAPKOriginWarnings"),
+                        maxLines: 3,
+                      ),
+                      trailing: ExcludeFocus(
+                        child: Switch(
+                          onChanged: (value) =>
+                              settingsProvider.hideAPKOriginWarning = value,
+                          value: settingsProvider.hideAPKOriginWarning,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 2.0),
+                _ListItemContainer(
+                  isLast: true,
+                  child: ListItemInkWell(
+                    onTap: () => settingsProvider.highlightTouchTargets =
+                        !settingsProvider.highlightTouchTargets,
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      padding: const EdgeInsets.fromLTRB(
+                        16.0,
+                        12.0,
+                        16.0 - 8.0,
+                        12.0,
+                      ),
+                      headline: Text(tr("highlightTouchTargets"), maxLines: 3),
+                      trailing: ExcludeFocus(
+                        child: Switch(
+                          onChanged: (value) =>
+                              settingsProvider.highlightTouchTargets = value,
+                          value: settingsProvider.highlightTouchTargets,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12.0 + 8.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    tr("categories"),
+                    style: TypescaleTheme.of(context).labelLarge.toTextStyle(
+                      color: ColorTheme.of(context).onSurfaceVariant,
+                    ),
+                  ),
+                ),
+                height16,
+                const CategoryEditorSelector(showLabelWhenNotEmpty: false),
+                height16,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    tr("about"),
+                    style: TypescaleTheme.of(context).labelLarge.toTextStyle(
+                      color: ColorTheme.of(context).onSurfaceVariant,
+                    ),
+                  ),
+                ),
+                height8,
+                _ListItemContainer(
+                  isFirst: true,
+                  child: ListItemInkWell(
+                    onTap: () => launchUrlString(
+                      SettingsProvider.sourceUrl,
+                      mode: LaunchMode.externalApplication,
+                    ),
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      leading: const Icon(Symbols.code_rounded),
+                      headline: Text(tr("appSource"), maxLines: 3),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 2.0),
+                _ListItemContainer(
+                  child: ListItemInkWell(
+                    onTap: () => launchUrlString(
+                      "https://wiki.obtainium.imranr.dev/",
+                      mode: LaunchMode.externalApplication,
+                    ),
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      leading: const Icon(Symbols.help_rounded, fill: 1.0),
+                      headline: Text(tr("wiki"), maxLines: 3),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 2.0),
+                _ListItemContainer(
+                  child: ListItemInkWell(
+                    onTap: () => launchUrlString(
+                      "https://apps.obtainium.imranr.dev/",
+                      mode: LaunchMode.externalApplication,
+                    ),
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      leading: const Icon(Symbols.apps_rounded),
+                      headline: Text(
+                        tr("crowdsourcedConfigsLabel"),
+                        maxLines: 3,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 2.0),
+                _ListItemContainer(
+                  isLast: true,
+                  child: ListItemInkWell(
+                    onTap: () =>
+                        context.read<LogsProvider>().get().then((logs) {
+                          if (!context.mounted) return;
+                          if (logs.isEmpty) {
+                            showMessage(ObtainiumError(tr('noLogs')), context);
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (ctx) {
+                                return const LogsDialog();
+                              },
+                            );
+                          }
+                        }),
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      leading: const Icon(
+                        Symbols.bug_report_rounded,
+                        fill: 1.0,
+                      ),
+                      headline: Text(tr("appLogs"), maxLines: 3),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
