@@ -871,7 +871,7 @@ class _AppPageState extends State<AppPage> {
                                 ? ColorTheme.of(
                                     context,
                                   ).onSurface.withValues(alpha: 0.1)
-                                : ColorTheme.of(context).surfaceContainerLow,
+                                : ColorTheme.of(context).surfaceContainerHigh,
                           ),
                           iconColor: WidgetStateProperty.resolveWith(
                             (states) => states.contains(WidgetState.disabled)
@@ -885,19 +885,8 @@ class _AppPageState extends State<AppPage> {
                       ),
                     ),
                   ),
-                  CustomDecoratedSliver(
-                    position: DecorationPosition.background,
-                    decoration: ShapeDecoration(
-                      shape: CornersBorder.rounded(
-                        corners: Corners.all(
-                          ShapeTheme.of(context).corner.large,
-                        ),
-                      ),
-                      color: ColorTheme.of(context).surfaceContainerLow,
-                    ),
-                    sliver: SliverToBoxAdapter(
-                      child: Flex.vertical(children: [getFullInfoColumn()]),
-                    ),
+                  SliverToBoxAdapter(
+                    child: Flex.vertical(children: [getFullInfoColumn()]),
                   ),
                 ],
               ),
@@ -912,7 +901,7 @@ class _AppPageState extends State<AppPage> {
           shape: CornersBorder.rounded(
             corners: Corners.all(ShapeTheme.of(context).corner.none),
           ),
-          color: ColorTheme.of(context).surfaceContainer,
+          color: ColorTheme.of(context).surfaceContainerHigh,
           child: Padding(
             padding: EdgeInsets.only(
               bottom: MediaQuery.paddingOf(context).bottom,

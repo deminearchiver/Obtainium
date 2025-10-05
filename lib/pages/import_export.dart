@@ -405,7 +405,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
     );
 
     Widget getSliverList() => SliverPadding(
-      padding: const EdgeInsets.fromLTRB(16.0, 16.0 - 8.0, 16.0, 16.0),
+      padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
       sliver: SliverList.list(
         children: [
           Padding(
@@ -748,42 +748,9 @@ class _ImportExportPageState extends State<ImportExportPage> {
       ),
     );
 
-    final Decoration decoration = ShapeDecoration(
-      shape: CornersBorder.rounded(
-        corners: Corners.all(shapeTheme.corner.large),
-      ),
-      color: colorTheme.surfaceContainerLow,
-    );
-
-    const bool kUseNestedScrollView = false;
-
     return Scaffold(
       backgroundColor: colorTheme.surfaceContainer,
-      body: kUseNestedScrollView
-          // ignore: dead_code
-          ? NestedScrollViewPlus(
-              overscrollBehavior: OverscrollBehavior.outer,
-              scrollBehavior: ScrollConfiguration.of(context),
-              headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                getSliverAppBar(),
-              ],
-              body: DecoratedBox(
-                position: DecorationPosition.background,
-                decoration: decoration,
-                child: CustomScrollView(slivers: [getSliverList()]),
-              ),
-            )
-          // ignore: dead_code
-          : CustomScrollView(
-              slivers: [
-                getSliverAppBar(),
-                CustomDecoratedSliver(
-                  position: DecorationPosition.background,
-                  decoration: decoration,
-                  sliver: getSliverList(),
-                ),
-              ],
-            ),
+      body: CustomScrollView(slivers: [getSliverAppBar(), getSliverList()]),
     );
   }
 }

@@ -863,10 +863,10 @@ class AddAppPageState extends State<AddAppPage> {
             },
             child: Text(
               tr('supportedSources'),
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
+              style: typescaleTheme.labelLarge.toTextStyle().copyWith(
+                color: colorTheme.tertiary,
                 decoration: TextDecoration.underline,
-                fontStyle: FontStyle.italic,
+                decorationColor: colorTheme.tertiary,
               ),
             ),
           ),
@@ -879,10 +879,10 @@ class AddAppPageState extends State<AddAppPage> {
             },
             child: Text(
               tr('crowdsourcedConfigsShort'),
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
+              style: typescaleTheme.labelLarge.toTextStyle().copyWith(
+                color: colorTheme.tertiary,
                 decoration: TextDecoration.underline,
-                fontStyle: FontStyle.italic,
+                decorationColor: colorTheme.tertiary,
               ),
             ),
           ),
@@ -891,7 +891,7 @@ class AddAppPageState extends State<AddAppPage> {
     );
 
     return Scaffold(
-      backgroundColor: colorTheme.surface,
+      backgroundColor: colorTheme.surfaceContainer,
       bottomNavigationBar: pickedSource == null ? getSourcesListWidget() : null,
       body: CustomScrollView(
         shrinkWrap: true,
@@ -899,6 +899,8 @@ class AddAppPageState extends State<AddAppPage> {
           CustomAppBar(
             type: CustomAppBarType.largeFlexible,
             behavior: CustomAppBarBehavior.duplicate,
+            expandedContainerColor: colorTheme.surfaceContainer,
+            collapsedContainerColor: colorTheme.surfaceContainer,
             title: Text(tr("addApp")),
           ),
           SliverToBoxAdapter(

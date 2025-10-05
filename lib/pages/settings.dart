@@ -461,7 +461,7 @@ class _SettingsPageState extends State<SettingsPage> {
             // subtitle: kDebugMode ? const Text("Debug mode") : null,
           ),
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
             sliver: SliverList.list(
               children: [
                 Padding(

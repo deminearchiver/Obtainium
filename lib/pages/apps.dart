@@ -1799,7 +1799,7 @@ class AppsPageState extends State<AppsPage> {
             animationDuration: Duration.zero,
             type: MaterialType.card,
             clipBehavior: Clip.antiAlias,
-            color: colorTheme.surfaceContainer,
+            color: colorTheme.surfaceContainerHigh,
             shape: CornersBorder.rounded(
               corners: Corners.vertical(
                 // TODO: consider the following design choice:
@@ -1934,19 +1934,10 @@ class AppsPageState extends State<AppsPage> {
                     child: Align.center(child: Text("Another one")),
                   ),
                 ),
-              ] else
-                CustomDecoratedSliver(
-                  position: DecorationPosition.background,
-                  decoration: ShapeDecoration(
-                    shape: CornersBorder.rounded(
-                      corners: Corners.all(ShapeTheme.of(context).corner.large),
-                    ),
-                    color: colorTheme.surfaceContainerLow,
-                  ),
-                  sliver: SliverMainAxisGroup(
-                    slivers: [...getLoadingWidgets(), getDisplayedList()],
-                  ),
-                ),
+              ] else ...[
+                ...getLoadingWidgets(),
+                getDisplayedList(),
+              ],
             ],
           ),
         ),
