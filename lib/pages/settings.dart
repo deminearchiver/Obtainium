@@ -102,6 +102,11 @@ class _SettingsPageState extends State<SettingsPage> {
     final settingsProvider = context.watch<SettingsProvider>();
     final sourceProvider = SourceProvider();
 
+    final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+
     initUpdateIntervalInterpolator();
     processIntervalSliderValue(settingsProvider.updateIntervalSliderVal);
 
@@ -134,7 +139,7 @@ class _SettingsPageState extends State<SettingsPage> {
         return ((val.data?.version.sdkInt ?? 30) < 29)
             ? Text(
                 tr('followSystemThemeExplanation'),
-                style: TypescaleTheme.of(context).labelSmall.toTextStyle(),
+                style: typescaleTheme.labelSmall.toTextStyle(),
               )
             : const SizedBox.shrink();
       },
@@ -165,7 +170,7 @@ class _SettingsPageState extends State<SettingsPage> {
         },
         title: Text(
           tr('selectX', args: [tr('colour').toLowerCase()]),
-          style: TypescaleTheme.of(context).titleLarge.toTextStyle(),
+          style: typescaleTheme.titleLarge.toTextStyle(),
         ),
         wheelDiameter: 192,
         wheelSquareBorderRadius: 32,
@@ -181,7 +186,7 @@ class _SettingsPageState extends State<SettingsPage> {
         materialNameTextStyle: TypescaleTheme.of(
           context,
         ).bodySmall.toTextStyle(),
-        colorNameTextStyle: TypescaleTheme.of(context).bodySmall.toTextStyle(),
+        colorNameTextStyle: typescaleTheme.bodySmall.toTextStyle(),
         copyPasteBehavior: const ColorPickerCopyPasteBehavior(
           longPressMenu: true,
         ),
@@ -425,35 +430,33 @@ class _SettingsPageState extends State<SettingsPage> {
       padding: const WidgetStatePropertyAll(EdgeInsets.zero),
       iconSize: const WidgetStatePropertyAll(24.0),
       shape: WidgetStatePropertyAll(
-        CornersBorder.rounded(
-          corners: Corners.all(ShapeTheme.of(context).corner.full),
-        ),
+        CornersBorder.rounded(corners: Corners.all(shapeTheme.corner.full)),
       ),
       overlayColor: WidgetStateLayerColor(
-        color: WidgetStatePropertyAll(ColorTheme.of(context).onSurfaceVariant),
-        opacity: StateTheme.of(context).stateLayerOpacity,
+        color: WidgetStatePropertyAll(colorTheme.onSurfaceVariant),
+        opacity: stateTheme.stateLayerOpacity,
       ),
       backgroundColor: WidgetStateProperty.resolveWith(
         (states) => states.contains(WidgetState.disabled)
-            ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
-            : ColorTheme.of(context).surfaceBright,
+            ? colorTheme.onSurface.withValues(alpha: 0.1)
+            : colorTheme.surfaceBright,
       ),
       iconColor: WidgetStateProperty.resolveWith(
         (states) => states.contains(WidgetState.disabled)
-            ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
-            : ColorTheme.of(context).onSurfaceVariant,
+            ? colorTheme.onSurface.withValues(alpha: 0.38)
+            : colorTheme.onSurfaceVariant,
       ),
     );
 
     return Scaffold(
-      backgroundColor: ColorTheme.of(context).surfaceContainer,
+      backgroundColor: colorTheme.surfaceContainer,
       body: CustomScrollView(
         slivers: <Widget>[
           CustomAppBar(
             type: CustomAppBarType.largeFlexible,
             behavior: CustomAppBarBehavior.duplicate,
-            expandedContainerColor: ColorTheme.of(context).surfaceContainer,
-            collapsedContainerColor: ColorTheme.of(context).surfaceContainer,
+            expandedContainerColor: colorTheme.surfaceContainer,
+            collapsedContainerColor: colorTheme.surfaceContainer,
             title: Text(tr('settings')),
             // subtitle: kDebugMode ? const Text("Debug mode") : null,
           ),
@@ -465,8 +468,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
                     tr("updates"),
-                    style: TypescaleTheme.of(context).labelLarge.toTextStyle(
-                      color: ColorTheme.of(context).onSurfaceVariant,
+                    style: typescaleTheme.labelLarge.toTextStyle(
+                      color: colorTheme.onSurfaceVariant,
                     ),
                   ),
                 ),
@@ -919,8 +922,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
                     tr("sourceSpecific"),
-                    style: TypescaleTheme.of(context).labelLarge.toTextStyle(
-                      color: ColorTheme.of(context).onSurfaceVariant,
+                    style: typescaleTheme.labelLarge.toTextStyle(
+                      color: colorTheme.onSurfaceVariant,
                     ),
                   ),
                 ),
@@ -931,8 +934,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
                     tr("appearance"),
-                    style: TypescaleTheme.of(context).labelLarge.toTextStyle(
-                      color: ColorTheme.of(context).onSurfaceVariant,
+                    style: typescaleTheme.labelLarge.toTextStyle(
+                      color: colorTheme.onSurfaceVariant,
                     ),
                   ),
                 ),
@@ -1167,8 +1170,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
                     tr("categories"),
-                    style: TypescaleTheme.of(context).labelLarge.toTextStyle(
-                      color: ColorTheme.of(context).onSurfaceVariant,
+                    style: typescaleTheme.labelLarge.toTextStyle(
+                      color: colorTheme.onSurfaceVariant,
                     ),
                   ),
                 ),
@@ -1179,8 +1182,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
                     tr("about"),
-                    style: TypescaleTheme.of(context).labelLarge.toTextStyle(
-                      color: ColorTheme.of(context).onSurfaceVariant,
+                    style: typescaleTheme.labelLarge.toTextStyle(
+                      color: colorTheme.onSurfaceVariant,
                     ),
                   ),
                 ),
