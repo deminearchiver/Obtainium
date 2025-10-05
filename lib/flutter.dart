@@ -52,6 +52,10 @@ export 'package:flutter/material.dart'
         LinearProgressIndicator,
         ProgressIndicator,
         // ---
+        Checkbox,
+        CheckboxTheme,
+        CheckboxThemeData,
+        // ---
         Switch,
         SwitchTheme,
         SwitchThemeData;

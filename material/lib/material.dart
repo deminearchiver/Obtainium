@@ -29,6 +29,10 @@ export 'src/loading_indicator.dart';
 
 export 'src/progress_indicator.dart';
 
+export 'src/checkbox.dart';
+
+export 'src/radio_button.dart';
+
 export 'src/switch.dart';
 
 export 'src/window_size_class.dart';
