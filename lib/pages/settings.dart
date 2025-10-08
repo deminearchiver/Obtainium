@@ -97,6 +97,16 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
+  late bool _debugValue;
+
+  @override
+  void initState() {
+    super.initState();
+    if (kDebugMode) {
+      _debugValue = false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final settingsProvider = context.watch<SettingsProvider>();
@@ -242,18 +252,25 @@ class _SettingsPageState extends State<SettingsPage> {
         return _ListItemContainer(
           isFirst: true,
           isLast: true,
-          child: ListItemInkWell(
-            onTap: () => settingsProvider.useMaterialYou =
-                !settingsProvider.useMaterialYou,
-            child: ListItemLayout(
-              isMultiline: true,
-              padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0 - 8.0, 12.0),
-              headline: Text(tr("useMaterialYou"), maxLines: 2),
-              trailing: ExcludeFocus(
-                child: Switch(
-                  onCheckedChanged: (value) =>
-                      settingsProvider.useMaterialYou = value,
-                  checked: settingsProvider.useMaterialYou,
+          child: MergeSemantics(
+            child: ListItemInkWell(
+              onTap: () => settingsProvider.useMaterialYou =
+                  !settingsProvider.useMaterialYou,
+              child: ListItemLayout(
+                isMultiline: true,
+                padding: const EdgeInsets.fromLTRB(
+                  16.0,
+                  12.0,
+                  16.0 - 8.0,
+                  12.0,
+                ),
+                headline: Text(tr("useMaterialYou"), maxLines: 2),
+                trailing: ExcludeFocus(
+                  child: Switch(
+                    onCheckedChanged: (value) =>
+                        settingsProvider.useMaterialYou = value,
+                    checked: settingsProvider.useMaterialYou,
+                  ),
                 ),
               ),
             ),
@@ -466,7 +483,7 @@ class _SettingsPageState extends State<SettingsPage> {
             sliver: SliverList.list(
               children: [
                 if (kDebugMode) ...[
-                  TextField(
+                  const TextField(
                     decoration: InputDecoration(
                       border: UnderlineInputBorder(),
                       filled: true,
@@ -475,18 +492,17 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   Switch(
                     onCheckedChanged: (value) =>
-                        settingsProvider.groupByCategory = value,
-                    checked: settingsProvider.groupByCategory,
+                        setState(() => _debugValue = value),
+                    checked: _debugValue,
                   ),
                   Checkbox.biState(
                     onCheckedChanged: (value) =>
-                        settingsProvider.groupByCategory = value,
-                    checked: settingsProvider.groupByCategory,
+                        setState(() => _debugValue = value),
+                    checked: _debugValue,
                   ),
                   RadioButton(
-                    onTap: () => settingsProvider.groupByCategory =
-                        !settingsProvider.groupByCategory,
-                    selected: settingsProvider.groupByCategory,
+                    onTap: () => setState(() => _debugValue = !_debugValue),
+                    selected: _debugValue,
                   ),
                 ],
                 Padding(
@@ -534,27 +550,30 @@ class _SettingsPageState extends State<SettingsPage> {
                             children: [
                               const SizedBox(height: 2.0),
                               _ListItemContainer(
-                                child: ListItemInkWell(
-                                  onTap: () => settingsProvider.useFGService =
-                                      !settingsProvider.useFGService,
-                                  child: ListItemLayout(
-                                    isMultiline: true,
-                                    padding: const EdgeInsets.fromLTRB(
-                                      16.0,
-                                      12.0,
-                                      16.0 - 8.0,
-                                      12.0,
-                                    ),
-                                    headline: Text(
-                                      tr("foregroundServiceExplanation"),
-                                      maxLines: 3,
-                                    ),
-                                    trailing: ExcludeFocus(
-                                      child: Switch(
-                                        onCheckedChanged: (value) =>
-                                            settingsProvider.useFGService =
-                                                value,
-                                        checked: settingsProvider.useFGService,
+                                child: MergeSemantics(
+                                  child: ListItemInkWell(
+                                    onTap: () => settingsProvider.useFGService =
+                                        !settingsProvider.useFGService,
+                                    child: ListItemLayout(
+                                      isMultiline: true,
+                                      padding: const EdgeInsets.fromLTRB(
+                                        16.0,
+                                        12.0,
+                                        16.0 - 8.0,
+                                        12.0,
+                                      ),
+                                      headline: Text(
+                                        tr("foregroundServiceExplanation"),
+                                        maxLines: 3,
+                                      ),
+                                      trailing: ExcludeFocus(
+                                        child: Switch(
+                                          onCheckedChanged: (value) =>
+                                              settingsProvider.useFGService =
+                                                  value,
+                                          checked:
+                                              settingsProvider.useFGService,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -565,31 +584,33 @@ class _SettingsPageState extends State<SettingsPage> {
                                 child: Flex.vertical(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    ListItemInkWell(
-                                      onTap: () =>
-                                          settingsProvider
-                                                  .enableBackgroundUpdates =
-                                              !settingsProvider
+                                    MergeSemantics(
+                                      child: ListItemInkWell(
+                                        onTap: () =>
+                                            settingsProvider
+                                                    .enableBackgroundUpdates =
+                                                !settingsProvider
+                                                    .enableBackgroundUpdates,
+                                        child: ListItemLayout(
+                                          isMultiline: false,
+                                          padding: const EdgeInsets.fromLTRB(
+                                            16.0,
+                                            8.0,
+                                            16.0 - 8.0,
+                                            8.0,
+                                          ),
+                                          headline: Text(
+                                            tr("enableBackgroundUpdates"),
+                                          ),
+                                          trailing: ExcludeFocus(
+                                            child: Switch(
+                                              onCheckedChanged: (value) =>
+                                                  settingsProvider
+                                                          .enableBackgroundUpdates =
+                                                      value,
+                                              checked: settingsProvider
                                                   .enableBackgroundUpdates,
-                                      child: ListItemLayout(
-                                        isMultiline: false,
-                                        padding: const EdgeInsets.fromLTRB(
-                                          16.0,
-                                          8.0,
-                                          16.0 - 8.0,
-                                          8.0,
-                                        ),
-                                        headline: Text(
-                                          tr("enableBackgroundUpdates"),
-                                        ),
-                                        trailing: ExcludeFocus(
-                                          child: Switch(
-                                            onCheckedChanged: (value) =>
-                                                settingsProvider
-                                                        .enableBackgroundUpdates =
-                                                    value,
-                                            checked: settingsProvider
-                                                .enableBackgroundUpdates,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -636,32 +657,34 @@ class _SettingsPageState extends State<SettingsPage> {
                                   children: [
                                     const SizedBox(height: 2.0),
                                     _ListItemContainer(
-                                      child: ListItemInkWell(
-                                        onTap: () =>
-                                            settingsProvider
-                                                    .bgUpdatesOnWiFiOnly =
-                                                !settingsProvider
+                                      child: MergeSemantics(
+                                        child: ListItemInkWell(
+                                          onTap: () =>
+                                              settingsProvider
+                                                      .bgUpdatesOnWiFiOnly =
+                                                  !settingsProvider
+                                                      .bgUpdatesOnWiFiOnly,
+                                          child: ListItemLayout(
+                                            isMultiline: true,
+                                            padding: const EdgeInsets.fromLTRB(
+                                              16.0,
+                                              12.0,
+                                              16.0 - 8.0,
+                                              12.0,
+                                            ),
+                                            headline: Text(
+                                              tr("bgUpdatesOnWiFiOnly"),
+                                              maxLines: 3,
+                                            ),
+                                            trailing: ExcludeFocus(
+                                              child: Switch(
+                                                onCheckedChanged: (value) =>
+                                                    settingsProvider
+                                                            .bgUpdatesOnWiFiOnly =
+                                                        value,
+                                                checked: settingsProvider
                                                     .bgUpdatesOnWiFiOnly,
-                                        child: ListItemLayout(
-                                          isMultiline: true,
-                                          padding: const EdgeInsets.fromLTRB(
-                                            16.0,
-                                            12.0,
-                                            16.0 - 8.0,
-                                            12.0,
-                                          ),
-                                          headline: Text(
-                                            tr("bgUpdatesOnWiFiOnly"),
-                                            maxLines: 3,
-                                          ),
-                                          trailing: ExcludeFocus(
-                                            child: Switch(
-                                              onCheckedChanged: (value) =>
-                                                  settingsProvider
-                                                          .bgUpdatesOnWiFiOnly =
-                                                      value,
-                                              checked: settingsProvider
-                                                  .bgUpdatesOnWiFiOnly,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -669,32 +692,34 @@ class _SettingsPageState extends State<SettingsPage> {
                                     ),
                                     const SizedBox(height: 2.0),
                                     _ListItemContainer(
-                                      child: ListItemInkWell(
-                                        onTap: () =>
-                                            settingsProvider
-                                                    .bgUpdatesWhileChargingOnly =
-                                                !settingsProvider
+                                      child: MergeSemantics(
+                                        child: ListItemInkWell(
+                                          onTap: () =>
+                                              settingsProvider
+                                                      .bgUpdatesWhileChargingOnly =
+                                                  !settingsProvider
+                                                      .bgUpdatesWhileChargingOnly,
+                                          child: ListItemLayout(
+                                            isMultiline: true,
+                                            padding: const EdgeInsets.fromLTRB(
+                                              16.0,
+                                              12.0,
+                                              16.0 - 8.0,
+                                              12.0,
+                                            ),
+                                            headline: Text(
+                                              tr("bgUpdatesWhileChargingOnly"),
+                                              maxLines: 3,
+                                            ),
+                                            trailing: ExcludeFocus(
+                                              child: Switch(
+                                                onCheckedChanged: (value) =>
+                                                    settingsProvider
+                                                            .bgUpdatesWhileChargingOnly =
+                                                        value,
+                                                checked: settingsProvider
                                                     .bgUpdatesWhileChargingOnly,
-                                        child: ListItemLayout(
-                                          isMultiline: true,
-                                          padding: const EdgeInsets.fromLTRB(
-                                            16.0,
-                                            12.0,
-                                            16.0 - 8.0,
-                                            12.0,
-                                          ),
-                                          headline: Text(
-                                            tr("bgUpdatesWhileChargingOnly"),
-                                            maxLines: 3,
-                                          ),
-                                          trailing: ExcludeFocus(
-                                            child: Switch(
-                                              onCheckedChanged: (value) =>
-                                                  settingsProvider
-                                                          .bgUpdatesWhileChargingOnly =
-                                                      value,
-                                              checked: settingsProvider
-                                                  .bgUpdatesWhileChargingOnly,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -710,23 +735,25 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
-                  child: ListItemInkWell(
-                    onTap: () => settingsProvider.checkOnStart =
-                        !settingsProvider.checkOnStart,
-                    child: ListItemLayout(
-                      isMultiline: true,
-                      padding: const EdgeInsets.fromLTRB(
-                        16.0,
-                        12.0,
-                        16.0 - 8.0,
-                        12.0,
-                      ),
-                      headline: Text(tr("checkOnStart"), maxLines: 3),
-                      trailing: ExcludeFocus(
-                        child: Switch(
-                          onCheckedChanged: (value) =>
-                              settingsProvider.checkOnStart = value,
-                          checked: settingsProvider.checkOnStart,
+                  child: MergeSemantics(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.checkOnStart =
+                          !settingsProvider.checkOnStart,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(tr("checkOnStart"), maxLines: 3),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onCheckedChanged: (value) =>
+                                settingsProvider.checkOnStart = value,
+                            checked: settingsProvider.checkOnStart,
+                          ),
                         ),
                       ),
                     ),
@@ -734,26 +761,29 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
-                  child: ListItemInkWell(
-                    onTap: () => settingsProvider.checkUpdateOnDetailPage =
-                        !settingsProvider.checkUpdateOnDetailPage,
-                    child: ListItemLayout(
-                      isMultiline: true,
-                      padding: const EdgeInsets.fromLTRB(
-                        16.0,
-                        12.0,
-                        16.0 - 8.0,
-                        12.0,
-                      ),
-                      headline: Text(
-                        tr("checkUpdateOnDetailPage"),
-                        maxLines: 3,
-                      ),
-                      trailing: ExcludeFocus(
-                        child: Switch(
-                          onCheckedChanged: (value) =>
-                              settingsProvider.checkUpdateOnDetailPage = value,
-                          checked: settingsProvider.checkUpdateOnDetailPage,
+                  child: MergeSemantics(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.checkUpdateOnDetailPage =
+                          !settingsProvider.checkUpdateOnDetailPage,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(
+                          tr("checkUpdateOnDetailPage"),
+                          maxLines: 3,
+                        ),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onCheckedChanged: (value) =>
+                                settingsProvider.checkUpdateOnDetailPage =
+                                    value,
+                            checked: settingsProvider.checkUpdateOnDetailPage,
+                          ),
                         ),
                       ),
                     ),
@@ -761,30 +791,33 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
-                  child: ListItemInkWell(
-                    onTap: () =>
-                        settingsProvider.onlyCheckInstalledOrTrackOnlyApps =
-                            !settingsProvider.onlyCheckInstalledOrTrackOnlyApps,
-                    child: ListItemLayout(
-                      isMultiline: true,
-                      padding: const EdgeInsets.fromLTRB(
-                        16.0,
-                        12.0,
-                        16.0 - 8.0,
-                        12.0,
-                      ),
-                      headline: Text(
-                        tr("onlyCheckInstalledOrTrackOnlyApps"),
-                        maxLines: 3,
-                      ),
-                      trailing: ExcludeFocus(
-                        child: Switch(
-                          onCheckedChanged: (value) =>
-                              settingsProvider
-                                      .onlyCheckInstalledOrTrackOnlyApps =
-                                  value,
-                          checked: settingsProvider
-                              .onlyCheckInstalledOrTrackOnlyApps,
+                  child: MergeSemantics(
+                    child: ListItemInkWell(
+                      onTap: () =>
+                          settingsProvider.onlyCheckInstalledOrTrackOnlyApps =
+                              !settingsProvider
+                                  .onlyCheckInstalledOrTrackOnlyApps,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(
+                          tr("onlyCheckInstalledOrTrackOnlyApps"),
+                          maxLines: 3,
+                        ),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onCheckedChanged: (value) =>
+                                settingsProvider
+                                        .onlyCheckInstalledOrTrackOnlyApps =
+                                    value,
+                            checked: settingsProvider
+                                .onlyCheckInstalledOrTrackOnlyApps,
+                          ),
                         ),
                       ),
                     ),
@@ -820,23 +853,25 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
-                  child: ListItemInkWell(
-                    onTap: () => settingsProvider.parallelDownloads =
-                        !settingsProvider.parallelDownloads,
-                    child: ListItemLayout(
-                      isMultiline: true,
-                      padding: const EdgeInsets.fromLTRB(
-                        16.0,
-                        12.0,
-                        16.0 - 8.0,
-                        12.0,
-                      ),
-                      headline: Text(tr("parallelDownloads"), maxLines: 3),
-                      trailing: ExcludeFocus(
-                        child: Switch(
-                          onCheckedChanged: (value) =>
-                              settingsProvider.parallelDownloads = value,
-                          checked: settingsProvider.parallelDownloads,
+                  child: MergeSemantics(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.parallelDownloads =
+                          !settingsProvider.parallelDownloads,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(tr("parallelDownloads"), maxLines: 3),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onCheckedChanged: (value) =>
+                                settingsProvider.parallelDownloads = value,
+                            checked: settingsProvider.parallelDownloads,
+                          ),
                         ),
                       ),
                     ),
@@ -847,32 +882,34 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: Flex.vertical(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      ListItemInkWell(
-                        onTap: () =>
-                            settingsProvider
-                                    .beforeNewInstallsShareToAppVerifier =
-                                !settingsProvider
+                      MergeSemantics(
+                        child: ListItemInkWell(
+                          onTap: () =>
+                              settingsProvider
+                                      .beforeNewInstallsShareToAppVerifier =
+                                  !settingsProvider
+                                      .beforeNewInstallsShareToAppVerifier,
+                          child: ListItemLayout(
+                            isMultiline: true,
+                            padding: const EdgeInsets.fromLTRB(
+                              16.0,
+                              12.0,
+                              16.0 - 8.0,
+                              12.0,
+                            ),
+                            headline: Text(
+                              tr("beforeNewInstallsShareToAppVerifier"),
+                              maxLines: 3,
+                            ),
+                            trailing: ExcludeFocus(
+                              child: Switch(
+                                onCheckedChanged: (value) =>
+                                    settingsProvider
+                                            .beforeNewInstallsShareToAppVerifier =
+                                        value,
+                                checked: settingsProvider
                                     .beforeNewInstallsShareToAppVerifier,
-                        child: ListItemLayout(
-                          isMultiline: true,
-                          padding: const EdgeInsets.fromLTRB(
-                            16.0,
-                            12.0,
-                            16.0 - 8.0,
-                            12.0,
-                          ),
-                          headline: Text(
-                            tr("beforeNewInstallsShareToAppVerifier"),
-                            maxLines: 3,
-                          ),
-                          trailing: ExcludeFocus(
-                            child: Switch(
-                              onCheckedChanged: (value) =>
-                                  settingsProvider
-                                          .beforeNewInstallsShareToAppVerifier =
-                                      value,
-                              checked: settingsProvider
-                                  .beforeNewInstallsShareToAppVerifier,
+                              ),
                             ),
                           ),
                         ),
@@ -892,22 +929,24 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
-                  child: ListItemInkWell(
-                    onTap: () =>
-                        onUseShizukuChanged(!settingsProvider.useShizuku),
-                    child: ListItemLayout(
-                      isMultiline: true,
-                      padding: const EdgeInsets.fromLTRB(
-                        16.0,
-                        12.0,
-                        16.0 - 8.0,
-                        12.0,
-                      ),
-                      headline: Text(tr("useShizuku"), maxLines: 3),
-                      trailing: ExcludeFocus(
-                        child: Switch(
-                          onCheckedChanged: onUseShizukuChanged,
-                          checked: settingsProvider.useShizuku,
+                  child: MergeSemantics(
+                    child: ListItemInkWell(
+                      onTap: () =>
+                          onUseShizukuChanged(!settingsProvider.useShizuku),
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(tr("useShizuku"), maxLines: 3),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onCheckedChanged: onUseShizukuChanged,
+                            checked: settingsProvider.useShizuku,
+                          ),
                         ),
                       ),
                     ),
@@ -916,28 +955,31 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
                   isLast: true,
-                  child: ListItemInkWell(
-                    onTap: () => settingsProvider.shizukuPretendToBeGooglePlay =
-                        !settingsProvider.shizukuPretendToBeGooglePlay,
-                    child: ListItemLayout(
-                      isMultiline: true,
-                      padding: const EdgeInsets.fromLTRB(
-                        16.0,
-                        12.0,
-                        16.0 - 8.0,
-                        12.0,
-                      ),
-                      headline: Text(
-                        tr("shizukuPretendToBeGooglePlay"),
-                        maxLines: 3,
-                      ),
-                      trailing: ExcludeFocus(
-                        child: Switch(
-                          onCheckedChanged: (value) =>
-                              settingsProvider.shizukuPretendToBeGooglePlay =
-                                  value,
-                          checked:
-                              settingsProvider.shizukuPretendToBeGooglePlay,
+                  child: MergeSemantics(
+                    child: ListItemInkWell(
+                      onTap: () =>
+                          settingsProvider.shizukuPretendToBeGooglePlay =
+                              !settingsProvider.shizukuPretendToBeGooglePlay,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(
+                          tr("shizukuPretendToBeGooglePlay"),
+                          maxLines: 3,
+                        ),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onCheckedChanged: (value) =>
+                                settingsProvider.shizukuPretendToBeGooglePlay =
+                                    value,
+                            checked:
+                                settingsProvider.shizukuPretendToBeGooglePlay,
+                          ),
                         ),
                       ),
                     ),
@@ -1015,23 +1057,25 @@ class _SettingsPageState extends State<SettingsPage> {
                 height16,
                 _ListItemContainer(
                   isFirst: true,
-                  child: ListItemInkWell(
-                    onTap: () => settingsProvider.showAppWebpage =
-                        !settingsProvider.showAppWebpage,
-                    child: ListItemLayout(
-                      isMultiline: true,
-                      padding: const EdgeInsets.fromLTRB(
-                        16.0,
-                        12.0,
-                        16.0 - 8.0,
-                        12.0,
-                      ),
-                      headline: Text(tr("showWebInAppView"), maxLines: 3),
-                      trailing: ExcludeFocus(
-                        child: Switch(
-                          onCheckedChanged: (value) =>
-                              settingsProvider.showAppWebpage = value,
-                          checked: settingsProvider.showAppWebpage,
+                  child: MergeSemantics(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.showAppWebpage =
+                          !settingsProvider.showAppWebpage,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(tr("showWebInAppView"), maxLines: 3),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onCheckedChanged: (value) =>
+                                settingsProvider.showAppWebpage = value,
+                            checked: settingsProvider.showAppWebpage,
+                          ),
                         ),
                       ),
                     ),
@@ -1039,23 +1083,25 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
-                  child: ListItemInkWell(
-                    onTap: () => settingsProvider.pinUpdates =
-                        !settingsProvider.pinUpdates,
-                    child: ListItemLayout(
-                      isMultiline: true,
-                      padding: const EdgeInsets.fromLTRB(
-                        16.0,
-                        12.0,
-                        16.0 - 8.0,
-                        12.0,
-                      ),
-                      headline: Text(tr("pinUpdates"), maxLines: 3),
-                      trailing: ExcludeFocus(
-                        child: Switch(
-                          onCheckedChanged: (value) =>
-                              settingsProvider.pinUpdates = value,
-                          checked: settingsProvider.pinUpdates,
+                  child: MergeSemantics(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.pinUpdates =
+                          !settingsProvider.pinUpdates,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(tr("pinUpdates"), maxLines: 3),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onCheckedChanged: (value) =>
+                                settingsProvider.pinUpdates = value,
+                            checked: settingsProvider.pinUpdates,
+                          ),
                         ),
                       ),
                     ),
@@ -1063,26 +1109,28 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
-                  child: ListItemInkWell(
-                    onTap: () => settingsProvider.buryNonInstalled =
-                        !settingsProvider.buryNonInstalled,
-                    child: ListItemLayout(
-                      isMultiline: true,
-                      padding: const EdgeInsets.fromLTRB(
-                        16.0,
-                        12.0,
-                        16.0 - 8.0,
-                        12.0,
-                      ),
-                      headline: Text(
-                        tr("moveNonInstalledAppsToBottom"),
-                        maxLines: 3,
-                      ),
-                      trailing: ExcludeFocus(
-                        child: Switch(
-                          onCheckedChanged: (value) =>
-                              settingsProvider.buryNonInstalled = value,
-                          checked: settingsProvider.buryNonInstalled,
+                  child: MergeSemantics(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.buryNonInstalled =
+                          !settingsProvider.buryNonInstalled,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(
+                          tr("moveNonInstalledAppsToBottom"),
+                          maxLines: 3,
+                        ),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onCheckedChanged: (value) =>
+                                settingsProvider.buryNonInstalled = value,
+                            checked: settingsProvider.buryNonInstalled,
+                          ),
                         ),
                       ),
                     ),
@@ -1090,23 +1138,25 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
-                  child: ListItemInkWell(
-                    onTap: () => settingsProvider.groupByCategory =
-                        !settingsProvider.groupByCategory,
-                    child: ListItemLayout(
-                      isMultiline: true,
-                      padding: const EdgeInsets.fromLTRB(
-                        16.0,
-                        12.0,
-                        16.0 - 8.0,
-                        12.0,
-                      ),
-                      headline: Text(tr("groupByCategory"), maxLines: 3),
-                      trailing: ExcludeFocus(
-                        child: Switch(
-                          onCheckedChanged: (value) =>
-                              settingsProvider.groupByCategory = value,
-                          checked: settingsProvider.groupByCategory,
+                  child: MergeSemantics(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.groupByCategory =
+                          !settingsProvider.groupByCategory,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(tr("groupByCategory"), maxLines: 3),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onCheckedChanged: (value) =>
+                                settingsProvider.groupByCategory = value,
+                            checked: settingsProvider.groupByCategory,
+                          ),
                         ),
                       ),
                     ),
@@ -1114,26 +1164,28 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
-                  child: ListItemInkWell(
-                    onTap: () => settingsProvider.hideTrackOnlyWarning =
-                        !settingsProvider.hideTrackOnlyWarning,
-                    child: ListItemLayout(
-                      isMultiline: true,
-                      padding: const EdgeInsets.fromLTRB(
-                        16.0,
-                        12.0,
-                        16.0 - 8.0,
-                        12.0,
-                      ),
-                      headline: Text(
-                        tr("dontShowTrackOnlyWarnings"),
-                        maxLines: 3,
-                      ),
-                      trailing: ExcludeFocus(
-                        child: Switch(
-                          onCheckedChanged: (value) =>
-                              settingsProvider.hideTrackOnlyWarning = value,
-                          checked: settingsProvider.hideTrackOnlyWarning,
+                  child: MergeSemantics(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.hideTrackOnlyWarning =
+                          !settingsProvider.hideTrackOnlyWarning,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(
+                          tr("dontShowTrackOnlyWarnings"),
+                          maxLines: 3,
+                        ),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onCheckedChanged: (value) =>
+                                settingsProvider.hideTrackOnlyWarning = value,
+                            checked: settingsProvider.hideTrackOnlyWarning,
+                          ),
                         ),
                       ),
                     ),
@@ -1141,26 +1193,28 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
-                  child: ListItemInkWell(
-                    onTap: () => settingsProvider.hideAPKOriginWarning =
-                        !settingsProvider.hideAPKOriginWarning,
-                    child: ListItemLayout(
-                      isMultiline: true,
-                      padding: const EdgeInsets.fromLTRB(
-                        16.0,
-                        12.0,
-                        16.0 - 8.0,
-                        12.0,
-                      ),
-                      headline: Text(
-                        tr("dontShowAPKOriginWarnings"),
-                        maxLines: 3,
-                      ),
-                      trailing: ExcludeFocus(
-                        child: Switch(
-                          onCheckedChanged: (value) =>
-                              settingsProvider.hideAPKOriginWarning = value,
-                          checked: settingsProvider.hideAPKOriginWarning,
+                  child: MergeSemantics(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.hideAPKOriginWarning =
+                          !settingsProvider.hideAPKOriginWarning,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(
+                          tr("dontShowAPKOriginWarnings"),
+                          maxLines: 3,
+                        ),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onCheckedChanged: (value) =>
+                                settingsProvider.hideAPKOriginWarning = value,
+                            checked: settingsProvider.hideAPKOriginWarning,
+                          ),
                         ),
                       ),
                     ),
@@ -1169,23 +1223,28 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
                   isLast: true,
-                  child: ListItemInkWell(
-                    onTap: () => settingsProvider.highlightTouchTargets =
-                        !settingsProvider.highlightTouchTargets,
-                    child: ListItemLayout(
-                      isMultiline: true,
-                      padding: const EdgeInsets.fromLTRB(
-                        16.0,
-                        12.0,
-                        16.0 - 8.0,
-                        12.0,
-                      ),
-                      headline: Text(tr("highlightTouchTargets"), maxLines: 3),
-                      trailing: ExcludeFocus(
-                        child: Switch(
-                          onCheckedChanged: (value) =>
-                              settingsProvider.highlightTouchTargets = value,
-                          checked: settingsProvider.highlightTouchTargets,
+                  child: MergeSemantics(
+                    child: ListItemInkWell(
+                      onTap: () => settingsProvider.highlightTouchTargets =
+                          !settingsProvider.highlightTouchTargets,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text(
+                          tr("highlightTouchTargets"),
+                          maxLines: 3,
+                        ),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onCheckedChanged: (value) =>
+                                settingsProvider.highlightTouchTargets = value,
+                            checked: settingsProvider.highlightTouchTargets,
+                          ),
                         ),
                       ),
                     ),
