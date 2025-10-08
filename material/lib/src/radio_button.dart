@@ -1,15 +1,15 @@
 import 'dart:math' as math;
 import 'dart:ui';
 
-// import 'package:flutter/material.dart' as flutter;
+import 'package:flutter/material.dart' as flutter;
 
 import 'package:material/src/deprecated_animation.dart';
 import 'package:material/src/flutter.dart';
 
-// typedef RadioLegacy = flutter.Radio;
-// typedef RadioThemeLegacy = flutter.RadioTheme;
-// typedef RadioThemeDataLegacy = flutter.RadioThemeData;
-// typedef RadioListTileLegacy = flutter.RadioListTile;
+typedef RadioLegacy = flutter.Radio;
+typedef RadioThemeLegacy = flutter.RadioTheme;
+typedef RadioThemeDataLegacy = flutter.RadioThemeData;
+typedef RadioListTileLegacy = flutter.RadioListTile;
 
 class RadioButton extends StatefulWidget {
   const RadioButton({super.key, required this.onTap, required this.selected});
@@ -182,14 +182,20 @@ class _RadioButtonState extends State<RadioButton>
 
     final child = SizedBox.square(
       dimension: stateLayerSize,
-      child: InkWell(
-        statesController: _statesController,
-        customBorder: stateLayerShape,
-        overlayColor: WidgetStateLayerColor(
-          color: _stateLayerColor,
-          opacity: _stateLayerOpacity,
+      child: Material(
+        animationDuration: Duration.zero,
+        type: MaterialType.transparency,
+        clipBehavior: Clip.none,
+        color: Colors.transparent,
+        child: InkWell(
+          statesController: _statesController,
+          customBorder: stateLayerShape,
+          overlayColor: WidgetStateLayerColor(
+            color: _stateLayerColor,
+            opacity: _stateLayerOpacity,
+          ),
+          onTap: widget.onTap,
         ),
-        onTap: widget.onTap,
       ),
     );
 
@@ -202,20 +208,14 @@ class _RadioButtonState extends State<RadioButton>
         child: Align.center(
           widthFactor: 1.0,
           heightFactor: 1.0,
-          child: Material(
-            animationDuration: Duration.zero,
-            type: MaterialType.transparency,
-            clipBehavior: Clip.none,
-            color: Colors.transparent,
-            child: _AnimatedRadioButton(
-              minTapTargetSize: const _ValueListenable(minTapTargetSize),
-              iconSize: _ValueListenable(iconSize),
-              iconColor: _iconColorAnimation.mapValue(
-                (value) => value ?? iconColor,
-              ),
-              animation: _animationController,
-              child: child,
+          child: _RadioButtonPaint(
+            minTapTargetSize: const _ValueListenable(minTapTargetSize),
+            iconSize: _ValueListenable(iconSize),
+            iconColor: _iconColorAnimation.mapValue(
+              (value) => value ?? iconColor,
             ),
+            animation: _animationController,
+            child: child,
           ),
         ),
       ),
@@ -223,8 +223,8 @@ class _RadioButtonState extends State<RadioButton>
   }
 }
 
-class _AnimatedRadioButton extends SingleChildRenderObjectWidget {
-  const _AnimatedRadioButton({
+class _RadioButtonPaint extends SingleChildRenderObjectWidget {
+  const _RadioButtonPaint({
     super.key,
     required this.minTapTargetSize,
     required this.iconSize,
@@ -239,8 +239,8 @@ class _AnimatedRadioButton extends SingleChildRenderObjectWidget {
   final ValueListenable<double> animation;
 
   @override
-  _RenderAnimatedRadioButton createRenderObject(BuildContext context) {
-    return _RenderAnimatedRadioButton(
+  _RenderRadioButtonPaint createRenderObject(BuildContext context) {
+    return _RenderRadioButtonPaint(
       minTapTargetSize: minTapTargetSize,
       iconSize: iconSize,
       iconColor: iconColor,
@@ -251,7 +251,7 @@ class _AnimatedRadioButton extends SingleChildRenderObjectWidget {
   @override
   void updateRenderObject(
     BuildContext context,
-    _RenderAnimatedRadioButton renderObject,
+    _RenderRadioButtonPaint renderObject,
   ) {
     renderObject
       ..minTapTargetSize = minTapTargetSize
@@ -261,9 +261,9 @@ class _AnimatedRadioButton extends SingleChildRenderObjectWidget {
   }
 }
 
-class _RenderAnimatedRadioButton extends RenderBox
+class _RenderRadioButtonPaint extends RenderBox
     with RenderObjectWithChildMixin<RenderBox> {
-  _RenderAnimatedRadioButton({
+  _RenderRadioButtonPaint({
     required ValueListenable<Size> minTapTargetSize,
     required ValueListenable<double> iconSize,
     required ValueListenable<Color> iconColor,
@@ -608,7 +608,7 @@ class _RadioGroupButtonState<T extends Object?>
           widget.onChanged != null ||
           widget.groupRegistry != null ||
           RadioGroup.maybeOf<T>(context) != null,
-      'Radio is enabled but has no Radio.onChange or registry above',
+      "Radio is enabled but has no Radio.onChange or registry above",
     );
 
     // TODO: remove this if not needed due to an internal transparent Material
@@ -646,7 +646,7 @@ class _RawRadio<T extends Object?> extends StatefulWidget {
     required this.builder,
   }) : assert(
          !enabled || groupRegistry != null,
-         'an enabled raw radio must have a registry',
+         "an enabled raw radio must have a registry",
        );
 
   /// {@macro flutter.widget.RawRadio.value}
@@ -766,8 +766,8 @@ class _RawRadioState<T extends Object?> extends State<_RawRadio<T>>
   }
 }
 
+// TODO: Remove this once deprecated API is removed.
 /// A registry for deprecated API.
-// TODO(chunhtai): Remove this once deprecated API is removed.
 class _LegacyRadioGroupRegistry<T> extends RadioGroupRegistry<T> {
   _LegacyRadioGroupRegistry(this.state);
 

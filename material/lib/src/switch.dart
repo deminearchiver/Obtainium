@@ -2,12 +2,10 @@ import 'dart:collection';
 import 'dart:math' as math;
 import 'dart:ui';
 
-import 'package:flutter/scheduler.dart';
 import 'package:material/src/flutter.dart';
 import 'package:flutter/material.dart' as flutter;
 
 import 'deprecated_animation.dart';
-import 'focus_ring.dart';
 
 typedef SwitchLegacy = flutter.Switch;
 typedef SwitchThemeLegacy = flutter.SwitchTheme;
@@ -297,8 +295,12 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
           clipBehavior: Clip.none,
           color: Colors.transparent,
           child: InkWell(
-            customBorder: stateLayerShape,
             statesController: _statesController,
+            customBorder: stateLayerShape,
+            overlayColor: WidgetStateLayerColor(
+              color: _stateLayerColor,
+              opacity: _stateLayerOpacity,
+            ),
             onTap: widget.onChanged != null
                 ? () {
                     widget.onChanged!(!widget.value);
@@ -325,10 +327,6 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
             onFocusChange: (value) {
               setState(() => _focused = value);
             },
-            overlayColor: WidgetStateLayerColor(
-              color: _stateLayerColor,
-              opacity: _stateLayerOpacity,
-            ),
           ),
         ),
       ),
@@ -346,286 +344,49 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
       child: Align.center(
         widthFactor: 1.0,
         heightFactor: 1.0,
-        child: Material(
-          animationDuration: Duration.zero,
-          type: MaterialType.card,
-          clipBehavior: Clip.none,
-          color: Colors.transparent,
-          child: TapRegion(
-            behavior: HitTestBehavior.deferToChild,
-            consumeOutsideTaps: false,
-            onTapOutside: (_) {
-              setState(() => _focused = false);
-            },
-            onTapUpOutside: (_) {
-              setState(() => _focused = false);
-            },
-            child: FocusRing(
-              visible: states.contains(WidgetState.focused),
-              layoutBuilder: (context, info, child) => Align.center(
-                child: SizedBox.fromSize(size: trackSize, child: child),
-              ),
-              // hasFocus: states.contains(WidgetState.focused),
-              // trackSize: trackSize,
-              child: _AnimatedSwitch(
-                handlePosition: _handlePosition,
-                trackShape: _outlineColorAnimation.nonNull.mapValue(
-                  (value) => CornersBorder.rounded(
-                    corners: trackCorners,
-                    side: BorderSide(
-                      width: outlineWidth,
-                      color: _outlineColorAnimation.value!,
-                      strokeAlign: BorderSide.strokeAlignInside,
-                      style: BorderStyle.solid,
-                    ),
+        child: TapRegion(
+          behavior: HitTestBehavior.deferToChild,
+          consumeOutsideTaps: false,
+          onTapOutside: (_) {
+            setState(() => _focused = false);
+          },
+          onTapUpOutside: (_) {
+            setState(() => _focused = false);
+          },
+          child: FocusRing(
+            visible: states.contains(WidgetState.focused),
+            layoutBuilder: (context, info, child) => Align.center(
+              child: SizedBox.fromSize(size: trackSize, child: child),
+            ),
+            inward: false,
+            child: _SwitchPaint(
+              handlePosition: _handlePosition,
+              trackShape: _outlineColorAnimation.nonNull.mapValue(
+                (value) => CornersBorder.rounded(
+                  corners: trackCorners,
+                  side: BorderSide(
+                    width: outlineWidth,
+                    color: _outlineColorAnimation.value!,
+                    strokeAlign: BorderSide.strokeAlignInside,
+                    style: BorderStyle.solid,
                   ),
                 ),
-                trackColor: _trackColorAnimation.nonNull,
-                minTapTargetSize: minTapTargetSize,
-                trackSize: trackSize,
-                handleSize: _handleSizeAnimation.nonNull,
-                handleShape: handleShape,
-                handleColor: _handleColorAnimation.nonNull,
-                childrenPaintOrder: SwitchChildrenPaintOrder.handleChildIsTop,
-                trackChildPosition: SwitchChildPosition.middle,
-                trackChild: trackChild,
-                handleChildPosition: SwitchChildPosition.top,
-                handleChild: handleChild,
               ),
+              trackColor: _trackColorAnimation.nonNull,
+              minTapTargetSize: minTapTargetSize,
+              trackSize: trackSize,
+              handleSize: _handleSizeAnimation.nonNull,
+              handleShape: handleShape,
+              handleColor: _handleColorAnimation.nonNull,
+              childrenPaintOrder: _SwitchChildrenPaintOrder.handleChildIsTop,
+              trackChildPosition: SwitchChildPosition.middle,
+              trackChild: trackChild,
+              handleChildPosition: SwitchChildPosition.top,
+              handleChild: handleChild,
             ),
           ),
         ),
       ),
-    );
-  }
-}
-
-class _SwitchFocusIndicator extends StatefulWidget {
-  const _SwitchFocusIndicator({
-    super.key,
-    required this.hasFocus,
-    required this.trackSize,
-    required this.child,
-  });
-
-  final bool hasFocus;
-  final Size trackSize;
-  final Widget child;
-
-  @override
-  State<_SwitchFocusIndicator> createState() => _SwitchFocusIndicatorState();
-}
-
-class _SwitchFocusIndicatorState extends State<_SwitchFocusIndicator>
-    with SingleTickerProviderStateMixin {
-  final OverlayPortalController _overlayPortalController =
-      OverlayPortalController();
-
-  late AnimationController _animationController;
-  late Animation<double> _strokeWidthAnimation;
-
-  final Tween<double> _growValueTween = Tween<double>(begin: 0.0, end: 8.0);
-  final Tween<double> _shrinkValueTween = Tween<double>(begin: 8.0, end: 3.0);
-  final CurveTween _growCurveTween = CurveTween(curve: Curves.linear);
-  final CurveTween _shrinkCurveTween = CurveTween(curve: Curves.linear);
-
-  late ColorThemeData _colorTheme;
-  late ShapeThemeData _shapeTheme;
-  late DurationThemeData _durationTheme;
-  late EasingThemeData _easingTheme;
-
-  bool _showOverlay() {
-    if (_overlayPortalController.isShowing) return false;
-    _overlayPortalController.show();
-    return true;
-  }
-
-  bool _hideOverlay() {
-    if (!_overlayPortalController.isShowing) return false;
-    _overlayPortalController.hide();
-    return true;
-  }
-
-  void _toggleOverlay([bool? show]) {
-    final VoidCallback callback = show != null
-        ? show
-              ? _showOverlay
-              : _hideOverlay
-        : _overlayPortalController.toggle;
-    _callDeferred(callback);
-  }
-
-  void _animationStatusListener(AnimationStatus status) {
-    _toggleOverlay(status != AnimationStatus.dismissed);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.hasFocus) {
-      _toggleOverlay(true);
-    }
-
-    _animationController = AnimationController(
-      vsync: this,
-      value: widget.hasFocus ? 1.0 : 0.0,
-    )..addStatusListener(_animationStatusListener);
-    _strokeWidthAnimation = TweenSequence<double>([
-      TweenSequenceItem(
-        tween: _growValueTween.chain(_growCurveTween),
-        weight: 0.25,
-      ),
-      TweenSequenceItem(
-        tween: _shrinkValueTween.chain(_shrinkCurveTween),
-        weight: 0.75,
-      ),
-    ]).animate(_animationController);
-  }
-
-  @override
-  void didUpdateWidget(covariant _SwitchFocusIndicator oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.hasFocus != oldWidget.hasFocus) {
-      if (widget.hasFocus) {
-        _animationController.animateTo(1.0, duration: _durationTheme.long4);
-      } else {
-        _animationController.animateBack(0.0, duration: Duration.zero);
-      }
-    }
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _colorTheme = ColorTheme.of(context);
-    _shapeTheme = ShapeTheme.of(context);
-    _durationTheme = DurationTheme.of(context);
-    _easingTheme = EasingTheme.of(context);
-
-    _growCurveTween.curve = _easingTheme.standard;
-    _shrinkCurveTween.curve = _easingTheme.standard;
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  void _callDeferred(VoidCallback callback) {
-    if (SchedulerBinding.instance.schedulerPhase ==
-        SchedulerPhase.persistentCallbacks) {
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        callback();
-      });
-    } else {
-      callback();
-    }
-  }
-
-  // void _setStateDeferred(VoidCallback callback) {
-  //   _callDeferred(() => setState(callback));
-  // }
-
-  // Builds overlay in in global coordinates, meaning overlay child scale
-  // will not affect overlay scale
-  Widget _buildGlobalOverlay(
-    BuildContext context,
-    OverlayChildLayoutInfo info,
-    Widget child,
-  ) {
-    final transform = info.childPaintTransform;
-    final translateX = transform.storage[12];
-    final translateY = transform.storage[13];
-    final scaleX = transform.storage[0];
-    final scaleY = transform.storage[5];
-    final trackSize = widget.trackSize;
-    final scaledTrackSize = Size(
-      trackSize.width * scaleX,
-      trackSize.height * scaleY,
-    );
-    final childSize = info.childSize;
-    final scaledChildSize = Size(
-      childSize.width * scaleX,
-      childSize.height * scaleY,
-    );
-    final focusIndicatorOffset = 2.0;
-    final scaledFocusIndicatorSize = Size(
-      scaledTrackSize.width + focusIndicatorOffset * 2.0,
-      scaledTrackSize.height + focusIndicatorOffset * 2.0,
-    );
-    final translationOffset = Offset(translateX, translateY);
-    return IgnorePointer(
-      child: Align.topLeft(
-        child: Transform.translate(
-          offset: translationOffset,
-          child: SizedBox.fromSize(
-            size: scaledChildSize,
-            child: Align.center(
-              child: SizedBox.fromSize(
-                size: scaledFocusIndicatorSize,
-                child: child,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Builds overlay in in local coordinates, meaning overlay child transform
-  // is applied to the overlay
-  Widget _buildLocalOverlay(
-    BuildContext context,
-    OverlayChildLayoutInfo info,
-    Widget child,
-  ) {
-    final focusIndicatorOffset = 2.0;
-    final trackSize = widget.trackSize;
-    final focusIndicatorSize = Size(
-      trackSize.width + focusIndicatorOffset * 2.0,
-      trackSize.height + focusIndicatorOffset * 2.0,
-    );
-    return IgnorePointer(
-      child: Align.topLeft(
-        child: Transform(
-          transform: info.childPaintTransform,
-          child: SizedBox.fromSize(
-            size: info.childSize,
-            child: Align.center(
-              child: SizedBox.fromSize(size: focusIndicatorSize, child: child),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final focusIndicator = AnimatedBuilder(
-      animation: _animationController,
-      builder: (context, _) => DecoratedBox(
-        decoration: ShapeDecoration(
-          shape: CornersBorder.rounded(
-            corners: Corners.all(_shapeTheme.corner.full),
-            side: _strokeWidthAnimation.value > 0.0
-                ? BorderSide(
-                    style: BorderStyle.solid,
-                    color: _colorTheme.secondary,
-                    width: _strokeWidthAnimation.value,
-                    strokeAlign: BorderSide.strokeAlignOutside,
-                  )
-                : BorderSide.none,
-          ),
-        ),
-      ),
-    );
-    return OverlayPortal.overlayChildLayoutBuilder(
-      controller: _overlayPortalController,
-      overlayChildBuilder: (context, info) =>
-          _buildLocalOverlay(context, info, focusIndicator),
-      child: widget.child,
     );
   }
 }
@@ -634,11 +395,11 @@ enum _SwitchSlot { trackChild, handleChild }
 
 enum SwitchChildPosition { bottom, middle, top }
 
-enum SwitchChildrenPaintOrder { trackChildIsTop, handleChildIsTop }
+enum _SwitchChildrenPaintOrder { trackChildIsTop, handleChildIsTop }
 
-class _AnimatedSwitch
+class _SwitchPaint
     extends SlottedMultiChildRenderObjectWidget<_SwitchSlot, RenderBox> {
-  const _AnimatedSwitch({
+  const _SwitchPaint({
     super.key,
     required this.handlePosition,
     required this.minTapTargetSize,
@@ -668,7 +429,7 @@ class _AnimatedSwitch
   final ShapeBorder handleShape;
   final ValueListenable<Color> handleColor;
 
-  final SwitchChildrenPaintOrder childrenPaintOrder;
+  final _SwitchChildrenPaintOrder childrenPaintOrder;
   final SwitchChildPosition trackChildPosition;
   final Widget? trackChild;
   final SwitchChildPosition handleChildPosition;
@@ -684,8 +445,8 @@ class _AnimatedSwitch
   };
 
   @override
-  _RenderAnimatedSwitch createRenderObject(BuildContext context) {
-    return _RenderAnimatedSwitch(
+  _RenderSwitchPaint createRenderObject(BuildContext context) {
+    return _RenderSwitchPaint(
       handlePosition: handlePosition,
       minTapTargetSize: minTapTargetSize,
       trackSize: trackSize,
@@ -704,7 +465,7 @@ class _AnimatedSwitch
   @override
   void updateRenderObject(
     BuildContext context,
-    _RenderAnimatedSwitch renderObject,
+    _RenderSwitchPaint renderObject,
   ) {
     renderObject
       ..handlePosition = handlePosition
@@ -722,11 +483,11 @@ class _AnimatedSwitch
   }
 }
 
-class _RenderAnimatedSwitch extends RenderBox
+class _RenderSwitchPaint extends RenderBox
     with
         SlottedContainerRenderObjectMixin<_SwitchSlot, RenderBox>,
         DebugOverflowIndicatorMixin {
-  _RenderAnimatedSwitch({
+  _RenderSwitchPaint({
     required ValueListenable<double> handlePosition,
     required Size minTapTargetSize,
     // Track
@@ -738,7 +499,7 @@ class _RenderAnimatedSwitch extends RenderBox
     required ShapeBorder handleShape,
     required ValueListenable<Color> handleColor,
     // Children
-    required SwitchChildrenPaintOrder childrenPaintOrder,
+    required _SwitchChildrenPaintOrder childrenPaintOrder,
     required SwitchChildPosition trackChildPosition,
     required SwitchChildPosition handleChildPosition,
     // Context
@@ -830,9 +591,9 @@ class _RenderAnimatedSwitch extends RenderBox
     markNeedsPaint();
   }
 
-  SwitchChildrenPaintOrder _childrenPaintOrder;
-  SwitchChildrenPaintOrder get childrenPaintOrder => _childrenPaintOrder;
-  set childrenPaintOrder(SwitchChildrenPaintOrder value) {
+  _SwitchChildrenPaintOrder _childrenPaintOrder;
+  _SwitchChildrenPaintOrder get childrenPaintOrder => _childrenPaintOrder;
+  set childrenPaintOrder(_SwitchChildrenPaintOrder value) {
     if (_childrenPaintOrder == value) return;
     _childrenPaintOrder = value;
     markNeedsPaint();
@@ -1045,10 +806,10 @@ class _RenderAnimatedSwitch extends RenderBox
   void _paintChildFor(PaintingContext context, SwitchChildPosition position) {
     if (trackChildPosition == position && handleChildPosition == position) {
       switch (childrenPaintOrder) {
-        case SwitchChildrenPaintOrder.trackChildIsTop:
+        case _SwitchChildrenPaintOrder.trackChildIsTop:
           _paintHandleChild(context);
           _paintTrackChild(context);
-        case SwitchChildrenPaintOrder.handleChildIsTop:
+        case _SwitchChildrenPaintOrder.handleChildIsTop:
           _paintTrackChild(context);
           _paintHandleChild(context);
       }
@@ -1061,37 +822,29 @@ class _RenderAnimatedSwitch extends RenderBox
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    // context.canvas.drawRect(offset & size, Paint()..color = Colors.red);
     final innerRect = _computeInnerRect(size);
     final outerCenter = _computeHandleOuterCenter(innerRect);
     final handleRect = _computeHandleRect(outerCenter);
 
-    late int debugPreviousCanvasSaveCount;
-    context.canvas.save();
-    assert(() {
-      debugPreviousCanvasSaveCount = context.canvas.getSaveCount();
-      return true;
-    }());
+    context.withCanvasTransform(() {
+      if (offset != Offset.zero) {
+        context.canvas.translate(offset.dx, offset.dy);
+      }
+      // Paint the child below the track, if any
+      _paintChildFor(context, SwitchChildPosition.bottom);
 
-    if (offset != Offset.zero) {
-      context.canvas.translate(offset.dx, offset.dy);
-    }
+      // Paint the track
+      _paintTrack(context, innerRect);
 
-    _paintChildFor(context, SwitchChildPosition.bottom);
+      // Paint the child between the track and the handle, if any
+      _paintChildFor(context, SwitchChildPosition.middle);
 
-    _paintTrack(context, innerRect);
+      // Paint the handle
+      _paintHandle(context, handleRect);
 
-    _paintChildFor(context, SwitchChildPosition.middle);
-
-    _paintHandle(context, handleRect);
-
-    _paintChildFor(context, SwitchChildPosition.top);
-
-    assert(() {
-      final int debugNewCanvasSaveCount = context.canvas.getSaveCount();
-      return debugNewCanvasSaveCount == debugPreviousCanvasSaveCount;
-    }());
-    context.canvas.restore();
+      // Paint the child above the handle, if any
+      _paintChildFor(context, SwitchChildPosition.top);
+    });
 
     assert(() {
       paintOverflowIndicator(context, offset, Offset.zero & size, innerRect);

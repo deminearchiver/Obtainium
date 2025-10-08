@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 
@@ -13,7 +14,7 @@ typedef CheckboxThemeDataLegacy = flutter.CheckboxThemeData;
 enum _CheckedState { off, intermediate, checked }
 
 sealed class Checkbox extends StatefulWidget {
-  const Checkbox({super.key});
+  const Checkbox._({super.key});
 
   const factory Checkbox.biState({
     Key? key,
@@ -39,7 +40,7 @@ class _BiStateCheckbox extends Checkbox {
     super.key,
     required this.onCheckedChange,
     required this.checked,
-  });
+  }) : super._();
 
   final ValueChanged<bool>? onCheckedChange;
   final bool checked;
@@ -58,11 +59,8 @@ class _BiStateCheckbox extends Checkbox {
 }
 
 class _TriStateCheckbox extends Checkbox {
-  const _TriStateCheckbox({
-    super.key,
-    required this.onTap,
-    required this.state,
-  });
+  const _TriStateCheckbox({super.key, required this.onTap, required this.state})
+    : super._();
 
   final VoidCallback? onTap;
   final bool? state;
@@ -92,6 +90,8 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
   late SpringThemeData _springTheme;
 
   late final WidgetStatesController _statesController;
+  bool _pressed = false;
+  bool _focused = false;
 
   late final AnimationController _checkFractionController;
   late final AnimationController _crossCenterGravitationController;
@@ -285,16 +285,35 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
       );
 
   WidgetStateProperty<double> get _stateLayerOpacity =>
-      _stateTheme.stateLayerOpacity;
+      WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.disabled)) {
+          return 0.0;
+        }
+        if (states.contains(WidgetState.pressed)) {
+          return _stateTheme.pressedStateLayerOpacity;
+        }
+        if (states.contains(WidgetState.hovered)) {
+          return _stateTheme.hoverStateLayerOpacity;
+        }
+        if (states.contains(WidgetState.focused)) {
+          return 0.0;
+        }
+        return 0.0;
+      });
 
-  WidgetStates _computeStates() {
+  WidgetStates _resolveStates() {
     final states = _statesController.value;
-    // if (_isCheckedOrIntermediate) {
-    //   states.add(WidgetState.selected);
-    // } else {
-    //   states.remove(WidgetState.selected);
-    // }
-    return Set.of(states);
+    if (_pressed) {
+      states.add(WidgetState.pressed);
+    } else {
+      states.remove(WidgetState.pressed);
+    }
+    if (_focused && !_pressed) {
+      states.add(WidgetState.focused);
+    } else {
+      states.remove(WidgetState.focused);
+    }
+    return UnmodifiableSetView(states);
   }
 
   void _updateColorAnimations({
@@ -342,7 +361,7 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final states = _computeStates();
+    final states = _resolveStates();
 
     const minTapTargetSize = Size.square(48.0);
     const stateLayerSize = Size.square(40.0);
@@ -362,14 +381,62 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
 
     final child = SizedBox.fromSize(
       size: stateLayerSize,
-      child: InkWell(
-        statesController: _statesController,
-        customBorder: stateLayerShape,
-        overlayColor: WidgetStateLayerColor(
-          color: _stateLayerColor,
-          opacity: _stateLayerOpacity,
+      child: Listener(
+        behavior: HitTestBehavior.deferToChild,
+        onPointerDown: (_) {
+          setState(() {
+            _focused = false;
+            _pressed = true;
+          });
+        },
+        onPointerUp: (_) {
+          setState(() {
+            _focused = false;
+            _pressed = false;
+          });
+        },
+        onPointerCancel: (_) {
+          setState(() {
+            _focused = false;
+            _pressed = false;
+          });
+        },
+        child: Material(
+          animationDuration: Duration.zero,
+          type: MaterialType.card,
+          clipBehavior: Clip.none,
+          color: Colors.transparent,
+          child: InkWell(
+            statesController: _statesController,
+            customBorder: stateLayerShape,
+            overlayColor: WidgetStateLayerColor(
+              color: _stateLayerColor,
+              opacity: _stateLayerOpacity,
+            ),
+            onTap: widget._onTap,
+            onTapDown: (_) {
+              setState(() {
+                _focused = false;
+                _pressed = true;
+              });
+            },
+            onTapUp: (_) {
+              setState(() {
+                _focused = false;
+                _pressed = false;
+              });
+            },
+            onTapCancel: () {
+              setState(() {
+                _focused = false;
+                _pressed = false;
+              });
+            },
+            onFocusChange: (value) {
+              setState(() => _focused = value);
+            },
+          ),
         ),
-        onTap: widget._onTap,
       ),
     );
 
@@ -382,33 +449,44 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
         child: Align.center(
           widthFactor: 1.0,
           heightFactor: 1.0,
-          child: Material(
-            animationDuration: Duration.zero,
-            type: MaterialType.transparency,
-            clipBehavior: Clip.none,
-            color: Colors.transparent,
-            child: _AnimatedCheckbox(
-              minTapTargetSize: minTapTargetSize,
-              containerSize: const Size.square(18.0),
-              containerShape: const Corners.all(Corner.circular(2.0)),
-              containerColor: _containerColorAnimation.mapValue(
-                (value) => value ?? containerColor,
+          child: TapRegion(
+            behavior: HitTestBehavior.deferToChild,
+            consumeOutsideTaps: false,
+            onTapOutside: (_) {
+              setState(() => _focused = false);
+            },
+            onTapUpOutside: (_) {
+              setState(() => _focused = false);
+            },
+            child: FocusRing(
+              visible: states.contains(WidgetState.focused),
+              layoutBuilder: (context, info, child) => Align.center(
+                child: SizedBox.fromSize(size: stateLayerSize, child: child),
               ),
-              outlineColor: _outlineColorAnimation.mapValue(
-                (value) => value ?? outlineColor,
+              inward: false,
+              child: _CheckboxPaint(
+                minTapTargetSize: minTapTargetSize,
+                containerSize: const Size.square(18.0),
+                containerShape: const Corners.all(Corner.circular(2.0)),
+                containerColor: _containerColorAnimation.mapValue(
+                  (value) => value ?? containerColor,
+                ),
+                outlineColor: _outlineColorAnimation.mapValue(
+                  (value) => value ?? outlineColor,
+                ),
+                outlineWidth: 2.0,
+                iconSize: 18.0,
+                iconColor: _iconColorAnimation.mapValue(
+                  (value) => value ?? iconColor,
+                ),
+                iconStrokeWidth: 2.0,
+                iconStrokeCap: StrokeCap.round,
+                iconStrokeJoin: StrokeJoin.round,
+                checkFraction: _checkFractionController,
+                crossCenterGravitation: _crossCenterGravitationController,
+                childPosition: _CheckboxChildPosition.bottom,
+                child: child,
               ),
-              outlineWidth: 2.0,
-              iconSize: 18.0,
-              iconColor: _iconColorAnimation.mapValue(
-                (value) => value ?? iconColor,
-              ),
-              iconStrokeWidth: 2.0,
-              iconStrokeCap: StrokeCap.round,
-              iconStrokeJoin: StrokeJoin.round,
-              checkFraction: _checkFractionController,
-              crossCenterGravitation: _crossCenterGravitationController,
-              childPosition: _CheckboxChildPosition.bottom,
-              child: child,
             ),
           ),
         ),
@@ -419,8 +497,8 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
 
 enum _CheckboxChildPosition { bottom, middle, top }
 
-class _AnimatedCheckbox extends SingleChildRenderObjectWidget {
-  const _AnimatedCheckbox({
+class _CheckboxPaint extends SingleChildRenderObjectWidget {
+  const _CheckboxPaint({
     super.key,
     required this.minTapTargetSize,
     required this.containerSize,
@@ -458,8 +536,8 @@ class _AnimatedCheckbox extends SingleChildRenderObjectWidget {
   final _CheckboxChildPosition childPosition;
 
   @override
-  _RenderAnimatedCheckbox createRenderObject(BuildContext context) {
-    return _RenderAnimatedCheckbox(
+  _RenderCheckboxPaint createRenderObject(BuildContext context) {
+    return _RenderCheckboxPaint(
       minTapTargetSize: minTapTargetSize,
       containerSize: containerSize,
       containerShape: containerShape,
@@ -481,7 +559,7 @@ class _AnimatedCheckbox extends SingleChildRenderObjectWidget {
   @override
   void updateRenderObject(
     BuildContext context,
-    _RenderAnimatedCheckbox renderObject,
+    _RenderCheckboxPaint renderObject,
   ) {
     renderObject
       ..minTapTargetSize = minTapTargetSize
@@ -502,9 +580,9 @@ class _AnimatedCheckbox extends SingleChildRenderObjectWidget {
   }
 }
 
-class _RenderAnimatedCheckbox extends RenderBox
+class _RenderCheckboxPaint extends RenderBox
     with RenderObjectWithChildMixin<RenderBox> {
-  _RenderAnimatedCheckbox({
+  _RenderCheckboxPaint({
     // Tap target
     required Size minTapTargetSize,
 
@@ -989,37 +1067,26 @@ class _RenderAnimatedCheckbox extends RenderBox
     final outerSize = _computeOuterSize();
     final innerRect = _computeInnerRect(outerSize);
 
-    late int debugPreviousCanvasSaveCount;
-    context.canvas.save();
-    assert(() {
-      debugPreviousCanvasSaveCount = context.canvas.getSaveCount();
-      return true;
-    }());
+    context.withCanvasTransform(() {
+      if (offset != Offset.zero) {
+        context.canvas.translate(offset.dx, offset.dy);
+      }
 
-    if (offset != Offset.zero) {
-      context.canvas.translate(offset.dx, offset.dy);
-    }
+      // Paint the child below the container, if any
+      _paintChildFor(context, _CheckboxChildPosition.bottom);
 
-    // Paint the children below the container, if any
-    _paintChildFor(context, _CheckboxChildPosition.bottom);
+      // Paint the container
+      _paintBox(context, innerRect);
 
-    // Paint the container
-    _paintBox(context, innerRect);
+      // Paint the child between the container and the icon, if any
+      _paintChildFor(context, _CheckboxChildPosition.middle);
 
-    // Paint the children between the container and the icon, if any
-    _paintChildFor(context, _CheckboxChildPosition.middle);
+      // Paint the icon
+      _paintCheck(context, innerRect);
 
-    // Paint the icon
-    _paintCheck(context, innerRect);
-
-    // Paint the children above the icon, if any
-    _paintChildFor(context, _CheckboxChildPosition.top);
-
-    assert(() {
-      final int debugNewCanvasSaveCount = context.canvas.getSaveCount();
-      return debugNewCanvasSaveCount == debugPreviousCanvasSaveCount;
-    }());
-    context.canvas.restore();
+      // Paint the child above the icon, if any
+      _paintChildFor(context, _CheckboxChildPosition.top);
+    });
   }
 
   @override
