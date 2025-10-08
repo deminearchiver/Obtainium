@@ -97,16 +97,6 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
-  late bool _debugValue;
-
-  @override
-  void initState() {
-    super.initState();
-    if (kDebugMode) {
-      _debugValue = false;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final settingsProvider = context.watch<SettingsProvider>();
@@ -483,27 +473,231 @@ class _SettingsPageState extends State<SettingsPage> {
             sliver: SliverList.list(
               children: [
                 if (kDebugMode) ...[
-                  const TextField(
-                    decoration: InputDecoration(
-                      border: UnderlineInputBorder(),
-                      filled: true,
-                      labelText: "Focus target",
+                  _ListItemContainer(
+                    isFirst: true,
+                    isLast: true,
+                    child: MergeSemantics(
+                      child: ListItemInkWell(
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              bool twoStateValue = false;
+                              return StatefulBuilder(
+                                builder: (context, setState) => Scaffold(
+                                  backgroundColor: colorTheme.surfaceContainer,
+                                  body: CustomScrollView(
+                                    slivers: [
+                                      CustomAppBar(
+                                        leading: Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 8.0 - 4.0,
+                                          ),
+                                          child: IconButton(
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                            style: ButtonStyle(
+                                              animationDuration: Duration.zero,
+                                              elevation:
+                                                  const WidgetStatePropertyAll(
+                                                    0.0,
+                                                  ),
+                                              shadowColor:
+                                                  WidgetStateColor.transparent,
+                                              minimumSize:
+                                                  const WidgetStatePropertyAll(
+                                                    Size.zero,
+                                                  ),
+                                              fixedSize:
+                                                  const WidgetStatePropertyAll(
+                                                    Size(40.0, 40.0),
+                                                  ),
+                                              maximumSize:
+                                                  const WidgetStatePropertyAll(
+                                                    Size.infinite,
+                                                  ),
+                                              padding:
+                                                  const WidgetStatePropertyAll(
+                                                    EdgeInsets.zero,
+                                                  ),
+                                              iconSize:
+                                                  const WidgetStatePropertyAll(
+                                                    24.0,
+                                                  ),
+                                              shape: WidgetStatePropertyAll(
+                                                CornersBorder.rounded(
+                                                  corners: Corners.all(
+                                                    ShapeTheme.of(
+                                                      context,
+                                                    ).corner.full,
+                                                  ),
+                                                ),
+                                              ),
+                                              overlayColor:
+                                                  WidgetStateLayerColor(
+                                                    color:
+                                                        WidgetStatePropertyAll(
+                                                          ColorTheme.of(
+                                                            context,
+                                                          ).onSurfaceVariant,
+                                                        ),
+                                                    opacity: StateTheme.of(
+                                                      context,
+                                                    ).stateLayerOpacity,
+                                                  ),
+                                              backgroundColor:
+                                                  WidgetStateProperty.resolveWith(
+                                                    (states) =>
+                                                        states.contains(
+                                                          WidgetState.disabled,
+                                                        )
+                                                        ? ColorTheme.of(context)
+                                                              .onSurface
+                                                              .withValues(
+                                                                alpha: 0.1,
+                                                              )
+                                                        : ColorTheme.of(
+                                                            context,
+                                                          ).surfaceContainerHigh,
+                                                  ),
+                                              iconColor:
+                                                  WidgetStateProperty.resolveWith(
+                                                    (states) =>
+                                                        states.contains(
+                                                          WidgetState.disabled,
+                                                        )
+                                                        ? ColorTheme.of(context)
+                                                              .onSurface
+                                                              .withValues(
+                                                                alpha: 0.38,
+                                                              )
+                                                        : ColorTheme.of(
+                                                            context,
+                                                          ).onSurfaceVariant,
+                                                  ),
+                                            ),
+                                            icon: const IconLegacy(
+                                              Symbols.arrow_back_rounded,
+                                            ),
+                                          ),
+                                        ),
+                                        type: CustomAppBarType.largeFlexible,
+                                        behavior:
+                                            CustomAppBarBehavior.duplicate,
+                                        expandedContainerColor:
+                                            colorTheme.surfaceContainer,
+                                        collapsedContainerColor:
+                                            colorTheme.surfaceContainer,
+                                        collapsedPadding:
+                                            const EdgeInsets.fromLTRB(
+                                              8.0 + 40.0 + 8.0,
+                                              0.0,
+                                              16.0,
+                                              0.0,
+                                            ),
+                                        title: Text("Settings"),
+                                        subtitle: Text("Developer options"),
+                                      ),
+                                      SliverList.list(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 16.0,
+                                            ),
+                                            child: SizedBox(
+                                              height: 128,
+                                              child: Material(
+                                                animationDuration:
+                                                    Duration.zero,
+                                                color: colorTheme.surfaceBright,
+                                                shape: const StadiumBorder(),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                        horizontal: 16.0,
+                                                        vertical: 16.0,
+                                                      ),
+                                                  child: Flex.horizontal(
+                                                    children: [
+                                                      Flexible.tight(
+                                                        child: FittedBox(
+                                                          fit: BoxFit.contain,
+                                                          child: Switch(
+                                                            onCheckedChanged:
+                                                                (
+                                                                  value,
+                                                                ) => setState(
+                                                                  () =>
+                                                                      twoStateValue =
+                                                                          value,
+                                                                ),
+                                                            checked:
+                                                                twoStateValue,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Flexible.tight(
+                                                        child: FittedBox(
+                                                          fit: BoxFit.contain,
+                                                          child: Checkbox.biState(
+                                                            onCheckedChanged:
+                                                                (
+                                                                  value,
+                                                                ) => setState(
+                                                                  () =>
+                                                                      twoStateValue =
+                                                                          value,
+                                                                ),
+                                                            checked:
+                                                                twoStateValue,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Flexible.tight(
+                                                        child: FittedBox(
+                                                          fit: BoxFit.contain,
+                                                          child: RadioButton(
+                                                            onTap: () => setState(
+                                                              () => twoStateValue =
+                                                                  !twoStateValue,
+                                                            ),
+                                                            selected:
+                                                                twoStateValue,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: MediaQuery.sizeOf(
+                                              context,
+                                            ).height,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        child: ListItemLayout(
+                          isMultiline: true,
+                          leading: const Icon(Symbols.developer_mode_rounded),
+                          headline: Text("Developer options"),
+                          supportingText: Text("Options for developers"),
+                          trailing: const Icon(
+                            Symbols.keyboard_arrow_right_rounded,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                  Switch(
-                    onCheckedChanged: (value) =>
-                        setState(() => _debugValue = value),
-                    checked: _debugValue,
-                  ),
-                  Checkbox.biState(
-                    onCheckedChanged: (value) =>
-                        setState(() => _debugValue = value),
-                    checked: _debugValue,
-                  ),
-                  RadioButton(
-                    onTap: () => setState(() => _debugValue = !_debugValue),
-                    selected: _debugValue,
-                  ),
+                  const SizedBox(height: 12.0),
                 ],
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
