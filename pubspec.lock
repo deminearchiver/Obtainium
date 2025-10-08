@@ -1580,10 +1580,10 @@ packages:
     dependency: "direct main"
     description:
       name: super_editor
-      sha256: "71419d91cdb2ab442dd8c21cbec6377a6b71af5652de27f95b882ac9647f27ef"
+      sha256: "6503e54cbd5a3a0a7e8cb1a5513071ceb33218cb6241e74c1f280ddaa4c8e49c"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0-dev.34"
+    version: "0.3.0-dev.35"
   super_editor_markdown:
     dependency: "direct main"
     description:
@@ -1900,10 +1900,10 @@ packages:
     dependency: transitive
     description:
       name: win32
-      sha256: "66814138c3562338d05613a6e368ed8cfb237ad6d64a9e9334be3f309acfca03"
+      sha256: d7cb55e04cd34096cd3a79b3330245f54cb96a370a1c27adb3c84b917de8b08e
       url: "https://pub.dev"
     source: hosted
-    version: "5.14.0"
+    version: "5.15.0"
   win32_registry:
     dependency: transitive
     description:
