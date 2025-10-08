@@ -18,7 +18,7 @@ sealed class Checkbox extends StatefulWidget {
 
   const factory Checkbox.biState({
     Key? key,
-    required ValueChanged<bool>? onCheckedChange,
+    required ValueChanged<bool>? onCheckedChanged,
     required bool checked,
   }) = _BiStateCheckbox;
 
@@ -38,11 +38,11 @@ sealed class Checkbox extends StatefulWidget {
 class _BiStateCheckbox extends Checkbox {
   const _BiStateCheckbox({
     super.key,
-    required this.onCheckedChange,
+    required this.onCheckedChanged,
     required this.checked,
   }) : super._();
 
-  final ValueChanged<bool>? onCheckedChange;
+  final ValueChanged<bool>? onCheckedChanged;
   final bool checked;
 
   @override
@@ -53,8 +53,8 @@ class _BiStateCheckbox extends Checkbox {
   VoidCallback? get _onTap => _onTapCallback;
 
   void _onTapCallback() {
-    assert(onCheckedChange != null);
-    onCheckedChange!(!checked);
+    assert(onCheckedChanged != null);
+    onCheckedChanged!(!checked);
   }
 }
 

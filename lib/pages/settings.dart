@@ -251,8 +251,9 @@ class _SettingsPageState extends State<SettingsPage> {
               headline: Text(tr("useMaterialYou"), maxLines: 2),
               trailing: ExcludeFocus(
                 child: Switch(
-                  onChanged: (value) => settingsProvider.useMaterialYou = value,
-                  value: settingsProvider.useMaterialYou,
+                  onCheckedChanged: (value) =>
+                      settingsProvider.useMaterialYou = value,
+                  checked: settingsProvider.useMaterialYou,
                 ),
               ),
             ),
@@ -464,6 +465,30 @@ class _SettingsPageState extends State<SettingsPage> {
             padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
             sliver: SliverList.list(
               children: [
+                if (kDebugMode) ...[
+                  TextField(
+                    decoration: InputDecoration(
+                      border: UnderlineInputBorder(),
+                      filled: true,
+                      labelText: "Focus target",
+                    ),
+                  ),
+                  Switch(
+                    onCheckedChanged: (value) =>
+                        settingsProvider.groupByCategory = value,
+                    checked: settingsProvider.groupByCategory,
+                  ),
+                  Checkbox.biState(
+                    onCheckedChanged: (value) =>
+                        settingsProvider.groupByCategory = value,
+                    checked: settingsProvider.groupByCategory,
+                  ),
+                  RadioButton(
+                    onTap: () => settingsProvider.groupByCategory =
+                        !settingsProvider.groupByCategory,
+                    selected: settingsProvider.groupByCategory,
+                  ),
+                ],
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
@@ -526,10 +551,10 @@ class _SettingsPageState extends State<SettingsPage> {
                                     ),
                                     trailing: ExcludeFocus(
                                       child: Switch(
-                                        onChanged: (value) =>
+                                        onCheckedChanged: (value) =>
                                             settingsProvider.useFGService =
                                                 value,
-                                        value: settingsProvider.useFGService,
+                                        checked: settingsProvider.useFGService,
                                       ),
                                     ),
                                   ),
@@ -559,11 +584,11 @@ class _SettingsPageState extends State<SettingsPage> {
                                         ),
                                         trailing: ExcludeFocus(
                                           child: Switch(
-                                            onChanged: (value) =>
+                                            onCheckedChanged: (value) =>
                                                 settingsProvider
                                                         .enableBackgroundUpdates =
                                                     value,
-                                            value: settingsProvider
+                                            checked: settingsProvider
                                                 .enableBackgroundUpdates,
                                           ),
                                         ),
@@ -631,11 +656,11 @@ class _SettingsPageState extends State<SettingsPage> {
                                           ),
                                           trailing: ExcludeFocus(
                                             child: Switch(
-                                              onChanged: (value) =>
+                                              onCheckedChanged: (value) =>
                                                   settingsProvider
                                                           .bgUpdatesOnWiFiOnly =
                                                       value,
-                                              value: settingsProvider
+                                              checked: settingsProvider
                                                   .bgUpdatesOnWiFiOnly,
                                             ),
                                           ),
@@ -664,11 +689,11 @@ class _SettingsPageState extends State<SettingsPage> {
                                           ),
                                           trailing: ExcludeFocus(
                                             child: Switch(
-                                              onChanged: (value) =>
+                                              onCheckedChanged: (value) =>
                                                   settingsProvider
                                                           .bgUpdatesWhileChargingOnly =
                                                       value,
-                                              value: settingsProvider
+                                              checked: settingsProvider
                                                   .bgUpdatesWhileChargingOnly,
                                             ),
                                           ),
@@ -699,9 +724,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       headline: Text(tr("checkOnStart"), maxLines: 3),
                       trailing: ExcludeFocus(
                         child: Switch(
-                          onChanged: (value) =>
+                          onCheckedChanged: (value) =>
                               settingsProvider.checkOnStart = value,
-                          value: settingsProvider.checkOnStart,
+                          checked: settingsProvider.checkOnStart,
                         ),
                       ),
                     ),
@@ -726,9 +751,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       trailing: ExcludeFocus(
                         child: Switch(
-                          onChanged: (value) =>
+                          onCheckedChanged: (value) =>
                               settingsProvider.checkUpdateOnDetailPage = value,
-                          value: settingsProvider.checkUpdateOnDetailPage,
+                          checked: settingsProvider.checkUpdateOnDetailPage,
                         ),
                       ),
                     ),
@@ -754,11 +779,11 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       trailing: ExcludeFocus(
                         child: Switch(
-                          onChanged: (value) =>
+                          onCheckedChanged: (value) =>
                               settingsProvider
                                       .onlyCheckInstalledOrTrackOnlyApps =
                                   value,
-                          value: settingsProvider
+                          checked: settingsProvider
                               .onlyCheckInstalledOrTrackOnlyApps,
                         ),
                       ),
@@ -784,10 +809,10 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       trailing: ExcludeFocus(
                         child: Switch(
-                          onChanged: (value) =>
+                          onCheckedChanged: (value) =>
                               settingsProvider.removeOnExternalUninstall =
                                   value,
-                          value: settingsProvider.removeOnExternalUninstall,
+                          checked: settingsProvider.removeOnExternalUninstall,
                         ),
                       ),
                     ),
@@ -809,9 +834,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       headline: Text(tr("parallelDownloads"), maxLines: 3),
                       trailing: ExcludeFocus(
                         child: Switch(
-                          onChanged: (value) =>
+                          onCheckedChanged: (value) =>
                               settingsProvider.parallelDownloads = value,
-                          value: settingsProvider.parallelDownloads,
+                          checked: settingsProvider.parallelDownloads,
                         ),
                       ),
                     ),
@@ -842,11 +867,11 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                           trailing: ExcludeFocus(
                             child: Switch(
-                              onChanged: (value) =>
+                              onCheckedChanged: (value) =>
                                   settingsProvider
                                           .beforeNewInstallsShareToAppVerifier =
                                       value,
-                              value: settingsProvider
+                              checked: settingsProvider
                                   .beforeNewInstallsShareToAppVerifier,
                             ),
                           ),
@@ -881,8 +906,8 @@ class _SettingsPageState extends State<SettingsPage> {
                       headline: Text(tr("useShizuku"), maxLines: 3),
                       trailing: ExcludeFocus(
                         child: Switch(
-                          onChanged: onUseShizukuChanged,
-                          value: settingsProvider.useShizuku,
+                          onCheckedChanged: onUseShizukuChanged,
+                          checked: settingsProvider.useShizuku,
                         ),
                       ),
                     ),
@@ -908,10 +933,11 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       trailing: ExcludeFocus(
                         child: Switch(
-                          onChanged: (value) =>
+                          onCheckedChanged: (value) =>
                               settingsProvider.shizukuPretendToBeGooglePlay =
                                   value,
-                          value: settingsProvider.shizukuPretendToBeGooglePlay,
+                          checked:
+                              settingsProvider.shizukuPretendToBeGooglePlay,
                         ),
                       ),
                     ),
@@ -1003,9 +1029,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       headline: Text(tr("showWebInAppView"), maxLines: 3),
                       trailing: ExcludeFocus(
                         child: Switch(
-                          onChanged: (value) =>
+                          onCheckedChanged: (value) =>
                               settingsProvider.showAppWebpage = value,
-                          value: settingsProvider.showAppWebpage,
+                          checked: settingsProvider.showAppWebpage,
                         ),
                       ),
                     ),
@@ -1027,9 +1053,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       headline: Text(tr("pinUpdates"), maxLines: 3),
                       trailing: ExcludeFocus(
                         child: Switch(
-                          onChanged: (value) =>
+                          onCheckedChanged: (value) =>
                               settingsProvider.pinUpdates = value,
-                          value: settingsProvider.pinUpdates,
+                          checked: settingsProvider.pinUpdates,
                         ),
                       ),
                     ),
@@ -1054,9 +1080,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       trailing: ExcludeFocus(
                         child: Switch(
-                          onChanged: (value) =>
+                          onCheckedChanged: (value) =>
                               settingsProvider.buryNonInstalled = value,
-                          value: settingsProvider.buryNonInstalled,
+                          checked: settingsProvider.buryNonInstalled,
                         ),
                       ),
                     ),
@@ -1078,9 +1104,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       headline: Text(tr("groupByCategory"), maxLines: 3),
                       trailing: ExcludeFocus(
                         child: Switch(
-                          onChanged: (value) =>
+                          onCheckedChanged: (value) =>
                               settingsProvider.groupByCategory = value,
-                          value: settingsProvider.groupByCategory,
+                          checked: settingsProvider.groupByCategory,
                         ),
                       ),
                     ),
@@ -1105,9 +1131,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       trailing: ExcludeFocus(
                         child: Switch(
-                          onChanged: (value) =>
+                          onCheckedChanged: (value) =>
                               settingsProvider.hideTrackOnlyWarning = value,
-                          value: settingsProvider.hideTrackOnlyWarning,
+                          checked: settingsProvider.hideTrackOnlyWarning,
                         ),
                       ),
                     ),
@@ -1132,9 +1158,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       trailing: ExcludeFocus(
                         child: Switch(
-                          onChanged: (value) =>
+                          onCheckedChanged: (value) =>
                               settingsProvider.hideAPKOriginWarning = value,
-                          value: settingsProvider.hideAPKOriginWarning,
+                          checked: settingsProvider.hideAPKOriginWarning,
                         ),
                       ),
                     ),
@@ -1157,9 +1183,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       headline: Text(tr("highlightTouchTargets"), maxLines: 3),
                       trailing: ExcludeFocus(
                         child: Switch(
-                          onChanged: (value) =>
+                          onCheckedChanged: (value) =>
                               settingsProvider.highlightTouchTargets = value,
-                          value: settingsProvider.highlightTouchTargets,
+                          checked: settingsProvider.highlightTouchTargets,
                         ),
                       ),
                     ),

@@ -12,10 +12,14 @@ typedef SwitchThemeLegacy = flutter.SwitchTheme;
 typedef SwitchThemeDataLegacy = flutter.SwitchThemeData;
 
 class Switch extends StatefulWidget {
-  const Switch({super.key, required this.onChanged, required this.value});
+  const Switch({
+    super.key,
+    required this.onCheckedChanged,
+    required this.checked,
+  });
 
-  final ValueChanged<bool>? onChanged;
-  final bool value;
+  final ValueChanged<bool>? onCheckedChanged;
+  final bool checked;
 
   @override
   State<Switch> createState() => _SwitchState();
@@ -143,7 +147,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
     super.initState();
     _statesController =
         WidgetStatesController({
-          if (widget.onChanged == null) WidgetState.disabled,
+          if (widget.onCheckedChanged == null) WidgetState.disabled,
         })..addListener(() {
           setState(() {});
         });
@@ -153,7 +157,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
     _handlePosition = SpringImplicitAnimation<double>(
       vsync: this,
       spring: springTheme.fastSpatial.toSpringDescription(),
-      initialValue: widget.value ? 1.0 : 0.0,
+      initialValue: widget.checked ? 1.0 : 0.0,
       builder: (value) => Tween<double>(begin: value),
     );
     _trackColorAnimation = CurveImplicitAnimation<Color?>(
@@ -187,8 +191,8 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
   @override
   void didUpdateWidget(covariant Switch oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.onChanged != oldWidget.onChanged) {
-      if (widget.onChanged == null) {
+    if (widget.onCheckedChanged != oldWidget.onCheckedChanged) {
+      if (widget.onCheckedChanged == null) {
         _statesController.value.add(WidgetState.disabled);
       } else {
         _statesController.value.remove(WidgetState.disabled);
@@ -219,7 +223,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
   bool _focused = false;
 
   Set<WidgetState> _resolveStates() {
-    final isSelected = widget.value;
+    final isSelected = widget.checked;
     final states = _statesController.value;
     if (isSelected) {
       states.add(WidgetState.selected);
@@ -261,7 +265,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
     final stateLayerShape = CornersBorder.rounded(corners: stateLayerCorners);
     final handleShape = CornersBorder.rounded(corners: handleCorners);
 
-    _handlePosition.targetValue = widget.value ? 1.0 : 0.0;
+    _handlePosition.targetValue = widget.checked ? 1.0 : 0.0;
     _trackColorAnimation.targetValue = trackColor;
     _outlineColorAnimation.targetValue = outlineColor;
     _handleSizeAnimation.targetValue = handleSize;
@@ -301,9 +305,9 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
               color: _stateLayerColor,
               opacity: _stateLayerOpacity,
             ),
-            onTap: widget.onChanged != null
+            onTap: widget.onCheckedChanged != null
                 ? () {
-                    widget.onChanged!(!widget.value);
+                    widget.onCheckedChanged!(!widget.checked);
                   }
                 : null,
             onTapDown: (_) {

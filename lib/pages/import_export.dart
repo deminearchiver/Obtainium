@@ -1048,7 +1048,7 @@ class _SelectionModalState extends State<SelectionModal> {
               children: [
                 Checkbox.biState(
                   checked: entrySelections[entry]!,
-                  onCheckedChange: (value) => selectThis(value),
+                  onCheckedChanged: (value) => selectThis(value),
                 ),
                 const SizedBox(width: 8),
                 Flexible.tight(
