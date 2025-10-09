@@ -8,54 +8,55 @@ import 'package:obtainium/providers/source_provider.dart';
 import 'package:provider/provider.dart';
 
 class ObtainiumError {
-  late String message;
-  bool unexpected;
   ObtainiumError(this.message, {this.unexpected = false});
+
+  String message;
+  bool unexpected;
+
   @override
-  String toString() {
-    return message;
-  }
+  String toString() => message;
 }
 
 class RateLimitError extends ObtainiumError {
-  late int remainingMinutes;
   RateLimitError(this.remainingMinutes)
-    : super(plural('tooManyRequestsTryAgainInMinutes', remainingMinutes));
+    : super(plural("tooManyRequestsTryAgainInMinutes", remainingMinutes));
+
+  int remainingMinutes;
 }
 
 class InvalidURLError extends ObtainiumError {
   InvalidURLError(String sourceName)
-    : super(tr('invalidURLForSource', args: [sourceName]));
+    : super(tr("invalidURLForSource", args: [sourceName]));
 }
 
 class CredsNeededError extends ObtainiumError {
   CredsNeededError(String sourceName)
-    : super(tr('requiresCredentialsInSettings', args: [sourceName]));
+    : super(tr("requiresCredentialsInSettings", args: [sourceName]));
 }
 
 class NoReleasesError extends ObtainiumError {
   NoReleasesError({String? note})
     : super(
-        '${tr('noReleaseFound')}${note?.isNotEmpty == true ? '\n\n$note' : ''}',
+        "${tr("noReleaseFound")}${note?.isNotEmpty == true ? "\n\n$note" : ""}",
       );
 }
 
 class NoAPKError extends ObtainiumError {
-  NoAPKError() : super(tr('noAPKFound'));
+  NoAPKError() : super(tr("noAPKFound"));
 }
 
 class NoVersionError extends ObtainiumError {
-  NoVersionError() : super(tr('noVersionFound'));
+  NoVersionError() : super(tr("noVersionFound"));
 }
 
 class UnsupportedURLError extends ObtainiumError {
-  UnsupportedURLError() : super(tr('urlMatchesNoSource'));
+  UnsupportedURLError() : super(tr("urlMatchesNoSource"));
 }
 
 class DowngradeError extends ObtainiumError {
   DowngradeError(int currentVersionCode, int newVersionCode)
     : super(
-        '${tr('cantInstallOlderVersion')} (versionCode $currentVersionCode ➔ $newVersionCode)',
+        "${tr("cantInstallOlderVersion")} (versionCode $currentVersionCode ➔ $newVersionCode)",
       );
 }
 
@@ -65,21 +66,21 @@ class InstallError extends ObtainiumError {
 }
 
 class IDChangedError extends ObtainiumError {
-  IDChangedError(String newId) : super('${tr('appIdMismatch')} - $newId');
+  IDChangedError(String newId) : super("${tr("appIdMismatch")} - $newId");
 }
 
 class NotImplementedError extends ObtainiumError {
-  NotImplementedError() : super(tr('functionNotImplemented'));
+  NotImplementedError() : super(tr("functionNotImplemented"));
 }
 
 class MultiAppMultiError extends ObtainiumError {
-  Map<String, dynamic> rawErrors = {};
+  MultiAppMultiError() : super(tr("placeholder"), unexpected: true);
+
+  Map<String, Object?> rawErrors = {};
   Map<String, List<String>> idsByErrorString = {};
   Map<String, String> appIdNames = {};
 
-  MultiAppMultiError() : super(tr('placeholder'), unexpected: true);
-
-  void add(String appId, dynamic error, {String? appName}) {
+  void add(String appId, Object? error, {String? appName}) {
     if (error is SocketException) {
       error = error.message;
     }
@@ -95,22 +96,22 @@ class MultiAppMultiError extends ObtainiumError {
   }
 
   String errorString(String appId, {bool includeIdsWithNames = false}) =>
-      '${appIdNames.containsKey(appId) ? '${appIdNames[appId]}${includeIdsWithNames ? ' ($appId)' : ''}' : appId}: ${rawErrors[appId].toString()}';
+      "${appIdNames.containsKey(appId) ? "${appIdNames[appId]}${includeIdsWithNames ? " ($appId)" : ""}" : appId}: ${rawErrors[appId].toString()}";
 
   String errorsAppsString(
     String errString,
     List<String> appIds, {
     bool includeIdsWithNames = false,
   }) =>
-      '$errString [${list2FriendlyString(appIds.map((id) => appIdNames.containsKey(id) == true ? '${appIdNames[id]}${includeIdsWithNames ? ' ($id)' : ''}' : id).toList())}]';
+      "$errString [${list2FriendlyString(appIds.map((id) => appIdNames.containsKey(id) == true ? "${appIdNames[id]}${includeIdsWithNames ? " ($id)" : ""}" : id).toList())}]";
 
   @override
   String toString() => idsByErrorString.entries
       .map((e) => errorsAppsString(e.key, e.value))
-      .join('\n\n');
+      .join("\n\n");
 }
 
-void showMessage(dynamic e, BuildContext context, {bool isError = false}) {
+void showMessage(Object? e, BuildContext context, {bool isError = false}) {
   Provider.of<LogsProvider>(
     context,
     listen: false,
@@ -127,15 +128,15 @@ void showMessage(dynamic e, BuildContext context, {bool isError = false}) {
           scrollable: true,
           title: Text(
             e is MultiAppMultiError
-                ? tr(isError ? 'someErrors' : 'updates')
-                : tr(isError ? 'unexpectedError' : 'unknown'),
+                ? tr(isError ? "someErrors" : "updates")
+                : tr(isError ? "unexpectedError" : "unknown"),
           ),
           content: GestureDetector(
             onLongPress: () {
               Clipboard.setData(ClipboardData(text: e.toString()));
               ScaffoldMessenger.of(
                 context,
-              ).showSnackBar(SnackBar(content: Text(tr('copiedToClipboard'))));
+              ).showSnackBar(SnackBar(content: Text(tr("copiedToClipboard"))));
             },
             child: Text(e.toString()),
           ),
@@ -144,7 +145,7 @@ void showMessage(dynamic e, BuildContext context, {bool isError = false}) {
               onPressed: () {
                 Navigator.of(context).pop(null);
               },
-              child: Text(tr('ok')),
+              child: Text(tr("ok")),
             ),
           ],
         );
@@ -153,14 +154,14 @@ void showMessage(dynamic e, BuildContext context, {bool isError = false}) {
   }
 }
 
-void showError(dynamic e, BuildContext context) {
+void showError(Object? e, BuildContext context) {
   showMessage(e, context, isError: true);
 }
 
 String list2FriendlyString(List<String> list) {
   var isUsingEnglish = isEnglish();
   return list.length == 2
-      ? '${list[0]} ${tr('and')} ${list[1]}'
+      ? "${list[0]} ${tr("and")} ${list[1]}"
       : list
             .asMap()
             .entries
@@ -168,10 +169,10 @@ String list2FriendlyString(List<String> list) {
               (e) =>
                   e.value +
                   (e.key == list.length - 1
-                      ? ''
+                      ? ""
                       : e.key == list.length - 2
-                      ? '${isUsingEnglish ? ',' : ''} and '
-                      : ', '),
+                      ? "${isUsingEnglish ? "," : ""} and "
+                      : ", "),
             )
-            .join('');
+            .join("");
 }
