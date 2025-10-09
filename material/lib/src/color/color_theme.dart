@@ -2591,12 +2591,11 @@ abstract class ColorThemeData extends ColorThemeDataPartial {
     Color? neutralPaletteKeyColor,
     Color? neutralVariantPaletteKeyColor,
     Color? errorPaletteKeyColor,
-  }) {
-    final isDark = brightness == Brightness.dark; // Always exhaustive
-    final scheme = DynamicScheme.fromPalettesOrKeyColors(
+  }) => ColorThemeData.fromDynamicScheme(
+    DynamicScheme.fromPalettesOrKeyColors(
       sourceColorHct: sourceColor._toHct(),
       variant: variant._toVariant(),
-      isDark: isDark,
+      isDark: brightness == Brightness.dark, // Always exhaustive
       platform: platform,
       contrastLevel: contrastLevel,
       specVersion: specVersion,
@@ -2606,9 +2605,8 @@ abstract class ColorThemeData extends ColorThemeDataPartial {
       neutralPaletteKeyColor: neutralPaletteKeyColor?._toHct(),
       neutralVariantPaletteKeyColor: neutralVariantPaletteKeyColor?._toHct(),
       errorPaletteKeyColor: errorPaletteKeyColor?._toHct(),
-    );
-    return ColorThemeData.fromDynamicScheme(scheme);
-  }
+    ),
+  );
 
   @override
   Brightness get brightness;
