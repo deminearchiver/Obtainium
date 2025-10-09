@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:obtainium/assets/assets.gen.dart';
 import 'package:obtainium/components/custom_decorated_sliver.dart';
 import 'package:obtainium/components/custom_list.dart';
 import 'package:obtainium/components/custom_scrollbar.dart';
@@ -478,10 +479,7 @@ class AppsPageState extends State<AppsPage> {
                         transform: Matrix4.rotationZ(0.31),
                         child: Padding(
                           padding: const EdgeInsets.all(15),
-                          child: Image(
-                            image: const AssetImage(
-                              'assets/graphics/icon_small.png',
-                            ),
+                          child: Assets.graphics.iconSmall.image(
                             color:
                                 Theme.of(context).brightness == Brightness.dark
                                 ? Colors.white.withValues(alpha: 0.4)

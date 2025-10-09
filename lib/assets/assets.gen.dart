@@ -18,11 +18,10 @@ class $AssetsCaGen {
   const $AssetsCaGen();
 
   /// File path: assets/ca/lets-encrypt-r3.pem
-  String get letsEncryptR3 =>
-      'packages/obtainium/assets/ca/lets-encrypt-r3.pem';
+  String get letsEncryptR3 => 'assets/ca/lets-encrypt-r3.pem';
 
-  /// Directory path: packages/obtainium/assets/ca
-  String get path => 'packages/obtainium/assets/ca';
+  /// Directory path: assets/ca
+  String get path => 'assets/ca';
 
   /// List of all assets
   List<String> get values => [letsEncryptR3];
@@ -68,10 +67,10 @@ class $AssetsGraphicsGen {
   );
 
   /// File path: assets/graphics/obtainium.psd
-  String get obtainium => 'packages/obtainium/assets/graphics/obtainium.psd';
+  String get obtainium => 'assets/graphics/obtainium.psd';
 
-  /// Directory path: packages/obtainium/assets/graphics
-  String get path => 'packages/obtainium/assets/graphics';
+  /// Directory path: assets/graphics
+  String get path => 'assets/graphics';
 
   /// List of all assets
   List<dynamic> get values => [
@@ -89,96 +88,94 @@ class $AssetsTranslationsGen {
   const $AssetsTranslationsGen();
 
   /// File path: assets/translations/ar.json
-  String get ar => 'packages/obtainium/assets/translations/ar.json';
+  String get ar => 'assets/translations/ar.json';
 
   /// File path: assets/translations/bs.json
-  String get bs => 'packages/obtainium/assets/translations/bs.json';
+  String get bs => 'assets/translations/bs.json';
 
   /// File path: assets/translations/ca.json
-  String get ca => 'packages/obtainium/assets/translations/ca.json';
+  String get ca => 'assets/translations/ca.json';
 
   /// File path: assets/translations/cs.json
-  String get cs => 'packages/obtainium/assets/translations/cs.json';
+  String get cs => 'assets/translations/cs.json';
 
   /// File path: assets/translations/da.json
-  String get da => 'packages/obtainium/assets/translations/da.json';
+  String get da => 'assets/translations/da.json';
 
   /// File path: assets/translations/de.json
-  String get de => 'packages/obtainium/assets/translations/de.json';
+  String get de => 'assets/translations/de.json';
 
   /// File path: assets/translations/en-EO.json
-  String get enEO => 'packages/obtainium/assets/translations/en-EO.json';
+  String get enEO => 'assets/translations/en-EO.json';
 
   /// File path: assets/translations/en.json
-  String get en => 'packages/obtainium/assets/translations/en.json';
+  String get en => 'assets/translations/en.json';
 
   /// File path: assets/translations/es.json
-  String get es => 'packages/obtainium/assets/translations/es.json';
+  String get es => 'assets/translations/es.json';
 
   /// File path: assets/translations/fa.json
-  String get fa => 'packages/obtainium/assets/translations/fa.json';
+  String get fa => 'assets/translations/fa.json';
 
   /// File path: assets/translations/fr.json
-  String get fr => 'packages/obtainium/assets/translations/fr.json';
+  String get fr => 'assets/translations/fr.json';
 
   /// File path: assets/translations/hu.json
-  String get hu => 'packages/obtainium/assets/translations/hu.json';
+  String get hu => 'assets/translations/hu.json';
 
   /// File path: assets/translations/id.json
-  String get id => 'packages/obtainium/assets/translations/id.json';
+  String get id => 'assets/translations/id.json';
 
   /// File path: assets/translations/it.json
-  String get it => 'packages/obtainium/assets/translations/it.json';
+  String get it => 'assets/translations/it.json';
 
   /// File path: assets/translations/ja.json
-  String get ja => 'packages/obtainium/assets/translations/ja.json';
+  String get ja => 'assets/translations/ja.json';
 
   /// File path: assets/translations/ko.json
-  String get ko => 'packages/obtainium/assets/translations/ko.json';
+  String get ko => 'assets/translations/ko.json';
 
   /// File path: assets/translations/ml.json
-  String get ml => 'packages/obtainium/assets/translations/ml.json';
+  String get ml => 'assets/translations/ml.json';
 
   /// File path: assets/translations/nl.json
-  String get nl => 'packages/obtainium/assets/translations/nl.json';
+  String get nl => 'assets/translations/nl.json';
 
   /// File path: assets/translations/pl.json
-  String get pl => 'packages/obtainium/assets/translations/pl.json';
+  String get pl => 'assets/translations/pl.json';
 
   /// File path: assets/translations/pt-BR.json
-  String get ptBR => 'packages/obtainium/assets/translations/pt-BR.json';
+  String get ptBR => 'assets/translations/pt-BR.json';
 
   /// File path: assets/translations/pt.json
-  String get pt => 'packages/obtainium/assets/translations/pt.json';
+  String get pt => 'assets/translations/pt.json';
 
   /// File path: assets/translations/ru.json
-  String get ru => 'packages/obtainium/assets/translations/ru.json';
+  String get ru => 'assets/translations/ru.json';
 
   /// File path: assets/translations/standardize.js
-  String get standardize =>
-      'packages/obtainium/assets/translations/standardize.js';
+  String get standardize => 'assets/translations/standardize.js';
 
   /// File path: assets/translations/sv.json
-  String get sv => 'packages/obtainium/assets/translations/sv.json';
+  String get sv => 'assets/translations/sv.json';
 
   /// File path: assets/translations/tr.json
-  String get tr => 'packages/obtainium/assets/translations/tr.json';
+  String get tr => 'assets/translations/tr.json';
 
   /// File path: assets/translations/uk.json
-  String get uk => 'packages/obtainium/assets/translations/uk.json';
+  String get uk => 'assets/translations/uk.json';
 
   /// File path: assets/translations/vi.json
-  String get vi => 'packages/obtainium/assets/translations/vi.json';
+  String get vi => 'assets/translations/vi.json';
 
   /// File path: assets/translations/zh-Hant-TW.json
-  String get zhHantTW =>
-      'packages/obtainium/assets/translations/zh-Hant-TW.json';
+  String get zhHantTW => 'assets/translations/zh-Hant-TW.json';
 
   /// File path: assets/translations/zh.json
-  String get zh => 'packages/obtainium/assets/translations/zh.json';
+  String get zh => 'assets/translations/zh.json';
 
-  /// Directory path: packages/obtainium/assets/translations
-  String get path => 'packages/obtainium/assets/translations';
+  /// Directory path: assets/translations
+  String get path => 'assets/translations';
 
   /// List of all assets
   List<String> get values => [
@@ -217,8 +214,6 @@ class $AssetsTranslationsGen {
 class Assets {
   const Assets._();
 
-  static const String package = 'obtainium';
-
   static const $AssetsCaGen ca = $AssetsCaGen();
   static const $AssetsGraphicsGen graphics = $AssetsGraphicsGen();
   static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
@@ -233,8 +228,6 @@ class AssetGenImage {
   });
 
   final String _assetName;
-
-  static const String package = 'obtainium';
 
   final Size? size;
   final Set<String> flavors;
@@ -260,8 +253,7 @@ class AssetGenImage {
     bool matchTextDirection = false,
     bool gaplessPlayback = true,
     bool isAntiAlias = false,
-    @Deprecated('Do not specify package for a generated library asset')
-    String? package = package,
+    String? package,
     FilterQuality filterQuality = FilterQuality.medium,
     int? cacheWidth,
     int? cacheHeight,
@@ -294,17 +286,13 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({
-    AssetBundle? bundle,
-    @Deprecated('Do not specify package for a generated library asset')
-    String? package = package,
-  }) {
+  ImageProvider provider({AssetBundle? bundle, String? package}) {
     return AssetImage(_assetName, bundle: bundle, package: package);
   }
 
   String get path => _assetName;
 
-  String get keyName => 'packages/obtainium/$_assetName';
+  String get keyName => _assetName;
 }
 
 class AssetGenImageAnimation {
@@ -331,14 +319,11 @@ class SvgGenImage {
   final Set<String> flavors;
   final bool _isVecFormat;
 
-  static const String package = 'obtainium';
-
   _svg.SvgPicture svg({
     Key? key,
     bool matchTextDirection = false,
     AssetBundle? bundle,
-    @Deprecated('Do not specify package for a generated library asset')
-    String? package = package,
+    String? package,
     double? width,
     double? height,
     BoxFit fit = BoxFit.contain,
@@ -393,5 +378,5 @@ class SvgGenImage {
 
   String get path => _assetName;
 
-  String get keyName => 'packages/obtainium/$_assetName';
+  String get keyName => _assetName;
 }

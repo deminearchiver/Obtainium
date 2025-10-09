@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:obtainium/assets/assets.gen.dart';
 import 'package:obtainium/flutter.dart';
 import 'package:obtainium/pages/home.dart';
 import 'package:obtainium/providers/apps_provider.dart';
@@ -53,7 +54,7 @@ List<MapEntry<Locale, String>> supportedLocales = const [
   MapEntry(Locale('ml'), 'മലയാളം'),
 ];
 const fallbackLocale = Locale('en');
-const localeDir = 'assets/translations';
+final localeDir = Assets.translations.path;
 var fdroid = false;
 
 final globalNavigatorKey = GlobalKey<NavigatorState>();
@@ -128,9 +129,7 @@ class MyTaskHandler extends TaskHandler {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
-    ByteData data = await PlatformAssetBundle().load(
-      'assets/ca/lets-encrypt-r3.pem',
-    );
+    ByteData data = await rootBundle.load(Assets.ca.letsEncryptR3);
     SecurityContext.defaultContext.setTrustedCertificatesBytes(
       data.buffer.asUint8List(),
     );
