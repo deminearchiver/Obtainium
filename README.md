@@ -35,6 +35,8 @@
     - [Markdown styles update](#markdown-styles-update)
   - [Internal changes](#internal-changes)
   - [Other](#other)
+- [Roadmap](#roadmap)
+  - [Material 3 Expressive](#material-3-expressive-1)
 - [About](#about)
   - [Useful links](#useful-links)
   - [Supported app sources](#supported-app-sources)
@@ -108,6 +110,44 @@ This fork features important developer-facing changes, such as:
 ### Other
 
 Currently, there are a lot of changes not yet covered in this section, which means that this section is incomplete. The changelist will be updated and more changes will be described.
+
+## Roadmap
+
+This section contains the list of projects that are planned to be implemented.
+
+### Material 3 Expressive
+
+Many Material widgets used still come from Flutter's Material library. The long-standing goal of this project is to get rid of the dependency on Flutter's Material library. It is considered "legacy" in the scope of this repository (it's not actually deprecated).
+
+Here's a list of widgets that are planned to have a custom implementation:
+- [ ] Switch (`Switch`)
+  - [x] Support default style
+  - [ ] Support theming
+- [ ] Checkbox (`Checkbox`)
+  - [x] Support default style
+  - [ ] Support theming
+- [ ] Radio button (`RadioButton`)
+  - [x] Support default style
+  - [ ] Support theming
+- [ ] Common buttons (`Button` and `ToggleButton`)
+  - [x] Support default style
+  - [ ] Support theming
+- [ ] Icon buttons (`IconButton` and `IconToggleButton`)
+  - [x] Support default style
+  - [ ] Support theming
+- [ ] Standard button group (`StandardButtonGroup`)
+  - One of the most complex widgets to implement, will probably require a custom render object. In that case children will be required to support dry layout.
+- [ ] Connected button group (`ConnectedButtonGroup`)
+- [ ] FAB
+- [ ] FAB menu
+- [ ] App bar
+  - [x] Implement using existing `SliverAppBar`
+  - [ ] Improve title layout to account for actions
+  - [ ] Fully custom implementation (must use `SliverPersistentHeader` under the hood)
+
+<!-- ### Organization
+
+This list contains changes regarding the project's repository. -->
 
 ## About
 
