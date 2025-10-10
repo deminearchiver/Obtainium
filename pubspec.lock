@@ -671,18 +671,18 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_md
-      sha256: b5a67ae49135f7a76a0cc6f938ee3e8754e71d8448b97cf99c11512877f1d055
+      sha256: "3d726f06573397c66543a8ee229c86a263e8330768485a317f3ccd99c7794b6b"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.7"
+    version: "0.0.8"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
       name: flutter_plugin_android_lifecycle
-      sha256: b0694b7fb1689b0e6cc193b3f1fcac6423c4f93c74fb20b806c6b6f196db0c31
+      sha256: c2fe1001710127dfa7da89977a08d591398370d099aacdaa6d44da7eb14b8476
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.30"
+    version: "2.0.31"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -1109,10 +1109,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_android
-      sha256: "993381400e94d18469750e5b9dcb8206f15bc09f9da86b9e44a9b0092a0066db"
+      sha256: "3b4c1fc3aa55ddc9cd4aa6759984330d5c8e66aa7702a6223c61540dc6380c37"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.18"
+    version: "2.2.19"
   path_provider_foundation:
     dependency: transitive
     description:
@@ -1325,10 +1325,10 @@ packages:
     dependency: transitive
     description:
       name: shared_preferences_android
-      sha256: "0b0f98d535319cb5cdd4f65783c2a54ee6d417a2f093dbb18be3e36e4c3d181f"
+      sha256: "34266009473bf71d748912da4bf62d439185226c03e01e2d9687bc65bbfcb713"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.14"
+    version: "2.4.15"
   shared_preferences_foundation:
     dependency: transitive
     description:
@@ -1716,10 +1716,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_android
-      sha256: c0fb544b9ac7efa10254efaf00a951615c362d1ea1877472f8f6c0fa00fcf15b
+      sha256: "5c8b6c2d89a78f5a1cca70a73d9d5f86c701b36b42f9c9dac7bad592113c28e9"
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.23"
+    version: "6.3.24"
   url_launcher_ios:
     dependency: transitive
     description:
@@ -1876,10 +1876,10 @@ packages:
     dependency: transitive
     description:
       name: webview_flutter_android
-      sha256: "21507ea5a326ceeba4d29dea19e37d92d53d9959cfc746317b9f9f7a57418d87"
+      sha256: e5201c620eb2637dca88a756961fae4a7191bb30b4f2271e08b746405ffdf3fd
       url: "https://pub.dev"
     source: hosted
-    version: "4.10.3"
+    version: "4.10.5"
   webview_flutter_platform_interface:
     dependency: transitive
     description:

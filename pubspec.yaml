@@ -95,7 +95,7 @@ dependencies:
   flutter_foreground_task: ^9.1.0
   material_symbols_icons: ^4.2874.0
   gpt_markdown: ^1.1.4
-  flutter_md: ^0.0.7
+  flutter_md: ^0.0.8
   flutter_markdown_plus: ^1.0.5
   skeletonizer: ^2.1.0+1
   super_keyboard: ^0.2.2
