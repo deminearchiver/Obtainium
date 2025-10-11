@@ -566,7 +566,7 @@ class _RenderRadioButtonPaint extends RenderBox
     final scale = iconSize.value / relativeIconSize;
 
     // TODO: remove scaling once the magic numbers are extracted into theme.
-    context.withCanvasTransform(() {
+    context.withCanvasTransform((context) {
       context.canvas.translate(center.dx, center.dy);
       context.canvas.scale(scale);
       context.canvas.translate(-center.dx, -center.dy);
@@ -605,7 +605,7 @@ class _RenderRadioButtonPaint extends RenderBox
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    context.withCanvasTransform(() {
+    context.withCanvasTransform((context) {
       if (offset != Offset.zero) {
         context.canvas.translate(offset.dx, offset.dy);
       }

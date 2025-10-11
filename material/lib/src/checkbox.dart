@@ -1133,7 +1133,7 @@ class _RenderCheckboxPaint extends RenderBox
     final outerSize = _computeOuterSize();
     final innerRect = _computeInnerRect(outerSize);
 
-    context.withCanvasTransform(() {
+    context.withCanvasTransform((context) {
       if (offset != Offset.zero) {
         context.canvas.translate(offset.dx, offset.dy);
       }

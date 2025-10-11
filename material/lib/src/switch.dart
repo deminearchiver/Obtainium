@@ -132,24 +132,16 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
   WidgetStateProperty<CornersGeometry> get _handleShape =>
       WidgetStatePropertyAll(Corners.all(_shapeTheme.corner.full));
 
-  WidgetStateProperty<IconThemeDataPartial> get _iconTheme =>
+  WidgetStateProperty<Color> get _iconColor =>
       WidgetStateProperty.resolveWith((states) {
         final isDisabled = states.contains(WidgetState.disabled);
-        final color = _isSelected
+        return _isSelected
             ? isDisabled
                   ? _colorTheme.onSurface.withValues(alpha: 0.38)
                   : _colorTheme.primary
             : isDisabled
             ? _colorTheme.surfaceContainerHighest.withValues(alpha: 0.38)
             : _colorTheme.surfaceContainerHighest;
-        return IconThemeDataPartial.from(
-          color: color,
-          fill: 0.0,
-          grade: 0.0,
-          size: 16.0,
-          opticalSize: 24.0,
-          weight: 400.0,
-        );
       });
 
   void _updateHandlePositionAnimation({required double handlePosition}) {
@@ -225,6 +217,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
         _outlineColorTween.begin == _outlineColorTween.end &&
         _handleColorTween.begin == _handleColorTween.end &&
         _iconColorTween.begin == _iconColorTween.end) {
+      _colorController.value = 1.0;
       return;
     }
 
@@ -283,7 +276,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
 
     _handlePositionController = AnimationController.unbounded(
       vsync: this,
-      value: 0.0,
+      value: 1.0,
     );
     _handlePositionAnimation = _handlePositionTween.animate(
       _handlePositionController,
@@ -291,11 +284,11 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
 
     _handleSizeController = AnimationController.unbounded(
       vsync: this,
-      value: 0.0,
+      value: 1.0,
     );
     _handleSizeAnimation = _handleSizeTween.animate(_handleSizeController);
 
-    _colorController = AnimationController(vsync: this, value: 0.0);
+    _colorController = AnimationController(vsync: this, value: 1.0);
     _trackColorAnimation = _trackColorTween.animate(_colorController);
     _outlineColorAnimation = _outlineColorTween.animate(_colorController);
     _handleColorAnimation = _handleColorTween.animate(_colorController);
@@ -332,7 +325,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
     final handleSize = _handleSize.resolve(states);
     final handleColor = _handleColor.resolve(states);
     final handleCorners = _handleShape.resolve(states);
-    final iconTheme = _iconTheme.resolve(states);
+    final iconColor = _iconColor.resolve(states);
 
     const minTapTargetSize = Size(48.0, 48.0);
     const stateLayerSize = 40.0;
@@ -347,7 +340,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
       trackColor: trackColor,
       outlineColor: outlineColor,
       handleColor: handleColor,
-      iconColor: Colors.transparent,
+      iconColor: iconColor,
     );
 
     final trackChild = SizedBox.square(
@@ -429,11 +422,25 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
     );
 
     final handleChild = Align.center(
-      child: IconTheme.merge(
-        data: iconTheme,
+      child: AnimatedBuilder(
+        animation: _iconColorAnimation,
+        builder: (context, child) => Opacity(
+          opacity: _colorController.value,
+          child: IconTheme.merge(
+            data: IconThemeDataPartial.from(
+              color: _iconColorAnimation.value,
+              fill: 0.0,
+              grade: 0.0,
+              size: 16.0,
+              opticalSize: 24.0,
+              weight: 400.0,
+            ),
+            child: child!,
+          ),
+        ),
         child: _isSelected
-            ? const Icon(Symbols.check_rounded)
-            : const Icon(Symbols.close_rounded),
+            ? const Icon(Symbols.check_rounded, applyTextScaling: false)
+            : const Icon(Symbols.close_rounded, applyTextScaling: false),
       ),
     );
     return RepaintBoundary(
@@ -590,9 +597,7 @@ class _SwitchPaint
 }
 
 class _RenderSwitchPaint extends RenderBox
-    with
-        SlottedContainerRenderObjectMixin<_SwitchSlot, RenderBox>,
-        DebugOverflowIndicatorMixin {
+    with SlottedContainerRenderObjectMixin<_SwitchSlot, RenderBox> {
   _RenderSwitchPaint({
     required ValueListenable<double> handlePosition,
     required Size minTapTargetSize,
@@ -964,10 +969,12 @@ class _RenderSwitchPaint extends RenderBox
     final outerCenter = _computeHandleOuterCenter(innerRect);
     final handleRect = _computeHandleRect(outerCenter);
 
-    context.withCanvasTransform(() {
+    // TODO: error restore() 1 more time than save() seems to originate from here
+    context.withCanvasTransform((context) {
       if (offset != Offset.zero) {
         context.canvas.translate(offset.dx, offset.dy);
       }
+
       // Paint the child below the track, if any
       _paintChildFor(context, SwitchChildPosition.bottom);
 
@@ -983,11 +990,6 @@ class _RenderSwitchPaint extends RenderBox
       // Paint the child above the handle, if any
       _paintChildFor(context, SwitchChildPosition.top);
     });
-
-    assert(() {
-      paintOverflowIndicator(context, offset, Offset.zero & size, innerRect);
-      return true;
-    }());
   }
 
   @override
