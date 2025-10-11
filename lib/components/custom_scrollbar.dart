@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:obtainium/flutter.dart' hide RawScrollbar, RawScrollbarState;
-import 'custom_scrollbar_2.dart';
+import 'custom_raw_scrollbar.dart';
 
 const Duration _kScrollbarFadeDuration = Duration(milliseconds: 300);
 const Duration _kScrollbarTimeToFade = Duration(milliseconds: 600);

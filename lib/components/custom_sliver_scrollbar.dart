@@ -2,26 +2,26 @@ import 'dart:math' as math;
 
 import 'package:obtainium/flutter.dart';
 
-class CustomScrollbar3 extends StatefulWidget {
-  const CustomScrollbar3({super.key, required this.sliver});
+class SliverScrollbar extends StatefulWidget {
+  const SliverScrollbar({super.key, required this.sliver});
 
   final Widget sliver;
 
   @override
-  State<CustomScrollbar3> createState() => _CustomScrollbar3State();
+  State<SliverScrollbar> createState() => _SliverScrollbarState();
 }
 
-class _CustomScrollbar3State extends State<CustomScrollbar3> {
+class _SliverScrollbarState extends State<SliverScrollbar> {
   @override
   Widget build(BuildContext context) {
-    return _CustomScrollbar(sliver: widget.sliver);
+    return _SliverScrollbar(sliver: widget.sliver);
     return NotificationListener<ScrollMetricsNotification>(
       child: NotificationListener<ScrollNotification>(
         child: RepaintBoundary(
           child: Listener(
             child: RawGestureDetector(
               child: MouseRegion(
-                child: _CustomScrollbar(sliver: widget.sliver),
+                child: _SliverScrollbar(sliver: widget.sliver),
               ),
             ),
           ),
@@ -31,24 +31,24 @@ class _CustomScrollbar3State extends State<CustomScrollbar3> {
   }
 }
 
-class _CustomScrollbar extends SingleChildRenderObjectWidget {
-  const _CustomScrollbar({super.key, required Widget sliver})
+class _SliverScrollbar extends SingleChildRenderObjectWidget {
+  const _SliverScrollbar({super.key, required Widget sliver})
     : super(child: sliver);
 
   @override
-  _RenderCustomScrollbar createRenderObject(BuildContext context) {
-    return _RenderCustomScrollbar();
+  _RenderSliverScrollbar createRenderObject(BuildContext context) {
+    return _RenderSliverScrollbar();
   }
 
   @override
   void updateRenderObject(
     BuildContext context,
-    _RenderCustomScrollbar renderObject,
+    _RenderSliverScrollbar renderObject,
   ) {}
 }
 
-class _RenderCustomScrollbar extends RenderProxySliver {
-  _RenderCustomScrollbar({RenderSliver? child}) : super(child);
+class _RenderSliverScrollbar extends RenderProxySliver {
+  _RenderSliverScrollbar({RenderSliver? child}) : super(child);
 
   @override
   void performLayout() {

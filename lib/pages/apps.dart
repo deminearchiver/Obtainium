@@ -6,7 +6,7 @@ import 'package:obtainium/assets/assets.gen.dart';
 import 'package:obtainium/components/custom_decorated_sliver.dart';
 import 'package:obtainium/components/custom_list.dart';
 import 'package:obtainium/components/custom_scrollbar.dart';
-import 'package:obtainium/components/custom_scrollbar_3.dart';
+import 'package:obtainium/components/custom_sliver_scrollbar.dart';
 import 'package:obtainium/flutter.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:obtainium/components/custom_app_bar.dart';
@@ -1912,7 +1912,7 @@ class AppsPageState extends State<AppsPage> {
               // TODO: either finish CustomScrollbar3 or use nested_scroll_view_plus
               // ignore: dead_code
               if (kCustomScrollbarVisible) ...[
-                CustomScrollbar3(
+                SliverScrollbar(
                   sliver: SliverMainAxisGroup(
                     // slivers: [...getLoadingWidgets(), getDisplayedList()],
                     slivers: [
