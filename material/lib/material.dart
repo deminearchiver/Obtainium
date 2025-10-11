@@ -36,3 +36,8 @@ export 'src/radio_button.dart';
 export 'src/switch.dart';
 
 export 'src/window_size_class.dart';
+
+import 'src/flutter.dart';
+
+// TODO: maybe this should be moved to the layout package?
+typedef ChildPositioner = void Function(RenderBox child, Offset position);
