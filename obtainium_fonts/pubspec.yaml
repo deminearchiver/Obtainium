@@ -23,32 +23,42 @@ dev_dependencies:
 
 flutter:
   fonts:
+    # Google Fonts
+    - family: Fira Code
+      fonts:
+        - asset: assets/fonts/firacode/FiraCode-VariableFont_wght.ttf
+          style: normal
+    - family: Google Sans Code
+      fonts:
+        - asset: assets/fonts/googlesanscode/GoogleSansCode-VariableFont_wght.ttf
+          style: normal
+        - asset: assets/fonts/googlesanscode/GoogleSansCode-Italic-VariableFont_wght.ttf
+          style: italic
     - family: Roboto Flex
       fonts:
         - asset: assets/fonts/robotoflex/RobotoFlex-VariableFont_GRAD,XOPQ,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght.ttf
 
+    # Custom
+    - family: Google Sans Rounded
+      fonts:
+        - asset: assets/fonts/googlesansrounded/GoogleSansRounded-Regular.ttf
+          style: normal
+          weight: 400
+
+    # Google Restricted
     - family: Google Sans
       fonts:
         - asset: assets/fonts/googlerestricted/GoogleSans-Regular.ttf
           style: normal
         - asset: assets/fonts/googlerestricted/GoogleSans-Italic.ttf
           style: italic
-
     - family: Google Sans Clock
       fonts:
         - asset: assets/fonts/googlerestricted/GoogleSansClock-Regular.ttf
           style: normal
-
     - family: Google Sans Flex
       fonts:
         - asset: assets/fonts/googlerestricted/GoogleSansFlex-Regular.ttf
-
     - family: Google Sans Flex Clock
       fonts:
         - asset: assets/fonts/googlerestricted/GoogleSansFlexClock-Regular.ttf
-
-    - family: Google Sans Rounded
-      fonts:
-        - asset: assets/fonts/googlesansrounded/GoogleSansRounded-Regular.ttf
-          style: normal
-          weight: 400
