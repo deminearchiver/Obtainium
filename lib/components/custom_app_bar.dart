@@ -113,16 +113,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
   late TypescaleThemeData _typescaleTheme;
   ScrollPosition? _position;
 
-  CustomAppBarBehavior get _behavior {
-    if (widget.behavior case final behavior?) {
-      return behavior;
-    }
-    // TODO: improve logic for resolving the default value of CustomAppBar.behavior
-    if (_expandedColor == _collapsedColor) {
-      return CustomAppBarBehavior.stretch;
-    }
-    return CustomAppBarBehavior.duplicate;
-  }
+  CustomAppBarBehavior get _behavior =>
+      widget.behavior ?? CustomAppBarBehavior.duplicate;
 
   TypeStyle get _collapsedTitleTypeStyle =>
       _typescaleTheme.titleLargeEmphasized;
