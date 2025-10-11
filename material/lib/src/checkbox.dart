@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 
@@ -50,7 +49,7 @@ class _BiStateCheckbox extends Checkbox {
       checked ? _CheckedState.checked : _CheckedState.off;
 
   @override
-  VoidCallback? get _onTap => _onTapCallback;
+  VoidCallback? get _onTap => onCheckedChanged != null ? _onTapCallback : null;
 
   void _onTapCallback() {
     assert(onCheckedChanged != null);
@@ -104,6 +103,143 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
   late Animation<Color?> _containerColorAnimation;
   late Animation<Color?> _outlineColorAnimation;
   late Animation<Color?> _iconColorAnimation;
+
+  WidgetStateProperty<Color> get _containerColor =>
+      WidgetStateProperty.resolveWith((states) {
+        final isDisabled = states.contains(WidgetState.disabled);
+        if (isDisabled) {
+          return _isCheckedOrIntermediate
+              ? _colorTheme.onSurface.withValues(alpha: 0.38)
+              : _colorTheme.onSurface.withValues(alpha: 0.0);
+        }
+        return _isCheckedOrIntermediate
+            ? _colorTheme.primary
+            : _colorTheme.primary.withValues(alpha: 0.0);
+      });
+
+  WidgetStateProperty<Color> get _outlineColor =>
+      WidgetStateProperty.resolveWith((states) {
+        final isDisabled = states.contains(WidgetState.disabled);
+        final isSelected = _isCheckedOrIntermediate;
+        if (isDisabled) {
+          return _colorTheme.onSurface.withValues(alpha: 0.38);
+        }
+        if (isSelected) {
+          return _colorTheme.primary;
+        }
+        if (states.contains(WidgetState.pressed)) {
+          return _colorTheme.onSurface;
+        }
+        if (states.contains(WidgetState.focused)) {
+          return _colorTheme.onSurface;
+        }
+        if (states.contains(WidgetState.hovered)) {
+          return _colorTheme.onSurface;
+        }
+        return _colorTheme.onSurfaceVariant;
+      });
+
+  WidgetStateProperty<Color> get _iconColor =>
+      WidgetStateProperty.resolveWith((states) {
+        final isDisabled = states.contains(WidgetState.disabled);
+        final isSelected = _isCheckedOrIntermediate;
+        if (isDisabled) {
+          return isSelected
+              ? _colorTheme.surface.withValues(alpha: 0.38)
+              : Colors.transparent;
+        }
+        return isSelected ? _colorTheme.onPrimary : Colors.transparent;
+      });
+
+  WidgetStateProperty<Color> get _stateLayerColor =>
+      WidgetStateProperty.resolveWith(
+        (_) => _isCheckedOrIntermediate
+            ? _colorTheme.primary
+            : _colorTheme.onSurface,
+      );
+
+  WidgetStateProperty<double> get _stateLayerOpacity =>
+      WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.disabled)) {
+          return 0.0;
+        }
+        if (states.contains(WidgetState.pressed)) {
+          return _stateTheme.pressedStateLayerOpacity;
+        }
+        if (states.contains(WidgetState.hovered)) {
+          return _stateTheme.hoverStateLayerOpacity;
+        }
+        if (states.contains(WidgetState.focused)) {
+          return 0.0;
+        }
+        return 0.0;
+      });
+
+  void _updateColorAnimations({
+    required Color containerColor,
+    required Color outlineColor,
+    required Color iconColor,
+  }) {
+    // The animation is already in progress.
+    // There is no point in triggering it again
+    // because it would animate to the same value.
+    if (containerColor == _containerColorTween.end &&
+        outlineColor == _outlineColorTween.end &&
+        iconColor == _iconColorTween.end) {
+      return;
+    }
+
+    _containerColorTween.begin =
+        _containerColorAnimation.value ?? containerColor;
+    _containerColorTween.end = containerColor;
+    _outlineColorTween.begin = _outlineColorAnimation.value ?? outlineColor;
+    _outlineColorTween.end = outlineColor;
+    _iconColorTween.begin = _iconColorAnimation.value ?? iconColor;
+    _iconColorTween.end = iconColor;
+
+    // We don't have to animate between states
+    // if the initial state is the same as the target state.
+    if (_containerColorTween.begin == _containerColorTween.end &&
+        _outlineColorTween.begin == _outlineColorTween.end &&
+        _iconColorTween.begin == _iconColorTween.end) {
+      return;
+    }
+
+    final spring = _isCheckedOrIntermediate
+        ? _springTheme.defaultEffects
+        : _springTheme.fastEffects;
+    final simulation = SpringSimulation(
+      spring.toSpringDescription(),
+      0.0,
+      1.0,
+      0.0,
+    );
+    _colorController.animateWith(simulation);
+  }
+
+  WidgetStates _resolveStates() {
+    final states = _statesController.value;
+
+    final isDisabled = widget._onTap == null;
+
+    if (isDisabled) {
+      states.add(WidgetState.disabled);
+    } else {
+      states.remove(WidgetState.disabled);
+    }
+
+    if (!isDisabled && _pressed) {
+      states.add(WidgetState.pressed);
+    } else {
+      states.remove(WidgetState.pressed);
+    }
+    if (!isDisabled && (_focused && !_pressed)) {
+      states.add(WidgetState.focused);
+    } else {
+      states.remove(WidgetState.focused);
+    }
+    return Set.of(states);
+  }
 
   @override
   void initState() {
@@ -228,143 +364,13 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  WidgetStateProperty<Color> get _containerColor =>
-      WidgetStateProperty.resolveWith((states) {
-        final isDisabled = states.contains(WidgetState.disabled);
-        if (isDisabled) {
-          return _isCheckedOrIntermediate
-              ? _colorTheme.onSurface.withValues(alpha: 0.38)
-              : _colorTheme.onSurface.withValues(alpha: 0.0);
-        }
-        return _isCheckedOrIntermediate
-            ? _colorTheme.primary
-            : _colorTheme.primary.withValues(alpha: 0.0);
-      });
-
-  WidgetStateProperty<Color> get _outlineColor =>
-      WidgetStateProperty.resolveWith((states) {
-        final isDisabled = states.contains(WidgetState.disabled);
-        final isSelected = _isCheckedOrIntermediate;
-        if (isDisabled) {
-          return isSelected
-              ? _colorTheme.onSurface.withValues(alpha: 0.0)
-              : _colorTheme.onSurface.withValues(alpha: 0.38);
-        }
-        if (isSelected) {
-          return _colorTheme.primary;
-        }
-        if (states.contains(WidgetState.pressed)) {
-          return _colorTheme.onSurface;
-        }
-        if (states.contains(WidgetState.focused)) {
-          return _colorTheme.onSurface;
-        }
-        if (states.contains(WidgetState.hovered)) {
-          return _colorTheme.onSurface;
-        }
-        return _colorTheme.onSurfaceVariant;
-      });
-
-  WidgetStateProperty<Color> get _iconColor =>
-      WidgetStateProperty.resolveWith((states) {
-        final isDisabled = states.contains(WidgetState.disabled);
-        final isSelected = _isCheckedOrIntermediate;
-        if (isDisabled) {
-          return isSelected
-              ? _colorTheme.surface.withValues(alpha: 0.38)
-              : Colors.transparent;
-        }
-        return isSelected ? _colorTheme.onPrimary : Colors.transparent;
-      });
-
-  WidgetStateProperty<Color> get _stateLayerColor =>
-      WidgetStateProperty.resolveWith(
-        (_) => _isCheckedOrIntermediate
-            ? _colorTheme.primary
-            : _colorTheme.onSurface,
-      );
-
-  WidgetStateProperty<double> get _stateLayerOpacity =>
-      WidgetStateProperty.resolveWith((states) {
-        if (states.contains(WidgetState.disabled)) {
-          return 0.0;
-        }
-        if (states.contains(WidgetState.pressed)) {
-          return _stateTheme.pressedStateLayerOpacity;
-        }
-        if (states.contains(WidgetState.hovered)) {
-          return _stateTheme.hoverStateLayerOpacity;
-        }
-        if (states.contains(WidgetState.focused)) {
-          return 0.0;
-        }
-        return 0.0;
-      });
-
-  WidgetStates _resolveStates() {
-    final states = _statesController.value;
-    if (_pressed) {
-      states.add(WidgetState.pressed);
-    } else {
-      states.remove(WidgetState.pressed);
-    }
-    if (_focused && !_pressed) {
-      states.add(WidgetState.focused);
-    } else {
-      states.remove(WidgetState.focused);
-    }
-    return UnmodifiableSetView(states);
-  }
-
-  void _updateColorAnimations({
-    required Color containerColor,
-    required Color outlineColor,
-    required Color iconColor,
-  }) {
-    // The animation is already in progress.
-    // We have no point of triggering it again
-    // because it would animate to the same value.
-    if (containerColor == _containerColorTween.end &&
-        outlineColor == _outlineColorTween.end &&
-        iconColor == _iconColorTween.end) {
-      return;
-    }
-
-    _containerColorTween.begin =
-        _containerColorAnimation.value ?? containerColor;
-    _containerColorTween.end = containerColor;
-    _outlineColorTween.begin = _outlineColorAnimation.value ?? outlineColor;
-    _outlineColorTween.end = outlineColor;
-    _iconColorTween.begin = _iconColorAnimation.value ?? iconColor;
-    _iconColorTween.end = iconColor;
-
-    // We don't have to animate between states
-    // if the initial state is the same as the target state.
-    if (_containerColorTween.begin == _containerColorTween.end &&
-        _outlineColorTween.begin == _outlineColorTween.end &&
-        _iconColorTween.begin == _iconColorTween.end) {
-      return;
-    }
-
-    const springTheme = SpringThemeData.expressive();
-    final spring = _isCheckedOrIntermediate
-        ? springTheme.defaultEffects
-        : springTheme.fastEffects;
-    final simulation = SpringSimulation(
-      spring.toSpringDescription(),
-      0.0,
-      1.0,
-      0.0,
-    );
-    _colorController.animateWith(simulation);
-  }
-
   @override
   Widget build(BuildContext context) {
     final states = _resolveStates();
+    final isDisabled = states.contains(WidgetState.disabled);
 
     const minTapTargetSize = Size.square(48.0);
-    const stateLayerSize = Size.square(40.0);
+    const stateLayerSize = 40.0;
     final stateLayerShape = CornersBorder.rounded(
       corners: Corners.all(_shapeTheme.corner.full),
     );
@@ -379,28 +385,34 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
       iconColor: iconColor,
     );
 
-    final child = SizedBox.fromSize(
-      size: stateLayerSize,
+    final child = SizedBox.square(
+      dimension: stateLayerSize,
       child: Listener(
         behavior: HitTestBehavior.deferToChild,
-        onPointerDown: (_) {
-          setState(() {
-            _focused = false;
-            _pressed = true;
-          });
-        },
-        onPointerUp: (_) {
-          setState(() {
-            _focused = false;
-            _pressed = false;
-          });
-        },
-        onPointerCancel: (_) {
-          setState(() {
-            _focused = false;
-            _pressed = false;
-          });
-        },
+        onPointerDown: !isDisabled
+            ? (_) {
+                setState(() {
+                  _focused = false;
+                  _pressed = true;
+                });
+              }
+            : null,
+        onPointerUp: !isDisabled
+            ? (_) {
+                setState(() {
+                  _focused = false;
+                  _pressed = false;
+                });
+              }
+            : null,
+        onPointerCancel: !isDisabled
+            ? (_) {
+                setState(() {
+                  _focused = false;
+                  _pressed = false;
+                });
+              }
+            : null,
         child: Material(
           animationDuration: Duration.zero,
           type: MaterialType.card,
@@ -413,28 +425,37 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
               color: _stateLayerColor,
               opacity: _stateLayerOpacity,
             ),
-            onTap: widget._onTap,
-            onTapDown: (_) {
-              setState(() {
-                _focused = false;
-                _pressed = true;
-              });
-            },
-            onTapUp: (_) {
-              setState(() {
-                _focused = false;
-                _pressed = false;
-              });
-            },
-            onTapCancel: () {
-              setState(() {
-                _focused = false;
-                _pressed = false;
-              });
-            },
-            onFocusChange: (value) {
-              setState(() => _focused = value);
-            },
+            enableFeedback: !isDisabled,
+            onTap: !isDisabled ? () => widget._onTap?.call() : null,
+            onTapDown: !isDisabled
+                ? (_) {
+                    setState(() {
+                      _focused = false;
+                      _pressed = true;
+                    });
+                  }
+                : null,
+            onTapUp: !isDisabled
+                ? (_) {
+                    setState(() {
+                      _focused = false;
+                      _pressed = false;
+                    });
+                  }
+                : null,
+            onTapCancel: !isDisabled
+                ? () {
+                    setState(() {
+                      _focused = false;
+                      _pressed = false;
+                    });
+                  }
+                : null,
+            onFocusChange: !isDisabled
+                ? (value) {
+                    setState(() => _focused = value);
+                  }
+                : null,
           ),
         ),
       ),
@@ -452,33 +473,33 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
           child: TapRegion(
             behavior: HitTestBehavior.deferToChild,
             consumeOutsideTaps: false,
-            onTapOutside: (_) {
-              setState(() => _focused = false);
-            },
-            onTapUpOutside: (_) {
-              setState(() => _focused = false);
-            },
+            onTapOutside: !isDisabled
+                ? (_) {
+                    setState(() => _focused = false);
+                  }
+                : null,
+            onTapUpOutside: !isDisabled
+                ? (_) {
+                    setState(() => _focused = false);
+                  }
+                : null,
             child: FocusRing(
               visible: states.contains(WidgetState.focused),
-              layoutBuilder: (context, info, child) => Align.center(
-                child: SizedBox.fromSize(size: stateLayerSize, child: child),
-              ),
               inward: false,
+              layoutBuilder: (context, info, child) => Align.center(
+                child: SizedBox.square(dimension: stateLayerSize, child: child),
+              ),
               child: _CheckboxPaint(
                 minTapTargetSize: minTapTargetSize,
                 containerSize: const Size.square(18.0),
                 containerShape: const Corners.all(Corner.circular(2.0)),
-                containerColor: _containerColorAnimation.mapValue(
-                  (value) => value ?? containerColor,
+                containerColor: _containerColorAnimation.nonNullOr(
+                  containerColor,
                 ),
-                outlineColor: _outlineColorAnimation.mapValue(
-                  (value) => value ?? outlineColor,
-                ),
+                outlineColor: _outlineColorAnimation.nonNullOr(outlineColor),
                 outlineWidth: 2.0,
                 iconSize: 18.0,
-                iconColor: _iconColorAnimation.mapValue(
-                  (value) => value ?? iconColor,
-                ),
+                iconColor: _iconColorAnimation.nonNullOr(iconColor),
                 iconStrokeWidth: 2.0,
                 iconStrokeCap: StrokeCap.round,
                 iconStrokeJoin: StrokeJoin.round,
@@ -840,22 +861,25 @@ class _RenderCheckboxPaint extends RenderBox
     parentData.offset = position;
   }
 
-  @override
-  void performLayout() {
+  Size _layout({
+    required BoxConstraints constraints,
+    required ChildLayouter layoutChild,
+    required ChildPositioner positionChild,
+  }) {
     final outerSize = _computeOuterSize();
     final outerCenter = _computeOuterCenter(outerSize);
     if (child case final child?) {
-      child.layout(
+      layoutChild(
+        child,
         BoxConstraints(
           minWidth: 0.0,
           minHeight: 0.0,
           maxWidth: outerSize.width,
           maxHeight: outerSize.height,
         ),
-        parentUsesSize: true,
       );
       final childSize = child.size;
-      _positionChild(
+      positionChild(
         child,
         Offset(
           outerCenter.dx - childSize.width / 2.0,
@@ -863,7 +887,38 @@ class _RenderCheckboxPaint extends RenderBox
         ),
       );
     }
-    size = outerSize;
+    return constraints.constrain(outerSize);
+  }
+
+  @override
+  Size computeDryLayout(BoxConstraints constraints) {
+    return _layout(
+      constraints: constraints,
+      layoutChild: ChildLayoutHelper.dryLayoutChild,
+      positionChild: (_, _) {},
+    );
+  }
+
+  @override
+  double? computeDryBaseline(
+    BoxConstraints constraints,
+    TextBaseline baseline,
+  ) {
+    return null;
+  }
+
+  @override
+  double? computeDistanceToActualBaseline(TextBaseline baseline) {
+    return null;
+  }
+
+  @override
+  void performLayout() {
+    size = _layout(
+      constraints: constraints,
+      layoutChild: ChildLayoutHelper.layoutChild,
+      positionChild: _positionChild,
+    );
   }
 
   void _paintBox(PaintingContext context, Rect shiftedRect) {

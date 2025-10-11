@@ -1,0 +1,1358 @@
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:obtainium/components/custom_app_bar.dart';
+import 'package:obtainium/components/custom_list.dart';
+import 'package:obtainium/flutter.dart';
+
+import 'package:markdown/markdown.dart' as md;
+import 'package:super_editor/super_editor.dart';
+import 'package:super_editor_markdown/super_editor_markdown.dart';
+
+// ignore: implementation_imports
+import 'package:obtainium_fonts/src/assets/fonts.gen.dart';
+
+class DeveloperPage extends StatefulWidget {
+  const DeveloperPage({super.key});
+
+  @override
+  State<DeveloperPage> createState() => _DeveloperPageState();
+}
+
+class _DeveloperPageState extends State<DeveloperPage> {
+  bool _enabled = true;
+  bool _selected = false;
+  double _progress = 0.5;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorTheme = ColorTheme.of(context);
+    return Scaffold(
+      backgroundColor: colorTheme.surfaceContainer,
+      body: CustomScrollView(
+        slivers: [
+          CustomAppBar(
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 8.0 - 4.0),
+              child: IconButton(
+                onPressed: () => Navigator.of(context).pop(),
+                style: ButtonStyle(
+                  animationDuration: Duration.zero,
+                  elevation: const WidgetStatePropertyAll(0.0),
+                  shadowColor: WidgetStateColor.transparent,
+                  minimumSize: const WidgetStatePropertyAll(Size.zero),
+                  fixedSize: const WidgetStatePropertyAll(Size(40.0, 40.0)),
+                  maximumSize: const WidgetStatePropertyAll(Size.infinite),
+                  padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+                  iconSize: const WidgetStatePropertyAll(24.0),
+                  shape: WidgetStatePropertyAll(
+                    CornersBorder.rounded(
+                      corners: Corners.all(ShapeTheme.of(context).corner.full),
+                    ),
+                  ),
+                  overlayColor: WidgetStateLayerColor(
+                    color: WidgetStatePropertyAll(
+                      ColorTheme.of(context).onSurfaceVariant,
+                    ),
+                    opacity: StateTheme.of(context).stateLayerOpacity,
+                  ),
+                  backgroundColor: WidgetStateProperty.resolveWith(
+                    (states) => states.contains(WidgetState.disabled)
+                        ? ColorTheme.of(
+                            context,
+                          ).onSurface.withValues(alpha: 0.1)
+                        : ColorTheme.of(context).surfaceContainerHigh,
+                  ),
+                  iconColor: WidgetStateProperty.resolveWith(
+                    (states) => states.contains(WidgetState.disabled)
+                        ? ColorTheme.of(
+                            context,
+                          ).onSurface.withValues(alpha: 0.38)
+                        : ColorTheme.of(context).onSurfaceVariant,
+                  ),
+                ),
+                icon: const IconLegacy(Symbols.arrow_back_rounded),
+              ),
+            ),
+            type: CustomAppBarType.largeFlexible,
+            behavior: CustomAppBarBehavior.duplicate,
+            expandedContainerColor: colorTheme.surfaceContainer,
+            collapsedContainerColor: colorTheme.surfaceContainer,
+            collapsedPadding: const EdgeInsets.fromLTRB(
+              8.0 + 40.0 + 8.0,
+              0.0,
+              16.0,
+              0.0,
+            ),
+            title: Text("Settings"),
+            subtitle: Text("Developer options"),
+          ),
+          SliverList.list(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: SizedBox(
+                  height: 128,
+                  child: Material(
+                    animationDuration: Duration.zero,
+                    color: colorTheme.surfaceBright,
+                    shape: const StadiumBorder(),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 16.0,
+                      ),
+                      child: Flex.horizontal(
+                        children: [
+                          Flexible.tight(
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: Switch(
+                                onCheckedChanged: _enabled
+                                    ? (value) =>
+                                          setState(() => _selected = value)
+                                    : null,
+                                checked: _selected,
+                              ),
+                            ),
+                          ),
+                          Flexible.tight(
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: Checkbox.biState(
+                                onCheckedChanged: _enabled
+                                    ? (value) =>
+                                          setState(() => _selected = value)
+                                    : null,
+                                checked: _selected,
+                              ),
+                            ),
+                          ),
+                          Flexible.tight(
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: RadioButton(
+                                onTap: _enabled
+                                    ? () =>
+                                          setState(() => _selected = !_selected)
+                                    : null,
+                                selected: _selected,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              //   child: Flex.vertical(
+              //     children: [
+              //       _ListItemContainer(
+              //         isFirst: true,
+              //         child: ConstrainedBox(
+              //           constraints: BoxConstraints(minHeight: 56.0),
+              //           child: Padding(
+              //             padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              //             child: Align.center(
+              //               child: CustomLinearProgressIndicator(
+              //                 progress: _progress,
+              //                 // minHeight: 16.0,
+              //                 // trackGap: 4.0,
+              //                 // borderRadius: BorderRadius.circular(8.0),
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //       const SizedBox(height: 2.0),
+              //       _ListItemContainer(
+              //         isLast: true,
+              //         child: ConstrainedBox(
+              //           constraints: BoxConstraints(minHeight: 56.0),
+              //           child: Padding(
+              //             padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              //             child: Align.center(
+              //               child: Slider(
+              //                 onChanged: (value) =>
+              //                     setState(() => _progress = value),
+              //                 value: _progress,
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Flex.vertical(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  spacing: 2.0,
+                  children: [
+                    _ListItemContainer(
+                      isFirst: true,
+                      child: MergeSemantics(
+                        child: ListItemInkWell(
+                          onTap: () => setState(() => _enabled = !_enabled),
+                          child: ListItemLayout(
+                            isMultiline: true,
+                            padding: EdgeInsets.fromLTRB(
+                              16.0,
+                              12.0,
+                              16.0 - 8.0,
+                              12.0,
+                            ),
+                            headline: Text("Enabled"),
+                            trailing: ExcludeFocus(
+                              child: Switch(
+                                onCheckedChanged: (value) =>
+                                    setState(() => _enabled = value),
+                                checked: _enabled,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    _ListItemContainer(
+                      child: MergeSemantics(
+                        child: ListItemInkWell(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const DeveloperMarkdown1Page(),
+                            ),
+                          ),
+                          child: const ListItemLayout(
+                            isMultiline: true,
+                            leading: Icon(Symbols.markdown_rounded),
+                            headline: Text("Markdown (flutter_markdown_plus)"),
+                            supportingText: Text("Uses SliverMarkdown"),
+                          ),
+                        ),
+                      ),
+                    ),
+                    _ListItemContainer(
+                      isLast: true,
+                      child: MergeSemantics(
+                        child: ListItemInkWell(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const DeveloperMarkdown2Page(),
+                            ),
+                          ),
+                          child: const ListItemLayout(
+                            isMultiline: true,
+                            leading: Icon(Symbols.markdown_rounded),
+                            headline: Text("Markdown (super_editor)"),
+                            supportingText: Text("Uses SuperReader"),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: MediaQuery.sizeOf(context).height),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DeveloperMarkdown1Page extends StatefulWidget {
+  const DeveloperMarkdown1Page({super.key});
+
+  @override
+  State<DeveloperMarkdown1Page> createState() => _DeveloperMarkdown1PageState();
+}
+
+class _DeveloperMarkdown1PageState extends State<DeveloperMarkdown1Page> {
+  @override
+  Widget build(BuildContext context) {
+    final colorTheme = ColorTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+    return Scaffold(
+      backgroundColor: colorTheme.surfaceContainer,
+      body: CustomScrollView(
+        slivers: [
+          CustomAppBar(
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 8.0 - 4.0),
+              child: IconButton(
+                onPressed: () => Navigator.of(context).pop(),
+                style: ButtonStyle(
+                  animationDuration: Duration.zero,
+                  elevation: const WidgetStatePropertyAll(0.0),
+                  shadowColor: WidgetStateColor.transparent,
+                  minimumSize: const WidgetStatePropertyAll(Size.zero),
+                  fixedSize: const WidgetStatePropertyAll(Size(40.0, 40.0)),
+                  maximumSize: const WidgetStatePropertyAll(Size.infinite),
+                  padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+                  iconSize: const WidgetStatePropertyAll(24.0),
+                  shape: WidgetStatePropertyAll(
+                    CornersBorder.rounded(
+                      corners: Corners.all(ShapeTheme.of(context).corner.full),
+                    ),
+                  ),
+                  overlayColor: WidgetStateLayerColor(
+                    color: WidgetStatePropertyAll(
+                      ColorTheme.of(context).onSurfaceVariant,
+                    ),
+                    opacity: StateTheme.of(context).stateLayerOpacity,
+                  ),
+                  backgroundColor: WidgetStateProperty.resolveWith(
+                    (states) => states.contains(WidgetState.disabled)
+                        ? ColorTheme.of(
+                            context,
+                          ).onSurface.withValues(alpha: 0.1)
+                        : ColorTheme.of(context).surfaceContainerHigh,
+                  ),
+                  iconColor: WidgetStateProperty.resolveWith(
+                    (states) => states.contains(WidgetState.disabled)
+                        ? ColorTheme.of(
+                            context,
+                          ).onSurface.withValues(alpha: 0.38)
+                        : ColorTheme.of(context).onSurfaceVariant,
+                  ),
+                ),
+                icon: const IconLegacy(Symbols.arrow_back_rounded),
+              ),
+            ),
+            type: CustomAppBarType.largeFlexible,
+            behavior: CustomAppBarBehavior.duplicate,
+            expandedContainerColor: colorTheme.surfaceContainer,
+            collapsedContainerColor: colorTheme.surfaceContainer,
+            collapsedPadding: const EdgeInsets.fromLTRB(
+              8.0 + 40.0 + 8.0,
+              0.0,
+              16.0,
+              0.0,
+            ),
+            title: Text("Markdown"),
+            subtitle: Text("flutter_markdown_plus"),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+            sliver: SliverMarkdown(
+              data: _custom,
+              selectable: true,
+              checkboxBuilder: (value) => Icon(
+                value
+                    ? Symbols.check_box_rounded
+                    : Symbols.check_box_outline_blank_rounded,
+                fill: value ? 1.0 : 0.0,
+                color: value ? colorTheme.primary : colorTheme.onSurfaceVariant,
+              ),
+              extensionSet: md.ExtensionSet(
+                [...md.ExtensionSet.gitHubWeb.blockSyntaxes],
+                [...md.ExtensionSet.gitHubWeb.inlineSyntaxes],
+              ),
+              styleSheet: MarkdownStyleSheet(
+                p: typescaleTheme.bodyMedium.toTextStyle(
+                  color: colorTheme.onSurface,
+                ),
+                a: TextStyle(
+                  color: colorTheme.tertiary,
+                  decoration: TextDecoration.underline,
+                  decorationColor: colorTheme.tertiary,
+                  decorationStyle: TextDecorationStyle.dotted,
+                ),
+                h1: typescaleTheme.displayMediumEmphasized.toTextStyle(),
+                h1Padding: EdgeInsets.zero,
+                h2: typescaleTheme.displaySmallEmphasized.toTextStyle(),
+                h2Padding: EdgeInsets.zero,
+                h3: typescaleTheme.headlineSmallEmphasized.toTextStyle(),
+                h3Padding: EdgeInsets.zero,
+                code: typescaleTheme.bodyMedium.toTextStyle().copyWith(
+                  fontFamily: Fonts.firaCode,
+                  color: colorTheme.onSurface,
+                ),
+                codeblockDecoration: ShapeDecoration(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadiusGeometry.circular(12.0),
+                    side: BorderSide(color: colorTheme.outlineVariant),
+                  ),
+                  color: colorTheme.surface,
+                ),
+                codeblockPadding: EdgeInsets.all(16.0),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DeveloperMarkdown2Page extends StatefulWidget {
+  const DeveloperMarkdown2Page({super.key});
+
+  @override
+  State<DeveloperMarkdown2Page> createState() => _DeveloperMarkdown2PageState();
+}
+
+class _DeveloperMarkdown2PageState extends State<DeveloperMarkdown2Page> {
+  late Editor _editor;
+
+  @override
+  void initState() {
+    super.initState();
+    _editor = createDefaultDocumentEditor(
+      document: deserializeMarkdownToDocument(_custom),
+      composer: MutableDocumentComposer(),
+    );
+  }
+
+  @override
+  void dispose() {
+    _editor.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colorTheme = ColorTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+    return Scaffold(
+      backgroundColor: colorTheme.surfaceContainer,
+      body: CustomScrollView(
+        slivers: [
+          CustomAppBar(
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 8.0 - 4.0),
+              child: IconButton(
+                onPressed: () => Navigator.of(context).pop(),
+                style: ButtonStyle(
+                  animationDuration: Duration.zero,
+                  elevation: const WidgetStatePropertyAll(0.0),
+                  shadowColor: WidgetStateColor.transparent,
+                  minimumSize: const WidgetStatePropertyAll(Size.zero),
+                  fixedSize: const WidgetStatePropertyAll(Size(40.0, 40.0)),
+                  maximumSize: const WidgetStatePropertyAll(Size.infinite),
+                  padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+                  iconSize: const WidgetStatePropertyAll(24.0),
+                  shape: WidgetStatePropertyAll(
+                    CornersBorder.rounded(
+                      corners: Corners.all(ShapeTheme.of(context).corner.full),
+                    ),
+                  ),
+                  overlayColor: WidgetStateLayerColor(
+                    color: WidgetStatePropertyAll(
+                      ColorTheme.of(context).onSurfaceVariant,
+                    ),
+                    opacity: StateTheme.of(context).stateLayerOpacity,
+                  ),
+                  backgroundColor: WidgetStateProperty.resolveWith(
+                    (states) => states.contains(WidgetState.disabled)
+                        ? ColorTheme.of(
+                            context,
+                          ).onSurface.withValues(alpha: 0.1)
+                        : ColorTheme.of(context).surfaceContainerHigh,
+                  ),
+                  iconColor: WidgetStateProperty.resolveWith(
+                    (states) => states.contains(WidgetState.disabled)
+                        ? ColorTheme.of(
+                            context,
+                          ).onSurface.withValues(alpha: 0.38)
+                        : ColorTheme.of(context).onSurfaceVariant,
+                  ),
+                ),
+                icon: const IconLegacy(Symbols.arrow_back_rounded),
+              ),
+            ),
+            type: CustomAppBarType.largeFlexible,
+            behavior: CustomAppBarBehavior.duplicate,
+            expandedContainerColor: colorTheme.surfaceContainer,
+            collapsedContainerColor: colorTheme.surfaceContainer,
+            collapsedPadding: const EdgeInsets.fromLTRB(
+              8.0 + 40.0 + 8.0,
+              0.0,
+              16.0,
+              0.0,
+            ),
+            title: Text("Markdown"),
+            subtitle: Text("super_editor"),
+          ),
+          SuperReader(
+            editor: _editor,
+            androidHandleColor: colorTheme.primary,
+            selectionStyle: SelectionStyles(
+              selectionColor: colorTheme.primary.withValues(alpha: 0.3),
+            ),
+            componentBuilders: [
+              const BlockquoteComponentBuilder(),
+              const ParagraphComponentBuilder(),
+              const ListItemComponentBuilder(),
+              const ImageComponentBuilder(),
+              const HorizontalRuleComponentBuilder(),
+              const ReadOnlyCheckboxComponentBuilder(),
+              const MarkdownTableComponentBuilder(),
+            ],
+            stylesheet: readOnlyDefaultStylesheet.copyWith(
+              addRulesAfter: [
+                StyleRule(BlockSelector.all, (doc, docNode) {
+                  return {
+                    Styles.maxWidth: 760.0,
+                    Styles.padding: const CascadingPadding.symmetric(
+                      horizontal: 16.0,
+                    ),
+                    Styles.textStyle: typescaleTheme.bodyMedium.toTextStyle(
+                      color: colorTheme.onSurface,
+                    ),
+                  };
+                }),
+                StyleRule(const BlockSelector("header1"), (doc, docNode) {
+                  return {
+                    Styles.padding: const CascadingPadding.only(top: 40),
+                    Styles.textStyle: typescaleTheme.displayMediumEmphasized
+                        .toTextStyle(),
+                  };
+                }),
+                StyleRule(const BlockSelector("header2"), (doc, docNode) {
+                  return {
+                    Styles.padding: const CascadingPadding.only(top: 80),
+                    Styles.textStyle: typescaleTheme.displaySmallEmphasized
+                        .toTextStyle(),
+                  };
+                }),
+                StyleRule(const BlockSelector("header3"), (doc, docNode) {
+                  return {
+                    Styles.padding: const CascadingPadding.only(
+                      top: 56.0,
+                      bottom: 16.0,
+                    ),
+                    Styles.textStyle: typescaleTheme.headlineSmallEmphasized
+                        .toTextStyle(),
+                  };
+                }),
+                StyleRule(const BlockSelector("paragraph"), (doc, docNode) {
+                  return {
+                    Styles.padding: CascadingPadding.only(
+                      top: typescaleTheme.bodyMedium.size,
+                      bottom: typescaleTheme.bodyMedium.size,
+                    ),
+                  };
+                }),
+                StyleRule(const BlockSelector("paragraph").after("header2"), (
+                  doc,
+                  docNode,
+                ) {
+                  return {Styles.padding: CascadingPadding.only(top: 24.0)};
+                }),
+                StyleRule(const BlockSelector("code"), (doc, docNode) {
+                  return {
+                    Styles.borderRadius: BorderRadius.circular(28),
+                    Styles.textStyle: typescaleTheme.bodyMedium
+                        .toTextStyle()
+                        .copyWith(
+                          color: colorTheme.onSurface,
+                          fontFamily: Fonts.firaCode,
+                        ),
+                  };
+                }),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ListItemContainer extends StatelessWidget {
+  const _ListItemContainer({
+    super.key,
+    this.isFirst = false,
+    this.isLast = false,
+    required this.child,
+  });
+
+  final bool isFirst;
+  final bool isLast;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final edgeCorner = shapeTheme.corner.largeIncreased;
+    final middleCorner = shapeTheme.corner.extraSmall;
+    return Material(
+      animationDuration: Duration.zero,
+      type: MaterialType.card,
+      clipBehavior: Clip.antiAlias,
+      color: colorTheme.surfaceBright,
+      shape: CornersBorder.rounded(
+        corners: Corners.vertical(
+          top: isFirst ? edgeCorner : middleCorner,
+          bottom: isLast ? edgeCorner : middleCorner,
+        ),
+      ),
+      child: child,
+    );
+  }
+}
+
+class SliverMarkdown extends MarkdownWidget {
+  /// Creates a scrolling widget that parses and displays Markdown.
+  const SliverMarkdown({
+    super.key,
+    required super.data,
+    super.selectable,
+    super.styleSheet,
+    super.styleSheetTheme = null,
+    super.syntaxHighlighter,
+    super.onSelectionChanged,
+    super.onTapLink,
+    super.onTapText,
+    super.imageDirectory,
+    super.blockSyntaxes,
+    super.inlineSyntaxes,
+    super.extensionSet,
+    super.imageBuilder,
+    super.checkboxBuilder,
+    super.bulletBuilder,
+    super.builders,
+    super.paddingBuilders,
+    super.listItemCrossAxisAlignment,
+    super.softLineBreak,
+  });
+
+  @override
+  Widget build(BuildContext context, List<Widget>? children) {
+    return SliverList.list(children: children!);
+  }
+}
+
+const String _custom = r"""
+- [ ] A
+- [ ] B
+- [x] C
+- [ ] D
+- [ ] E
+
+# Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6
+
+The app uses Markdown to display certain rich text messages, namely changelogs for tracked apps.
+
+While not a part of the Material Design spec, a refresh of the default Markdown styles is urgently needed.
+
+The priority of this change is low, because Markdown is rarely encountered throughout the app normally.
+
+No significant changes were made to Markdown stylesheets yet, because the update is at the design stage.
+
+## Roadmap
+
+This section contains the list of projects that are planned to be implemented.
+
+### Material 3 Expressive
+
+Many Material widgets used still come from Flutter's Material library. The long-standing goal of this project is to get rid of the dependency on Flutter's Material library. It is considered "legacy" in the scope of this repository (it's not actually deprecated).
+
+Here's a list of widgets that are planned to have a custom implementation:
+- [ ] Switch (`Switch`)
+  - [x] Support default style
+  - [ ] Support theming
+
+- [ ] Checkbox (`Checkbox`)
+  - [x] Support default style
+  - [ ] Support theming
+
+- [ ] Radio button (`RadioButton`)
+  - [x] Support default style
+  - [ ] Support theming
+
+- [ ] Common buttons (`Button` and `ToggleButton`)
+  - [x] Support default style
+  - [ ] Support theming
+
+- [ ] Icon buttons (`IconButton` and `IconToggleButton`)
+  - [x] Support default style
+  - [ ] Support theming
+
+- [ ] Standard button group (`StandardButtonGroup`)
+  - One of the most complex widgets to implement, will probably require a custom render object. In that case children will be required to support dry layout.
+
+- [ ] Connected button group (`ConnectedButtonGroup`)
+
+- [ ] FAB
+
+- [ ] FAB menu
+
+- [ ] App bar
+  - [x] Implement using existing `SliverAppBar`
+  - [ ] Improve title layout to account for actions
+  - [ ] Fully custom implementation (must use `SliverPersistentHeader` under the hood)
+
+
+| a | b | c |
+| - | - | - |
+| 1 | 2 | 3 |
+
+```dart
+class SliverMarkdown extends MarkdownWidget {
+  /// Creates a scrolling widget that parses and displays Markdown.
+  const SliverMarkdown({
+    super.key,
+    required super.data,
+    super.selectable,
+    super.styleSheet,
+    super.styleSheetTheme = null,
+    super.syntaxHighlighter,
+    super.onSelectionChanged,
+    super.onTapLink,
+    super.onTapText,
+    super.imageDirectory,
+    super.blockSyntaxes,
+    super.inlineSyntaxes,
+    super.extensionSet,
+    super.imageBuilder,
+    super.checkboxBuilder,
+    super.bulletBuilder,
+    super.builders,
+    super.paddingBuilders,
+    super.listItemCrossAxisAlignment,
+    super.softLineBreak,
+  });
+
+  @override
+  Widget build(BuildContext context, List<Widget>? children) {
+    return SliverList.list(children: children!);
+  }
+}
+```
+""";
+
+const String _readme = r"""
+> [!IMPORTANT]
+> You are viewing a fork of the original **Obtainium** project.
+>
+> If you are looking for the original, proceed to [**ImranR98/Obtainium**](https://github.com/ImranR98/Obtainium).
+>
+> To view details about this fork, go to the [**Fork**](#fork) section.
+
+<div align="center">
+  <img width="96" height="96" src="./assets/graphics/icon_small.png" alt="Obtainium Icon">
+  <h3>Obtainium</h3>
+  <p>Get Android app updates straight from the source.</p>
+  <h6>
+    Original by
+    <a href="https://github.com/ImranR98"><b>ImranR98</b></a>
+    · Modified by
+    <a href="https://github.com/deminearchiver"><b>deminearchiver</b></a>
+  </h6>
+  <p>
+    <a href="https://github.com/deminearchiver/Obtainium/issues/new?template=bug_report.md">Report a bug</a>
+    ·
+    <a href="https://github.com/deminearchiver/Obtainium/issues/new?template=feature_request.md">Request a feature</a>
+  </p>
+</div>
+
+<details>
+  <summary>
+    <h3>Table of contents</h3>
+  </summary>
+
+- [Fork](#fork)
+  - [Self-built only](#self-built-only)
+    - [What about codesigning?](#what-about-codesigning)
+  - [Redesign](#redesign)
+    - [Material 3 Expressive](#material-3-expressive)
+    - [Markdown styles update](#markdown-styles-update)
+  - [Internal changes](#internal-changes)
+  - [Other](#other)
+- [Roadmap](#roadmap)
+  - [Material 3 Expressive](#material-3-expressive-1)
+- [About](#about)
+  - [Useful links](#useful-links)
+  - [Supported app sources](#supported-app-sources)
+    - [Open Source (general)](#open-source-general)
+    - [Other (general)](#other-general)
+    - [Other (app-specific)](#other-app-specific)
+    - [Direct APK Link](#direct-apk-link)
+    - [HTML](#html)
+- [Finding app configurations](#finding-app-configurations)
+- [Limitations](#limitations)
+</details>
+
+## Fork
+
+The repository you are currenly viewing [**deminearchiver/Obtainium**](https://github.com/deminearchiver/Obtainium) is a **fork** of [**ImranR98/Obtainium**](https://github.com/ImranR98/Obtainium).
+
+In this section the primary differences and deviations compared to the original project are described.
+
+### Self-built only
+
+Unfortunately, this fork does not provide any builds. If you want to use this version the app, you'll have to build it from source.
+
+#### What about codesigning?
+
+For the time being, it's recommended to use the default "debug" keystore for release builds, as redistribution of builds is not provided.
+
+### Redesign
+
+The redesign of the app is introduced through incremental adoption, which involves introducing changes gradually.
+
+#### Material 3 Expressive
+
+This version of the app features the all-new fresh and shiny [**Material 3 Expressive**](https://m3.material.io) open-source design system created at **Google**.
+
+The [**2025 "Expressive" update**](https://m3.material.io/blog/building-with-m3-expressive) the Material You design system received a big update, which made it look more polished and finished.
+
+Currently, implementation of **Material 3 Expressive** design across the app is considered incomplete, but over time the support for the new design language will improve.
+
+The design changes begin with refactoring the code for a certain UI element, then using legacy styling methods to achieve wanted looks. In order to fully embrace the new design language, it's needed to create new implementations for certain UI elements. This process is slow and tedious, hence the adoption of the new design language will be split a number of migration steps depending on the specific component's complexity. In the process of the redesign, the UI may looks incomplete, but it's the only way to properly apply design changes currently.
+
+#### Markdown styles update
+
+The app uses Markdown to display certain rich text messages, namely changelogs for tracked apps.
+
+While not a part of the Material Design spec, a refresh of the default Markdown styles is urgently needed.
+
+The priority of this change is low, because Markdown is rarely encountered throughout the app normally.
+
+No significant changes were made to Markdown stylesheets yet, because the update is at the design stage.
+
+
+### Internal changes
+
+This fork features important developer-facing changes, such as:
+
+- Differences in the process of building the app.
+
+- Updated tooling configurations:
+  - Removal of Docked support.
+  - Framework and SDK updates.
+
+- Code style updates:
+  - General improvement of code quality.
+  - Application of widely known best practices.
+  - Added support for EditorConfig.
+
+- Resolving feature deprecations *(and introducing new ones)*.
+
+- Source code splitting via [internal unpublished packages](https://docs.flutter.dev/packages-and-plugins/using-packages#dependencies-on-unpublished-packages), such as custom implementations of layout, UI, platform interfaces, internationalization, assets.
+
+### Other
+
+Currently, there are a lot of changes not yet covered in this section, which means that this section is incomplete. The changelist will be updated and more changes will be described.
+
+## Roadmap
+
+This section contains the list of projects that are planned to be implemented.
+
+### Material 3 Expressive
+
+Many Material widgets used still come from Flutter's Material library. The long-standing goal of this project is to get rid of the dependency on Flutter's Material library. It is considered "legacy" in the scope of this repository (it's not actually deprecated).
+
+Here's a list of widgets that are planned to have a custom implementation:
+- [ ] Switch (`Switch`)
+  - [x] Support default style
+  - [ ] Support theming
+- [ ] Checkbox (`Checkbox`)
+  - [x] Support default style
+  - [ ] Support theming
+- [ ] Radio button (`RadioButton`)
+  - [x] Support default style
+  - [ ] Support theming
+- [ ] Common buttons (`Button` and `ToggleButton`)
+  - [x] Support default style
+  - [ ] Support theming
+- [ ] Icon buttons (`IconButton` and `IconToggleButton`)
+  - [x] Support default style
+  - [ ] Support theming
+- [ ] Standard button group (`StandardButtonGroup`)
+  - One of the most complex widgets to implement, will probably require a custom render object. In that case children will be required to support dry layout.
+- [ ] Connected button group (`ConnectedButtonGroup`)
+- [ ] FAB
+- [ ] FAB menu
+- [ ] App bar
+  - [x] Implement using existing `SliverAppBar`
+  - [ ] Improve title layout to account for actions
+  - [ ] Fully custom implementation (must use `SliverPersistentHeader` under the hood)
+
+<!-- ### Organization
+
+This list contains changes regarding the project's repository. -->
+
+## About
+
+Obtainium allows you to install and update apps directly from their releases pages, and receive notifications when new releases are made available.
+
+### Useful links
+
+- [Obtainium Wiki](https://wiki.obtainium.imranr.dev/) ([repository](https://github.com/ImranR98/Obtainium-Wiki))
+- [Obtainium 101](https://www.youtube.com/watch?v=0MF_v2OBncw) - Tutorial video
+- [AppVerifier](https://github.com/soupslurpr/AppVerifier) - App verification tool (recommended, integrates with Obtainium)
+- [apps.obtainium.imranr.dev](https://apps.obtainium.imranr.dev/) - Crowdsourced app configurations ([repository](https://github.com/ImranR98/apps.obtainium.imranr.dev))
+- [Side Of Burritos - You should use this instead of F-Droid | How to use app RSS feed](https://youtu.be/FFz57zNR_M0) - Original motivation for this app
+- [Website](https://obtainium.imranr.dev) ([repository](https://github.com/ImranR98/obtainium.imranr.dev))
+- [Source code](https://github.com/ImranR98/Obtainium)
+
+### Supported app sources
+
+#### Open Source (general)
+
+- [GitHub](https://github.com/)
+- [GitLab](https://gitlab.com/)
+- [Forgejo](https://forgejo.org/) ([Codeberg](https://codeberg.org/))
+- [F-Droid](https://f-droid.org/) and third-party repos
+- [IzzyOnDroid](https://android.izzysoft.de/)
+- [SourceHut](https://git.sr.ht/)
+
+#### Other (general)
+
+- [APKPure](https://apkpure.net/)
+- [Aptoide](https://aptoide.com/)
+- [Uptodown](https://uptodown.com/)
+- [Huawei AppGallery](https://appgallery.huawei.com/)
+- [Tencent App Store](https://sj.qq.com/)
+- [CoolApk](https://coolapk.com/)
+- [vivo App Store (CN)](https://h5.appstore.vivo.com.cn/)
+- [RuStore](https://rustore.ru/)
+- [Farsroid](https://www.farsroid.com)
+- Jenkins Jobs
+- [APKMirror](https://apkmirror.com/) (Track-Only)
+
+#### Other (app-specific)
+
+- [Telegram App](https://telegram.org/)
+- [Neutron Code](https://neutroncode.com/)
+
+#### Direct APK Link
+
+#### HTML
+
+Any other URL that returns an HTML page with links to APK files
+
+## Finding app configurations
+
+You can find crowdsourced app configurations at [**apps.obtainium.imranr.dev**](https://apps.obtainium.imranr.dev).
+
+If you can't find the configuration for an app you want, feel free to leave a request on the [**Discussions page**](https://github.com/ImranR98/apps.obtainium.imranr.dev/discussions/new?category=app-requests).
+
+Or, contribute some configurations to the website by creating a PR at [**ImranR98/apps.obtainium.imranr.dev**](https://github.com/ImranR98/apps.obtainium.imranr.dev).
+
+<!-- ## Installation
+
+[<img src="https://raw.githubusercontent.com/NeoApplications/Neo-Backup/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png"
+    alt="Get it on GitHub"
+    height="80">](https://github.com/ImranR98/Obtainium/releases)
+[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
+     alt="Get it on IzzyOnDroid"
+     height="80">](https://apt.izzysoft.de/fdroid/index/apk/dev.imranr.obtainium)
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+    alt="Get it on F-Droid"
+    height="80">](https://f-droid.org/packages/dev.imranr.obtainium.fdroid/)
+
+Verification info:
+- Package ID: `dev.imranr.obtainium`
+- SHA-256 hash of signing certificate: `B3:53:60:1F:6A:1D:5F:D6:60:3A:E2:F5:0B:E8:0C:F3:01:36:7B:86:B6:AB:8B:1F:66:24:3D:A9:6C:D5:73:62`
+  - Note: The above signature is also valid for the F-Droid flavour of Obtainium, thanks to [reproducible builds](https://f-droid.org/docs/Reproducible_Builds/).
+- [PGP Public Key](https://keyserver.ubuntu.com/pks/lookup?search=contact%40imranr.dev&fingerprint=on&op=index) (to verify APK hashes) -->
+
+## Limitations
+
+For some sources, data is gathered using Web scraping and can easily break due to changes in website design. In such cases, more reliable methods may be unavailable.
+
+<!-- ## Screenshots
+
+| <img src="./assets/screenshots/1.apps.png" alt="Apps Page" /> | <img src="./assets/screenshots/2.dark_theme.png" alt="Dark Theme" />           | <img src="./assets/screenshots/3.material_you.png" alt="Material You" />    |
+| ------------------------------------------------------ | ----------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| <img src="./assets/screenshots/4.app.png" alt="App Page" />   | <img src="./assets/screenshots/5.app_opts.png" alt="App Options" /> | <img src="./assets/screenshots/6.app_webview.png" alt="App Web View" /> | -->
+
+""";
+
+const String _markdownIt = r"""---
+__Advertisement :)__
+
+- __[pica](https://nodeca.github.io/pica/demo/)__ - high quality and fast image
+  resize in browser.
+- __[babelfish](https://github.com/nodeca/babelfish/)__ - developer friendly
+  i18n with plurals support and easy syntax.
+
+You will like those projects!
+
+---
+
+# h1 Heading 8-)
+## h2 Heading
+### h3 Heading
+#### h4 Heading
+##### h5 Heading
+###### h6 Heading
+
+
+## Horizontal Rules
+
+___
+
+---
+
+***
+
+
+## Typographic replacements
+
+Enable typographer option to see result.
+
+(c) (C) (r) (R) (tm) (TM) (p) (P) +-
+
+test.. test... test..... test?..... test!....
+
+!!!!!! ???? ,,  -- ---
+
+"Smartypants, double quotes" and 'single quotes'
+
+
+## Emphasis
+
+**This is bold text**
+
+__This is bold text__
+
+*This is italic text*
+
+_This is italic text_
+
+~~Strikethrough~~
+
+
+## Blockquotes
+
+
+> Blockquotes can also be nested...
+>> ...by using additional greater-than signs right next to each other...
+> > > ...or with spaces between arrows.
+
+
+## Lists
+
+Unordered
+
++ Create a list by starting a line with `+`, `-`, or `*`
++ Sub-lists are made by indenting 2 spaces:
+  - Marker character change forces new list start:
+    * Ac tristique libero volutpat at
+    + Facilisis in pretium nisl aliquet
+    - Nulla volutpat aliquam velit
++ Very easy!
+
+Ordered
+
+1. Lorem ipsum dolor sit amet
+2. Consectetur adipiscing elit
+3. Integer molestie lorem at massa
+
+
+1. You can use sequential numbers...
+1. ...or keep all the numbers as `1.`
+
+Start numbering with offset:
+
+57. foo
+1. bar
+
+
+## Code
+
+Inline `code`
+
+Indented code
+
+    // Some comments
+    line 1 of code
+    line 2 of code
+    line 3 of code
+
+
+Block code "fences"
+
+```
+Sample text here...
+```
+
+Syntax highlighting
+
+``` js
+var foo = function (bar) {
+  return bar++;
+};
+
+console.log(foo(5));
+```
+
+## Tables
+
+| Option | Description |
+| ------ | ----------- |
+| data   | path to data files to supply the data that will be passed into templates. |
+| engine | engine to be used for processing templates. Handlebars is the default. |
+| ext    | extension to be used for dest files. |
+
+Right aligned columns
+
+| Option | Description |
+| ------:| -----------:|
+| data   | path to data files to supply the data that will be passed into templates. |
+| engine | engine to be used for processing templates. Handlebars is the default. |
+| ext    | extension to be used for dest files. |
+
+
+## Links
+
+[link text](http://dev.nodeca.com)
+
+[link with title](http://nodeca.github.io/pica/demo/ "title text!")
+
+Autoconverted link https://github.com/nodeca/pica (enable linkify to see)
+
+
+## Images
+
+![Minion](https://octodex.github.com/images/minion.png)
+![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg "The Stormtroopocat")
+
+Like links, Images also have a footnote style syntax
+
+![Alt text][id]
+
+With a reference later in the document defining the URL location:
+
+[id]: https://octodex.github.com/images/dojocat.jpg  "The Dojocat"
+
+
+## Plugins
+
+The killer feature of `markdown-it` is very effective support of
+[syntax plugins](https://www.npmjs.org/browse/keyword/markdown-it-plugin).
+
+
+### [Emojies](https://github.com/markdown-it/markdown-it-emoji)
+
+> Classic markup: :wink: :cry: :laughing: :yum:
+>
+> Shortcuts (emoticons): :-) :-( 8-) ;)
+
+see [how to change output](https://github.com/markdown-it/markdown-it-emoji#change-output) with twemoji.
+
+
+### [Subscript](https://github.com/markdown-it/markdown-it-sub) / [Superscript](https://github.com/markdown-it/markdown-it-sup)
+
+- 19^th^
+- H~2~O
+
+
+### [\<ins>](https://github.com/markdown-it/markdown-it-ins)
+
+++Inserted text++
+
+
+### [\<mark>](https://github.com/markdown-it/markdown-it-mark)
+
+==Marked text==
+
+
+### [Footnotes](https://github.com/markdown-it/markdown-it-footnote)
+
+Footnote 1 link[^first].
+
+Footnote 2 link[^second].
+
+Inline footnote^[Text of inline footnote] definition.
+
+Duplicated footnote reference[^second].
+
+[^first]: Footnote **can have markup**
+
+    and multiple paragraphs.
+
+[^second]: Footnote text.
+
+
+### [Definition lists](https://github.com/markdown-it/markdown-it-deflist)
+
+Term 1
+
+:   Definition 1
+with lazy continuation.
+
+Term 2 with *inline markup*
+
+:   Definition 2
+
+        { some code, part of Definition 2 }
+
+    Third paragraph of definition 2.
+
+_Compact style:_
+
+Term 1
+  ~ Definition 1
+
+Term 2
+  ~ Definition 2a
+  ~ Definition 2b
+
+
+### [Abbreviations](https://github.com/markdown-it/markdown-it-abbr)
+
+This is HTML abbreviation example.
+
+It converts "HTML", but keep intact partial entries like "xxxHTMLyyy" and so on.
+
+*[HTML]: Hyper Text Markup Language
+
+### [Custom containers](https://github.com/markdown-it/markdown-it-container)
+
+::: warning
+*here be dragons*
+:::""";
+
+class ReadOnlyCheckboxComponentBuilder implements ComponentBuilder {
+  const ReadOnlyCheckboxComponentBuilder();
+
+  @override
+  TaskComponentViewModel? createViewModel(
+    Document document,
+    DocumentNode node,
+  ) {
+    if (node is! TaskNode) {
+      return null;
+    }
+
+    final textDirection = getParagraphDirection(node.text.toPlainText());
+
+    return TaskComponentViewModel(
+      nodeId: node.id,
+      createdAt: node.metadata[NodeMetadata.createdAt],
+      padding: EdgeInsets.zero,
+      indent: node.indent,
+      isComplete: node.isComplete,
+      setComplete: null,
+      text: node.text,
+      textDirection: textDirection,
+      textAlignment: textDirection == TextDirection.ltr
+          ? TextAlign.left
+          : TextAlign.right,
+      textStyleBuilder: noStyleBuilder,
+      selectionColor: const Color(0x00000000),
+    );
+  }
+
+  @override
+  Widget? createComponent(
+    SingleColumnDocumentComponentContext componentContext,
+    SingleColumnLayoutComponentViewModel componentViewModel,
+  ) {
+    if (componentViewModel is! TaskComponentViewModel) {
+      return null;
+    }
+
+    return CheckboxComponent(
+      key: componentContext.componentKey,
+      viewModel: componentViewModel,
+    );
+  }
+}
+
+class CheckboxComponent extends StatefulWidget {
+  const CheckboxComponent({
+    super.key,
+    required this.viewModel,
+    this.showDebugPaint = false,
+  });
+
+  final TaskComponentViewModel viewModel;
+  final bool showDebugPaint;
+
+  @override
+  State<CheckboxComponent> createState() => _CheckboxComponentState();
+}
+
+class _CheckboxComponentState extends State<CheckboxComponent>
+    with ProxyDocumentComponent<CheckboxComponent>, ProxyTextComposable {
+  final _textKey = GlobalKey();
+
+  @override
+  GlobalKey<State<StatefulWidget>> get childDocumentComponentKey => _textKey;
+
+  @override
+  TextComposable get childTextComposable =>
+      childDocumentComponentKey.currentState as TextComposable;
+
+  /// Computes the [TextStyle] for this task's inner [TextComponent].
+  TextStyle _computeStyles(Set<Attribution> attributions) {
+    // Show a strikethrough across the entire task if it's complete.
+    final style = widget.viewModel.textStyleBuilder(attributions);
+    return widget.viewModel.isComplete
+        ? style.copyWith(
+            decoration: style.decoration == null
+                ? TextDecoration.lineThrough
+                : TextDecoration.combine([
+                    TextDecoration.lineThrough,
+                    style.decoration!,
+                  ]),
+          )
+        : style;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: widget.viewModel.textDirection,
+      child: Flex.horizontal(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: widget.viewModel.indentCalculator(
+              widget.viewModel.textStyleBuilder({}),
+              widget.viewModel.indent,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 16, right: 4),
+            child: IgnorePointer(
+              ignoring: widget.viewModel.setComplete == null,
+              child: Checkbox.biState(
+                checked: widget.viewModel.isComplete,
+                onCheckedChanged: widget.viewModel.setComplete != null
+                    ? (newValue) {
+                        widget.viewModel.setComplete!(newValue);
+                      }
+                    : null,
+              ),
+            ),
+          ),
+          Flexible.tight(
+            child: TextComponent(
+              key: _textKey,
+              text: widget.viewModel.text,
+              textDirection: widget.viewModel.textDirection,
+              textAlign: widget.viewModel.textAlignment,
+              textStyleBuilder: _computeStyles,
+              inlineWidgetBuilders: widget.viewModel.inlineWidgetBuilders,
+              textSelection: widget.viewModel.selection,
+              selectionColor: widget.viewModel.selectionColor,
+              highlightWhenEmpty: widget.viewModel.highlightWhenEmpty,
+              underlines: widget.viewModel.createUnderlines(),
+              showDebugPaint: widget.showDebugPaint,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

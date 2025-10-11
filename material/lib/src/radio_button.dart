@@ -26,6 +26,8 @@ class _RadioButtonState extends State<RadioButton>
   bool get _isSelected => widget.selected;
 
   late final WidgetStatesController _statesController;
+  bool _pressed = false;
+  bool _focused = false;
 
   late AnimationController _animationController;
   late AnimationController _colorController;
@@ -51,7 +53,21 @@ class _RadioButtonState extends State<RadioButton>
       );
 
   WidgetStateProperty<double> get _stateLayerOpacity =>
-      _stateTheme.stateLayerOpacity;
+      WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.disabled)) {
+          return 0.0;
+        }
+        if (states.contains(WidgetState.pressed)) {
+          return _stateTheme.pressedStateLayerOpacity;
+        }
+        if (states.contains(WidgetState.hovered)) {
+          return _stateTheme.hoverStateLayerOpacity;
+        }
+        if (states.contains(WidgetState.focused)) {
+          return 0.0;
+        }
+        return 0.0;
+      });
 
   WidgetStateProperty<double> get _iconSize =>
       const WidgetStatePropertyAll(20.0);
@@ -78,7 +94,7 @@ class _RadioButtonState extends State<RadioButton>
 
   void _updateColorAnimations({required Color iconColor}) {
     // The animation is already in progress.
-    // We have no point of triggering it again
+    // There is no point in triggering it again
     // because it would animate to the same value.
     if (iconColor == _iconColorTween.end) {
       return;
@@ -103,16 +119,38 @@ class _RadioButtonState extends State<RadioButton>
     _colorController.animateWith(simulation);
   }
 
+  WidgetStates _resolveStates() {
+    final states = _statesController.value;
+
+    final isDisabled = widget.onTap == null;
+
+    if (isDisabled) {
+      states.add(WidgetState.disabled);
+    } else {
+      states.remove(WidgetState.disabled);
+    }
+
+    if (!isDisabled && _pressed) {
+      states.add(WidgetState.pressed);
+    } else {
+      states.remove(WidgetState.pressed);
+    }
+    if (!isDisabled && (_focused && !_pressed)) {
+      states.add(WidgetState.focused);
+    } else {
+      states.remove(WidgetState.focused);
+    }
+    return Set.of(states);
+  }
+
   @override
   void initState() {
     super.initState();
 
-    final isDisabled = widget.onTap == null;
-    _statesController =
-        WidgetStatesController({if (isDisabled) WidgetState.disabled})
-          ..addListener(() {
-            setState(() {});
-          });
+    _statesController = WidgetStatesController()
+      ..addListener(() {
+        setState(() {});
+      });
 
     _animationController = AnimationController.unbounded(
       vsync: this,
@@ -142,14 +180,6 @@ class _RadioButtonState extends State<RadioButton>
         _animationController.animateBackWith(simulation);
       }
     }
-    if (widget.onTap != oldWidget.onTap) {
-      final isDisabled = widget.onTap == null;
-      if (isDisabled) {
-        _statesController.value.add(WidgetState.disabled);
-      } else {
-        _statesController.value.remove(WidgetState.disabled);
-      }
-    }
   }
 
   @override
@@ -170,8 +200,8 @@ class _RadioButtonState extends State<RadioButton>
 
   @override
   Widget build(BuildContext context) {
-    final Set<WidgetState> states = Set.of(_statesController.value);
-
+    final states = _resolveStates();
+    final isDisabled = states.contains(WidgetState.disabled);
     const minTapTargetSize = Size.square(48.0);
     final stateLayerSize = _stateLayerSize.resolve(states);
     final stateLayerShape = _stateLayerShape.resolve(states);
@@ -182,24 +212,84 @@ class _RadioButtonState extends State<RadioButton>
 
     final child = SizedBox.square(
       dimension: stateLayerSize,
-      child: Material(
-        animationDuration: Duration.zero,
-        type: MaterialType.transparency,
-        clipBehavior: Clip.none,
-        color: Colors.transparent,
-        child: InkWell(
-          statesController: _statesController,
-          customBorder: stateLayerShape,
-          overlayColor: WidgetStateLayerColor(
-            color: _stateLayerColor,
-            opacity: _stateLayerOpacity,
+      child: Listener(
+        behavior: HitTestBehavior.deferToChild,
+        onPointerDown: !isDisabled
+            ? (_) {
+                setState(() {
+                  _focused = false;
+                  _pressed = true;
+                });
+              }
+            : null,
+        onPointerUp: !isDisabled
+            ? (_) {
+                setState(() {
+                  _focused = false;
+                  _pressed = false;
+                });
+              }
+            : null,
+        onPointerCancel: !isDisabled
+            ? (_) {
+                setState(() {
+                  _focused = false;
+                  _pressed = false;
+                });
+              }
+            : null,
+        child: Material(
+          animationDuration: Duration.zero,
+          type: MaterialType.transparency,
+          clipBehavior: Clip.none,
+          color: Colors.transparent,
+          child: InkWell(
+            statesController: _statesController,
+            customBorder: stateLayerShape,
+            overlayColor: WidgetStateLayerColor(
+              color: _stateLayerColor,
+              opacity: _stateLayerOpacity,
+            ),
+            enableFeedback: !isDisabled,
+            onTap: !isDisabled
+                ? () {
+                    widget.onTap?.call();
+                  }
+                : null,
+            onTapDown: !isDisabled
+                ? (_) {
+                    setState(() {
+                      _focused = false;
+                      _pressed = true;
+                    });
+                  }
+                : null,
+            onTapUp: !isDisabled
+                ? (_) {
+                    setState(() {
+                      _focused = false;
+                      _pressed = false;
+                    });
+                  }
+                : null,
+            onTapCancel: !isDisabled
+                ? () {
+                    setState(() {
+                      _focused = false;
+                      _pressed = false;
+                    });
+                  }
+                : null,
+            onFocusChange: !isDisabled
+                ? (value) {
+                    setState(() => _focused = value);
+                  }
+                : null,
           ),
-          onTap: widget.onTap,
         ),
       ),
     );
 
-    // TODO: add FocusRing
     return RepaintBoundary(
       child: Semantics(
         enabled: !states.contains(WidgetState.disabled),
@@ -208,14 +298,33 @@ class _RadioButtonState extends State<RadioButton>
         child: Align.center(
           widthFactor: 1.0,
           heightFactor: 1.0,
-          child: _RadioButtonPaint(
-            minTapTargetSize: const _ValueListenable(minTapTargetSize),
-            iconSize: _ValueListenable(iconSize),
-            iconColor: _iconColorAnimation.mapValue(
-              (value) => value ?? iconColor,
+          child: TapRegion(
+            behavior: HitTestBehavior.deferToChild,
+            consumeOutsideTaps: false,
+            onTapOutside: !isDisabled
+                ? (_) {
+                    setState(() => _focused = false);
+                  }
+                : null,
+            onTapUpOutside: !isDisabled
+                ? (_) {
+                    setState(() => _focused = false);
+                  }
+                : null,
+            child: FocusRing(
+              visible: states.contains(WidgetState.focused),
+              inward: false,
+              layoutBuilder: (context, info, child) => Align.center(
+                child: SizedBox.square(dimension: stateLayerSize, child: child),
+              ),
+              child: _RadioButtonPaint(
+                minTapTargetSize: const _ValueListenable(minTapTargetSize),
+                iconSize: _ValueListenable(iconSize),
+                iconColor: _iconColorAnimation.nonNullOr(iconColor),
+                animation: _animationController,
+                child: child,
+              ),
             ),
-            animation: _animationController,
-            child: child,
           ),
         ),
       ),
@@ -369,32 +478,64 @@ class _RenderRadioButtonPaint extends RenderBox
     parentData.offset = position;
   }
 
-  @override
-  void performLayout() {
+  Size _layout({
+    required BoxConstraints constraints,
+    required ChildLayouter layoutChild,
+    required ChildPositioner positionChild,
+  }) {
     final outerSize = _computeOuterSize();
     final center = outerSize.center(Offset.zero);
     if (child case final child?) {
-      child.layout(
+      layoutChild(
+        child,
         BoxConstraints(
           minWidth: 0.0,
           minHeight: 0.0,
           maxWidth: outerSize.width,
           maxHeight: outerSize.height,
         ),
-        parentUsesSize: true,
       );
       final childSize = child.size;
-      _positionChild(
+      positionChild(
         child,
         Offset(
           center.dx - childSize.width / 2.0,
           center.dy - childSize.height / 2.0,
         ),
       );
-    } else {
-      size = outerSize;
     }
-    size = _computeOuterSize();
+    return constraints.constrain(outerSize);
+  }
+
+  @override
+  Size computeDryLayout(BoxConstraints constraints) {
+    return _layout(
+      constraints: constraints,
+      layoutChild: ChildLayoutHelper.dryLayoutChild,
+      positionChild: (_, _) {},
+    );
+  }
+
+  @override
+  double? computeDryBaseline(
+    BoxConstraints constraints,
+    TextBaseline baseline,
+  ) {
+    return null;
+  }
+
+  @override
+  double? computeDistanceToActualBaseline(TextBaseline baseline) {
+    return null;
+  }
+
+  @override
+  void performLayout() {
+    size = _layout(
+      constraints: constraints,
+      layoutChild: ChildLayoutHelper.layoutChild,
+      positionChild: _positionChild,
+    );
   }
 
   void _paintIcon(PaintingContext context) {

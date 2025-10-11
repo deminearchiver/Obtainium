@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:math' as math;
 import 'dart:ui';
 
@@ -28,15 +27,31 @@ class Switch extends StatefulWidget {
 class _SwitchState extends State<Switch> with TickerProviderStateMixin {
   late final WidgetStatesController _statesController;
 
-  late final SpringImplicitAnimation<double> _handlePosition;
-  late final CurveImplicitAnimation<Color?> _trackColorAnimation;
-  late final CurveImplicitAnimation<Color?> _outlineColorAnimation;
-  late final SpringImplicitAnimation<Size?> _handleSizeAnimation;
-  late final CurveImplicitAnimation<Color?> _handleColorAnimation;
+  late AnimationController _handlePositionController;
+  final Tween<double> _handlePositionTween = Tween<double>();
+  late Animation<double> _handlePositionAnimation;
+
+  late AnimationController _handleSizeController;
+  final Tween<Size?> _handleSizeTween = SizeTween();
+  late Animation<Size?> _handleSizeAnimation;
+
+  late AnimationController _colorController;
+  final Tween<Color?> _trackColorTween = ColorTween();
+  final Tween<Color?> _outlineColorTween = ColorTween();
+  final Tween<Color?> _handleColorTween = ColorTween();
+  final Tween<Color?> _iconColorTween = ColorTween();
+  late Animation<Color?> _trackColorAnimation;
+  late Animation<Color?> _outlineColorAnimation;
+  late Animation<Color?> _handleColorAnimation;
+  late Animation<Color?> _iconColorAnimation;
 
   late ColorThemeData _colorTheme;
   late ShapeThemeData _shapeTheme;
   late StateThemeData _stateTheme;
+  late SpringThemeData _springTheme;
+
+  bool _pressed = false;
+  bool _focused = false;
 
   WidgetStateProperty<Color> get _trackColor =>
       WidgetStateProperty.resolveWith((states) {
@@ -77,9 +92,6 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
 
   WidgetStateProperty<CornersGeometry> get _trackShape =>
       WidgetStatePropertyAll(Corners.all(_shapeTheme.corner.full));
-
-  WidgetStateProperty<Size> get _stateLayerSize =>
-      const WidgetStatePropertyAll(Size.square(40.0));
 
   WidgetStateProperty<CornersGeometry> get _stateLayerShape =>
       WidgetStatePropertyAll(Corners.all(_shapeTheme.corner.full));
@@ -142,62 +154,152 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
         );
       });
 
-  @override
-  void initState() {
-    super.initState();
-    _statesController =
-        WidgetStatesController({
-          if (widget.onCheckedChanged == null) WidgetState.disabled,
-        })..addListener(() {
-          setState(() {});
-        });
-    final durationTheme = const DurationThemeData.fallback();
-    final easingTheme = const EasingThemeData.fallback();
-    final springTheme = const SpringThemeData.expressive();
-    _handlePosition = SpringImplicitAnimation<double>(
-      vsync: this,
-      spring: springTheme.fastSpatial.toSpringDescription(),
-      initialValue: widget.checked ? 1.0 : 0.0,
-      builder: (value) => Tween<double>(begin: value),
+  void _updateHandlePositionAnimation({required double handlePosition}) {
+    if (handlePosition == _handlePositionTween.end) {
+      return;
+    }
+
+    _handlePositionTween.begin =
+        _handlePositionAnimation.value ?? handlePosition;
+    _handlePositionTween.end = handlePosition;
+
+    if (_handlePositionTween.begin == _handlePositionTween.end) {
+      return;
+    }
+
+    final simulation = SpringSimulation(
+      _springTheme.fastSpatial.toSpringDescription(),
+      0.0,
+      1.0,
+      0.0,
     );
-    _trackColorAnimation = CurveImplicitAnimation<Color?>(
-      vsync: this,
+    _handlePositionController.animateWith(simulation);
+  }
+
+  void _updateHandleSizeAnimation({required Size handleSize}) {
+    if (handleSize == _handleSizeTween.end) {
+      return;
+    }
+
+    _handleSizeTween.begin = _handleSizeAnimation.value ?? handleSize;
+    _handleSizeTween.end = handleSize;
+
+    if (_handleSizeTween.begin == _handleSizeTween.end) {
+      return;
+    }
+
+    final simulation = SpringSimulation(
+      _springTheme.fastEffects.toSpringDescription(),
+      0.0,
+      1.0,
+      0.0,
+    );
+    _handleSizeController.animateWith(simulation);
+  }
+
+  void _updateColorAnimations({
+    required Color trackColor,
+    required Color outlineColor,
+    required Color handleColor,
+    required Color iconColor,
+  }) {
+    // The animation is already in progress.
+    // There is no point in triggering it again
+    // because it would animate to the same value.
+    if (trackColor == _trackColorTween.end &&
+        outlineColor == _outlineColorTween.end &&
+        handleColor == _handleColorTween.end &&
+        iconColor == _iconColorTween.end) {
+      return;
+    }
+
+    _trackColorTween.begin = _trackColorAnimation.value ?? trackColor;
+    _trackColorTween.end = trackColor;
+    _outlineColorTween.begin = _outlineColorAnimation.value ?? outlineColor;
+    _outlineColorTween.end = outlineColor;
+    _handleColorTween.begin = _handleColorAnimation.value ?? handleColor;
+    _handleColorTween.end = handleColor;
+    _iconColorTween.begin = _iconColorAnimation.value ?? iconColor;
+    _iconColorTween.end = iconColor;
+
+    // We don't have to animate between states
+    // if the initial state is the same as the target state.
+    if (_trackColorTween.begin == _trackColorTween.end &&
+        _outlineColorTween.begin == _outlineColorTween.end &&
+        _handleColorTween.begin == _handleColorTween.end &&
+        _iconColorTween.begin == _iconColorTween.end) {
+      return;
+    }
+
+    _colorController.value = 0.0;
+    _colorController.animateTo(
+      1.0,
       duration: const Duration(milliseconds: 67),
-      curve: easingTheme.linear,
-      initialValue: null,
-      builder: (value) => ColorTween(begin: value),
-    );
-    _outlineColorAnimation = CurveImplicitAnimation<Color?>(
-      vsync: this,
-      duration: const Duration(milliseconds: 67),
-      curve: easingTheme.linear,
-      initialValue: null,
-      builder: (value) => ColorTween(begin: value),
-    );
-    _handleSizeAnimation = SpringImplicitAnimation<Size?>(
-      vsync: this,
-      spring: springTheme.fastEffects.toSpringDescription(),
-      initialValue: null,
-      builder: (value) => SizeTween(begin: value),
-    );
-    _handleColorAnimation = CurveImplicitAnimation(
-      vsync: this,
-      duration: const Duration(milliseconds: 67),
-      initialValue: null,
-      builder: (value) => ColorTween(begin: value),
+      curve: Curves.linear,
     );
   }
 
-  @override
-  void didUpdateWidget(covariant Switch oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.onCheckedChanged != oldWidget.onCheckedChanged) {
-      if (widget.onCheckedChanged == null) {
-        _statesController.value.add(WidgetState.disabled);
-      } else {
-        _statesController.value.remove(WidgetState.disabled);
-      }
+  Set<WidgetState> _resolveStates() {
+    final states = _statesController.value;
+
+    final isDisabled = widget.onCheckedChanged == null;
+    final isSelected = widget.checked;
+
+    if (isDisabled) {
+      states.add(WidgetState.disabled);
+    } else {
+      states.remove(WidgetState.disabled);
     }
+
+    if (isSelected) {
+      states.add(WidgetState.selected);
+    } else {
+      states.remove(WidgetState.selected);
+    }
+    if (!isDisabled && _pressed) {
+      states.add(WidgetState.pressed);
+    } else {
+      states.remove(WidgetState.pressed);
+    }
+    if (!isDisabled && (_focused && !_pressed)) {
+      states.add(WidgetState.focused);
+    } else {
+      states.remove(WidgetState.focused);
+    }
+    return Set.of(states);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _statesController = WidgetStatesController()
+      ..addListener(() {
+        setState(() {});
+      });
+    final springTheme = const SpringThemeData.expressive();
+    final handlePosition = widget.checked ? 1.0 : 0.0;
+    _handlePositionTween.begin = handlePosition;
+    _handlePositionTween.end = handlePosition;
+
+    _handlePositionController = AnimationController.unbounded(
+      vsync: this,
+      value: 0.0,
+    );
+    _handlePositionAnimation = _handlePositionTween.animate(
+      _handlePositionController,
+    );
+
+    _handleSizeController = AnimationController.unbounded(
+      vsync: this,
+      value: 0.0,
+    );
+    _handleSizeAnimation = _handleSizeTween.animate(_handleSizeController);
+
+    _colorController = AnimationController(vsync: this, value: 0.0);
+    _trackColorAnimation = _trackColorTween.animate(_colorController);
+    _outlineColorAnimation = _outlineColorTween.animate(_colorController);
+    _handleColorAnimation = _handleColorTween.animate(_colorController);
+    _iconColorAnimation = _iconColorTween.animate(_colorController);
   }
 
   @override
@@ -206,53 +308,27 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
     _colorTheme = ColorTheme.of(context);
     _shapeTheme = ShapeTheme.of(context);
     _stateTheme = StateTheme.of(context);
+    _springTheme = SpringTheme.of(context);
   }
 
   @override
   void dispose() {
-    _handleColorAnimation.dispose();
-    _handleSizeAnimation.dispose();
-    _outlineColorAnimation.dispose();
-    _trackColorAnimation.dispose();
-    _handlePosition.dispose();
+    _colorController.dispose();
+    _handleSizeController.dispose();
+    _handlePositionController.dispose();
     _statesController.dispose();
     super.dispose();
-  }
-
-  bool _pressed = false;
-  bool _focused = false;
-
-  Set<WidgetState> _resolveStates() {
-    final isSelected = widget.checked;
-    final states = _statesController.value;
-    if (isSelected) {
-      states.add(WidgetState.selected);
-    } else {
-      states.remove(WidgetState.selected);
-    }
-
-    if (_pressed) {
-      states.add(WidgetState.pressed);
-    } else {
-      states.remove(WidgetState.pressed);
-    }
-    if (_focused && !_pressed) {
-      states.add(WidgetState.focused);
-    } else {
-      states.remove(WidgetState.focused);
-    }
-    return UnmodifiableSetView(states);
   }
 
   @override
   Widget build(BuildContext context) {
     final states = _resolveStates();
+    final isDisabled = states.contains(WidgetState.disabled);
     final isSelected = states.contains(WidgetState.selected);
     final outlineWidth = _outlineWidth.resolve(states);
     final outlineColor = _outlineColor.resolve(states);
     final trackColor = _trackColor.resolve(states);
     final trackCorners = _trackShape.resolve(states);
-    final stateLayerSize = _stateLayerSize.resolve(states);
     final stateLayerCorners = _stateLayerShape.resolve(states);
     final handleSize = _handleSize.resolve(states);
     final handleColor = _handleColor.resolve(states);
@@ -260,39 +336,49 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
     final iconTheme = _iconTheme.resolve(states);
 
     const minTapTargetSize = Size(48.0, 48.0);
+    const stateLayerSize = 40.0;
     const trackSize = Size(52.0, 32.0);
 
     final stateLayerShape = CornersBorder.rounded(corners: stateLayerCorners);
     final handleShape = CornersBorder.rounded(corners: handleCorners);
 
-    _handlePosition.targetValue = widget.checked ? 1.0 : 0.0;
-    _trackColorAnimation.targetValue = trackColor;
-    _outlineColorAnimation.targetValue = outlineColor;
-    _handleSizeAnimation.targetValue = handleSize;
-    _handleColorAnimation.value = handleColor;
+    _updateHandlePositionAnimation(handlePosition: widget.checked ? 1.0 : 0.0);
+    _updateHandleSizeAnimation(handleSize: handleSize);
+    _updateColorAnimations(
+      trackColor: trackColor,
+      outlineColor: outlineColor,
+      handleColor: handleColor,
+      iconColor: Colors.transparent,
+    );
 
-    final trackChild = SizedBox.fromSize(
-      size: stateLayerSize,
+    final trackChild = SizedBox.square(
+      dimension: stateLayerSize,
       child: Listener(
         behavior: HitTestBehavior.deferToChild,
-        onPointerDown: (_) {
-          setState(() {
-            _focused = false;
-            _pressed = true;
-          });
-        },
-        onPointerUp: (_) {
-          setState(() {
-            _focused = false;
-            _pressed = false;
-          });
-        },
-        onPointerCancel: (_) {
-          setState(() {
-            _focused = false;
-            _pressed = false;
-          });
-        },
+        onPointerDown: !isDisabled
+            ? (_) {
+                setState(() {
+                  _focused = false;
+                  _pressed = true;
+                });
+              }
+            : null,
+        onPointerUp: !isDisabled
+            ? (_) {
+                setState(() {
+                  _focused = false;
+                  _pressed = false;
+                });
+              }
+            : null,
+        onPointerCancel: !isDisabled
+            ? (_) {
+                setState(() {
+                  _focused = false;
+                  _pressed = false;
+                });
+              }
+            : null,
         child: Material(
           animationDuration: Duration.zero,
           type: MaterialType.card,
@@ -305,32 +391,39 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
               color: _stateLayerColor,
               opacity: _stateLayerOpacity,
             ),
-            onTap: widget.onCheckedChanged != null
-                ? () {
-                    widget.onCheckedChanged!(!widget.checked);
+            enableFeedback: !isDisabled,
+            onTap: !isDisabled
+                ? () => widget.onCheckedChanged?.call(!widget.checked)
+                : null,
+            onTapDown: !isDisabled
+                ? (_) {
+                    setState(() {
+                      _focused = false;
+                      _pressed = true;
+                    });
                   }
                 : null,
-            onTapDown: (_) {
-              setState(() {
-                _focused = false;
-                _pressed = true;
-              });
-            },
-            onTapUp: (_) {
-              setState(() {
-                _focused = false;
-                _pressed = false;
-              });
-            },
-            onTapCancel: () {
-              setState(() {
-                _focused = false;
-                _pressed = false;
-              });
-            },
-            onFocusChange: (value) {
-              setState(() => _focused = value);
-            },
+            onTapUp: !isDisabled
+                ? (_) {
+                    setState(() {
+                      _focused = false;
+                      _pressed = false;
+                    });
+                  }
+                : null,
+            onTapCancel: !isDisabled
+                ? () {
+                    setState(() {
+                      _focused = false;
+                      _pressed = false;
+                    });
+                  }
+                : null,
+            onFocusChange: !isDisabled
+                ? (value) {
+                    setState(() => _focused = value);
+                  }
+                : null,
           ),
         ),
       ),
@@ -351,37 +444,43 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
         child: TapRegion(
           behavior: HitTestBehavior.deferToChild,
           consumeOutsideTaps: false,
-          onTapOutside: (_) {
-            setState(() => _focused = false);
-          },
-          onTapUpOutside: (_) {
-            setState(() => _focused = false);
-          },
+          onTapOutside: !isDisabled
+              ? (_) {
+                  setState(() => _focused = false);
+                }
+              : null,
+          onTapUpOutside: !isDisabled
+              ? (_) {
+                  setState(() => _focused = false);
+                }
+              : null,
           child: FocusRing(
             visible: states.contains(WidgetState.focused),
+            inward: false,
             layoutBuilder: (context, info, child) => Align.center(
               child: SizedBox.fromSize(size: trackSize, child: child),
             ),
-            inward: false,
             child: _SwitchPaint(
-              handlePosition: _handlePosition,
-              trackShape: _outlineColorAnimation.nonNull.mapValue(
-                (value) => CornersBorder.rounded(
-                  corners: trackCorners,
-                  side: BorderSide(
-                    width: outlineWidth,
-                    color: _outlineColorAnimation.value!,
-                    strokeAlign: BorderSide.strokeAlignInside,
-                    style: BorderStyle.solid,
+              handlePosition: _handlePositionAnimation,
+              trackShape: _outlineColorAnimation
+                  .nonNullOr(outlineColor)
+                  .mapValue(
+                    (value) => CornersBorder.rounded(
+                      corners: trackCorners,
+                      side: BorderSide(
+                        width: outlineWidth,
+                        color: _outlineColorAnimation.value!,
+                        strokeAlign: BorderSide.strokeAlignInside,
+                        style: BorderStyle.solid,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              trackColor: _trackColorAnimation.nonNull,
+              trackColor: _trackColorAnimation.nonNullOr(trackColor),
               minTapTargetSize: minTapTargetSize,
               trackSize: trackSize,
-              handleSize: _handleSizeAnimation.nonNull,
+              handleSize: _handleSizeAnimation.nonNullOr(handleSize),
               handleShape: handleShape,
-              handleColor: _handleColorAnimation.nonNull,
+              handleColor: _handleColorAnimation.nonNullOr(handleColor),
               childrenPaintOrder: _SwitchChildrenPaintOrder.handleChildIsTop,
               trackChildPosition: SwitchChildPosition.middle,
               trackChild: trackChild,
@@ -676,11 +775,6 @@ class _RenderSwitchPaint extends RenderBox
     );
   }
 
-  void _positionChild(RenderBox child, Offset position) {
-    final parentData = child.parentData! as BoxParentData;
-    parentData.offset = position;
-  }
-
   @override
   void attach(PipelineOwner owner) {
     super.attach(owner);
@@ -721,25 +815,32 @@ class _RenderSwitchPaint extends RenderBox
     return _computeOuterSize().height;
   }
 
-  @override
-  void performLayout() {
+  void _positionChild(RenderBox child, Offset position) {
+    final parentData = child.parentData! as BoxParentData;
+    parentData.offset = position;
+  }
+
+  Size _layout({
+    required BoxConstraints constraints,
+    required ChildLayouter layoutChild,
+    required ChildPositioner positionChild,
+  }) {
     final outerSize = _computeOuterSize();
     final innerRect = _computeInnerRect(outerSize);
 
     final outerCenter = _computeHandleOuterCenter(innerRect);
-    final trackChild = _trackChild;
-    if (trackChild != null) {
-      trackChild.layout(
+    if (_trackChild case final trackChild?) {
+      layoutChild(
+        trackChild,
         BoxConstraints(
           minWidth: 0.0,
           minHeight: 0.0,
           maxWidth: minTapTargetSize.width,
           maxHeight: minTapTargetSize.height,
         ),
-        parentUsesSize: true,
       );
       final trackChildSize = trackChild.size;
-      _positionChild(
+      positionChild(
         trackChild,
         Offset(
           outerCenter.dx - trackChildSize.width / 2.0,
@@ -747,20 +848,19 @@ class _RenderSwitchPaint extends RenderBox
         ),
       );
     }
-    final handleChild = _handleChild;
-    if (handleChild != null) {
+    if (_handleChild case final handleChild?) {
       final handleSize = this.handleSize.value;
-      handleChild.layout(
+      layoutChild(
+        handleChild,
         BoxConstraints(
           minWidth: 0.0,
           minHeight: 0.0,
           maxWidth: handleSize.width,
           maxHeight: handleSize.height,
         ),
-        parentUsesSize: true,
       );
       final handleChildSize = handleChild.size;
-      _positionChild(
+      positionChild(
         handleChild,
         Offset(
           outerCenter.dx - handleChildSize.width / 2.0,
@@ -768,7 +868,38 @@ class _RenderSwitchPaint extends RenderBox
         ),
       );
     }
-    size = outerSize;
+    return constraints.constrain(outerSize);
+  }
+
+  @override
+  Size computeDryLayout(BoxConstraints constraints) {
+    return _layout(
+      constraints: constraints,
+      layoutChild: ChildLayoutHelper.dryLayoutChild,
+      positionChild: (_, _) {},
+    );
+  }
+
+  @override
+  double? computeDryBaseline(
+    covariant BoxConstraints constraints,
+    TextBaseline baseline,
+  ) {
+    return null;
+  }
+
+  @override
+  double? computeDistanceToActualBaseline(TextBaseline baseline) {
+    return null;
+  }
+
+  @override
+  void performLayout() {
+    size = _layout(
+      constraints: constraints,
+      layoutChild: ChildLayoutHelper.layoutChild,
+      positionChild: _positionChild,
+    );
   }
 
   void _paintTrack(PaintingContext context, Rect shiftedRect) {
