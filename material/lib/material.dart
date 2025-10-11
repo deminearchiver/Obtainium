@@ -37,6 +37,8 @@ export 'src/switch.dart';
 
 export 'src/window_size_class.dart';
 
+export 'src/animation_extensions.dart';
+
 import 'src/flutter.dart';
 
 // TODO: maybe this should be moved to the layout package?
