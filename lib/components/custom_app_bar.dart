@@ -138,10 +138,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   double get _collapsedTitleSubtitleSpace => 0.0;
 
   EdgeInsetsGeometry get _collapsedPadding =>
-      widget.collapsedPadding?.clamp(
-        EdgeInsets.zero,
-        const EdgeInsets.symmetric(horizontal: double.infinity, vertical: 0.0),
-      ) ??
+      widget.collapsedPadding?.horizontalInsets() ??
       const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0);
 
   double get _collapsedContentHeight =>
@@ -626,13 +623,7 @@ class _CustomAppBarStretchingFlexibleSpace extends StatelessWidget {
         child: Padding(
           padding: EdgeInsetsGeometry.lerp(
             state._expandedPadding,
-            state._collapsedPadding.clamp(
-              EdgeInsets.zero,
-              const EdgeInsets.symmetric(
-                horizontal: double.infinity,
-                vertical: 0.0,
-              ),
-            ),
+            state._collapsedPadding.horizontalInsets(),
             animation.value,
           )!,
           child: Flex.vertical(

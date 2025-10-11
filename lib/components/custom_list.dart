@@ -275,23 +275,11 @@ class _ListItemLayoutState extends State<ListItemLayout> {
     );
 
     final EdgeInsetsGeometry containerPadding =
-        widget.padding?.clamp(
-          EdgeInsets.zero,
-          const EdgeInsets.symmetric(
-            horizontal: double.infinity,
-            vertical: 0.0,
-          ),
-        ) ??
+        widget.padding?.horizontalInsets() ??
         const EdgeInsets.symmetric(horizontal: 16.0);
 
     final EdgeInsetsGeometry verticalContentPadding =
-        widget.padding?.clamp(
-          EdgeInsets.zero,
-          const EdgeInsets.symmetric(
-            horizontal: 0.0,
-            vertical: double.infinity,
-          ),
-        ) ??
+        widget.padding?.verticalInsets() ??
         (isMultiline
             ? const EdgeInsets.symmetric(vertical: 12.0)
             : const EdgeInsets.symmetric(vertical: 8.0));
