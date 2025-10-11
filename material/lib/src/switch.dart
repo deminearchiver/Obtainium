@@ -1,10 +1,9 @@
+import 'dart:collection';
 import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:material/src/flutter.dart';
 import 'package:flutter/material.dart' as flutter;
-
-import 'deprecated_animation.dart';
 
 typedef SwitchLegacy = flutter.Switch;
 typedef SwitchThemeLegacy = flutter.SwitchTheme;
@@ -25,6 +24,8 @@ class Switch extends StatefulWidget {
 }
 
 class _SwitchState extends State<Switch> with TickerProviderStateMixin {
+  bool get _isSelected => widget.checked;
+
   late final WidgetStatesController _statesController;
 
   late AnimationController _handlePositionController;
@@ -55,25 +56,26 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
 
   WidgetStateProperty<Color> get _trackColor =>
       WidgetStateProperty.resolveWith((states) {
-        final isSelected = states.contains(WidgetState.selected);
-        if (states.contains(WidgetState.disabled)) {
-          return isSelected
-              ? _colorTheme.onSurface.withValues(alpha: 0.1)
-              : _colorTheme.surfaceContainerHighest.withValues(alpha: 0.1);
-        }
-        return isSelected
-            ? _colorTheme.primary
+        final isDisabled = states.contains(WidgetState.disabled);
+        return _isSelected
+            ? isDisabled
+                  ? _colorTheme.onSurface.withValues(alpha: 0.1)
+                  : _colorTheme.primary
+            : isDisabled
+            ? _colorTheme.surfaceContainerHighest.withValues(alpha: 0.1)
             : _colorTheme.surfaceContainerHighest;
       });
+
   WidgetStateProperty<Color> get _handleColor =>
       WidgetStateProperty.resolveWith((states) {
-        final isSelected = states.contains(WidgetState.selected);
-        if (states.contains(WidgetState.disabled)) {
-          return isSelected
-              ? _colorTheme.surface
-              : _colorTheme.onSurface.withValues(alpha: 0.38);
-        }
-        return isSelected ? _colorTheme.onPrimary : _colorTheme.outline;
+        final isDisabled = states.contains(WidgetState.disabled);
+        return _isSelected
+            ? isDisabled
+                  ? _colorTheme.surface
+                  : _colorTheme.onPrimary
+            : isDisabled
+            ? _colorTheme.onSurface.withValues(alpha: 0.38)
+            : _colorTheme.outline;
       });
 
   WidgetStateProperty<double> get _outlineWidth =>
@@ -81,13 +83,14 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
 
   WidgetStateProperty<Color> get _outlineColor =>
       WidgetStateProperty.resolveWith((states) {
-        final isSelected = states.contains(WidgetState.selected);
-        if (states.contains(WidgetState.disabled)) {
-          return isSelected
-              ? _colorTheme.primary.withValues(alpha: 0.0)
-              : _colorTheme.onSurface.withValues(alpha: 0.1);
-        }
-        return isSelected ? _colorTheme.primary : _colorTheme.outline;
+        final isDisabled = states.contains(WidgetState.disabled);
+        return _isSelected
+            ? isDisabled
+                  ? _colorTheme.primary.withValues(alpha: 0.0)
+                  : _colorTheme.primary
+            : isDisabled
+            ? _colorTheme.onSurface.withValues(alpha: 0.1)
+            : _colorTheme.outline;
       });
 
   WidgetStateProperty<CornersGeometry> get _trackShape =>
@@ -98,9 +101,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
 
   WidgetStateProperty<Color> get _stateLayerColor =>
       WidgetStateProperty.resolveWith(
-        (states) => states.contains(WidgetState.selected)
-            ? _colorTheme.primary
-            : _colorTheme.onSurface,
+        (states) => _isSelected ? _colorTheme.primary : _colorTheme.onSurface,
       );
 
   WidgetStateProperty<double> get _stateLayerOpacity =>
@@ -123,11 +124,9 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
   WidgetStateProperty<Size> get _handleSize =>
       WidgetStateProperty.resolveWith((states) {
         final isDisabled = states.contains(WidgetState.disabled);
-        if (!isDisabled && states.contains(WidgetState.pressed)) {
-          return const Size.square(28.0);
-        }
-        // final isSelected = states.contains(WidgetState.selected);
-        return const Size.square(24.0);
+        return !isDisabled && states.contains(WidgetState.pressed)
+            ? const Size.square(28.0)
+            : const Size.square(24.0);
       });
 
   WidgetStateProperty<CornersGeometry> get _handleShape =>
@@ -135,14 +134,13 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
 
   WidgetStateProperty<IconThemeDataPartial> get _iconTheme =>
       WidgetStateProperty.resolveWith((states) {
-        final isSelected = states.contains(WidgetState.selected);
         final isDisabled = states.contains(WidgetState.disabled);
-        final Color color = isDisabled
-            ? isSelected
+        final color = _isSelected
+            ? isDisabled
                   ? _colorTheme.onSurface.withValues(alpha: 0.38)
-                  : _colorTheme.surfaceContainerHighest.withValues(alpha: 0.38)
-            : isSelected
-            ? _colorTheme.primary
+                  : _colorTheme.primary
+            : isDisabled
+            ? _colorTheme.surfaceContainerHighest.withValues(alpha: 0.38)
             : _colorTheme.surfaceContainerHighest;
         return IconThemeDataPartial.from(
           color: color,
@@ -159,8 +157,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
       return;
     }
 
-    _handlePositionTween.begin =
-        _handlePositionAnimation.value ?? handlePosition;
+    _handlePositionTween.begin = _handlePositionAnimation.value;
     _handlePositionTween.end = handlePosition;
 
     if (_handlePositionTween.begin == _handlePositionTween.end) {
@@ -239,11 +236,17 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
     );
   }
 
+  /// This method returns a [UnmodifiableSetView] over
+  /// [WidgetStatesController.value]. The returned collection must not be used
+  /// if changes were made to the [WidgetStatesController.value]. In that case,
+  /// this method must be called again to update [WidgetStatesController.value]
+  /// according to internal state.
+  ///
+  /// Returns an [UnmodifiableSetView].
   Set<WidgetState> _resolveStates() {
     final states = _statesController.value;
 
     final isDisabled = widget.onCheckedChanged == null;
-    final isSelected = widget.checked;
 
     if (isDisabled) {
       states.add(WidgetState.disabled);
@@ -251,11 +254,6 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
       states.remove(WidgetState.disabled);
     }
 
-    if (isSelected) {
-      states.add(WidgetState.selected);
-    } else {
-      states.remove(WidgetState.selected);
-    }
     if (!isDisabled && _pressed) {
       states.add(WidgetState.pressed);
     } else {
@@ -266,7 +264,9 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
     } else {
       states.remove(WidgetState.focused);
     }
-    return Set.of(states);
+    // The set view returned must be used while no mutations are
+    // made to the parent.
+    return UnmodifiableSetView(states);
   }
 
   @override
@@ -276,7 +276,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
       ..addListener(() {
         setState(() {});
       });
-    final springTheme = const SpringThemeData.expressive();
+
     final handlePosition = widget.checked ? 1.0 : 0.0;
     _handlePositionTween.begin = handlePosition;
     _handlePositionTween.end = handlePosition;
@@ -324,7 +324,6 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final states = _resolveStates();
     final isDisabled = states.contains(WidgetState.disabled);
-    final isSelected = states.contains(WidgetState.selected);
     final outlineWidth = _outlineWidth.resolve(states);
     final outlineColor = _outlineColor.resolve(states);
     final trackColor = _trackColor.resolve(states);
@@ -432,7 +431,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
     final handleChild = Align.center(
       child: IconTheme.merge(
         data: iconTheme,
-        child: isSelected
+        child: _isSelected
             ? const Icon(Symbols.check_rounded)
             : const Icon(Symbols.close_rounded),
       ),
@@ -506,6 +505,7 @@ enum _SwitchChildrenPaintOrder { trackChildIsTop, handleChildIsTop }
 class _SwitchPaint
     extends SlottedMultiChildRenderObjectWidget<_SwitchSlot, RenderBox> {
   const _SwitchPaint({
+    // ignore: unused_element_parameter
     super.key,
     required this.handlePosition,
     required this.minTapTargetSize,

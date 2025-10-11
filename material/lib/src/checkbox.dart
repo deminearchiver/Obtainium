@@ -1,8 +1,8 @@
+import 'dart:collection';
 import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/material.dart' as flutter;
-import 'package:material/src/deprecated_animation.dart';
 
 import 'package:material/src/flutter.dart';
 
@@ -78,7 +78,7 @@ class _TriStateCheckbox extends Checkbox {
 class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
   bool get _isIntermediate => widget._state == _CheckedState.intermediate;
   bool get _isChecked => widget._state == _CheckedState.checked;
-  bool get _isCheckedOrIntermediate => _isIntermediate || _isChecked;
+  bool get _isCheckedOrIntermediate => widget._state != _CheckedState.off;
 
   double get _checkedFraction => _isCheckedOrIntermediate ? 1.0 : 0.0;
   double get _crossCenterGravitation => _isIntermediate ? 1.0 : 0.0;
@@ -107,24 +107,22 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
   WidgetStateProperty<Color> get _containerColor =>
       WidgetStateProperty.resolveWith((states) {
         final isDisabled = states.contains(WidgetState.disabled);
-        if (isDisabled) {
-          return _isCheckedOrIntermediate
-              ? _colorTheme.onSurface.withValues(alpha: 0.38)
-              : _colorTheme.onSurface.withValues(alpha: 0.0);
-        }
         return _isCheckedOrIntermediate
-            ? _colorTheme.primary
+            ? isDisabled
+                  ? _colorTheme.onSurface.withValues(alpha: 0.38)
+                  : _colorTheme.primary
+            : isDisabled
+            ? _colorTheme.onSurface.withValues(alpha: 0.0)
             : _colorTheme.primary.withValues(alpha: 0.0);
       });
 
   WidgetStateProperty<Color> get _outlineColor =>
       WidgetStateProperty.resolveWith((states) {
         final isDisabled = states.contains(WidgetState.disabled);
-        final isSelected = _isCheckedOrIntermediate;
         if (isDisabled) {
           return _colorTheme.onSurface.withValues(alpha: 0.38);
         }
-        if (isSelected) {
+        if (_isCheckedOrIntermediate) {
           return _colorTheme.primary;
         }
         if (states.contains(WidgetState.pressed)) {
@@ -142,13 +140,11 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
   WidgetStateProperty<Color> get _iconColor =>
       WidgetStateProperty.resolveWith((states) {
         final isDisabled = states.contains(WidgetState.disabled);
-        final isSelected = _isCheckedOrIntermediate;
-        if (isDisabled) {
-          return isSelected
-              ? _colorTheme.surface.withValues(alpha: 0.38)
-              : Colors.transparent;
-        }
-        return isSelected ? _colorTheme.onPrimary : Colors.transparent;
+        return _isCheckedOrIntermediate
+            ? isDisabled
+                  ? _colorTheme.surface.withValues(alpha: 0.38)
+                  : _colorTheme.onPrimary
+            : Colors.transparent;
       });
 
   WidgetStateProperty<Color> get _stateLayerColor =>
@@ -217,6 +213,13 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
     _colorController.animateWith(simulation);
   }
 
+  /// This method returns a [UnmodifiableSetView] over
+  /// [WidgetStatesController.value]. The returned collection must not be used
+  /// if changes were made to the [WidgetStatesController.value]. In that case,
+  /// this method must be called again to update [WidgetStatesController.value]
+  /// according to internal state.
+  ///
+  /// Returns an [UnmodifiableSetView].
   WidgetStates _resolveStates() {
     final states = _statesController.value;
 
@@ -238,7 +241,7 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
     } else {
       states.remove(WidgetState.focused);
     }
-    return Set.of(states);
+    return UnmodifiableSetView(states);
   }
 
   @override
@@ -528,7 +531,7 @@ enum _CheckboxChildPosition { bottom, middle, top }
 
 class _CheckboxPaint extends SingleChildRenderObjectWidget {
   const _CheckboxPaint({
-    super.key,
+    // super.key,
     required this.minTapTargetSize,
     required this.containerSize,
     required this.containerShape,

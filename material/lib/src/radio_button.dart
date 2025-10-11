@@ -1,9 +1,9 @@
+import 'dart:collection';
 import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/material.dart' as flutter;
 
-import 'package:material/src/deprecated_animation.dart';
 import 'package:material/src/flutter.dart';
 
 typedef RadioLegacy = flutter.Radio;
@@ -119,6 +119,13 @@ class _RadioButtonState extends State<RadioButton>
     _colorController.animateWith(simulation);
   }
 
+  /// This method returns a [UnmodifiableSetView] over
+  /// [WidgetStatesController.value]. The returned collection must not be used
+  /// if changes were made to the [WidgetStatesController.value]. In that case,
+  /// this method must be called again to update [WidgetStatesController.value]
+  /// according to internal state.
+  ///
+  /// Returns an [UnmodifiableSetView].
   WidgetStates _resolveStates() {
     final states = _statesController.value;
 
@@ -140,7 +147,7 @@ class _RadioButtonState extends State<RadioButton>
     } else {
       states.remove(WidgetState.focused);
     }
-    return Set.of(states);
+    return UnmodifiableSetView(states);
   }
 
   @override
@@ -154,7 +161,7 @@ class _RadioButtonState extends State<RadioButton>
 
     _animationController = AnimationController.unbounded(
       vsync: this,
-      value: widget.selected ? 1.0 : 0.0,
+      value: _isSelected ? 1.0 : 0.0,
     );
     _colorController = AnimationController(vsync: this, value: 0.0);
     _iconColorAnimation = _iconColorTween.animate(_colorController);
@@ -163,11 +170,13 @@ class _RadioButtonState extends State<RadioButton>
   @override
   void didUpdateWidget(covariant RadioButton oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.selected != oldWidget.selected) {
+    final oldSelected = oldWidget.selected;
+    final newSelected = widget.selected;
+    if (newSelected != oldSelected) {
       const springTheme = SpringThemeData.expressive();
       final spring = springTheme.fastSpatial;
       final oldValue = _animationController.value;
-      final newValue = widget.selected ? 1.0 : 0.0;
+      final newValue = newSelected ? 1.0 : 0.0;
       final simulation = SpringSimulation(
         spring.toSpringDescription(),
         oldValue,
@@ -294,7 +303,7 @@ class _RadioButtonState extends State<RadioButton>
       child: Semantics(
         enabled: !states.contains(WidgetState.disabled),
         label: null,
-        checked: widget.selected,
+        checked: _isSelected,
         child: Align.center(
           widthFactor: 1.0,
           heightFactor: 1.0,
@@ -342,7 +351,7 @@ class _RadioButtonState extends State<RadioButton>
 
 class _RadioButtonPaint extends SingleChildRenderObjectWidget {
   const _RadioButtonPaint({
-    super.key,
+    // super.key,
     required this.minTapTargetSize,
     required this.iconSize,
     required this.iconColor,
@@ -439,10 +448,10 @@ class _RenderRadioButtonPaint extends RenderBox
   }
 
   // Offset _computeOuterCenter(Size outerSize) => outerSize.center(Offset.zero);
-  Rect _computeIconRect(Offset center) {
-    final iconSize = this.iconSize.value;
-    return Rect.fromCenter(center: center, width: iconSize, height: iconSize);
-  }
+  // Rect _computeIconRect(Offset center) {
+  //   final iconSize = this.iconSize.value;
+  //   return Rect.fromCenter(center: center, width: iconSize, height: iconSize);
+  // }
 
   @override
   void attach(PipelineOwner owner) {
