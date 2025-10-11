@@ -2,7 +2,7 @@ import 'package:obtainium/flutter.dart';
 
 enum ListItemControlAffinity { leading, trailing }
 
-class ListItemInteraction extends StatelessWidget {
+class ListItemInteraction extends StatefulWidget {
   const ListItemInteraction({
     super.key,
     // State
@@ -36,22 +36,190 @@ class ListItemInteraction extends StatelessWidget {
   final Widget child;
 
   @override
+  State<ListItemInteraction> createState() => _ListItemInteractionState();
+}
+
+class _ListItemInteractionState extends State<ListItemInteraction> {
+  late ColorThemeData _colorTheme;
+  late ShapeThemeData _shapeTheme;
+  late StateThemeData _stateTheme;
+
+  WidgetStatesController? _internalStatesController;
+
+  WidgetStatesController get _statesController {
+    if (widget.statesController case final statesController?) {
+      return statesController;
+    }
+    assert(_internalStatesController != null);
+    return _internalStatesController!;
+  }
+
+  WidgetStateProperty<Color> get _stateLayerColor =>
+      WidgetStatePropertyAll(_colorTheme.onSurface);
+
+  WidgetStateProperty<double> get _stateLayerOpacity =>
+      WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.disabled)) {
+          return 0.0;
+        }
+        if (states.contains(WidgetState.pressed)) {
+          return _stateTheme.pressedStateLayerOpacity;
+        }
+        if (states.contains(WidgetState.hovered)) {
+          return _stateTheme.hoverStateLayerOpacity;
+        }
+        if (states.contains(WidgetState.focused)) {
+          return 0.0;
+        }
+        return 0.0;
+      });
+
+  void _statesListener() {
+    setState(() {});
+  }
+
+  bool _pressed = false;
+  bool _focused = false;
+
+  WidgetStates _resolveStates() {
+    final states = _statesController.value;
+
+    final isDisabled = widget.onTap == null && widget.onLongPress == null;
+
+    if (isDisabled) {
+      states.add(WidgetState.disabled);
+    } else {
+      states.remove(WidgetState.disabled);
+    }
+    if (!isDisabled && _pressed) {
+      states.add(WidgetState.pressed);
+    } else {
+      states.remove(WidgetState.pressed);
+    }
+    if (!isDisabled && (_focused && !_pressed)) {
+      states.add(WidgetState.focused);
+    } else {
+      states.remove(WidgetState.focused);
+    }
+    return Set.of(states);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.statesController == null) {
+      _internalStatesController = WidgetStatesController();
+    }
+    _statesController.addListener(_statesListener);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _colorTheme = ColorTheme.of(context);
+    _shapeTheme = ShapeTheme.of(context);
+    _stateTheme = StateTheme.of(context);
+  }
+
+  @override
+  void didUpdateWidget(covariant ListItemInteraction oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final oldStatesController = oldWidget.statesController;
+    final newStatesController = widget.statesController;
+    if (newStatesController != oldStatesController) {
+      oldStatesController?.removeListener(_statesListener);
+      _internalStatesController?.dispose();
+      _internalStatesController = newStatesController == null
+          ? WidgetStatesController()
+          : null;
+      _statesController.addListener(_statesListener);
+    }
+  }
+
+  @override
+  void dispose() {
+    _internalStatesController?.dispose();
+    _internalStatesController = null;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final colorTheme = ColorTheme.of(context);
-    final stateTheme = StateTheme.of(context);
-    return InkWell(
-      statesController: statesController,
-      focusNode: focusNode,
-      canRequestFocus: canRequestFocus,
-      onFocusChange: onFocusChange,
-      autofocus: autofocus,
-      onTap: onTap,
-      onLongPress: onLongPress,
-      overlayColor: WidgetStateLayerColor(
-        color: stateLayerColor ?? WidgetStatePropertyAll(colorTheme.onSurface),
-        opacity: stateLayerOpacity ?? stateTheme.stateLayerOpacity,
+    final states = _resolveStates();
+    final isDisabled = states.contains(WidgetState.disabled);
+    return FocusRingTheme.merge(
+      data: FocusRingThemeDataPartial.from(
+        shape: Corners.all(_shapeTheme.corner.large),
       ),
-      child: child,
+      child: FocusRing(
+        visible: states.contains(WidgetState.focused),
+        placement: FocusRingPlacement.inward,
+        layoutBuilder: (context, info, child) => child,
+        child: Listener(
+          behavior: HitTestBehavior.deferToChild,
+          onPointerDown: !isDisabled
+              ? (_) {
+                  setState(() {
+                    _focused = false;
+                    _pressed = true;
+                  });
+                }
+              : null,
+          onPointerUp: !isDisabled
+              ? (_) {
+                  setState(() {
+                    _focused = false;
+                    _pressed = false;
+                  });
+                }
+              : null,
+          onPointerCancel: !isDisabled
+              ? (_) {
+                  setState(() {
+                    _focused = false;
+                    _pressed = false;
+                  });
+                }
+              : null,
+          child: InkWell(
+            statesController: widget.statesController,
+            focusNode: widget.focusNode,
+            canRequestFocus: widget.canRequestFocus,
+            autofocus: widget.autofocus,
+            overlayColor: WidgetStateLayerColor(
+              color: widget.stateLayerColor ?? _stateLayerColor,
+              opacity: widget.stateLayerOpacity ?? _stateLayerOpacity,
+            ),
+            onTap: !isDisabled ? widget.onTap : null,
+            onLongPress: !isDisabled ? widget.onLongPress : null,
+            onTapDown: !isDisabled
+                ? (_) => setState(() {
+                    _focused = false;
+                    _pressed = true;
+                  })
+                : null,
+            onTapUp: !isDisabled
+                ? (_) => setState(() {
+                    _focused = false;
+                    _pressed = false;
+                  })
+                : null,
+            onTapCancel: !isDisabled
+                ? () => setState(() {
+                    _focused = false;
+                    _pressed = false;
+                  })
+                : null,
+            onFocusChange: !isDisabled
+                ? (value) {
+                    setState(() => _focused = value);
+                    widget.onFocusChange?.call(value);
+                  }
+                : null,
+            child: widget.child,
+          ),
+        ),
+      ),
     );
   }
 }
