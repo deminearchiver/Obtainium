@@ -228,7 +228,7 @@ class Icon extends StatelessWidget {
       iconColor = null;
     }
 
-    final TextStyle fontStyle = TextStyle(
+    final fontStyle = TextStyle(
       fontVariations: <FontVariation>[
         FontVariation("FILL", iconFill),
         FontVariation("wght", iconWeight),
@@ -248,37 +248,32 @@ class Icon extends StatelessWidget {
       foreground: foreground,
     );
 
-    Widget iconWidget = RichText(
-      overflow: TextOverflow.visible, // Never clip.
-      textDirection:
-          textDirection, // Since we already fetched it for the assert...
-      text: TextSpan(
-        text: String.fromCharCode(icon.codePoint),
-        style: fontStyle,
-      ),
-    );
-
-    if (icon.matchTextDirection) {
-      switch (textDirection) {
-        case TextDirection.rtl:
-          iconWidget = Transform(
-            transform: Matrix4.identity()..scaleByDouble(-1.0, 1.0, 1.0, 1.0),
-            alignment: Alignment.center,
-            transformHitTests: false,
-            child: iconWidget,
-          );
-        case TextDirection.ltr:
-          break;
-      }
-    }
-
     return Semantics(
       label: semanticLabel,
       child: ExcludeSemantics(
         child: SizedBox(
           width: iconSize,
           height: iconSize,
-          child: Align.center(child: iconWidget),
+          child: Align.center(
+            child: Transform.scale(
+              scaleX:
+                  icon.matchTextDirection && textDirection == TextDirection.rtl
+                  ? -1.0
+                  : 1.0,
+              scaleY: 1.0,
+              alignment: Alignment.center,
+              transformHitTests: false,
+              child: RichText(
+                overflow: TextOverflow.visible, // Never clip.
+                textDirection:
+                    textDirection, // Since we already fetched it for the assert...
+                text: TextSpan(
+                  text: String.fromCharCode(icon.codePoint),
+                  style: fontStyle,
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );

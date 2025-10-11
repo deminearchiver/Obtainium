@@ -423,12 +423,19 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
 
     final handleChild = Align.center(
       child: AnimatedBuilder(
-        animation: _iconColorAnimation,
-        builder: (context, child) => Opacity(
-          opacity: _colorController.value,
-          child: IconTheme.merge(
+        animation: _colorController,
+        builder: (context, child) {
+          final resolvedIconColor = _iconColorAnimation.value ?? iconColor;
+          final resolvedIconOpacity = _colorController.value;
+          return IconTheme.merge(
+            // We cannot use Opacity here because of an assertion error that
+            // occurs due to us keeping track of canvas save count.
             data: IconThemeDataPartial.from(
-              color: _iconColorAnimation.value,
+              color: resolvedIconOpacity < 1.0
+                  ? resolvedIconColor.withValues(
+                      alpha: resolvedIconColor.a * resolvedIconOpacity,
+                    )
+                  : resolvedIconColor,
               fill: 0.0,
               grade: 0.0,
               size: 16.0,
@@ -436,8 +443,9 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
               weight: 400.0,
             ),
             child: child!,
-          ),
-        ),
+          );
+        },
+
         child: _isSelected
             ? const Icon(Symbols.check_rounded, applyTextScaling: false)
             : const Icon(Symbols.close_rounded, applyTextScaling: false),
@@ -969,7 +977,6 @@ class _RenderSwitchPaint extends RenderBox
     final outerCenter = _computeHandleOuterCenter(innerRect);
     final handleRect = _computeHandleRect(outerCenter);
 
-    // TODO: error restore() 1 more time than save() seems to originate from here
     context.withCanvasTransform((context) {
       if (offset != Offset.zero) {
         context.canvas.translate(offset.dx, offset.dy);
