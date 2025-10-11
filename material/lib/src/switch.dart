@@ -454,38 +454,41 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
                   setState(() => _focused = false);
                 }
               : null,
-          child: FocusRing(
-            visible: states.contains(WidgetState.focused),
-            placement: FocusRingPlacement.outward,
-            layoutBuilder: (context, info, child) => Align.center(
-              child: SizedBox.fromSize(size: trackSize, child: child),
-            ),
-            child: _SwitchPaint(
-              handlePosition: _handlePositionAnimation,
-              trackShape: _outlineColorAnimation
-                  .nonNullOr(outlineColor)
-                  .mapValue(
-                    (value) => CornersBorder.rounded(
-                      corners: trackCorners,
-                      side: BorderSide(
-                        width: outlineWidth,
-                        color: _outlineColorAnimation.value!,
-                        strokeAlign: BorderSide.strokeAlignInside,
-                        style: BorderStyle.solid,
+          child: FocusRingTheme.merge(
+            data: FocusRingThemeDataPartial.from(shape: trackCorners),
+            child: FocusRing(
+              visible: states.contains(WidgetState.focused),
+              placement: FocusRingPlacement.outward,
+              layoutBuilder: (context, info, child) => Align.center(
+                child: SizedBox.fromSize(size: trackSize, child: child),
+              ),
+              child: _SwitchPaint(
+                handlePosition: _handlePositionAnimation,
+                trackShape: _outlineColorAnimation
+                    .nonNullOr(outlineColor)
+                    .mapValue(
+                      (value) => CornersBorder.rounded(
+                        corners: trackCorners,
+                        side: BorderSide(
+                          width: outlineWidth,
+                          color: _outlineColorAnimation.value!,
+                          strokeAlign: BorderSide.strokeAlignInside,
+                          style: BorderStyle.solid,
+                        ),
                       ),
                     ),
-                  ),
-              trackColor: _trackColorAnimation.nonNullOr(trackColor),
-              minTapTargetSize: minTapTargetSize,
-              trackSize: trackSize,
-              handleSize: _handleSizeAnimation.nonNullOr(handleSize),
-              handleShape: handleShape,
-              handleColor: _handleColorAnimation.nonNullOr(handleColor),
-              childrenPaintOrder: _SwitchChildrenPaintOrder.handleChildIsTop,
-              trackChildPosition: SwitchChildPosition.middle,
-              trackChild: trackChild,
-              handleChildPosition: SwitchChildPosition.top,
-              handleChild: handleChild,
+                trackColor: _trackColorAnimation.nonNullOr(trackColor),
+                minTapTargetSize: minTapTargetSize,
+                trackSize: trackSize,
+                handleSize: _handleSizeAnimation.nonNullOr(handleSize),
+                handleShape: handleShape,
+                handleColor: _handleColorAnimation.nonNullOr(handleColor),
+                childrenPaintOrder: _SwitchChildrenPaintOrder.handleChildIsTop,
+                trackChildPosition: SwitchChildPosition.middle,
+                trackChild: trackChild,
+                handleChildPosition: SwitchChildPosition.top,
+                handleChild: handleChild,
+              ),
             ),
           ),
         ),

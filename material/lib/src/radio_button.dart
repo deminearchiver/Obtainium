@@ -311,18 +311,26 @@ class _RadioButtonState extends State<RadioButton>
                     setState(() => _focused = false);
                   }
                 : null,
-            child: FocusRing(
-              visible: states.contains(WidgetState.focused),
-              placement: FocusRingPlacement.outward,
-              layoutBuilder: (context, info, child) => Align.center(
-                child: SizedBox.square(dimension: stateLayerSize, child: child),
+            child: FocusRingTheme.merge(
+              data: FocusRingThemeDataPartial.from(
+                shape: Corners.all(_shapeTheme.corner.full),
               ),
-              child: _RadioButtonPaint(
-                minTapTargetSize: const _ValueListenable(minTapTargetSize),
-                iconSize: _ValueListenable(iconSize),
-                iconColor: _iconColorAnimation.nonNullOr(iconColor),
-                animation: _animationController,
-                child: child,
+              child: FocusRing(
+                visible: states.contains(WidgetState.focused),
+                placement: FocusRingPlacement.outward,
+                layoutBuilder: (context, info, child) => Align.center(
+                  child: SizedBox.square(
+                    dimension: stateLayerSize,
+                    child: child,
+                  ),
+                ),
+                child: _RadioButtonPaint(
+                  minTapTargetSize: const _ValueListenable(minTapTargetSize),
+                  iconSize: _ValueListenable(iconSize),
+                  iconColor: _iconColorAnimation.nonNullOr(iconColor),
+                  animation: _animationController,
+                  child: child,
+                ),
               ),
             ),
           ),

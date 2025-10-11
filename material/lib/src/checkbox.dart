@@ -483,30 +483,38 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
                     setState(() => _focused = false);
                   }
                 : null,
-            child: FocusRing(
-              visible: states.contains(WidgetState.focused),
-              placement: FocusRingPlacement.outward,
-              layoutBuilder: (context, info, child) => Align.center(
-                child: SizedBox.square(dimension: stateLayerSize, child: child),
+            child: FocusRingTheme.merge(
+              data: FocusRingThemeDataPartial.from(
+                shape: Corners.all(_shapeTheme.corner.full),
               ),
-              child: _CheckboxPaint(
-                minTapTargetSize: minTapTargetSize,
-                containerSize: const Size.square(18.0),
-                containerShape: const Corners.all(Corner.circular(2.0)),
-                containerColor: _containerColorAnimation.nonNullOr(
-                  containerColor,
+              child: FocusRing(
+                visible: states.contains(WidgetState.focused),
+                placement: FocusRingPlacement.outward,
+                layoutBuilder: (context, info, child) => Align.center(
+                  child: SizedBox.square(
+                    dimension: stateLayerSize,
+                    child: child,
+                  ),
                 ),
-                outlineColor: _outlineColorAnimation.nonNullOr(outlineColor),
-                outlineWidth: 2.0,
-                iconSize: 18.0,
-                iconColor: _iconColorAnimation.nonNullOr(iconColor),
-                iconStrokeWidth: 2.0,
-                iconStrokeCap: StrokeCap.round,
-                iconStrokeJoin: StrokeJoin.round,
-                checkFraction: _checkFractionController,
-                crossCenterGravitation: _crossCenterGravitationController,
-                childPosition: _CheckboxChildPosition.bottom,
-                child: child,
+                child: _CheckboxPaint(
+                  minTapTargetSize: minTapTargetSize,
+                  containerSize: const Size.square(18.0),
+                  containerShape: const Corners.all(Corner.circular(2.0)),
+                  containerColor: _containerColorAnimation.nonNullOr(
+                    containerColor,
+                  ),
+                  outlineColor: _outlineColorAnimation.nonNullOr(outlineColor),
+                  outlineWidth: 2.0,
+                  iconSize: 18.0,
+                  iconColor: _iconColorAnimation.nonNullOr(iconColor),
+                  iconStrokeWidth: 2.0,
+                  iconStrokeCap: StrokeCap.round,
+                  iconStrokeJoin: StrokeJoin.round,
+                  checkFraction: _checkFractionController,
+                  crossCenterGravitation: _crossCenterGravitationController,
+                  childPosition: _CheckboxChildPosition.bottom,
+                  child: child,
+                ),
               ),
             ),
           ),
