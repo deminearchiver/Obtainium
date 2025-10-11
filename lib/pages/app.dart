@@ -405,7 +405,7 @@ class _AppPageState extends State<AppPage> {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: _ListItemContainer(
               isFirst: true,
-              child: ListItemInkWell(
+              child: ListItemInteraction(
                 onTap: () {
                   if (app?.app.url != null) {
                     launchUrlString(

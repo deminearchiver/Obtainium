@@ -1472,7 +1472,7 @@ class AppsPageState extends State<AppsPage> {
                   containerColor: isSelected
                       ? colorTheme.secondaryContainer
                       : colorTheme.surfaceBright,
-                  child: ListItemInkWell(
+                  child: ListItemInteraction(
                     stateLayerColor: WidgetStatePropertyAll(
                       isSelected
                           ? colorTheme.onSecondaryContainer

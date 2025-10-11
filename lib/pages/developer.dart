@@ -10,6 +10,51 @@ import 'package:super_editor_markdown/super_editor_markdown.dart';
 // ignore: implementation_imports
 import 'package:obtainium_fonts/src/assets/fonts.gen.dart';
 
+class DeveloperPageBackButton extends StatelessWidget {
+  const DeveloperPageBackButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final navigator = Navigator.of(context);
+    final route = ModalRoute.of(context);
+    return IconButton(
+      onPressed: () => navigator.pop(),
+      style: ButtonStyle(
+        animationDuration: Duration.zero,
+        elevation: const WidgetStatePropertyAll(0.0),
+        shadowColor: WidgetStateColor.transparent,
+        minimumSize: const WidgetStatePropertyAll(Size.zero),
+        fixedSize: const WidgetStatePropertyAll(Size(40.0, 40.0)),
+        maximumSize: const WidgetStatePropertyAll(Size.infinite),
+        padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+        iconSize: const WidgetStatePropertyAll(24.0),
+        shape: WidgetStatePropertyAll(
+          CornersBorder.rounded(
+            corners: Corners.all(ShapeTheme.of(context).corner.full),
+          ),
+        ),
+        overlayColor: WidgetStateLayerColor(
+          color: WidgetStatePropertyAll(
+            ColorTheme.of(context).onSurfaceVariant,
+          ),
+          opacity: StateTheme.of(context).stateLayerOpacity,
+        ),
+        backgroundColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.disabled)
+              ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
+              : ColorTheme.of(context).surfaceContainerHigh,
+        ),
+        iconColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.disabled)
+              ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
+              : ColorTheme.of(context).onSurfaceVariant,
+        ),
+      ),
+      icon: const IconLegacy(Symbols.arrow_back_rounded),
+    );
+  }
+}
+
 class DeveloperPage extends StatefulWidget {
   const DeveloperPage({super.key});
 
@@ -30,47 +75,9 @@ class _DeveloperPageState extends State<DeveloperPage> {
       body: CustomScrollView(
         slivers: [
           CustomAppBar(
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 8.0 - 4.0),
-              child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                style: ButtonStyle(
-                  animationDuration: Duration.zero,
-                  elevation: const WidgetStatePropertyAll(0.0),
-                  shadowColor: WidgetStateColor.transparent,
-                  minimumSize: const WidgetStatePropertyAll(Size.zero),
-                  fixedSize: const WidgetStatePropertyAll(Size(40.0, 40.0)),
-                  maximumSize: const WidgetStatePropertyAll(Size.infinite),
-                  padding: const WidgetStatePropertyAll(EdgeInsets.zero),
-                  iconSize: const WidgetStatePropertyAll(24.0),
-                  shape: WidgetStatePropertyAll(
-                    CornersBorder.rounded(
-                      corners: Corners.all(ShapeTheme.of(context).corner.full),
-                    ),
-                  ),
-                  overlayColor: WidgetStateLayerColor(
-                    color: WidgetStatePropertyAll(
-                      ColorTheme.of(context).onSurfaceVariant,
-                    ),
-                    opacity: StateTheme.of(context).stateLayerOpacity,
-                  ),
-                  backgroundColor: WidgetStateProperty.resolveWith(
-                    (states) => states.contains(WidgetState.disabled)
-                        ? ColorTheme.of(
-                            context,
-                          ).onSurface.withValues(alpha: 0.1)
-                        : ColorTheme.of(context).surfaceContainerHigh,
-                  ),
-                  iconColor: WidgetStateProperty.resolveWith(
-                    (states) => states.contains(WidgetState.disabled)
-                        ? ColorTheme.of(
-                            context,
-                          ).onSurface.withValues(alpha: 0.38)
-                        : ColorTheme.of(context).onSurfaceVariant,
-                  ),
-                ),
-                icon: const IconLegacy(Symbols.arrow_back_rounded),
-              ),
+            leading: const Padding(
+              padding: EdgeInsets.only(left: 8.0 - 4.0),
+              child: DeveloperPageBackButton(),
             ),
             type: CustomAppBarType.largeFlexible,
             behavior: CustomAppBarBehavior.duplicate,
@@ -82,8 +89,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
               16.0,
               0.0,
             ),
-            title: Text("Settings"),
-            subtitle: Text("Developer options"),
+            title: Text("Developer"),
           ),
           SliverList.list(
             children: [
@@ -195,7 +201,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                     _ListItemContainer(
                       isFirst: true,
                       child: MergeSemantics(
-                        child: ListItemInkWell(
+                        child: ListItemInteraction(
                           onTap: () => setState(() => _enabled = !_enabled),
                           child: ListItemLayout(
                             isMultiline: true,
@@ -219,7 +225,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                     ),
                     _ListItemContainer(
                       child: MergeSemantics(
-                        child: ListItemInkWell(
+                        child: ListItemInteraction(
                           onTap: () => Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) =>
@@ -238,7 +244,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                     _ListItemContainer(
                       isLast: true,
                       child: MergeSemantics(
-                        child: ListItemInkWell(
+                        child: ListItemInteraction(
                           onTap: () => Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) =>
@@ -283,47 +289,9 @@ class _DeveloperMarkdown1PageState extends State<DeveloperMarkdown1Page> {
       body: CustomScrollView(
         slivers: [
           CustomAppBar(
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 8.0 - 4.0),
-              child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                style: ButtonStyle(
-                  animationDuration: Duration.zero,
-                  elevation: const WidgetStatePropertyAll(0.0),
-                  shadowColor: WidgetStateColor.transparent,
-                  minimumSize: const WidgetStatePropertyAll(Size.zero),
-                  fixedSize: const WidgetStatePropertyAll(Size(40.0, 40.0)),
-                  maximumSize: const WidgetStatePropertyAll(Size.infinite),
-                  padding: const WidgetStatePropertyAll(EdgeInsets.zero),
-                  iconSize: const WidgetStatePropertyAll(24.0),
-                  shape: WidgetStatePropertyAll(
-                    CornersBorder.rounded(
-                      corners: Corners.all(ShapeTheme.of(context).corner.full),
-                    ),
-                  ),
-                  overlayColor: WidgetStateLayerColor(
-                    color: WidgetStatePropertyAll(
-                      ColorTheme.of(context).onSurfaceVariant,
-                    ),
-                    opacity: StateTheme.of(context).stateLayerOpacity,
-                  ),
-                  backgroundColor: WidgetStateProperty.resolveWith(
-                    (states) => states.contains(WidgetState.disabled)
-                        ? ColorTheme.of(
-                            context,
-                          ).onSurface.withValues(alpha: 0.1)
-                        : ColorTheme.of(context).surfaceContainerHigh,
-                  ),
-                  iconColor: WidgetStateProperty.resolveWith(
-                    (states) => states.contains(WidgetState.disabled)
-                        ? ColorTheme.of(
-                            context,
-                          ).onSurface.withValues(alpha: 0.38)
-                        : ColorTheme.of(context).onSurfaceVariant,
-                  ),
-                ),
-                icon: const IconLegacy(Symbols.arrow_back_rounded),
-              ),
+            leading: const Padding(
+              padding: EdgeInsets.only(left: 8.0 - 4.0),
+              child: DeveloperPageBackButton(),
             ),
             type: CustomAppBarType.largeFlexible,
             behavior: CustomAppBarBehavior.duplicate,
@@ -425,47 +393,9 @@ class _DeveloperMarkdown2PageState extends State<DeveloperMarkdown2Page> {
       body: CustomScrollView(
         slivers: [
           CustomAppBar(
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 8.0 - 4.0),
-              child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                style: ButtonStyle(
-                  animationDuration: Duration.zero,
-                  elevation: const WidgetStatePropertyAll(0.0),
-                  shadowColor: WidgetStateColor.transparent,
-                  minimumSize: const WidgetStatePropertyAll(Size.zero),
-                  fixedSize: const WidgetStatePropertyAll(Size(40.0, 40.0)),
-                  maximumSize: const WidgetStatePropertyAll(Size.infinite),
-                  padding: const WidgetStatePropertyAll(EdgeInsets.zero),
-                  iconSize: const WidgetStatePropertyAll(24.0),
-                  shape: WidgetStatePropertyAll(
-                    CornersBorder.rounded(
-                      corners: Corners.all(ShapeTheme.of(context).corner.full),
-                    ),
-                  ),
-                  overlayColor: WidgetStateLayerColor(
-                    color: WidgetStatePropertyAll(
-                      ColorTheme.of(context).onSurfaceVariant,
-                    ),
-                    opacity: StateTheme.of(context).stateLayerOpacity,
-                  ),
-                  backgroundColor: WidgetStateProperty.resolveWith(
-                    (states) => states.contains(WidgetState.disabled)
-                        ? ColorTheme.of(
-                            context,
-                          ).onSurface.withValues(alpha: 0.1)
-                        : ColorTheme.of(context).surfaceContainerHigh,
-                  ),
-                  iconColor: WidgetStateProperty.resolveWith(
-                    (states) => states.contains(WidgetState.disabled)
-                        ? ColorTheme.of(
-                            context,
-                          ).onSurface.withValues(alpha: 0.38)
-                        : ColorTheme.of(context).onSurfaceVariant,
-                  ),
-                ),
-                icon: const IconLegacy(Symbols.arrow_back_rounded),
-              ),
+            leading: const Padding(
+              padding: EdgeInsets.only(left: 8.0 - 4.0),
+              child: DeveloperPageBackButton(),
             ),
             type: CustomAppBarType.largeFlexible,
             behavior: CustomAppBarBehavior.duplicate,
@@ -1260,7 +1190,6 @@ class ReadOnlyCheckboxComponentBuilder implements ComponentBuilder {
     if (componentViewModel is! TaskComponentViewModel) {
       return null;
     }
-
     return CheckboxComponent(
       key: componentContext.componentKey,
       viewModel: componentViewModel,
@@ -1328,11 +1257,9 @@ class _CheckboxComponentState extends State<CheckboxComponent>
               ignoring: widget.viewModel.setComplete == null,
               child: Checkbox.biState(
                 checked: widget.viewModel.isComplete,
-                onCheckedChanged: widget.viewModel.setComplete != null
-                    ? (newValue) {
-                        widget.viewModel.setComplete!(newValue);
-                      }
-                    : null,
+                onCheckedChanged: (value) {
+                  widget.viewModel.setComplete?.call(value);
+                },
               ),
             ),
           ),

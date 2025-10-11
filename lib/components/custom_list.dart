@@ -2,8 +2,8 @@ import 'package:obtainium/flutter.dart';
 
 enum ListItemControlAffinity { leading, trailing }
 
-class ListItemInkWell extends StatelessWidget {
-  const ListItemInkWell({
+class ListItemInteraction extends StatelessWidget {
+  const ListItemInteraction({
     super.key,
     // State
     this.statesController,

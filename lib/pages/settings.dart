@@ -244,7 +244,7 @@ class _SettingsPageState extends State<SettingsPage> {
           isFirst: true,
           isLast: true,
           child: MergeSemantics(
-            child: ListItemInkWell(
+            child: ListItemInteraction(
               onTap: () => settingsProvider.useMaterialYou =
                   !settingsProvider.useMaterialYou,
               child: ListItemLayout(
@@ -478,7 +478,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     isFirst: true,
                     isLast: true,
                     child: MergeSemantics(
-                      child: ListItemInkWell(
+                      child: ListItemInteraction(
                         onTap: () => Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => const DeveloperPage(),
@@ -542,7 +542,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               const SizedBox(height: 2.0),
                               _ListItemContainer(
                                 child: MergeSemantics(
-                                  child: ListItemInkWell(
+                                  child: ListItemInteraction(
                                     onTap: () => settingsProvider.useFGService =
                                         !settingsProvider.useFGService,
                                     child: ListItemLayout(
@@ -576,7 +576,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     MergeSemantics(
-                                      child: ListItemInkWell(
+                                      child: ListItemInteraction(
                                         onTap: () =>
                                             settingsProvider
                                                     .enableBackgroundUpdates =
@@ -649,7 +649,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     const SizedBox(height: 2.0),
                                     _ListItemContainer(
                                       child: MergeSemantics(
-                                        child: ListItemInkWell(
+                                        child: ListItemInteraction(
                                           onTap: () =>
                                               settingsProvider
                                                       .bgUpdatesOnWiFiOnly =
@@ -684,7 +684,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     const SizedBox(height: 2.0),
                                     _ListItemContainer(
                                       child: MergeSemantics(
-                                        child: ListItemInkWell(
+                                        child: ListItemInteraction(
                                           onTap: () =>
                                               settingsProvider
                                                       .bgUpdatesWhileChargingOnly =
@@ -727,7 +727,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
                   child: MergeSemantics(
-                    child: ListItemInkWell(
+                    child: ListItemInteraction(
                       onTap: () => settingsProvider.checkOnStart =
                           !settingsProvider.checkOnStart,
                       child: ListItemLayout(
@@ -753,7 +753,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
                   child: MergeSemantics(
-                    child: ListItemInkWell(
+                    child: ListItemInteraction(
                       onTap: () => settingsProvider.checkUpdateOnDetailPage =
                           !settingsProvider.checkUpdateOnDetailPage,
                       child: ListItemLayout(
@@ -783,7 +783,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
                   child: MergeSemantics(
-                    child: ListItemInkWell(
+                    child: ListItemInteraction(
                       onTap: () =>
                           settingsProvider.onlyCheckInstalledOrTrackOnlyApps =
                               !settingsProvider
@@ -816,7 +816,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
-                  child: ListItemInkWell(
+                  child: ListItemInteraction(
                     onTap: () => settingsProvider.removeOnExternalUninstall =
                         !settingsProvider.removeOnExternalUninstall,
                     child: ListItemLayout(
@@ -845,7 +845,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
                   child: MergeSemantics(
-                    child: ListItemInkWell(
+                    child: ListItemInteraction(
                       onTap: () => settingsProvider.parallelDownloads =
                           !settingsProvider.parallelDownloads,
                       child: ListItemLayout(
@@ -874,7 +874,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       MergeSemantics(
-                        child: ListItemInkWell(
+                        child: ListItemInteraction(
                           onTap: () =>
                               settingsProvider
                                       .beforeNewInstallsShareToAppVerifier =
@@ -905,7 +905,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                         ),
                       ),
-                      ListItemInkWell(
+                      ListItemInteraction(
                         onTap: () => launchUrlString(
                           "https://github.com/soupslurpr/AppVerifier",
                           mode: LaunchMode.externalApplication,
@@ -921,7 +921,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
                   child: MergeSemantics(
-                    child: ListItemInkWell(
+                    child: ListItemInteraction(
                       onTap: () =>
                           onUseShizukuChanged(!settingsProvider.useShizuku),
                       child: ListItemLayout(
@@ -947,7 +947,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 _ListItemContainer(
                   isLast: true,
                   child: MergeSemantics(
-                    child: ListItemInkWell(
+                    child: ListItemInteraction(
                       onTap: () =>
                           settingsProvider.shizukuPretendToBeGooglePlay =
                               !settingsProvider.shizukuPretendToBeGooglePlay,
@@ -1049,7 +1049,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 _ListItemContainer(
                   isFirst: true,
                   child: MergeSemantics(
-                    child: ListItemInkWell(
+                    child: ListItemInteraction(
                       onTap: () => settingsProvider.showAppWebpage =
                           !settingsProvider.showAppWebpage,
                       child: ListItemLayout(
@@ -1075,7 +1075,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
                   child: MergeSemantics(
-                    child: ListItemInkWell(
+                    child: ListItemInteraction(
                       onTap: () => settingsProvider.pinUpdates =
                           !settingsProvider.pinUpdates,
                       child: ListItemLayout(
@@ -1101,7 +1101,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
                   child: MergeSemantics(
-                    child: ListItemInkWell(
+                    child: ListItemInteraction(
                       onTap: () => settingsProvider.buryNonInstalled =
                           !settingsProvider.buryNonInstalled,
                       child: ListItemLayout(
@@ -1130,7 +1130,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
                   child: MergeSemantics(
-                    child: ListItemInkWell(
+                    child: ListItemInteraction(
                       onTap: () => settingsProvider.groupByCategory =
                           !settingsProvider.groupByCategory,
                       child: ListItemLayout(
@@ -1156,7 +1156,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
                   child: MergeSemantics(
-                    child: ListItemInkWell(
+                    child: ListItemInteraction(
                       onTap: () => settingsProvider.hideTrackOnlyWarning =
                           !settingsProvider.hideTrackOnlyWarning,
                       child: ListItemLayout(
@@ -1185,7 +1185,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
                   child: MergeSemantics(
-                    child: ListItemInkWell(
+                    child: ListItemInteraction(
                       onTap: () => settingsProvider.hideAPKOriginWarning =
                           !settingsProvider.hideAPKOriginWarning,
                       child: ListItemLayout(
@@ -1215,7 +1215,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 _ListItemContainer(
                   isLast: true,
                   child: MergeSemantics(
-                    child: ListItemInkWell(
+                    child: ListItemInteraction(
                       onTap: () => settingsProvider.highlightTouchTargets =
                           !settingsProvider.highlightTouchTargets,
                       child: ListItemLayout(
@@ -1266,7 +1266,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 height8,
                 _ListItemContainer(
                   isFirst: true,
-                  child: ListItemInkWell(
+                  child: ListItemInteraction(
                     onTap: () => launchUrlString(
                       SettingsProvider.sourceUrl,
                       mode: LaunchMode.externalApplication,
@@ -1280,7 +1280,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
-                  child: ListItemInkWell(
+                  child: ListItemInteraction(
                     onTap: () => launchUrlString(
                       "https://wiki.obtainium.imranr.dev/",
                       mode: LaunchMode.externalApplication,
@@ -1294,7 +1294,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
-                  child: ListItemInkWell(
+                  child: ListItemInteraction(
                     onTap: () => launchUrlString(
                       "https://apps.obtainium.imranr.dev/",
                       mode: LaunchMode.externalApplication,
@@ -1312,7 +1312,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
                   isLast: true,
-                  child: ListItemInkWell(
+                  child: ListItemInteraction(
                     onTap: () =>
                         context.read<LogsProvider>().get().then((logs) {
                           if (!context.mounted) return;
