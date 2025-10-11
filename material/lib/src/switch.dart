@@ -456,7 +456,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
               : null,
           child: FocusRing(
             visible: states.contains(WidgetState.focused),
-            inward: false,
+            placement: FocusRingPlacement.outward,
             layoutBuilder: (context, info, child) => Align.center(
               child: SizedBox.fromSize(size: trackSize, child: child),
             ),

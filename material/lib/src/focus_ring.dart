@@ -1,7 +1,7 @@
 import 'package:material/src/flutter.dart';
 import 'package:flutter/scheduler.dart';
 
-enum FocusRingPosition { inward, outward }
+enum FocusRingPlacement { inward, outward }
 
 extension OverlayChildLayoutInfoExtension on OverlayChildLayoutInfo {
   double get translateX => childPaintTransform.storage[12];
@@ -21,15 +21,17 @@ class FocusRing extends StatefulWidget {
   const FocusRing({
     super.key,
     required this.visible,
-    this.inward = false,
+    required this.placement,
     this.layoutBuilder = defaultLayoutBuilder,
     required this.child,
   });
 
   final bool visible;
-  final bool inward;
+
+  final FocusRingPlacement placement;
 
   final FocusRingLayoutBuilder layoutBuilder;
+
   final Widget child;
 
   @override
@@ -216,11 +218,10 @@ class _FocusRingState extends State<FocusRing>
   Widget _buildIndicator(BuildContext context) => AnimatedBuilder(
     animation: _animationController,
     builder: (context, _) => Padding(
-      padding: EdgeInsetsGeometry.all(
-        widget.inward
-            ? _focusRingThemeData.inwardOffset
-            : -_focusRingThemeData.outwardOffset,
-      ),
+      padding: EdgeInsetsGeometry.all(switch (widget.placement) {
+        FocusRingPlacement.inward => _focusRingThemeData.inwardOffset,
+        FocusRingPlacement.outward => -_focusRingThemeData.outwardOffset,
+      }),
       child: DecoratedBox(
         position: DecorationPosition.foreground,
         decoration: ShapeDecoration(
@@ -231,7 +232,11 @@ class _FocusRingState extends State<FocusRing>
                     style: BorderStyle.solid,
                     color: _focusRingThemeData.color,
                     width: _animation.value,
-                    strokeAlign: BorderSide.strokeAlignOutside,
+                    strokeAlign: switch (widget.placement) {
+                      FocusRingPlacement.inward => BorderSide.strokeAlignInside,
+                      FocusRingPlacement.outward =>
+                        BorderSide.strokeAlignOutside,
+                    },
                   )
                 : BorderSide.none,
           ),

@@ -313,7 +313,7 @@ class _RadioButtonState extends State<RadioButton>
                 : null,
             child: FocusRing(
               visible: states.contains(WidgetState.focused),
-              inward: false,
+              placement: FocusRingPlacement.outward,
               layoutBuilder: (context, info, child) => Align.center(
                 child: SizedBox.square(dimension: stateLayerSize, child: child),
               ),
