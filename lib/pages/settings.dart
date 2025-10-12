@@ -1211,36 +1211,36 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 2.0),
-                _ListItemContainer(
-                  isLast: true,
-                  child: MergeSemantics(
-                    child: ListItemInteraction(
-                      onTap: () => settingsProvider.highlightTouchTargets =
-                          !settingsProvider.highlightTouchTargets,
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          12.0,
-                          16.0 - 8.0,
-                          12.0,
-                        ),
-                        headline: Text(
-                          tr("highlightTouchTargets"),
-                          maxLines: 3,
-                        ),
-                        trailing: ExcludeFocus(
-                          child: Switch(
-                            onCheckedChanged: (value) =>
-                                settingsProvider.highlightTouchTargets = value,
-                            checked: settingsProvider.highlightTouchTargets,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // const SizedBox(height: 2.0),
+                // _ListItemContainer(
+                //   isLast: true,
+                //   child: MergeSemantics(
+                //     child: ListItemInteraction(
+                //       onTap: () => settingsProvider.highlightTouchTargets =
+                //           !settingsProvider.highlightTouchTargets,
+                //       child: ListItemLayout(
+                //         isMultiline: true,
+                //         padding: const EdgeInsets.fromLTRB(
+                //           16.0,
+                //           12.0,
+                //           16.0 - 8.0,
+                //           12.0,
+                //         ),
+                //         headline: Text(
+                //           tr("highlightTouchTargets"),
+                //           maxLines: 3,
+                //         ),
+                //         trailing: ExcludeFocus(
+                //           child: Switch(
+                //             onCheckedChanged: (value) =>
+                //                 settingsProvider.highlightTouchTargets = value,
+                //             checked: settingsProvider.highlightTouchTargets,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(height: 12.0 + 8.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),

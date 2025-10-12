@@ -451,14 +451,14 @@ class SettingsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool get highlightTouchTargets {
-    return prefsWithCache.getBool('highlightTouchTargets') ?? false;
-  }
+  // bool get highlightTouchTargets {
+  //   return prefsWithCache.getBool('highlightTouchTargets') ?? false;
+  // }
 
-  set highlightTouchTargets(bool val) {
-    prefsWithCache.setBool('highlightTouchTargets', val);
-    notifyListeners();
-  }
+  // set highlightTouchTargets(bool val) {
+  //   prefsWithCache.setBool('highlightTouchTargets', val);
+  //   notifyListeners();
+  // }
 
   Future<Uri?> getExportDir() async {
     var uriString = prefsWithCache.getString('exportDir');

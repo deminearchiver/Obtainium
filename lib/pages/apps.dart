@@ -545,13 +545,7 @@ class AppsPageState extends State<AppsPage> {
             shape: CornersBorder.rounded(
               corners: Corners.all(ShapeTheme.of(context).corner.medium),
             ),
-            color:
-                settingsProvider.highlightTouchTargets && showChangesFn != null
-                ? isSelected
-                      ? colorTheme.secondaryContainer
-                      : colorTheme.surfaceContainer
-                : Colors.transparent,
-
+            color: Colors.transparent,
             child: InkWell(
               onTap: showChangesFn,
               overlayColor: WidgetStateLayerColor(
