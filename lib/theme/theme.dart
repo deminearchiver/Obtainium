@@ -573,3 +573,230 @@ class _SemanticColorsData extends SemanticColorsData {
   @override
   final ExtendedColor warning;
 }
+
+abstract class StaticColorsData with Diagnosticable {
+  const StaticColorsData();
+
+  const factory StaticColorsData.from({
+    required ExtendedColor blue,
+    required ExtendedColor yellow,
+    required ExtendedColor red,
+    required ExtendedColor purple,
+    required ExtendedColor cyan,
+    required ExtendedColor green,
+    required ExtendedColor orange,
+    required ExtendedColor pink,
+  }) = _StaticColorsData.from;
+
+  factory StaticColorsData.fallback({
+    DynamicSchemeVariant variant = DynamicSchemeVariant.tonalSpot,
+    required Brightness brightness,
+    DynamicSchemePlatform platform = DynamicScheme.defaultPlatform,
+    double contrastLevel = 0.0,
+    DynamicSchemeSpecVersion? specVersion = DynamicScheme.defaultSpecVersion,
+  }) {
+    const palette = StaticPaletteThemeData.fallback();
+    return StaticColorsData.from(
+      blue: ExtendedColor.fromSeed(
+        sourceColor: palette.blue50,
+        variant: variant,
+        brightness: brightness,
+        platform: platform,
+        contrastLevel: contrastLevel,
+        specVersion: specVersion,
+        palette: ExtendedColorPalette.primary,
+      ),
+      yellow: ExtendedColor.fromSeed(
+        sourceColor: palette.yellow50,
+        variant: variant,
+        brightness: brightness,
+        platform: platform,
+        contrastLevel: contrastLevel,
+        specVersion: specVersion,
+        palette: ExtendedColorPalette.primary,
+      ),
+      red: ExtendedColor.fromSeed(
+        sourceColor: palette.red50,
+        variant: variant,
+        brightness: brightness,
+        platform: platform,
+        contrastLevel: contrastLevel,
+        specVersion: specVersion,
+        palette: ExtendedColorPalette.primary,
+      ),
+      purple: ExtendedColor.fromSeed(
+        sourceColor: palette.purple50,
+        variant: variant,
+        brightness: brightness,
+        platform: platform,
+        contrastLevel: contrastLevel,
+        specVersion: specVersion,
+        palette: ExtendedColorPalette.primary,
+      ),
+      cyan: ExtendedColor.fromSeed(
+        sourceColor: palette.cyan50,
+        variant: variant,
+        brightness: brightness,
+        platform: platform,
+        contrastLevel: contrastLevel,
+        specVersion: specVersion,
+        palette: ExtendedColorPalette.primary,
+      ),
+      green: ExtendedColor.fromSeed(
+        sourceColor: palette.green50,
+        variant: variant,
+        brightness: brightness,
+        platform: platform,
+        contrastLevel: contrastLevel,
+        specVersion: specVersion,
+        palette: ExtendedColorPalette.primary,
+      ),
+      orange: ExtendedColor.fromSeed(
+        sourceColor: palette.orange50,
+        variant: variant,
+        brightness: brightness,
+        platform: platform,
+        contrastLevel: contrastLevel,
+        specVersion: specVersion,
+        palette: ExtendedColorPalette.primary,
+      ),
+      pink: ExtendedColor.fromSeed(
+        sourceColor: palette.pink50,
+        variant: variant,
+        brightness: brightness,
+        platform: platform,
+        contrastLevel: contrastLevel,
+        specVersion: specVersion,
+        palette: ExtendedColorPalette.primary,
+      ),
+    );
+  }
+
+  ExtendedColor get blue;
+  ExtendedColor get yellow;
+  ExtendedColor get red;
+  ExtendedColor get purple;
+  ExtendedColor get cyan;
+  ExtendedColor get green;
+  ExtendedColor get orange;
+  ExtendedColor get pink;
+
+  StaticColorsData copyWith({
+    ExtendedColor? blue,
+    ExtendedColor? yellow,
+    ExtendedColor? red,
+    ExtendedColor? purple,
+    ExtendedColor? cyan,
+    ExtendedColor? green,
+    ExtendedColor? orange,
+    ExtendedColor? pink,
+  }) {
+    if (blue == null &&
+        yellow == null &&
+        red == null &&
+        purple == null &&
+        cyan == null &&
+        green == null &&
+        orange == null &&
+        pink == null) {
+      return this;
+    }
+    return StaticColorsData.from(
+      blue: blue ?? this.blue,
+      yellow: yellow ?? this.yellow,
+      red: red ?? this.red,
+      purple: purple ?? this.purple,
+      cyan: cyan ?? this.cyan,
+      green: green ?? this.green,
+      orange: orange ?? this.orange,
+      pink: pink ?? this.pink,
+    );
+  }
+
+  StaticColorsData harmonizeWith(Color sourceColor) => StaticColorsData.from(
+    blue: blue.harmonizeWith(sourceColor),
+    yellow: yellow.harmonizeWith(sourceColor),
+    red: red.harmonizeWith(sourceColor),
+    purple: purple.harmonizeWith(sourceColor),
+    cyan: cyan.harmonizeWith(sourceColor),
+    green: green.harmonizeWith(sourceColor),
+    orange: orange.harmonizeWith(sourceColor),
+    pink: pink.harmonizeWith(sourceColor),
+  );
+
+  StaticColorsData harmonizeWithPrimary(ColorThemeDataPartial colorTheme) {
+    final sourceColor = colorTheme.primary;
+    return sourceColor != null ? harmonizeWith(sourceColor) : this;
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    // TODO: implement debugFillProperties
+    super.debugFillProperties(properties);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        runtimeType == other.runtimeType &&
+            other is StaticColorsData &&
+            blue == other.blue &&
+            yellow == other.yellow &&
+            red == other.red &&
+            purple == other.purple &&
+            cyan == other.cyan &&
+            green == other.green &&
+            orange == other.orange &&
+            pink == other.pink;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    blue,
+    yellow,
+    red,
+    purple,
+    cyan,
+    green,
+    orange,
+    pink,
+  );
+}
+
+class _StaticColorsData extends StaticColorsData {
+  const _StaticColorsData.from({
+    required this.blue,
+    required this.yellow,
+    required this.red,
+    required this.purple,
+    required this.cyan,
+    required this.green,
+    required this.orange,
+    required this.pink,
+  });
+
+  @override
+  final ExtendedColor blue;
+
+  @override
+  final ExtendedColor yellow;
+
+  @override
+  final ExtendedColor red;
+
+  @override
+  final ExtendedColor purple;
+
+  @override
+  final ExtendedColor cyan;
+
+  @override
+  final ExtendedColor green;
+
+  @override
+  final ExtendedColor orange;
+
+  @override
+  final ExtendedColor pink;
+}

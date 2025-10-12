@@ -4,6 +4,7 @@ import 'package:obtainium/components/custom_list.dart';
 import 'package:obtainium/flutter.dart';
 
 import 'package:markdown/markdown.dart' as md;
+import 'package:obtainium/theme/theme.dart';
 import 'package:super_editor/super_editor.dart';
 import 'package:super_editor_markdown/super_editor_markdown.dart';
 
@@ -1326,6 +1327,14 @@ class SettingsAppBar extends StatefulWidget {
 }
 
 class _SettingsAppBarState extends State<SettingsAppBar> {
+  final GlobalKey _containerKey = GlobalKey();
+
+  Future<void> _openView() async {
+    final navigator = Navigator.of(context);
+    final route = _SettingsAppBarRoute(containerKey: _containerKey);
+    navigator.push(route);
+  }
+
   @override
   Widget build(BuildContext context) {
     final padding = MediaQuery.paddingOf(context);
@@ -1335,6 +1344,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
     final typescaleTheme = TypescaleTheme.of(context);
     final height = 64.0;
     final extent = padding.top + height;
+
     return SliverHeader(
       minExtent: extent,
       maxExtent: extent,
@@ -1386,44 +1396,47 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
                 ),
                 const SizedBox(width: 8.0 - 4.0),
                 Flexible.tight(
-                  child: SizedBox(
-                    height: 56.0,
-                    child: Material(
-                      animationDuration: Duration.zero,
-                      type: MaterialType.card,
-                      clipBehavior: Clip.antiAlias,
-                      color: colorTheme.surfaceBright,
-                      shape: CornersBorder.rounded(
-                        corners: Corners.all(shapeTheme.corner.full),
-                      ),
-                      child: InkWell(
-                        overlayColor: WidgetStateLayerColor(
-                          color: WidgetStatePropertyAll(colorTheme.onSurface),
-                          opacity: stateTheme.stateLayerOpacity,
+                  child: KeyedSubtree(
+                    key: _containerKey,
+                    child: SizedBox(
+                      height: 56.0,
+                      child: Material(
+                        animationDuration: Duration.zero,
+                        type: MaterialType.card,
+                        clipBehavior: Clip.antiAlias,
+                        color: colorTheme.surfaceBright,
+                        shape: CornersBorder.rounded(
+                          corners: Corners.all(shapeTheme.corner.full),
                         ),
-                        onTap: () {},
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                            24.0,
-                            0.0,
-                            24.0,
-                            0.0,
+                        child: InkWell(
+                          overlayColor: WidgetStateLayerColor(
+                            color: WidgetStatePropertyAll(colorTheme.onSurface),
+                            opacity: stateTheme.stateLayerOpacity,
                           ),
-                          child: Flex.horizontal(
-                            children: [
-                              Flexible.tight(
-                                child: Text(
-                                  "Search Settings",
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  softWrap: false,
-                                  style: typescaleTheme.bodyLarge.toTextStyle(
-                                    color: colorTheme.onSurfaceVariant,
+                          onTap: _openView,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                              24.0,
+                              0.0,
+                              24.0,
+                              0.0,
+                            ),
+                            child: Flex.horizontal(
+                              children: [
+                                Flexible.tight(
+                                  child: Text(
+                                    "Search Settings",
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    softWrap: false,
+                                    style: typescaleTheme.bodyLarge.toTextStyle(
+                                      color: colorTheme.onSurfaceVariant,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -1431,40 +1444,104 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
                   ),
                 ),
                 const SizedBox(width: 8.0 - 4.0),
-                IconButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    animationDuration: Duration.zero,
-                    elevation: const WidgetStatePropertyAll(0.0),
-                    shadowColor: WidgetStateColor.transparent,
-                    minimumSize: const WidgetStatePropertyAll(Size.zero),
-                    fixedSize: const WidgetStatePropertyAll(Size(32.0, 40.0)),
-                    maximumSize: const WidgetStatePropertyAll(Size.infinite),
-                    padding: const WidgetStatePropertyAll(EdgeInsets.zero),
-                    iconSize: const WidgetStatePropertyAll(24.0),
-                    shape: WidgetStatePropertyAll(
-                      CornersBorder.rounded(
-                        corners: Corners.all(shapeTheme.corner.full),
+
+                MenuButtonTheme(
+                  data: MenuButtonThemeData(
+                    style: ButtonStyle(
+                      padding: WidgetStatePropertyAll(
+                        EdgeInsets.symmetric(horizontal: 16.0),
                       ),
-                    ),
-                    overlayColor: WidgetStateLayerColor(
-                      color: WidgetStatePropertyAll(
-                        colorTheme.onSurfaceVariant,
+                      minimumSize: WidgetStatePropertyAll(
+                        Size(double.infinity, 48.0),
                       ),
-                      opacity: stateTheme.stateLayerOpacity,
-                    ),
-                    backgroundColor: WidgetStateProperty.resolveWith(
-                      (states) => states.contains(WidgetState.disabled)
-                          ? colorTheme.onSurface.withValues(alpha: 0.1)
-                          : Colors.transparent,
-                    ),
-                    iconColor: WidgetStateProperty.resolveWith(
-                      (states) => states.contains(WidgetState.disabled)
-                          ? colorTheme.onSurface.withValues(alpha: 0.38)
-                          : colorTheme.onSurfaceVariant,
+                      maximumSize: WidgetStatePropertyAll(
+                        Size(double.infinity, 48.0),
+                      ),
+                      textStyle: WidgetStatePropertyAll(
+                        typescaleTheme.titleSmall.toTextStyle(),
+                      ),
                     ),
                   ),
-                  icon: const IconLegacy(Symbols.more_vert_rounded),
+                  child: MenuAnchor(
+                    consumeOutsideTap: true,
+                    crossAxisUnconstrained: false,
+                    style: MenuStyle(
+                      minimumSize: const WidgetStatePropertyAll(
+                        Size(208.0, 0.0),
+                      ),
+                      maximumSize: const WidgetStatePropertyAll(
+                        Size(280.0, double.infinity),
+                      ),
+                      backgroundColor: WidgetStatePropertyAll(
+                        colorTheme.surface,
+                      ),
+                      shape: WidgetStatePropertyAll(
+                        CornersBorder.rounded(
+                          corners: Corners.all(Corner.circular(24.0)),
+                        ),
+                      ),
+                      padding: WidgetStatePropertyAll(
+                        EdgeInsets.symmetric(vertical: 12.0),
+                      ),
+                    ),
+                    menuChildren: [
+                      MenuItemButton(
+                        onPressed: () {},
+                        leadingIcon: Icon(
+                          Symbols.reset_settings_rounded,
+                          color: colorTheme.onSurfaceVariant,
+                          size: 20.0,
+                          opticalSize: 20.0,
+                        ),
+                        child: Text("Reset settings"),
+                      ),
+                    ],
+                    builder: (context, controller, child) => IconButton(
+                      onPressed: () {
+                        if (controller.isOpen) {
+                          controller.close();
+                        } else {
+                          controller.open();
+                        }
+                      },
+                      style: ButtonStyle(
+                        animationDuration: Duration.zero,
+                        elevation: const WidgetStatePropertyAll(0.0),
+                        shadowColor: WidgetStateColor.transparent,
+                        minimumSize: const WidgetStatePropertyAll(Size.zero),
+                        fixedSize: const WidgetStatePropertyAll(
+                          Size(32.0, 40.0),
+                        ),
+                        maximumSize: const WidgetStatePropertyAll(
+                          Size.infinite,
+                        ),
+                        padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+                        iconSize: const WidgetStatePropertyAll(24.0),
+                        shape: WidgetStatePropertyAll(
+                          CornersBorder.rounded(
+                            corners: Corners.all(shapeTheme.corner.full),
+                          ),
+                        ),
+                        overlayColor: WidgetStateLayerColor(
+                          color: WidgetStatePropertyAll(
+                            colorTheme.onSurfaceVariant,
+                          ),
+                          opacity: stateTheme.stateLayerOpacity,
+                        ),
+                        backgroundColor: WidgetStateProperty.resolveWith(
+                          (states) => states.contains(WidgetState.disabled)
+                              ? colorTheme.onSurface.withValues(alpha: 0.1)
+                              : Colors.transparent,
+                        ),
+                        iconColor: WidgetStateProperty.resolveWith(
+                          (states) => states.contains(WidgetState.disabled)
+                              ? colorTheme.onSurface.withValues(alpha: 0.38)
+                              : colorTheme.onSurfaceVariant,
+                        ),
+                      ),
+                      icon: const IconLegacy(Symbols.more_vert_rounded),
+                    ),
+                  ),
                 ),
                 const SizedBox(width: 8.0 - 4.0),
               ],
@@ -1473,6 +1550,275 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
         ),
       ),
     );
+  }
+}
+
+class _SettingsAppBarRoute<T extends Object?> extends PopupRoute<T> {
+  _SettingsAppBarRoute({
+    required this.containerKey,
+    super.directionalTraversalEdgeBehavior,
+    super.filter,
+    super.requestFocus,
+    super.settings,
+    super.traversalEdgeBehavior,
+  });
+
+  final GlobalKey containerKey;
+
+  CurvedAnimation _curvedAnimation = CurvedAnimation(
+    parent: kAlwaysDismissedAnimation,
+    curve: Curves.linear,
+  );
+
+  void _didChangeState({required Animation<double> animation}) {
+    if (_curvedAnimation.parent != animation) {
+      _curvedAnimation.dispose();
+      _curvedAnimation = CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeInOutCubicEmphasized,
+        reverseCurve: Curves.easeInOutCubicEmphasized.flipped,
+      );
+    }
+  }
+
+  @override
+  Color? get barrierColor => null;
+
+  @override
+  bool get barrierDismissible => true;
+
+  @override
+  String? get barrierLabel => null;
+
+  @override
+  Duration get transitionDuration => Durations.extralong4;
+
+  Duration get reverseTransitionDuration => Durations.extralong4;
+
+  @override
+  void install() {
+    // TODO: implement install
+    super.install();
+  }
+
+  @override
+  void dispose() {
+    _curvedAnimation.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget buildTransitions(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    _didChangeState(animation: animation);
+
+    final containerBox =
+        containerKey.currentContext?.findRenderObject()! as RenderBox;
+    final containerRect =
+        containerBox.localToGlobal(Offset.zero) & containerBox.size;
+
+    final Tween<Rect?> rectTween = RectTween(begin: containerRect);
+
+    final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+
+    final colorTween = ColorTween(
+      begin: colorTheme.surfaceBright,
+      end: colorTheme.surfaceContainerHigh,
+    );
+    final shapeTween = ShapeBorderTween(
+      begin: CornersBorder.rounded(
+        corners: Corners.all(Corner.circular(containerRect.shortestSide / 2.0)),
+      ),
+      end: CornersBorder.rounded(corners: Corners.all(shapeTheme.corner.none)),
+    );
+
+    final padding = MediaQuery.paddingOf(context);
+
+    final extent = padding.top + 72.0;
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final viewRect = Offset.zero & constraints.biggest;
+        assert(viewRect.isFinite);
+        rectTween.end = viewRect;
+        final rect = rectTween.evaluate(_curvedAnimation)!;
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            Positioned.fill(
+              child: ColoredBox(
+                color: Color.lerp(
+                  colorTheme.surfaceContainerHigh.withValues(alpha: 0.0),
+                  colorTheme.surfaceContainerHigh,
+                  _curvedAnimation.value,
+                )!,
+              ),
+            ),
+            Align.topLeft(
+              child: Transform.translate(
+                offset: rect.topLeft,
+                child: SizedBox(
+                  width: rect.width,
+                  height: rect.height,
+                  child: Material(
+                    animationDuration: Duration.zero,
+                    clipBehavior: Clip.antiAlias,
+                    color: colorTween.evaluate(_curvedAnimation)!,
+                    shape: shapeTween.evaluate(_curvedAnimation),
+                    child: OverflowBox(
+                      alignment: Alignment.topLeft,
+                      minWidth: viewRect.width,
+                      maxWidth: viewRect.width,
+                      minHeight: viewRect.height,
+                      maxHeight: viewRect.height,
+                      child: Transform.translate(
+                        offset: Offset.lerp(
+                          Offset(
+                            viewRect.left - containerRect.left,
+                            viewRect.top - containerRect.top,
+                          ),
+                          Offset.zero,
+                          _curvedAnimation.value,
+                        )!,
+                        child: CustomScrollView(
+                          slivers: [
+                            SliverHeader(
+                              minExtent: extent,
+                              maxExtent: extent,
+                              builder: (context, shrinkOffset, overlapsContent) => SizedBox(
+                                width: double.infinity,
+                                height: extent,
+                                child: Padding(
+                                  padding: EdgeInsets.fromLTRB(
+                                    0.0,
+                                    padding.top,
+                                    0.0,
+                                    0.0,
+                                  ),
+                                  child: KeyedSubtree(
+                                    child: Flex.horizontal(
+                                      children: [
+                                        const SizedBox(width: 8.0 - 4.0),
+                                        IconButton(
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                          style: ButtonStyle(
+                                            animationDuration: Duration.zero,
+                                            elevation:
+                                                const WidgetStatePropertyAll(
+                                                  0.0,
+                                                ),
+                                            shadowColor:
+                                                WidgetStateColor.transparent,
+                                            minimumSize:
+                                                const WidgetStatePropertyAll(
+                                                  Size.zero,
+                                                ),
+                                            fixedSize:
+                                                const WidgetStatePropertyAll(
+                                                  Size(40.0, 40.0),
+                                                ),
+                                            maximumSize:
+                                                const WidgetStatePropertyAll(
+                                                  Size.infinite,
+                                                ),
+                                            padding:
+                                                const WidgetStatePropertyAll(
+                                                  EdgeInsets.zero,
+                                                ),
+                                            iconSize:
+                                                const WidgetStatePropertyAll(
+                                                  24.0,
+                                                ),
+                                            shape: WidgetStatePropertyAll(
+                                              CornersBorder.rounded(
+                                                corners: Corners.all(
+                                                  shapeTheme.corner.full,
+                                                ),
+                                              ),
+                                            ),
+                                            overlayColor: WidgetStateLayerColor(
+                                              color: WidgetStatePropertyAll(
+                                                colorTheme.onSurfaceVariant,
+                                              ),
+                                              opacity:
+                                                  stateTheme.stateLayerOpacity,
+                                            ),
+                                            backgroundColor:
+                                                WidgetStateProperty.resolveWith(
+                                                  (states) =>
+                                                      states.contains(
+                                                        WidgetState.disabled,
+                                                      )
+                                                      ? colorTheme.onSurface
+                                                            .withValues(
+                                                              alpha: 0.1,
+                                                            )
+                                                      : Colors.transparent,
+                                                ),
+                                            iconColor:
+                                                WidgetStateProperty.resolveWith(
+                                                  (states) =>
+                                                      states.contains(
+                                                        WidgetState.disabled,
+                                                      )
+                                                      ? colorTheme.onSurface
+                                                            .withValues(
+                                                              alpha: 0.38,
+                                                            )
+                                                      : colorTheme.onSurface,
+                                                ),
+                                          ),
+                                          icon: const IconLegacy(
+                                            Symbols.arrow_back_rounded,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8.0 - 4.0),
+                                        Flexible.tight(
+                                          child: TextField(
+                                            autofocus: true,
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText: "Search Settings",
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 8.0 - 4.0),
+                                        const SizedBox(width: 8.0 - 4.0),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildPage(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) {
+    return const Placeholder();
   }
 }
 
@@ -1490,6 +1836,11 @@ class _Settings2ViewState extends State<Settings2View> {
     final shapeTheme = ShapeTheme.of(context);
     final stateTheme = StateTheme.of(context);
     final typescaleTheme = TypescaleTheme.of(context);
+    final staticColors = StaticColorsData.fallback(
+      variant: DynamicSchemeVariant.tonalSpot,
+      brightness: Brightness.light,
+      specVersion: DynamicSchemeSpecVersion.spec2025,
+    ).harmonizeWithPrimary(colorTheme);
 
     return Scaffold(
       backgroundColor: colorTheme.surfaceContainer,
@@ -1530,7 +1881,7 @@ class _Settings2ViewState extends State<Settings2View> {
                           animationDuration: Duration.zero,
                           type: MaterialType.card,
                           clipBehavior: Clip.antiAlias,
-                          color: colorTheme.primaryFixedDim,
+                          color: staticColors.blue.colorFixedDim,
                           shape: CornersBorder.rounded(
                             corners: Corners.all(shapeTheme.corner.full),
                           ),
@@ -1538,7 +1889,7 @@ class _Settings2ViewState extends State<Settings2View> {
                             child: Icon(
                               Symbols.tune_rounded,
                               fill: 1.0,
-                              color: colorTheme.onPrimaryFixedVariant,
+                              color: staticColors.blue.onColorFixedVariant,
                             ),
                           ),
                         ),
@@ -1563,7 +1914,7 @@ class _Settings2ViewState extends State<Settings2View> {
                           animationDuration: Duration.zero,
                           type: MaterialType.card,
                           clipBehavior: Clip.antiAlias,
-                          color: colorTheme.primaryFixedDim,
+                          color: staticColors.yellow.colorFixedDim,
                           shape: CornersBorder.rounded(
                             corners: Corners.all(shapeTheme.corner.full),
                           ),
@@ -1571,7 +1922,7 @@ class _Settings2ViewState extends State<Settings2View> {
                             child: Icon(
                               Symbols.palette_rounded,
                               fill: 1.0,
-                              color: colorTheme.onPrimaryFixedVariant,
+                              color: staticColors.yellow.onColorFixedVariant,
                             ),
                           ),
                         ),
@@ -1597,7 +1948,7 @@ class _Settings2ViewState extends State<Settings2View> {
                           animationDuration: Duration.zero,
                           type: MaterialType.card,
                           clipBehavior: Clip.antiAlias,
-                          color: colorTheme.primaryFixedDim,
+                          color: staticColors.red.colorFixedDim,
                           shape: CornersBorder.rounded(
                             corners: Corners.all(shapeTheme.corner.full),
                           ),
@@ -1605,7 +1956,7 @@ class _Settings2ViewState extends State<Settings2View> {
                             child: Icon(
                               Symbols.info_rounded,
                               fill: 1.0,
-                              color: colorTheme.onPrimaryFixedVariant,
+                              color: staticColors.red.onColorFixedVariant,
                             ),
                           ),
                         ),
