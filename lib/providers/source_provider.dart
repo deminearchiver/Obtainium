@@ -636,6 +636,7 @@ abstract class AppSource {
   bool versionDetectionDisallowed = false;
   List<String> excludeCommonSettingKeys = [];
   bool urlsAlwaysHaveExtension = false;
+  bool allowIncludeZips = false;
 
   AppSource() {
     name = runtimeType.toString();
@@ -833,7 +834,7 @@ abstract class AppSource {
     ],
   ];
 
-  // Previous 2 variables combined into one at runtime for convenient usage
+  // Previous 2 variables combined into one at runtime for convenient usage + additional processing
   List<List<GeneratedFormItem>> get combinedAppSpecificSettingFormItems {
     if (showReleaseDateAsVersionToggle == true) {
       if (additionalAppSpecificSourceAgnosticSettingFormItemsNeverUseDirectly
@@ -877,6 +878,32 @@ abstract class AppSource {
             )
             .where((e) => e.isNotEmpty)
             .toList();
+
+    var moreConditionalItems = [];
+    if (allowIncludeZips) {
+      moreConditionalItems.addAll([
+        [
+          GeneratedFormSwitch(
+            'includeZips',
+            label: tr('includeZips'),
+            defaultValue: false,
+          ),
+        ],
+        [
+          GeneratedFormTextField(
+            'zippedApkFilterRegEx',
+            label: tr('zippedApkFilterRegEx'),
+            required: false,
+            additionalValidators: [
+              (value) {
+                return regExValidator(value);
+              },
+            ],
+          ),
+        ],
+      ]);
+    }
+
     if (versionDetectionDisallowed) {
       overrideAdditionalAppSpecificSourceAgnosticSettingSwitch(
         'versionDetection',
@@ -892,6 +919,7 @@ abstract class AppSource {
     return [
       ...additionalSourceAppSpecificSettingFormItems,
       ...additionalAppSpecificSourceAgnosticSettingFormItemsNeverUseDirectly,
+      ...moreConditionalItems,
     ];
   }
 
