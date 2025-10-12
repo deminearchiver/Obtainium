@@ -460,18 +460,14 @@ class _ImportExportPageState extends State<ImportExportPage> {
                       ),
                       backgroundColor: WidgetStateProperty.resolveWith(
                         (states) => states.contains(WidgetState.disabled)
-                            ? ColorTheme.of(
-                                context,
-                              ).onSurface.withValues(alpha: 0.1)
+                            ? colorTheme.onSurface.withValues(alpha: 0.1)
                             : hasExportDir
                             ? colorTheme.surfaceBright
                             : colorTheme.primary,
                       ),
                       foregroundColor: WidgetStateProperty.resolveWith(
                         (states) => states.contains(WidgetState.disabled)
-                            ? ColorTheme.of(
-                                context,
-                              ).onSurface.withValues(alpha: 0.38)
+                            ? colorTheme.onSurface.withValues(alpha: 0.38)
                             : hasExportDir
                             ? colorTheme.onSurfaceVariant
                             : colorTheme.onPrimary,
@@ -480,9 +476,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                         (states) =>
                             (hasExportDir
                                     ? typescaleTheme.titleMedium
-                                    : TypescaleTheme.of(
-                                        context,
-                                      ).titleMediumEmphasized)
+                                    : typescaleTheme.titleMediumEmphasized)
                                 .toTextStyle(),
                       ),
                     ),
@@ -520,22 +514,17 @@ class _ImportExportPageState extends State<ImportExportPage> {
                       ),
                       backgroundColor: WidgetStateProperty.resolveWith(
                         (states) => states.contains(WidgetState.disabled)
-                            ? ColorTheme.of(
-                                context,
-                              ).onSurface.withValues(alpha: 0.1)
+                            ? colorTheme.onSurface.withValues(alpha: 0.1)
                             : colorTheme.primary,
                       ),
                       foregroundColor: WidgetStateProperty.resolveWith(
                         (states) => states.contains(WidgetState.disabled)
-                            ? ColorTheme.of(
-                                context,
-                              ).onSurface.withValues(alpha: 0.38)
+                            ? colorTheme.onSurface.withValues(alpha: 0.38)
                             : colorTheme.onPrimary,
                       ),
                       textStyle: WidgetStateProperty.resolveWith(
-                        (states) => TypescaleTheme.of(
-                          context,
-                        ).titleMediumEmphasized.toTextStyle(),
+                        (states) =>
+                            typescaleTheme.titleMediumEmphasized.toTextStyle(),
                       ),
                     ),
                     child: Text(
@@ -637,9 +626,7 @@ class _ImportExportPageState extends State<ImportExportPage> {
                     : colorTheme.onPrimary,
               ),
               textStyle: WidgetStateProperty.resolveWith(
-                (states) => TypescaleTheme.of(
-                  context,
-                ).titleMediumEmphasized.toTextStyle(),
+                (states) => typescaleTheme.titleMediumEmphasized.toTextStyle(),
               ),
             ),
             child: Text(

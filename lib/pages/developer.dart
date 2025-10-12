@@ -17,6 +17,9 @@ class DeveloperPageBackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final navigator = Navigator.of(context);
     final route = ModalRoute.of(context);
+    final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
     return IconButton(
       onPressed: () => navigator.pop(),
       style: ButtonStyle(
@@ -29,25 +32,21 @@ class DeveloperPageBackButton extends StatelessWidget {
         padding: const WidgetStatePropertyAll(EdgeInsets.zero),
         iconSize: const WidgetStatePropertyAll(24.0),
         shape: WidgetStatePropertyAll(
-          CornersBorder.rounded(
-            corners: Corners.all(ShapeTheme.of(context).corner.full),
-          ),
+          CornersBorder.rounded(corners: Corners.all(shapeTheme.corner.full)),
         ),
         overlayColor: WidgetStateLayerColor(
-          color: WidgetStatePropertyAll(
-            ColorTheme.of(context).onSurfaceVariant,
-          ),
-          opacity: StateTheme.of(context).stateLayerOpacity,
+          color: WidgetStatePropertyAll(colorTheme.onSurfaceVariant),
+          opacity: stateTheme.stateLayerOpacity,
         ),
         backgroundColor: WidgetStateProperty.resolveWith(
           (states) => states.contains(WidgetState.disabled)
-              ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
-              : ColorTheme.of(context).surfaceContainerHigh,
+              ? colorTheme.onSurface.withValues(alpha: 0.1)
+              : colorTheme.surfaceContainerHigh,
         ),
         iconColor: WidgetStateProperty.resolveWith(
           (states) => states.contains(WidgetState.disabled)
-              ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
-              : ColorTheme.of(context).onSurfaceVariant,
+              ? colorTheme.onSurface.withValues(alpha: 0.38)
+              : colorTheme.onSurfaceVariant,
         ),
       ),
       icon: const IconLegacy(Symbols.arrow_back_rounded),
@@ -242,7 +241,6 @@ class _DeveloperPageState extends State<DeveloperPage> {
                       ),
                     ),
                     _ListItemContainer(
-                      isLast: true,
                       child: MergeSemantics(
                         child: ListItemInteraction(
                           onTap: () => Navigator.of(context).push(
@@ -256,6 +254,42 @@ class _DeveloperPageState extends State<DeveloperPage> {
                             leading: Icon(Symbols.markdown_rounded),
                             headline: Text("Markdown (super_editor)"),
                             supportingText: Text("Uses SuperReader"),
+                          ),
+                        ),
+                      ),
+                    ),
+                    _ListItemContainer(
+                      isLast: true,
+                      child: MergeSemantics(
+                        child: ListItemInteraction(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const Settings2View(),
+                            ),
+                          ),
+                          child: ListItemLayout(
+                            isMultiline: true,
+                            leading: SizedBox.square(
+                              dimension: 40.0,
+                              child: Material(
+                                animationDuration: Duration.zero,
+                                type: MaterialType.card,
+                                clipBehavior: Clip.antiAlias,
+                                color: colorTheme.primaryContainer,
+                                shape: const StadiumBorder(),
+                                child: Align.center(
+                                  child: Icon(
+                                    Symbols.magic_button_rounded,
+                                    fill: 1.0,
+                                    color: colorTheme.onPrimaryContainer,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            headline: Text("New settings experience"),
+                            supportingText: Text(
+                              "Enable new design for the settings page",
+                            ),
                           ),
                         ),
                       ),
@@ -1277,6 +1311,315 @@ class _CheckboxComponentState extends State<CheckboxComponent>
               underlines: widget.viewModel.createUnderlines(),
               showDebugPaint: widget.showDebugPaint,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SettingsAppBar extends StatefulWidget {
+  const SettingsAppBar({super.key});
+
+  @override
+  State<SettingsAppBar> createState() => _SettingsAppBarState();
+}
+
+class _SettingsAppBarState extends State<SettingsAppBar> {
+  @override
+  Widget build(BuildContext context) {
+    final padding = MediaQuery.paddingOf(context);
+    final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+    final height = 64.0;
+    final extent = padding.top + height;
+    return SliverHeader(
+      minExtent: extent,
+      maxExtent: extent,
+      pinned: true,
+      builder: (context, shrinkOffset, overlapsContent) => SizedBox(
+        width: double.infinity,
+        height: extent,
+        child: Material(
+          color: colorTheme.surfaceContainer,
+          child: Padding(
+            padding: EdgeInsets.only(top: padding.top),
+            child: Flex.horizontal(
+              children: [
+                const SizedBox(width: 8.0 - 4.0),
+                IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: ButtonStyle(
+                    animationDuration: Duration.zero,
+                    elevation: const WidgetStatePropertyAll(0.0),
+                    shadowColor: WidgetStateColor.transparent,
+                    minimumSize: const WidgetStatePropertyAll(Size.zero),
+                    fixedSize: const WidgetStatePropertyAll(Size(32.0, 40.0)),
+                    maximumSize: const WidgetStatePropertyAll(Size.infinite),
+                    padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+                    iconSize: const WidgetStatePropertyAll(24.0),
+                    shape: WidgetStatePropertyAll(
+                      CornersBorder.rounded(
+                        corners: Corners.all(shapeTheme.corner.full),
+                      ),
+                    ),
+                    overlayColor: WidgetStateLayerColor(
+                      color: WidgetStatePropertyAll(
+                        colorTheme.onSurfaceVariant,
+                      ),
+                      opacity: stateTheme.stateLayerOpacity,
+                    ),
+                    backgroundColor: WidgetStateProperty.resolveWith(
+                      (states) => states.contains(WidgetState.disabled)
+                          ? colorTheme.onSurface.withValues(alpha: 0.1)
+                          : Colors.transparent,
+                    ),
+                    iconColor: WidgetStateProperty.resolveWith(
+                      (states) => states.contains(WidgetState.disabled)
+                          ? colorTheme.onSurface.withValues(alpha: 0.38)
+                          : colorTheme.onSurface,
+                    ),
+                  ),
+                  icon: const IconLegacy(Symbols.arrow_back_rounded),
+                ),
+                const SizedBox(width: 8.0 - 4.0),
+                Flexible.tight(
+                  child: SizedBox(
+                    height: 56.0,
+                    child: Material(
+                      animationDuration: Duration.zero,
+                      type: MaterialType.card,
+                      clipBehavior: Clip.antiAlias,
+                      color: colorTheme.surfaceBright,
+                      shape: CornersBorder.rounded(
+                        corners: Corners.all(shapeTheme.corner.full),
+                      ),
+                      child: InkWell(
+                        overlayColor: WidgetStateLayerColor(
+                          color: WidgetStatePropertyAll(colorTheme.onSurface),
+                          opacity: stateTheme.stateLayerOpacity,
+                        ),
+                        onTap: () {},
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            24.0,
+                            0.0,
+                            24.0,
+                            0.0,
+                          ),
+                          child: Flex.horizontal(
+                            children: [
+                              Flexible.tight(
+                                child: Text(
+                                  "Search Settings",
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  style: typescaleTheme.bodyLarge.toTextStyle(
+                                    color: colorTheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8.0 - 4.0),
+                IconButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    animationDuration: Duration.zero,
+                    elevation: const WidgetStatePropertyAll(0.0),
+                    shadowColor: WidgetStateColor.transparent,
+                    minimumSize: const WidgetStatePropertyAll(Size.zero),
+                    fixedSize: const WidgetStatePropertyAll(Size(32.0, 40.0)),
+                    maximumSize: const WidgetStatePropertyAll(Size.infinite),
+                    padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+                    iconSize: const WidgetStatePropertyAll(24.0),
+                    shape: WidgetStatePropertyAll(
+                      CornersBorder.rounded(
+                        corners: Corners.all(shapeTheme.corner.full),
+                      ),
+                    ),
+                    overlayColor: WidgetStateLayerColor(
+                      color: WidgetStatePropertyAll(
+                        colorTheme.onSurfaceVariant,
+                      ),
+                      opacity: stateTheme.stateLayerOpacity,
+                    ),
+                    backgroundColor: WidgetStateProperty.resolveWith(
+                      (states) => states.contains(WidgetState.disabled)
+                          ? colorTheme.onSurface.withValues(alpha: 0.1)
+                          : Colors.transparent,
+                    ),
+                    iconColor: WidgetStateProperty.resolveWith(
+                      (states) => states.contains(WidgetState.disabled)
+                          ? colorTheme.onSurface.withValues(alpha: 0.38)
+                          : colorTheme.onSurfaceVariant,
+                    ),
+                  ),
+                  icon: const IconLegacy(Symbols.more_vert_rounded),
+                ),
+                const SizedBox(width: 8.0 - 4.0),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Settings2View extends StatefulWidget {
+  const Settings2View({super.key});
+
+  @override
+  State<Settings2View> createState() => _Settings2ViewState();
+}
+
+class _Settings2ViewState extends State<Settings2View> {
+  @override
+  Widget build(BuildContext context) {
+    final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+
+    return Scaffold(
+      backgroundColor: colorTheme.surfaceContainer,
+      body: CustomScrollView(
+        slivers: [
+          // CustomAppBar(
+          //   leading: const Padding(
+          //     padding: EdgeInsets.only(left: 8.0 - 4.0),
+          //     child: DeveloperPageBackButton(),
+          //   ),
+          //   type: CustomAppBarType.largeFlexible,
+          //   behavior: CustomAppBarBehavior.duplicate,
+          //   expandedContainerColor: colorTheme.surfaceContainer,
+          //   collapsedContainerColor: colorTheme.surfaceContainer,
+          //   collapsedPadding: const EdgeInsets.fromLTRB(
+          //     8.0 + 40.0 + 8.0,
+          //     0.0,
+          //     16.0,
+          //     0.0,
+          //   ),
+          //   title: Text("Settings"),
+          // ),
+          SettingsAppBar(),
+          SliverList.list(
+            children: [
+              const SizedBox(height: 16 - 4.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: _ListItemContainer(
+                  isFirst: true,
+                  child: ListItemInteraction(
+                    onTap: () {},
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      leading: SizedBox.square(
+                        dimension: 40.0,
+                        child: Material(
+                          animationDuration: Duration.zero,
+                          type: MaterialType.card,
+                          clipBehavior: Clip.antiAlias,
+                          color: colorTheme.primaryFixedDim,
+                          shape: CornersBorder.rounded(
+                            corners: Corners.all(shapeTheme.corner.full),
+                          ),
+                          child: Align.center(
+                            child: Icon(
+                              Symbols.tune_rounded,
+                              fill: 1.0,
+                              color: colorTheme.onPrimaryFixedVariant,
+                            ),
+                          ),
+                        ),
+                      ),
+                      headline: Text("General"),
+                      supportingText: Text("Behavioral options"),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 2.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: _ListItemContainer(
+                  child: ListItemInteraction(
+                    onTap: () {},
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      leading: SizedBox.square(
+                        dimension: 40.0,
+                        child: Material(
+                          animationDuration: Duration.zero,
+                          type: MaterialType.card,
+                          clipBehavior: Clip.antiAlias,
+                          color: colorTheme.primaryFixedDim,
+                          shape: CornersBorder.rounded(
+                            corners: Corners.all(shapeTheme.corner.full),
+                          ),
+                          child: Align.center(
+                            child: Icon(
+                              Symbols.palette_rounded,
+                              fill: 1.0,
+                              color: colorTheme.onPrimaryFixedVariant,
+                            ),
+                          ),
+                        ),
+                      ),
+                      headline: Text("Appearance"),
+                      supportingText: Text("App theme and language"),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 2.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: _ListItemContainer(
+                  isLast: true,
+                  child: ListItemInteraction(
+                    onTap: () {},
+                    child: ListItemLayout(
+                      isMultiline: true,
+                      leading: SizedBox.square(
+                        dimension: 40.0,
+                        child: Material(
+                          animationDuration: Duration.zero,
+                          type: MaterialType.card,
+                          clipBehavior: Clip.antiAlias,
+                          color: colorTheme.primaryFixedDim,
+                          shape: CornersBorder.rounded(
+                            corners: Corners.all(shapeTheme.corner.full),
+                          ),
+                          child: Align.center(
+                            child: Icon(
+                              Symbols.info_rounded,
+                              fill: 1.0,
+                              color: colorTheme.onPrimaryFixedVariant,
+                            ),
+                          ),
+                        ),
+                      ),
+                      headline: Text("About app"),
+                      supportingText: Text("Obtainium"),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SliverToBoxAdapter(
+            child: SizedBox(height: MediaQuery.heightOf(context)),
           ),
         ],
       ),

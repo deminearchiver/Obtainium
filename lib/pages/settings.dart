@@ -184,9 +184,7 @@ class _SettingsPageState extends State<SettingsPage> {
         customColorSwatchesAndNames: colorsNameMap,
         showMaterialName: true,
         showColorName: true,
-        materialNameTextStyle: TypescaleTheme.of(
-          context,
-        ).bodySmall.toTextStyle(),
+        materialNameTextStyle: typescaleTheme.bodySmall.toTextStyle(),
         colorNameTextStyle: typescaleTheme.bodySmall.toTextStyle(),
         copyPasteBehavior: const ColorPickerCopyPasteBehavior(
           longPressMenu: true,
@@ -617,9 +615,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                         style: TypescaleTheme.of(context)
                                             .bodyMedium
                                             .toTextStyle(
-                                              color: ColorTheme.of(
-                                                context,
-                                              ).onSurfaceVariant,
+                                              color:
+                                                  colorTheme.onSurfaceVariant,
                                             ),
                                         child: Flex.vertical(
                                           crossAxisAlignment:

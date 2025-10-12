@@ -227,106 +227,106 @@ class _HomePageState extends State<HomePage> {
       if (!sp.welcomeShown) {
         await showDialog(
           context: context,
-          builder: (ctx) => AlertDialog(
-            title: Text(tr('welcome')),
-            content: Flex.vertical(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 20,
-              children: [
-                Text(tr('documentationLinksNote')),
-                GestureDetector(
-                  onTap: () {
-                    launchUrlString(
-                      'https://github.com/ImranR98/Obtainium/blob/main/README.md',
-                      mode: LaunchMode.externalApplication,
-                    );
-                  },
-                  child: const Text(
-                    'https://github.com/ImranR98/Obtainium/blob/main/README.md',
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Flex.vertical(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(tr('batteryOptimizationNote')),
-                    GestureDetector(
-                      onTap: () {
-                        const intent = AndroidIntent(
-                          action:
-                              'android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS',
-                          package:
-                              obtainiumId, // Replace with your app's package name
-                        );
+          builder: (ctx) {
+            final colorTheme = ColorTheme.of(ctx);
+            final shapeTheme = ShapeTheme.of(ctx);
+            final stateTheme = StateTheme.of(ctx);
+            final typescaleTheme = TypescaleTheme.of(ctx);
 
-                        intent.launch();
-                      },
-                      child: Text(
-                        tr('settings'),
-                        style: const TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontWeight: FontWeight.bold,
-                        ),
+            return AlertDialog(
+              title: Text(tr('welcome')),
+              content: Flex.vertical(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 20,
+                children: [
+                  Text(tr('documentationLinksNote')),
+                  GestureDetector(
+                    onTap: () {
+                      launchUrlString(
+                        'https://github.com/ImranR98/Obtainium/blob/main/README.md',
+                        mode: LaunchMode.externalApplication,
+                      );
+                    },
+                    child: const Text(
+                      'https://github.com/ImranR98/Obtainium/blob/main/README.md',
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
+                  ),
+                  Flex.vertical(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(tr('batteryOptimizationNote')),
+                      GestureDetector(
+                        onTap: () {
+                          const intent = AndroidIntent(
+                            action:
+                                'android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS',
+                            package:
+                                obtainiumId, // Replace with your app's package name
+                          );
+
+                          intent.launch();
+                        },
+                        child: Text(
+                          tr('settings'),
+                          style: const TextStyle(
+                            decoration: TextDecoration.underline,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    sp.welcomeShown = true;
+                    Navigator.of(context).pop();
+                  },
+                  style: ButtonStyle(
+                    animationDuration: Duration.zero,
+                    elevation: const WidgetStatePropertyAll(0.0),
+                    shadowColor: WidgetStateColor.transparent,
+                    minimumSize: const WidgetStatePropertyAll(Size(48.0, 40.0)),
+                    fixedSize: const WidgetStatePropertyAll(null),
+                    maximumSize: const WidgetStatePropertyAll(Size.infinite),
+                    padding: const WidgetStatePropertyAll(
+                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                    ),
+                    iconSize: const WidgetStatePropertyAll(20.0),
+                    shape: WidgetStatePropertyAll(
+                      CornersBorder.rounded(
+                        corners: Corners.all(shapeTheme.corner.full),
+                      ),
+                    ),
+                    overlayColor: WidgetStateLayerColor(
+                      color: WidgetStatePropertyAll(colorTheme.primary),
+                      opacity: stateTheme.stateLayerOpacity,
+                    ),
+                    backgroundColor: WidgetStateProperty.resolveWith(
+                      (states) => states.contains(WidgetState.disabled)
+                          ? colorTheme.onSurface.withValues(alpha: 0.1)
+                          : Colors.transparent,
+                    ),
+                    foregroundColor: WidgetStateProperty.resolveWith(
+                      (states) => states.contains(WidgetState.disabled)
+                          ? colorTheme.onSurface.withValues(alpha: 0.38)
+                          : colorTheme.primary,
+                    ),
+                    textStyle: WidgetStateProperty.resolveWith(
+                      (states) => typescaleTheme.labelLarge.toTextStyle(),
+                    ),
+                  ),
+                  child: Text(tr('ok')),
                 ),
               ],
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  sp.welcomeShown = true;
-                  Navigator.of(context).pop();
-                },
-                style: ButtonStyle(
-                  animationDuration: Duration.zero,
-                  elevation: const WidgetStatePropertyAll(0.0),
-                  shadowColor: WidgetStateColor.transparent,
-                  minimumSize: const WidgetStatePropertyAll(Size(48.0, 40.0)),
-                  fixedSize: const WidgetStatePropertyAll(null),
-                  maximumSize: const WidgetStatePropertyAll(Size.infinite),
-                  padding: const WidgetStatePropertyAll(
-                    EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-                  ),
-                  iconSize: const WidgetStatePropertyAll(20.0),
-                  shape: WidgetStatePropertyAll(
-                    CornersBorder.rounded(
-                      corners: Corners.all(ShapeTheme.of(context).corner.full),
-                    ),
-                  ),
-                  overlayColor: WidgetStateLayerColor(
-                    color: WidgetStatePropertyAll(
-                      ColorTheme.of(context).primary,
-                    ),
-                    opacity: StateTheme.of(context).stateLayerOpacity,
-                  ),
-                  backgroundColor: WidgetStateProperty.resolveWith(
-                    (states) => states.contains(WidgetState.disabled)
-                        ? ColorTheme.of(
-                            context,
-                          ).onSurface.withValues(alpha: 0.1)
-                        : Colors.transparent,
-                  ),
-                  foregroundColor: WidgetStateProperty.resolveWith(
-                    (states) => states.contains(WidgetState.disabled)
-                        ? ColorTheme.of(
-                            context,
-                          ).onSurface.withValues(alpha: 0.38)
-                        : ColorTheme.of(context).primary,
-                  ),
-                  textStyle: WidgetStateProperty.resolveWith(
-                    (states) =>
-                        TypescaleTheme.of(context).labelLarge.toTextStyle(),
-                  ),
-                ),
-                child: Text(tr('ok')),
-              ),
-            ],
-          ),
+            );
+          },
         );
       }
     });
@@ -350,10 +350,11 @@ class _HomePageState extends State<HomePage> {
         !_isLinkActivity) {
       _switchToPage(0);
     }
-    _prevAppCount = appsProvider.apps.length;
-    _prevIsLoading = appsProvider.loadingApps;
 
     final colorTheme = ColorTheme.of(context);
+
+    _prevAppCount = appsProvider.apps.length;
+    _prevIsLoading = appsProvider.loadingApps;
 
     final selectedIndex = _selectedIndexHistory.isEmpty
         ? 0

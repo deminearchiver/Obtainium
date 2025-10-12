@@ -67,6 +67,12 @@ class _AppPageState extends State<AppPage> {
   Widget build(BuildContext context) {
     var appsProvider = context.watch<AppsProvider>();
     var settingsProvider = context.watch<SettingsProvider>();
+
+    final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+
     var showAppWebpageFinal =
         (settingsProvider.showAppWebpage &&
             !widget.showOppositeOfPreferredView) ||
@@ -188,7 +194,7 @@ class _AppPageState extends State<AppPage> {
                               ? tr('changes')
                               : app!.app.releaseDate!.toLocal().toString(),
                           textAlign: TextAlign.center,
-                          style: TypescaleTheme.of(context).labelSmall
+                          style: typescaleTheme.labelSmall
                               .toTextStyle()
                               .copyWith(
                                 decoration: changeLogFn != null
@@ -227,11 +233,9 @@ class _AppPageState extends State<AppPage> {
                     type: MaterialType.card,
                     clipBehavior: Clip.antiAlias,
                     shape: CornersBorder.rounded(
-                      corners: Corners.all(
-                        ShapeTheme.of(context).corner.medium,
-                      ),
+                      corners: Corners.all(shapeTheme.corner.medium),
                     ),
-                    color: ColorTheme.of(context).surfaceContainer,
+                    color: colorTheme.surfaceContainer,
                     child: InkWell(
                       onTap: app?.app == null || updating
                           ? null
@@ -248,9 +252,9 @@ class _AppPageState extends State<AppPage> {
                             },
                       overlayColor: WidgetStateLayerColor(
                         color: WidgetStatePropertyAll(
-                          ColorTheme.of(context).onSurfaceVariant,
+                          colorTheme.onSurfaceVariant,
                         ),
-                        opacity: StateTheme.of(context).stateLayerOpacity,
+                        opacity: stateTheme.stateLayerOpacity,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -269,12 +273,9 @@ class _AppPageState extends State<AppPage> {
                                     lowerCaseIfEnglish(tr('releaseAsset')),
                                   ],
                                 ),
-                                style: TypescaleTheme.of(context).labelLarge
-                                    .toTextStyle(
-                                      color: ColorTheme.of(
-                                        context,
-                                      ).onSurfaceVariant,
-                                    ),
+                                style: typescaleTheme.labelLarge.toTextStyle(
+                                  color: colorTheme.onSurfaceVariant,
+                                ),
                               ),
                             ),
                           ],
@@ -381,22 +382,22 @@ class _AppPageState extends State<AppPage> {
           app?.name ?? tr('app'),
           textAlign: TextAlign.center,
           style: small
-              ? TypescaleTheme.of(context).headlineSmallEmphasized.toTextStyle(
-                  color: ColorTheme.of(context).onSurface,
+              ? typescaleTheme.headlineSmallEmphasized.toTextStyle(
+                  color: colorTheme.onSurface,
                 )
-              : TypescaleTheme.of(context).displaySmallEmphasized.toTextStyle(
-                  color: ColorTheme.of(context).onSurface,
+              : typescaleTheme.displaySmallEmphasized.toTextStyle(
+                  color: colorTheme.onSurface,
                 ),
         ),
         Text(
           tr('byX', args: [app?.author ?? tr('unknown')]),
           textAlign: TextAlign.center,
           style: small
-              ? TypescaleTheme.of(context).labelLarge.toTextStyle(
-                  color: ColorTheme.of(context).onSurfaceVariant,
+              ? typescaleTheme.labelLarge.toTextStyle(
+                  color: colorTheme.onSurfaceVariant,
                 )
-              : TypescaleTheme.of(context).titleMedium.toTextStyle(
-                  color: ColorTheme.of(context).onSurfaceVariant,
+              : typescaleTheme.titleMedium.toTextStyle(
+                  color: colorTheme.onSurfaceVariant,
                 ),
         ),
         const SizedBox(height: 24),
@@ -429,14 +430,12 @@ class _AppPageState extends State<AppPage> {
                       type: MaterialType.card,
                       clipBehavior: Clip.antiAlias,
                       shape: CornersBorder.rounded(
-                        corners: Corners.all(
-                          ShapeTheme.of(context).corner.full,
-                        ),
+                        corners: Corners.all(shapeTheme.corner.full),
                       ),
-                      color: ColorTheme.of(context).primaryFixedDim,
+                      color: colorTheme.primaryFixedDim,
                       child: Icon(
                         Symbols.link_rounded,
-                        color: ColorTheme.of(context).onPrimaryFixedVariant,
+                        color: colorTheme.onPrimaryFixedVariant,
                       ),
                     ),
                   ),
@@ -458,13 +457,13 @@ class _AppPageState extends State<AppPage> {
                     type: MaterialType.card,
                     clipBehavior: Clip.antiAlias,
                     shape: CornersBorder.rounded(
-                      corners: Corners.all(ShapeTheme.of(context).corner.full),
+                      corners: Corners.all(shapeTheme.corner.full),
                     ),
-                    color: ColorTheme.of(context).secondaryFixedDim,
+                    color: colorTheme.secondaryFixedDim,
                     child: Icon(
                       Symbols.package_2_rounded,
                       fill: 1.0,
-                      color: ColorTheme.of(context).onSecondaryFixedVariant,
+                      color: colorTheme.onSecondaryFixedVariant,
                     ),
                   ),
                 ),
@@ -491,15 +490,15 @@ class _AppPageState extends State<AppPage> {
           child: Text(
             app?.app.url ?? '',
             textAlign: TextAlign.center,
-            style: TypescaleTheme.of(context).labelSmall
-                .toTextStyle(color: ColorTheme.of(context).primary)
+            style: typescaleTheme.labelSmall
+                .toTextStyle(color: colorTheme.primary)
                 .copyWith(decoration: TextDecoration.underline),
           ),
         ),
         Text(
           app?.app.id ?? '',
           textAlign: TextAlign.center,
-          style: TypescaleTheme.of(context).labelSmall.toTextStyle(),
+          style: typescaleTheme.labelSmall.toTextStyle(),
         ),
         getInfoColumn(),
         const SizedBox(height: 16.0),
@@ -510,7 +509,7 @@ class _AppPageState extends State<AppPage> {
         ? WebViewWidget(
             key: ObjectKey(_webViewController),
             controller: _webViewController
-              ..setBackgroundColor(ColorTheme.of(context).surface),
+              ..setBackgroundColor(colorTheme.surface),
           )
         : Container();
 
@@ -782,23 +781,21 @@ class _AppPageState extends State<AppPage> {
       padding: const WidgetStatePropertyAll(EdgeInsets.zero),
       iconSize: const WidgetStatePropertyAll(24.0),
       shape: WidgetStatePropertyAll(
-        CornersBorder.rounded(
-          corners: Corners.all(ShapeTheme.of(context).corner.full),
-        ),
+        CornersBorder.rounded(corners: Corners.all(shapeTheme.corner.full)),
       ),
       overlayColor: WidgetStateLayerColor(
-        color: WidgetStatePropertyAll(ColorTheme.of(context).onSurfaceVariant),
-        opacity: StateTheme.of(context).stateLayerOpacity,
+        color: WidgetStatePropertyAll(colorTheme.onSurfaceVariant),
+        opacity: stateTheme.stateLayerOpacity,
       ),
       backgroundColor: WidgetStateProperty.resolveWith(
         (states) => states.contains(WidgetState.disabled)
-            ? ColorTheme.of(context).onSurface.withValues(alpha: 0.1)
+            ? colorTheme.onSurface.withValues(alpha: 0.1)
             : Colors.transparent,
       ),
       iconColor: WidgetStateProperty.resolveWith(
         (states) => states.contains(WidgetState.disabled)
-            ? ColorTheme.of(context).onSurface.withValues(alpha: 0.38)
-            : ColorTheme.of(context).onSurfaceVariant,
+            ? colorTheme.onSurface.withValues(alpha: 0.38)
+            : colorTheme.onSurfaceVariant,
       ),
     );
 
@@ -807,13 +804,13 @@ class _AppPageState extends State<AppPage> {
     return Scaffold(
       extendBody: false,
       appBar: showAppWebpageFinal ? AppBar() : null,
-      backgroundColor: ColorTheme.of(context).surfaceContainer,
+      backgroundColor: colorTheme.surfaceContainer,
       // TODO: replace with a Loading indicator
       body: RefreshIndicator(
         edgeOffset: 0.0,
         displacement: MediaQuery.paddingOf(context).top + (64.0 - 49.0) / 2.0,
-        backgroundColor: ColorTheme.of(context).primaryContainer,
-        color: ColorTheme.of(context).onPrimaryContainer,
+        backgroundColor: colorTheme.primaryContainer,
+        color: colorTheme.onPrimaryContainer,
         elevation: 0.0,
         onRefresh: () async {
           // if (kDebugMode) return Future.delayed(const Duration(minutes: 1));
@@ -828,12 +825,8 @@ class _AppPageState extends State<AppPage> {
                   CustomAppBar(
                     type: CustomAppBarType.small,
                     behavior: CustomAppBarBehavior.duplicate,
-                    expandedContainerColor: ColorTheme.of(
-                      context,
-                    ).surfaceContainer,
-                    collapsedContainerColor: ColorTheme.of(
-                      context,
-                    ).surfaceContainer,
+                    expandedContainerColor: colorTheme.surfaceContainer,
+                    collapsedContainerColor: colorTheme.surfaceContainer,
                     leading: Padding(
                       padding: const EdgeInsets.only(left: 16.0 - 4.0),
                       child: IconButton(
@@ -855,30 +848,24 @@ class _AppPageState extends State<AppPage> {
                           iconSize: const WidgetStatePropertyAll(24.0),
                           shape: WidgetStatePropertyAll(
                             CornersBorder.rounded(
-                              corners: Corners.all(
-                                ShapeTheme.of(context).corner.full,
-                              ),
+                              corners: Corners.all(shapeTheme.corner.full),
                             ),
                           ),
                           overlayColor: WidgetStateLayerColor(
                             color: WidgetStatePropertyAll(
-                              ColorTheme.of(context).onSurfaceVariant,
+                              colorTheme.onSurfaceVariant,
                             ),
-                            opacity: StateTheme.of(context).stateLayerOpacity,
+                            opacity: stateTheme.stateLayerOpacity,
                           ),
                           backgroundColor: WidgetStateProperty.resolveWith(
                             (states) => states.contains(WidgetState.disabled)
-                                ? ColorTheme.of(
-                                    context,
-                                  ).onSurface.withValues(alpha: 0.1)
-                                : ColorTheme.of(context).surfaceContainerHigh,
+                                ? colorTheme.onSurface.withValues(alpha: 0.1)
+                                : colorTheme.surfaceContainerHigh,
                           ),
                           iconColor: WidgetStateProperty.resolveWith(
                             (states) => states.contains(WidgetState.disabled)
-                                ? ColorTheme.of(
-                                    context,
-                                  ).onSurface.withValues(alpha: 0.38)
-                                : ColorTheme.of(context).onSurfaceVariant,
+                                ? colorTheme.onSurface.withValues(alpha: 0.38)
+                                : colorTheme.onSurfaceVariant,
                           ),
                         ),
                         icon: const IconLegacy(Symbols.arrow_back_rounded),
@@ -899,9 +886,9 @@ class _AppPageState extends State<AppPage> {
           type: MaterialType.card,
           clipBehavior: Clip.antiAlias,
           shape: CornersBorder.rounded(
-            corners: Corners.all(ShapeTheme.of(context).corner.none),
+            corners: Corners.all(shapeTheme.corner.none),
           ),
-          color: ColorTheme.of(context).surfaceContainerHigh,
+          color: colorTheme.surfaceContainerHigh,
           child: Padding(
             padding: EdgeInsets.only(
               bottom: MediaQuery.paddingOf(context).bottom,
@@ -1032,44 +1019,34 @@ class _AppPageState extends State<AppPage> {
                       iconSize: const WidgetStatePropertyAll(20.0),
                       shape: WidgetStatePropertyAll(
                         CornersBorder.rounded(
-                          corners: Corners.all(
-                            ShapeTheme.of(context).corner.full,
-                          ),
+                          corners: Corners.all(shapeTheme.corner.full),
                         ),
                       ),
                       overlayColor: showProgressIndicator
                           ? WidgetStateColor.transparent
                           : WidgetStateLayerColor(
                               color: WidgetStatePropertyAll(
-                                ColorTheme.of(context).onPrimary,
+                                colorTheme.onPrimary,
                               ),
-                              opacity: StateTheme.of(context).stateLayerOpacity,
+                              opacity: stateTheme.stateLayerOpacity,
                             ),
                       backgroundColor: showProgressIndicator
-                          ? WidgetStatePropertyAll(
-                              ColorTheme.of(context).surface,
-                            )
+                          ? WidgetStatePropertyAll(colorTheme.surface)
                           : WidgetStateProperty.resolveWith(
                               (states) => states.contains(WidgetState.disabled)
-                                  ? ColorTheme.of(
-                                      context,
-                                    ).onSurface.withValues(alpha: 0.1)
-                                  : ColorTheme.of(context).primary,
+                                  ? colorTheme.onSurface.withValues(alpha: 0.1)
+                                  : colorTheme.primary,
                             ),
                       foregroundColor: WidgetStateProperty.resolveWith(
                         (states) => states.contains(WidgetState.disabled)
-                            ? ColorTheme.of(
-                                context,
-                              ).onSurface.withValues(alpha: 0.38)
-                            : ColorTheme.of(context).onPrimary,
+                            ? colorTheme.onSurface.withValues(alpha: 0.38)
+                            : colorTheme.onPrimary,
                       ),
                       textStyle: WidgetStateProperty.resolveWith(
                         (states) =>
                             (states.contains(WidgetState.disabled)
-                                    ? TypescaleTheme.of(context).labelLarge
-                                    : TypescaleTheme.of(
-                                        context,
-                                      ).labelLargeEmphasized)
+                                    ? typescaleTheme.labelLarge
+                                    : typescaleTheme.labelLargeEmphasized)
                                 .toTextStyle(),
                       ),
                     ),
@@ -1159,9 +1136,7 @@ class _AppPageState extends State<AppPage> {
                                   EdgeInsets.symmetric(horizontal: 12.0),
                                 ),
                                 textStyle: WidgetStatePropertyAll(
-                                  TypescaleTheme.of(
-                                    context,
-                                  ).labelLarge.toTextStyle(),
+                                  typescaleTheme.labelLarge.toTextStyle(),
                                 ),
                               ),
                             ),

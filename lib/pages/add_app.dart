@@ -365,9 +365,7 @@ class AddAppPageState extends State<AddAppPage> {
                         child: CircularProgressIndicator(
                           value: null,
                           strokeWidth: 3.0,
-                          color: ColorTheme.of(
-                            context,
-                          ).onSurface.withValues(alpha: 0.38),
+                          color: colorTheme.onSurface.withValues(alpha: 0.38),
                           backgroundColor: Colors.transparent,
                         ),
                       ),
@@ -693,9 +691,7 @@ class AddAppPageState extends State<AddAppPage> {
                         child: CircularProgressIndicator(
                           value: null,
                           strokeWidth: 3.0,
-                          color: ColorTheme.of(
-                            context,
-                          ).onSurface.withValues(alpha: 0.38),
+                          color: colorTheme.onSurface.withValues(alpha: 0.38),
                           backgroundColor: Colors.transparent,
                         ),
                       ),
@@ -920,9 +916,7 @@ class AddAppPageState extends State<AddAppPage> {
                         return val.data != null && val.data!.isNotEmpty
                             ? Text(
                                 val.data!,
-                                style: TypescaleTheme.of(
-                                  context,
-                                ).bodySmall.toTextStyle(),
+                                style: typescaleTheme.bodySmall.toTextStyle(),
                               )
                             : const SizedBox();
                       },

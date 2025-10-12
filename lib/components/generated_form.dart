@@ -422,6 +422,11 @@ class _GeneratedFormState extends State<GeneratedForm> {
 
   @override
   Widget build(BuildContext context) {
+    final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+
     if (widget.key.toString() != initKey) {
       initForm();
     }
@@ -594,58 +599,47 @@ class _GeneratedFormState extends State<GeneratedForm> {
                                   CornersBorder.rounded(
                                     corners: Corners.all(
                                       isSelected
-                                          ? ShapeTheme.of(context).corner.medium
-                                          : ShapeTheme.of(context).corner.full,
+                                          ? shapeTheme.corner.medium
+                                          : shapeTheme.corner.full,
                                     ),
                                   ),
                                 ),
                                 overlayColor: WidgetStateLayerColor(
                                   color: WidgetStatePropertyAll(
                                     isSelected
-                                        ? ColorTheme.of(context).onSecondary
-                                        : ColorTheme.of(
-                                            context,
-                                          ).onSecondaryContainer,
+                                        ? colorTheme.onSecondary
+                                        : colorTheme.onSecondaryContainer,
                                   ),
-                                  opacity: StateTheme.of(
-                                    context,
-                                  ).stateLayerOpacity,
+                                  opacity: stateTheme.stateLayerOpacity,
                                 ),
                                 backgroundColor:
                                     WidgetStateProperty.resolveWith(
                                       (states) =>
                                           states.contains(WidgetState.disabled)
-                                          ? ColorTheme.of(
-                                              context,
-                                            ).onSurface.withValues(alpha: 0.1)
+                                          ? colorTheme.onSurface.withValues(
+                                              alpha: 0.1,
+                                            )
                                           : isSelected
-                                          ? ColorTheme.of(context).secondary
-                                          : ColorTheme.of(
-                                              context,
-                                            ).secondaryContainer,
+                                          ? colorTheme.secondary
+                                          : colorTheme.secondaryContainer,
                                     ),
                                 foregroundColor:
                                     WidgetStateProperty.resolveWith(
                                       (states) =>
                                           states.contains(WidgetState.disabled)
-                                          ? ColorTheme.of(
-                                              context,
-                                            ).onSurface.withValues(alpha: 0.38)
+                                          ? colorTheme.onSurface.withValues(
+                                              alpha: 0.38,
+                                            )
                                           : isSelected
-                                          ? ColorTheme.of(context).onSecondary
-                                          : ColorTheme.of(
-                                              context,
-                                            ).onSecondaryContainer,
+                                          ? colorTheme.onSecondary
+                                          : colorTheme.onSecondaryContainer,
                                     ),
                                 textStyle: WidgetStateProperty.resolveWith(
                                   (states) =>
                                       (isSelected
-                                              ? TypescaleTheme.of(
-                                                  context,
-                                                ).labelLargeEmphasized
-                                              : TypescaleTheme.of(
-                                                  context,
-                                                ).labelLarge)
+                                              ? typescaleTheme
+                                                    .labelLargeEmphasized
+                                              : typescaleTheme.labelLarge)
                                           .toTextStyle(),
                                 ),
                               ),
@@ -769,30 +763,24 @@ class _GeneratedFormState extends State<GeneratedForm> {
                         iconSize: const WidgetStatePropertyAll(24.0),
                         shape: WidgetStatePropertyAll(
                           CornersBorder.rounded(
-                            corners: Corners.all(
-                              ShapeTheme.of(context).corner.full,
-                            ),
+                            corners: Corners.all(shapeTheme.corner.full),
                           ),
                         ),
                         overlayColor: WidgetStateLayerColor(
                           color: WidgetStatePropertyAll(
-                            ColorTheme.of(context).onSurfaceVariant,
+                            colorTheme.onSurfaceVariant,
                           ),
-                          opacity: StateTheme.of(context).stateLayerOpacity,
+                          opacity: stateTheme.stateLayerOpacity,
                         ),
                         backgroundColor: WidgetStateProperty.resolveWith(
                           (states) => states.contains(WidgetState.disabled)
-                              ? ColorTheme.of(
-                                  context,
-                                ).onSurface.withValues(alpha: 0.1)
-                              : ColorTheme.of(context).surfaceBright,
+                              ? colorTheme.onSurface.withValues(alpha: 0.1)
+                              : colorTheme.surfaceBright,
                         ),
                         iconColor: WidgetStateProperty.resolveWith(
                           (states) => states.contains(WidgetState.disabled)
-                              ? ColorTheme.of(
-                                  context,
-                                ).onSurface.withValues(alpha: 0.38)
-                              : ColorTheme.of(context).onSurfaceVariant,
+                              ? colorTheme.onSurface.withValues(alpha: 0.38)
+                              : colorTheme.onSurfaceVariant,
                         ),
                       ),
                       icon: const IconLegacy(Symbols.format_color_fill_rounded),
@@ -857,30 +845,24 @@ class _GeneratedFormState extends State<GeneratedForm> {
                         iconSize: const WidgetStatePropertyAll(24.0),
                         shape: WidgetStatePropertyAll(
                           CornersBorder.rounded(
-                            corners: Corners.all(
-                              ShapeTheme.of(context).corner.full,
-                            ),
+                            corners: Corners.all(shapeTheme.corner.full),
                           ),
                         ),
                         overlayColor: WidgetStateLayerColor(
                           color: WidgetStatePropertyAll(
-                            ColorTheme.of(context).onSurfaceVariant,
+                            colorTheme.onSurfaceVariant,
                           ),
-                          opacity: StateTheme.of(context).stateLayerOpacity,
+                          opacity: stateTheme.stateLayerOpacity,
                         ),
                         backgroundColor: WidgetStateProperty.resolveWith(
                           (states) => states.contains(WidgetState.disabled)
-                              ? ColorTheme.of(
-                                  context,
-                                ).onSurface.withValues(alpha: 0.1)
-                              : ColorTheme.of(context).surfaceBright,
+                              ? colorTheme.onSurface.withValues(alpha: 0.1)
+                              : colorTheme.surfaceBright,
                         ),
                         iconColor: WidgetStateProperty.resolveWith(
                           (states) => states.contains(WidgetState.disabled)
-                              ? ColorTheme.of(
-                                  context,
-                                ).onSurface.withValues(alpha: 0.38)
-                              : ColorTheme.of(context).onSurfaceVariant,
+                              ? colorTheme.onSurface.withValues(alpha: 0.38)
+                              : colorTheme.onSurfaceVariant,
                         ),
                       ),
                       icon: const IconLegacy(Symbols.remove_rounded),
@@ -913,36 +895,28 @@ class _GeneratedFormState extends State<GeneratedForm> {
                         iconSize: const WidgetStatePropertyAll(20.0),
                         shape: WidgetStatePropertyAll(
                           CornersBorder.rounded(
-                            corners: Corners.all(
-                              ShapeTheme.of(context).corner.medium,
-                            ),
+                            corners: Corners.all(shapeTheme.corner.medium),
                           ),
                         ),
 
                         overlayColor: WidgetStateLayerColor(
                           color: WidgetStatePropertyAll(
-                            ColorTheme.of(context).onSurfaceVariant,
+                            colorTheme.onSurfaceVariant,
                           ),
-                          opacity: StateTheme.of(context).stateLayerOpacity,
+                          opacity: stateTheme.stateLayerOpacity,
                         ),
                         backgroundColor: WidgetStateProperty.resolveWith(
                           (states) => states.contains(WidgetState.disabled)
-                              ? ColorTheme.of(
-                                  context,
-                                ).onSurface.withValues(alpha: 0.1)
-                              : ColorTheme.of(context).surfaceBright,
+                              ? colorTheme.onSurface.withValues(alpha: 0.1)
+                              : colorTheme.surfaceBright,
                         ),
                         foregroundColor: WidgetStateProperty.resolveWith(
                           (states) => states.contains(WidgetState.disabled)
-                              ? ColorTheme.of(
-                                  context,
-                                ).onSurface.withValues(alpha: 0.38)
-                              : ColorTheme.of(context).onSurfaceVariant,
+                              ? colorTheme.onSurface.withValues(alpha: 0.38)
+                              : colorTheme.onSurfaceVariant,
                         ),
                         textStyle: WidgetStateProperty.resolveWith(
-                          (states) => TypescaleTheme.of(
-                            context,
-                          ).labelLarge.toTextStyle(),
+                          (states) => typescaleTheme.labelLarge.toTextStyle(),
                         ),
                       ),
                       icon: const IconLegacy(Symbols.add_rounded),
@@ -970,30 +944,24 @@ class _GeneratedFormState extends State<GeneratedForm> {
                         iconSize: const WidgetStatePropertyAll(24.0),
                         shape: WidgetStatePropertyAll(
                           CornersBorder.rounded(
-                            corners: Corners.all(
-                              ShapeTheme.of(context).corner.full,
-                            ),
+                            corners: Corners.all(shapeTheme.corner.full),
                           ),
                         ),
                         overlayColor: WidgetStateLayerColor(
                           color: WidgetStatePropertyAll(
-                            ColorTheme.of(context).onSurfaceVariant,
+                            colorTheme.onSurfaceVariant,
                           ),
-                          opacity: StateTheme.of(context).stateLayerOpacity,
+                          opacity: stateTheme.stateLayerOpacity,
                         ),
                         backgroundColor: WidgetStateProperty.resolveWith(
                           (states) => states.contains(WidgetState.disabled)
-                              ? ColorTheme.of(
-                                  context,
-                                ).onSurface.withValues(alpha: 0.1)
-                              : ColorTheme.of(context).surfaceBright,
+                              ? colorTheme.onSurface.withValues(alpha: 0.1)
+                              : colorTheme.surfaceBright,
                         ),
                         iconColor: WidgetStateProperty.resolveWith(
                           (states) => states.contains(WidgetState.disabled)
-                              ? ColorTheme.of(
-                                  context,
-                                ).onSurface.withValues(alpha: 0.38)
-                              : ColorTheme.of(context).onSurfaceVariant,
+                              ? colorTheme.onSurface.withValues(alpha: 0.38)
+                              : colorTheme.onSurfaceVariant,
                         ),
                       ),
                       icon: const IconLegacy(Symbols.add_rounded),
@@ -1087,35 +1055,25 @@ class _GeneratedFormState extends State<GeneratedForm> {
                           iconSize: const WidgetStatePropertyAll(20.0),
                           shape: WidgetStatePropertyAll(
                             CornersBorder.rounded(
-                              corners: Corners.all(
-                                ShapeTheme.of(context).corner.medium,
-                              ),
+                              corners: Corners.all(shapeTheme.corner.medium),
                             ),
                           ),
                           overlayColor: WidgetStateLayerColor(
-                            color: WidgetStatePropertyAll(
-                              ColorTheme.of(context).error,
-                            ),
-                            opacity: StateTheme.of(context).stateLayerOpacity,
+                            color: WidgetStatePropertyAll(colorTheme.error),
+                            opacity: stateTheme.stateLayerOpacity,
                           ),
                           backgroundColor: WidgetStateProperty.resolveWith(
                             (states) => states.contains(WidgetState.disabled)
-                                ? ColorTheme.of(
-                                    context,
-                                  ).onSurface.withValues(alpha: 0.1)
+                                ? colorTheme.onSurface.withValues(alpha: 0.1)
                                 : Colors.transparent,
                           ),
                           foregroundColor: WidgetStateProperty.resolveWith(
                             (states) => states.contains(WidgetState.disabled)
-                                ? ColorTheme.of(
-                                    context,
-                                  ).onSurface.withValues(alpha: 0.38)
-                                : ColorTheme.of(context).error,
+                                ? colorTheme.onSurface.withValues(alpha: 0.38)
+                                : colorTheme.error,
                           ),
                           textStyle: WidgetStateProperty.resolveWith(
-                            (states) => TypescaleTheme.of(
-                              context,
-                            ).labelLarge.toTextStyle(),
+                            (states) => typescaleTheme.labelLarge.toTextStyle(),
                           ),
                         ),
                         icon: const IconLegacy(Symbols.delete_rounded, fill: 0),
@@ -1167,41 +1125,33 @@ class _GeneratedFormState extends State<GeneratedForm> {
                         iconSize: const WidgetStatePropertyAll(20.0),
                         shape: WidgetStatePropertyAll(
                           CornersBorder.rounded(
-                            corners: Corners.all(
-                              ShapeTheme.of(context).corner.full,
-                            ),
+                            corners: Corners.all(shapeTheme.corner.full),
                           ),
                         ),
                         side: WidgetStatePropertyAll(
                           BorderSide(
                             width: 1.0,
-                            color: ColorTheme.of(context).outlineVariant,
+                            color: colorTheme.outlineVariant,
                           ),
                         ),
                         overlayColor: WidgetStateLayerColor(
                           color: WidgetStatePropertyAll(
-                            ColorTheme.of(context).onSurfaceVariant,
+                            colorTheme.onSurfaceVariant,
                           ),
-                          opacity: StateTheme.of(context).stateLayerOpacity,
+                          opacity: stateTheme.stateLayerOpacity,
                         ),
                         backgroundColor: WidgetStateProperty.resolveWith(
                           (states) => states.contains(WidgetState.disabled)
-                              ? ColorTheme.of(
-                                  context,
-                                ).onSurface.withValues(alpha: 0.1)
+                              ? colorTheme.onSurface.withValues(alpha: 0.1)
                               : Colors.transparent,
                         ),
                         foregroundColor: WidgetStateProperty.resolveWith(
                           (states) => states.contains(WidgetState.disabled)
-                              ? ColorTheme.of(
-                                  context,
-                                ).onSurface.withValues(alpha: 0.38)
-                              : ColorTheme.of(context).onSurfaceVariant,
+                              ? colorTheme.onSurface.withValues(alpha: 0.38)
+                              : colorTheme.onSurfaceVariant,
                         ),
                         textStyle: WidgetStateProperty.resolveWith(
-                          (states) => TypescaleTheme.of(
-                            context,
-                          ).labelLarge.toTextStyle(),
+                          (states) => typescaleTheme.labelLarge.toTextStyle(),
                         ),
                       ),
                       icon: const IconLegacy(Symbols.add_rounded),

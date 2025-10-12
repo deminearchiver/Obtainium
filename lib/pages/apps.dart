@@ -179,6 +179,9 @@ class AppsPageState extends State<AppsPage> {
     var listedApps = appsProvider.getAppValues().toList();
 
     final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
 
     Future<List<App>> refresh() {
       HapticFeedback.lightImpact();
@@ -403,7 +406,7 @@ class AppsPageState extends State<AppsPage> {
                           ? tr('pleaseWait')
                           : tr('noApps')
                     : tr('noAppsForFilter'),
-                style: TypescaleTheme.of(context).headlineMedium.toTextStyle(),
+                style: typescaleTheme.headlineMedium.toTextStyle(),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -543,7 +546,7 @@ class AppsPageState extends State<AppsPage> {
             type: MaterialType.card,
             clipBehavior: Clip.antiAlias,
             shape: CornersBorder.rounded(
-              corners: Corners.all(ShapeTheme.of(context).corner.medium),
+              corners: Corners.all(shapeTheme.corner.medium),
             ),
             color: Colors.transparent,
             child: InkWell(
@@ -554,7 +557,7 @@ class AppsPageState extends State<AppsPage> {
                       ? colorTheme.onSecondaryContainer
                       : colorTheme.onSurface,
                 ),
-                opacity: StateTheme.of(context).stateLayerOpacity,
+                opacity: stateTheme.stateLayerOpacity,
               ),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
@@ -648,7 +651,7 @@ class AppsPageState extends State<AppsPage> {
           title: Text(
             maxLines: 1,
             listedApps[index].name,
-            style: TypescaleTheme.of(context).titleMediumEmphasized
+            style: typescaleTheme.titleMediumEmphasized
                 .toTextStyle(
                   color: isSelected
                       ? colorTheme.onSecondaryContainer
@@ -659,7 +662,7 @@ class AppsPageState extends State<AppsPage> {
           subtitle: Text(
             tr('byX', args: [listedApps[index].author]),
             maxLines: 1,
-            style: TypescaleTheme.of(context).bodyMedium
+            style: typescaleTheme.bodyMedium
                 .toTextStyle(
                   color: isSelected
                       ? colorTheme.onSecondaryContainer
@@ -979,8 +982,8 @@ class AppsPageState extends State<AppsPage> {
           elevation: 0.0,
           shape: CornersBorder.rounded(
             corners: Corners.vertical(
-              top: ShapeTheme.of(context).corner.extraLarge,
-              bottom: ShapeTheme.of(context).corner.none,
+              top: shapeTheme.corner.extraLarge,
+              bottom: shapeTheme.corner.none,
             ),
           ),
           showDragHandle: true,
@@ -994,9 +997,9 @@ class AppsPageState extends State<AppsPage> {
                 vertical: 8.0,
               ),
               horizontalTitleGap: 12.0,
-              titleTextStyle: TypescaleTheme.of(
-                context,
-              ).titleMediumEmphasized.toTextStyle(color: colorTheme.onSurface),
+              titleTextStyle: typescaleTheme.titleMediumEmphasized.toTextStyle(
+                color: colorTheme.onSurface,
+              ),
             ),
             child: Flex.vertical(
               mainAxisSize: MainAxisSize.min,
@@ -1013,9 +1016,7 @@ class AppsPageState extends State<AppsPage> {
                       clipBehavior: Clip.antiAlias,
                       color: colorTheme.surfaceContainerHighest,
                       shape: CornersBorder.rounded(
-                        corners: Corners.all(
-                          ShapeTheme.of(context).corner.full,
-                        ),
+                        corners: Corners.all(shapeTheme.corner.full),
                       ),
                       child:
                           selectedApps
@@ -1058,9 +1059,7 @@ class AppsPageState extends State<AppsPage> {
                       clipBehavior: Clip.antiAlias,
                       color: colorTheme.surfaceContainerHighest,
                       shape: CornersBorder.rounded(
-                        corners: Corners.all(
-                          ShapeTheme.of(context).corner.full,
-                        ),
+                        corners: Corners.all(shapeTheme.corner.full),
                       ),
                       child: const IconLegacy(Symbols.share_rounded, fill: 1.0),
                     ),
@@ -1091,9 +1090,7 @@ class AppsPageState extends State<AppsPage> {
                         clipBehavior: Clip.antiAlias,
                         color: colorTheme.surfaceContainerHighest,
                         shape: CornersBorder.rounded(
-                          corners: Corners.all(
-                            ShapeTheme.of(context).corner.full,
-                          ),
+                          corners: Corners.all(shapeTheme.corner.full),
                         ),
                         child: const IconLegacy(
                           Symbols.share_rounded,
@@ -1136,9 +1133,7 @@ class AppsPageState extends State<AppsPage> {
                         clipBehavior: Clip.antiAlias,
                         color: colorTheme.surfaceContainerHighest,
                         shape: CornersBorder.rounded(
-                          corners: Corners.all(
-                            ShapeTheme.of(context).corner.full,
-                          ),
+                          corners: Corners.all(shapeTheme.corner.full),
                         ),
                         child: const IconLegacy(
                           Symbols.share_rounded,
@@ -1173,9 +1168,7 @@ class AppsPageState extends State<AppsPage> {
                       clipBehavior: Clip.antiAlias,
                       color: colorTheme.surfaceContainerHighest,
                       shape: CornersBorder.rounded(
-                        corners: Corners.all(
-                          ShapeTheme.of(context).corner.full,
-                        ),
+                        corners: Corners.all(shapeTheme.corner.full),
                       ),
                       child: const IconLegacy(Symbols.download_rounded),
                     ),
@@ -1200,9 +1193,7 @@ class AppsPageState extends State<AppsPage> {
                       clipBehavior: Clip.antiAlias,
                       color: colorTheme.surfaceContainerHighest,
                       shape: CornersBorder.rounded(
-                        corners: Corners.all(
-                          ShapeTheme.of(context).corner.full,
-                        ),
+                        corners: Corners.all(shapeTheme.corner.full),
                       ),
                       child: const IconLegacy(Symbols.done_all_rounded),
                     ),
@@ -1459,7 +1450,7 @@ class AppsPageState extends State<AppsPage> {
                   containerShape: isSelected
                       ? CornersBorder.rounded(
                           corners: Corners.all(
-                            ShapeTheme.of(context).corner.largeIncreased,
+                            shapeTheme.corner.largeIncreased,
                           ),
                         )
                       : null,
@@ -1560,13 +1551,11 @@ class AppsPageState extends State<AppsPage> {
           maximumSize: const WidgetStatePropertyAll(Size.infinite),
           fixedSize: const WidgetStatePropertyAll(Size(52.0, 40.0)),
           shape: WidgetStatePropertyAll(
-            CornersBorder.rounded(
-              corners: Corners.all(ShapeTheme.of(context).corner.full),
-            ),
+            CornersBorder.rounded(corners: Corners.all(shapeTheme.corner.full)),
           ),
           overlayColor: WidgetStateLayerColor(
             color: WidgetStatePropertyAll(colorTheme.onSurfaceVariant),
-            opacity: StateTheme.of(context).stateLayerOpacity,
+            opacity: stateTheme.stateLayerOpacity,
           ),
           backgroundColor: WidgetStateProperty.resolveWith(
             (states) => states.contains(WidgetState.disabled) && !hasSelection
@@ -1599,8 +1588,8 @@ class AppsPageState extends State<AppsPage> {
             CornersBorder.rounded(
               corners: Corners.all(
                 hasSelection
-                    ? ShapeTheme.of(context).corner.medium
-                    : ShapeTheme.of(context).corner.full,
+                    ? shapeTheme.corner.medium
+                    : shapeTheme.corner.full,
               ),
             ),
           ),
@@ -1608,7 +1597,7 @@ class AppsPageState extends State<AppsPage> {
             color: WidgetStatePropertyAll(
               hasSelection ? colorTheme.primary : colorTheme.onSurfaceVariant,
             ),
-            opacity: StateTheme.of(context).stateLayerOpacity,
+            opacity: stateTheme.stateLayerOpacity,
           ),
           backgroundColor: WidgetStateProperty.resolveWith(
             (states) => hasSelection
@@ -1645,19 +1634,17 @@ class AppsPageState extends State<AppsPage> {
           // shape: WidgetStatePropertyAll(
           //   CornersBorder.rounded(
           //     corners: Corners.all(
-          //       ShapeTheme.of(context).corner.large,
+          //       shapeTheme.corner.large,
           //     ),
           //   ),
           // ),
           fixedSize: const WidgetStatePropertyAll(Size(52.0, 40.0)),
           shape: WidgetStatePropertyAll(
-            CornersBorder.rounded(
-              corners: Corners.all(ShapeTheme.of(context).corner.full),
-            ),
+            CornersBorder.rounded(corners: Corners.all(shapeTheme.corner.full)),
           ),
           overlayColor: WidgetStateLayerColor(
             color: WidgetStatePropertyAll(colorTheme.onPrimary),
-            opacity: StateTheme.of(context).stateLayerOpacity,
+            opacity: stateTheme.stateLayerOpacity,
           ),
           backgroundColor: WidgetStateProperty.resolveWith(
             (states) => states.contains(WidgetState.disabled)
@@ -1691,14 +1678,14 @@ class AppsPageState extends State<AppsPage> {
           fixedSize: const WidgetStatePropertyAll(Size(40.0, 40.0)),
           shape: WidgetStatePropertyAll(
             CornersBorder.rounded(
-              corners: Corners.all(ShapeTheme.of(context).corner.medium),
+              corners: Corners.all(shapeTheme.corner.medium),
             ),
           ),
           overlayColor: WidgetStateLayerColor(
             color: WidgetStatePropertyAll(
               hasSelection ? colorTheme.error : colorTheme.onSurfaceVariant,
             ),
-            opacity: StateTheme.of(context).stateLayerOpacity,
+            opacity: stateTheme.stateLayerOpacity,
           ),
           backgroundColor: WidgetStateProperty.resolveWith(
             (states) => hasSelection
@@ -1727,12 +1714,12 @@ class AppsPageState extends State<AppsPage> {
           fixedSize: const WidgetStatePropertyAll(Size(40.0, 40.0)),
           shape: WidgetStatePropertyAll(
             CornersBorder.rounded(
-              corners: Corners.all(ShapeTheme.of(context).corner.medium),
+              corners: Corners.all(shapeTheme.corner.medium),
             ),
           ),
           overlayColor: WidgetStateLayerColor(
             color: WidgetStatePropertyAll(colorTheme.onSurfaceVariant),
-            opacity: StateTheme.of(context).stateLayerOpacity,
+            opacity: stateTheme.stateLayerOpacity,
           ),
           backgroundColor: WidgetStateProperty.resolveWith(
             (states) => hasSelection
@@ -1758,13 +1745,11 @@ class AppsPageState extends State<AppsPage> {
           maximumSize: const WidgetStatePropertyAll(Size.infinite),
           fixedSize: const WidgetStatePropertyAll(Size(32.0, 40.0)),
           shape: WidgetStatePropertyAll(
-            CornersBorder.rounded(
-              corners: Corners.all(ShapeTheme.of(context).corner.full),
-            ),
+            CornersBorder.rounded(corners: Corners.all(shapeTheme.corner.full)),
           ),
           overlayColor: WidgetStateLayerColor(
             color: WidgetStatePropertyAll(colorTheme.onSurfaceVariant),
-            opacity: StateTheme.of(context).stateLayerOpacity,
+            opacity: stateTheme.stateLayerOpacity,
           ),
           backgroundColor: WidgetStateProperty.resolveWith(
             (states) => hasSelection
@@ -1795,9 +1780,9 @@ class AppsPageState extends State<AppsPage> {
             shape: CornersBorder.rounded(
               corners: Corners.vertical(
                 // TODO: consider the following design choice:
-                // top: ShapeTheme.of(context).corner.extraLarge,
-                top: ShapeTheme.of(context).corner.none,
-                bottom: ShapeTheme.of(context).corner.none,
+                // top: shapeTheme.corner.extraLarge,
+                top: shapeTheme.corner.none,
+                bottom: shapeTheme.corner.none,
               ),
             ),
             // TODO: improve compact layout (it's not production ready)
