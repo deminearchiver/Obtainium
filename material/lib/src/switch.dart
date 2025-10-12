@@ -270,7 +270,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
         setState(() {});
       });
 
-    final handlePosition = widget.checked ? 1.0 : 0.0;
+    final handlePosition = _isSelected ? 1.0 : 0.0;
     _handlePositionTween.begin = handlePosition;
     _handlePositionTween.end = handlePosition;
 
@@ -334,7 +334,9 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
     final stateLayerShape = CornersBorder.rounded(corners: stateLayerCorners);
     final handleShape = CornersBorder.rounded(corners: handleCorners);
 
-    _updateHandlePositionAnimation(handlePosition: widget.checked ? 1.0 : 0.0);
+    final handlePosition = _isSelected ? 1.0 : 0.0;
+
+    _updateHandlePositionAnimation(handlePosition: handlePosition);
     _updateHandleSizeAnimation(handleSize: handleSize);
     _updateColorAnimations(
       trackColor: trackColor,
@@ -385,7 +387,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
             ),
             enableFeedback: !isDisabled,
             onTap: !isDisabled
-                ? () => widget.onCheckedChanged?.call(!widget.checked)
+                ? () => widget.onCheckedChanged?.call(!_isSelected)
                 : null,
             onTapDown: !isDisabled
                 ? (_) {
