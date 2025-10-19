@@ -9,7 +9,5 @@ abstract final class ColorSpecs {
   static ColorSpec get([
     SpecVersion specVersion = SpecVersion.spec2021,
     bool isExtendedFidelity = false,
-  ]) {
-    return specVersion == SpecVersion.spec2025 ? _spec2025 : _spec2021;
-  }
+  ]) => specVersion == SpecVersion.spec2025 ? _spec2025 : _spec2021;
 }

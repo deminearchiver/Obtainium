@@ -11,7 +11,6 @@ import 'contrast_curve.dart';
 import 'dynamic_color.dart';
 import 'dynamic_scheme.dart';
 import 'tone_delta_pair.dart';
-import 'tone_polarity.dart';
 import 'variant.dart';
 
 class ColorSpec2021 implements ColorSpec {
@@ -345,12 +344,13 @@ class ColorSpec2021 implements ColorSpec {
       isBackground: true,
       background: highestSurface,
       contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 7.0),
-      toneDeltaPair: (s) => ToneDeltaPair.withStayTogether(
-        primaryContainer(),
-        primary(),
-        10.0,
-        TonePolarity.nearer,
-        false,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: primaryContainer(),
+        roleB: primary(),
+        delta: 10.0,
+        polarity: TonePolarity.relativeLighter,
+        stayTogether: false,
+        constraint: DeltaConstraint.nearer,
       ),
     );
   }
@@ -393,12 +393,13 @@ class ColorSpec2021 implements ColorSpec {
       isBackground: true,
       background: highestSurface,
       contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair.withStayTogether(
-        primaryContainer(),
-        primary(),
-        10.0,
-        TonePolarity.nearer,
-        false,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: primaryContainer(),
+        roleB: primary(),
+        delta: 10.0,
+        polarity: TonePolarity.relativeLighter,
+        stayTogether: false,
+        constraint: DeltaConstraint.nearer,
       ),
     );
   }
@@ -442,12 +443,13 @@ class ColorSpec2021 implements ColorSpec {
       isBackground: true,
       background: highestSurface,
       contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 7.0),
-      toneDeltaPair: (s) => ToneDeltaPair.withStayTogether(
-        secondaryContainer(),
-        secondary(),
-        10.0,
-        TonePolarity.nearer,
-        false,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: secondaryContainer(),
+        roleB: secondary(),
+        delta: 10.0,
+        polarity: TonePolarity.relativeLighter,
+        stayTogether: false,
+        constraint: DeltaConstraint.nearer,
       ),
     );
   }
@@ -494,12 +496,13 @@ class ColorSpec2021 implements ColorSpec {
       isBackground: true,
       background: highestSurface,
       contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair.withStayTogether(
-        secondaryContainer(),
-        secondary(),
-        10.0,
-        TonePolarity.nearer,
-        false,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: secondaryContainer(),
+        roleB: secondary(),
+        delta: 10.0,
+        polarity: TonePolarity.relativeLighter,
+        stayTogether: false,
+        constraint: DeltaConstraint.nearer,
       ),
     );
   }
@@ -537,12 +540,13 @@ class ColorSpec2021 implements ColorSpec {
       isBackground: true,
       background: highestSurface,
       contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 7.0),
-      toneDeltaPair: (s) => ToneDeltaPair.withStayTogether(
-        tertiaryContainer(),
-        tertiary(),
-        10.0,
-        TonePolarity.nearer,
-        false,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: tertiaryContainer(),
+        roleB: tertiary(),
+        delta: 10.0,
+        polarity: TonePolarity.relativeLighter,
+        stayTogether: false,
+        constraint: DeltaConstraint.nearer,
       ),
     );
   }
@@ -586,12 +590,13 @@ class ColorSpec2021 implements ColorSpec {
       isBackground: true,
       background: highestSurface,
       contrastCurve: (s) => ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair.withStayTogether(
-        tertiaryContainer(),
-        tertiary(),
-        10.0,
-        TonePolarity.nearer,
-        false,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: tertiaryContainer(),
+        roleB: tertiary(),
+        delta: 10.0,
+        polarity: TonePolarity.relativeLighter,
+        stayTogether: false,
+        constraint: DeltaConstraint.nearer,
       ),
     );
   }
@@ -624,12 +629,13 @@ class ColorSpec2021 implements ColorSpec {
       isBackground: true,
       background: highestSurface,
       contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 7.0),
-      toneDeltaPair: (s) => ToneDeltaPair.withStayTogether(
-        errorContainer(),
-        error(),
-        10.0,
-        TonePolarity.nearer,
-        false,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: errorContainer(),
+        roleB: error(),
+        delta: 10.0,
+        polarity: TonePolarity.relativeLighter,
+        stayTogether: false,
+        constraint: DeltaConstraint.nearer,
       ),
     );
   }
@@ -659,12 +665,13 @@ class ColorSpec2021 implements ColorSpec {
       isBackground: true,
       background: highestSurface,
       contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair.withStayTogether(
-        errorContainer(),
-        error(),
-        10.0,
-        TonePolarity.nearer,
-        false,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: errorContainer(),
+        roleB: error(),
+        delta: 10.0,
+        polarity: TonePolarity.relativeLighter,
+        stayTogether: false,
+        constraint: DeltaConstraint.nearer,
       ),
     );
   }
@@ -694,12 +701,12 @@ class ColorSpec2021 implements ColorSpec {
       isBackground: true,
       background: highestSurface,
       contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair.withStayTogether(
-        primaryFixed(),
-        primaryFixedDim(),
-        10.0,
-        TonePolarity.lighter,
-        true,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: primaryFixed(),
+        roleB: primaryFixedDim(),
+        delta: 10.0,
+        polarity: TonePolarity.lighter,
+        stayTogether: true,
       ),
     );
   }
@@ -713,12 +720,12 @@ class ColorSpec2021 implements ColorSpec {
       isBackground: true,
       background: highestSurface,
       contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair.withStayTogether(
-        primaryFixed(),
-        primaryFixedDim(),
-        10.0,
-        TonePolarity.lighter,
-        true,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: primaryFixed(),
+        roleB: primaryFixedDim(),
+        delta: 10.0,
+        polarity: TonePolarity.lighter,
+        stayTogether: true,
       ),
     );
   }
@@ -756,12 +763,12 @@ class ColorSpec2021 implements ColorSpec {
       isBackground: true,
       background: highestSurface,
       contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair.withStayTogether(
-        secondaryFixed(),
-        secondaryFixedDim(),
-        10.0,
-        TonePolarity.lighter,
-        true,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: secondaryFixed(),
+        roleB: secondaryFixedDim(),
+        delta: 10.0,
+        polarity: TonePolarity.lighter,
+        stayTogether: true,
       ),
     );
   }
@@ -775,12 +782,12 @@ class ColorSpec2021 implements ColorSpec {
       isBackground: true,
       background: highestSurface,
       contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair.withStayTogether(
-        secondaryFixed(),
-        secondaryFixedDim(),
-        10.0,
-        TonePolarity.lighter,
-        true,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: secondaryFixed(),
+        roleB: secondaryFixedDim(),
+        delta: 10.0,
+        polarity: TonePolarity.lighter,
+        stayTogether: true,
       ),
     );
   }
@@ -818,12 +825,12 @@ class ColorSpec2021 implements ColorSpec {
       isBackground: true,
       background: highestSurface,
       contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair.withStayTogether(
-        tertiaryFixed(),
-        tertiaryFixedDim(),
-        10.0,
-        TonePolarity.lighter,
-        true,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: tertiaryFixed(),
+        roleB: tertiaryFixedDim(),
+        delta: 10.0,
+        polarity: TonePolarity.lighter,
+        stayTogether: true,
       ),
     );
   }
@@ -837,12 +844,12 @@ class ColorSpec2021 implements ColorSpec {
       isBackground: true,
       background: highestSurface,
       contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair.withStayTogether(
-        tertiaryFixed(),
-        tertiaryFixedDim(),
-        10.0,
-        TonePolarity.lighter,
-        true,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: tertiaryFixed(),
+        roleB: tertiaryFixedDim(),
+        delta: 10.0,
+        polarity: TonePolarity.lighter,
+        stayTogether: true,
       ),
     );
   }
@@ -872,80 +879,6 @@ class ColorSpec2021 implements ColorSpec {
   }
 
   @override
-  DynamicColor controlActivated() {
-    return DynamicColor.fromPalette(
-      name: "control_activated",
-      palette: (s) => s.primaryPalette,
-      tone: (s) => s.isDark ? 30.0 : 90.0,
-      isBackground: true,
-    );
-  }
-
-  @override
-  DynamicColor controlNormal() {
-    return DynamicColor.fromPalette(
-      name: "control_normal",
-      palette: (s) => s.neutralVariantPalette,
-      tone: (s) => s.isDark ? 80.0 : 30.0,
-    );
-  }
-
-  @override
-  DynamicColor controlHighlight() {
-    return DynamicColor.fromPalette(
-      name: "control_highlight",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark ? 100.0 : 0.0,
-      opacity: (s) => s.isDark ? 0.20 : 0.12,
-    );
-  }
-
-  @override
-  DynamicColor textPrimaryInverse() {
-    return DynamicColor.fromPalette(
-      name: "text_primary_inverse",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark ? 10.0 : 90.0,
-    );
-  }
-
-  @override
-  DynamicColor textSecondaryAndTertiaryInverse() {
-    return DynamicColor.fromPalette(
-      name: "text_secondary_and_tertiary_inverse",
-      palette: (s) => s.neutralVariantPalette,
-      tone: (s) => s.isDark ? 30.0 : 80.0,
-    );
-  }
-
-  @override
-  DynamicColor textPrimaryInverseDisableOnly() {
-    return DynamicColor.fromPalette(
-      name: "text_primary_inverse_disable_only",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark ? 10.0 : 90.0,
-    );
-  }
-
-  @override
-  DynamicColor textSecondaryAndTertiaryInverseDisabled() {
-    return DynamicColor.fromPalette(
-      name: "text_secondary_and_tertiary_inverse_disabled",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark ? 10.0 : 90.0,
-    );
-  }
-
-  @override
-  DynamicColor textHintInverse() {
-    return DynamicColor.fromPalette(
-      name: "text_hint_inverse",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark ? 10.0 : 90.0,
-    );
-  }
-
-  @override
   DynamicColor highestSurface(DynamicScheme s) {
     return s.isDark ? surfaceBright() : surfaceDim();
   }
@@ -970,7 +903,7 @@ class ColorSpec2021 implements ColorSpec {
       final stayTogether = toneDeltaPair.stayTogether;
 
       final aIsNearer =
-          (polarity == TonePolarity.nearer ||
+          (toneDeltaPair.constraint == DeltaConstraint.nearer ||
           (polarity == TonePolarity.lighter && !scheme.isDark) ||
           (polarity == TonePolarity.darker && !scheme.isDark));
       final nearer = aIsNearer ? roleA : roleB;

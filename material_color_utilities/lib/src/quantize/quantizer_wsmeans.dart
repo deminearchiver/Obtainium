@@ -61,7 +61,7 @@ final class QuantizerWsmeans implements Quantizer {
     int additionalClustersNeeded = clusterCount - clustersCreated;
     if (additionalClustersNeeded > 0) {
       for (int i = 0; i < additionalClustersNeeded; i++) {
-        // TODO: implement (reference Java implementation missing)
+        // TODO: implement (Java and Kotlin implementation missing)
       }
     }
 
@@ -77,7 +77,7 @@ final class QuantizerWsmeans implements Quantizer {
 
     final List<List<_Distance>> distanceToIndexMatrix = List.generate(
       clusterCount,
-      (index) => List.generate(clusterCount, (index) => _Distance()),
+      (index) => List.generate(clusterCount, (_) => _Distance()),
     );
 
     List<int> pixelCountSums = [];
@@ -178,10 +178,10 @@ final class QuantizerWsmeans implements Quantizer {
 }
 
 class _Distance implements Comparable<_Distance> {
-  _Distance({this.index = -1, this.distance = -1.0});
+  _Distance();
 
-  int index;
-  double distance;
+  int index = -1;
+  double distance = -1.0;
 
   @override
   int compareTo(_Distance other) {

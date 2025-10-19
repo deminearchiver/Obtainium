@@ -1,3 +1,4 @@
+/// Themes for Dynamic Color.
 enum Variant {
   monochrome,
   neutral,

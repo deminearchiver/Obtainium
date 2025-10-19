@@ -1,3 +1,4 @@
+/// An interface to allow use of different color spaces by quantizers.
 abstract interface class PointProvider {
   /// The four components in the color space of an sRGB color.
   List<double> fromInt(int argb);

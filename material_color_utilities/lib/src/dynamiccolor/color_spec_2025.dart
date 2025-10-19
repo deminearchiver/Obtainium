@@ -10,7 +10,6 @@ import 'contrast_curve.dart';
 import 'dynamic_color.dart';
 import 'dynamic_scheme.dart';
 import 'tone_delta_pair.dart';
-import 'tone_polarity.dart';
 import 'variant.dart';
 
 class ColorSpec2025 extends ColorSpec2021 {
@@ -691,12 +690,12 @@ class ColorSpec2025 extends ColorSpec2021 {
           ? _getContrastCurve(4.5)
           : _getContrastCurve(7),
       toneDeltaPair: (s) => s.platform == Platform.phone
-          ? ToneDeltaPair.withConstraint(
-              primaryContainer(),
-              primary(),
-              5.0,
-              TonePolarity.relativeLighter,
-              DeltaConstraint.farther,
+          ? ToneDeltaPair(
+              roleA: primaryContainer(),
+              roleB: primary(),
+              delta: 5.0,
+              polarity: TonePolarity.relativeLighter,
+              constraint: DeltaConstraint.farther,
             )
           : null,
     );
@@ -720,12 +719,12 @@ class ColorSpec2025 extends ColorSpec2021 {
       isBackground: true,
       background: (s) => surfaceContainerHigh(),
       contrastCurve: (s) => _getContrastCurve(4.5),
-      toneDeltaPair: (s) => ToneDeltaPair.withConstraint(
-        primaryDim(),
-        primary(),
-        5.0,
-        TonePolarity.darker,
-        DeltaConstraint.farther,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: primaryDim(),
+        roleB: primary(),
+        delta: 5.0,
+        polarity: TonePolarity.darker,
+        constraint: DeltaConstraint.farther,
       ),
     );
   }
@@ -786,12 +785,12 @@ class ColorSpec2025 extends ColorSpec2021 {
         }
       },
       toneDeltaPair: (s) => s.platform == Platform.watch
-          ? ToneDeltaPair.withConstraint(
-              primaryContainer(),
-              primaryDim(),
-              10.0,
-              TonePolarity.darker,
-              DeltaConstraint.farther,
+          ? ToneDeltaPair(
+              roleA: primaryContainer(),
+              roleB: primaryDim(),
+              delta: 10.0,
+              polarity: TonePolarity.darker,
+              constraint: DeltaConstraint.farther,
             )
           : null,
       contrastCurve: (s) => s.platform == Platform.phone && s.contrastLevel > 0
@@ -870,12 +869,12 @@ class ColorSpec2025 extends ColorSpec2021 {
           ? _getContrastCurve(4.5)
           : _getContrastCurve(7),
       toneDeltaPair: (s) => s.platform == Platform.phone
-          ? ToneDeltaPair.withConstraint(
-              secondaryContainer(),
-              secondary(),
-              5.0,
-              TonePolarity.relativeLighter,
-              DeltaConstraint.farther,
+          ? ToneDeltaPair(
+              roleA: secondaryContainer(),
+              roleB: secondary(),
+              delta: 5.0,
+              polarity: TonePolarity.relativeLighter,
+              constraint: DeltaConstraint.farther,
             )
           : null,
     );
@@ -897,12 +896,12 @@ class ColorSpec2025 extends ColorSpec2021 {
       isBackground: true,
       background: (s) => surfaceContainerHigh(),
       contrastCurve: (s) => _getContrastCurve(4.5),
-      toneDeltaPair: (s) => ToneDeltaPair.withConstraint(
-        secondaryDim(),
-        secondary(),
-        5.0,
-        TonePolarity.darker,
-        DeltaConstraint.farther,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: secondaryDim(),
+        roleB: secondary(),
+        delta: 5.0,
+        polarity: TonePolarity.darker,
+        constraint: DeltaConstraint.farther,
       ),
     );
   }
@@ -951,12 +950,12 @@ class ColorSpec2025 extends ColorSpec2021 {
         }
       },
       toneDeltaPair: (s) => s.platform == Platform.watch
-          ? ToneDeltaPair.withConstraint(
-              secondaryContainer(),
-              secondaryDim(),
-              10.0,
-              TonePolarity.darker,
-              DeltaConstraint.farther,
+          ? ToneDeltaPair(
+              roleA: secondaryContainer(),
+              roleB: secondaryDim(),
+              delta: 10.0,
+              polarity: TonePolarity.darker,
+              constraint: DeltaConstraint.farther,
             )
           : null,
     );
@@ -1020,12 +1019,12 @@ class ColorSpec2025 extends ColorSpec2021 {
           ? _getContrastCurve(4.5)
           : _getContrastCurve(7),
       toneDeltaPair: (s) => s.platform == Platform.phone
-          ? ToneDeltaPair.withConstraint(
-              tertiaryContainer(),
-              tertiary(),
-              5.0,
-              TonePolarity.relativeLighter,
-              DeltaConstraint.farther,
+          ? ToneDeltaPair(
+              roleA: tertiaryContainer(),
+              roleB: tertiary(),
+              delta: 5.0,
+              polarity: TonePolarity.relativeLighter,
+              constraint: DeltaConstraint.farther,
             )
           : null,
     );
@@ -1047,12 +1046,12 @@ class ColorSpec2025 extends ColorSpec2021 {
       isBackground: true,
       background: (s) => surfaceContainerHigh(),
       contrastCurve: (s) => _getContrastCurve(4.5),
-      toneDeltaPair: (s) => ToneDeltaPair.withConstraint(
-        tertiaryDim(),
-        tertiary(),
-        5.0,
-        TonePolarity.darker,
-        DeltaConstraint.farther,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: tertiaryDim(),
+        roleB: tertiary(),
+        delta: 5.0,
+        polarity: TonePolarity.darker,
+        constraint: DeltaConstraint.farther,
       ),
     );
   }
@@ -1116,12 +1115,12 @@ class ColorSpec2025 extends ColorSpec2021 {
         }
       },
       toneDeltaPair: (s) => s.platform == Platform.watch
-          ? ToneDeltaPair.withConstraint(
-              tertiaryContainer(),
-              tertiaryDim(),
-              10.0,
-              TonePolarity.darker,
-              DeltaConstraint.farther,
+          ? ToneDeltaPair(
+              roleA: tertiaryContainer(),
+              roleB: tertiaryDim(),
+              delta: 10.0,
+              polarity: TonePolarity.darker,
+              constraint: DeltaConstraint.farther,
             )
           : null,
       contrastCurve: (s) => s.platform == Platform.phone && s.contrastLevel > 0
@@ -1176,12 +1175,12 @@ class ColorSpec2025 extends ColorSpec2021 {
           ? _getContrastCurve(4.5)
           : _getContrastCurve(7),
       toneDeltaPair: (s) => s.platform == Platform.phone
-          ? ToneDeltaPair.withConstraint(
-              errorContainer(),
-              error(),
-              5.0,
-              TonePolarity.relativeLighter,
-              DeltaConstraint.farther,
+          ? ToneDeltaPair(
+              roleA: errorContainer(),
+              roleB: error(),
+              delta: 5.0,
+              polarity: TonePolarity.relativeLighter,
+              constraint: DeltaConstraint.farther,
             )
           : null,
     );
@@ -1197,12 +1196,12 @@ class ColorSpec2025 extends ColorSpec2021 {
       isBackground: true,
       background: (s) => surfaceContainerHigh(),
       contrastCurve: (s) => _getContrastCurve(4.5),
-      toneDeltaPair: (s) => ToneDeltaPair.withConstraint(
-        errorDim(),
-        error(),
-        5.0,
-        TonePolarity.darker,
-        DeltaConstraint.farther,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: errorDim(),
+        roleB: error(),
+        delta: 5.0,
+        polarity: TonePolarity.darker,
+        constraint: DeltaConstraint.farther,
       ),
     );
   }
@@ -1243,12 +1242,12 @@ class ColorSpec2025 extends ColorSpec2021 {
         }
       },
       toneDeltaPair: (s) => s.platform == Platform.watch
-          ? ToneDeltaPair.withConstraint(
-              errorContainer(),
-              errorDim(),
-              10.0,
-              TonePolarity.darker,
-              DeltaConstraint.farther,
+          ? ToneDeltaPair(
+              roleA: errorContainer(),
+              roleB: errorDim(),
+              delta: 10.0,
+              polarity: TonePolarity.darker,
+              constraint: DeltaConstraint.farther,
             )
           : null,
       contrastCurve: (s) => s.platform == Platform.phone && s.contrastLevel > 0
@@ -1312,12 +1311,12 @@ class ColorSpec2025 extends ColorSpec2021 {
       palette: (s) => s.primaryPalette,
       tone: (s) => primaryFixed().getTone(s),
       isBackground: true,
-      toneDeltaPair: (s) => ToneDeltaPair.withConstraint(
-        primaryFixedDim(),
-        primaryFixed(),
-        5.0,
-        TonePolarity.darker,
-        DeltaConstraint.exact,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: primaryFixedDim(),
+        roleB: primaryFixed(),
+        delta: 5.0,
+        polarity: TonePolarity.darker,
+        constraint: DeltaConstraint.exact,
       ),
     );
     return super.primaryFixedDim().extendSpecVersion(
@@ -1389,12 +1388,12 @@ class ColorSpec2025 extends ColorSpec2021 {
       palette: (s) => s.secondaryPalette,
       tone: (s) => secondaryFixed().getTone(s),
       isBackground: true,
-      toneDeltaPair: (s) => ToneDeltaPair.withConstraint(
-        secondaryFixedDim(),
-        secondaryFixed(),
-        5.0,
-        TonePolarity.darker,
-        DeltaConstraint.exact,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: secondaryFixedDim(),
+        roleB: secondaryFixed(),
+        delta: 5.0,
+        polarity: TonePolarity.darker,
+        constraint: DeltaConstraint.exact,
       ),
     );
     return super.secondaryFixedDim().extendSpecVersion(
@@ -1466,12 +1465,12 @@ class ColorSpec2025 extends ColorSpec2021 {
       palette: (s) => s.secondaryPalette,
       tone: (s) => tertiaryFixed().getTone(s),
       isBackground: true,
-      toneDeltaPair: (s) => ToneDeltaPair.withConstraint(
-        tertiaryFixedDim(),
-        tertiaryFixed(),
-        5.0,
-        TonePolarity.darker,
-        DeltaConstraint.exact,
+      toneDeltaPair: (s) => ToneDeltaPair(
+        roleA: tertiaryFixedDim(),
+        roleB: tertiaryFixed(),
+        delta: 5.0,
+        polarity: TonePolarity.darker,
+        constraint: DeltaConstraint.exact,
       ),
     );
     return super.tertiaryFixedDim().extendSpecVersion(
@@ -1503,33 +1502,6 @@ class ColorSpec2025 extends ColorSpec2021 {
       contrastCurve: (s) => _getContrastCurve(4.5),
     );
     return super.onTertiaryFixedVariant().extendSpecVersion(
-      SpecVersion.spec2025,
-      color2025,
-    );
-  }
-
-  @override
-  DynamicColor controlActivated() {
-    final color2025 = primaryContainer().copyWith(name: "control_activated");
-    return super.controlActivated().extendSpecVersion(
-      SpecVersion.spec2025,
-      color2025,
-    );
-  }
-
-  @override
-  DynamicColor controlNormal() {
-    final color2025 = onSurfaceVariant().copyWith(name: "control_normal");
-    return super.controlNormal().extendSpecVersion(
-      SpecVersion.spec2025,
-      color2025,
-    );
-  }
-
-  @override
-  DynamicColor textPrimaryInverse() {
-    final color2025 = inverseOnSurface().copyWith(name: "text_primary_inverse");
-    return super.textPrimaryInverse().extendSpecVersion(
       SpecVersion.spec2025,
       color2025,
     );

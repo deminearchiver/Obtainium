@@ -284,80 +284,6 @@ final class MaterialDynamicColors {
   }
 
   ////////////////////////////////////////////////////////////////
-  // Android-only colors                                        //
-  ////////////////////////////////////////////////////////////////
-
-  // These colors were present in Android framework before Android U, and used by MDC controls. They
-  // should be avoided, if possible. It's unclear if they're used on multiple backgrounds, and if
-  // they are, they can't be adjusted for contrast.* For now, they will be set with no background,
-  // and those won't adjust for contrast, avoiding issues.
-  //
-  // <p>* For example, if the same color is on a white background _and_ black background, there's no
-  // way to increase contrast with either without losing contrast with the other.
-
-  // colorControlActivated documented as colorAccent in M3 & GM3.
-  // colorAccent documented as colorSecondary in M3 and colorPrimary in GM3.
-  // Android used Material's Container as Primary/Secondary/Tertiary at launch.
-  // Therefore, this is a duplicated version of Primary Container.
-
-  DynamicColor controlActivated() {
-    return _colorSpec.controlActivated();
-  }
-
-  // colorControlNormal documented as textColorSecondary in M3 & GM3.
-  // In Material, textColorSecondary points to onSurfaceVariant in the non-disabled state,
-  // which is Neutral Variant T30/80 in light/dark.
-
-  DynamicColor controlNormal() {
-    return _colorSpec.controlNormal();
-  }
-
-  // colorControlHighlight documented, in both M3 & GM3:
-  // Light mode: #1f000000 dark mode: #33ffffff.
-  // These are black and white with some alpha.
-  // 1F hex = 31 decimal; 31 / 255 = 12% alpha.
-  // 33 hex = 51 decimal; 51 / 255 = 20% alpha.
-  // DynamicColors do not support alpha currently, and _may_ not need it for this use case,
-  // depending on how MDC resolved alpha for the other cases.
-  // Returning black in dark mode, white in light mode.
-
-  DynamicColor controlHighlight() {
-    return _colorSpec.controlHighlight();
-  }
-
-  // textColorPrimaryInverse documented, in both M3 & GM3, documented as N10/N90.
-
-  DynamicColor textPrimaryInverse() {
-    return _colorSpec.textPrimaryInverse();
-  }
-
-  // textColorSecondaryInverse and textColorTertiaryInverse both documented, in both M3 & GM3, as
-  // NV30/NV80
-
-  DynamicColor textSecondaryAndTertiaryInverse() {
-    return _colorSpec.textSecondaryAndTertiaryInverse();
-  }
-
-  // textColorPrimaryInverseDisableOnly documented, in both M3 & GM3, as N10/N90
-
-  DynamicColor textPrimaryInverseDisableOnly() {
-    return _colorSpec.textPrimaryInverseDisableOnly();
-  }
-
-  // textColorSecondaryInverse and textColorTertiaryInverse in disabled state both documented,
-  // in both M3 & GM3, as N10/N90
-
-  DynamicColor textSecondaryAndTertiaryInverseDisabled() {
-    return _colorSpec.textSecondaryAndTertiaryInverseDisabled();
-  }
-
-  // textColorHintInverse documented, in both M3 & GM3, as N10/N90
-
-  DynamicColor textHintInverse() {
-    return _colorSpec.textHintInverse();
-  }
-
-  ////////////////////////////////////////////////////////////////
   // All Colors                                                 //
   ////////////////////////////////////////////////////////////////
 
@@ -422,13 +348,5 @@ final class MaterialDynamicColors {
     onError(),
     errorContainer(),
     onErrorContainer(),
-    controlActivated(),
-    controlNormal(),
-    controlHighlight(),
-    textPrimaryInverse(),
-    textSecondaryAndTertiaryInverse(),
-    textPrimaryInverseDisableOnly(),
-    textSecondaryAndTertiaryInverseDisabled(),
-    textHintInverse(),
   ];
 }

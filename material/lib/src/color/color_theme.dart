@@ -102,14 +102,6 @@ abstract class ColorThemeDataPartial with Diagnosticable {
     Color? onError,
     Color? errorContainer,
     Color? onErrorContainer,
-    Color? controlActivated,
-    Color? controlNormal,
-    Color? controlHighlight,
-    Color? textPrimaryInverse,
-    Color? textSecondaryAndTertiaryInverse,
-    Color? textPrimaryInverseDisableOnly,
-    Color? textSecondaryAndTertiaryInverseDisabled,
-    Color? textHintInverse,
   }) = _ColorThemeDataPartial;
 
   const factory ColorThemeDataPartial.fromLegacy(
@@ -176,14 +168,6 @@ abstract class ColorThemeDataPartial with Diagnosticable {
   Color? get onError;
   Color? get errorContainer;
   Color? get onErrorContainer;
-  Color? get controlActivated;
-  Color? get controlNormal;
-  Color? get controlHighlight;
-  Color? get textPrimaryInverse;
-  Color? get textSecondaryAndTertiaryInverse;
-  Color? get textPrimaryInverseDisableOnly;
-  Color? get textSecondaryAndTertiaryInverseDisabled;
-  Color? get textHintInverse;
 
   ColorThemeDataPartial copyWith({
     Brightness? brightness,
@@ -246,14 +230,6 @@ abstract class ColorThemeDataPartial with Diagnosticable {
     Color? onError,
     Color? errorContainer,
     Color? onErrorContainer,
-    Color? controlActivated,
-    Color? controlNormal,
-    Color? controlHighlight,
-    Color? textPrimaryInverse,
-    Color? textSecondaryAndTertiaryInverse,
-    Color? textPrimaryInverseDisableOnly,
-    Color? textSecondaryAndTertiaryInverseDisabled,
-    Color? textHintInverse,
   }) {
     if (brightness == null &&
         primaryPaletteKeyColor == null &&
@@ -314,15 +290,7 @@ abstract class ColorThemeDataPartial with Diagnosticable {
         errorDim == null &&
         onError == null &&
         errorContainer == null &&
-        onErrorContainer == null &&
-        controlActivated == null &&
-        controlNormal == null &&
-        controlHighlight == null &&
-        textPrimaryInverse == null &&
-        textSecondaryAndTertiaryInverse == null &&
-        textPrimaryInverseDisableOnly == null &&
-        textSecondaryAndTertiaryInverseDisabled == null &&
-        textHintInverse == null) {
+        onErrorContainer == null) {
       return this;
     }
     return ColorThemeDataPartial.from(
@@ -396,19 +364,6 @@ abstract class ColorThemeDataPartial with Diagnosticable {
       onError: onError ?? this.onError,
       errorContainer: errorContainer ?? this.errorContainer,
       onErrorContainer: onErrorContainer ?? this.onErrorContainer,
-      controlActivated: controlActivated ?? this.controlActivated,
-      controlNormal: controlNormal ?? this.controlNormal,
-      controlHighlight: controlHighlight ?? this.controlHighlight,
-      textPrimaryInverse: textPrimaryInverse ?? this.textPrimaryInverse,
-      textSecondaryAndTertiaryInverse:
-          textSecondaryAndTertiaryInverse ??
-          this.textSecondaryAndTertiaryInverse,
-      textPrimaryInverseDisableOnly:
-          textPrimaryInverseDisableOnly ?? this.textPrimaryInverseDisableOnly,
-      textSecondaryAndTertiaryInverseDisabled:
-          textSecondaryAndTertiaryInverseDisabled ??
-          this.textSecondaryAndTertiaryInverseDisabled,
-      textHintInverse: textHintInverse ?? this.textHintInverse,
     );
   }
 
@@ -475,15 +430,6 @@ abstract class ColorThemeDataPartial with Diagnosticable {
       onError: other.onError,
       errorContainer: other.errorContainer,
       onErrorContainer: other.onErrorContainer,
-      controlActivated: other.controlActivated,
-      controlNormal: other.controlNormal,
-      controlHighlight: other.controlHighlight,
-      textPrimaryInverse: other.textPrimaryInverse,
-      textSecondaryAndTertiaryInverse: other.textSecondaryAndTertiaryInverse,
-      textPrimaryInverseDisableOnly: other.textPrimaryInverseDisableOnly,
-      textSecondaryAndTertiaryInverseDisabled:
-          other.textSecondaryAndTertiaryInverseDisabled,
-      textHintInverse: other.textHintInverse,
     );
   }
 
@@ -706,46 +652,6 @@ abstract class ColorThemeDataPartial with Diagnosticable {
     properties.add(
       ColorProperty("onErrorContainer", onErrorContainer, defaultValue: null),
     );
-    properties.add(
-      ColorProperty("controlActivated", controlActivated, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("controlNormal", controlNormal, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("controlHighlight", controlHighlight, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty(
-        "textPrimaryInverse",
-        textPrimaryInverse,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      ColorProperty(
-        "textSecondaryAndTertiaryInverse",
-        textSecondaryAndTertiaryInverse,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      ColorProperty(
-        "textPrimaryInverseDisableOnly",
-        textPrimaryInverseDisableOnly,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      ColorProperty(
-        "textSecondaryAndTertiaryInverseDisabled",
-        textSecondaryAndTertiaryInverseDisabled,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      ColorProperty("textHintInverse", textHintInverse, defaultValue: null),
-    );
   }
 
   @override
@@ -813,18 +719,7 @@ abstract class ColorThemeDataPartial with Diagnosticable {
             errorDim == other.errorDim &&
             onError == other.onError &&
             errorContainer == other.errorContainer &&
-            onErrorContainer == other.onErrorContainer &&
-            controlActivated == other.controlActivated &&
-            controlNormal == other.controlNormal &&
-            controlHighlight == other.controlHighlight &&
-            textPrimaryInverse == other.textPrimaryInverse &&
-            textSecondaryAndTertiaryInverse ==
-                other.textSecondaryAndTertiaryInverse &&
-            textPrimaryInverseDisableOnly ==
-                other.textPrimaryInverseDisableOnly &&
-            textSecondaryAndTertiaryInverseDisabled ==
-                other.textSecondaryAndTertiaryInverseDisabled &&
-            textHintInverse == other.textHintInverse;
+            onErrorContainer == other.onErrorContainer;
   }
 
   @override
@@ -888,20 +783,7 @@ abstract class ColorThemeDataPartial with Diagnosticable {
         onTertiaryFixed,
         onTertiaryFixedVariant,
         error,
-        Object.hash(
-          errorDim,
-          onError,
-          errorContainer,
-          onErrorContainer,
-          controlActivated,
-          controlNormal,
-          controlHighlight,
-          textPrimaryInverse,
-          textSecondaryAndTertiaryInverse,
-          textPrimaryInverseDisableOnly,
-          textSecondaryAndTertiaryInverseDisabled,
-          textHintInverse,
-        ),
+        Object.hash(errorDim, onError, errorContainer, onErrorContainer),
       ),
     ),
   );
@@ -970,14 +852,6 @@ class _ColorThemeDataPartial extends ColorThemeDataPartial {
     this.onError,
     this.errorContainer,
     this.onErrorContainer,
-    this.controlActivated,
-    this.controlNormal,
-    this.controlHighlight,
-    this.textPrimaryInverse,
-    this.textSecondaryAndTertiaryInverse,
-    this.textPrimaryInverseDisableOnly,
-    this.textSecondaryAndTertiaryInverseDisabled,
-    this.textHintInverse,
   });
 
   @override
@@ -1159,30 +1033,6 @@ class _ColorThemeDataPartial extends ColorThemeDataPartial {
 
   @override
   final Color? onErrorContainer;
-
-  @override
-  final Color? controlActivated;
-
-  @override
-  final Color? controlNormal;
-
-  @override
-  final Color? controlHighlight;
-
-  @override
-  final Color? textPrimaryInverse;
-
-  @override
-  final Color? textSecondaryAndTertiaryInverse;
-
-  @override
-  final Color? textPrimaryInverseDisableOnly;
-
-  @override
-  final Color? textSecondaryAndTertiaryInverseDisabled;
-
-  @override
-  final Color? textHintInverse;
 }
 
 @immutable
@@ -1249,14 +1099,6 @@ class _ColorThemeDataPartialFromLegacy extends ColorThemeDataPartial {
     Color? onError,
     Color? errorContainer,
     Color? onErrorContainer,
-    Color? controlActivated,
-    Color? controlNormal,
-    Color? controlHighlight,
-    Color? textPrimaryInverse,
-    Color? textSecondaryAndTertiaryInverse,
-    Color? textPrimaryInverseDisableOnly,
-    Color? textSecondaryAndTertiaryInverseDisabled,
-    Color? textHintInverse,
   }) : _colorScheme = colorScheme,
        _brightness = brightness,
        _primaryPaletteKeyColor = primaryPaletteKeyColor,
@@ -1317,16 +1159,7 @@ class _ColorThemeDataPartialFromLegacy extends ColorThemeDataPartial {
        _errorDim = errorDim,
        _onError = onError,
        _errorContainer = errorContainer,
-       _onErrorContainer = onErrorContainer,
-       _controlActivated = controlActivated,
-       _controlNormal = controlNormal,
-       _controlHighlight = controlHighlight,
-       _textPrimaryInverse = textPrimaryInverse,
-       _textSecondaryAndTertiaryInverse = textSecondaryAndTertiaryInverse,
-       _textPrimaryInverseDisableOnly = textPrimaryInverseDisableOnly,
-       _textSecondaryAndTertiaryInverseDisabled =
-           textSecondaryAndTertiaryInverseDisabled,
-       _textHintInverse = textHintInverse;
+       _onErrorContainer = onErrorContainer;
 
   final ColorSchemeLegacy _colorScheme;
 
@@ -1390,14 +1223,6 @@ class _ColorThemeDataPartialFromLegacy extends ColorThemeDataPartial {
   final Color? _onError;
   final Color? _errorContainer;
   final Color? _onErrorContainer;
-  final Color? _controlActivated;
-  final Color? _controlNormal;
-  final Color? _controlHighlight;
-  final Color? _textPrimaryInverse;
-  final Color? _textSecondaryAndTertiaryInverse;
-  final Color? _textPrimaryInverseDisableOnly;
-  final Color? _textSecondaryAndTertiaryInverseDisabled;
-  final Color? _textHintInverse;
 
   @override
   Brightness? get brightness => _brightness ?? _colorScheme.brightness;
@@ -1605,32 +1430,6 @@ class _ColorThemeDataPartialFromLegacy extends ColorThemeDataPartial {
       _onErrorContainer ?? _colorScheme.onErrorContainer;
 
   @override
-  Color? get controlActivated => _controlActivated;
-
-  @override
-  Color? get controlNormal => _controlNormal;
-
-  @override
-  Color? get controlHighlight => _controlHighlight;
-
-  @override
-  Color? get textPrimaryInverse => _textPrimaryInverse;
-
-  @override
-  Color? get textSecondaryAndTertiaryInverse =>
-      _textSecondaryAndTertiaryInverse;
-
-  @override
-  Color? get textPrimaryInverseDisableOnly => _textPrimaryInverseDisableOnly;
-
-  @override
-  Color? get textSecondaryAndTertiaryInverseDisabled =>
-      _textSecondaryAndTertiaryInverseDisabled;
-
-  @override
-  Color? get textHintInverse => _textHintInverse;
-
-  @override
   ColorThemeDataPartial copyWith({
     Brightness? brightness,
     Color? primaryPaletteKeyColor,
@@ -1692,14 +1491,6 @@ class _ColorThemeDataPartialFromLegacy extends ColorThemeDataPartial {
     Color? onError,
     Color? errorContainer,
     Color? onErrorContainer,
-    Color? controlActivated,
-    Color? controlNormal,
-    Color? controlHighlight,
-    Color? textPrimaryInverse,
-    Color? textSecondaryAndTertiaryInverse,
-    Color? textPrimaryInverseDisableOnly,
-    Color? textSecondaryAndTertiaryInverseDisabled,
-    Color? textHintInverse,
   }) {
     if (brightness == null &&
         primaryPaletteKeyColor == null &&
@@ -1760,15 +1551,7 @@ class _ColorThemeDataPartialFromLegacy extends ColorThemeDataPartial {
         errorDim == null &&
         onError == null &&
         errorContainer == null &&
-        onErrorContainer == null &&
-        controlActivated == null &&
-        controlNormal == null &&
-        controlHighlight == null &&
-        textPrimaryInverse == null &&
-        textSecondaryAndTertiaryInverse == null &&
-        textPrimaryInverseDisableOnly == null &&
-        textSecondaryAndTertiaryInverseDisabled == null &&
-        textHintInverse == null) {
+        onErrorContainer == null) {
       return this;
     }
     if (brightness != null &&
@@ -1830,15 +1613,7 @@ class _ColorThemeDataPartialFromLegacy extends ColorThemeDataPartial {
         errorDim != null &&
         onError != null &&
         errorContainer != null &&
-        onErrorContainer != null &&
-        controlActivated != null &&
-        controlNormal != null &&
-        controlHighlight != null &&
-        textPrimaryInverse != null &&
-        textSecondaryAndTertiaryInverse != null &&
-        textPrimaryInverseDisableOnly != null &&
-        textSecondaryAndTertiaryInverseDisabled != null &&
-        textHintInverse != null) {
+        onErrorContainer != null) {
       return ColorThemeData.from(
         brightness: brightness,
         primaryPaletteKeyColor: primaryPaletteKeyColor,
@@ -1900,15 +1675,6 @@ class _ColorThemeDataPartialFromLegacy extends ColorThemeDataPartial {
         onError: onError,
         errorContainer: errorContainer,
         onErrorContainer: onErrorContainer,
-        controlActivated: controlActivated,
-        controlNormal: controlNormal,
-        controlHighlight: controlHighlight,
-        textPrimaryInverse: textPrimaryInverse,
-        textSecondaryAndTertiaryInverse: textSecondaryAndTertiaryInverse,
-        textPrimaryInverseDisableOnly: textPrimaryInverseDisableOnly,
-        textSecondaryAndTertiaryInverseDisabled:
-            textSecondaryAndTertiaryInverseDisabled,
-        textHintInverse: textHintInverse,
       );
     }
     return _ColorThemeDataPartialFromLegacy(
@@ -1973,15 +1739,6 @@ class _ColorThemeDataPartialFromLegacy extends ColorThemeDataPartial {
       onError: onError,
       errorContainer: errorContainer,
       onErrorContainer: onErrorContainer,
-      controlActivated: controlActivated,
-      controlNormal: controlNormal,
-      controlHighlight: controlHighlight,
-      textPrimaryInverse: textPrimaryInverse,
-      textSecondaryAndTertiaryInverse: textSecondaryAndTertiaryInverse,
-      textPrimaryInverseDisableOnly: textPrimaryInverseDisableOnly,
-      textSecondaryAndTertiaryInverseDisabled:
-          textSecondaryAndTertiaryInverseDisabled,
-      textHintInverse: textHintInverse,
     );
   }
 
@@ -2223,46 +1980,6 @@ class _ColorThemeDataPartialFromLegacy extends ColorThemeDataPartial {
     properties.add(
       ColorProperty("onErrorContainer", _onErrorContainer, defaultValue: null),
     );
-    properties.add(
-      ColorProperty("controlActivated", _controlActivated, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("controlNormal", _controlNormal, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("controlHighlight", _controlHighlight, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty(
-        "textPrimaryInverse",
-        _textPrimaryInverse,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      ColorProperty(
-        "textSecondaryAndTertiaryInverse",
-        _textSecondaryAndTertiaryInverse,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      ColorProperty(
-        "textPrimaryInverseDisableOnly",
-        _textPrimaryInverseDisableOnly,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      ColorProperty(
-        "textSecondaryAndTertiaryInverseDisabled",
-        _textSecondaryAndTertiaryInverseDisabled,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      ColorProperty("textHintInverse", _textHintInverse, defaultValue: null),
-    );
   }
 
   @override
@@ -2331,18 +2048,7 @@ class _ColorThemeDataPartialFromLegacy extends ColorThemeDataPartial {
             _errorDim == other._errorDim &&
             _onError == other._onError &&
             _errorContainer == other._errorContainer &&
-            _onErrorContainer == other._onErrorContainer &&
-            _controlActivated == other._controlActivated &&
-            _controlNormal == other._controlNormal &&
-            _controlHighlight == other._controlHighlight &&
-            _textPrimaryInverse == other._textPrimaryInverse &&
-            _textSecondaryAndTertiaryInverse ==
-                other._textSecondaryAndTertiaryInverse &&
-            _textPrimaryInverseDisableOnly ==
-                other._textPrimaryInverseDisableOnly &&
-            _textSecondaryAndTertiaryInverseDisabled ==
-                other._textSecondaryAndTertiaryInverseDisabled &&
-            _textHintInverse == other._textHintInverse;
+            _onErrorContainer == other._onErrorContainer;
   }
 
   @override
@@ -2412,14 +2118,6 @@ class _ColorThemeDataPartialFromLegacy extends ColorThemeDataPartial {
           _onError,
           _errorContainer,
           _onErrorContainer,
-          _controlActivated,
-          _controlNormal,
-          _controlHighlight,
-          _textPrimaryInverse,
-          _textSecondaryAndTertiaryInverse,
-          _textPrimaryInverseDisableOnly,
-          _textSecondaryAndTertiaryInverseDisabled,
-          _textHintInverse,
         ),
       ),
     ),
@@ -2491,92 +2189,73 @@ abstract class ColorThemeData extends ColorThemeDataPartial {
     required Color onError,
     required Color errorContainer,
     required Color onErrorContainer,
-    required Color controlActivated,
-    required Color controlNormal,
-    required Color controlHighlight,
-    required Color textPrimaryInverse,
-    required Color textSecondaryAndTertiaryInverse,
-    required Color textPrimaryInverseDisableOnly,
-    required Color textSecondaryAndTertiaryInverseDisabled,
-    required Color textHintInverse,
   }) = _ColorThemeData;
 
-  factory ColorThemeData.fromDynamicScheme(
-    DynamicScheme scheme,
-  ) => ColorThemeData.from(
-    brightness: scheme.isDark ? Brightness.dark : Brightness.light,
-    primaryPaletteKeyColor: Color(scheme.primaryPaletteKeyColor),
-    secondaryPaletteKeyColor: Color(scheme.secondaryPaletteKeyColor),
-    tertiaryPaletteKeyColor: Color(scheme.tertiaryPaletteKeyColor),
-    neutralPaletteKeyColor: Color(scheme.neutralPaletteKeyColor),
-    neutralVariantPaletteKeyColor: Color(scheme.neutralVariantPaletteKeyColor),
-    errorPaletteKeyColor: Color(scheme.errorPaletteKeyColor),
-    background: Color(scheme.background),
-    onBackground: Color(scheme.onBackground),
-    surface: Color(scheme.surface),
-    surfaceDim: Color(scheme.surfaceDim),
-    surfaceBright: Color(scheme.surfaceBright),
-    surfaceContainerLowest: Color(scheme.surfaceContainerLowest),
-    surfaceContainerLow: Color(scheme.surfaceContainerLow),
-    surfaceContainer: Color(scheme.surfaceContainer),
-    surfaceContainerHigh: Color(scheme.surfaceContainerHigh),
-    surfaceContainerHighest: Color(scheme.surfaceContainerHighest),
-    onSurface: Color(scheme.onSurface),
-    surfaceVariant: Color(scheme.surfaceVariant),
-    onSurfaceVariant: Color(scheme.onSurfaceVariant),
-    outline: Color(scheme.outline),
-    outlineVariant: Color(scheme.outlineVariant),
-    inverseSurface: Color(scheme.inverseSurface),
-    inverseOnSurface: Color(scheme.inverseOnSurface),
-    shadow: Color(scheme.shadow),
-    scrim: Color(scheme.scrim),
-    surfaceTint: Color(scheme.surfaceTint),
-    primary: Color(scheme.primary),
-    primaryDim: Color(scheme.primaryDim),
-    onPrimary: Color(scheme.onPrimary),
-    primaryContainer: Color(scheme.primaryContainer),
-    onPrimaryContainer: Color(scheme.onPrimaryContainer),
-    primaryFixed: Color(scheme.primaryFixed),
-    primaryFixedDim: Color(scheme.primaryFixedDim),
-    onPrimaryFixed: Color(scheme.onPrimaryFixed),
-    onPrimaryFixedVariant: Color(scheme.onPrimaryFixedVariant),
-    inversePrimary: Color(scheme.inversePrimary),
-    secondary: Color(scheme.secondary),
-    secondaryDim: Color(scheme.secondaryDim),
-    onSecondary: Color(scheme.onSecondary),
-    secondaryContainer: Color(scheme.secondaryContainer),
-    onSecondaryContainer: Color(scheme.onSecondaryContainer),
-    secondaryFixed: Color(scheme.secondaryFixed),
-    secondaryFixedDim: Color(scheme.secondaryFixedDim),
-    onSecondaryFixed: Color(scheme.onSecondaryFixed),
-    onSecondaryFixedVariant: Color(scheme.onSecondaryFixedVariant),
-    tertiary: Color(scheme.tertiary),
-    tertiaryDim: Color(scheme.tertiaryDim),
-    onTertiary: Color(scheme.onTertiary),
-    tertiaryContainer: Color(scheme.tertiaryContainer),
-    onTertiaryContainer: Color(scheme.onTertiaryContainer),
-    tertiaryFixed: Color(scheme.tertiaryFixed),
-    tertiaryFixedDim: Color(scheme.tertiaryFixedDim),
-    onTertiaryFixed: Color(scheme.onTertiaryFixed),
-    onTertiaryFixedVariant: Color(scheme.onTertiaryFixedVariant),
-    error: Color(scheme.error),
-    errorDim: Color(scheme.errorDim),
-    onError: Color(scheme.onError),
-    errorContainer: Color(scheme.errorContainer),
-    onErrorContainer: Color(scheme.onErrorContainer),
-    controlActivated: Color(scheme.controlActivated),
-    controlNormal: Color(scheme.controlNormal),
-    controlHighlight: Color(scheme.controlHighlight),
-    textPrimaryInverse: Color(scheme.textPrimaryInverse),
-    textSecondaryAndTertiaryInverse: Color(
-      scheme.textSecondaryAndTertiaryInverse,
-    ),
-    textPrimaryInverseDisableOnly: Color(scheme.textPrimaryInverseDisableOnly),
-    textSecondaryAndTertiaryInverseDisabled: Color(
-      scheme.textSecondaryAndTertiaryInverseDisabled,
-    ),
-    textHintInverse: Color(scheme.textHintInverse),
-  );
+  factory ColorThemeData.fromDynamicScheme(DynamicScheme scheme) =>
+      ColorThemeData.from(
+        brightness: scheme.isDark ? Brightness.dark : Brightness.light,
+        primaryPaletteKeyColor: Color(scheme.primaryPaletteKeyColor),
+        secondaryPaletteKeyColor: Color(scheme.secondaryPaletteKeyColor),
+        tertiaryPaletteKeyColor: Color(scheme.tertiaryPaletteKeyColor),
+        neutralPaletteKeyColor: Color(scheme.neutralPaletteKeyColor),
+        neutralVariantPaletteKeyColor: Color(
+          scheme.neutralVariantPaletteKeyColor,
+        ),
+        errorPaletteKeyColor: Color(scheme.errorPaletteKeyColor),
+        background: Color(scheme.background),
+        onBackground: Color(scheme.onBackground),
+        surface: Color(scheme.surface),
+        surfaceDim: Color(scheme.surfaceDim),
+        surfaceBright: Color(scheme.surfaceBright),
+        surfaceContainerLowest: Color(scheme.surfaceContainerLowest),
+        surfaceContainerLow: Color(scheme.surfaceContainerLow),
+        surfaceContainer: Color(scheme.surfaceContainer),
+        surfaceContainerHigh: Color(scheme.surfaceContainerHigh),
+        surfaceContainerHighest: Color(scheme.surfaceContainerHighest),
+        onSurface: Color(scheme.onSurface),
+        surfaceVariant: Color(scheme.surfaceVariant),
+        onSurfaceVariant: Color(scheme.onSurfaceVariant),
+        outline: Color(scheme.outline),
+        outlineVariant: Color(scheme.outlineVariant),
+        inverseSurface: Color(scheme.inverseSurface),
+        inverseOnSurface: Color(scheme.inverseOnSurface),
+        shadow: Color(scheme.shadow),
+        scrim: Color(scheme.scrim),
+        surfaceTint: Color(scheme.surfaceTint),
+        primary: Color(scheme.primary),
+        primaryDim: Color(scheme.primaryDim),
+        onPrimary: Color(scheme.onPrimary),
+        primaryContainer: Color(scheme.primaryContainer),
+        onPrimaryContainer: Color(scheme.onPrimaryContainer),
+        primaryFixed: Color(scheme.primaryFixed),
+        primaryFixedDim: Color(scheme.primaryFixedDim),
+        onPrimaryFixed: Color(scheme.onPrimaryFixed),
+        onPrimaryFixedVariant: Color(scheme.onPrimaryFixedVariant),
+        inversePrimary: Color(scheme.inversePrimary),
+        secondary: Color(scheme.secondary),
+        secondaryDim: Color(scheme.secondaryDim),
+        onSecondary: Color(scheme.onSecondary),
+        secondaryContainer: Color(scheme.secondaryContainer),
+        onSecondaryContainer: Color(scheme.onSecondaryContainer),
+        secondaryFixed: Color(scheme.secondaryFixed),
+        secondaryFixedDim: Color(scheme.secondaryFixedDim),
+        onSecondaryFixed: Color(scheme.onSecondaryFixed),
+        onSecondaryFixedVariant: Color(scheme.onSecondaryFixedVariant),
+        tertiary: Color(scheme.tertiary),
+        tertiaryDim: Color(scheme.tertiaryDim),
+        onTertiary: Color(scheme.onTertiary),
+        tertiaryContainer: Color(scheme.tertiaryContainer),
+        onTertiaryContainer: Color(scheme.onTertiaryContainer),
+        tertiaryFixed: Color(scheme.tertiaryFixed),
+        tertiaryFixedDim: Color(scheme.tertiaryFixedDim),
+        onTertiaryFixed: Color(scheme.onTertiaryFixed),
+        onTertiaryFixedVariant: Color(scheme.onTertiaryFixedVariant),
+        error: Color(scheme.error),
+        errorDim: Color(scheme.errorDim),
+        onError: Color(scheme.onError),
+        errorContainer: Color(scheme.errorContainer),
+        onErrorContainer: Color(scheme.onErrorContainer),
+      );
 
   factory ColorThemeData.fromSeed({
     Color sourceColor = const Color(0xFF6750A4),
@@ -2789,30 +2468,6 @@ abstract class ColorThemeData extends ColorThemeDataPartial {
   Color get onErrorContainer;
 
   @override
-  Color get controlActivated;
-
-  @override
-  Color get controlNormal;
-
-  @override
-  Color get controlHighlight;
-
-  @override
-  Color get textPrimaryInverse;
-
-  @override
-  Color get textSecondaryAndTertiaryInverse;
-
-  @override
-  Color get textPrimaryInverseDisableOnly;
-
-  @override
-  Color get textSecondaryAndTertiaryInverseDisabled;
-
-  @override
-  Color get textHintInverse;
-
-  @override
   ColorThemeData copyWith({
     Brightness? brightness,
     Color? primaryPaletteKeyColor,
@@ -2874,14 +2529,6 @@ abstract class ColorThemeData extends ColorThemeDataPartial {
     Color? onError,
     Color? errorContainer,
     Color? onErrorContainer,
-    Color? controlActivated,
-    Color? controlNormal,
-    Color? controlHighlight,
-    Color? textPrimaryInverse,
-    Color? textSecondaryAndTertiaryInverse,
-    Color? textPrimaryInverseDisableOnly,
-    Color? textSecondaryAndTertiaryInverseDisabled,
-    Color? textHintInverse,
   }) {
     if (brightness == null &&
         primaryPaletteKeyColor == null &&
@@ -2942,15 +2589,7 @@ abstract class ColorThemeData extends ColorThemeDataPartial {
         errorDim == null &&
         onError == null &&
         errorContainer == null &&
-        onErrorContainer == null &&
-        controlActivated == null &&
-        controlNormal == null &&
-        controlHighlight == null &&
-        textPrimaryInverse == null &&
-        textSecondaryAndTertiaryInverse == null &&
-        textPrimaryInverseDisableOnly == null &&
-        textSecondaryAndTertiaryInverseDisabled == null &&
-        textHintInverse == null) {
+        onErrorContainer == null) {
       return this;
     }
     return ColorThemeData.from(
@@ -3024,19 +2663,6 @@ abstract class ColorThemeData extends ColorThemeDataPartial {
       onError: onError ?? this.onError,
       errorContainer: errorContainer ?? this.errorContainer,
       onErrorContainer: onErrorContainer ?? this.onErrorContainer,
-      controlActivated: controlActivated ?? this.controlActivated,
-      controlNormal: controlNormal ?? this.controlNormal,
-      controlHighlight: controlHighlight ?? this.controlHighlight,
-      textPrimaryInverse: textPrimaryInverse ?? this.textPrimaryInverse,
-      textSecondaryAndTertiaryInverse:
-          textSecondaryAndTertiaryInverse ??
-          this.textSecondaryAndTertiaryInverse,
-      textPrimaryInverseDisableOnly:
-          textPrimaryInverseDisableOnly ?? this.textPrimaryInverseDisableOnly,
-      textSecondaryAndTertiaryInverseDisabled:
-          textSecondaryAndTertiaryInverseDisabled ??
-          this.textSecondaryAndTertiaryInverseDisabled,
-      textHintInverse: textHintInverse ?? this.textHintInverse,
     );
   }
 
@@ -3104,15 +2730,6 @@ abstract class ColorThemeData extends ColorThemeDataPartial {
       onError: other.onError,
       errorContainer: other.errorContainer,
       onErrorContainer: other.onErrorContainer,
-      controlActivated: other.controlActivated,
-      controlNormal: other.controlNormal,
-      controlHighlight: other.controlHighlight,
-      textPrimaryInverse: other.textPrimaryInverse,
-      textSecondaryAndTertiaryInverse: other.textSecondaryAndTertiaryInverse,
-      textPrimaryInverseDisableOnly: other.textPrimaryInverseDisableOnly,
-      textSecondaryAndTertiaryInverseDisabled:
-          other.textSecondaryAndTertiaryInverseDisabled,
-      textHintInverse: other.textHintInverse,
     );
   }
 
@@ -3204,29 +2821,6 @@ abstract class ColorThemeData extends ColorThemeDataPartial {
     properties.add(ColorProperty("onError", onError));
     properties.add(ColorProperty("errorContainer", errorContainer));
     properties.add(ColorProperty("onErrorContainer", onErrorContainer));
-    properties.add(ColorProperty("controlActivated", controlActivated));
-    properties.add(ColorProperty("controlNormal", controlNormal));
-    properties.add(ColorProperty("controlHighlight", controlHighlight));
-    properties.add(ColorProperty("textPrimaryInverse", textPrimaryInverse));
-    properties.add(
-      ColorProperty(
-        "textSecondaryAndTertiaryInverse",
-        textSecondaryAndTertiaryInverse,
-      ),
-    );
-    properties.add(
-      ColorProperty(
-        "textPrimaryInverseDisableOnly",
-        textPrimaryInverseDisableOnly,
-      ),
-    );
-    properties.add(
-      ColorProperty(
-        "textSecondaryAndTertiaryInverseDisabled",
-        textSecondaryAndTertiaryInverseDisabled,
-      ),
-    );
-    properties.add(ColorProperty("textHintInverse", textHintInverse));
   }
 
   @override
@@ -3294,18 +2888,7 @@ abstract class ColorThemeData extends ColorThemeDataPartial {
             errorDim == other.errorDim &&
             onError == other.onError &&
             errorContainer == other.errorContainer &&
-            onErrorContainer == other.onErrorContainer &&
-            controlActivated == other.controlActivated &&
-            controlNormal == other.controlNormal &&
-            controlHighlight == other.controlHighlight &&
-            textPrimaryInverse == other.textPrimaryInverse &&
-            textSecondaryAndTertiaryInverse ==
-                other.textSecondaryAndTertiaryInverse &&
-            textPrimaryInverseDisableOnly ==
-                other.textPrimaryInverseDisableOnly &&
-            textSecondaryAndTertiaryInverseDisabled ==
-                other.textSecondaryAndTertiaryInverseDisabled &&
-            textHintInverse == other.textHintInverse;
+            onErrorContainer == other.onErrorContainer;
   }
 
   @override
@@ -3369,20 +2952,7 @@ abstract class ColorThemeData extends ColorThemeDataPartial {
         onTertiaryFixed,
         onTertiaryFixedVariant,
         error,
-        Object.hash(
-          errorDim,
-          onError,
-          errorContainer,
-          onErrorContainer,
-          controlActivated,
-          controlNormal,
-          controlHighlight,
-          textPrimaryInverse,
-          textSecondaryAndTertiaryInverse,
-          textPrimaryInverseDisableOnly,
-          textSecondaryAndTertiaryInverseDisabled,
-          textHintInverse,
-        ),
+        Object.hash(errorDim, onError, errorContainer, onErrorContainer),
       ),
     ),
   );
@@ -3470,14 +3040,6 @@ class _ColorThemeData extends ColorThemeData {
     required this.onError,
     required this.errorContainer,
     required this.onErrorContainer,
-    required this.controlActivated,
-    required this.controlNormal,
-    required this.controlHighlight,
-    required this.textPrimaryInverse,
-    required this.textSecondaryAndTertiaryInverse,
-    required this.textPrimaryInverseDisableOnly,
-    required this.textSecondaryAndTertiaryInverseDisabled,
-    required this.textHintInverse,
   });
 
   @override
@@ -3659,30 +3221,6 @@ class _ColorThemeData extends ColorThemeData {
 
   @override
   final Color onErrorContainer;
-
-  @override
-  final Color controlActivated;
-
-  @override
-  final Color controlNormal;
-
-  @override
-  final Color controlHighlight;
-
-  @override
-  final Color textPrimaryInverse;
-
-  @override
-  final Color textSecondaryAndTertiaryInverse;
-
-  @override
-  final Color textPrimaryInverseDisableOnly;
-
-  @override
-  final Color textSecondaryAndTertiaryInverseDisabled;
-
-  @override
-  final Color textHintInverse;
 }
 
 @immutable

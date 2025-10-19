@@ -7,5 +7,4 @@ export 'src/dynamiccolor/dynamic_color.dart';
 export 'src/dynamiccolor/dynamic_scheme.dart';
 export 'src/dynamiccolor/material_dynamic_colors.dart';
 export 'src/dynamiccolor/tone_delta_pair.dart';
-export 'src/dynamiccolor/tone_polarity.dart';
 export 'src/dynamiccolor/variant.dart';

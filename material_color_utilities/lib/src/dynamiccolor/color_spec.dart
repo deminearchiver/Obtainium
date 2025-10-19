@@ -165,26 +165,6 @@ abstract interface class ColorSpec {
 
   DynamicColor onTertiaryFixedVariant();
 
-  //////////////////////////////////////////////////////////////////
-  // Android-only Colors                                          //
-  //////////////////////////////////////////////////////////////////
-
-  DynamicColor controlActivated();
-
-  DynamicColor controlNormal();
-
-  DynamicColor controlHighlight();
-
-  DynamicColor textPrimaryInverse();
-
-  DynamicColor textSecondaryAndTertiaryInverse();
-
-  DynamicColor textPrimaryInverseDisableOnly();
-
-  DynamicColor textSecondaryAndTertiaryInverseDisabled();
-
-  DynamicColor textHintInverse();
-
   ////////////////////////////////////////////////////////////////
   // Other                                                      //
   ////////////////////////////////////////////////////////////////

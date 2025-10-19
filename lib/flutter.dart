@@ -168,16 +168,6 @@ extension DynamicColorSchemeToColorTheme on DynamicColorScheme {
     onError: onError?._toColor(),
     errorContainer: errorContainer?._toColor(),
     onErrorContainer: onErrorContainer?._toColor(),
-    controlActivated: controlActivated?._toColor(),
-    controlNormal: controlNormal?._toColor(),
-    controlHighlight: controlHighlight?._toColor(),
-    textPrimaryInverse: textPrimaryInverse?._toColor(),
-    textSecondaryAndTertiaryInverse: textSecondaryAndTertiaryInverse
-        ?._toColor(),
-    textPrimaryInverseDisableOnly: textPrimaryInverseDisableOnly?._toColor(),
-    textSecondaryAndTertiaryInverseDisabled:
-        textSecondaryAndTertiaryInverseDisabled?._toColor(),
-    textHintInverse: textHintInverse?._toColor(),
   );
 }
 

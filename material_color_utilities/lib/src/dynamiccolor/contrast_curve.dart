@@ -9,17 +9,15 @@ final class ContrastCurve {
   final double high;
 
   double get(double contrastLevel) {
-    if (contrastLevel <= -1.0) {
-      return low;
-    } else if (contrastLevel < 0.0) {
-      return MathUtils.lerp(low, normal, (contrastLevel - -1.0) / 1.0);
-    } else if (contrastLevel < 0.5) {
-      return MathUtils.lerp(normal, medium, (contrastLevel - 0.0) / 0.5);
-    } else if (contrastLevel < 1.0) {
-      return MathUtils.lerp(medium, high, (contrastLevel - 0.5) / 0.5);
-    } else {
-      return high;
-    }
+    return contrastLevel <= -1.0
+        ? low
+        : contrastLevel < 0.0
+        ? MathUtils.lerp(low, normal, (contrastLevel - -1.0) / 1.0)
+        : contrastLevel < 0.5
+        ? MathUtils.lerp(normal, medium, (contrastLevel - 0.0) / 0.5)
+        : contrastLevel < 1.0
+        ? MathUtils.lerp(medium, high, (contrastLevel - 0.5) / 0.5)
+        : high;
   }
 
   @override

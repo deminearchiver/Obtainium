@@ -5,26 +5,27 @@ import 'quantizer_map.dart';
 import 'quantizer_result.dart';
 
 const int _indexBits = 5;
-const int _indexCount = 33;
-const int _totalSize = 35937;
+const int _indexCount = ((1 << _indexBits) + 1);
+const int _totalSize = _indexCount * _indexCount * _indexCount;
+
+// const int _indexBits = 5;
+// const int _indexCount = 33; // ((1 << _indexBits) + 1)
+// const int _totalSize = 35937; // _indexCount * _indexCount * _indexCount
 
 final class QuantizerWu implements Quantizer {
-  List<int> _weights = [];
-  List<int> _momentsR = [];
-  List<int> _momentsG = [];
-  List<int> _momentsB = [];
-  List<double> _moments = [];
-  List<_Box> _cubes = [];
+  late List<int> _weights;
+  late List<int> _momentsR;
+  late List<int> _momentsG;
+  late List<int> _momentsB;
+  late List<double> _moments;
+  late List<_Box> _cubes;
 
   @override
-  QuantizerResult quantize(List<int> pixels, int colorCount) {
-    QuantizerResult mapResult = const QuantizerMap().quantize(
-      pixels,
-      colorCount,
-    );
+  QuantizerResult quantize(List<int> pixels, int maxColors) {
+    final mapResult = const QuantizerMap().quantize(pixels, maxColors);
     _constructHistogram(mapResult.colorToCount);
     _createMoments();
-    final createBoxesResult = _createBoxes(colorCount);
+    final createBoxesResult = _createBoxes(maxColors);
     final colors = _createResult(createBoxesResult.resultCount);
     final Map<int, int> resultMap = <int, int>{};
     for (final color in colors) {
@@ -98,7 +99,6 @@ final class QuantizerWu implements Quantizer {
   }
 
   _CreateBoxesResult _createBoxes(int maxColorCount) {
-    // cubes = new Box[maxColorCount];
     _cubes = List.generate(maxColorCount, (_) => _Box());
     final List<double> volumeVariance = List.filled(maxColorCount, 0.0);
     final firstBox = _cubes.first;
