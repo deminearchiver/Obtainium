@@ -24,6 +24,7 @@ workspace:
   - material_color_utilities
   - obtainium_fonts
   - obtainium_i18n
+  - obtainium_tools
 
 environment:
   sdk: ^3.9.2
