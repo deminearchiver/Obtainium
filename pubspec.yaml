@@ -53,7 +53,7 @@ dependencies:
   url_launcher: ^6.3.2
   permission_handler: ^12.0.1
   fluttertoast: ^9.0.0
-  device_info_plus: ^12.1.0
+  device_info_plus: ^12.2.0
   file_picker: ^10.3.3
   android_package_installer: # TODO: See if PR will be accepted (dev may not be active), else remove this comment
     git:
@@ -63,7 +63,7 @@ dependencies:
     git:
       url: https://github.com/ImranR98/android_package_manager
       ref: master
-  share_plus: ^12.0.0
+  share_plus: ^12.0.1
   sqflite: ^2.4.2
   easy_localization: ^3.0.8
   android_intent_plus: ^6.0.0

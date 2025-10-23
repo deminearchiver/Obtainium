@@ -14,7 +14,7 @@ dependencies:
   flutter:
     sdk: flutter
   meta: ^1.17.0
-  slang: ^4.9.1
+  slang: ^4.9.2
   slang_flutter: ^4.9.0
 
 dev_dependencies:
