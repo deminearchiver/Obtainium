@@ -1181,6 +1181,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 _ListItemContainer(
+                  isLast: true,
                   child: MergeSemantics(
                     child: ListItemInteraction(
                       onTap: () => settingsProvider.hideAPKOriginWarning =
