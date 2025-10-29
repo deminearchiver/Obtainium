@@ -68,21 +68,21 @@ class ColorSpec2025 extends ColorSpec2021 {
 
   static ContrastCurve _getContrastCurve(double defaultContrast) {
     if (defaultContrast == 1.5) {
-      return const ContrastCurve(1.5, 1.5, 3, 4.5);
-    } else if (defaultContrast == 3) {
-      return const ContrastCurve(3, 3, 4.5, 7);
+      return const ContrastCurve(1.5, 1.5, 3.0, 4.5);
+    } else if (defaultContrast == 3.0) {
+      return const ContrastCurve(3.0, 3.0, 4.5, 7.0);
     } else if (defaultContrast == 4.5) {
-      return const ContrastCurve(4.5, 4.5, 7, 11);
-    } else if (defaultContrast == 6) {
-      return const ContrastCurve(6, 6, 7, 11);
-    } else if (defaultContrast == 7) {
-      return const ContrastCurve(7, 7, 11, 21);
-    } else if (defaultContrast == 9) {
-      return const ContrastCurve(9, 9, 11, 21);
-    } else if (defaultContrast == 11) {
-      return const ContrastCurve(11, 11, 21, 21);
-    } else if (defaultContrast == 21) {
-      return const ContrastCurve(21, 21, 21, 21);
+      return const ContrastCurve(4.5, 4.5, 7.0, 11.0);
+    } else if (defaultContrast == 6.0) {
+      return const ContrastCurve(6.0, 6.0, 7.0, 11.0);
+    } else if (defaultContrast == 7.0) {
+      return const ContrastCurve(7.0, 7.0, 11.0, 21.0);
+    } else if (defaultContrast == 9.0) {
+      return const ContrastCurve(9.0, 9.0, 11.0, 21.0);
+    } else if (defaultContrast == 11.0) {
+      return const ContrastCurve(11.0, 11.0, 21.0, 21.0);
+    } else if (defaultContrast == 21.0) {
+      return const ContrastCurve(21.0, 21.0, 21.0, 21.0);
     } else {
       // Shouldn't happen.
       return ContrastCurve(defaultContrast, defaultContrast, 7, 21);
@@ -233,7 +233,7 @@ class ColorSpec2025 extends ColorSpec2021 {
       },
       isBackground: true,
       chromaMultiplier: (s) {
-        if (!s.isDark) {
+        if (s.isDark) {
           if (s.variant == Variant.neutral) {
             return 2.5;
           } else if (s.variant == Variant.tonalSpot) {
@@ -405,20 +405,16 @@ class ColorSpec2025 extends ColorSpec2021 {
       name: "surface_container_highest",
       palette: (s) => s.neutralPalette,
       tone: (s) {
-        if (s.platform == Platform.phone) {
-          if (s.isDark) {
-            return 15.0;
-          } else {
-            if (Hct.isYellow(s.neutralPalette.hue)) {
-              return 92.0;
-            } else if (s.variant == Variant.vibrant) {
-              return 88.0;
-            } else {
-              return 90.0;
-            }
-          }
+        if (s.isDark) {
+          return 15.0;
         } else {
-          return 20.0;
+          if (Hct.isYellow(s.neutralPalette.hue)) {
+            return 92.0;
+          } else if (s.variant == Variant.vibrant) {
+            return 88.0;
+          } else {
+            return 90.0;
+          }
         }
       },
       isBackground: true,
@@ -460,14 +456,16 @@ class ColorSpec2025 extends ColorSpec2021 {
         }
       },
       chromaMultiplier: (s) {
-        if (s.variant == Variant.neutral) {
-          return 2.2;
-        } else if (s.variant == Variant.tonalSpot) {
-          return 1.7;
-        } else if (s.variant == Variant.expressive) {
-          return Hct.isYellow(s.neutralPalette.hue)
-              ? (s.isDark ? 3.0 : 2.3)
-              : 1.6;
+        if (s.platform == Platform.phone) {
+          if (s.variant == Variant.neutral) {
+            return 2.2;
+          } else if (s.variant == Variant.tonalSpot) {
+            return 1.7;
+          } else if (s.variant == Variant.expressive) {
+            return Hct.isYellow(s.neutralPalette.hue)
+                ? (s.isDark ? 3.0 : 2.3)
+                : 1.6;
+          }
         }
         return 1.0;
       },
@@ -501,14 +499,16 @@ class ColorSpec2025 extends ColorSpec2021 {
       name: "on_surface_variant",
       palette: (s) => s.neutralPalette,
       chromaMultiplier: (s) {
-        if (s.variant == Variant.neutral) {
-          return 2.2;
-        } else if (s.variant == Variant.tonalSpot) {
-          return 1.7;
-        } else if (s.variant == Variant.expressive) {
-          return Hct.isYellow(s.neutralPalette.hue)
-              ? (s.isDark ? 3.0 : 2.3)
-              : 1.6;
+        if (s.platform == Platform.phone) {
+          if (s.variant == Variant.neutral) {
+            return 2.2;
+          } else if (s.variant == Variant.tonalSpot) {
+            return 1.7;
+          } else if (s.variant == Variant.expressive) {
+            return Hct.isYellow(s.neutralPalette.hue)
+                ? (s.isDark ? 3.0 : 2.3)
+                : 1.6;
+          }
         }
         return 1.0;
       },
@@ -1267,8 +1267,8 @@ class ColorSpec2025 extends ColorSpec2021 {
       palette: (s) => s.errorPalette,
       background: (s) => errorContainer(),
       contrastCurve: (s) => s.platform == Platform.phone
-          ? _getContrastCurve(6)
-          : _getContrastCurve(7),
+          ? _getContrastCurve(4.5)
+          : _getContrastCurve(7.0),
     );
     return super.onErrorContainer().extendSpecVersion(
       SpecVersion.spec2025,
@@ -1462,7 +1462,7 @@ class ColorSpec2025 extends ColorSpec2021 {
   DynamicColor tertiaryFixedDim() {
     final color2025 = DynamicColor.fromPalette(
       name: "tertiary_fixed_dim",
-      palette: (s) => s.secondaryPalette,
+      palette: (s) => s.tertiaryPalette,
       tone: (s) => tertiaryFixed().getTone(s),
       isBackground: true,
       toneDeltaPair: (s) => ToneDeltaPair(

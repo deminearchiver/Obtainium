@@ -127,7 +127,7 @@ class ColorSpec2021 implements ColorSpec {
     return DynamicColor.fromPalette(
       name: "on_background",
       palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark ? 90.0 : 90.0,
+      tone: (s) => s.isDark ? 90.0 : 10.0,
       background: (s) => background(),
       contrastCurve: (s) => ContrastCurve(3.0, 3.0, 4.5, 7.0),
     );
@@ -1131,7 +1131,7 @@ class ColorSpec2021 implements ColorSpec {
     Variant.expressive => TonalPalette.fromHueAndChroma(
       DynamicScheme.getRotatedHue(
         sourceColorHct,
-        [0, 21, 51, 121, 151, 191, 271, 321, 36],
+        [0, 21, 51, 121, 151, 191, 271, 321, 360],
         [45, 95, 45, 20, 45, 90, 45, 45, 45],
       ),
       24.0,
@@ -1180,7 +1180,7 @@ class ColorSpec2021 implements ColorSpec {
     Variant.expressive => TonalPalette.fromHueAndChroma(
       DynamicScheme.getRotatedHue(
         sourceColorHct,
-        [0, 21, 51, 121, 151, 191, 271, 321, 36],
+        [0, 21, 51, 121, 151, 191, 271, 321, 360],
         [120, 120, 20, 45, 20, 15, 20, 120, 120],
       ),
       32.0,
