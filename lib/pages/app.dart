@@ -860,7 +860,7 @@ class _AppPageState extends State<AppPage> {
                           backgroundColor: WidgetStateProperty.resolveWith(
                             (states) => states.contains(WidgetState.disabled)
                                 ? colorTheme.onSurface.withValues(alpha: 0.1)
-                                : colorTheme.surfaceContainerHigh,
+                                : colorTheme.surfaceContainerHighest,
                           ),
                           iconColor: WidgetStateProperty.resolveWith(
                             (states) => states.contains(WidgetState.disabled)
