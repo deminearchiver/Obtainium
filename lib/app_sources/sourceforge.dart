@@ -1,5 +1,4 @@
 import 'package:html/parser.dart';
-import 'package:http/http.dart';
 import 'package:obtainium/custom_errors.dart';
 import 'package:obtainium/providers/source_provider.dart';
 
@@ -49,7 +48,7 @@ class SourceForge extends AppSource {
       standardUrl = '$standardUrl/files';
       standardUri = Uri.parse(standardUrl);
     }
-    Response res = await sourceRequest(
+    final res = await sourceRequest(
       '${standardUri.origin}/${standardUri.pathSegments.sublist(0, 2).join('/')}/rss?path=/',
       additionalSettings,
     );

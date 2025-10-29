@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:obtainium/app_sources/github.dart';
 import 'package:obtainium/custom_errors.dart';
 import 'package:obtainium/providers/source_provider.dart';
@@ -17,7 +17,7 @@ class GitHubStars implements MassAppUrlSource {
     String username,
     int page,
   ) async {
-    Response res = await get(
+    final res = await http.get(
       Uri.parse(
         'https://api.github.com/users/$username/starred?per_page=100&page=$page',
       ),

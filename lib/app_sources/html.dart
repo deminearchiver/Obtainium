@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:html/parser.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:obtainium/components/generated_form.dart';
 import 'package:obtainium/custom_errors.dart';
 import 'package:obtainium/providers/apps_provider.dart';
@@ -114,7 +114,7 @@ List<MapEntry<String, String>> getLinksInLines(String lines) =>
 // Given an HTTP response, grab some links according to the common additional settings
 // (those that apply to intermediate and final steps)
 Future<List<MapEntry<String, String>>> grabLinksCommonFromRes(
-  Response res,
+  http.Response res,
   Map<String, dynamic> additionalSettings,
 ) async {
   if (res.statusCode != 200) {
@@ -400,7 +400,7 @@ class Html extends AppSource {
     List<MapEntry<String, String>> links = [];
     String versionExtractionWholePageString = currentUrl;
     if (additionalSettings['directAPKLink'] != true) {
-      Response res = await sourceRequest(currentUrl, additionalSettings);
+      final res = await sourceRequest(currentUrl, additionalSettings);
       versionExtractionWholePageString = res.body
           .split('\r\n')
           .join('\n')

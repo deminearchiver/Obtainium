@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:html/parser.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:obtainium/components/generated_form.dart';
 import 'package:obtainium/custom_errors.dart';
 import 'package:obtainium/providers/apps_provider.dart';
@@ -79,10 +79,7 @@ class ApkMirror extends AppSource {
             true
         ? additionalSettings['filterReleaseTitlesByRegEx']
         : null;
-    Response res = await sourceRequest(
-      '$standardUrl/feed/',
-      additionalSettings,
-    );
+    final res = await sourceRequest('$standardUrl/feed/', additionalSettings);
     if (res.statusCode == 200) {
       var items = parse(res.body).querySelectorAll('item');
       dynamic targetRelease;

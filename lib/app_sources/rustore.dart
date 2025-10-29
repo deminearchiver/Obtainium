@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_charset_detector/flutter_charset_detector.dart';
-import 'package:http/http.dart';
 import 'package:obtainium/custom_errors.dart';
 import 'package:obtainium/providers/source_provider.dart';
 
@@ -54,7 +53,7 @@ class RuStore extends AppSource {
     Map<String, dynamic> additionalSettings,
   ) async {
     String? appId = await tryInferringAppId(standardUrl);
-    Response res0 = await sourceRequest(
+    final res0 = await sourceRequest(
       'https://backapi.rustore.ru/applicationData/overallInfo/$appId',
       additionalSettings,
     );
@@ -79,7 +78,7 @@ class RuStore extends AppSource {
       relDate = DateTime.parse(dateStr);
     }
 
-    Response res1 = await sourceRequest(
+    final res1 = await sourceRequest(
       'https://backapi.rustore.ru/applicationData/v2/download-link',
       additionalSettings,
       followRedirects: false,

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:obtainium/flutter.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:obtainium/app_sources/html.dart';
 import 'package:obtainium/components/generated_form.dart';
 import 'package:obtainium/custom_errors.dart';
@@ -342,7 +342,7 @@ class GitHub extends AppSource {
     String requestUrl,
     String standardUrl,
     Map<String, dynamic> additionalSettings, {
-    Function(Response)? onHttpErrorCode,
+    Function(http.Response)? onHttpErrorCode,
   }) async {
     final settingsProvider = await SettingsProvider.ensureInitialized();
     var sourceConfigSettingValues = await getSourceConfigValues(
@@ -373,7 +373,7 @@ class GitHub extends AppSource {
     dynamic latestRelease;
     if (verifyLatestTag) {
       var temp = requestUrl.split('?');
-      Response res = await sourceRequest(
+      final res = await sourceRequest(
         '${temp[0]}/latest${temp.length > 1 ? '?${temp.sublist(1).join('?')}' : ''}',
         additionalSettings,
       );
@@ -385,7 +385,7 @@ class GitHub extends AppSource {
       }
       latestRelease = jsonDecode(res.body);
     }
-    Response res = await sourceRequest(requestUrl, additionalSettings);
+    final res = await sourceRequest(requestUrl, additionalSettings);
     if (res.statusCode == 200) {
       var releases = jsonDecode(res.body) as List<dynamic>;
       if (latestRelease != null) {
@@ -639,7 +639,7 @@ class GitHub extends AppSource {
     String standardUrl,
     Map<String, dynamic> additionalSettings,
     Future<String> Function(bool) reqUrlGenerator,
-    dynamic Function(Response)? onHttpErrorCode,
+    dynamic Function(http.Response)? onHttpErrorCode,
   ) async {
     try {
       return await getLatestAPKDetailsCommon(
@@ -673,7 +673,7 @@ class GitHub extends AppSource {
       (bool useTagUrl) async {
         return '${await convertStandardUrlToAPIUrl(standardUrl, additionalSettings)}/${useTagUrl ? 'tags' : 'releases'}?per_page=100';
       },
-      (Response res) {
+      (res) {
         rateLimitErrorCheck(res);
       },
     );
@@ -689,10 +689,10 @@ class GitHub extends AppSource {
     String query,
     String requestUrl,
     String rootProp, {
-    Function(Response)? onHttpErrorCode,
+    Function(http.Response)? onHttpErrorCode,
     Map<String, dynamic> querySettings = const {},
   }) async {
-    Response res = await sourceRequest(requestUrl, {});
+    final res = await sourceRequest(requestUrl, {});
     if (res.statusCode == 200) {
       int minStarCount = querySettings['minStarCount'] != null
           ? int.parse(querySettings['minStarCount'])
@@ -739,7 +739,7 @@ class GitHub extends AppSource {
       query,
       '${await getAPIHost({})}/search/repositories?q=${Uri.encodeQueryComponent(query)}&per_page=100',
       'items',
-      onHttpErrorCode: (Response res) {
+      onHttpErrorCode: (res) {
         rateLimitErrorCheck(res);
       },
       querySettings: querySettings,
@@ -755,7 +755,7 @@ class GitHub extends AppSource {
     }
   }
 
-  void rateLimitErrorCheck(Response res) {
+  void rateLimitErrorCheck(http.Response res) {
     if (res.headers['x-ratelimit-remaining'] == '0') {
       throw RateLimitError(
         (int.parse(res.headers['x-ratelimit-reset'] ?? '1800000000') / 60000000)

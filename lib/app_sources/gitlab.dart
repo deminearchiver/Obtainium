@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:obtainium/flutter.dart';
-import 'package:http/http.dart';
 import 'package:obtainium/app_sources/github.dart';
 import 'package:obtainium/custom_errors.dart';
 import 'package:obtainium/providers/settings_provider.dart';
@@ -153,7 +152,7 @@ class GitLab extends AppSource {
     bool trackOnly = additionalSettings['trackOnly'] == true;
 
     // Get project ID
-    Response res0 = await sourceRequest(
+    final res0 = await sourceRequest(
       'https://${hosts[0]}/api/v4/projects/$projectUriComponent?$optionalAuth',
       additionalSettings,
     );
@@ -166,7 +165,7 @@ class GitLab extends AppSource {
     }
 
     // Request data from REST API
-    Response res = await sourceRequest(
+    final res = await sourceRequest(
       'https://${hosts[0]}/api/v4/projects/$projectUriComponent/${trackOnly ? 'repository/tags' : 'releases'}?$optionalAuth',
       additionalSettings,
     );

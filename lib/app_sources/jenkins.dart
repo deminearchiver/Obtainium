@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:http/http.dart';
 import 'package:obtainium/custom_errors.dart';
 import 'package:obtainium/providers/source_provider.dart';
 
@@ -30,7 +29,7 @@ class Jenkins extends AppSource {
     Map<String, dynamic> additionalSettings,
   ) async {
     standardUrl = trimJobUrl(standardUrl);
-    Response res = await sourceRequest(
+    final res = await sourceRequest(
       '$standardUrl/lastSuccessfulBuild/api/json',
       additionalSettings,
     );

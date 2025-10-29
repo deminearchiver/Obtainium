@@ -1,5 +1,4 @@
 import 'package:html/parser.dart';
-import 'package:http/http.dart';
 import 'package:obtainium/custom_errors.dart';
 import 'package:obtainium/providers/source_provider.dart';
 
@@ -82,7 +81,7 @@ class NeutronCode extends AppSource {
     String standardUrl,
     Map<String, dynamic> additionalSettings,
   ) async {
-    Response res = await sourceRequest(standardUrl, additionalSettings);
+    final res = await sourceRequest(standardUrl, additionalSettings);
     if (res.statusCode == 200) {
       var http = parse(res.body);
       var name = http.querySelector('.pd-title')?.innerHtml;

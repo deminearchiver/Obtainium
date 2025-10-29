@@ -32,7 +32,7 @@ import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_fgbg/flutter_fgbg.dart';
 import 'package:obtainium/providers/source_provider.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:share_plus/share_plus.dart';
@@ -176,7 +176,7 @@ Future<File> downloadFileWithRetry(
       logs: logs,
     );
   } catch (e) {
-    if (retries > 0 && e is ClientException) {
+    if (retries > 0 && e is http.ClientException) {
       await Future.delayed(const Duration(seconds: 5));
       return await downloadFileWithRetry(
         url,
@@ -238,7 +238,7 @@ Future<String> checkPartialDownloadHash(
   Map<String, String>? headers,
   bool allowInsecure = false,
 }) async {
-  var req = Request('GET', Uri.parse(url));
+  final req = http.Request('GET', Uri.parse(url));
   if (headers != null) {
     req.headers.addAll(headers);
   }
@@ -259,10 +259,10 @@ Future<String?> checkETagHeader(
 }) async {
   // Send the initial request but cancel it as soon as you have the headers
   var reqHeaders = headers ?? {};
-  var req = Request('GET', Uri.parse(url));
+  final req = http.Request('GET', Uri.parse(url));
   req.headers.addAll(reqHeaders);
   var client = IOClient(createHttpClient(allowInsecure));
-  StreamedResponse response = await client.send(req);
+  final response = await client.send(req);
   var resHeaders = response.headers;
   client.close();
   return resHeaders[HttpHeaders.etagHeader]
@@ -294,10 +294,10 @@ Future<File> downloadFile(
 }) async {
   // Send the initial request but cancel it as soon as you have the headers
   var reqHeaders = headers ?? {};
-  var req = Request('GET', Uri.parse(url));
+  var req = http.Request('GET', Uri.parse(url));
   req.headers.addAll(reqHeaders);
   var headersClient = IOClient(createHttpClient(allowInsecure));
-  StreamedResponse headersResponse = await headersClient.send(req);
+  final headersResponse = await headersClient.send(req);
   var resHeaders = headersResponse.headers;
 
   // Use the headers to decide what the file extension is, and
@@ -399,7 +399,7 @@ Future<File> downloadFile(
       : null;
   int rangeStart = targetFileLength ?? 0;
   IOSink? sink;
-  req = Request('GET', Uri.parse(url));
+  req = http.Request('GET', Uri.parse(url));
   req.headers.addAll(reqHeaders);
   if (rangeFeatureEnabled && fullContentLength != null && rangeStart > 0) {
     reqHeaders.addAll({'range': 'bytes=$rangeStart-${fullContentLength - 1}'});
@@ -2035,16 +2035,14 @@ class AppsProvider with ChangeNotifier {
     if (shouldExportSettings > 0) {
       var settingsValueKeys = settingsProvider.prefsWithCache.keys;
       if (shouldExportSettings < 2) {
-        settingsValueKeys?.removeWhere((k) => k.endsWith('-creds'));
+        settingsValueKeys.removeWhere((k) => k.endsWith('-creds'));
       }
       finalExport['settings'] = Map<String, Object?>.fromEntries(
         (settingsValueKeys
-                ?.map(
-                  (key) =>
-                      MapEntry(key, settingsProvider.prefsWithCache.get(key)),
-                )
-                .toList()) ??
-            [],
+            .map(
+              (key) => MapEntry(key, settingsProvider.prefsWithCache.get(key)),
+            )
+            .toList()),
       );
     }
     return finalExport;
@@ -2472,7 +2470,7 @@ Future<void> bgUpdateCheck(String taskId, Map<String, dynamic>? params) async {
             // Next task interval is based on the error with the longest retry time
             int minRetryIntervalForThisApp = err is RateLimitError
                 ? (err.remainingMinutes * 60)
-                : e is ClientException
+                : e is http.ClientException
                 ? (15 * 60)
                 : (toCheckApp.value + 1);
             if (minRetryIntervalForThisApp > maxRetryWaitSeconds) {

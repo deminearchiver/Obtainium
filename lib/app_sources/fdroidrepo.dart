@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:html/parser.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:obtainium/components/generated_form.dart';
 import 'package:obtainium/custom_errors.dart';
 import 'package:obtainium/providers/source_provider.dart';
@@ -142,7 +142,7 @@ class FDroidRepo extends AppSource {
     return app;
   }
 
-  Future<Response> sourceRequestWithURLVariants(
+  Future<http.Response> sourceRequestWithURLVariants(
     String url,
     Map<String, dynamic> additionalSettings,
   ) async {

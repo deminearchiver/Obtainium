@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:http/http.dart';
 import 'package:obtainium/custom_errors.dart';
 import 'package:obtainium/providers/source_provider.dart';
 
@@ -36,7 +35,7 @@ class LiteApks extends AppSource {
         .sublist(1)
         .reversed
         .join('.');
-    Response res1 = await sourceRequest(
+    final res1 = await sourceRequest(
       '${standardUri.origin}/wp-json/wp/v2/posts?slug=$slug',
       additionalSettings,
     );
@@ -49,7 +48,7 @@ class LiteApks extends AppSource {
       throw NoReleasesError();
     }
 
-    Response res2 = await sourceRequest(
+    final res2 = await sourceRequest(
       '${standardUri.origin}/wp-json/v2/posts/$liteAppId',
       additionalSettings,
     );

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:html/parser.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:obtainium/app_sources/github.dart';
 import 'package:obtainium/app_sources/gitlab.dart';
 import 'package:obtainium/components/generated_form.dart';
@@ -151,7 +151,7 @@ class FDroid extends AppSource {
     String query, {
     Map<String, dynamic> querySettings = const {},
   }) async {
-    Response res = await sourceRequest(
+    final res = await sourceRequest(
       'https://search.${hosts[0]}/?q=${Uri.encodeQueryComponent(query)}',
       {},
     );
@@ -181,7 +181,7 @@ class FDroid extends AppSource {
   }
 
   APKDetails getAPKUrlsFromFDroidPackagesAPIResponse(
-    Response res,
+    http.Response res,
     String apkUrlPrefix,
     String standardUrl,
     String sourceName, {

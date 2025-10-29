@@ -1,5 +1,4 @@
 import 'package:html/parser.dart';
-import 'package:http/http.dart';
 import 'package:obtainium/app_sources/html.dart';
 import 'package:obtainium/custom_errors.dart';
 import 'package:obtainium/providers/source_provider.dart';
@@ -56,7 +55,7 @@ class SourceHut extends AppSource {
     String appName = standardUri.pathSegments.last;
     bool fallbackToOlderReleases =
         additionalSettings['fallbackToOlderReleases'] == true;
-    Response res = await sourceRequest(
+    final res = await sourceRequest(
       '$standardUrl/refs/rss.xml',
       additionalSettings,
     );
