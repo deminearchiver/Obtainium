@@ -404,7 +404,7 @@ class _AppPageState extends State<AppPage> {
         if (kDebugMode) ...[
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: _ListItemContainer(
+            child: ListItemContainer(
               isFirst: true,
               child: ListItemInteraction(
                 onTap: () {
@@ -447,7 +447,7 @@ class _AppPageState extends State<AppPage> {
           const SizedBox(height: 2.0),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: _ListItemContainer(
+            child: ListItemContainer(
               child: ListItemLayout(
                 isMultiline: true,
                 leading: SizedBox.square(
@@ -1184,40 +1184,6 @@ class _AppPageState extends State<AppPage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _ListItemContainer extends StatelessWidget {
-  const _ListItemContainer({
-    super.key,
-    this.isFirst = false,
-    this.isLast = false,
-    required this.child,
-  });
-
-  final bool isFirst;
-  final bool isLast;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorTheme = ColorTheme.of(context);
-    final shapeTheme = ShapeTheme.of(context);
-    final edgeCorner = shapeTheme.corner.largeIncreased;
-    final middleCorner = shapeTheme.corner.extraSmall;
-    return Material(
-      animationDuration: Duration.zero,
-      type: MaterialType.card,
-      clipBehavior: Clip.antiAlias,
-      color: colorTheme.surfaceBright,
-      shape: CornersBorder.rounded(
-        corners: Corners.vertical(
-          top: isFirst ? edgeCorner : middleCorner,
-          bottom: isLast ? edgeCorner : middleCorner,
-        ),
-      ),
-      child: child,
     );
   }
 }

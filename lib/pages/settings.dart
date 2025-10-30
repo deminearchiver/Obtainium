@@ -238,7 +238,7 @@ class _SettingsPageState extends State<SettingsPage> {
       builder: (ctx, snapshot) {
         final isDynamicColorAvailable = snapshot.data ?? false;
         if (!isDynamicColorAvailable) return const SizedBox.shrink();
-        return _ListItemContainer(
+        return ListItemContainer(
           isFirst: true,
           isLast: true,
           child: MergeSemantics(
@@ -471,29 +471,6 @@ class _SettingsPageState extends State<SettingsPage> {
             padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
             sliver: SliverList.list(
               children: [
-                if (kDebugMode) ...[
-                  _ListItemContainer(
-                    isFirst: true,
-                    isLast: true,
-                    child: MergeSemantics(
-                      child: ListItemInteraction(
-                        onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const DeveloperPage(),
-                          ),
-                        ),
-                        child: const ListItemLayout(
-                          isMultiline: true,
-                          leading: Icon(Symbols.developer_mode_rounded),
-                          headline: Text("Developer options"),
-                          supportingText: Text("Options for developers"),
-                          trailing: Icon(Symbols.keyboard_arrow_right_rounded),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12.0),
-                ],
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
@@ -504,7 +481,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 height8,
-                _ListItemContainer(
+                ListItemContainer(
                   isFirst: true,
                   child: Flex.vertical(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -538,7 +515,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const SizedBox(height: 2.0),
-                              _ListItemContainer(
+                              ListItemContainer(
                                 child: MergeSemantics(
                                   child: ListItemInteraction(
                                     onTap: () => settingsProvider.useFGService =
@@ -569,7 +546,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ),
                               ),
                               const SizedBox(height: 2.0),
-                              _ListItemContainer(
+                              ListItemContainer(
                                 child: Flex.vertical(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -644,7 +621,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 Flex.vertical(
                                   children: [
                                     const SizedBox(height: 2.0),
-                                    _ListItemContainer(
+                                    ListItemContainer(
                                       child: MergeSemantics(
                                         child: ListItemInteraction(
                                           onTap: () =>
@@ -679,7 +656,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                       ),
                                     ),
                                     const SizedBox(height: 2.0),
-                                    _ListItemContainer(
+                                    ListItemContainer(
                                       child: MergeSemantics(
                                         child: ListItemInteraction(
                                           onTap: () =>
@@ -722,7 +699,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   future: DeviceInfoPlugin().androidInfo,
                 ),
                 const SizedBox(height: 2.0),
-                _ListItemContainer(
+                ListItemContainer(
                   child: MergeSemantics(
                     child: ListItemInteraction(
                       onTap: () => settingsProvider.checkOnStart =
@@ -748,7 +725,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 const SizedBox(height: 2.0),
-                _ListItemContainer(
+                ListItemContainer(
                   child: MergeSemantics(
                     child: ListItemInteraction(
                       onTap: () => settingsProvider.checkUpdateOnDetailPage =
@@ -778,7 +755,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 const SizedBox(height: 2.0),
-                _ListItemContainer(
+                ListItemContainer(
                   child: MergeSemantics(
                     child: ListItemInteraction(
                       onTap: () =>
@@ -812,7 +789,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 const SizedBox(height: 2.0),
-                _ListItemContainer(
+                ListItemContainer(
                   child: ListItemInteraction(
                     onTap: () => settingsProvider.removeOnExternalUninstall =
                         !settingsProvider.removeOnExternalUninstall,
@@ -840,7 +817,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 const SizedBox(height: 2.0),
-                _ListItemContainer(
+                ListItemContainer(
                   child: MergeSemantics(
                     child: ListItemInteraction(
                       onTap: () => settingsProvider.parallelDownloads =
@@ -866,7 +843,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 const SizedBox(height: 2.0),
-                _ListItemContainer(
+                ListItemContainer(
                   child: Flex.vertical(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -916,7 +893,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 const SizedBox(height: 2.0),
-                _ListItemContainer(
+                ListItemContainer(
                   child: MergeSemantics(
                     child: ListItemInteraction(
                       onTap: () =>
@@ -941,7 +918,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 const SizedBox(height: 2.0),
-                _ListItemContainer(
+                ListItemContainer(
                   isLast: true,
                   child: MergeSemantics(
                     child: ListItemInteraction(
@@ -1043,7 +1020,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 height16,
                 localeDropdown,
                 height16,
-                _ListItemContainer(
+                ListItemContainer(
                   isFirst: true,
                   child: MergeSemantics(
                     child: ListItemInteraction(
@@ -1070,7 +1047,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 const SizedBox(height: 2.0),
-                _ListItemContainer(
+                ListItemContainer(
                   child: MergeSemantics(
                     child: ListItemInteraction(
                       onTap: () => settingsProvider.pinUpdates =
@@ -1096,7 +1073,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 const SizedBox(height: 2.0),
-                _ListItemContainer(
+                ListItemContainer(
                   child: MergeSemantics(
                     child: ListItemInteraction(
                       onTap: () => settingsProvider.buryNonInstalled =
@@ -1125,7 +1102,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 const SizedBox(height: 2.0),
-                _ListItemContainer(
+                ListItemContainer(
                   child: MergeSemantics(
                     child: ListItemInteraction(
                       onTap: () => settingsProvider.groupByCategory =
@@ -1151,7 +1128,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 const SizedBox(height: 2.0),
-                _ListItemContainer(
+                ListItemContainer(
                   child: MergeSemantics(
                     child: ListItemInteraction(
                       onTap: () => settingsProvider.hideTrackOnlyWarning =
@@ -1180,7 +1157,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 const SizedBox(height: 2.0),
-                _ListItemContainer(
+                ListItemContainer(
                   isLast: true,
                   child: MergeSemantics(
                     child: ListItemInteraction(
@@ -1209,8 +1186,60 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 16.0),
+                ListItemContainer(
+                  isFirst: true,
+                  isLast: !settingsProvider.developerModeV1,
+                  child: MergeSemantics(
+                    child: ListItemInteraction(
+                      onTap: () => settingsProvider.developerModeV1 =
+                          !settingsProvider.developerModeV1,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: Text("Developer Mode"),
+                        supportingText: Text("Enable options for developers"),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onCheckedChanged: (value) =>
+                                settingsProvider.developerModeV1 = value,
+                            checked: settingsProvider.developerModeV1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                if (settingsProvider.developerModeV1) ...[
+                  const SizedBox(height: 2.0),
+                  ListItemContainer(
+                    isFirst: false,
+                    isLast: true,
+                    child: MergeSemantics(
+                      child: ListItemInteraction(
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const DeveloperPage(),
+                          ),
+                        ),
+                        child: const ListItemLayout(
+                          isMultiline: true,
+                          leading: Icon(Symbols.developer_mode_rounded),
+                          headline: Text("Developer options"),
+                          supportingText: Text("Options for developers"),
+                          trailing: Icon(Symbols.keyboard_arrow_right_rounded),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
                 // const SizedBox(height: 2.0),
-                // _ListItemContainer(
+                // ListItemContainer(
                 //   isLast: true,
                 //   child: MergeSemantics(
                 //     child: ListItemInteraction(
@@ -1262,7 +1291,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 height8,
-                _ListItemContainer(
+                ListItemContainer(
                   isFirst: true,
                   child: ListItemInteraction(
                     onTap: () => launchUrlString(
@@ -1277,7 +1306,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 const SizedBox(height: 2.0),
-                _ListItemContainer(
+                ListItemContainer(
                   child: ListItemInteraction(
                     onTap: () => launchUrlString(
                       "https://wiki.obtainium.imranr.dev/",
@@ -1291,7 +1320,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 const SizedBox(height: 2.0),
-                _ListItemContainer(
+                ListItemContainer(
                   child: ListItemInteraction(
                     onTap: () => launchUrlString(
                       "https://apps.obtainium.imranr.dev/",
@@ -1308,7 +1337,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 const SizedBox(height: 2.0),
-                _ListItemContainer(
+                ListItemContainer(
                   isLast: true,
                   child: ListItemInteraction(
                     onTap: () =>
@@ -1508,40 +1537,6 @@ class _CategoryEditorSelectorState extends State<CategoryEditorSelector> {
           }
         }
       }),
-    );
-  }
-}
-
-class _ListItemContainer extends StatelessWidget {
-  const _ListItemContainer({
-    super.key,
-    this.isFirst = false,
-    this.isLast = false,
-    required this.child,
-  });
-
-  final bool isFirst;
-  final bool isLast;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorTheme = ColorTheme.of(context);
-    final shapeTheme = ShapeTheme.of(context);
-    final edgeCorner = shapeTheme.corner.largeIncreased;
-    final middleCorner = shapeTheme.corner.extraSmall;
-    return Material(
-      animationDuration: Duration.zero,
-      type: MaterialType.card,
-      clipBehavior: Clip.antiAlias,
-      color: colorTheme.surfaceBright,
-      shape: CornersBorder.rounded(
-        corners: Corners.vertical(
-          top: isFirst ? edgeCorner : middleCorner,
-          bottom: isLast ? edgeCorner : middleCorner,
-        ),
-      ),
-      child: child,
     );
   }
 }

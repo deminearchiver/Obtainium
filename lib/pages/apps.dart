@@ -1443,10 +1443,9 @@ class AppsPageState extends State<AppsPage> {
                   16.0,
                   index < pinnedApps.length - 1 ? spacing / 2.0 : 0.0,
                 ),
-                child: _ListItemContainer(
+                child: ListItemContainer(
                   isFirst: index == 0,
                   isLast: index == pinnedApps.length - 1,
-
                   containerShape: isSelected
                       ? CornersBorder.rounded(
                           corners: Corners.all(
@@ -1973,44 +1972,4 @@ class AppsFilter {
       includeNonInstalled == other.includeNonInstalled &&
       settingsProvider.setEqual(categoryFilter, other.categoryFilter) &&
       sourceFilter.trim() == other.sourceFilter.trim();
-}
-
-class _ListItemContainer extends StatelessWidget {
-  const _ListItemContainer({
-    super.key,
-    this.isFirst = false,
-    this.isLast = false,
-    this.containerShape,
-    this.containerColor,
-    required this.child,
-  });
-
-  final bool isFirst;
-  final bool isLast;
-  final ShapeBorder? containerShape;
-  final Color? containerColor;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorTheme = ColorTheme.of(context);
-    final shapeTheme = ShapeTheme.of(context);
-    final edgeCorner = shapeTheme.corner.largeIncreased;
-    final middleCorner = shapeTheme.corner.extraSmall;
-    return Material(
-      animationDuration: Duration.zero,
-      type: MaterialType.card,
-      clipBehavior: Clip.antiAlias,
-      color: containerColor ?? colorTheme.surfaceBright,
-      shape:
-          containerShape ??
-          CornersBorder.rounded(
-            corners: Corners.vertical(
-              top: isFirst ? edgeCorner : middleCorner,
-              bottom: isLast ? edgeCorner : middleCorner,
-            ),
-          ),
-      child: child,
-    );
-  }
 }

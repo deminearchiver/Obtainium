@@ -33,48 +33,45 @@ class SettingsProvider with ChangeNotifier {
     required SharedPreferencesWithCache prefsWithCache,
     required String defaultAppDir,
   }) : _prefsWithCache = prefsWithCache,
-       _defaultAppDir = defaultAppDir {
-    prefsWithCache.reloadCache();
-  }
+       _defaultAppDir = defaultAppDir;
 
   static SettingsProvider? _instance;
 
   static Future<SettingsProvider> ensureInitialized() async {
     SettingsProvider? instance = _instance;
-    if (instance != null) {
-      return instance;
-    } else {
-      // Options should be shared across all instances
-      const sharedPreferencesOptions = SharedPreferencesOptions();
+    if (instance != null) return instance;
 
-      // First we migrate from legacy SharedPreferences
-      await migrateLegacySharedPreferencesToSharedPreferencesAsyncIfNecessary(
-        legacySharedPreferencesInstance: await SharedPreferences.getInstance(),
-        sharedPreferencesAsyncOptions: sharedPreferencesOptions,
-        migrationCompletedKey: _migration1CompletedKey,
-      );
+    // Options should be shared across all instances
+    const sharedPreferencesOptions = SharedPreferencesOptions();
 
-      // By setting a local variable way we utilitize Dart's null safety
-      instance = SettingsProvider._(
-        // create() includes a call to reloadCache already, no need to call it
-        prefsWithCache: await SharedPreferencesWithCache.create(
-          sharedPreferencesOptions: sharedPreferencesOptions,
-          cacheOptions: const SharedPreferencesWithCacheOptions(),
-        ),
-        defaultAppDir: (await getExternalStorageDirectory())!.path,
-      );
+    // First we migrate from legacy SharedPreferences
+    await migrateLegacySharedPreferencesToSharedPreferencesAsyncIfNecessary(
+      legacySharedPreferencesInstance: await SharedPreferences.getInstance(),
+      sharedPreferencesAsyncOptions: sharedPreferencesOptions,
+      migrationCompletedKey: _migration1CompletedKey,
+    );
 
-      // Don't forget to update the actual field
-      _instance = instance;
+    // By setting a local variable way we utilitize Dart's null safety
+    instance = SettingsProvider._(
+      // create() includes a call to reloadCache already, no need to call it
+      prefsWithCache: await SharedPreferencesWithCache.create(
+        sharedPreferencesOptions: sharedPreferencesOptions,
+        cacheOptions: const SharedPreferencesWithCacheOptions(),
+      ),
+      defaultAppDir: (await getExternalStorageDirectory())!.path,
+    );
 
-      // Return local (non-null) variable
-      return instance;
-    }
+    await instance.reload();
+
+    return _instance = instance;
   }
 
   Future<void> reload() async {
     await _prefsWithCache.reloadCache();
     _defaultAppDir = (await getExternalStorageDirectory())!.path;
+
+    _developerModeV1 = prefsWithCache.getBool("developerModeV1") ?? kDebugMode;
+
     notifyListeners();
   }
 
@@ -575,5 +572,14 @@ class SettingsProvider with ChangeNotifier {
   set useFGService(bool val) {
     prefsWithCache.setBool('useFGService', val);
     notifyListeners();
+  }
+
+  bool _developerModeV1 = kDebugMode;
+  bool get developerModeV1 => _developerModeV1;
+  set developerModeV1(bool value) {
+    if (_developerModeV1 == value) return;
+    _developerModeV1 = value;
+    notifyListeners();
+    prefsWithCache.setBool("developerModeV1", value);
   }
 }

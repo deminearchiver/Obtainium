@@ -2,6 +2,46 @@ import 'package:obtainium/flutter.dart';
 
 enum ListItemControlAffinity { leading, trailing }
 
+class ListItemContainer extends StatelessWidget {
+  const ListItemContainer({
+    super.key,
+    this.isFirst = false,
+    this.isLast = false,
+    this.containerShape,
+    this.containerColor,
+    required this.child,
+  });
+
+  final bool isFirst;
+  final bool isLast;
+  final ShapeBorder? containerShape;
+  final Color? containerColor;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final edgeCorner = shapeTheme.corner.largeIncreased;
+    final middleCorner = shapeTheme.corner.extraSmall;
+    return Material(
+      animationDuration: Duration.zero,
+      type: MaterialType.card,
+      clipBehavior: Clip.antiAlias,
+      color: containerColor ?? colorTheme.surfaceBright,
+      shape:
+          containerShape ??
+          CornersBorder.rounded(
+            corners: Corners.vertical(
+              top: isFirst ? edgeCorner : middleCorner,
+              bottom: isLast ? edgeCorner : middleCorner,
+            ),
+          ),
+      child: child,
+    );
+  }
+}
+
 class ListItemInteraction extends StatefulWidget {
   const ListItemInteraction({
     super.key,

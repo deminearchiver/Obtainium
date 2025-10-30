@@ -155,7 +155,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
               //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
               //   child: Flex.vertical(
               //     children: [
-              //       _ListItemContainer(
+              //       ListItemContainer(
               //         isFirst: true,
               //         child: ConstrainedBox(
               //           constraints: BoxConstraints(minHeight: 56.0),
@@ -173,7 +173,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
               //         ),
               //       ),
               //       const SizedBox(height: 2.0),
-              //       _ListItemContainer(
+              //       ListItemContainer(
               //         isLast: true,
               //         child: ConstrainedBox(
               //           constraints: BoxConstraints(minHeight: 56.0),
@@ -198,7 +198,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   spacing: 2.0,
                   children: [
-                    _ListItemContainer(
+                    ListItemContainer(
                       isFirst: true,
                       child: MergeSemantics(
                         child: ListItemInteraction(
@@ -223,7 +223,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                         ),
                       ),
                     ),
-                    _ListItemContainer(
+                    ListItemContainer(
                       child: MergeSemantics(
                         child: ListItemInteraction(
                           onTap: () => Navigator.of(context).push(
@@ -241,7 +241,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                         ),
                       ),
                     ),
-                    _ListItemContainer(
+                    ListItemContainer(
                       child: MergeSemantics(
                         child: ListItemInteraction(
                           onTap: () => Navigator.of(context).push(
@@ -259,7 +259,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                         ),
                       ),
                     ),
-                    _ListItemContainer(
+                    ListItemContainer(
                       isLast: true,
                       child: MergeSemantics(
                         child: ListItemInteraction(
@@ -527,40 +527,6 @@ class _DeveloperMarkdown2PageState extends State<DeveloperMarkdown2Page> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _ListItemContainer extends StatelessWidget {
-  const _ListItemContainer({
-    super.key,
-    this.isFirst = false,
-    this.isLast = false,
-    required this.child,
-  });
-
-  final bool isFirst;
-  final bool isLast;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorTheme = ColorTheme.of(context);
-    final shapeTheme = ShapeTheme.of(context);
-    final edgeCorner = shapeTheme.corner.largeIncreased;
-    final middleCorner = shapeTheme.corner.extraSmall;
-    return Material(
-      animationDuration: Duration.zero,
-      type: MaterialType.card,
-      clipBehavior: Clip.antiAlias,
-      color: colorTheme.surfaceBright,
-      shape: CornersBorder.rounded(
-        corners: Corners.vertical(
-          top: isFirst ? edgeCorner : middleCorner,
-          bottom: isLast ? edgeCorner : middleCorner,
-        ),
-      ),
-      child: child,
     );
   }
 }
@@ -1869,7 +1835,7 @@ class _Settings2ViewState extends State<Settings2View> {
               const SizedBox(height: 16 - 4.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: _ListItemContainer(
+                child: ListItemContainer(
                   isFirst: true,
                   child: ListItemInteraction(
                     onTap: () {},
@@ -1903,7 +1869,7 @@ class _Settings2ViewState extends State<Settings2View> {
               const SizedBox(height: 2.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: _ListItemContainer(
+                child: ListItemContainer(
                   child: ListItemInteraction(
                     onTap: () {},
                     child: ListItemLayout(
@@ -1936,7 +1902,7 @@ class _Settings2ViewState extends State<Settings2View> {
               const SizedBox(height: 2.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: _ListItemContainer(
+                child: ListItemContainer(
                   isLast: true,
                   child: ListItemInteraction(
                     onTap: () {},
