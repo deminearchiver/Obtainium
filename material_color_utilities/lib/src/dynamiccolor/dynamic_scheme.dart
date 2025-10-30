@@ -21,7 +21,7 @@ class DynamicScheme {
     required this.isDark,
     required this.contrastLevel,
     this.platform = defaultPlatform,
-    this.specVersion = defaultSpecVersion,
+    SpecVersion specVersion = defaultSpecVersion,
     required this.primaryPalette,
     required this.secondaryPalette,
     required this.tertiaryPalette,
@@ -29,6 +29,7 @@ class DynamicScheme {
     required this.neutralVariantPalette,
     TonalPalette? errorPalette,
   }) : sourceColorArgb = sourceColorHct.toInt(),
+       specVersion = _maybeFallbackSpecVersion(specVersion, variant),
        errorPalette = errorPalette ?? TonalPalette.fromHueAndChroma(25.0, 84.0);
 
   DynamicScheme._fromPalettesOrKeyColors({
@@ -140,7 +141,10 @@ class DynamicScheme {
          contrastLevel: contrastLevel ?? 0.0,
          variant: variant ?? Variant.tonalSpot,
          platform: platform ?? defaultPlatform,
-         specVersion: specVersion ?? defaultSpecVersion,
+         specVersion: _maybeFallbackSpecVersion(
+           specVersion ?? defaultSpecVersion,
+           variant ?? Variant.tonalSpot,
+         ),
          primaryPalette: primaryPalette,
          secondaryPalette: secondaryPalette,
          tertiaryPalette: tertiaryPalette,
@@ -231,109 +235,6 @@ class DynamicScheme {
 
   int getArgb(DynamicColor dynamicColor) => dynamicColor.getArgb(this);
 
-  @override
-  String toString() =>
-      "Scheme: variant=${variant.name}, "
-      "mode=${isDark ? "dark" : "light"}, "
-      "platform=${platform.name}, "
-      "contrastLevel=${contrastLevel.toStringAsFixed(1)}, "
-      "seed=$sourceColorHct, "
-      "specVersion=$specVersion";
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is DynamicScheme &&
-            sourceColorArgb == other.sourceColorArgb &&
-            sourceColorHct == other.sourceColorHct &&
-            variant == other.variant &&
-            isDark == other.isDark &&
-            platform == other.platform &&
-            contrastLevel == other.contrastLevel &&
-            specVersion == other.specVersion &&
-            primaryPalette == other.primaryPalette &&
-            secondaryPalette == other.secondaryPalette &&
-            tertiaryPalette == other.tertiaryPalette &&
-            neutralPalette == other.neutralPalette &&
-            neutralVariantPalette == other.neutralVariantPalette &&
-            errorPalette == other.errorPalette;
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    sourceColorArgb,
-    sourceColorHct,
-    variant,
-    isDark,
-    platform,
-    contrastLevel,
-    specVersion,
-    primaryPalette,
-    secondaryPalette,
-    tertiaryPalette,
-    neutralPalette,
-    neutralVariantPalette,
-    errorPalette,
-  );
-
-  static DynamicScheme from(
-    DynamicScheme other,
-    bool isDark, [
-    double? contrastLevel,
-  ]) {
-    return DynamicScheme(
-      sourceColorHct: other.sourceColorHct,
-      variant: other.variant,
-      isDark: isDark,
-      contrastLevel: contrastLevel ?? other.contrastLevel,
-      platform: other.platform,
-      specVersion: other.specVersion,
-      primaryPalette: other.primaryPalette,
-      secondaryPalette: other.secondaryPalette,
-      tertiaryPalette: other.tertiaryPalette,
-      neutralPalette: other.neutralPalette,
-      neutralVariantPalette: other.neutralVariantPalette,
-      errorPalette: other.errorPalette,
-    );
-  }
-
-  static double getPiecewiseValue(
-    Hct sourceColorHct,
-    List<double> hueBreakpoints,
-    List<double> hues,
-  ) {
-    final size = math.min(hueBreakpoints.length - 1, hues.length);
-    final sourceHue = sourceColorHct.hue;
-    for (int i = 0; i < size; i++) {
-      if (sourceHue >= hueBreakpoints[i] && sourceHue < hueBreakpoints[i + 1]) {
-        return MathUtils.sanitizeDegreesDouble(hues[i]);
-      }
-    }
-    // No condition matched, return the source value.
-    return sourceHue;
-  }
-
-  static double getRotatedHue(
-    Hct sourceColorHct,
-    List<double> hueBreakpoints,
-    List<double> rotations,
-  ) {
-    double rotation = getPiecewiseValue(
-      sourceColorHct,
-      hueBreakpoints,
-      rotations,
-    );
-    if (math.min(hueBreakpoints.length - 1, rotations.length) <= 0) {
-      // No condition matched, return the source hue.
-      rotation = 0.0;
-    }
-    return MathUtils.sanitizeDegreesDouble(sourceColorHct.hue + rotation);
-  }
-
-  static const MaterialDynamicColors _colors = MaterialDynamicColors();
-
   int get primaryPaletteKeyColor => getArgb(_colors.primaryPaletteKeyColor());
   int get secondaryPaletteKeyColor =>
       getArgb(_colors.secondaryPaletteKeyColor());
@@ -395,4 +296,121 @@ class DynamicScheme {
   int get onError => getArgb(_colors.onError());
   int get errorContainer => getArgb(_colors.errorContainer());
   int get onErrorContainer => getArgb(_colors.onErrorContainer());
+
+  @override
+  String toString() =>
+      "Scheme: variant=${variant.name}, "
+      "mode=${isDark ? "dark" : "light"}, "
+      "platform=${platform.name}, "
+      "contrastLevel=${contrastLevel.toStringAsFixed(1)}, "
+      "seed=$sourceColorHct, "
+      "specVersion=$specVersion";
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        runtimeType == other.runtimeType &&
+            other is DynamicScheme &&
+            sourceColorArgb == other.sourceColorArgb &&
+            sourceColorHct == other.sourceColorHct &&
+            variant == other.variant &&
+            isDark == other.isDark &&
+            platform == other.platform &&
+            contrastLevel == other.contrastLevel &&
+            specVersion == other.specVersion &&
+            primaryPalette == other.primaryPalette &&
+            secondaryPalette == other.secondaryPalette &&
+            tertiaryPalette == other.tertiaryPalette &&
+            neutralPalette == other.neutralPalette &&
+            neutralVariantPalette == other.neutralVariantPalette &&
+            errorPalette == other.errorPalette;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    sourceColorArgb,
+    sourceColorHct,
+    variant,
+    isDark,
+    platform,
+    contrastLevel,
+    specVersion,
+    primaryPalette,
+    secondaryPalette,
+    tertiaryPalette,
+    neutralPalette,
+    neutralVariantPalette,
+    errorPalette,
+  );
+
+  static const MaterialDynamicColors _colors = MaterialDynamicColors();
+
+  static DynamicScheme from(
+    DynamicScheme other,
+    bool isDark, [
+    double? contrastLevel,
+  ]) {
+    return DynamicScheme(
+      sourceColorHct: other.sourceColorHct,
+      variant: other.variant,
+      isDark: isDark,
+      contrastLevel: contrastLevel ?? other.contrastLevel,
+      platform: other.platform,
+      specVersion: other.specVersion,
+      primaryPalette: other.primaryPalette,
+      secondaryPalette: other.secondaryPalette,
+      tertiaryPalette: other.tertiaryPalette,
+      neutralPalette: other.neutralPalette,
+      neutralVariantPalette: other.neutralVariantPalette,
+      errorPalette: other.errorPalette,
+    );
+  }
+
+  static double getPiecewiseValue(
+    Hct sourceColorHct,
+    List<double> hueBreakpoints,
+    List<double> hues,
+  ) {
+    final size = math.min(hueBreakpoints.length - 1, hues.length);
+    final sourceHue = sourceColorHct.hue;
+    for (int i = 0; i < size; i++) {
+      if (sourceHue >= hueBreakpoints[i] && sourceHue < hueBreakpoints[i + 1]) {
+        return MathUtils.sanitizeDegreesDouble(hues[i]);
+      }
+    }
+    // No condition matched, return the source value.
+    return sourceHue;
+  }
+
+  static double getRotatedHue(
+    Hct sourceColorHct,
+    List<double> hueBreakpoints,
+    List<double> rotations,
+  ) {
+    double rotation = getPiecewiseValue(
+      sourceColorHct,
+      hueBreakpoints,
+      rotations,
+    );
+    if (math.min(hueBreakpoints.length - 1, rotations.length) <= 0) {
+      // No condition matched, return the source hue.
+      rotation = 0.0;
+    }
+    return MathUtils.sanitizeDegreesDouble(sourceColorHct.hue + rotation);
+  }
+
+  /// Returns the spec version to use for the given variant.
+  /// If the variant is not supported by the given spec version,
+  /// the fallback spec version is returned.
+  static SpecVersion _maybeFallbackSpecVersion(
+    SpecVersion specVersion,
+    Variant variant,
+  ) => switch (variant) {
+    Variant.expressive ||
+    Variant.vibrant ||
+    Variant.tonalSpot ||
+    Variant.neutral => specVersion,
+    _ => SpecVersion.spec2021,
+  };
 }

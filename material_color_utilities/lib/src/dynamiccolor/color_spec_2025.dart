@@ -476,8 +476,9 @@ class ColorSpec2025 extends ColorSpec2021 {
           return surfaceContainerHigh();
         }
       },
-      contrastCurve: (s) =>
-          s.isDark ? _getContrastCurve(11) : _getContrastCurve(9),
+      contrastCurve: (s) => s.isDark && s.platform == Platform.phone
+          ? _getContrastCurve(11)
+          : _getContrastCurve(9),
     );
     return super.onSurface().extendSpecVersion(SpecVersion.spec2025, color2025);
   }
@@ -957,6 +958,10 @@ class ColorSpec2025 extends ColorSpec2021 {
               polarity: TonePolarity.darker,
               constraint: DeltaConstraint.farther,
             )
+          : null,
+      contrastCurve: (s) =>
+          s.platform == Platform.phone && s.contrastLevel > 0.0
+          ? _getContrastCurve(1.5)
           : null,
     );
     return super.secondaryContainer().extendSpecVersion(
