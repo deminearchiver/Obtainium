@@ -43,6 +43,8 @@ dependencies:
     path: material
   obtainium_fonts:
     path: obtainium_fonts
+  obtainium_i18n:
+    path: obtainium_i18n
   meta: ^1.17.0
   path_provider: ^2.1.5
   flutter_fgbg: ^0.7.1
