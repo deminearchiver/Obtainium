@@ -1513,6 +1513,36 @@ class ColorSpec2025 extends ColorSpec2021 {
   }
 
   @override
+  DynamicColor controlActivated() {
+    // Remapped to primaryContainer for 2025 spec.
+    final color2025 = primaryContainer().copyWith(name: "control_activated");
+    return super.controlActivated().extendSpecVersion(
+      SpecVersion.spec2025,
+      color2025,
+    );
+  }
+
+  @override
+  DynamicColor controlNormal() {
+    // Remapped to onSurfaceVariant for 2025 spec.
+    final color2025 = onSurfaceVariant().copyWith(name: "control_normal");
+    return super.controlNormal().extendSpecVersion(
+      SpecVersion.spec2025,
+      color2025,
+    );
+  }
+
+  @override
+  DynamicColor textPrimaryInverse() {
+    // Remapped to inverseOnSurface for 2025 spec.
+    final color2025 = inverseOnSurface().copyWith(name: "text_primary_inverse");
+    return super.textPrimaryInverse().extendSpecVersion(
+      SpecVersion.spec2025,
+      color2025,
+    );
+  }
+
+  @override
   Hct getHct(DynamicScheme scheme, DynamicColor color) {
     // This is crucial for aesthetics: we aren't simply the taking the standard color
     // and changing its tone for contrast. Rather, we find the tone for contrast, then

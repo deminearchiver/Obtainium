@@ -6,13 +6,13 @@ import '../utils/color_utils.dart';
 import '../utils/math_utils.dart';
 
 final class TemperatureCache {
-  final Hct _input;
+  final Hct input;
   Hct? _precomputedComplement;
   List<Hct>? _precomputedHctsByTemp;
   List<Hct>? _precomputedHctsByHue;
   Map<Hct, double>? _precomputedTempsByHct;
 
-  TemperatureCache(this._input);
+  TemperatureCache(this.input);
 
   Hct getComplement() {
     if (_precomputedComplement != null) {
@@ -26,7 +26,7 @@ final class TemperatureCache {
     final warmestTemp = _getTempsByHct()[_getWarmest()]!;
     final range = warmestTemp - coldestTemp;
     final startHueIsColdestToWarmest = _isBetween(
-      _input.hue,
+      input.hue,
       coldestHue,
       warmestHue,
     );
@@ -35,9 +35,9 @@ final class TemperatureCache {
     final directionOfRotation = 1.0;
 
     double smallestError = 1000.0;
-    Hct answer = _getHctsByHue()[_input.hue.round()];
+    Hct answer = _getHctsByHue()[input.hue.round()];
 
-    final complementRelativeTemp = (1.0 - getRelativeTemperature(_input));
+    final complementRelativeTemp = (1.0 - getRelativeTemperature(input));
 
     // Find the color in the other section, closest to the inverse percentile
     // of the input color. This is the complement.
@@ -63,7 +63,7 @@ final class TemperatureCache {
 
   List<Hct> getAnalogousColors([int count = 5, int divisions = 12]) {
     // The starting hue is the hue of the input color.
-    final startHue = _input.hue.round();
+    final startHue = input.hue.round();
     final startHct = _getHctsByHue()[startHue];
     double lastTemp = getRelativeTemperature(startHct);
 
@@ -121,7 +121,7 @@ final class TemperatureCache {
     }
 
     final List<Hct> answers = <Hct>[];
-    answers.add(_input);
+    answers.add(input);
 
     final ccwCount = ((count.toDouble() - 1.0) / 2.0).floor();
     for (int i = 1; i < (ccwCount + 1); i++) {
@@ -180,7 +180,7 @@ final class TemperatureCache {
     }
     final hcts = <Hct>[];
     for (double hue = 0.0; hue <= 360.0; hue += 1.0) {
-      final colorAtHue = Hct.from(hue, _input.chroma, _input.tone);
+      final colorAtHue = Hct.from(hue, input.chroma, input.tone);
       hcts.add(colorAtHue);
     }
     _precomputedHctsByHue = UnmodifiableListView(hcts);
@@ -192,7 +192,7 @@ final class TemperatureCache {
       return _precomputedHctsByTemp!;
     }
     final hcts = List.of(_getHctsByHue());
-    hcts.add(_input);
+    hcts.add(input);
     hcts.sort((a, b) => _getTempsByHct()[a]!.compareTo(_getTempsByHct()[b]!));
     _precomputedHctsByTemp = hcts;
     return _precomputedHctsByTemp!;
@@ -204,7 +204,7 @@ final class TemperatureCache {
     }
 
     final allHcts = List.of(_getHctsByHue());
-    allHcts.add(_input);
+    allHcts.add(input);
 
     final temperaturesByHct = <Hct, double>{};
     for (final hct in allHcts) {

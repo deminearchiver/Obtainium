@@ -296,6 +296,17 @@ class DynamicScheme {
   int get onError => getArgb(_colors.onError());
   int get errorContainer => getArgb(_colors.errorContainer());
   int get onErrorContainer => getArgb(_colors.onErrorContainer());
+  int get controlActivated => getArgb(_colors.controlActivated());
+  int get controlNormal => getArgb(_colors.controlNormal());
+  int get controlHighlight => getArgb(_colors.controlHighlight());
+  int get textPrimaryInverse => getArgb(_colors.textPrimaryInverse());
+  int get textSecondaryAndTertiaryInverse =>
+      getArgb(_colors.textSecondaryAndTertiaryInverse());
+  int get textPrimaryInverseDisableOnly =>
+      getArgb(_colors.textPrimaryInverseDisableOnly());
+  int get textSecondaryAndTertiaryInverseDisabled =>
+      getArgb(_colors.textSecondaryAndTertiaryInverseDisabled());
+  int get textHintInverse => getArgb(_colors.textHintInverse());
 
   @override
   String toString() =>

@@ -7,285 +7,149 @@ final class MaterialDynamicColors {
 
   static const ColorSpec2025 _colorSpec = ColorSpec2025();
 
-  DynamicColor highestSurface(DynamicScheme s) {
-    return _colorSpec.highestSurface(s);
-  }
-
-  ////////////////////////////////////////////////////////////////
-  // Main Palettes                                              //
-  ////////////////////////////////////////////////////////////////
-
-  DynamicColor primaryPaletteKeyColor() {
-    return _colorSpec.primaryPaletteKeyColor();
-  }
-
-  DynamicColor secondaryPaletteKeyColor() {
-    return _colorSpec.secondaryPaletteKeyColor();
-  }
-
-  DynamicColor tertiaryPaletteKeyColor() {
-    return _colorSpec.tertiaryPaletteKeyColor();
-  }
-
-  DynamicColor neutralPaletteKeyColor() {
-    return _colorSpec.neutralPaletteKeyColor();
-  }
-
-  DynamicColor neutralVariantPaletteKeyColor() {
-    return _colorSpec.neutralVariantPaletteKeyColor();
-  }
-
-  DynamicColor errorPaletteKeyColor() {
-    return _colorSpec.errorPaletteKeyColor();
-  }
-
-  ////////////////////////////////////////////////////////////////
-  // Surfaces [S]                                               //
-  ////////////////////////////////////////////////////////////////
-
-  DynamicColor background() {
-    return _colorSpec.background();
-  }
-
-  DynamicColor onBackground() {
-    return _colorSpec.onBackground();
-  }
-
-  DynamicColor surface() {
-    return _colorSpec.surface();
-  }
-
-  DynamicColor surfaceDim() {
-    return _colorSpec.surfaceDim();
-  }
-
-  DynamicColor surfaceBright() {
-    return _colorSpec.surfaceBright();
-  }
-
-  DynamicColor surfaceContainerLowest() {
-    return _colorSpec.surfaceContainerLowest();
-  }
-
-  DynamicColor surfaceContainerLow() {
-    return _colorSpec.surfaceContainerLow();
-  }
-
-  DynamicColor surfaceContainer() {
-    return _colorSpec.surfaceContainer();
-  }
-
-  DynamicColor surfaceContainerHigh() {
-    return _colorSpec.surfaceContainerHigh();
-  }
-
-  DynamicColor surfaceContainerHighest() {
-    return _colorSpec.surfaceContainerHighest();
-  }
-
-  DynamicColor onSurface() {
-    return _colorSpec.onSurface();
-  }
-
-  DynamicColor surfaceVariant() {
-    return _colorSpec.surfaceVariant();
-  }
-
-  DynamicColor onSurfaceVariant() {
-    return _colorSpec.onSurfaceVariant();
-  }
-
-  DynamicColor inverseSurface() {
-    return _colorSpec.inverseSurface();
-  }
-
-  DynamicColor inverseOnSurface() {
-    return _colorSpec.inverseOnSurface();
-  }
-
-  DynamicColor outline() {
-    return _colorSpec.outline();
-  }
-
-  DynamicColor outlineVariant() {
-    return _colorSpec.outlineVariant();
-  }
-
-  DynamicColor shadow() {
-    return _colorSpec.shadow();
-  }
-
-  DynamicColor scrim() {
-    return _colorSpec.scrim();
-  }
-
-  DynamicColor surfaceTint() {
-    return _colorSpec.surfaceTint();
-  }
-
-  ////////////////////////////////////////////////////////////////
-  // Primaries [P]                                              //
-  ////////////////////////////////////////////////////////////////
-
-  DynamicColor primary() {
-    return _colorSpec.primary();
-  }
-
-  DynamicColor primaryDim() {
-    return _colorSpec.primaryDim();
-  }
-
-  DynamicColor onPrimary() {
-    return _colorSpec.onPrimary();
-  }
-
-  DynamicColor primaryContainer() {
-    return _colorSpec.primaryContainer();
-  }
-
-  DynamicColor onPrimaryContainer() {
-    return _colorSpec.onPrimaryContainer();
-  }
-
-  DynamicColor inversePrimary() {
-    return _colorSpec.inversePrimary();
-  }
-
-  /////////////////////////////////////////////////////////////////
-  // Primary Fixed Colors [PF]                                   //
-  /////////////////////////////////////////////////////////////////
-
-  DynamicColor primaryFixed() {
-    return _colorSpec.primaryFixed();
-  }
-
-  DynamicColor primaryFixedDim() {
-    return _colorSpec.primaryFixedDim();
-  }
-
-  DynamicColor onPrimaryFixed() {
-    return _colorSpec.onPrimaryFixed();
-  }
-
-  DynamicColor onPrimaryFixedVariant() {
-    return _colorSpec.onPrimaryFixedVariant();
-  }
-
-  ////////////////////////////////////////////////////////////////
-  // Secondaries [Q]                                            //
-  ////////////////////////////////////////////////////////////////
-
-  DynamicColor secondary() {
-    return _colorSpec.secondary();
-  }
-
-  DynamicColor secondaryDim() {
-    return _colorSpec.secondaryDim();
-  }
-
-  DynamicColor onSecondary() {
-    return _colorSpec.onSecondary();
-  }
-
-  DynamicColor secondaryContainer() {
-    return _colorSpec.secondaryContainer();
-  }
-
-  DynamicColor onSecondaryContainer() {
-    return _colorSpec.onSecondaryContainer();
-  }
-
-  /////////////////////////////////////////////////////////////////
-  // Secondary Fixed Colors [QF]                                 //
-  /////////////////////////////////////////////////////////////////
-
-  DynamicColor secondaryFixed() {
-    return _colorSpec.secondaryFixed();
-  }
-
-  DynamicColor secondaryFixedDim() {
-    return _colorSpec.secondaryFixedDim();
-  }
-
-  DynamicColor onSecondaryFixed() {
-    return _colorSpec.onSecondaryFixed();
-  }
-
-  DynamicColor onSecondaryFixedVariant() {
-    return _colorSpec.onSecondaryFixedVariant();
-  }
-
-  ////////////////////////////////////////////////////////////////
-  // Tertiaries [T]                                             //
-  ////////////////////////////////////////////////////////////////
-
-  DynamicColor tertiary() {
-    return _colorSpec.tertiary();
-  }
-
-  DynamicColor tertiaryDim() {
-    return _colorSpec.tertiaryDim();
-  }
-
-  DynamicColor onTertiary() {
-    return _colorSpec.onTertiary();
-  }
-
-  DynamicColor tertiaryContainer() {
-    return _colorSpec.tertiaryContainer();
-  }
-
-  DynamicColor onTertiaryContainer() {
-    return _colorSpec.onTertiaryContainer();
-  }
-
-  /////////////////////////////////////////////////////////////////
-  // Tertiary Fixed Colors [TF]                                  //
-  /////////////////////////////////////////////////////////////////
-
-  DynamicColor tertiaryFixed() {
-    return _colorSpec.tertiaryFixed();
-  }
-
-  DynamicColor tertiaryFixedDim() {
-    return _colorSpec.tertiaryFixedDim();
-  }
-
-  DynamicColor onTertiaryFixed() {
-    return _colorSpec.onTertiaryFixed();
-  }
-
-  DynamicColor onTertiaryFixedVariant() {
-    return _colorSpec.onTertiaryFixedVariant();
-  }
-
-  ////////////////////////////////////////////////////////////////
-  // Errors [E]                                                 //
-  ////////////////////////////////////////////////////////////////
-
-  DynamicColor error() {
-    return _colorSpec.error();
-  }
-
-  DynamicColor errorDim() {
-    return _colorSpec.errorDim();
-  }
-
-  DynamicColor onError() {
-    return _colorSpec.onError();
-  }
-
-  DynamicColor errorContainer() {
-    return _colorSpec.errorContainer();
-  }
-
-  DynamicColor onErrorContainer() {
-    return _colorSpec.onErrorContainer();
-  }
-
-  ////////////////////////////////////////////////////////////////
-  // All Colors                                                 //
-  ////////////////////////////////////////////////////////////////
+  DynamicColor highestSurface(DynamicScheme s) => _colorSpec.highestSurface(s);
+
+  DynamicColor primaryPaletteKeyColor() => _colorSpec.primaryPaletteKeyColor();
+
+  DynamicColor secondaryPaletteKeyColor() =>
+      _colorSpec.secondaryPaletteKeyColor();
+
+  DynamicColor tertiaryPaletteKeyColor() =>
+      _colorSpec.tertiaryPaletteKeyColor();
+
+  DynamicColor neutralPaletteKeyColor() => _colorSpec.neutralPaletteKeyColor();
+
+  DynamicColor neutralVariantPaletteKeyColor() =>
+      _colorSpec.neutralVariantPaletteKeyColor();
+
+  DynamicColor errorPaletteKeyColor() => _colorSpec.errorPaletteKeyColor();
+
+  DynamicColor background() => _colorSpec.background();
+
+  DynamicColor onBackground() => _colorSpec.onBackground();
+
+  DynamicColor surface() => _colorSpec.surface();
+
+  DynamicColor surfaceDim() => _colorSpec.surfaceDim();
+
+  DynamicColor surfaceBright() => _colorSpec.surfaceBright();
+
+  DynamicColor surfaceContainerLowest() => _colorSpec.surfaceContainerLowest();
+
+  DynamicColor surfaceContainerLow() => _colorSpec.surfaceContainerLow();
+
+  DynamicColor surfaceContainer() => _colorSpec.surfaceContainer();
+
+  DynamicColor surfaceContainerHigh() => _colorSpec.surfaceContainerHigh();
+
+  DynamicColor surfaceContainerHighest() =>
+      _colorSpec.surfaceContainerHighest();
+
+  DynamicColor onSurface() => _colorSpec.onSurface();
+
+  DynamicColor surfaceVariant() => _colorSpec.surfaceVariant();
+
+  DynamicColor onSurfaceVariant() => _colorSpec.onSurfaceVariant();
+
+  DynamicColor inverseSurface() => _colorSpec.inverseSurface();
+
+  DynamicColor inverseOnSurface() => _colorSpec.inverseOnSurface();
+
+  DynamicColor outline() => _colorSpec.outline();
+
+  DynamicColor outlineVariant() => _colorSpec.outlineVariant();
+
+  DynamicColor shadow() => _colorSpec.shadow();
+
+  DynamicColor scrim() => _colorSpec.scrim();
+
+  DynamicColor surfaceTint() => _colorSpec.surfaceTint();
+
+  DynamicColor primary() => _colorSpec.primary();
+
+  DynamicColor primaryDim() => _colorSpec.primaryDim();
+
+  DynamicColor onPrimary() => _colorSpec.onPrimary();
+
+  DynamicColor primaryContainer() => _colorSpec.primaryContainer();
+
+  DynamicColor onPrimaryContainer() => _colorSpec.onPrimaryContainer();
+
+  DynamicColor inversePrimary() => _colorSpec.inversePrimary();
+
+  DynamicColor primaryFixed() => _colorSpec.primaryFixed();
+
+  DynamicColor primaryFixedDim() => _colorSpec.primaryFixedDim();
+
+  DynamicColor onPrimaryFixed() => _colorSpec.onPrimaryFixed();
+
+  DynamicColor onPrimaryFixedVariant() => _colorSpec.onPrimaryFixedVariant();
+
+  DynamicColor secondary() => _colorSpec.secondary();
+
+  DynamicColor secondaryDim() => _colorSpec.secondaryDim();
+
+  DynamicColor onSecondary() => _colorSpec.onSecondary();
+
+  DynamicColor secondaryContainer() => _colorSpec.secondaryContainer();
+
+  DynamicColor onSecondaryContainer() => _colorSpec.onSecondaryContainer();
+
+  DynamicColor secondaryFixed() => _colorSpec.secondaryFixed();
+
+  DynamicColor secondaryFixedDim() => _colorSpec.secondaryFixedDim();
+
+  DynamicColor onSecondaryFixed() => _colorSpec.onSecondaryFixed();
+
+  DynamicColor onSecondaryFixedVariant() =>
+      _colorSpec.onSecondaryFixedVariant();
+
+  DynamicColor tertiary() => _colorSpec.tertiary();
+
+  DynamicColor tertiaryDim() => _colorSpec.tertiaryDim();
+
+  DynamicColor onTertiary() => _colorSpec.onTertiary();
+
+  DynamicColor tertiaryContainer() => _colorSpec.tertiaryContainer();
+
+  DynamicColor onTertiaryContainer() => _colorSpec.onTertiaryContainer();
+
+  DynamicColor tertiaryFixed() => _colorSpec.tertiaryFixed();
+
+  DynamicColor tertiaryFixedDim() => _colorSpec.tertiaryFixedDim();
+
+  DynamicColor onTertiaryFixed() => _colorSpec.onTertiaryFixed();
+
+  DynamicColor onTertiaryFixedVariant() => _colorSpec.onTertiaryFixedVariant();
+
+  DynamicColor error() => _colorSpec.error();
+
+  DynamicColor errorDim() => _colorSpec.errorDim();
+
+  DynamicColor onError() => _colorSpec.onError();
+
+  DynamicColor errorContainer() => _colorSpec.errorContainer();
+
+  DynamicColor onErrorContainer() => _colorSpec.onErrorContainer();
+
+  DynamicColor controlActivated() => _colorSpec.controlActivated();
+
+  DynamicColor controlNormal() => _colorSpec.controlNormal();
+
+  DynamicColor controlHighlight() => _colorSpec.controlHighlight();
+
+  DynamicColor textPrimaryInverse() => _colorSpec.textPrimaryInverse();
+
+  DynamicColor textSecondaryAndTertiaryInverse() =>
+      _colorSpec.textSecondaryAndTertiaryInverse();
+
+  DynamicColor textPrimaryInverseDisableOnly() =>
+      _colorSpec.textPrimaryInverseDisableOnly();
+
+  DynamicColor textSecondaryAndTertiaryInverseDisabled() =>
+      _colorSpec.textSecondaryAndTertiaryInverseDisabled();
+
+  DynamicColor textHintInverse() => _colorSpec.textHintInverse();
 
   /// All dynamic colors in Material Design system.
   List<DynamicColor> get allDynamicColors => [
@@ -348,5 +212,13 @@ final class MaterialDynamicColors {
     onError(),
     errorContainer(),
     onErrorContainer(),
+    controlActivated(),
+    controlNormal(),
+    controlHighlight(),
+    textPrimaryInverse(),
+    textSecondaryAndTertiaryInverse(),
+    textPrimaryInverseDisableOnly(),
+    textSecondaryAndTertiaryInverseDisabled(),
+    textHintInverse(),
   ];
 }

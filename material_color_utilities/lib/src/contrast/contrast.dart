@@ -13,11 +13,13 @@ abstract final class Contrast {
 
   static double ratioOfYs(double y1, double y2) {
     final double lighter = math.max(y1, y2);
-    final double darker = (lighter == y2) ? y1 : y2;
+    final double darker = lighter == y2 ? y1 : y2;
     return (lighter + 5.0) / (darker + 5.0);
   }
 
   static double ratioOfTones(double t1, double t2) {
+    t1 = t1.clamp(0.0, 100.0);
+    t2 = t2.clamp(0.0, 100.0);
     return ratioOfYs(ColorUtils.yFromLstar(t1), ColorUtils.yFromLstar(t2));
   }
 

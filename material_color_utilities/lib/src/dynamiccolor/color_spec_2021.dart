@@ -879,6 +879,80 @@ class ColorSpec2021 implements ColorSpec {
   }
 
   @override
+  DynamicColor controlActivated() {
+    return DynamicColor.fromPalette(
+      name: "control_activated",
+      palette: (s) => s.primaryPalette,
+      tone: (s) => s.isDark ? 30.0 : 90.0,
+      isBackground: true,
+    );
+  }
+
+  @override
+  DynamicColor controlNormal() {
+    return DynamicColor.fromPalette(
+      name: "control_normal",
+      palette: (s) => s.neutralVariantPalette,
+      tone: (s) => s.isDark ? 80.0 : 30.0,
+    );
+  }
+
+  @override
+  DynamicColor controlHighlight() {
+    return DynamicColor.fromPalette(
+      name: "control_highlight",
+      palette: (s) => s.neutralPalette,
+      tone: (s) => s.isDark ? 100.0 : 0.0,
+      opacity: (s) => s.isDark ? 0.20 : 0.12,
+    );
+  }
+
+  @override
+  DynamicColor textPrimaryInverse() {
+    return DynamicColor.fromPalette(
+      name: "text_primary_inverse",
+      palette: (s) => s.neutralPalette,
+      tone: (s) => s.isDark ? 10.0 : 90.0,
+    );
+  }
+
+  @override
+  DynamicColor textSecondaryAndTertiaryInverse() {
+    return DynamicColor.fromPalette(
+      name: "text_secondary_and_tertiary_inverse",
+      palette: (s) => s.neutralVariantPalette,
+      tone: (s) => s.isDark ? 30.0 : 80.0,
+    );
+  }
+
+  @override
+  DynamicColor textPrimaryInverseDisableOnly() {
+    return DynamicColor.fromPalette(
+      name: "text_primary_inverse_disable_only",
+      palette: (s) => s.neutralPalette,
+      tone: (s) => s.isDark ? 10.0 : 90.0,
+    );
+  }
+
+  @override
+  DynamicColor textSecondaryAndTertiaryInverseDisabled() {
+    return DynamicColor.fromPalette(
+      name: "text_secondary_and_tertiary_inverse_disabled",
+      palette: (s) => s.neutralPalette,
+      tone: (s) => s.isDark ? 10.0 : 90.0,
+    );
+  }
+
+  @override
+  DynamicColor textHintInverse() {
+    return DynamicColor.fromPalette(
+      name: "text_hint_inverse",
+      palette: (s) => s.neutralPalette,
+      tone: (s) => s.isDark ? 10.0 : 90.0,
+    );
+  }
+
+  @override
   DynamicColor highestSurface(DynamicScheme s) {
     return s.isDark ? surfaceBright() : surfaceDim();
   }
