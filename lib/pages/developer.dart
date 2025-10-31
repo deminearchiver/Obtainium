@@ -1332,7 +1332,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
                     elevation: const WidgetStatePropertyAll(0.0),
                     shadowColor: WidgetStateColor.transparent,
                     minimumSize: const WidgetStatePropertyAll(Size.zero),
-                    fixedSize: const WidgetStatePropertyAll(Size(32.0, 40.0)),
+                    fixedSize: const WidgetStatePropertyAll(Size(40.0, 40.0)),
                     maximumSize: const WidgetStatePropertyAll(Size.infinite),
                     padding: const WidgetStatePropertyAll(EdgeInsets.zero),
                     iconSize: const WidgetStatePropertyAll(24.0),
@@ -1476,7 +1476,7 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
                         shadowColor: WidgetStateColor.transparent,
                         minimumSize: const WidgetStatePropertyAll(Size.zero),
                         fixedSize: const WidgetStatePropertyAll(
-                          Size(32.0, 40.0),
+                          Size(40.0, 40.0),
                         ),
                         maximumSize: const WidgetStatePropertyAll(
                           Size.infinite,
@@ -1559,6 +1559,7 @@ class _SettingsAppBarRoute<T extends Object?> extends PopupRoute<T> {
   @override
   Duration get transitionDuration => Durations.extralong4;
 
+  @override
   Duration get reverseTransitionDuration => Durations.extralong4;
 
   @override
