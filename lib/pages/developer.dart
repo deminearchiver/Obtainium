@@ -63,13 +63,16 @@ class DeveloperPage extends StatefulWidget {
 }
 
 class _DeveloperPageState extends State<DeveloperPage> {
-  bool _enabled = true;
-  bool _selected = false;
-  double _progress = 0.5;
-
   @override
   Widget build(BuildContext context) {
     final colorTheme = ColorTheme.of(context);
+
+    final staticColors = StaticColorsData.fallback(
+      variant: DynamicSchemeVariant.tonalSpot,
+      brightness: Brightness.light,
+      specVersion: DynamicSchemeSpecVersion.spec2025,
+    ).harmonizeWithPrimary(colorTheme);
+
     return Scaffold(
       backgroundColor: colorTheme.surfaceContainer,
       body: CustomScrollView(
@@ -89,68 +92,10 @@ class _DeveloperPageState extends State<DeveloperPage> {
               16.0,
               0.0,
             ),
-            title: Text("Developer"),
+            title: const Text("Developer Options"),
           ),
           SliverList.list(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: SizedBox(
-                  height: 128,
-                  child: Material(
-                    animationDuration: Duration.zero,
-                    color: colorTheme.surfaceBright,
-                    shape: const StadiumBorder(),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 16.0,
-                      ),
-                      child: Flex.horizontal(
-                        children: [
-                          Flexible.tight(
-                            child: FittedBox(
-                              fit: BoxFit.contain,
-                              child: Switch(
-                                onCheckedChanged: _enabled
-                                    ? (value) =>
-                                          setState(() => _selected = value)
-                                    : null,
-                                checked: _selected,
-                              ),
-                            ),
-                          ),
-                          Flexible.tight(
-                            child: FittedBox(
-                              fit: BoxFit.contain,
-                              child: Checkbox.biState(
-                                onCheckedChanged: _enabled
-                                    ? (value) =>
-                                          setState(() => _selected = value)
-                                    : null,
-                                checked: _selected,
-                              ),
-                            ),
-                          ),
-                          Flexible.tight(
-                            child: FittedBox(
-                              fit: BoxFit.contain,
-                              child: RadioButton(
-                                onTap: _enabled
-                                    ? () =>
-                                          setState(() => _selected = !_selected)
-                                    : null,
-                                selected: _selected,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
               // Padding(
               //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
               //   child: Flex.vertical(
@@ -200,30 +145,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                   children: [
                     ListItemContainer(
                       isFirst: true,
-                      child: MergeSemantics(
-                        child: ListItemInteraction(
-                          onTap: () => setState(() => _enabled = !_enabled),
-                          child: ListItemLayout(
-                            isMultiline: true,
-                            padding: EdgeInsets.fromLTRB(
-                              16.0,
-                              12.0,
-                              16.0 - 8.0,
-                              12.0,
-                            ),
-                            headline: Text("Enabled"),
-                            trailing: ExcludeFocus(
-                              child: Switch(
-                                onCheckedChanged: (value) =>
-                                    setState(() => _enabled = value),
-                                checked: _enabled,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    ListItemContainer(
+                      containerColor: colorTheme.surfaceBright,
                       child: MergeSemantics(
                         child: ListItemInteraction(
                           onTap: () => Navigator.of(context).push(
@@ -232,16 +154,39 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                   const DeveloperMarkdown1Page(),
                             ),
                           ),
-                          child: const ListItemLayout(
+                          child: ListItemLayout(
                             isMultiline: true,
-                            leading: Icon(Symbols.markdown_rounded),
-                            headline: Text("Markdown (flutter_markdown_plus)"),
-                            supportingText: Text("Uses SliverMarkdown"),
+                            leading: SizedBox.square(
+                              dimension: 40.0,
+                              child: Material(
+                                animationDuration: Duration.zero,
+                                type: MaterialType.card,
+                                clipBehavior: Clip.antiAlias,
+                                color: staticColors.green.colorFixedDim,
+                                shape: const StadiumBorder(),
+                                child: Align.center(
+                                  child: Icon(
+                                    Symbols.markdown_rounded,
+                                    fill: 1.0,
+                                    color:
+                                        staticColors.green.onColorFixedVariant,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            headline: const Text("Markdown Demo 1"),
+                            supportingText: const Text(
+                              "Uses flutter_markdown_plus",
+                            ),
+                            trailing: const Icon(
+                              Symbols.keyboard_arrow_right_rounded,
+                            ),
                           ),
                         ),
                       ),
                     ),
                     ListItemContainer(
+                      containerColor: colorTheme.surfaceBright,
                       child: MergeSemantics(
                         child: ListItemInteraction(
                           onTap: () => Navigator.of(context).push(
@@ -250,17 +195,78 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                   const DeveloperMarkdown2Page(),
                             ),
                           ),
-                          child: const ListItemLayout(
+                          child: ListItemLayout(
                             isMultiline: true,
-                            leading: Icon(Symbols.markdown_rounded),
-                            headline: Text("Markdown (super_editor)"),
-                            supportingText: Text("Uses SuperReader"),
+                            leading: SizedBox.square(
+                              dimension: 40.0,
+                              child: Material(
+                                animationDuration: Duration.zero,
+                                type: MaterialType.card,
+                                clipBehavior: Clip.antiAlias,
+                                color: staticColors.green.colorFixedDim,
+                                shape: const StadiumBorder(),
+                                child: Align.center(
+                                  child: Icon(
+                                    Symbols.markdown_rounded,
+                                    fill: 1.0,
+                                    color:
+                                        staticColors.green.onColorFixedVariant,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            headline: const Text("Markdown Demo 2"),
+                            supportingText: const Text("Uses super_editor"),
+                            trailing: const Icon(
+                              Symbols.keyboard_arrow_right_rounded,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    ListItemContainer(
+                      containerColor: colorTheme.surfaceBright,
+                      child: MergeSemantics(
+                        child: ListItemInteraction(
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const _MaterialDemoView(),
+                            ),
+                          ),
+                          child: ListItemLayout(
+                            isMultiline: true,
+                            leading: SizedBox.square(
+                              dimension: 40.0,
+                              child: Material(
+                                animationDuration: Duration.zero,
+                                type: MaterialType.card,
+                                clipBehavior: Clip.antiAlias,
+                                color: staticColors.blue.colorFixedDim,
+                                shape: const StadiumBorder(),
+                                child: Align.center(
+                                  child: Icon(
+                                    Symbols.magic_button_rounded,
+                                    fill: 1.0,
+                                    color:
+                                        staticColors.blue.onColorFixedVariant,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            headline: const Text("Material 3 Expressive"),
+                            supportingText: const Text(
+                              "Demo of the new design system",
+                            ),
+                            trailing: const Icon(
+                              Symbols.keyboard_arrow_right_rounded,
+                            ),
                           ),
                         ),
                       ),
                     ),
                     ListItemContainer(
                       isLast: true,
+                      containerColor: colorTheme.surfaceBright,
                       child: MergeSemantics(
                         child: ListItemInteraction(
                           onTap: () => Navigator.of(context).push(
@@ -276,20 +282,24 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                 animationDuration: Duration.zero,
                                 type: MaterialType.card,
                                 clipBehavior: Clip.antiAlias,
-                                color: colorTheme.primaryContainer,
+                                color: staticColors.cyan.colorFixedDim,
                                 shape: const StadiumBorder(),
                                 child: Align.center(
                                   child: Icon(
-                                    Symbols.magic_button_rounded,
+                                    Symbols.settings_rounded,
                                     fill: 1.0,
-                                    color: colorTheme.onPrimaryContainer,
+                                    color:
+                                        staticColors.cyan.onColorFixedVariant,
                                   ),
                                 ),
                               ),
                             ),
-                            headline: Text("New settings experience"),
-                            supportingText: Text(
-                              "Enable new design for the settings page",
+                            headline: const Text("New settings experience"),
+                            supportingText: const Text(
+                              "Try out new design for settings",
+                            ),
+                            trailing: const Icon(
+                              Symbols.keyboard_arrow_right_rounded,
                             ),
                           ),
                         ),
@@ -1838,6 +1848,7 @@ class _Settings2ViewState extends State<Settings2View> {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: ListItemContainer(
                   isFirst: true,
+                  containerColor: colorTheme.surfaceBright,
                   child: ListItemInteraction(
                     onTap: () {},
                     child: ListItemLayout(
@@ -1863,6 +1874,9 @@ class _Settings2ViewState extends State<Settings2View> {
                       ),
                       headline: Text("General"),
                       supportingText: Text("Behavioral options"),
+                      trailing: const Icon(
+                        Symbols.keyboard_arrow_right_rounded,
+                      ),
                     ),
                   ),
                 ),
@@ -1871,6 +1885,7 @@ class _Settings2ViewState extends State<Settings2View> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: ListItemContainer(
+                  containerColor: colorTheme.surfaceBright,
                   child: ListItemInteraction(
                     onTap: () {},
                     child: ListItemLayout(
@@ -1896,6 +1911,9 @@ class _Settings2ViewState extends State<Settings2View> {
                       ),
                       headline: Text("Appearance"),
                       supportingText: Text("App theme and language"),
+                      trailing: const Icon(
+                        Symbols.keyboard_arrow_right_rounded,
+                      ),
                     ),
                   ),
                 ),
@@ -1905,31 +1923,215 @@ class _Settings2ViewState extends State<Settings2View> {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: ListItemContainer(
                   isLast: true,
-                  child: ListItemInteraction(
-                    onTap: () {},
-                    child: ListItemLayout(
-                      isMultiline: true,
-                      leading: SizedBox.square(
-                        dimension: 40.0,
-                        child: Material(
-                          animationDuration: Duration.zero,
-                          type: MaterialType.card,
-                          clipBehavior: Clip.antiAlias,
-                          color: staticColors.red.colorFixedDim,
-                          shape: CornersBorder.rounded(
-                            corners: Corners.all(shapeTheme.corner.full),
-                          ),
-                          child: Align.center(
-                            child: Icon(
-                              Symbols.info_rounded,
-                              fill: 1.0,
-                              color: staticColors.red.onColorFixedVariant,
+                  containerColor: colorTheme.surfaceBright,
+                  child: MergeSemantics(
+                    child: ListItemInteraction(
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const _Settings2AboutView(),
+                        ),
+                      ),
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        leading: SizedBox.square(
+                          dimension: 40.0,
+                          child: Material(
+                            animationDuration: Duration.zero,
+                            type: MaterialType.card,
+                            clipBehavior: Clip.antiAlias,
+                            color: staticColors.pink.colorFixedDim,
+                            shape: const StadiumBorder(),
+                            child: Align.center(
+                              child: Icon(
+                                Symbols.info_rounded,
+                                fill: 1.0,
+                                color: staticColors.pink.onColorFixedVariant,
+                              ),
                             ),
                           ),
                         ),
+                        headline: const Text("About"),
+                        supportingText: const Text("App version and info"),
+                        trailing: const Icon(
+                          Symbols.keyboard_arrow_right_rounded,
+                        ),
                       ),
-                      headline: Text("About app"),
-                      supportingText: Text("Obtainium"),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SliverToBoxAdapter(
+            child: SizedBox(height: MediaQuery.heightOf(context)),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Settings2AboutView extends StatefulWidget {
+  const _Settings2AboutView({super.key});
+
+  @override
+  State<_Settings2AboutView> createState() => _Settings2AboutViewState();
+}
+
+class _Settings2AboutViewState extends State<_Settings2AboutView> {
+  @override
+  Widget build(BuildContext context) {
+    final colorTheme = ColorTheme.of(context);
+    return Scaffold(
+      backgroundColor: colorTheme.surfaceContainer,
+      body: CustomScrollView(
+        slivers: [
+          CustomAppBar(
+            leading: const Padding(
+              padding: EdgeInsets.only(left: 8.0 - 4.0),
+              child: DeveloperPageBackButton(),
+            ),
+            type: CustomAppBarType.largeFlexible,
+            behavior: CustomAppBarBehavior.duplicate,
+            expandedContainerColor: colorTheme.surfaceContainer,
+            collapsedContainerColor: colorTheme.surfaceContainer,
+            collapsedPadding: const EdgeInsets.fromLTRB(
+              8.0 + 40.0 + 8.0,
+              0.0,
+              16.0,
+              0.0,
+            ),
+            title: Text("About"),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MaterialDemoView extends StatefulWidget {
+  const _MaterialDemoView({super.key});
+
+  @override
+  State<_MaterialDemoView> createState() => _MaterialDemoViewState();
+}
+
+class _MaterialDemoViewState extends State<_MaterialDemoView> {
+  bool _enabled = true;
+  bool _selected = false;
+  double _progress = 0.5;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorTheme = ColorTheme.of(context);
+    return Scaffold(
+      backgroundColor: colorTheme.surfaceContainer,
+      body: CustomScrollView(
+        slivers: [
+          CustomAppBar(
+            leading: const Padding(
+              padding: EdgeInsets.only(left: 8.0 - 4.0),
+              child: DeveloperPageBackButton(),
+            ),
+            type: CustomAppBarType.largeFlexible,
+            behavior: CustomAppBarBehavior.duplicate,
+            expandedContainerColor: colorTheme.surfaceContainer,
+            collapsedContainerColor: colorTheme.surfaceContainer,
+            collapsedPadding: const EdgeInsets.fromLTRB(
+              8.0 + 40.0 + 8.0,
+              0.0,
+              16.0,
+              0.0,
+            ),
+            title: Text("Material 3 Expressive"),
+            subtitle: Text("Design system"),
+          ),
+          SliverList.list(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: ListItemContainer(
+                  isFirst: true,
+                  isLast: true,
+                  containerColor: colorTheme.surfaceBright,
+                  child: MergeSemantics(
+                    child: ListItemInteraction(
+                      onTap: () => setState(() => _enabled = !_enabled),
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: const Text("Enabled"),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onCheckedChanged: (value) =>
+                                setState(() => _enabled = value),
+                            checked: _enabled,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: SizedBox(
+                  height: 128,
+                  child: Material(
+                    animationDuration: Duration.zero,
+                    color: colorTheme.surfaceBright,
+                    shape: const StadiumBorder(),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 16.0,
+                      ),
+                      child: Flex.horizontal(
+                        children: [
+                          Flexible.tight(
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: Switch(
+                                onCheckedChanged: _enabled
+                                    ? (value) =>
+                                          setState(() => _selected = value)
+                                    : null,
+                                checked: _selected,
+                              ),
+                            ),
+                          ),
+                          Flexible.tight(
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: Checkbox.biState(
+                                onCheckedChanged: _enabled
+                                    ? (value) =>
+                                          setState(() => _selected = value)
+                                    : null,
+                                checked: _selected,
+                              ),
+                            ),
+                          ),
+                          Flexible.tight(
+                            child: FittedBox(
+                              fit: BoxFit.contain,
+                              child: RadioButton(
+                                onTap: _enabled
+                                    ? () =>
+                                          setState(() => _selected = !_selected)
+                                    : null,
+                                selected: _selected,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
