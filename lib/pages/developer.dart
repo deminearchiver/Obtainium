@@ -1,6 +1,7 @@
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:obtainium/components/custom_app_bar.dart';
 import 'package:obtainium/components/custom_list.dart';
+import 'package:obtainium/components/custom_markdown.dart';
 import 'package:obtainium/flutter.dart';
 
 import 'package:markdown/markdown.dart' as md;
@@ -325,10 +326,20 @@ class DeveloperMarkdown1Page extends StatefulWidget {
 }
 
 class _DeveloperMarkdown1PageState extends State<DeveloperMarkdown1Page> {
+  static final md.ExtensionSet _extensionSet = md.ExtensionSet(
+    [...md.ExtensionSet.gitHubWeb.blockSyntaxes],
+    [...md.ExtensionSet.gitHubWeb.inlineSyntaxes],
+  );
+  static final List<md.Node> _nodes = CustomMarkdownWidget.parseFromString(
+    data: _custom,
+    extensionSet: _extensionSet,
+  );
+
   @override
   Widget build(BuildContext context) {
     final colorTheme = ColorTheme.of(context);
     final typescaleTheme = TypescaleTheme.of(context);
+
     return Scaffold(
       backgroundColor: colorTheme.surfaceContainer,
       body: CustomScrollView(
@@ -353,8 +364,8 @@ class _DeveloperMarkdown1PageState extends State<DeveloperMarkdown1Page> {
           ),
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-            sliver: SliverMarkdown(
-              data: _custom,
+            sliver: CustomMarkdownWidget.builder(
+              nodes: _nodes,
               selectable: true,
               checkboxBuilder: (value) => Icon(
                 value
@@ -363,10 +374,7 @@ class _DeveloperMarkdown1PageState extends State<DeveloperMarkdown1Page> {
                 fill: value ? 1.0 : 0.0,
                 color: value ? colorTheme.primary : colorTheme.onSurfaceVariant,
               ),
-              extensionSet: md.ExtensionSet(
-                [...md.ExtensionSet.gitHubWeb.blockSyntaxes],
-                [...md.ExtensionSet.gitHubWeb.inlineSyntaxes],
-              ),
+              extensionSet: _extensionSet,
               styleSheet: MarkdownStyleSheet(
                 p: typescaleTheme.bodyMedium.toTextStyle(
                   color: colorTheme.onSurface,
@@ -396,6 +404,8 @@ class _DeveloperMarkdown1PageState extends State<DeveloperMarkdown1Page> {
                 ),
                 codeblockPadding: EdgeInsets.all(16.0),
               ),
+              builder: (context, children) =>
+                  SliverList.list(children: children ?? const []),
             ),
           ),
         ],
@@ -568,7 +578,7 @@ class SliverMarkdown extends MarkdownWidget {
 
   @override
   Widget build(BuildContext context, List<Widget>? children) {
-    return SliverList.list(children: children!);
+    return SliverList.list(children: children ?? const []);
   }
 }
 
