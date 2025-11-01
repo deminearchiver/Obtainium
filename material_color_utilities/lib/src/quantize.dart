@@ -1,5 +1,3 @@
-library;
-
 export 'quantize/point_provider_lab.dart';
 export 'quantize/point_provider.dart';
 export 'quantize/quantizer_celebi.dart';

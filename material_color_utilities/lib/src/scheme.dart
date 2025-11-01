@@ -1,5 +1,3 @@
-library;
-
 export 'scheme/scheme_content.dart';
 export 'scheme/scheme_expressive.dart';
 export 'scheme/scheme_fidelity.dart';

@@ -1,5 +1,3 @@
-library;
-
 export 'dynamiccolor/color_spec.dart';
 export 'dynamiccolor/color_specs.dart';
 export 'dynamiccolor/contrast_curve.dart';
