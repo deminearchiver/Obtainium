@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+
 import 'math_utils.dart';
 
 abstract final class ColorUtils {

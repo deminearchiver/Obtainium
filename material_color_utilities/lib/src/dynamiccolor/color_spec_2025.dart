@@ -1,9 +1,10 @@
 import 'dart:math' as math;
 
-import '../contrast/contrast.dart';
-import '../hct/hct.dart';
-import '../palettes/tonal_palette.dart';
 import '../utils/math_utils.dart';
+import '../hct/hct.dart';
+import '../contrast/contrast.dart';
+import '../palettes/tonal_palette.dart';
+
 import 'color_spec.dart';
 import 'color_spec_2021.dart';
 import 'contrast_curve.dart';

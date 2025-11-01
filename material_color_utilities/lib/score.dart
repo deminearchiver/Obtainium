@@ -1,3 +1,3 @@
 library;
 
-export 'src/score/score.dart';
+export 'src/score.dart';

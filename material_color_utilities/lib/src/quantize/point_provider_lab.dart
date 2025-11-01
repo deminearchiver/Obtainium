@@ -1,4 +1,5 @@
 import '../utils/color_utils.dart';
+
 import 'point_provider.dart';
 
 /// Provides conversions needed for K-Means quantization. Converting input to points, and converting

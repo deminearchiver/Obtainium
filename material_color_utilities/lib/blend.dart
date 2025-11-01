@@ -1,3 +1,3 @@
 library;
 
-export 'src/blend/blend.dart';
+export 'src/blend.dart';

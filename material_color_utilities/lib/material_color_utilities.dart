@@ -7,14 +7,14 @@
 /// all in a new color space.
 library;
 
-export 'blend.dart';
-export 'contrast.dart';
-export 'dislike.dart';
-export 'dynamiccolor.dart';
-export 'hct.dart';
-export 'palettes.dart';
-export 'quantize.dart';
-export 'scheme.dart';
-export 'score.dart';
-export 'temperature.dart';
-export 'utils.dart';
+export 'src/blend.dart';
+export 'src/contrast.dart';
+export 'src/dislike.dart';
+export 'src/dynamiccolor.dart';
+export 'src/hct.dart';
+export 'src/palettes.dart';
+export 'src/quantize.dart';
+export 'src/scheme.dart';
+export 'src/score.dart';
+export 'src/temperature.dart';
+export 'src/utils.dart';

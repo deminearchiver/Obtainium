@@ -1,6 +1,8 @@
 import 'dart:math' as math;
-import '../utils/color_utils.dart';
+
 import '../utils/math_utils.dart';
+import '../utils/color_utils.dart';
+
 import 'viewing_conditions.dart';
 
 final class Cam16 {

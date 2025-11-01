@@ -1,7 +1,8 @@
 import '../utils/color_utils.dart';
+
+import 'viewing_conditions.dart';
 import 'cam16.dart';
 import 'hct_solver.dart';
-import 'viewing_conditions.dart';
 
 final class Hct {
   late int _argb;

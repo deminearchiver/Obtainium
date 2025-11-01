@@ -1,5 +1,5 @@
-import '../../hct.dart';
 import '../utils/math_utils.dart';
+import '../hct/hct.dart';
 
 abstract final class Score {
   static const double _targetChroma = 48.0;

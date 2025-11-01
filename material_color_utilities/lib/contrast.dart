@@ -1,3 +1,3 @@
 library;
 
-export 'src/contrast/contrast.dart';
+export 'src/contrast.dart';

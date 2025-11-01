@@ -1,3 +1,3 @@
 library;
 
-export 'src/dislike/dislike_analyzer.dart';
+export 'src/dislike.dart';

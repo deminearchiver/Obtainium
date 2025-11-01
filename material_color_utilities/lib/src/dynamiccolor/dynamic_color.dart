@@ -1,12 +1,11 @@
-import '../contrast/contrast.dart';
-
 import '../utils/math_utils.dart';
+import '../hct/hct.dart';
+import '../contrast/contrast.dart';
+import '../palettes/tonal_palette.dart';
+
 import 'color_spec.dart';
 import 'color_specs.dart';
 import 'tone_delta_pair.dart';
-import '../hct/hct.dart';
-
-import '../palettes/tonal_palette.dart';
 import 'contrast_curve.dart';
 import 'dynamic_scheme.dart';
 

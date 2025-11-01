@@ -1,8 +1,9 @@
 import 'dart:math' as math;
 
+import '../utils/math_utils.dart';
 import '../hct/hct.dart';
 import '../palettes/tonal_palette.dart';
-import '../utils/math_utils.dart';
+
 import 'color_spec.dart';
 import 'color_specs.dart';
 import 'dynamic_color.dart';

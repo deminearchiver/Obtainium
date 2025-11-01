@@ -1,11 +1,12 @@
 import 'dart:math' as math;
 
+import '../utils/math_utils.dart';
+import '../hct/hct.dart';
 import '../contrast/contrast.dart';
 import '../dislike/dislike_analyzer.dart';
-import '../hct/hct.dart';
-import '../palettes/tonal_palette.dart';
 import '../temperature/temperature_cache.dart';
-import '../utils/math_utils.dart';
+import '../palettes/tonal_palette.dart';
+
 import 'color_spec.dart';
 import 'contrast_curve.dart';
 import 'dynamic_color.dart';

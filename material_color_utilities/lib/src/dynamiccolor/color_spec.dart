@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 
 import '../hct/hct.dart';
 import '../palettes/tonal_palette.dart';
+
 import 'dynamic_color.dart';
 import 'dynamic_scheme.dart';
 import 'variant.dart';
