@@ -7,4 +7,4 @@
 /// all in a new color space.
 library;
 
-export 'package:material_color_utilities_2025/material_color_utilities.dart';
+export 'src/material_color_utilities/material_color_utilities.dart';
