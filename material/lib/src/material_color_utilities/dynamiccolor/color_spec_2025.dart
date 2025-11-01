@@ -662,22 +662,32 @@ class ColorSpec2025 extends ColorSpec2021 {
             return _tMaxC(s.primaryPalette, 0, 90);
           }
         } else if (s.variant == Variant.expressive) {
-          return _tMaxC(
-            s.primaryPalette,
-            0,
-            Hct.isYellow(s.primaryPalette.hue)
-                ? 25
-                : Hct.isCyan(s.primaryPalette.hue)
-                ? 88
-                : 98,
-          );
+          if (s.platform == Platform.phone) {
+            return _tMaxC(
+              s.primaryPalette,
+              0,
+              Hct.isYellow(s.primaryPalette.hue)
+                  ? 25
+                  : Hct.isCyan(s.primaryPalette.hue)
+                  ? 88
+                  : 98,
+            );
+          } else {
+            // WATCH
+            return _tMaxC(s.primaryPalette);
+          }
         } else {
           // VIBRANT
-          return _tMaxC(
-            s.primaryPalette,
-            0,
-            Hct.isCyan(s.primaryPalette.hue) ? 88 : 98,
-          );
+          if (s.platform == Platform.phone) {
+            return _tMaxC(
+              s.primaryPalette,
+              0,
+              Hct.isCyan(s.primaryPalette.hue) ? 88 : 98,
+            );
+          } else {
+            // WATCH
+            return _tMaxC(s.primaryPalette);
+          }
         }
       },
       isBackground: true,
