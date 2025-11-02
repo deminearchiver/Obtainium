@@ -1,7 +1,7 @@
 part of '../androidx_graphics_shapes.dart';
 
 @internal
-class Point {
+final class Point {
   const Point(this.x, this.y);
 
   final double x;

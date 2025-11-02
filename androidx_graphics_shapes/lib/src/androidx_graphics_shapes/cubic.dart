@@ -18,7 +18,7 @@ abstract class Cubic {
   ) = _Cubic;
 
   @internal
-  factory Cubic.fromPoint(
+  factory Cubic.fromPoints(
     Point anchor0,
     Point control0,
     Point control1,
