@@ -370,6 +370,81 @@ final class RoundedPolygon {
     );
   }
 
+  factory RoundedPolygon.pillStar({
+    double width = 2.0,
+    double height = 1.0,
+    int numVerticesPerRadius = 8,
+    double innerRadiusRatio = 0.5,
+    CornerRounding rounding = CornerRounding.unrounded,
+    CornerRounding? innerRounding,
+    List<CornerRounding>? perVertexRounding,
+    double vertexSpacing = 0.5,
+    double startLocation = 0.0,
+    double centerX = 0.0,
+    double centerY = 0.0,
+  }) {
+    if (innerRadiusRatio <= 0.0 || innerRadiusRatio >= 1.0) {
+      throw ArgumentError.value(
+        innerRadiusRatio,
+        "innerRadiusRatio",
+        "innerRadiusRatio must be between 0 and 1 exclusive.",
+      );
+    }
+    if (vertexSpacing < 0.0 || vertexSpacing > 1.0) {
+      throw ArgumentError.value(
+        vertexSpacing,
+        "vertexSpacing",
+        "vertexSpacing must be between 0 and 1.",
+      );
+    }
+    if (startLocation < 0.0 || startLocation > 1.0) {
+      throw ArgumentError.value(
+        startLocation,
+        "startLocation",
+        "startLocation must be between 0 and 1.",
+      );
+    }
+    if (width <= 0.0 || height <= 0.0) {
+      throw ArgumentError("Pill shapes must have positive width and height.");
+    }
+    if (innerRadiusRatio <= 0.0 || innerRadiusRatio > 1.0) {
+      throw ArgumentError.value(
+        innerRadiusRatio,
+        "innerRadiusRatio",
+        "innerRadiusRatio must be between 0 and 1.",
+      );
+    }
+
+    var pvRounding = perVertexRounding;
+
+    // If no per-vertex rounding supplied and caller asked for inner rounding,
+    // create per-vertex rounding list based on supplied outer/inner rounding parameters
+    if (pvRounding == null && innerRounding != null) {
+      // TODO: consider reverting back to the original flattening implementation
+      pvRounding = List.generate(
+        numVerticesPerRadius * 2,
+        (index) => index.isEven ? rounding : innerRounding,
+      );
+    }
+
+    return RoundedPolygon.fromVertices(
+      vertices: _pillStarVerticesFromNumVerts(
+        numVerticesPerRadius,
+        width,
+        height,
+        innerRadiusRatio,
+        vertexSpacing,
+        startLocation,
+        centerX,
+        centerY,
+      ),
+      rounding: rounding,
+      perVertexRounding: pvRounding,
+      centerX: centerX,
+      centerY: centerY,
+    );
+  }
+
   final List<Feature> features;
 
   @internal
