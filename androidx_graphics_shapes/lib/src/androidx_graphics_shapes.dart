@@ -2,7 +2,6 @@ import 'dart:math' as math;
 import 'dart:ui' show Rect;
 
 import 'package:flutter/foundation.dart';
-import 'package:meta/meta.dart';
 import 'package:collection/collection.dart';
 
 part 'androidx_graphics_shapes/corner_rounding.dart';
