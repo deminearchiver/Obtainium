@@ -1,5 +1,8 @@
 part of '../androidx_graphics_shapes.dart';
 
+/// The RoundedPolygon class allows simple construction of polygonal shapes
+/// with optional rounding at the vertices. Polygons can be constructed
+/// with either the number of vertices desired or an ordered list of vertices.
 final class RoundedPolygon {
   @internal
   RoundedPolygon(this.features, this.center)
@@ -21,6 +24,56 @@ final class RoundedPolygon {
       }
       prevCubic = cubic;
     }
+  }
+
+  /// This constructor takes the number of vertices in the resulting polygon.
+  /// These vertices are positioned on a virtual circle around a given center
+  /// with each vertex positioned [radius] distance from that center,
+  /// equally spaced (with equal angles between them). If no radius is supplied,
+  /// the shape will be created with a default radius of 1, resulting in a shape
+  /// whose vertices lie on a unit circle, with width/height of 2. That default
+  /// polygon will probably need to be rescaled using [transformed] into the
+  /// appropriate size for the UI in which it will be drawn.
+  ///
+  /// The [rounding] and [perVertexRounding] parameters are optional.
+  /// If not supplied, the result will be a regular polygon
+  /// with straight edges and unrounded corners.
+  ///
+  /// @param numVertices The number of vertices in this polygon.
+  /// @param radius The radius of the polygon, in pixels. This radius determines the initial size of
+  ///   the object, but it can be transformed later by using the [transformed] function.
+  /// @param centerX The X coordinate of the center of the polygon, around which all vertices will be
+  ///   placed. The default center is at (0,0).
+  /// @param centerY The Y coordinate of the center of the polygon, around which all vertices will be
+  ///   placed. The default center is at (0,0).
+  /// @param rounding The [CornerRounding] properties of all vertices. If some vertices should have
+  ///   different rounding properties, then use [perVertexRounding] instead. The default rounding value
+  ///   is [CornerRounding.Unrounded], meaning that the polygon will use the vertices themselves in the
+  ///   final shape and not curves rounded around the vertices.
+  /// @param perVertexRounding The [CornerRounding] properties of every vertex. If this parameter is
+  ///   not null, then it must have [numVertices] elements. If this parameter is null, then the polygon
+  ///   will use the [rounding] parameter for every vertex instead. The default value is null.
+  /// @throws IllegalArgumentException If [perVertexRounding] is not null and its size is not equal to
+  ///   [numVertices].
+  /// @throws IllegalArgumentException [numVertices] must be at least 3.
+  factory RoundedPolygon.regular({
+    required int numVertices,
+    double radius = 1.0,
+    double centerX = 0.0,
+    double centerY = 0.0,
+    CornerRounding rounding = CornerRounding.unrounded,
+    List<CornerRounding>? perVertexRounding,
+  }) {
+    if (numVertices < 3) {
+      throw RangeError.range(numVertices, 3, null, "numVertices");
+    }
+    return RoundedPolygon.fromVertices(
+      vertices: _verticesFromNumVerts(numVertices, radius, centerX, centerY),
+      rounding: rounding,
+      perVertexRounding: perVertexRounding,
+      centerX: centerX,
+      centerY: centerY,
+    );
   }
 
   factory RoundedPolygon.fromPolygon(RoundedPolygon source) =>
@@ -69,8 +122,7 @@ final class RoundedPolygon {
     // Each element in this list is a pair, that represent how much we can do of the cut for
     // the given side (side i goes from corner i to corner i+1), the elements of the pair are:
     // first is how much we can use of expectedRoundCut, second how much of expectedCut
-    final List<(double, double)> cutAdjusts = <(double, double)>[];
-    for (int ix = 0; ix < n; ix++) {
+    final List<(double, double)> cutAdjusts = List.generate(n, (ix) {
       final expectedRoundCut =
           roundedCorners[ix].expectedRoundCut +
           roundedCorners[(ix + 1) % n].expectedRoundCut;
@@ -87,18 +139,18 @@ final class RoundedPolygon {
       // both corners before using space for smoothing
       if (expectedRoundCut > sideSize) {
         // Not enough room for fully rounding, see how much we can actually do.
-        cutAdjusts.add((sideSize / expectedRoundCut, 0.0));
+        return (sideSize / expectedRoundCut, 0.0);
       } else if (expectedCut > sideSize) {
         // We can do full rounding, but not full smoothing.
-        cutAdjusts.add((
+        return (
           1.0,
           (sideSize - expectedRoundCut) / (expectedCut - expectedRoundCut),
-        ));
+        );
       } else {
         // There is enough room for rounding & smoothing.
-        cutAdjusts.add((1.0, 1.0));
+        return (1.0, 1.0);
       }
-    }
+    });
 
     // Create and store list of beziers for each [potentially] rounded corner
     for (int i = 0; i < n; i++) {
@@ -173,6 +225,149 @@ final class RoundedPolygon {
     final cY = centerY.isNaN ? calculateCenter(vertices).y : centerY;
 
     return RoundedPolygon(features, Point(cX, cY));
+  }
+
+  factory RoundedPolygon.circle({
+    int numVertices = 8,
+    double radius = 1.0,
+    double centerX = 0.0,
+    double centerY = 0.0,
+  }) {
+    if (numVertices < 3) {
+      throw RangeError.range(
+        numVertices,
+        3,
+        null,
+        "numVertices",
+        "Circle must have at least three vertices.",
+      );
+    }
+
+    // Half of the angle between two adjacent vertices on the polygon
+    final theta = math.pi / numVertices;
+
+    // Radius of the underlying RoundedPolygon object given the desired radius of the circle
+    final polygonRadius = radius / math.cos(theta);
+
+    return RoundedPolygon.regular(
+      numVertices: numVertices,
+      rounding: CornerRounding(radius: radius),
+      radius: polygonRadius,
+      centerX: centerX,
+      centerY: centerY,
+    );
+  }
+
+  factory RoundedPolygon.rectangle({
+    double width = 2.0,
+    double height = 2.0,
+    CornerRounding rounding = CornerRounding.unrounded,
+    List<CornerRounding>? perVertexRounding,
+    double centerX = 0.0,
+    double centerY = 0.0,
+  }) {
+    final left = centerX - width / 2.0;
+    final top = centerY - height / 2.0;
+    final right = centerX + width / 2.0;
+    final bottom = centerY + height / 2.0;
+
+    return RoundedPolygon.fromVertices(
+      vertices: [right, bottom, left, bottom, left, top, right, top],
+      rounding: rounding,
+      perVertexRounding: perVertexRounding,
+      centerX: centerX,
+      centerY: centerY,
+    );
+  }
+
+  factory RoundedPolygon.star({
+    required int numVerticesPerRadius,
+    double radius = 1.0,
+    double innerRadius = 0.5,
+    CornerRounding rounding = CornerRounding.unrounded,
+    CornerRounding? innerRounding,
+    List<CornerRounding>? perVertexRounding,
+    double centerX = 0.0,
+    double centerY = 0.0,
+  }) {
+    if (radius <= 0.0) {
+      throw ArgumentError.value(
+        radius,
+        "radius",
+        "Star radii must both be greater than 0.",
+      );
+    }
+    if (innerRadius <= 0.0) {
+      throw ArgumentError.value(
+        innerRadius,
+        "innerRadius",
+        "Star radii must both be greater than 0.",
+      );
+    }
+    if (innerRadius >= radius) {
+      throw ArgumentError("innerRadius must be less than radius");
+    }
+
+    var pvRounding = perVertexRounding;
+    // If no per-vertex rounding supplied and caller asked for inner rounding,
+    // create per-vertex rounding list based on supplied outer/inner rounding parameters
+    if (pvRounding == null && innerRounding != null) {
+      // TODO: consider reverting back to the original flattening implementation
+      pvRounding = List.generate(
+        numVerticesPerRadius * 2,
+        (index) => index.isEven ? rounding : innerRounding,
+      );
+    }
+
+    // Star polygon is just a polygon with all vertices supplied (where we generate
+    // those vertices to be on the inner/outer radii)
+    return RoundedPolygon.fromVertices(
+      vertices: _starVerticesFromNumVerts(
+        numVerticesPerRadius,
+        radius,
+        innerRadius,
+        centerX,
+        centerY,
+      ),
+      rounding: rounding,
+      perVertexRounding: pvRounding,
+      centerX: centerX,
+      centerY: centerY,
+    );
+  }
+
+  factory RoundedPolygon.pill({
+    double width = 2.0,
+    double height = 1.0,
+    double smoothing = 0.0,
+    double centerX = 0.0,
+    double centerY = 0.0,
+  }) {
+    if (width <= 0.0 || height <= 0.0) {
+      throw ArgumentError("Pill shapes must have positive width and height.");
+    }
+
+    final wHalf = width / 2.0;
+    final hHalf = height / 2.0;
+
+    return RoundedPolygon.fromVertices(
+      vertices: [
+        wHalf + centerX,
+        hHalf + centerY,
+        -wHalf + centerX,
+        hHalf + centerY,
+        -wHalf + centerX,
+        -hHalf + centerY,
+        wHalf + centerX,
+        -hHalf + centerY,
+      ],
+      rounding: CornerRounding(
+        radius: math.min(wHalf, hHalf),
+        smoothing: smoothing,
+      ),
+      centerX: centerX,
+      centerY: centerY,
+    );
   }
 
   final List<Feature> features;
@@ -598,12 +793,12 @@ final class _RoundedCorner {
   }
 }
 
-List<double> _verticesFromNumVerts({
-  required int numVertices,
-  required double radius,
-  required double centerX,
-  required double centerY,
-}) {
+List<double> _verticesFromNumVerts(
+  int numVertices,
+  double radius,
+  double centerX,
+  double centerY,
+) {
   final center = Point(centerX, centerY);
   final List<double> result = List.filled(numVertices * 2, 0.0);
   int arrayIndex = 0;
