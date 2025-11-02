@@ -122,3 +122,29 @@ double findMinimum(
 
 @internal
 typedef FindMinimumFunction = double Function(double value);
+
+@internal
+int binarySearchBy<E extends Object?, K extends Object?>(
+  List<E> sortedList,
+  K Function(E element) keyOf,
+  int Function(K, K) compare,
+  K value, [
+  int start = 0,
+  int? end,
+]) {
+  end = RangeError.checkValidRange(start, end, sortedList.length);
+  var min = start;
+  var max = end;
+  while (min < max) {
+    final mid = min + ((max - min) >> 1);
+    final element = sortedList[mid];
+    final comp = compare(keyOf(element), value);
+    if (comp == 0) return mid;
+    if (comp < 0) {
+      min = mid + 1;
+    } else {
+      max = mid;
+    }
+  }
+  return -min - 1;
+}
