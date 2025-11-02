@@ -17,14 +17,31 @@ abstract class Cubic {
     double anchor1Y,
   ) = _Cubic;
 
+  @internal
+  factory Cubic.fromPoint(
+    Point anchor0,
+    Point control0,
+    Point control1,
+    Point anchor1,
+  ) => Cubic.from(
+    anchor0.x,
+    anchor0.y,
+    control0.x,
+    control0.y,
+    control1.x,
+    control1.y,
+    anchor1.x,
+    anchor1.y,
+  );
+
   factory Cubic.straightLine(double x0, double y0, double x1, double y1) =>
       Cubic.from(
         x0,
         y0,
-        _interpolate(x0, x1, 1.0 / 3.0),
-        _interpolate(y0, y1, 1.0 / 3.0),
-        _interpolate(x0, x1, 2.0 / 3.0),
-        _interpolate(y0, y1, 2.0 / 3.0),
+        interpolateDouble(x0, x1, 1.0 / 3.0),
+        interpolateDouble(y0, y1, 1.0 / 3.0),
+        interpolateDouble(x0, x1, 2.0 / 3.0),
+        interpolateDouble(y0, y1, 2.0 / 3.0),
         x1,
         y1,
       );
@@ -37,8 +54,8 @@ abstract class Cubic {
     double x1,
     double y1,
   ) {
-    final p0d = _directionVector(x0 - centerX, y0 - centerY);
-    final p1d = _directionVector(x1 - centerX, y1 - centerY);
+    final p0d = directionVector(x0 - centerX, y0 - centerY);
+    final p1d = directionVector(x1 - centerX, y1 - centerY);
     final rotatedP0 = p0d.rotate90();
     final rotatedP1 = p1d.rotate90();
     final clockwise =
@@ -48,7 +65,7 @@ abstract class Cubic {
     if (cosa > 0.999) /* p0 ~= p1 */ return Cubic.straightLine(x0, y0, x1, y1);
 
     final k =
-        _distance(x0 - centerX, y0 - centerY) *
+        distance(x0 - centerX, y0 - centerY) *
         4.0 /
         3.0 *
         (math.sqrt(2.0 * (1.0 - cosa)) - math.sqrt(1 - cosa * cosa)) /
@@ -76,9 +93,10 @@ abstract class Cubic {
   double get anchor1X;
   double get anchor1Y;
 
-  _Point _pointOnCurve(double t) {
+  @internal
+  Point pointOnCurve(double t) {
     final u = 1.0 - t;
-    return _Point(
+    return Point(
       anchor0X * (u * u * u) +
           control0X * (3.0 * t * u * u) +
           control1X * (3.0 * t * t * u) +
@@ -90,23 +108,24 @@ abstract class Cubic {
     );
   }
 
-  bool _zeroLength() =>
-      (anchor0X - anchor1X).abs() < _distanceEpsilon &&
-      (anchor0Y - anchor1Y).abs() < _distanceEpsilon;
+  @internal
+  bool zeroLength() =>
+      (anchor0X - anchor1X).abs() < distanceEpsilon &&
+      (anchor0Y - anchor1Y).abs() < distanceEpsilon;
 
-  bool _convexTo(Cubic next) {
-    final prevVertex = _Point(anchor0X, anchor0Y);
-    final currVertex = _Point(anchor1X, anchor1Y);
-    final nextVertex = _Point(next.anchor1X, next.anchor1Y);
-    return _convex(prevVertex, currVertex, nextVertex);
+  @internal
+  bool convexTo(Cubic next) {
+    final prevVertex = Point(anchor0X, anchor0Y);
+    final currVertex = Point(anchor1X, anchor1Y);
+    final nextVertex = Point(next.anchor1X, next.anchor1Y);
+    return convex(prevVertex, currVertex, nextVertex);
   }
 
-  static bool _zeroIsh(double value) => value.abs() < _distanceEpsilon;
-
-  Rect _calculateBounds({bool approximate = false}) {
+  @internal
+  Rect calculateBounds({bool approximate = false}) {
     // A curve might be of zero-length, with both anchors co-lated.
     // Just return the point itself.
-    if (_zeroLength()) {
+    if (zeroLength()) {
       return Rect.fromLTRB(anchor0X, anchor0Y, anchor0X, anchor0Y);
     }
 
@@ -136,7 +155,7 @@ abstract class Cubic {
       if (xb != 0.0) {
         final t = 2.0 * xc / (-2.0 * xb);
         if (t >= 0.0 && t <= 1.0) {
-          final x = _pointOnCurve(t).x;
+          final x = pointOnCurve(t).x;
           if (x < minX) minX = x;
           if (x > maxX) maxX = x;
         }
@@ -146,14 +165,14 @@ abstract class Cubic {
       if (xs >= 0.0) {
         final t1 = (-xb + math.sqrt(xs)) / (2.0 * xa);
         if (t1 >= 0.0 && t1 <= 1.0) {
-          final x = _pointOnCurve(t1).x;
+          final x = pointOnCurve(t1).x;
           if (x < minX) minX = x;
           if (x > maxX) maxX = x;
         }
 
         final t2 = (-xb - math.sqrt(xs)) / (2.0 * xa);
         if (t2 >= 0.0 && t2 <= 1.0) {
-          final x = _pointOnCurve(t2).x;
+          final x = pointOnCurve(t2).x;
           if (x < minX) minX = x;
           if (x > maxX) maxX = x;
         }
@@ -169,7 +188,7 @@ abstract class Cubic {
       if (yb != 0.0) {
         final t = 2.0 * yc / (-2.0 * yb);
         if (t >= 0.0 && t <= 1.0) {
-          final y = _pointOnCurve(t).y;
+          final y = pointOnCurve(t).y;
           if (y < minY) minY = y;
           if (y > maxY) maxY = y;
         }
@@ -179,14 +198,14 @@ abstract class Cubic {
       if (ys >= 0.0) {
         final t1 = (-yb + math.sqrt(ys)) / (2.0 * ya);
         if (t1 >= 0.0 && t1 <= 1.0) {
-          final y = _pointOnCurve(t1).y;
+          final y = pointOnCurve(t1).y;
           if (y < minY) minY = y;
           if (y > maxY) maxY = y;
         }
 
         final t2 = (-yb - math.sqrt(ys)) / (2.0 * ya);
         if (t2 >= 0.0 && t2 <= 1.0) {
-          final y = _pointOnCurve(t2).y;
+          final y = pointOnCurve(t2).y;
           if (y < minY) minY = y;
           if (y > maxY) maxY = y;
         }
@@ -201,7 +220,7 @@ abstract class Cubic {
   // TODO: cartesian optimization?
   (Cubic, Cubic) split(double t) {
     final u = 1.0 - t;
-    final pointOnCurve = _pointOnCurve(t);
+    final pointOnCurve = this.pointOnCurve(t);
 
     // Shared calculations
     final uSquared = u * u;
@@ -329,6 +348,8 @@ abstract class Cubic {
     anchor1X,
     anchor1Y,
   );
+
+  static bool _zeroIsh(double value) => value.abs() < distanceEpsilon;
 }
 
 class _Cubic extends Cubic {
@@ -439,14 +460,14 @@ abstract class MutableCubic extends Cubic {
   }
 
   void interpolate(Cubic c1, Cubic c2, double progress) {
-    anchor0X = _interpolate(c1.anchor0X, c2.anchor0X, progress);
-    anchor0Y = _interpolate(c1.anchor0Y, c2.anchor0Y, progress);
-    control0X = _interpolate(c1.control0X, c2.control0X, progress);
-    control0Y = _interpolate(c1.control0Y, c2.control0Y, progress);
-    control1X = _interpolate(c1.control1X, c2.control1X, progress);
-    control1Y = _interpolate(c1.control1Y, c2.control1Y, progress);
-    anchor1X = _interpolate(c1.anchor1X, c2.anchor1X, progress);
-    anchor1Y = _interpolate(c1.anchor1Y, c2.anchor1Y, progress);
+    anchor0X = interpolateDouble(c1.anchor0X, c2.anchor0X, progress);
+    anchor0Y = interpolateDouble(c1.anchor0Y, c2.anchor0Y, progress);
+    control0X = interpolateDouble(c1.control0X, c2.control0X, progress);
+    control0Y = interpolateDouble(c1.control0Y, c2.control0Y, progress);
+    control1X = interpolateDouble(c1.control1X, c2.control1X, progress);
+    control1Y = interpolateDouble(c1.control1Y, c2.control1Y, progress);
+    anchor1X = interpolateDouble(c1.anchor1X, c2.anchor1X, progress);
+    anchor1Y = interpolateDouble(c1.anchor1Y, c2.anchor1Y, progress);
   }
 
   @override

@@ -1,46 +1,58 @@
 part of '../androidx_graphics_shapes.dart';
 
-double _distance(double x, double y) => math.sqrt(x * x + y * y);
-double _distanceSquared(double x, double y) => x * x + y * y;
+@internal
+double distance(double x, double y) => math.sqrt(x * x + y * y);
+
+@internal
+double distanceSquared(double x, double y) => x * x + y * y;
 
 /// Returns unit vector representing the direction to this point from (0, 0).
-_Point _directionVector(double x, double y) {
-  final d = _distance(x, y);
+@internal
+Point directionVector(double x, double y) {
+  final d = distance(x, y);
   assert(d > 0.0, "Required distance greater than zero");
-  return _Point(x / d, y / d);
+  return Point(x / d, y / d);
 }
 
-_Point _directionVectorRadians(double angleRadians) =>
-    _Point(math.cos(angleRadians), math.sin(angleRadians));
+@internal
+Point directionVectorRadians(double angleRadians) =>
+    Point(math.cos(angleRadians), math.sin(angleRadians));
 
-_Point _radialToCartesian(
+@internal
+Point radialToCartesian(
   double radius,
   double angleRadians, [
-  _Point center = _zero,
-]) => _directionVectorRadians(angleRadians) * radius + center;
+  Point center = Point.zero,
+]) => directionVectorRadians(angleRadians) * radius + center;
 
-const double _distanceEpsilon = 1.0e-4;
-const double _angleEpsilon = 1.0e-6;
+@internal
+const double distanceEpsilon = 1.0e-4;
+
+@internal
+const double angleEpsilon = 1.0e-6;
 
 /// This epsilon is based on the observation that people tend to see
 /// e.g. collinearity much more relaxed than what is mathematically correct.
 /// This effect is heightened on smaller displays.
 /// Use this epsilon for operations that allow higher tolerances.
-const double _relaxedDistanceEpsilon = 5.0e-3;
+@internal
+const double relaxedDistanceEpsilon = 5.0e-3;
 
-extension _PointExtension on _Point {
-  _Point rotate90() => _Point(-y, x);
+extension PointExtension on Point {
+  @internal
+  Point rotate90() => Point(-y, x);
 }
 
-const _Point _zero = _Point(0.0, 0.0);
+@internal
+const double twoPi = 2.0 * math.pi;
 
-const double _twoPi = 2.0 * math.pi;
-
-double _square(double x) => x * x;
+@internal
+double square(double x) => x * x;
 
 /// Linearly interpolate between [start] and [stop]
 /// with [fraction] fraction between them.
-double _interpolate(double start, double stop, double fraction) {
+@internal
+double interpolateDouble(double start, double stop, double fraction) {
   return (1.0 - fraction) * start + fraction * stop;
 }
 
@@ -48,22 +60,24 @@ double _interpolate(double start, double stop, double fraction) {
 /// For example: 4 % 3 = positiveModulo(4, 3) = 1,
 /// but: -4 % 3 = -1 positiveModulo(-4, 3) = 2
 // TODO: rename num
-double _positiveModulo(double num, double mod) => (num % mod + mod) % mod;
+@internal
+double positiveModulo(double num, double mod) => (num % mod + mod) % mod;
 
 /// Returns whether C is on the line defined by the two points AB.
-bool _collinearIsh(
+@internal
+bool collinearIsh(
   double aX,
   double aY,
   double bX,
   double bY,
   double cX,
   double cY, [
-  double tolerance = _distanceEpsilon,
+  double tolerance = distanceEpsilon,
 ]) {
   // The dot product of a perpendicular angle is 0. By rotating one of the vectors,
   // we save the calculations to convert the dot product to degrees afterwards.
-  final ab = _Point(bX - aX, bY - aY).rotate90();
-  final ac = _Point(cX - aX, cY - aY);
+  final ab = Point(bX - aX, bY - aY).rotate90();
+  final ac = Point(cX - aX, cY - aY);
   final dotProduct = ab.dotProduct(ac).abs();
   final relativeTolerance = tolerance * ab.getDistance() * ac.getDistance();
 
@@ -72,7 +86,8 @@ bool _collinearIsh(
 
 /// Approximates whether corner at this vertex is concave or convex,
 /// based on the relationship of the prev->curr/curr->next vectors.
-bool _convex(_Point previous, _Point current, _Point next) {
+@internal
+bool convex(Point previous, Point current, Point next) {
   // TODO: b/369320447 - This is a fast, but not reliable calculation.
   return (current - previous).clockwise(next - current);
 }
@@ -84,10 +99,11 @@ bool _convex(_Point previous, _Point current, _Point next) {
  * NTS: Does it make sense to split the function f in 2, one to generate a candidate, of a custom
  * type T (i.e. (Float) -> T), and one to evaluate it ( (T) -> Float )?
  */
-double _findMinimum(
+@internal
+double findMinimum(
   double v0,
   double v1,
-  _FindMinimumFunction f, {
+  FindMinimumFunction f, {
   double tolerance = 1.0e-3,
 }) {
   var a = v0;
@@ -104,4 +120,5 @@ double _findMinimum(
   return (a + b) / 2.0;
 }
 
-typedef _FindMinimumFunction = double Function(double value);
+@internal
+typedef FindMinimumFunction = double Function(double value);
