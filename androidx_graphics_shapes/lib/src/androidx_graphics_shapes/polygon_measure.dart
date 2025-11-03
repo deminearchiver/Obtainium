@@ -340,7 +340,7 @@ final class MeasuredCubic {
 /// our standard shapes.
 @internal
 final class LengthMeasurer implements Measurer {
-  LengthMeasurer();
+  const LengthMeasurer();
 
   @override
   double measureCubic(Cubic c) {

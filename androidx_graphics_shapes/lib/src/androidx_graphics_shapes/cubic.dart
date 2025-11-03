@@ -350,6 +350,17 @@ abstract class Cubic {
   );
 
   static bool _zeroIsh(double value) => value.abs() < distanceEpsilon;
+
+  static Cubic interpolate(Cubic c1, Cubic c2, double progress) => Cubic.from(
+    interpolateDouble(c1.anchor0X, c2.anchor0X, progress),
+    interpolateDouble(c1.anchor0Y, c2.anchor0Y, progress),
+    interpolateDouble(c1.control0X, c2.control0X, progress),
+    interpolateDouble(c1.control0Y, c2.control0Y, progress),
+    interpolateDouble(c1.control1X, c2.control1X, progress),
+    interpolateDouble(c1.control1Y, c2.control1Y, progress),
+    interpolateDouble(c1.anchor1X, c2.anchor1X, progress),
+    interpolateDouble(c1.anchor1Y, c2.anchor1Y, progress),
+  );
 }
 
 class _Cubic extends Cubic {
