@@ -1,24 +1,26 @@
 part of '../androidx_graphics_shapes.dart';
 
 @internal
-final class MeasuredPolygon {
+final class MeasuredPolygon extends DelegatingList<MeasuredCubic> {
   MeasuredPolygon._(
     this._measurer,
     this.features,
     List<Cubic> cubics,
     List<double> outlineProgress,
-  ) : _cubics = <MeasuredCubic>[] {
-    // TODO: implement assertions here
-
-    //     require(outlineProgress.size == cubics.size + 1) {
-    //     "Outline progress size is expected to be the cubics size + 1"
-    // }
-    // require(outlineProgress.first() == 0f) {
-    //     "First outline progress value is expected to be zero"
-    // }
-    // require(outlineProgress.last() == 1f) {
-    //     "Last outline progress value is expected to be one"
-    // }
+  ) : super(<MeasuredCubic>[]) {
+    if (outlineProgress.length != cubics.length + 1) {
+      throw ArgumentError(
+        "Outline progress size is expected to be the cubics size + 1",
+      );
+    }
+    if (outlineProgress.first != 0.0) {
+      throw ArgumentError(
+        "First outline progress value is expected to be zero",
+      );
+    }
+    if (outlineProgress.length != 1.0) {
+      throw ArgumentError("Last outline progress value is expected to be one");
+    }
 
     // if (DEBUG) {
     //     debugLog(LOG_TAG) {
@@ -33,7 +35,7 @@ final class MeasuredPolygon {
       // Filter out "empty" cubics
       if ((outlineProgress[index + 1] - outlineProgress[index]) >
           distanceEpsilon) {
-        _cubics.add(
+        add(
           MeasuredCubic(
             this,
             cubics[index],
@@ -46,12 +48,157 @@ final class MeasuredPolygon {
       }
     }
     // We could have removed empty cubics at the end. Ensure the last measured cubic ends at 1f
-    _cubics[_cubics.length - 1].updateProgressRange(endOutlineProgress: 1.0);
+    this[length - 1].updateProgressRange(endOutlineProgress: 1.0);
   }
 
   final Measurer _measurer;
-  final List<MeasuredCubic> _cubics;
   final List<ProgressableFeature> features;
+
+  MeasuredPolygon cutAndShift(double cuttingPoint) {
+    // require(cuttingPoint in 0f..1f) { "Cutting point is expected to be between 0 and 1" }
+    if (cuttingPoint < 0.0 || cuttingPoint > 1.0) {
+      throw ArgumentError.value(
+        cuttingPoint,
+        "cuttingPoint",
+        "Cutting point is expected to be between 0 and 1",
+      );
+    }
+    if (cuttingPoint < distanceEpsilon) return this;
+
+    // Find the index of cubic we want to cut
+    final targetIndex = indexWhere(
+      (it) =>
+          cuttingPoint >= it.startOutlineProgress &&
+          cuttingPoint <= it.endOutlineProgress,
+    );
+    final target = this[targetIndex];
+
+    // if (DEBUG) {
+    //     cubics.forEachIndexed { index, cubic ->
+    //         debugLog(LOG_TAG) { "cut&Shift | cubic #$index : $cubic " }
+    //     }
+    //     debugLog(LOG_TAG) {
+    //         "cut&Shift, cuttingPoint = $cuttingPoint, target = ($targetIndex) $target"
+    //     }
+    // }
+
+    // Cut the target cubic.
+    // b1, b2 are two resulting cubics after cut
+    final (b1, b2) = target.cutAtProgress(cuttingPoint);
+    // debugLog(LOG_TAG) { "Split | $target -> $b1 & $b2" }
+
+    // Construct the list of the cubics we need:
+    // * The second part of the target cubic (after the cut)
+    // * All cubics after the target, until the end + All cubics from the start, before the
+    //   target cubic
+    // * The first part of the target cubic (before the cut)
+    final List<Cubic> retCubics = <Cubic>[b2.cubic];
+    for (int i = 1; i < length; i++) {
+      retCubics.add(this[(i + targetIndex) % length].cubic);
+    }
+    retCubics.add(b1.cubic);
+
+    // Construct the array of outline progress.
+    // For example, if we have 3 cubics with outline progress [0 .. 0.3], [0.3 .. 0.8] &
+    // [0.8 .. 1.0], and we cut + shift at 0.6:
+    // 0.  0123456789
+    //     |--|--/-|-|
+    // The outline progresses will start at 0 (the cutting point, that shifs to 0.0),
+    // then 0.8 - 0.6 = 0.2, then 1 - 0.6 = 0.4, then 0.3 - 0.6 + 1 = 0.7,
+    // then 1 (the cutting point again),
+    // all together: (0.0, 0.2, 0.4, 0.7, 1.0)
+    final List<double> retOutlineProgress = List.generate(length + 2, (index) {
+      if (index == 0) return 0.0;
+      if (index == length + 1) return 1.0;
+      final cubicIndex = (targetIndex + index - 1) % length;
+      return positiveModulo(
+        this[cubicIndex].endOutlineProgress - cuttingPoint,
+        1.0,
+      );
+    });
+
+    // Shift the feature's outline progress too.
+    final List<ProgressableFeature> newFeatures = <ProgressableFeature>[
+      for (int i = 0; i < features.length; i++)
+        ProgressableFeature(
+          positiveModulo(features[i].progress - cuttingPoint, 1.0),
+          features[i].feature,
+        ),
+    ];
+
+    // Filter out all empty cubics (i.e. start and end anchor are (almost) the same point.)
+    return MeasuredPolygon._(
+      _measurer,
+      newFeatures,
+      retCubics,
+      retOutlineProgress,
+    );
+  }
+
+  @internal
+  static MeasuredPolygon measurePolygon(
+    Measurer measurer,
+    RoundedPolygon polygon,
+  ) {
+    final List<Cubic> cubics = <Cubic>[];
+    final List<(Feature, int)> featureToCubic = <(Feature, int)>[];
+
+    // Get the cubics from the polygon, at the same time, extract the features and keep a
+    // reference to the representative cubic we will use.
+    for (
+      int featureIndex = 0;
+      featureIndex < polygon.features.length;
+      featureIndex++
+    ) {
+      final feature = polygon.features[featureIndex];
+      for (
+        int cubicIndex = 0;
+        cubicIndex < feature.cubics.length;
+        cubicIndex++
+      ) {
+        if (feature is Corner && cubicIndex == feature.cubics.length ~/ 2) {
+          featureToCubic.add((feature, cubics.length));
+        }
+        cubics.add(feature.cubics[cubicIndex]);
+      }
+    }
+    // TODO(performance): Make changes to satisfy the lint warnings for unnecessary
+    //  iterators creation.
+    final List<double> measures = cubics
+        .scan(0.0, (measure, cubic) {
+          final result = measure + measurer.measureCubic(cubic);
+          if (result < 0.0) {
+            throw ArgumentError(
+              "Measured cubic is expected to be greater or equal to zero",
+            );
+          }
+          return result;
+        })
+        .toList(growable: false);
+    final totalMeasure = measures.last;
+
+    // Equivalent to `measures.map { it / totalMeasure }` but without Iterator allocation.
+    final List<double> outlineProgress = <double>[
+      for (int i = 0; i < measures.length; i++) measures[i] / totalMeasure,
+    ];
+
+    // debugLog(LOG_TAG) { "Total size: $totalMeasure" }
+
+    final List<ProgressableFeature> features = <ProgressableFeature>[
+      for (int i = 0; i < featureToCubic.length; i++)
+        ProgressableFeature(
+          positiveModulo(
+            (outlineProgress[featureToCubic[i].$2] +
+                    outlineProgress[featureToCubic[i].$2 + 1]) /
+                2.0,
+            1.0,
+          ),
+          featureToCubic[i].$1,
+        ),
+    ];
+
+    return MeasuredPolygon._(measurer, features, cubics, outlineProgress);
+  }
 }
 
 /// Interface for measuring a cubic. Implementations can use whatever algorithm
@@ -68,6 +215,14 @@ abstract interface class Measurer {
   double findCubicCutPoint(Cubic c, double m);
 }
 
+/// A MeasuredCubic holds information about the cubic itself, the feature
+/// (if any) associated with it, and the outline progress values (start and end)
+/// for the cubic. This information is used to match cubics between shapes that
+/// lie at similar outline progress positions along their respective shapes
+/// (after matching features and shifting).
+///
+/// Outline progress is a value in [0..1) that represents the distance traveled
+/// along the overall outline path of the shape.
 @internal
 final class MeasuredCubic {
   MeasuredCubic(

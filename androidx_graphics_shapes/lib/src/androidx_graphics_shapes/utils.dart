@@ -148,3 +148,18 @@ int binarySearchBy<E extends Object?, K extends Object?>(
   }
   return -min - 1;
 }
+
+@internal
+extension IterableExtension<E extends Object?> on Iterable<E> {
+  Iterable<T> scan<T extends Object?>(
+    T initialValue,
+    T Function(T previousValue, E element) combine,
+  ) sync* {
+    var value = initialValue;
+    yield value;
+    for (final element in this) {
+      value = combine(value, element);
+      yield value;
+    }
+  }
+}
