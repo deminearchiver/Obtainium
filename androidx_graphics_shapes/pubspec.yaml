@@ -15,6 +15,7 @@ dependencies:
   meta: ^1.17.0
   collection: ^1.19.1
   async: ^2.13.0
+  vector_math: ^2.2.0
 
 
 dev_dependencies:

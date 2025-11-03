@@ -41,7 +41,7 @@ class Morph {
     );
   }
 
-  List<Cubic> asCubic(double progress) {
+  List<Cubic> asCubics(double progress) {
     final List<Cubic> result = <Cubic>[];
 
     // The first/last mechanism here ensures that the final anchor point in the shape
