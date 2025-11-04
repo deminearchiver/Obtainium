@@ -98,6 +98,21 @@ final class Morph {
     }
   }
 
+  @override
+  String toString() => "Morph($_start, $_end)";
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        runtimeType == other.runtimeType &&
+            other is Morph &&
+            _start == other._start &&
+            _end == other._end;
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, _start, _end);
+
   @internal
   static List<(Cubic, Cubic)> match(RoundedPolygon p1, RoundedPolygon p2) {
     // TODO Commented out due to the use of javaClass ("Error: Platform reference in a
