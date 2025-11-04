@@ -25,8 +25,6 @@ export 'src/elevation_theme.dart';
 
 export 'src/focus_ring.dart';
 
-export 'src/loading_indicator.dart';
-
 export 'src/progress_indicator.dart';
 
 export 'src/checkbox.dart';
@@ -38,6 +36,10 @@ export 'src/switch.dart';
 export 'src/window_size_class.dart';
 
 export 'src/animation_extensions.dart';
+
+// TODO: review after LoadingIndicator gets a custom implementation
+export 'src/loading_indicator/loading_indicator.dart';
+export 'src/loading_indicator/loading_indicator_theme.dart';
 
 import 'src/flutter.dart';
 

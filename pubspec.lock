@@ -1007,24 +1007,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.13.0"
-  material_loading_indicator:
-    dependency: transitive
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "09cf2a8ea62029ac045ccf97b4b48ef7e27ee0e9"
-      url: "git@github.com:ksokolovskyi/material_loading_indicator.git"
-    source: git
-    version: "1.0.0"
-  material_shapes:
-    dependency: transitive
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "12ee853fbb4b5987dbbfe9bffc19fede57cd0295"
-      url: "git@github.com:ksokolovskyi/material_shapes.git"
-    source: git
-    version: "1.0.0"
   material_symbols_icons:
     dependency: "direct main"
     description:
