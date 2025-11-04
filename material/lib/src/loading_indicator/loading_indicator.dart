@@ -79,7 +79,7 @@ class LoadingIndicator extends StatefulWidget {
   /// Color of the active indicator shape.
   ///
   /// If [LoadingIndicator.activeIndicatorColor] is null, the value from
-  /// [LoadingIndicatorThemeData.activeIndicatorColor] in the ambient theme is
+  /// [LoadingIndicatorThemeData.indicatorColor] in the ambient theme is
   /// used. If that is also null, the color defaults to [ColorScheme.primary]
   /// for non-contained indicators, and to [ColorScheme.onPrimaryContainer] for
   /// contained indicators.
@@ -88,7 +88,7 @@ class LoadingIndicator extends StatefulWidget {
   /// Color of the background container.
   ///
   /// If [LoadingIndicator.containerColor] is null, the value from
-  /// [LoadingIndicatorThemeData.containerColor] in the ambient theme is used.
+  /// [LoadingIndicatorThemeData.containedContainerColor] in the ambient theme is used.
   /// If that is also null, the color defaults to
   /// [ColorScheme.primaryContainer].
   final Color? containerColor;
@@ -259,17 +259,20 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
 
   @override
   Widget build(BuildContext context) {
-    late final indicatorTheme = LoadingIndicatorTheme.of(context);
+    final colorTheme = ColorTheme.of(context);
+    final indicatorTheme = LoadingIndicatorTheme.maybeOf(context);
 
     final activeIndicatorColor =
         widget.activeIndicatorColor ??
-        indicatorTheme?.activeIndicatorColor ??
-        Theme.of(context).colorScheme.primary;
+        indicatorTheme?.indicatorColor ??
+        (widget._isContained
+            ? colorTheme.onPrimaryContainer
+            : colorTheme.primary);
 
     final containerColor =
         widget.containerColor ??
-        indicatorTheme?.containerColor ??
-        Theme.of(context).colorScheme.primaryContainer;
+        indicatorTheme?.containedContainerColor ??
+        colorTheme.primaryContainer;
 
     return Semantics(
       label: widget.semanticsLabel,
