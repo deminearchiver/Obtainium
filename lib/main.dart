@@ -297,6 +297,9 @@ class _ObtainiumState extends State<Obtainium> {
     required Brightness brightness,
     bool highContrast = false,
   }) {
+    const variant = DynamicSchemeVariant.tonalSpot;
+    const platform = DynamicSchemePlatform.phone;
+    const specVersion = DynamicSchemeSpecVersion.spec2025;
     if (settingsProvider.useMaterialYou) {
       final sourceColor = switch (widget.dynamicColorSource) {
         AccentColorSource(:final accentColor) => accentColor,
@@ -306,9 +309,9 @@ class _ObtainiumState extends State<Obtainium> {
         sourceColor: sourceColor,
         brightness: brightness,
         contrastLevel: highContrast ? 1.0 : 0.0,
-        variant: DynamicSchemeVariant.tonalSpot,
-        platform: DynamicSchemePlatform.phone,
-        specVersion: DynamicSchemeSpecVersion.spec2025,
+        variant: variant,
+        platform: platform,
+        specVersion: specVersion,
       );
       final provided = switch (widget.dynamicColorSource) {
         DynamicColorSchemesSource(
@@ -334,9 +337,9 @@ class _ObtainiumState extends State<Obtainium> {
         sourceColor: settingsProvider.themeColor,
         brightness: brightness,
         contrastLevel: highContrast ? 1.0 : 0.0,
-        variant: DynamicSchemeVariant.tonalSpot,
-        platform: DynamicSchemePlatform.phone,
-        specVersion: DynamicSchemeSpecVersion.spec2025,
+        variant: variant,
+        platform: platform,
+        specVersion: specVersion,
       );
     }
   }
