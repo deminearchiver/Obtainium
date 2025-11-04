@@ -4,7 +4,7 @@ import 'package:flutter/painting.dart';
 import 'package:meta/meta.dart';
 import 'package:vector_math/vector_math_64.dart';
 
-import 'androidx_graphics_shapes.dart';
+import 'shapes.dart';
 
 @internal
 extension RoundedPolygonInternalExtension on RoundedPolygon {

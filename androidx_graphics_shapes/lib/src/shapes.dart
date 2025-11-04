@@ -1,6 +1,6 @@
 library;
 
-export 'androidx_graphics_shapes/shapes.dart'
+export 'shapes/shapes.dart'
     show
         CornerRounding,
         Cubic,
