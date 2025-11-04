@@ -1,5 +1,3 @@
-library;
-
 export 'shapes/shapes.dart'
     show
         CornerRounding,
