@@ -2100,6 +2100,8 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                       ),
                       child: ListItemLayout(
                         isMultiline: true,
+                        minHeight: 72.0,
+                        maxHeight: 72.0,
                         padding: const EdgeInsets.fromLTRB(
                           32.0,
                           0.0,
