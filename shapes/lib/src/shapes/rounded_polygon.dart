@@ -99,7 +99,7 @@ final class RoundedPolygon {
     if (vertices.length < 6) {
       throw ArgumentError("Polygons must have at least 3 vertices.");
     }
-    if (vertices.length % 2 == 1) {
+    if (!vertices.length.isEven) {
       throw ArgumentError("The vertices array should have even size.");
     }
     if (perVertexRounding != null &&
@@ -169,12 +169,11 @@ final class RoundedPolygon {
       final List<double> allowedCuts = List.filled(2, 0.0);
       for (int delta = 0; delta <= 1; delta++) {
         final (roundCutRatio, cutRatio) = cutAdjusts[(i + n - 1 + delta) % n];
-        allowedCuts.add(
-          roundedCorners[i].expectedRoundCut * roundCutRatio +
-              (roundedCorners[i].expectedCut -
-                      roundedCorners[i].expectedRoundCut) *
-                  cutRatio,
-        );
+        allowedCuts[delta] =
+            roundedCorners[i].expectedRoundCut * roundCutRatio +
+            (roundedCorners[i].expectedCut -
+                    roundedCorners[i].expectedRoundCut) *
+                cutRatio;
       }
       corners.add(roundedCorners[i].getCubics(allowedCuts[0], allowedCuts[1]));
     }
@@ -469,15 +468,17 @@ final class RoundedPolygon {
     for (int i = 0; i < features.length; i++) features[i].transformed(f),
   ], center.transformed(f));
 
-  RoundedPolygon normalized() {
-    final bounds = calculateBounds();
+  RoundedPolygon normalized({bool approximate = true}) {
+    final bounds = calculateBounds(approximate: approximate);
+
     final width = bounds.right - bounds.left;
     final height = bounds.bottom - bounds.top;
     final side = math.max(width, height);
+
     // Center the shape if bounds are not a square
     final offsetX = (side - width) / 2.0 - bounds.left;
     final offsetY = (side - height) / 2.0 - bounds.top;
-    // return transformed { x, y -> TransformResult((x + offsetX) / side, (y + offsetY) / side) }
+
     return transformed((x, y) => ((x + offsetX) / side, (y + offsetY) / side));
   }
 

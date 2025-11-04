@@ -41,11 +41,11 @@ double linearMap(List<double> xValues, List<double> yValues, double x) {
 @internal
 final class DoubleMapper {
   DoubleMapper(List<(double, double)> mappings)
-    : _sourceValues = <double>[],
-      _targetValues = <double>[] {
+    : _sourceValues = List.filled(mappings.length, 0.0),
+      _targetValues = List.filled(mappings.length, 0.0) {
     for (int i = 0; i < mappings.length; i++) {
-      _sourceValues.add(mappings[i].$1);
-      _targetValues.add(mappings[i].$2);
+      _sourceValues[i] = mappings[i].$1;
+      _targetValues[i] = mappings[i].$2;
     }
     validateProgress(_sourceValues);
     validateProgress(_targetValues);

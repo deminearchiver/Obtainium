@@ -28,7 +28,7 @@ final class MeasuredPolygon extends DelegatingList<MeasuredCubic> {
         "First outline progress value is expected to be zero",
       );
     }
-    if (outlineProgress.length != 1.0) {
+    if (outlineProgress.last != 1.0) {
       throw ArgumentError("Last outline progress value is expected to be one");
     }
 

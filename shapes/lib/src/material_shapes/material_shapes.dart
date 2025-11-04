@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
-import 'package:meta/meta.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 import '../shapes.dart';
@@ -555,7 +555,7 @@ abstract final class MaterialShapes {
 
       final List<double> angles = <double>[
         for (int i = 0; i < points.length; i++)
-          (points[i].o - center)._angleDegrees(),
+          (points[i].o - center)._angleRadians(),
       ];
 
       final List<double> distances = <double>[
@@ -563,18 +563,17 @@ abstract final class MaterialShapes {
       ];
 
       final actualReps = reps * 2;
-      final sectionAngle = 360.0 / actualReps;
+      final sectionAngle = math.pi * 2.0 / actualReps;
 
       for (int it = 0; it < actualReps; it++) {
         for (int index = 0; index < points.length; index++) {
-          final i = it % 2 == 0.0 ? index : points.length - 1 - index;
-          if (i > 0 || it % 2 == 0) {
+          final i = it.isEven ? index : points.length - 1 - index;
+          if (i > 0 || it.isEven) {
             final a =
                 (sectionAngle * it +
-                        (it % 2 == 0.0
-                            ? angles[i]
-                            : sectionAngle - angles[i] + 2.0 * angles[0]))
-                    ._toRadians();
+                (it.isEven
+                    ? angles[i]
+                    : sectionAngle - angles[i] + 2.0 * angles[0]));
             final finalPoint =
                 Offset(math.cos(a), math.sin(a)) * distances[i] + center;
             result.add(_PointNRound(finalPoint, points[i].r));
@@ -587,7 +586,7 @@ abstract final class MaterialShapes {
       final np = points.length;
       return List.generate(np * reps, (it) {
         final point = points[it % np].o._rotateDegrees(
-          (it / np) * 360.0 / reps,
+          (it ~/ np) * 360.0 / reps,
           center,
         );
         return _PointNRound(point, points[it % np].r);
@@ -603,9 +602,9 @@ abstract final class MaterialShapes {
   }) {
     final actualPoints = _doRepeat(pnr, reps, center, mirroring);
     return RoundedPolygon.fromVertices(
-      vertices: List.generate(actualPoints.length, (ix) {
+      vertices: List.generate(actualPoints.length * 2, (ix) {
         final it = actualPoints[ix ~/ 2].o;
-        return ix % 2 == 0.0 ? it.dx : it.dy;
+        return ix.isEven ? it.dx : it.dy;
       }),
       perVertexRounding: <CornerRounding>[
         for (int i = 0; i < actualPoints.length; i++) actualPoints[i].r,
@@ -650,9 +649,225 @@ extension on Offset {
         center;
   }
 
-  double _angleDegrees() => math.atan2(dy, dx) * 180.0 / math.pi;
+  double _angleRadians() => math.atan2(dy, dx);
 }
 
 extension on double {
   double _toRadians() => this / 360.0 * 2.0 * math.pi;
+}
+
+abstract class _PathBorder extends OutlinedBorder {
+  const _PathBorder({super.side, this.squash = 0.0});
+
+  Path get path;
+
+  /// How much of the aspect ratio of the attached widget to take on.
+  ///
+  /// If [squash] is non-zero, the border will match the aspect ratio of the
+  /// bounding box of the widget that it is attached to, which can give a
+  /// squashed appearance.
+  ///
+  /// The [squash] parameter lets you control how much of that aspect ratio this
+  /// border takes on.
+  ///
+  /// A value of zero means that the border will be drawn with a square aspect
+  /// ratio at the size of the shortest side of the bounding rectangle, ignoring
+  /// the aspect ratio of the widget, and a value of one means it will be drawn
+  /// with the aspect ratio of the widget. The value of [squash] has no effect
+  /// if the widget is square to begin with.
+  ///
+  /// Defaults to zero, and must be between zero and one, inclusive.
+  final double squash;
+
+  Path _transformPath(Rect rect, {TextDirection? textDirection}) {
+    var scale = Offset(rect.width, rect.height);
+
+    scale = rect.shortestSide == rect.width
+        ? Offset(scale.dx, squash * scale.dy + (1 - squash) * scale.dx)
+        : Offset(squash * scale.dx + (1 - squash) * scale.dy, scale.dy);
+
+    final actualRect =
+        Offset(
+          rect.left + (rect.width - scale.dx) / 2,
+          rect.top + (rect.height - scale.dy) / 2,
+        ) &
+        Size(scale.dx, scale.dy);
+
+    final matrix = Matrix4.identity()
+      ..translateByDouble(actualRect.left, actualRect.top, 0.0, 1.0)
+      ..scaleByDouble(scale.dx, scale.dy, 1.0, 1.0);
+
+    return path.transform(matrix.storage);
+  }
+
+  @override
+  _PathBorder copyWith({BorderSide? side, double? squash});
+
+  @override
+  _PathBorder scale(double t);
+
+  @override
+  Path getInnerPath(Rect rect, {TextDirection? textDirection}) {
+    final adjustedRect = rect.deflate(side.strokeInset);
+    return _transformPath(adjustedRect, textDirection: textDirection);
+  }
+
+  @override
+  Path getOuterPath(Rect rect, {TextDirection? textDirection}) {
+    final adjustedRect = rect.inflate(side.strokeOutset);
+    return _transformPath(adjustedRect, textDirection: textDirection);
+  }
+
+  @override
+  void paint(Canvas canvas, Rect rect, {TextDirection? textDirection}) {
+    switch (side.style) {
+      case BorderStyle.none:
+        return;
+      case BorderStyle.solid:
+        final adjustedRect = rect.inflate(side.strokeOffset / 2.0);
+        final path = _transformPath(adjustedRect);
+        canvas.drawPath(path, side.toPaint());
+    }
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        runtimeType == other.runtimeType &&
+            other is _PathBorder &&
+            side == other.side &&
+            squash == other.squash;
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, side, squash);
+}
+
+abstract class _CubicsBorder extends _PathBorder {
+  const _CubicsBorder({super.side, super.squash, required this.cubics});
+
+  final List<Cubic> cubics;
+
+  @override
+  Path get path;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        runtimeType == other.runtimeType &&
+            other is _CubicsBorder &&
+            side == other.side &&
+            squash == other.squash &&
+            listEquals(cubics, other.cubics);
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, side, squash, Object.hashAll(cubics));
+}
+
+class RoundedPolygonBorder extends _PathBorder {
+  const RoundedPolygonBorder({
+    super.side,
+    super.squash,
+    required this.polygon,
+    this.startAngle = 0,
+  });
+
+  final RoundedPolygon polygon;
+  final int startAngle;
+
+  @override
+  Path get path => polygon.toPath(startAngle: startAngle);
+
+  @override
+  RoundedPolygonBorder copyWith({
+    BorderSide? side,
+    double? squash,
+    RoundedPolygon? polygon,
+    int? startAngle,
+  }) => RoundedPolygonBorder(
+    polygon: polygon ?? this.polygon,
+    startAngle: startAngle ?? this.startAngle,
+  );
+
+  @override
+  RoundedPolygonBorder scale(double t) => RoundedPolygonBorder(
+    side: side.scale(t),
+    squash: squash,
+    polygon: polygon,
+    startAngle: startAngle,
+  );
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        runtimeType == other.runtimeType &&
+            other is RoundedPolygonBorder &&
+            side == other.side &&
+            squash == other.squash &&
+            polygon == other.polygon &&
+            startAngle == other.startAngle;
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, squash, side, polygon, startAngle);
+}
+
+class MorphBorder extends _PathBorder {
+  const MorphBorder({
+    super.side,
+    super.squash,
+    required this.morph,
+    required this.progress,
+    this.startAngle = 0,
+  });
+
+  final Morph morph;
+  final double progress;
+  final int startAngle;
+
+  @override
+  Path get path => morph.toPath(progress: progress, startAngle: startAngle);
+
+  @override
+  MorphBorder copyWith({
+    BorderSide? side,
+    double? squash,
+    Morph? morph,
+    double? progress,
+    int? startAngle,
+  }) => MorphBorder(
+    side: side ?? this.side,
+    squash: squash ?? this.squash,
+    morph: morph ?? this.morph,
+    progress: progress ?? this.progress,
+    startAngle: startAngle ?? this.startAngle,
+  );
+
+  @override
+  MorphBorder scale(double t) => MorphBorder(
+    side: side.scale(t),
+    squash: squash,
+    morph: morph,
+    progress: progress,
+    startAngle: startAngle,
+  );
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        runtimeType == other.runtimeType &&
+            other is MorphBorder &&
+            side == other.side &&
+            squash == other.squash &&
+            morph == other.morph &&
+            progress == other.progress &&
+            startAngle == other.startAngle;
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, side, squash, morph, progress, startAngle);
 }

@@ -110,23 +110,25 @@ List<(double, double)> doMapping(
   // debugLog(LOG_TAG) { "Shape2 progresses: " + features2.map { it.progress }.joinToString() }
 
   // TODO: consider a more
-  final List<DistanceVertex> distanceVertexList = features1
-      .expand(
-        (f1) => features2.map((f2) {
-          final d = featureDistSquared(f1.feature, f2.feature);
-          return d != double.maxFinite ? DistanceVertex(d, f1, f2) : null;
-        }),
-      )
-      .nonNulls
-      .sortedBy((it) => it.distance);
+  final List<DistanceVertex> distanceVertexList =
+      features1
+          .expand(
+            (f1) => features2.map((f2) {
+              final d = featureDistSquared(f1.feature, f2.feature);
+              return d != double.maxFinite ? DistanceVertex(d, f1, f2) : null;
+            }),
+          )
+          .nonNulls
+          .toList(growable: false)
+        ..sort((a, b) => a.distance.compareTo(b.distance));
 
   // Special cases.
-  if (distanceVertexList.isEmpty) return _identityMapping;
+  if (distanceVertexList.isEmpty) return List.of(_identityMapping);
   if (distanceVertexList.length == 1) {
     final it = distanceVertexList.first;
     final f1 = it.f1.progress;
     final f2 = it.f2.progress;
-    return [(f1, f2), ((f1 + 0.5) % 1.0, (f2 + 0.5) % 1.0)];
+    return [(f1, f2), ((f1 + 0.5) % 1, (f2 + 0.5) % 1)];
   }
 
   final mh = _MappingHelper();
@@ -213,9 +215,8 @@ double featureDistSquared(Feature f1, Feature f2) {
 // TODO: b/378441547 - Move to explicit parameter / expose?
 @internal
 Point featureRepresentativePoint(Feature feature) {
-  final x =
-      (feature.cubics.first.anchor0X + feature.cubics.last.anchor1X) / 2.0;
-  final y =
-      (feature.cubics.first.anchor0Y + feature.cubics.last.anchor1Y) / 2.0;
+  final cubics = feature.cubics;
+  final x = (cubics.first.anchor0X + cubics.last.anchor1X) / 2.0;
+  final y = (cubics.first.anchor0Y + cubics.last.anchor1Y) / 2.0;
   return Point(x, y);
 }
