@@ -5,6 +5,7 @@ import 'package:material/material_shapes.dart';
 
 import 'package:obtainium/components/custom_app_bar.dart';
 import 'package:obtainium/components/custom_list.dart';
+import 'package:obtainium/components/custom_loading_indicator.dart';
 import 'package:obtainium/components/custom_markdown.dart';
 import 'package:obtainium/flutter.dart';
 
@@ -2289,6 +2290,31 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                       ],
                     ),
                   ),
+                ),
+              ),
+              Slider(
+                value: _progress,
+                onChanged: (value) => setState(() => _progress = value),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              ),
+              Align.center(
+                child: DeterminateLoadingIndicator(
+                  progress: _progress,
+                  // indicatorPolygons: [
+                  //   // RoundedPolygon.circle(
+                  //   //       numVertices: 10,
+                  //   //       centerX: 0.5,
+                  //   //       centerY: 0.5,
+                  //   //       radius: 0.5,
+                  //   //     )
+                  //   MaterialShapes.circle
+                  //       .normalized(approximate: false)
+                  //       .transformedWithMatrix(
+                  //         Matrix4.rotationZ(18.0 * math.pi / 180.0),
+                  //       )
+                  //       .normalized(approximate: false),
+                  //   MaterialShapes.softBurst.normalized(approximate: false),
+                  // ],
                 ),
               ),
             ],
