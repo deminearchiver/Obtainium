@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:meta/meta.dart';
 
+import 'features.dart';
 import 'point.dart';
 import 'utils.dart';
 
@@ -285,6 +286,59 @@ abstract class Cubic {
     );
   }
 
+  /// Convert to [Edge] if this cubic describes a straight line, otherwise to a
+  /// [Corner]. Corner convexity is determined by [convex].
+  @internal
+  Feature asFeature(Cubic next) =>
+      straightIsh() ? Edge([this]) : Corner([this], convexTo(next));
+
+  /// Determine if the cubic is close to a straight line.
+  /// Empty cubics don't count as straightIsh.
+  @internal
+  bool straightIsh() =>
+      !zeroLength() &&
+      collinearIsh(
+        anchor0X,
+        anchor0Y,
+        anchor1X,
+        anchor1Y,
+        control0X,
+        control0Y,
+        relaxedDistanceEpsilon,
+      ) &&
+      collinearIsh(
+        anchor0X,
+        anchor0Y,
+        anchor1X,
+        anchor1Y,
+        control1X,
+        control1Y,
+        relaxedDistanceEpsilon,
+      );
+
+  /// Determines if next is a smooth continuation of this cubic. Smooth meaning
+  /// that the first control point of next is a reflection of this' second
+  /// control point, similar to the S/s or t/T command in svg paths
+  /// https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths#b%C3%A9zier_curves
+  @internal
+  bool smoothesIntoIsh(Cubic next) => collinearIsh(
+    control1X,
+    control1Y,
+    next.control0X,
+    next.control0Y,
+    anchor1X,
+    anchor1Y,
+    relaxedDistanceEpsilon,
+  );
+
+  /// Determines if all of this' points align with next's points. For straight
+  /// lines, this is the same as if next was a continuation of this.
+  @internal
+  bool alignsIshWith(Cubic next) =>
+      straightIsh() && next.straightIsh() && smoothesIntoIsh(next) ||
+      zeroLength() ||
+      next.zeroLength();
+
   Cubic operator +(Cubic o) => Cubic.from(
     anchor0X + o.anchor0X,
     anchor0Y + o.anchor0Y,
@@ -367,6 +421,31 @@ abstract class Cubic {
     interpolateDouble(c1.anchor1X, c2.anchor1X, progress),
     interpolateDouble(c1.anchor1Y, c2.anchor1Y, progress),
   );
+
+  /// Create a new cubic by extending A to B's second anchor point.
+  // TODO: make this private to feature_detector.dart
+  @internal
+  static Cubic extend(Cubic a, Cubic b) => a.zeroLength()
+      ? Cubic.from(
+          a.anchor0X,
+          a.anchor0Y,
+          b.control0X,
+          b.control0Y,
+          b.control1X,
+          b.control1Y,
+          b.anchor1X,
+          b.anchor1Y,
+        )
+      : Cubic.from(
+          a.anchor0X,
+          a.anchor0Y,
+          a.control0X,
+          a.control0Y,
+          a.control1X,
+          a.control1Y,
+          b.anchor1X,
+          b.anchor1Y,
+        );
 }
 
 class _Cubic extends Cubic {
