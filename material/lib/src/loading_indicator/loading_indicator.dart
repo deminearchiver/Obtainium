@@ -113,22 +113,21 @@ class LoadingIndicator extends StatefulWidget {
   /// This list is used as the default value for the
   /// [LoadingIndicator.indicatorPolygons] parameter when none is explicitly
   /// provided.
-  static final indeterminateIndicatorPolygons = UnmodifiableListView([
-    MaterialShapes.softBurst,
-    MaterialShapes.cookie9Sided,
-    MaterialShapes.pentagon,
-    MaterialShapes.pill,
-    MaterialShapes.sunny,
-    MaterialShapes.cookie4Sided,
-    MaterialShapes.oval,
-  ]);
+  static final List<RoundedPolygon> indeterminateIndicatorPolygons =
+      UnmodifiableListView([
+        MaterialShapes.softBurst,
+        MaterialShapes.cookie9Sided,
+        MaterialShapes.pentagon,
+        MaterialShapes.pill,
+        MaterialShapes.sunny,
+        MaterialShapes.cookie4Sided,
+        MaterialShapes.oval,
+      ]);
 
   /// The sequence of [RoundedPolygon]s that the determinate [LoadingIndicator]
   /// will morph between when animating.
-  static final determinateIndicatorPolygons = UnmodifiableListView([
-    MaterialShapes.circle,
-    MaterialShapes.softBurst,
-  ]);
+  static final List<RoundedPolygon> determinateIndicatorPolygons =
+      UnmodifiableListView([MaterialShapes.circle, MaterialShapes.softBurst]);
 
   @override
   State<LoadingIndicator> createState() => _LoadingIndicatorState();
@@ -348,11 +347,11 @@ class _ActiveIndicatorPainter extends CustomPainter {
 
   final ValueListenable<double> globalAngle;
 
-  final Animation<double> rotation;
+  final ValueListenable<double> rotation;
 
-  final Animation<double> scale;
+  final ValueListenable<double> scale;
 
-  final Animation<double> morphProgress;
+  final ValueListenable<double> morphProgress;
 
   @override
   void paint(Canvas canvas, Size size) {

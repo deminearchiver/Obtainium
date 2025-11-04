@@ -1,4 +1,8 @@
+import 'dart:math' as math;
+
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:material/material_shapes.dart';
+
 import 'package:obtainium/components/custom_app_bar.dart';
 import 'package:obtainium/components/custom_list.dart';
 import 'package:obtainium/components/custom_markdown.dart';
@@ -11,6 +15,12 @@ import 'package:super_editor_markdown/super_editor_markdown.dart';
 
 // ignore: implementation_imports
 import 'package:obtainium_fonts/src/assets/fonts.gen.dart';
+
+// ignore: implementation_imports
+import 'package:material/src/material_shapes.dart'
+    show
+        // ignore: invalid_use_of_internal_member
+        RoundedPolygonInternalExtension;
 
 class DeveloperPageBackButton extends StatelessWidget {
   const DeveloperPageBackButton({super.key});
@@ -2143,6 +2153,69 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                         ],
                       ),
                     ),
+                  ),
+                ),
+              ),
+              Material(
+                animationDuration: Duration.zero,
+                color: colorTheme.surfaceBright,
+                shape: const StadiumBorder(),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Flex.horizontal(
+                    spacing: 16.0,
+                    children: [
+                      // Flexible.tight(
+                      //   child: FittedBox(
+                      //     fit: BoxFit.contain,
+                      //     child: LoadingIndicator(
+                      //       indicatorPolygons: [
+                      //         // RoundedPolygon.circle(
+                      //         //       numVertices: 10,
+                      //         //       centerX: 0.5,
+                      //         //       centerY: 0.5,
+                      //         //       radius: 0.5,
+                      //         //     )
+                      //         MaterialShapes.circle
+                      //             .normalized(approximate: false)
+                      //             // .transformedWithMatrix(
+                      //             //   Matrix4.rotationZ(18 * math.pi / 180.0),
+                      //             // )
+                      //             .normalized(approximate: false),
+                      //         MaterialShapes.softBurst.normalized(
+                      //           approximate: false,
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
+                      Flexible.tight(
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: LoadingIndicator(
+                            indicatorPolygons: [
+                              // MaterialShapes.arch,
+                              // MaterialShapes.arrow,
+                              MaterialShapes.flower,
+                              MaterialShapes.clover8Leaf,
+                              MaterialShapes.clover4Leaf,
+                            ],
+                          ),
+                        ),
+                      ),
+                      Flexible.tight(
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: LoadingIndicator(),
+                        ),
+                      ),
+                      Flexible.tight(
+                        child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: LoadingIndicator.contained(),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
