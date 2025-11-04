@@ -6,7 +6,8 @@ import 'package:vector_math/vector_math_64.dart';
 
 import 'androidx_graphics_shapes.dart';
 
-extension RoundedPolygonExtension on RoundedPolygon {
+@internal
+extension RoundedPolygonInternalExtension on RoundedPolygon {
   @internal
   RoundedPolygon transformedWithMatrix(Matrix4 matrix) => transformed((x, y) {
     final transformedPoint = matrix.transform3(Vector3(x, y, 0.0));
@@ -28,7 +29,9 @@ extension RoundedPolygonExtension on RoundedPolygon {
     rotationPivotX: centerX,
     rotationPivotY: centerY,
   );
+}
 
+extension RoundedPolygonExtension on RoundedPolygon {
   Path toPath({int startAngle = 0}) => toPathWith(
     path: Path(),
     startAngle: startAngle,
@@ -37,7 +40,7 @@ extension RoundedPolygonExtension on RoundedPolygon {
   );
 }
 
-extension MorphExtension on Morph {
+extension MorphInternalExtension on Morph {
   @internal
   Path toPathWith({
     required double progress,
@@ -56,7 +59,9 @@ extension MorphExtension on Morph {
     rotationPivotX: rotationPivotX,
     rotationPivotY: rotationPivotY,
   );
+}
 
+extension MorphExtension on Morph {
   Path toPath({required double progress, Path? path, int startAngle = 0}) =>
       toPathWith(
         path: path ?? Path(),
