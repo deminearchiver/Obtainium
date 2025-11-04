@@ -36,7 +36,12 @@
   - [Internal changes](#internal-changes)
   - [Other](#other)
 - [Roadmap](#roadmap)
+  - [User-facing changes](#user-facing-changes)
+  - [New features](#new-features)
   - [Material 3 Expressive](#material-3-expressive-1)
+  - [Internal changes](#internal-changes-1)
+  - [Organization](#organization)
+  - [Miscellaneous](#miscellaneous)
 - [About](#about)
   - [Useful links](#useful-links)
   - [Supported app sources](#supported-app-sources)
@@ -115,6 +120,19 @@ Currently, there are a lot of changes not yet covered in this section, which mea
 
 This section contains the list of projects that are planned to be implemented.
 
+### User-facing changes
+
+- [ ] Migrate to a new localization file structure
+  - [ ] Develop a new localization file structure to use with [`slang`](https://pub.dev/packages/slang)
+  - [ ] Create a Dart script which remaps [`easy_localization`](https://pub.dev/packages/easy_localization) files to the new localization structure (to preserve some of the existing translations)
+  - [ ] Intermediate steps (TBA)
+  - [ ] Start accepting localization contributions
+
+### New features
+
+- [ ] Add the ability to require biometric authentication upon opening the app via the [`local_auth`](https://pub.dev/packages/local_auth) package
+- [ ] Cookie Manager - a way for users to obtain and store cookies for any website. The cookies will be used globally across the app for all web requests
+
 ### Material 3 Expressive
 
 Many Material widgets used still come from Flutter's Material library. The long-standing goal of this project is to get rid of the dependency on Flutter's Material library. It is considered "legacy" in the scope of this repository (it's not actually deprecated).
@@ -138,16 +156,58 @@ Here's a list of widgets that are planned to have a custom implementation:
 - [ ] Standard button group (`StandardButtonGroup`)
   - One of the most complex widgets to implement, will probably require a custom render object. In that case children will be required to support dry layout.
 - [ ] Connected button group (`ConnectedButtonGroup`)
-- [ ] FAB
-- [ ] FAB menu
-- [ ] App bar
+- [ ] FAB (`FloatingActionButton`)
+- [ ] FAB menu (`FloatingActionButtonMenu`)
+- [ ] App bar (`AppBar`)
   - [x] Implement using existing `SliverAppBar`
   - [ ] Improve title layout to account for actions
   - [ ] Fully custom implementation (must use `SliverPersistentHeader` under the hood)
+- [ ] Loading indicator (`LoadingIndicator`)
+  - [x] Port `androidx.graphics.shapes` and `androidx.compose.material3.MaterialShapes` libraries
+  - [x] Use a placeholder implementation
+  - [ ] Create a complete implementation
+- [ ] Progress indicators
+  - [ ] Linear progress indicator (`LinearProgressIndicator`)
+    - [x] Use a placeholder implementation
+    - [ ] Flat shape (`LinearProgressIndicator`)
+    - [ ] Wavy shape (`LinearWavyProgressIndicator`)
+    - [ ] Implement complex transition logic (`LinearProgressIndicatorController`)
+  - [ ] Circular progress indicator
+    - [x] Use a placeholder implementation
+    - [ ] Flat shape (`CircularProgressIndicator`)
+    - [ ] Wavy shape (`CircularWavyProgressIndicator`)
+    - [ ] Implement complex transition logic (`CircularProgressIndicatorController`)
 
-<!-- ### Organization
+### Internal changes
 
-This list contains changes regarding the project's repository. -->
+These changes are expected to not affect the user experience. They include various architecural and structural changes to the project.
+
+Here's a tree-like checklist of the changes expected to be implemented in the near future:
+
+- [ ] Migrate from [`easy_localization`](https://pub.dev/packages/easy_localization) to [`slang`](https://pub.dev/packages/slang) localization solution
+  - [x] Create workspace [`obtainium_i18n`](./obtainium_i18n) package
+  - [x] Set up [`slang`](https://pub.dev/packages/slang) in the workspace package
+  - [ ] Create a Dart script which migrates [`easy_localization`](https://pub.dev/packages/easy_localization) to [`slang`](https://pub.dev/packages/slang) localization files
+  - [ ] Add tests for the migrated localizations
+  - [ ] Migrate application code to use [`slang`](https://pub.dev/packages/slang) generated localizations
+  - [ ] Completely remove the [`easy_localization`](https://pub.dev/packages/easy_localization) dependency
+  - [ ] Clean up [`assets/translations`](./assets/translations) directory
+- [ ] Migrate from [`http`](https://pub.dev/packages/http) to [`dio`](https://pub.dev/packages/dio) package
+
+### Organization
+
+The following list contains changes regarding the project's repository:
+
+- [ ] Modernize issue temlates
+- [ ] Create pull request templates
+- [ ] Set up discussions
+- [ ] Start accepting open-source contributions
+- [ ] Consider choosing a different name for the app to further deviate from the original project
+- [ ] Set up [**Renovate CLI**](https://github.com/renovatebot/renovate)
+  - [ ] Install [**Renovate**](https://github.com/apps/renovate) GitHub app in this repository
+### Miscellaneous
+
+- [ ] Create a website for the app
 
 ## About
 

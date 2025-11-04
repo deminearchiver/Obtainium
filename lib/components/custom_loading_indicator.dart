@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:obtainium/flutter.dart';
+
+// ignore: implementation_imports
 import 'package:material/src/material_shapes.dart';
 
 final List<RoundedPolygon> _indeterminateIndicatorPolygons = [
