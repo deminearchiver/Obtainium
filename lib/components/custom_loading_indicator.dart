@@ -23,6 +23,11 @@ final List<RoundedPolygon> _determinateIndicatorPolygons = [
   MaterialShapes.softBurst,
 ];
 
+class LoadingIndicatorController {
+  // TODO: add vsync here
+  // TODO: this class manages LoadingIndicator animations and allows syncing multiple loading indicators together
+}
+
 class CustomLoadingIndicator extends StatefulWidget {
   const CustomLoadingIndicator({super.key, required this.progress});
 

@@ -2041,9 +2041,26 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
   bool _selected = false;
   double _progress = 0.5;
 
+  final List<RoundedPolygon> _indeterminateIndicatorPolygons1 = [
+    MaterialShapes.flower,
+    MaterialShapes.clover8Leaf,
+    MaterialShapes.clover4Leaf,
+  ];
+  final List<RoundedPolygon> _indeterminateIndicatorPolygons2 = [
+    MaterialShapes.gem,
+    MaterialShapes.verySunny,
+    MaterialShapes.pentagon,
+    MaterialShapes.puffyDiamond,
+    MaterialShapes.softBoom,
+    MaterialShapes.sunny,
+  ];
+
   @override
   Widget build(BuildContext context) {
     final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
     return Scaffold(
       backgroundColor: colorTheme.surfaceContainer,
       body: CustomScrollView(
@@ -2073,19 +2090,29 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                 child: ListItemContainer(
                   isFirst: true,
                   isLast: true,
-                  containerColor: colorTheme.surfaceBright,
+                  containerShape: const StadiumBorder(),
+                  containerColor: colorTheme.primaryContainer,
                   child: MergeSemantics(
                     child: ListItemInteraction(
                       onTap: () => setState(() => _enabled = !_enabled),
+                      stateLayerColor: WidgetStatePropertyAll(
+                        colorTheme.onPrimaryContainer,
+                      ),
                       child: ListItemLayout(
                         isMultiline: true,
                         padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          12.0,
-                          16.0 - 8.0,
-                          12.0,
+                          32.0,
+                          0.0,
+                          20.0 - 8.0,
+                          0.0,
                         ),
-                        headline: const Text("Enabled"),
+                        headline: Text(
+                          "Enabled",
+                          style: typescaleTheme.titleMediumEmphasized
+                              .toTextStyle(
+                                color: colorTheme.onPrimaryContainer,
+                              ),
+                        ),
                         trailing: ExcludeFocus(
                           child: Switch(
                             onCheckedChanged: (value) =>
@@ -2156,80 +2183,109 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                   ),
                 ),
               ),
-              Material(
-                animationDuration: Duration.zero,
-                color: colorTheme.surfaceBright,
-                shape: const StadiumBorder(),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Flex.horizontal(
-                    spacing: 16.0,
-                    children: [
-                      // Flexible.tight(
-                      //   child: FittedBox(
-                      //     fit: BoxFit.contain,
-                      //     child: LoadingIndicator(
-                      //       indicatorPolygons: [
-                      //         // RoundedPolygon.circle(
-                      //         //       numVertices: 10,
-                      //         //       centerX: 0.5,
-                      //         //       centerY: 0.5,
-                      //         //       radius: 0.5,
-                      //         //     )
-                      //         MaterialShapes.circle
-                      //             .normalized(approximate: false)
-                      //             // .transformedWithMatrix(
-                      //             //   Matrix4.rotationZ(18 * math.pi / 180.0),
-                      //             // )
-                      //             .normalized(approximate: false),
-                      //         MaterialShapes.softBurst.normalized(
-                      //           approximate: false,
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
-                      Flexible.tight(
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: LoadingIndicator(
-                            indicatorPolygons: [
-                              // MaterialShapes.arch,
-                              // MaterialShapes.arrow,
-                              MaterialShapes.flower,
-                              MaterialShapes.clover8Leaf,
-                              MaterialShapes.clover4Leaf,
-                            ],
+              const SizedBox(height: 16.0),
+              // Flexible.tight(
+              //   child: FittedBox(
+              //     fit: BoxFit.contain,
+              //     child: LoadingIndicator(
+              //       indicatorPolygons: [
+              //         // RoundedPolygon.circle(
+              //         //       numVertices: 10,
+              //         //       centerX: 0.5,
+              //         //       centerY: 0.5,
+              //         //       radius: 0.5,
+              //         //     )
+              //         MaterialShapes.circle
+              //             .normalized(approximate: false)
+              //             // .transformedWithMatrix(
+              //             //   Matrix4.rotationZ(18 * math.pi / 180.0),
+              //             // )
+              //             .normalized(approximate: false),
+              //         MaterialShapes.softBurst.normalized(
+              //           approximate: false,
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Material(
+                  animationDuration: Duration.zero,
+                  color: colorTheme.surfaceBright,
+                  shape: const StadiumBorder(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Flex.horizontal(
+                      spacing: 16.0,
+                      children: [
+                        Flexible.tight(
+                          child: FittedBox(
+                            fit: BoxFit.contain,
+                            child: LoadingIndicator(),
                           ),
                         ),
-                      ),
-                      Flexible.tight(
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: LoadingIndicator.contained(
-                            indicatorPolygons: [
-                              // MaterialShapes.arch,
-                              // MaterialShapes.arrow,
-                              MaterialShapes.flower,
-                              MaterialShapes.clover8Leaf,
-                              MaterialShapes.clover4Leaf,
-                            ],
+                        Flexible.tight(
+                          child: FittedBox(
+                            fit: BoxFit.contain,
+                            child: LoadingIndicator(
+                              indicatorPolygons:
+                                  _indeterminateIndicatorPolygons1,
+                            ),
                           ),
                         ),
-                      ),
-                      Flexible.tight(
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: LoadingIndicator(),
+                        Flexible.tight(
+                          child: FittedBox(
+                            fit: BoxFit.contain,
+                            child: LoadingIndicator(
+                              indicatorPolygons:
+                                  _indeterminateIndicatorPolygons2,
+                            ),
+                          ),
                         ),
-                      ),
-                      Flexible.tight(
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: LoadingIndicator.contained(),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Material(
+                  animationDuration: Duration.zero,
+                  color: colorTheme.surfaceBright,
+                  shape: const StadiumBorder(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Flex.horizontal(
+                      spacing: 16.0,
+                      children: [
+                        Flexible.tight(
+                          child: FittedBox(
+                            fit: BoxFit.contain,
+                            child: LoadingIndicator.contained(),
+                          ),
                         ),
-                      ),
-                    ],
+                        Flexible.tight(
+                          child: FittedBox(
+                            fit: BoxFit.contain,
+                            child: LoadingIndicator.contained(
+                              indicatorPolygons:
+                                  _indeterminateIndicatorPolygons1,
+                            ),
+                          ),
+                        ),
+                        Flexible.tight(
+                          child: FittedBox(
+                            fit: BoxFit.contain,
+                            child: LoadingIndicator.contained(
+                              indicatorPolygons:
+                                  _indeterminateIndicatorPolygons2,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
