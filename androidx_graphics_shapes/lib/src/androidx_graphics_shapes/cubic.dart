@@ -1,4 +1,10 @@
-part of '../androidx_graphics_shapes.dart';
+import 'dart:math' as math;
+import 'dart:ui' as ui;
+
+import 'package:meta/meta.dart';
+
+import 'point.dart';
+import 'utils.dart';
 
 abstract class Cubic {
   const Cubic();
@@ -122,11 +128,11 @@ abstract class Cubic {
   }
 
   @internal
-  Rect calculateBounds({bool approximate = false}) {
+  ui.Rect calculateBounds({bool approximate = false}) {
     // A curve might be of zero-length, with both anchors co-lated.
     // Just return the point itself.
     if (zeroLength()) {
-      return Rect.fromLTRB(anchor0X, anchor0Y, anchor0X, anchor0Y);
+      return ui.Rect.fromLTRB(anchor0X, anchor0Y, anchor0X, anchor0Y);
     }
 
     var minX = math.min(anchor0X, anchor1X);
@@ -136,7 +142,7 @@ abstract class Cubic {
 
     if (approximate) {
       // Approximate bounds use the bounding box of all anchors and controls
-      return Rect.fromLTRB(
+      return ui.Rect.fromLTRB(
         math.min(minX, math.min(control0X, control1X)),
         math.min(minY, math.min(control0Y, control1Y)),
         math.max(maxX, math.max(control0X, control1X)),
@@ -212,7 +218,7 @@ abstract class Cubic {
       }
     }
 
-    return Rect.fromLTRB(minX, minY, maxX, maxY);
+    return ui.Rect.fromLTRB(minX, minY, maxX, maxY);
   }
 
   /// Returns two Cubics, created by splitting this curve at the given distance of [t] between the

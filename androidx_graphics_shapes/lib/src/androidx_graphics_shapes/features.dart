@@ -1,4 +1,7 @@
-part of '../androidx_graphics_shapes.dart';
+import 'package:flutter/foundation.dart';
+
+import 'cubic.dart';
+import 'utils.dart';
 
 /// While a polygon's shape can be drawn solely using a list of [Cubic] objects
 /// representing its raw curves and lines, features add an extra layer

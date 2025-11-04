@@ -1,4 +1,8 @@
-part of '../androidx_graphics_shapes.dart';
+import 'dart:math' as math;
+
+import 'package:meta/meta.dart';
+
+import 'point.dart';
 
 @internal
 double distance(double x, double y) => math.sqrt(x * x + y * y);

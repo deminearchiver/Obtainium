@@ -1,4 +1,10 @@
-part of '../androidx_graphics_shapes.dart';
+import 'package:collection/collection.dart';
+import 'package:meta/meta.dart';
+
+import 'features.dart';
+import 'float_mapping.dart';
+import 'point.dart';
+import 'utils.dart';
 
 @internal
 typedef MeasuredFeatures = List<ProgressableFeature>;
@@ -213,5 +219,3 @@ Point featureRepresentativePoint(Feature feature) {
       (feature.cubics.first.anchor0Y + feature.cubics.last.anchor1Y) / 2.0;
   return Point(x, y);
 }
-
-const String _logTag = "FeatureMapping";

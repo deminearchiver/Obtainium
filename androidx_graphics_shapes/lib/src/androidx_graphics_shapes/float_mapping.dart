@@ -1,4 +1,8 @@
-part of '../androidx_graphics_shapes.dart';
+import 'dart:math' as math;
+
+import 'package:meta/meta.dart';
+
+import 'utils.dart';
 
 @internal
 bool progressInRange(double progress, double progressFrom, double progressTo) =>

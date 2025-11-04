@@ -1,5 +1,6 @@
-part of '../androidx_graphics_shapes.dart';
+import 'package:meta/meta.dart';
 
+@immutable
 class CornerRounding {
   const CornerRounding({this.radius = 0.0, this.smoothing = 0.0})
     : assert(radius >= 0.0),

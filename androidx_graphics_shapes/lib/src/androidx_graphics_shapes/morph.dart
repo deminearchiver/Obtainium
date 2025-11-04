@@ -1,4 +1,13 @@
-part of '../androidx_graphics_shapes.dart';
+import 'dart:math' as math;
+import 'dart:ui' as ui;
+
+import 'package:meta/meta.dart';
+
+import 'cubic.dart';
+import 'feature_mapping.dart';
+import 'polygon_measure.dart';
+import 'rounded_polygon.dart';
+import 'utils.dart';
 
 class Morph {
   Morph._(this._start, this._end) : _morphMatch = match(_start, _end);
@@ -11,14 +20,14 @@ class Morph {
   @internal
   List<(Cubic, Cubic)> get morphMatch => _morphMatch;
 
-  Rect calculateBounds({bool approximate = true}) {
+  ui.Rect calculateBounds({bool approximate = true}) {
     final startBounds = _start.calculateBounds(approximate: approximate);
     final minX = startBounds.left;
     final minY = startBounds.top;
     final maxX = startBounds.right;
     final maxY = startBounds.bottom;
     final endBounds = _end.calculateBounds(approximate: approximate);
-    return Rect.fromLTRB(
+    return ui.Rect.fromLTRB(
       math.min(minX, endBounds.left),
       math.min(minY, endBounds.top),
       math.max(maxX, endBounds.right),
@@ -26,14 +35,14 @@ class Morph {
     );
   }
 
-  Rect calculateMaxBounds() {
+  ui.Rect calculateMaxBounds() {
     final startBounds = _start.calculateMaxBounds();
     final minX = startBounds.left;
     final minY = startBounds.top;
     final maxX = startBounds.right;
     final maxY = startBounds.bottom;
     final endBounds = _end.calculateMaxBounds();
-    return Rect.fromLTRB(
+    return ui.Rect.fromLTRB(
       math.min(minX, endBounds.left),
       math.min(minY, endBounds.top),
       math.max(maxX, endBounds.right),

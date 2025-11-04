@@ -1,4 +1,14 @@
-part of '../androidx_graphics_shapes.dart';
+import 'dart:ui' as ui;
+
+import 'package:collection/collection.dart';
+import 'package:meta/meta.dart';
+
+import 'cubic.dart';
+import 'feature_mapping.dart';
+import 'features.dart';
+import 'point.dart';
+import 'rounded_polygon.dart';
+import 'utils.dart';
 
 @internal
 final class MeasuredPolygon extends DelegatingList<MeasuredCubic> {
@@ -284,7 +294,7 @@ final class MeasuredCubic {
     // Floating point errors further up can cause cutOutlineProgress to land just
     // slightly outside of the start/end progress for this cubic, so we limit it
     // to those bounds to avoid further errors later
-    final boundedCutOutlineProgress = clampDouble(
+    final boundedCutOutlineProgress = ui.clampDouble(
       cutOutlineProgress,
       startOutlineProgress,
       endOutlineProgress,

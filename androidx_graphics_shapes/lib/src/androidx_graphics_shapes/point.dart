@@ -1,4 +1,9 @@
-part of '../androidx_graphics_shapes.dart';
+import 'dart:math' as math;
+
+import 'package:meta/meta.dart';
+
+import 'cubic.dart';
+import 'utils.dart';
 
 @internal
 final class Point {
