@@ -9,8 +9,8 @@ import 'polygon_measure.dart';
 import 'rounded_polygon.dart';
 import 'utils.dart';
 
-class Morph {
-  Morph._(this._start, this._end) : _morphMatch = match(_start, _end);
+final class Morph {
+  Morph(this._start, this._end) : _morphMatch = match(_start, _end);
 
   final RoundedPolygon _start;
   final RoundedPolygon _end;
