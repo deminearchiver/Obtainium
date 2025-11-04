@@ -145,29 +145,11 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
 
   late final AnimationController _controller;
 
-  late final _rotation = Tween<double>(begin: 0, end: 1).animate(_controller);
+  late Animation<double> _rotation;
 
-  late final _scale =
-      TweenSequence<double>([
-            TweenSequenceItem(
-              tween: Tween(begin: 1, end: 1.125),
-              weight: 200 / 350,
-            ),
-            TweenSequenceItem(
-              tween: Tween(begin: 1.125, end: 1),
-              weight: 150 / 350,
-            ),
-          ])
-          .chain(CurveTween(curve: const Interval(300 / 650, 650 / 650)))
-          .animate(_controller);
+  late Animation<double> _scale;
 
-  late final _morphProgress = Tween<double>(begin: 0, end: 1)
-      .chain(
-        CurveTween(
-          curve: const Interval(300 / 650, 550 / 650, curve: Curves.easeOut),
-        ),
-      )
-      .animate(_controller);
+  late Animation<double> _morphProgress;
 
   @override
   void initState() {
@@ -182,6 +164,30 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
           )
           ..addStatusListener(_statusListener)
           ..forward();
+
+    _rotation = Tween<double>(begin: 0, end: 1).animate(_controller);
+
+    _scale =
+        TweenSequence<double>([
+              TweenSequenceItem(
+                tween: Tween<double>(begin: 1.0, end: 1.125),
+                weight: 200 / 350,
+              ),
+              TweenSequenceItem(
+                tween: Tween<double>(begin: 1.125, end: 1.0),
+                weight: 150 / 350,
+              ),
+            ])
+            .chain(CurveTween(curve: const Interval(300 / 650, 650 / 650)))
+            .animate(_controller);
+
+    _morphProgress = Tween<double>(begin: 0.0, end: 1.0)
+        .chain(
+          CurveTween(
+            curve: const Interval(300 / 650, 550 / 650, curve: Curves.easeOut),
+          ),
+        )
+        .animate(_controller);
   }
 
   @override
