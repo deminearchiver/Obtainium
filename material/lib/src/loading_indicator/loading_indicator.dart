@@ -187,7 +187,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
   @override
   void didUpdateWidget(LoadingIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.indicatorPolygons != widget.indicatorPolygons) {
+    if (!listEquals(widget.indicatorPolygons, oldWidget.indicatorPolygons)) {
       _initMorphs();
     }
   }
@@ -356,6 +356,27 @@ class _ActiveIndicatorPainter extends CustomPainter {
 
   final ValueListenable<double> morphProgress;
 
+  Path _applySquash(Rect rect, Path path, {double squash = 0.0}) {
+    var scale = Offset(rect.width, rect.height);
+
+    scale = rect.shortestSide == rect.width
+        ? Offset(scale.dx, squash * scale.dy + (1 - squash) * scale.dx)
+        : Offset(squash * scale.dx + (1 - squash) * scale.dy, scale.dy);
+
+    final actualRect =
+        Offset(
+          rect.left + (rect.width - scale.dx) / 2,
+          rect.top + (rect.height - scale.dy) / 2,
+        ) &
+        Size(scale.dx, scale.dy);
+
+    final matrix = Matrix4.identity()
+      ..translateByDouble(actualRect.left, actualRect.top, 0.0, 1.0)
+      ..scaleByDouble(scale.dx, scale.dy, 1.0, 1.0);
+
+    return path.transform(matrix.storage);
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
@@ -365,7 +386,7 @@ class _ActiveIndicatorPainter extends CustomPainter {
         _kLinearRotationAngle * rotation.value +
         _kMorphRotationAngle * morphProgress.value;
 
-    final path = morphs[morphIndex.value].toPath(progress: morphProgress.value);
+    Path path = morphs[morphIndex.value].toPath(progress: morphProgress.value);
 
     final scaleFactor = morphScaleFactor * _kActiveIndicatorScale * scale.value;
     final remainingScaleFactor = 1 - scaleFactor;

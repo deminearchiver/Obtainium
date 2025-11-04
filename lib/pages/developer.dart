@@ -2206,6 +2206,20 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                       Flexible.tight(
                         child: FittedBox(
                           fit: BoxFit.contain,
+                          child: LoadingIndicator.contained(
+                            indicatorPolygons: [
+                              // MaterialShapes.arch,
+                              // MaterialShapes.arrow,
+                              MaterialShapes.flower,
+                              MaterialShapes.clover8Leaf,
+                              MaterialShapes.clover4Leaf,
+                            ],
+                          ),
+                        ),
+                      ),
+                      Flexible.tight(
+                        child: FittedBox(
+                          fit: BoxFit.contain,
                           child: LoadingIndicator(),
                         ),
                       ),
