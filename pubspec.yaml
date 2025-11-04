@@ -17,7 +17,6 @@ publish_to: none
 version: 1.2.7+2323
 
 workspace:
-  - androidx_graphics_shapes
   - dynamic_color
   - dynamic_color/example
   - layout
@@ -25,6 +24,7 @@ workspace:
   - obtainium_fonts
   - obtainium_i18n
   - obtainium_tools
+  - shapes
 
 environment:
   sdk: ^3.9.2
