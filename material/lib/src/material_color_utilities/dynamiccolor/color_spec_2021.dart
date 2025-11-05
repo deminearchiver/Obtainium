@@ -14,7 +14,7 @@ import 'dynamic_scheme.dart';
 import 'tone_delta_pair.dart';
 import 'variant.dart';
 
-class ColorSpec2021 implements ColorSpec {
+final class ColorSpec2021 implements ColorSpec {
   const ColorSpec2021();
 
   static bool _isMonochrome(DynamicScheme scheme) {
@@ -60,902 +60,776 @@ class ColorSpec2021 implements ColorSpec {
   }
 
   @override
-  DynamicColor primaryPaletteKeyColor() {
-    return DynamicColor.fromPalette(
-      name: "primary_palette_key_color",
-      palette: (s) => s.primaryPalette,
-      tone: (s) => s.primaryPalette.keyColor.tone,
-    );
-  }
+  DynamicColor get primaryPaletteKeyColor => DynamicColor(
+    name: "primary_palette_key_color",
+    palette: (s) => s.primaryPalette,
+    tone: (s) => s.primaryPalette.keyColor.tone,
+  );
 
   @override
-  DynamicColor secondaryPaletteKeyColor() {
-    return DynamicColor.fromPalette(
-      name: "secondary_palette_key_color",
-      palette: (s) => s.secondaryPalette,
-      tone: (s) => s.secondaryPalette.keyColor.tone,
-    );
-  }
+  DynamicColor get secondaryPaletteKeyColor => DynamicColor(
+    name: "secondary_palette_key_color",
+    palette: (s) => s.secondaryPalette,
+    tone: (s) => s.secondaryPalette.keyColor.tone,
+  );
 
   @override
-  DynamicColor tertiaryPaletteKeyColor() {
-    return DynamicColor.fromPalette(
-      name: "tertiary_palette_key_color",
-      palette: (s) => s.tertiaryPalette,
-      tone: (s) => s.tertiaryPalette.keyColor.tone,
-    );
-  }
+  DynamicColor get tertiaryPaletteKeyColor => DynamicColor(
+    name: "tertiary_palette_key_color",
+    palette: (s) => s.tertiaryPalette,
+    tone: (s) => s.tertiaryPalette.keyColor.tone,
+  );
 
   @override
-  DynamicColor neutralPaletteKeyColor() {
-    return DynamicColor.fromPalette(
-      name: "neutral_palette_key_color",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.neutralPalette.keyColor.tone,
-    );
-  }
+  DynamicColor get neutralPaletteKeyColor => DynamicColor(
+    name: "neutral_palette_key_color",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.neutralPalette.keyColor.tone,
+  );
 
   @override
-  DynamicColor neutralVariantPaletteKeyColor() {
-    return DynamicColor.fromPalette(
-      name: "neutral_variant_palette_key_color",
-      palette: (s) => s.neutralVariantPalette,
-      tone: (s) => s.neutralVariantPalette.keyColor.tone,
-    );
-  }
+  DynamicColor get neutralVariantPaletteKeyColor => DynamicColor(
+    name: "neutral_variant_palette_key_color",
+    palette: (s) => s.neutralVariantPalette,
+    tone: (s) => s.neutralVariantPalette.keyColor.tone,
+  );
 
   @override
-  DynamicColor errorPaletteKeyColor() {
-    return DynamicColor.fromPalette(
-      name: "error_palette_key_color",
-      palette: (s) => s.errorPalette,
-      tone: (s) => s.errorPalette.keyColor.tone,
-    );
-  }
+  DynamicColor get errorPaletteKeyColor => DynamicColor(
+    name: "error_palette_key_color",
+    palette: (s) => s.errorPalette,
+    tone: (s) => s.errorPalette.keyColor.tone,
+  );
 
   @override
-  DynamicColor background() {
-    return DynamicColor.fromPalette(
-      name: "background",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark ? 6.0 : 98.0,
-      isBackground: true,
-    );
-  }
+  DynamicColor get background => DynamicColor(
+    name: "background",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.isDark ? 6.0 : 98.0,
+    isBackground: true,
+  );
 
   @override
-  DynamicColor onBackground() {
-    return DynamicColor.fromPalette(
-      name: "on_background",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark ? 90.0 : 10.0,
-      background: (s) => background(),
-      contrastCurve: (s) => ContrastCurve(3.0, 3.0, 4.5, 7.0),
-    );
-  }
+  DynamicColor get onBackground => DynamicColor(
+    name: "on_background",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.isDark ? 90.0 : 10.0,
+    background: (s) => background,
+    contrastCurve: (s) => ContrastCurve(3.0, 3.0, 4.5, 7.0),
+  );
 
   @override
-  DynamicColor surface() {
-    return DynamicColor.fromPalette(
-      name: "surface",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark ? 6.0 : 98.0,
-      isBackground: true,
-    );
-  }
+  DynamicColor get surface => DynamicColor(
+    name: "surface",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.isDark ? 6.0 : 98.0,
+    isBackground: true,
+  );
 
   @override
-  DynamicColor surfaceDim() {
-    return DynamicColor.fromPalette(
-      name: "surface_dim",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark
-          ? 6.0
-          : const ContrastCurve(87.0, 87.0, 80.0, 75.0).get(s.contrastLevel),
-      isBackground: true,
-    );
-  }
+  DynamicColor get surfaceDim => DynamicColor(
+    name: "surface_dim",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.isDark
+        ? 6.0
+        : const ContrastCurve(87.0, 87.0, 80.0, 75.0).get(s.contrastLevel),
+    isBackground: true,
+  );
 
   @override
-  DynamicColor surfaceBright() {
-    return DynamicColor.fromPalette(
-      name: "surface_bright",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark
-          ? const ContrastCurve(24.0, 24.0, 29.0, 34.0).get(s.contrastLevel)
-          : 98.0,
-      isBackground: true,
-    );
-  }
+  DynamicColor get surfaceBright => DynamicColor(
+    name: "surface_bright",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.isDark
+        ? const ContrastCurve(24.0, 24.0, 29.0, 34.0).get(s.contrastLevel)
+        : 98.0,
+    isBackground: true,
+  );
 
   @override
-  DynamicColor surfaceContainerLowest() {
-    return DynamicColor.fromPalette(
-      name: "surface_container_lowest",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark
-          ? const ContrastCurve(4.0, 4.0, 2.0, 0.0).get(s.contrastLevel)
-          : 100.0,
-      isBackground: true,
-    );
-  }
+  DynamicColor get surfaceContainerLowest => DynamicColor(
+    name: "surface_container_lowest",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.isDark
+        ? const ContrastCurve(4.0, 4.0, 2.0, 0.0).get(s.contrastLevel)
+        : 100.0,
+    isBackground: true,
+  );
 
   @override
-  DynamicColor surfaceContainerLow() {
-    return DynamicColor.fromPalette(
-      name: "surface_container_low",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark
-          ? const ContrastCurve(10.0, 10.0, 11.0, 12.0).get(s.contrastLevel)
-          : const ContrastCurve(96.0, 96.0, 96.0, 95.0).get(s.contrastLevel),
-      isBackground: true,
-    );
-  }
+  DynamicColor get surfaceContainerLow => DynamicColor(
+    name: "surface_container_low",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.isDark
+        ? const ContrastCurve(10.0, 10.0, 11.0, 12.0).get(s.contrastLevel)
+        : const ContrastCurve(96.0, 96.0, 96.0, 95.0).get(s.contrastLevel),
+    isBackground: true,
+  );
 
   @override
-  DynamicColor surfaceContainer() {
-    return DynamicColor.fromPalette(
-      name: "surface_container",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark
-          ? const ContrastCurve(12.0, 12.0, 16.0, 20.0).get(s.contrastLevel)
-          : const ContrastCurve(94.0, 94.0, 92.0, 90.0).get(s.contrastLevel),
-      isBackground: true,
-    );
-  }
+  DynamicColor get surfaceContainer => DynamicColor(
+    name: "surface_container",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.isDark
+        ? const ContrastCurve(12.0, 12.0, 16.0, 20.0).get(s.contrastLevel)
+        : const ContrastCurve(94.0, 94.0, 92.0, 90.0).get(s.contrastLevel),
+    isBackground: true,
+  );
 
   @override
-  DynamicColor surfaceContainerHigh() {
-    return DynamicColor.fromPalette(
-      name: "surface_container_high",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark
-          ? const ContrastCurve(17.0, 17.0, 21.0, 25.0).get(s.contrastLevel)
-          : const ContrastCurve(92.0, 92.0, 88.0, 85.0).get(s.contrastLevel),
-      isBackground: true,
-    );
-  }
+  DynamicColor get surfaceContainerHigh => DynamicColor(
+    name: "surface_container_high",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.isDark
+        ? const ContrastCurve(17.0, 17.0, 21.0, 25.0).get(s.contrastLevel)
+        : const ContrastCurve(92.0, 92.0, 88.0, 85.0).get(s.contrastLevel),
+    isBackground: true,
+  );
 
   @override
-  DynamicColor surfaceContainerHighest() {
-    return DynamicColor.fromPalette(
-      name: "surface_container_highest",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark
-          ? const ContrastCurve(22.0, 22.0, 26.0, 30.0).get(s.contrastLevel)
-          : const ContrastCurve(90.0, 90.0, 84.0, 80.0).get(s.contrastLevel),
-      isBackground: true,
-    );
-  }
+  DynamicColor get surfaceContainerHighest => DynamicColor(
+    name: "surface_container_highest",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.isDark
+        ? const ContrastCurve(22.0, 22.0, 26.0, 30.0).get(s.contrastLevel)
+        : const ContrastCurve(90.0, 90.0, 84.0, 80.0).get(s.contrastLevel),
+    isBackground: true,
+  );
 
   @override
-  DynamicColor onSurface() {
-    return DynamicColor.fromPalette(
-      name: "on_surface",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark ? 90.0 : 10.0,
-      background: highestSurface,
-      contrastCurve: (s) => const ContrastCurve(4.5, 7.0, 11.0, 21.0),
-    );
-  }
+  DynamicColor get onSurface => DynamicColor(
+    name: "on_surface",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.isDark ? 90.0 : 10.0,
+    background: highestSurface,
+    contrastCurve: (s) => const ContrastCurve(4.5, 7.0, 11.0, 21.0),
+  );
 
   @override
-  DynamicColor surfaceVariant() {
-    return DynamicColor.fromPalette(
-      name: "surface_variant",
-      palette: (s) => s.neutralVariantPalette,
-      tone: (s) => s.isDark ? 30.0 : 90.0,
-      isBackground: true,
-    );
-  }
+  DynamicColor get surfaceVariant => DynamicColor(
+    name: "surface_variant",
+    palette: (s) => s.neutralVariantPalette,
+    tone: (s) => s.isDark ? 30.0 : 90.0,
+    isBackground: true,
+  );
 
   @override
-  DynamicColor onSurfaceVariant() {
-    return DynamicColor.fromPalette(
-      name: "on_surface_variant",
-      palette: (s) => s.neutralVariantPalette,
-      tone: (s) => s.isDark ? 80.0 : 30.0,
-      background: highestSurface,
-      contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 11.0),
-    );
-  }
+  DynamicColor get onSurfaceVariant => DynamicColor(
+    name: "on_surface_variant",
+    palette: (s) => s.neutralVariantPalette,
+    tone: (s) => s.isDark ? 80.0 : 30.0,
+    background: highestSurface,
+    contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 11.0),
+  );
 
   @override
-  DynamicColor inverseSurface() {
-    return DynamicColor.fromPalette(
-      name: "inverse_surface",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark ? 90.0 : 20.0,
-      isBackground: true,
-    );
-  }
+  DynamicColor get inverseSurface => DynamicColor(
+    name: "inverse_surface",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.isDark ? 90.0 : 20.0,
+    isBackground: true,
+  );
 
   @override
-  DynamicColor inverseOnSurface() {
-    return DynamicColor.fromPalette(
-      name: "inverse_on_surface",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark ? 20.0 : 95.0,
-      background: (s) => inverseSurface(),
-      contrastCurve: (s) => const ContrastCurve(4.5, 7.0, 11.0, 21.0),
-    );
-  }
+  DynamicColor get inverseOnSurface => DynamicColor(
+    name: "inverse_on_surface",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.isDark ? 20.0 : 95.0,
+    background: (s) => inverseSurface,
+    contrastCurve: (s) => const ContrastCurve(4.5, 7.0, 11.0, 21.0),
+  );
 
   @override
-  DynamicColor outline() {
-    return DynamicColor.fromPalette(
-      name: "outline",
-      palette: (s) => s.neutralVariantPalette,
-      tone: (s) => s.isDark ? 60.0 : 50.0,
-      background: highestSurface,
-      contrastCurve: (s) => const ContrastCurve(1.5, 3.0, 4.5, 7.0),
-    );
-  }
+  DynamicColor get outline => DynamicColor(
+    name: "outline",
+    palette: (s) => s.neutralVariantPalette,
+    tone: (s) => s.isDark ? 60.0 : 50.0,
+    background: highestSurface,
+    contrastCurve: (s) => const ContrastCurve(1.5, 3.0, 4.5, 7.0),
+  );
 
   @override
-  DynamicColor outlineVariant() {
-    return DynamicColor.fromPalette(
-      name: "outline_variant",
-      palette: (s) => s.neutralVariantPalette,
-      tone: (s) => s.isDark ? 30.0 : 80.0,
-      background: highestSurface,
-      contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-    );
-  }
+  DynamicColor get outlineVariant => DynamicColor(
+    name: "outline_variant",
+    palette: (s) => s.neutralVariantPalette,
+    tone: (s) => s.isDark ? 30.0 : 80.0,
+    background: highestSurface,
+    contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
+  );
 
   @override
-  DynamicColor shadow() {
-    return DynamicColor.fromPalette(
-      name: "shadow",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => 0.0,
-    );
-  }
+  DynamicColor get shadow => DynamicColor(
+    name: "shadow",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => 0.0,
+  );
 
   @override
-  DynamicColor scrim() {
-    return DynamicColor.fromPalette(
-      name: "scrim",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => 0.0,
-    );
-  }
+  DynamicColor get scrim => DynamicColor(
+    name: "scrim",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => 0.0,
+  );
 
   @override
-  DynamicColor surfaceTint() {
-    return DynamicColor.fromPalette(
-      name: "surface_tint",
-      palette: (s) => s.primaryPalette,
-      tone: (s) => s.isDark ? 80.0 : 40.0,
-      isBackground: true,
-    );
-  }
+  DynamicColor get surfaceTint => DynamicColor(
+    name: "surface_tint",
+    palette: (s) => s.primaryPalette,
+    tone: (s) => s.isDark ? 80.0 : 40.0,
+    isBackground: true,
+  );
 
   @override
-  DynamicColor primary() {
-    return DynamicColor.fromPalette(
-      name: "primary",
-      palette: (s) => s.primaryPalette,
-      tone: (s) {
-        if (_isMonochrome(s)) {
-          return s.isDark ? 100.0 : 0.0;
-        }
-        return s.isDark ? 80.0 : 40.0;
-      },
-      isBackground: true,
-      background: highestSurface,
-      contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 7.0),
-      toneDeltaPair: (s) => ToneDeltaPair(
-        roleA: primaryContainer(),
-        roleB: primary(),
-        delta: 10.0,
-        polarity: TonePolarity.relativeLighter,
-        stayTogether: false,
-        constraint: DeltaConstraint.nearer,
-      ),
-    );
-  }
+  DynamicColor get primary => DynamicColor(
+    name: "primary",
+    palette: (s) => s.primaryPalette,
+    tone: (s) {
+      if (_isMonochrome(s)) {
+        return s.isDark ? 100.0 : 0.0;
+      }
+      return s.isDark ? 80.0 : 40.0;
+    },
+    isBackground: true,
+    background: highestSurface,
+    contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 7.0),
+    toneDeltaPair: (s) => ToneDeltaPair(
+      roleA: primaryContainer,
+      roleB: primary,
+      delta: 10.0,
+      polarity: TonePolarity.relativeLighter,
+      stayTogether: false,
+      constraint: DeltaConstraint.nearer,
+    ),
+  );
 
   @override
-  DynamicColor? primaryDim() {
+  DynamicColor? get primaryDim {
     return null;
   }
 
   @override
-  DynamicColor onPrimary() {
-    return DynamicColor.fromPalette(
-      name: "on_primary",
-      palette: (s) => s.primaryPalette,
-      tone: (s) {
-        if (_isMonochrome(s)) {
-          return s.isDark ? 10.0 : 90.0;
-        }
-        return s.isDark ? 20.0 : 100.0;
-      },
-      background: (s) => primary(),
-      contrastCurve: (s) => const ContrastCurve(4.5, 7.0, 11.0, 21.0),
-    );
+  DynamicColor get onPrimary => DynamicColor(
+    name: "on_primary",
+    palette: (s) => s.primaryPalette,
+    tone: (s) {
+      if (_isMonochrome(s)) {
+        return s.isDark ? 10.0 : 90.0;
+      }
+      return s.isDark ? 20.0 : 100.0;
+    },
+    background: (s) => primary,
+    contrastCurve: (s) => const ContrastCurve(4.5, 7.0, 11.0, 21.0),
+  );
+
+  @override
+  DynamicColor get primaryContainer => DynamicColor(
+    name: "primary_container",
+    palette: (s) => s.primaryPalette,
+    tone: (s) {
+      if (_isFidelity(s)) {
+        return s.sourceColorHct.tone;
+      }
+      if (_isMonochrome(s)) {
+        return s.isDark ? 85.0 : 25.0;
+      }
+      return s.isDark ? 30.0 : 90.0;
+    },
+    isBackground: true,
+    background: highestSurface,
+    contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
+    toneDeltaPair: (s) => ToneDeltaPair(
+      roleA: primaryContainer,
+      roleB: primary,
+      delta: 10.0,
+      polarity: TonePolarity.relativeLighter,
+      stayTogether: false,
+      constraint: DeltaConstraint.nearer,
+    ),
+  );
+
+  @override
+  DynamicColor get onPrimaryContainer => DynamicColor(
+    name: "on_primary_container",
+    palette: (s) => s.primaryPalette,
+    tone: (s) {
+      if (_isFidelity(s)) {
+        return DynamicColor.foregroundTone(primaryContainer.tone(s), 4.5);
+      }
+      if (_isMonochrome(s)) {
+        return s.isDark ? 0.0 : 100.0;
+      }
+      return s.isDark ? 90.0 : 30.0;
+    },
+    background: (s) => primaryContainer,
+    contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 11.0),
+  );
+
+  @override
+  DynamicColor get inversePrimary => DynamicColor(
+    name: "inverse_primary",
+    palette: (s) => s.primaryPalette,
+    tone: (s) => s.isDark ? 40.0 : 80.0,
+    background: (s) => inverseSurface,
+    contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 7.0),
+  );
+
+  @override
+  DynamicColor get secondary => DynamicColor(
+    name: "secondary",
+    palette: (s) => s.secondaryPalette,
+    tone: (s) => s.isDark ? 80.0 : 40.0,
+    isBackground: true,
+    background: highestSurface,
+    contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 7.0),
+    toneDeltaPair: (s) => ToneDeltaPair(
+      roleA: secondaryContainer,
+      roleB: secondary,
+      delta: 10.0,
+      polarity: TonePolarity.relativeLighter,
+      stayTogether: false,
+      constraint: DeltaConstraint.nearer,
+    ),
+  );
+
+  @override
+  DynamicColor? get secondaryDim {
+    return null;
   }
 
   @override
-  DynamicColor primaryContainer() {
-    return DynamicColor.fromPalette(
-      name: "primary_container",
-      palette: (s) => s.primaryPalette,
-      tone: (s) {
-        if (_isFidelity(s)) {
-          return s.sourceColorHct.tone;
-        }
-        if (_isMonochrome(s)) {
-          return s.isDark ? 85.0 : 25.0;
-        }
+  DynamicColor get onSecondary => DynamicColor(
+    name: "on_secondary",
+    palette: (s) => s.secondaryPalette,
+    tone: (s) {
+      if (_isMonochrome(s)) {
+        return s.isDark ? 10.0 : 100.0;
+      }
+      return s.isDark ? 20.0 : 100.0;
+    },
+    background: (s) => secondary,
+    contrastCurve: (s) => const ContrastCurve(4.5, 7.0, 11.0, 21.0),
+  );
+
+  @override
+  DynamicColor get secondaryContainer => DynamicColor(
+    name: "secondary_container",
+    palette: (s) => s.secondaryPalette,
+    tone: (s) {
+      if (_isMonochrome(s)) {
+        return s.isDark ? 30.0 : 85.0;
+      }
+      final double initialTone = s.isDark ? 30.0 : 90.0;
+      if (!_isFidelity(s)) return initialTone;
+      return _findDesiredChromaByTone(
+        s.secondaryPalette.hue,
+        s.secondaryPalette.chroma,
+        initialTone,
+        !s.isDark,
+      );
+    },
+    isBackground: true,
+    background: highestSurface,
+    contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
+    toneDeltaPair: (s) => ToneDeltaPair(
+      roleA: secondaryContainer,
+      roleB: secondary,
+      delta: 10.0,
+      polarity: TonePolarity.relativeLighter,
+      stayTogether: false,
+      constraint: DeltaConstraint.nearer,
+    ),
+  );
+
+  @override
+  DynamicColor get onSecondaryContainer => DynamicColor(
+    name: "on_secondary_container",
+    palette: (s) => s.secondaryPalette,
+    tone: (s) {
+      if (_isMonochrome(s)) {
+        return s.isDark ? 90.0 : 10.0;
+      }
+      if (!_isFidelity(s)) {
+        return s.isDark ? 90.0 : 30.0;
+      }
+      return DynamicColor.foregroundTone(secondaryContainer.tone(s), 4.5);
+    },
+    background: (s) => secondaryContainer,
+    contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 11.0),
+  );
+
+  @override
+  DynamicColor get tertiary => DynamicColor(
+    name: "tertiary",
+    palette: (s) => s.tertiaryPalette,
+    tone: (s) {
+      if (_isMonochrome(s)) {
+        return s.isDark ? 90.0 : 25.0;
+      }
+      return s.isDark ? 80.0 : 40.0;
+    },
+    isBackground: true,
+    background: highestSurface,
+    contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 7.0),
+    toneDeltaPair: (s) => ToneDeltaPair(
+      roleA: tertiaryContainer,
+      roleB: tertiary,
+      delta: 10.0,
+      polarity: TonePolarity.relativeLighter,
+      stayTogether: false,
+      constraint: DeltaConstraint.nearer,
+    ),
+  );
+
+  @override
+  DynamicColor? get tertiaryDim {
+    return null;
+  }
+
+  @override
+  DynamicColor get onTertiary => DynamicColor(
+    name: "on_tertiary",
+    palette: (s) => s.tertiaryPalette,
+    tone: (s) {
+      if (_isMonochrome(s)) {
+        return s.isDark ? 10.0 : 90.0;
+      }
+      return s.isDark ? 20.0 : 100.0;
+    },
+    background: (s) => tertiary,
+    contrastCurve: (s) => const ContrastCurve(4.5, 7.0, 11.0, 21.0),
+  );
+
+  @override
+  DynamicColor get tertiaryContainer => DynamicColor(
+    name: "tertiary_container",
+    palette: (s) => s.tertiaryPalette,
+    tone: (s) {
+      if (_isMonochrome(s)) {
+        return s.isDark ? 60.0 : 49.0;
+      }
+      if (!_isFidelity(s)) {
         return s.isDark ? 30.0 : 90.0;
-      },
-      isBackground: true,
-      background: highestSurface,
-      contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair(
-        roleA: primaryContainer(),
-        roleB: primary(),
-        delta: 10.0,
-        polarity: TonePolarity.relativeLighter,
-        stayTogether: false,
-        constraint: DeltaConstraint.nearer,
-      ),
-    );
-  }
+      }
+      final proposedHct = s.tertiaryPalette.getHct(s.sourceColorHct.tone);
+      return DislikeAnalyzer.fixIfDisliked(proposedHct).tone;
+    },
+    isBackground: true,
+    background: highestSurface,
+    contrastCurve: (s) => ContrastCurve(1.0, 1.0, 3.0, 4.5),
+    toneDeltaPair: (s) => ToneDeltaPair(
+      roleA: tertiaryContainer,
+      roleB: tertiary,
+      delta: 10.0,
+      polarity: TonePolarity.relativeLighter,
+      stayTogether: false,
+      constraint: DeltaConstraint.nearer,
+    ),
+  );
 
   @override
-  DynamicColor onPrimaryContainer() {
-    return DynamicColor.fromPalette(
-      name: "on_primary_container",
-      palette: (s) => s.primaryPalette,
-      tone: (s) {
-        if (_isFidelity(s)) {
-          return DynamicColor.foregroundTone(primaryContainer().tone(s), 4.5);
-        }
-        if (_isMonochrome(s)) {
-          return s.isDark ? 0.0 : 100.0;
-        }
+  DynamicColor get onTertiaryContainer => DynamicColor(
+    name: "on_tertiary_container",
+    palette: (s) => s.tertiaryPalette,
+    tone: (s) {
+      if (_isMonochrome(s)) {
+        return s.isDark ? 0.0 : 100.0;
+      }
+      if (!_isFidelity(s)) {
         return s.isDark ? 90.0 : 30.0;
-      },
-      background: (s) => primaryContainer(),
-      contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 11.0),
-    );
-  }
+      }
+      return DynamicColor.foregroundTone(tertiaryContainer.tone(s), 4.5);
+    },
+    background: (s) => tertiaryContainer,
+    contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 11.0),
+  );
 
   @override
-  DynamicColor inversePrimary() {
-    return DynamicColor.fromPalette(
-      name: "inverse_primary",
-      palette: (s) => s.primaryPalette,
-      tone: (s) => s.isDark ? 40.0 : 80.0,
-      background: (s) => inverseSurface(),
-      contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 7.0),
-    );
-  }
+  DynamicColor get error => DynamicColor(
+    name: "error",
+    palette: (s) => s.errorPalette,
+    tone: (s) => s.isDark ? 80.0 : 40.0,
+    isBackground: true,
+    background: highestSurface,
+    contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 7.0),
+    toneDeltaPair: (s) => ToneDeltaPair(
+      roleA: errorContainer,
+      roleB: error,
+      delta: 10.0,
+      polarity: TonePolarity.relativeLighter,
+      stayTogether: false,
+      constraint: DeltaConstraint.nearer,
+    ),
+  );
 
   @override
-  DynamicColor secondary() {
-    return DynamicColor.fromPalette(
-      name: "secondary",
-      palette: (s) => s.secondaryPalette,
-      tone: (s) => s.isDark ? 80.0 : 40.0,
-      isBackground: true,
-      background: highestSurface,
-      contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 7.0),
-      toneDeltaPair: (s) => ToneDeltaPair(
-        roleA: secondaryContainer(),
-        roleB: secondary(),
-        delta: 10.0,
-        polarity: TonePolarity.relativeLighter,
-        stayTogether: false,
-        constraint: DeltaConstraint.nearer,
-      ),
-    );
-  }
-
-  @override
-  DynamicColor? secondaryDim() {
+  DynamicColor? get errorDim {
     return null;
   }
 
   @override
-  DynamicColor onSecondary() {
-    return DynamicColor.fromPalette(
-      name: "on_secondary",
-      palette: (s) => s.secondaryPalette,
-      tone: (s) {
-        if (_isMonochrome(s)) {
-          return s.isDark ? 10.0 : 100.0;
-        }
-        return s.isDark ? 20.0 : 100.0;
-      },
-      background: (s) => secondary(),
-      contrastCurve: (s) => const ContrastCurve(4.5, 7.0, 11.0, 21.0),
-    );
-  }
+  DynamicColor get onError => DynamicColor(
+    name: "on_error",
+    palette: (s) => s.errorPalette,
+    tone: (s) => s.isDark ? 20.0 : 100.0,
+    background: (s) => error,
+    contrastCurve: (s) => const ContrastCurve(4.5, 7.0, 11.0, 21.0),
+  );
 
   @override
-  DynamicColor secondaryContainer() {
-    return DynamicColor.fromPalette(
-      name: "secondary_container",
-      palette: (s) => s.secondaryPalette,
-      tone: (s) {
-        if (_isMonochrome(s)) {
-          return s.isDark ? 30.0 : 85.0;
-        }
-        final double initialTone = s.isDark ? 30.0 : 90.0;
-        if (!_isFidelity(s)) return initialTone;
-        return _findDesiredChromaByTone(
-          s.secondaryPalette.hue,
-          s.secondaryPalette.chroma,
-          initialTone,
-          !s.isDark,
-        );
-      },
-      isBackground: true,
-      background: highestSurface,
-      contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair(
-        roleA: secondaryContainer(),
-        roleB: secondary(),
-        delta: 10.0,
-        polarity: TonePolarity.relativeLighter,
-        stayTogether: false,
-        constraint: DeltaConstraint.nearer,
-      ),
-    );
-  }
+  DynamicColor get errorContainer => DynamicColor(
+    name: "error_container",
+    palette: (s) => s.errorPalette,
+    tone: (s) => s.isDark ? 30.0 : 90.0,
+    isBackground: true,
+    background: highestSurface,
+    contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
+    toneDeltaPair: (s) => ToneDeltaPair(
+      roleA: errorContainer,
+      roleB: error,
+      delta: 10.0,
+      polarity: TonePolarity.relativeLighter,
+      stayTogether: false,
+      constraint: DeltaConstraint.nearer,
+    ),
+  );
 
   @override
-  DynamicColor onSecondaryContainer() {
-    return DynamicColor.fromPalette(
-      name: "on_secondary_container",
-      palette: (s) => s.secondaryPalette,
-      tone: (s) {
-        if (_isMonochrome(s)) {
-          return s.isDark ? 90.0 : 10.0;
-        }
-        if (!_isFidelity(s)) {
-          return s.isDark ? 90.0 : 30.0;
-        }
-        return DynamicColor.foregroundTone(secondaryContainer().tone(s), 4.5);
-      },
-      background: (s) => secondaryContainer(),
-      contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 11.0),
-    );
-  }
+  DynamicColor get onErrorContainer => DynamicColor(
+    name: "on_error_container",
+    palette: (s) => s.errorPalette,
+    tone: (s) {
+      if (_isMonochrome(s)) {
+        return s.isDark ? 90.0 : 10.0;
+      }
+      return s.isDark ? 90.0 : 30.0;
+    },
+    background: (s) => errorContainer,
+    contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 11.0),
+  );
 
   @override
-  DynamicColor tertiary() {
-    return DynamicColor.fromPalette(
-      name: "tertiary",
-      palette: (s) => s.tertiaryPalette,
-      tone: (s) {
-        if (_isMonochrome(s)) {
-          return s.isDark ? 90.0 : 25.0;
-        }
-        return s.isDark ? 80.0 : 40.0;
-      },
-      isBackground: true,
-      background: highestSurface,
-      contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 7.0),
-      toneDeltaPair: (s) => ToneDeltaPair(
-        roleA: tertiaryContainer(),
-        roleB: tertiary(),
-        delta: 10.0,
-        polarity: TonePolarity.relativeLighter,
-        stayTogether: false,
-        constraint: DeltaConstraint.nearer,
-      ),
-    );
-  }
+  DynamicColor get primaryFixed => DynamicColor(
+    name: "primary_fixed",
+    palette: (s) => s.primaryPalette,
+    tone: (s) => _isMonochrome(s) ? 40.0 : 90.0,
+    isBackground: true,
+    background: highestSurface,
+    contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
+    toneDeltaPair: (s) => ToneDeltaPair(
+      roleA: primaryFixed,
+      roleB: primaryFixedDim,
+      delta: 10.0,
+      polarity: TonePolarity.lighter,
+      stayTogether: true,
+    ),
+  );
 
   @override
-  DynamicColor? tertiaryDim() {
-    return null;
-  }
+  DynamicColor get primaryFixedDim => DynamicColor(
+    name: "primary_fixed_dim",
+    palette: (s) => s.primaryPalette,
+    tone: (s) => _isMonochrome(s) ? 30.0 : 80.0,
+    isBackground: true,
+    background: highestSurface,
+    contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
+    toneDeltaPair: (s) => ToneDeltaPair(
+      roleA: primaryFixed,
+      roleB: primaryFixedDim,
+      delta: 10.0,
+      polarity: TonePolarity.lighter,
+      stayTogether: true,
+    ),
+  );
 
   @override
-  DynamicColor onTertiary() {
-    return DynamicColor.fromPalette(
-      name: "on_tertiary",
-      palette: (s) => s.tertiaryPalette,
-      tone: (s) {
-        if (_isMonochrome(s)) {
-          return s.isDark ? 10.0 : 90.0;
-        }
-        return s.isDark ? 20.0 : 100.0;
-      },
-      background: (s) => tertiary(),
-      contrastCurve: (s) => const ContrastCurve(4.5, 7.0, 11.0, 21.0),
-    );
-  }
+  DynamicColor get onPrimaryFixed => DynamicColor(
+    name: "on_primary_fixed",
+    palette: (s) => s.primaryPalette,
+    tone: (s) => _isMonochrome(s) ? 100.0 : 10.0,
+    background: (s) => primaryFixedDim,
+    secondBackground: (s) => primaryFixed,
+    contrastCurve: (s) => const ContrastCurve(4.5, 7.0, 11.0, 21.0),
+  );
 
   @override
-  DynamicColor tertiaryContainer() {
-    return DynamicColor.fromPalette(
-      name: "tertiary_container",
-      palette: (s) => s.tertiaryPalette,
-      tone: (s) {
-        if (_isMonochrome(s)) {
-          return s.isDark ? 60.0 : 49.0;
-        }
-        if (!_isFidelity(s)) {
-          return s.isDark ? 30.0 : 90.0;
-        }
-        final proposedHct = s.tertiaryPalette.getHct(s.sourceColorHct.tone);
-        return DislikeAnalyzer.fixIfDisliked(proposedHct).tone;
-      },
-      isBackground: true,
-      background: highestSurface,
-      contrastCurve: (s) => ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair(
-        roleA: tertiaryContainer(),
-        roleB: tertiary(),
-        delta: 10.0,
-        polarity: TonePolarity.relativeLighter,
-        stayTogether: false,
-        constraint: DeltaConstraint.nearer,
-      ),
-    );
-  }
+  DynamicColor get onPrimaryFixedVariant => DynamicColor(
+    name: "on_primary_fixed_variant",
+    palette: (s) => s.primaryPalette,
+    tone: (s) => _isMonochrome(s) ? 90.0 : 30.0,
+    background: (s) => primaryFixedDim,
+    secondBackground: (s) => primaryFixed,
+    contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 11.0),
+  );
 
   @override
-  DynamicColor onTertiaryContainer() {
-    return DynamicColor.fromPalette(
-      name: "on_tertiary_container",
-      palette: (s) => s.tertiaryPalette,
-      tone: (s) {
-        if (_isMonochrome(s)) {
-          return s.isDark ? 0.0 : 100.0;
-        }
-        if (!_isFidelity(s)) {
-          return s.isDark ? 90.0 : 30.0;
-        }
-        return DynamicColor.foregroundTone(tertiaryContainer().tone(s), 4.5);
-      },
-      background: (s) => tertiaryContainer(),
-      contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 11.0),
-    );
-  }
+  DynamicColor get secondaryFixed => DynamicColor(
+    name: "secondary_fixed",
+    palette: (s) => s.secondaryPalette,
+    tone: (s) => _isMonochrome(s) ? 80.0 : 90.0,
+    isBackground: true,
+    background: highestSurface,
+    contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
+    toneDeltaPair: (s) => ToneDeltaPair(
+      roleA: secondaryFixed,
+      roleB: secondaryFixedDim,
+      delta: 10.0,
+      polarity: TonePolarity.lighter,
+      stayTogether: true,
+    ),
+  );
 
   @override
-  DynamicColor error() {
-    return DynamicColor.fromPalette(
-      name: "error",
-      palette: (s) => s.errorPalette,
-      tone: (s) => s.isDark ? 80.0 : 40.0,
-      isBackground: true,
-      background: highestSurface,
-      contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 7.0),
-      toneDeltaPair: (s) => ToneDeltaPair(
-        roleA: errorContainer(),
-        roleB: error(),
-        delta: 10.0,
-        polarity: TonePolarity.relativeLighter,
-        stayTogether: false,
-        constraint: DeltaConstraint.nearer,
-      ),
-    );
-  }
+  DynamicColor get secondaryFixedDim => DynamicColor(
+    name: "secondary_fixed_dim",
+    palette: (s) => s.secondaryPalette,
+    tone: (s) => _isMonochrome(s) ? 70.0 : 80.0,
+    isBackground: true,
+    background: highestSurface,
+    contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
+    toneDeltaPair: (s) => ToneDeltaPair(
+      roleA: secondaryFixed,
+      roleB: secondaryFixedDim,
+      delta: 10.0,
+      polarity: TonePolarity.lighter,
+      stayTogether: true,
+    ),
+  );
 
   @override
-  DynamicColor? errorDim() {
-    return null;
-  }
+  DynamicColor get onSecondaryFixed => DynamicColor(
+    name: "on_secondary_fixed",
+    palette: (s) => s.secondaryPalette,
+    tone: (s) => 10.0,
+    background: (s) => secondaryFixedDim,
+    secondBackground: (s) => secondaryFixed,
+    contrastCurve: (s) => const ContrastCurve(4.5, 7.0, 11.0, 21.0),
+  );
 
   @override
-  DynamicColor onError() {
-    return DynamicColor.fromPalette(
-      name: "on_error",
-      palette: (s) => s.errorPalette,
-      tone: (s) => s.isDark ? 20.0 : 100.0,
-      background: (s) => error(),
-      contrastCurve: (s) => const ContrastCurve(4.5, 7.0, 11.0, 21.0),
-    );
-  }
+  DynamicColor get onSecondaryFixedVariant => DynamicColor(
+    name: "on_secondary_fixed_variant",
+    palette: (s) => s.secondaryPalette,
+    tone: (s) => _isMonochrome(s) ? 25.0 : 30.0,
+    background: (s) => secondaryFixedDim,
+    secondBackground: (s) => secondaryFixed,
+    contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 11.0),
+  );
 
   @override
-  DynamicColor errorContainer() {
-    return DynamicColor.fromPalette(
-      name: "error_container",
-      palette: (s) => s.errorPalette,
-      tone: (s) => s.isDark ? 30.0 : 90.0,
-      isBackground: true,
-      background: highestSurface,
-      contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair(
-        roleA: errorContainer(),
-        roleB: error(),
-        delta: 10.0,
-        polarity: TonePolarity.relativeLighter,
-        stayTogether: false,
-        constraint: DeltaConstraint.nearer,
-      ),
-    );
-  }
+  DynamicColor get tertiaryFixed => DynamicColor(
+    name: "tertiary_fixed",
+    palette: (s) => s.tertiaryPalette,
+    tone: (s) => _isMonochrome(s) ? 40.0 : 90.0,
+    isBackground: true,
+    background: highestSurface,
+    contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
+    toneDeltaPair: (s) => ToneDeltaPair(
+      roleA: tertiaryFixed,
+      roleB: tertiaryFixedDim,
+      delta: 10.0,
+      polarity: TonePolarity.lighter,
+      stayTogether: true,
+    ),
+  );
 
   @override
-  DynamicColor onErrorContainer() {
-    return DynamicColor.fromPalette(
-      name: "on_error_container",
-      palette: (s) => s.errorPalette,
-      tone: (s) {
-        if (_isMonochrome(s)) {
-          return s.isDark ? 90.0 : 10.0;
-        }
-        return s.isDark ? 90.0 : 30.0;
-      },
-      background: (s) => errorContainer(),
-      contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 11.0),
-    );
-  }
+  DynamicColor get tertiaryFixedDim => DynamicColor(
+    name: "tertiary_fixed_dim",
+    palette: (s) => s.tertiaryPalette,
+    tone: (s) => _isMonochrome(s) ? 30.0 : 80.0,
+    isBackground: true,
+    background: highestSurface,
+    contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
+    toneDeltaPair: (s) => ToneDeltaPair(
+      roleA: tertiaryFixed,
+      roleB: tertiaryFixedDim,
+      delta: 10.0,
+      polarity: TonePolarity.lighter,
+      stayTogether: true,
+    ),
+  );
 
   @override
-  DynamicColor primaryFixed() {
-    return DynamicColor.fromPalette(
-      name: "primary_fixed",
-      palette: (s) => s.primaryPalette,
-      tone: (s) => _isMonochrome(s) ? 40.0 : 90.0,
-      isBackground: true,
-      background: highestSurface,
-      contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair(
-        roleA: primaryFixed(),
-        roleB: primaryFixedDim(),
-        delta: 10.0,
-        polarity: TonePolarity.lighter,
-        stayTogether: true,
-      ),
-    );
-  }
+  DynamicColor get onTertiaryFixed => DynamicColor(
+    name: "on_tertiary_fixed",
+    palette: (s) => s.tertiaryPalette,
+    tone: (s) => _isMonochrome(s) ? 100.0 : 10.0,
+    background: (s) => tertiaryFixedDim,
+    secondBackground: (s) => tertiaryFixed,
+    contrastCurve: (s) => const ContrastCurve(4.5, 7.0, 11.0, 21.0),
+  );
 
   @override
-  DynamicColor primaryFixedDim() {
-    return DynamicColor.fromPalette(
-      name: "primary_fixed_dim",
-      palette: (s) => s.primaryPalette,
-      tone: (s) => _isMonochrome(s) ? 30.0 : 80.0,
-      isBackground: true,
-      background: highestSurface,
-      contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair(
-        roleA: primaryFixed(),
-        roleB: primaryFixedDim(),
-        delta: 10.0,
-        polarity: TonePolarity.lighter,
-        stayTogether: true,
-      ),
-    );
-  }
+  DynamicColor get onTertiaryFixedVariant => DynamicColor(
+    name: "on_tertiary_fixed_variant",
+    palette: (s) => s.tertiaryPalette,
+    tone: (s) => _isMonochrome(s) ? 90.0 : 30.0,
+    background: (s) => tertiaryFixedDim,
+    secondBackground: (s) => tertiaryFixed,
+    contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 11.0),
+  );
 
   @override
-  DynamicColor onPrimaryFixed() {
-    return DynamicColor.fromPalette(
-      name: "on_primary_fixed",
-      palette: (s) => s.primaryPalette,
-      tone: (s) => _isMonochrome(s) ? 100.0 : 10.0,
-      background: (s) => primaryFixedDim(),
-      secondBackground: (s) => primaryFixed(),
-      contrastCurve: (s) => const ContrastCurve(4.5, 7.0, 11.0, 21.0),
-    );
-  }
+  DynamicColor get controlActivated => DynamicColor(
+    name: "control_activated",
+    palette: (s) => s.primaryPalette,
+    tone: (s) => s.isDark ? 30.0 : 90.0,
+    isBackground: true,
+  );
 
   @override
-  DynamicColor onPrimaryFixedVariant() {
-    return DynamicColor.fromPalette(
-      name: "on_primary_fixed_variant",
-      palette: (s) => s.primaryPalette,
-      tone: (s) => _isMonochrome(s) ? 90.0 : 30.0,
-      background: (s) => primaryFixedDim(),
-      secondBackground: (s) => primaryFixed(),
-      contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 11.0),
-    );
-  }
+  DynamicColor get controlNormal => DynamicColor(
+    name: "control_normal",
+    palette: (s) => s.neutralVariantPalette,
+    tone: (s) => s.isDark ? 80.0 : 30.0,
+  );
 
   @override
-  DynamicColor secondaryFixed() {
-    return DynamicColor.fromPalette(
-      name: "secondary_fixed",
-      palette: (s) => s.secondaryPalette,
-      tone: (s) => _isMonochrome(s) ? 80.0 : 90.0,
-      isBackground: true,
-      background: highestSurface,
-      contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair(
-        roleA: secondaryFixed(),
-        roleB: secondaryFixedDim(),
-        delta: 10.0,
-        polarity: TonePolarity.lighter,
-        stayTogether: true,
-      ),
-    );
-  }
+  DynamicColor get controlHighlight => DynamicColor(
+    name: "control_highlight",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.isDark ? 100.0 : 0.0,
+    opacity: (s) => s.isDark ? 0.20 : 0.12,
+  );
 
   @override
-  DynamicColor secondaryFixedDim() {
-    return DynamicColor.fromPalette(
-      name: "secondary_fixed_dim",
-      palette: (s) => s.secondaryPalette,
-      tone: (s) => _isMonochrome(s) ? 70.0 : 80.0,
-      isBackground: true,
-      background: highestSurface,
-      contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair(
-        roleA: secondaryFixed(),
-        roleB: secondaryFixedDim(),
-        delta: 10.0,
-        polarity: TonePolarity.lighter,
-        stayTogether: true,
-      ),
-    );
-  }
+  DynamicColor get textPrimaryInverse => DynamicColor(
+    name: "text_primary_inverse",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.isDark ? 10.0 : 90.0,
+  );
 
   @override
-  DynamicColor onSecondaryFixed() {
-    return DynamicColor.fromPalette(
-      name: "on_secondary_fixed",
-      palette: (s) => s.secondaryPalette,
-      tone: (s) => 10.0,
-      background: (s) => secondaryFixedDim(),
-      secondBackground: (s) => secondaryFixed(),
-      contrastCurve: (s) => const ContrastCurve(4.5, 7.0, 11.0, 21.0),
-    );
-  }
+  DynamicColor get textSecondaryAndTertiaryInverse => DynamicColor(
+    name: "text_secondary_and_tertiary_inverse",
+    palette: (s) => s.neutralVariantPalette,
+    tone: (s) => s.isDark ? 30.0 : 80.0,
+  );
 
   @override
-  DynamicColor onSecondaryFixedVariant() {
-    return DynamicColor.fromPalette(
-      name: "on_secondary_fixed_variant",
-      palette: (s) => s.secondaryPalette,
-      tone: (s) => _isMonochrome(s) ? 25.0 : 30.0,
-      background: (s) => secondaryFixedDim(),
-      secondBackground: (s) => secondaryFixed(),
-      contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 11.0),
-    );
-  }
+  DynamicColor get textPrimaryInverseDisableOnly => DynamicColor(
+    name: "text_primary_inverse_disable_only",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.isDark ? 10.0 : 90.0,
+  );
 
   @override
-  DynamicColor tertiaryFixed() {
-    return DynamicColor.fromPalette(
-      name: "tertiary_fixed",
-      palette: (s) => s.tertiaryPalette,
-      tone: (s) => _isMonochrome(s) ? 40.0 : 90.0,
-      isBackground: true,
-      background: highestSurface,
-      contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair(
-        roleA: tertiaryFixed(),
-        roleB: tertiaryFixedDim(),
-        delta: 10.0,
-        polarity: TonePolarity.lighter,
-        stayTogether: true,
-      ),
-    );
-  }
+  DynamicColor get textSecondaryAndTertiaryInverseDisabled => DynamicColor(
+    name: "text_secondary_and_tertiary_inverse_disabled",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.isDark ? 10.0 : 90.0,
+  );
 
   @override
-  DynamicColor tertiaryFixedDim() {
-    return DynamicColor.fromPalette(
-      name: "tertiary_fixed_dim",
-      palette: (s) => s.tertiaryPalette,
-      tone: (s) => _isMonochrome(s) ? 30.0 : 80.0,
-      isBackground: true,
-      background: highestSurface,
-      contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
-      toneDeltaPair: (s) => ToneDeltaPair(
-        roleA: tertiaryFixed(),
-        roleB: tertiaryFixedDim(),
-        delta: 10.0,
-        polarity: TonePolarity.lighter,
-        stayTogether: true,
-      ),
-    );
-  }
+  DynamicColor get textHintInverse => DynamicColor(
+    name: "text_hint_inverse",
+    palette: (s) => s.neutralPalette,
+    tone: (s) => s.isDark ? 10.0 : 90.0,
+  );
 
   @override
-  DynamicColor onTertiaryFixed() {
-    return DynamicColor.fromPalette(
-      name: "on_tertiary_fixed",
-      palette: (s) => s.tertiaryPalette,
-      tone: (s) => _isMonochrome(s) ? 100.0 : 10.0,
-      background: (s) => tertiaryFixedDim(),
-      secondBackground: (s) => tertiaryFixed(),
-      contrastCurve: (s) => const ContrastCurve(4.5, 7.0, 11.0, 21.0),
-    );
-  }
-
-  @override
-  DynamicColor onTertiaryFixedVariant() {
-    return DynamicColor.fromPalette(
-      name: "on_tertiary_fixed_variant",
-      palette: (s) => s.tertiaryPalette,
-      tone: (s) => _isMonochrome(s) ? 90.0 : 30.0,
-      background: (s) => tertiaryFixedDim(),
-      secondBackground: (s) => tertiaryFixed(),
-      contrastCurve: (s) => const ContrastCurve(3.0, 4.5, 7.0, 11.0),
-    );
-  }
-
-  @override
-  DynamicColor controlActivated() {
-    return DynamicColor.fromPalette(
-      name: "control_activated",
-      palette: (s) => s.primaryPalette,
-      tone: (s) => s.isDark ? 30.0 : 90.0,
-      isBackground: true,
-    );
-  }
-
-  @override
-  DynamicColor controlNormal() {
-    return DynamicColor.fromPalette(
-      name: "control_normal",
-      palette: (s) => s.neutralVariantPalette,
-      tone: (s) => s.isDark ? 80.0 : 30.0,
-    );
-  }
-
-  @override
-  DynamicColor controlHighlight() {
-    return DynamicColor.fromPalette(
-      name: "control_highlight",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark ? 100.0 : 0.0,
-      opacity: (s) => s.isDark ? 0.20 : 0.12,
-    );
-  }
-
-  @override
-  DynamicColor textPrimaryInverse() {
-    return DynamicColor.fromPalette(
-      name: "text_primary_inverse",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark ? 10.0 : 90.0,
-    );
-  }
-
-  @override
-  DynamicColor textSecondaryAndTertiaryInverse() {
-    return DynamicColor.fromPalette(
-      name: "text_secondary_and_tertiary_inverse",
-      palette: (s) => s.neutralVariantPalette,
-      tone: (s) => s.isDark ? 30.0 : 80.0,
-    );
-  }
-
-  @override
-  DynamicColor textPrimaryInverseDisableOnly() {
-    return DynamicColor.fromPalette(
-      name: "text_primary_inverse_disable_only",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark ? 10.0 : 90.0,
-    );
-  }
-
-  @override
-  DynamicColor textSecondaryAndTertiaryInverseDisabled() {
-    return DynamicColor.fromPalette(
-      name: "text_secondary_and_tertiary_inverse_disabled",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark ? 10.0 : 90.0,
-    );
-  }
-
-  @override
-  DynamicColor textHintInverse() {
-    return DynamicColor.fromPalette(
-      name: "text_hint_inverse",
-      palette: (s) => s.neutralPalette,
-      tone: (s) => s.isDark ? 10.0 : 90.0,
-    );
-  }
-
-  @override
-  DynamicColor highestSurface(DynamicScheme s) {
-    return s.isDark ? surfaceBright() : surfaceDim();
+  DynamicColor highestSurface(DynamicScheme scheme) {
+    return scheme.isDark ? surfaceBright : surfaceDim;
   }
 
   @override
@@ -1331,11 +1205,11 @@ class ColorSpec2021 implements ColorSpec {
   };
 
   @override
-  TonalPalette? getErrorPalette(
+  TonalPalette getErrorPalette(
     Variant variant,
     Hct sourceColorHct,
     bool isDark,
     Platform platform,
     double contrastLevel,
-  ) => null;
+  ) => TonalPalette.fromHueAndChroma(25.0, 84.0);
 }

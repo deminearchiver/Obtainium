@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 import '../hct/hct.dart';
 import '../palettes/tonal_palette.dart';
 
@@ -10,201 +8,134 @@ import 'variant.dart';
 /// All available spec versions.
 enum SpecVersion { spec2021, spec2025 }
 
-/// An interface defining all the necessary methods that could be different between specs.
+/// An interface defining all the necessary methods that could be different
+/// between specs.
 abstract interface class ColorSpec {
-  ////////////////////////////////////////////////////////////////
-  // Main Palettes                                              //
-  ////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////
+  // Main Palettes //
+  // ////////////////////////////////////////////////////////////////
+  DynamicColor get primaryPaletteKeyColor;
+  DynamicColor get secondaryPaletteKeyColor;
+  DynamicColor get tertiaryPaletteKeyColor;
+  DynamicColor get neutralPaletteKeyColor;
+  DynamicColor get neutralVariantPaletteKeyColor;
+  DynamicColor get errorPaletteKeyColor;
+
+  // ////////////////////////////////////////////////////////////////
+  // Surfaces [S] //
+  // ////////////////////////////////////////////////////////////////
+  DynamicColor get background;
+  DynamicColor get onBackground;
+  DynamicColor get surface;
+  DynamicColor get surfaceDim;
+  DynamicColor get surfaceBright;
+  DynamicColor get surfaceContainerLowest;
+  DynamicColor get surfaceContainerLow;
+  DynamicColor get surfaceContainer;
+  DynamicColor get surfaceContainerHigh;
+  DynamicColor get surfaceContainerHighest;
+  DynamicColor get onSurface;
+  DynamicColor get surfaceVariant;
+  DynamicColor get onSurfaceVariant;
+  DynamicColor get inverseSurface;
+  DynamicColor get inverseOnSurface;
+  DynamicColor get outline;
+  DynamicColor get outlineVariant;
+  DynamicColor get shadow;
+  DynamicColor get scrim;
+  DynamicColor get surfaceTint;
+
+  // ////////////////////////////////////////////////////////////////
+  // Primaries [P] //
+  // ////////////////////////////////////////////////////////////////
+  DynamicColor get primary;
+  DynamicColor? get primaryDim;
+  DynamicColor get onPrimary;
+  DynamicColor get primaryContainer;
+  DynamicColor get onPrimaryContainer;
+  DynamicColor get inversePrimary;
+
+  // ////////////////////////////////////////////////////////////////
+  // Secondaries [Q] //
+  // ////////////////////////////////////////////////////////////////
+  DynamicColor get secondary;
+  DynamicColor? get secondaryDim;
+  DynamicColor get onSecondary;
+  DynamicColor get secondaryContainer;
+  DynamicColor get onSecondaryContainer;
+
+  // ////////////////////////////////////////////////////////////////
+  // Tertiaries [T] //
+  // ////////////////////////////////////////////////////////////////
+  DynamicColor get tertiary;
+  DynamicColor? get tertiaryDim;
+  DynamicColor get onTertiary;
+  DynamicColor get tertiaryContainer;
+  DynamicColor get onTertiaryContainer;
+
+  // ////////////////////////////////////////////////////////////////
+  // Errors [E] //
+  // ////////////////////////////////////////////////////////////////
+  DynamicColor get error;
+  DynamicColor? get errorDim;
+  DynamicColor get onError;
+  DynamicColor get errorContainer;
+  DynamicColor get onErrorContainer;
+
+  // ////////////////////////////////////////////////////////////////
+  // Primary Fixed Colors [PF] //
+  // ////////////////////////////////////////////////////////////////
+  DynamicColor get primaryFixed;
+  DynamicColor get primaryFixedDim;
+  DynamicColor get onPrimaryFixed;
+  DynamicColor get onPrimaryFixedVariant;
+
+  // ////////////////////////////////////////////////////////////////
+  // Secondary Fixed Colors [QF] //
+  // ////////////////////////////////////////////////////////////////
+  DynamicColor get secondaryFixed;
+  DynamicColor get secondaryFixedDim;
+  DynamicColor get onSecondaryFixed;
+  DynamicColor get onSecondaryFixedVariant;
+
+  // ////////////////////////////////////////////////////////////////
+  // Tertiary Fixed Colors [TF] //
+  // ////////////////////////////////////////////////////////////////
+  DynamicColor get tertiaryFixed;
+  DynamicColor get tertiaryFixedDim;
+  DynamicColor get onTertiaryFixed;
+  DynamicColor get onTertiaryFixedVariant;
+
+  // ////////////////////////////////////////////////////////////////
+  // Android-only Colors //
+  // ////////////////////////////////////////////////////////////////
+
+  DynamicColor get controlActivated;
+  DynamicColor get controlNormal;
+  DynamicColor get controlHighlight;
+  DynamicColor get textPrimaryInverse;
+  DynamicColor get textSecondaryAndTertiaryInverse;
+  DynamicColor get textPrimaryInverseDisableOnly;
+  DynamicColor get textSecondaryAndTertiaryInverseDisabled;
+  DynamicColor get textHintInverse;
+
+  // ////////////////////////////////////////////////////////////////
+  // Other //
+  // ////////////////////////////////////////////////////////////////
+
+  DynamicColor highestSurface(DynamicScheme scheme);
+
+  // ////////////////////////////////////////////////////////////////
+  // Color value calculations //
+  // ////////////////////////////////////////////////////////////////
 
-  DynamicColor primaryPaletteKeyColor();
-
-  DynamicColor secondaryPaletteKeyColor();
-
-  DynamicColor tertiaryPaletteKeyColor();
-
-  DynamicColor neutralPaletteKeyColor();
-
-  DynamicColor neutralVariantPaletteKeyColor();
-
-  DynamicColor errorPaletteKeyColor();
-
-  ////////////////////////////////////////////////////////////////
-  // Surfaces [S]                                               //
-  ////////////////////////////////////////////////////////////////
-
-  DynamicColor background();
-
-  DynamicColor onBackground();
-
-  DynamicColor surface();
-
-  DynamicColor surfaceDim();
-
-  DynamicColor surfaceBright();
-
-  DynamicColor surfaceContainerLowest();
-
-  DynamicColor surfaceContainerLow();
-
-  DynamicColor surfaceContainer();
-
-  DynamicColor surfaceContainerHigh();
-
-  DynamicColor surfaceContainerHighest();
-
-  DynamicColor onSurface();
-
-  DynamicColor surfaceVariant();
-
-  DynamicColor onSurfaceVariant();
-
-  DynamicColor inverseSurface();
-
-  DynamicColor inverseOnSurface();
-
-  DynamicColor outline();
-
-  DynamicColor outlineVariant();
-
-  DynamicColor shadow();
-
-  DynamicColor scrim();
-
-  DynamicColor surfaceTint();
-
-  ////////////////////////////////////////////////////////////////
-  // Primaries [P]                                              //
-  ////////////////////////////////////////////////////////////////
-
-  DynamicColor primary();
-
-  DynamicColor? primaryDim();
-
-  DynamicColor onPrimary();
-
-  DynamicColor primaryContainer();
-
-  DynamicColor onPrimaryContainer();
-
-  DynamicColor inversePrimary();
-
-  ////////////////////////////////////////////////////////////////
-  // Secondaries [Q]                                            //
-  ////////////////////////////////////////////////////////////////
-
-  DynamicColor secondary();
-
-  DynamicColor? secondaryDim();
-
-  DynamicColor onSecondary();
-
-  DynamicColor secondaryContainer();
-
-  DynamicColor onSecondaryContainer();
-
-  ////////////////////////////////////////////////////////////////
-  // Tertiaries [T]                                             //
-  ////////////////////////////////////////////////////////////////
-
-  DynamicColor tertiary();
-
-  DynamicColor? tertiaryDim();
-
-  DynamicColor onTertiary();
-
-  DynamicColor tertiaryContainer();
-
-  DynamicColor onTertiaryContainer();
-
-  ////////////////////////////////////////////////////////////////
-  // Errors [E]                                                 //
-  ////////////////////////////////////////////////////////////////
-
-  DynamicColor error();
-
-  DynamicColor? errorDim();
-
-  DynamicColor onError();
-
-  DynamicColor errorContainer();
-
-  DynamicColor onErrorContainer();
-
-  ////////////////////////////////////////////////////////////////
-  // Primary Fixed Colors [PF]                                  //
-  ////////////////////////////////////////////////////////////////
-
-  DynamicColor primaryFixed();
-
-  DynamicColor primaryFixedDim();
-
-  DynamicColor onPrimaryFixed();
-
-  DynamicColor onPrimaryFixedVariant();
-
-  ////////////////////////////////////////////////////////////////
-  // Secondary Fixed Colors [QF]                                //
-  ////////////////////////////////////////////////////////////////
-
-  DynamicColor secondaryFixed();
-
-  DynamicColor secondaryFixedDim();
-
-  DynamicColor onSecondaryFixed();
-
-  DynamicColor onSecondaryFixedVariant();
-
-  ////////////////////////////////////////////////////////////////
-  // Tertiary Fixed Colors [TF]                                 //
-  ////////////////////////////////////////////////////////////////
-
-  DynamicColor tertiaryFixed();
-
-  DynamicColor tertiaryFixedDim();
-
-  DynamicColor onTertiaryFixed();
-
-  DynamicColor onTertiaryFixedVariant();
-
-  //////////////////////////////////////////////////////////////////
-  // Android-only Colors                                          //
-  //////////////////////////////////////////////////////////////////
-
-  DynamicColor controlActivated();
-
-  DynamicColor controlNormal();
-
-  DynamicColor controlHighlight();
-
-  DynamicColor textPrimaryInverse();
-
-  DynamicColor textSecondaryAndTertiaryInverse();
-
-  DynamicColor textPrimaryInverseDisableOnly();
-
-  DynamicColor textSecondaryAndTertiaryInverseDisabled();
-
-  DynamicColor textHintInverse();
-
-  ////////////////////////////////////////////////////////////////
-  // Other                                                      //
-  ////////////////////////////////////////////////////////////////
-
-  DynamicColor highestSurface(DynamicScheme s);
-
-  /////////////////////////////////////////////////////////////////
-  // Color value calculations                                    //
-  /////////////////////////////////////////////////////////////////
-
-  @protected
   Hct getHct(DynamicScheme scheme, DynamicColor color);
 
-  @protected
   double getTone(DynamicScheme scheme, DynamicColor color);
 
-  //////////////////////////////////////////////////////////////////
-  // Scheme Palettes                                              //
-  //////////////////////////////////////////////////////////////////
+  // ////////////////////////////////////////////////////////////////
+  // Scheme Palettes //
+  // ////////////////////////////////////////////////////////////////
 
   TonalPalette getPrimaryPalette(
     Variant variant,
@@ -246,7 +177,7 @@ abstract interface class ColorSpec {
     double contrastLevel,
   );
 
-  TonalPalette? getErrorPalette(
+  TonalPalette getErrorPalette(
     Variant variant,
     Hct sourceColorHct,
     bool isDark,

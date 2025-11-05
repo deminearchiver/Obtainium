@@ -10,12 +10,18 @@ import 'dynamic_color.dart';
 import 'material_dynamic_colors.dart';
 import 'variant.dart';
 
+/// The platform on which this scheme is intended to be used.
 enum Platform { phone, watch }
 
+/// Provides important settings for creating colors dynamically,
+/// and 6 color palettes.
+///
+/// Requires:
+/// 1. A color. (source color)
+/// 2. A theme. (Variant)
+/// 3. Whether or not its dark mode.
+/// 4. Contrast level. (-1 to 1, currently contrast ratio 3.0 and 7.0)
 class DynamicScheme {
-  static const SpecVersion defaultSpecVersion = SpecVersion.spec2021;
-  static const Platform defaultPlatform = Platform.phone;
-
   DynamicScheme({
     required this.sourceColorHct,
     required this.variant,
@@ -114,8 +120,7 @@ class DynamicScheme {
              isDark,
              platform,
              contrastLevel,
-           ) ??
-           TonalPalette.fromHueAndChroma(25.0, 84.0);
+           );
 
   DynamicScheme.fromPalettesOrKeyColors({
     required bool isDark,
@@ -160,154 +165,195 @@ class DynamicScheme {
          errorPaletteKeyColor: errorPaletteKeyColor,
        );
 
-  @Deprecated("Use fromPalettesOrKeyColors instead")
-  DynamicScheme.fromPalettes({
-    required bool isDark,
-    Hct? sourceColorHct,
-    double? contrastLevel,
-    Variant? variant,
-    Platform? platform,
-    SpecVersion? specVersion,
-    TonalPalette? primaryPalette,
-    TonalPalette? secondaryPalette,
-    TonalPalette? tertiaryPalette,
-    TonalPalette? neutralPalette,
-    TonalPalette? neutralVariantPalette,
-    TonalPalette? errorPalette,
-  }) : this.fromPalettesOrKeyColors(
-         sourceColorHct: sourceColorHct,
-         isDark: isDark,
-         contrastLevel: contrastLevel,
-         specVersion: specVersion,
-         platform: platform,
-         variant: variant,
-         primaryPalette: primaryPalette,
-         secondaryPalette: secondaryPalette,
-         tertiaryPalette: tertiaryPalette,
-         neutralPalette: neutralPalette,
-         neutralVariantPalette: neutralVariantPalette,
-         errorPalette: errorPalette,
-       );
-
-  @Deprecated("Use fromPalettesOrKeyColors instead")
-  DynamicScheme.fromKeyColors({
-    required bool isDark,
-    Hct? sourceColorHct,
-    double? contrastLevel,
-    Variant? variant,
-    Platform? platform,
-    SpecVersion? specVersion,
-    Hct? primaryPaletteKeyColor,
-    Hct? secondaryPaletteKeyColor,
-    Hct? tertiaryPaletteKeyColor,
-    Hct? neutralPaletteKeyColor,
-    Hct? neutralVariantPaletteKeyColor,
-    Hct? errorPaletteKeyColor,
-  }) : this.fromPalettesOrKeyColors(
-         sourceColorHct: sourceColorHct,
-         isDark: isDark,
-         contrastLevel: contrastLevel,
-         specVersion: specVersion,
-         platform: platform,
-         variant: variant,
-         primaryPaletteKeyColor: primaryPaletteKeyColor,
-         secondaryPaletteKeyColor: secondaryPaletteKeyColor,
-         tertiaryPaletteKeyColor: tertiaryPaletteKeyColor,
-         neutralPaletteKeyColor: neutralPaletteKeyColor,
-         neutralVariantPaletteKeyColor: neutralVariantPaletteKeyColor,
-         errorPaletteKeyColor: errorPaletteKeyColor,
-       );
-
-  final int sourceColorArgb;
+  /// The source color of the scheme in HCT format.
   final Hct sourceColorHct;
+
+  /// The variant of the scheme.
   final Variant variant;
+
+  /// Whether or not the scheme is dark mode.
   final bool isDark;
-  final Platform platform;
+
+  /// Value from -1 to 1. -1 represents minimum contrast.
+  /// 0 represents standard (i.e. the design as spec'd),
+  /// and 1 represents maximum contrast.
   final double contrastLevel;
+
+  /// The platform on which this scheme is intended to be used.
+  final Platform platform;
+
+  /// The spec version of the scheme.
   final SpecVersion specVersion;
+
   final TonalPalette primaryPalette;
+
   final TonalPalette secondaryPalette;
+
   final TonalPalette tertiaryPalette;
+
   final TonalPalette neutralPalette;
+
   final TonalPalette neutralVariantPalette;
+
   final TonalPalette errorPalette;
 
-  Hct getHct(DynamicColor dynamicColor) => dynamicColor.getHct(this);
+  /// The source color of the scheme in ARGB format.
+  final int sourceColorArgb;
 
-  int getArgb(DynamicColor dynamicColor) => dynamicColor.getArgb(this);
+  Hct getHct(DynamicColor dynamicColor) {
+    return dynamicColor.getHct(this);
+  }
 
-  int get primaryPaletteKeyColor => getArgb(_colors.primaryPaletteKeyColor());
+  int getArgb(DynamicColor dynamicColor) {
+    return dynamicColor.getArgb(this);
+  }
+
+  int get primaryPaletteKeyColor =>
+      getArgb(_dynamicColors.primaryPaletteKeyColor);
+
   int get secondaryPaletteKeyColor =>
-      getArgb(_colors.secondaryPaletteKeyColor());
-  int get tertiaryPaletteKeyColor => getArgb(_colors.tertiaryPaletteKeyColor());
-  int get neutralPaletteKeyColor => getArgb(_colors.neutralPaletteKeyColor());
+      getArgb(_dynamicColors.secondaryPaletteKeyColor);
+
+  int get tertiaryPaletteKeyColor =>
+      getArgb(_dynamicColors.tertiaryPaletteKeyColor);
+
+  int get neutralPaletteKeyColor =>
+      getArgb(_dynamicColors.neutralPaletteKeyColor);
+
   int get neutralVariantPaletteKeyColor =>
-      getArgb(_colors.neutralVariantPaletteKeyColor());
-  int get errorPaletteKeyColor => getArgb(_colors.errorPaletteKeyColor());
-  int get background => getArgb(_colors.background());
-  int get onBackground => getArgb(_colors.onBackground());
-  int get surface => getArgb(_colors.surface());
-  int get surfaceDim => getArgb(_colors.surfaceDim());
-  int get surfaceBright => getArgb(_colors.surfaceBright());
-  int get surfaceContainerLowest => getArgb(_colors.surfaceContainerLowest());
-  int get surfaceContainerLow => getArgb(_colors.surfaceContainerLow());
-  int get surfaceContainer => getArgb(_colors.surfaceContainer());
-  int get surfaceContainerHigh => getArgb(_colors.surfaceContainerHigh());
-  int get surfaceContainerHighest => getArgb(_colors.surfaceContainerHighest());
-  int get onSurface => getArgb(_colors.onSurface());
-  int get surfaceVariant => getArgb(_colors.surfaceVariant());
-  int get onSurfaceVariant => getArgb(_colors.onSurfaceVariant());
-  int get outline => getArgb(_colors.outline());
-  int get outlineVariant => getArgb(_colors.outlineVariant());
-  int get inverseSurface => getArgb(_colors.inverseSurface());
-  int get inverseOnSurface => getArgb(_colors.inverseOnSurface());
-  int get shadow => getArgb(_colors.shadow());
-  int get scrim => getArgb(_colors.scrim());
-  int get surfaceTint => getArgb(_colors.surfaceTint());
-  int get primary => getArgb(_colors.primary());
-  int get primaryDim => getArgb(_colors.primaryDim());
-  int get onPrimary => getArgb(_colors.onPrimary());
-  int get primaryContainer => getArgb(_colors.primaryContainer());
-  int get onPrimaryContainer => getArgb(_colors.onPrimaryContainer());
-  int get primaryFixed => getArgb(_colors.primaryFixed());
-  int get primaryFixedDim => getArgb(_colors.primaryFixedDim());
-  int get onPrimaryFixed => getArgb(_colors.onPrimaryFixed());
-  int get onPrimaryFixedVariant => getArgb(_colors.onPrimaryFixedVariant());
-  int get inversePrimary => getArgb(_colors.inversePrimary());
-  int get secondary => getArgb(_colors.secondary());
-  int get secondaryDim => getArgb(_colors.secondaryDim());
-  int get onSecondary => getArgb(_colors.onSecondary());
-  int get secondaryContainer => getArgb(_colors.secondaryContainer());
-  int get onSecondaryContainer => getArgb(_colors.onSecondaryContainer());
-  int get secondaryFixed => getArgb(_colors.secondaryFixed());
-  int get secondaryFixedDim => getArgb(_colors.secondaryFixedDim());
-  int get onSecondaryFixed => getArgb(_colors.onSecondaryFixed());
-  int get onSecondaryFixedVariant => getArgb(_colors.onSecondaryFixedVariant());
-  int get tertiary => getArgb(_colors.tertiary());
-  int get tertiaryDim => getArgb(_colors.tertiaryDim());
-  int get onTertiary => getArgb(_colors.onTertiary());
-  int get tertiaryContainer => getArgb(_colors.tertiaryContainer());
-  int get onTertiaryContainer => getArgb(_colors.onTertiaryContainer());
-  int get tertiaryFixed => getArgb(_colors.tertiaryFixed());
-  int get tertiaryFixedDim => getArgb(_colors.tertiaryFixedDim());
-  int get onTertiaryFixed => getArgb(_colors.onTertiaryFixed());
-  int get onTertiaryFixedVariant => getArgb(_colors.onTertiaryFixedVariant());
-  int get error => getArgb(_colors.error());
-  int get errorDim => getArgb(_colors.errorDim());
-  int get onError => getArgb(_colors.onError());
-  int get errorContainer => getArgb(_colors.errorContainer());
-  int get onErrorContainer => getArgb(_colors.onErrorContainer());
-  int get controlActivated => getArgb(_colors.controlActivated());
-  int get controlNormal => getArgb(_colors.controlNormal());
-  int get controlHighlight => getArgb(_colors.controlHighlight());
-  int get textPrimaryInverse => getArgb(_colors.textPrimaryInverse());
+      getArgb(_dynamicColors.neutralVariantPaletteKeyColor);
+
+  int get errorPaletteKeyColor => getArgb(_dynamicColors.errorPaletteKeyColor);
+
+  int get background => getArgb(_dynamicColors.background);
+
+  int get onBackground => getArgb(_dynamicColors.onBackground);
+
+  int get surface => getArgb(_dynamicColors.surface);
+
+  int get surfaceDim => getArgb(_dynamicColors.surfaceDim);
+
+  int get surfaceBright => getArgb(_dynamicColors.surfaceBright);
+
+  int get surfaceContainerLowest =>
+      getArgb(_dynamicColors.surfaceContainerLowest);
+
+  int get surfaceContainerLow => getArgb(_dynamicColors.surfaceContainerLow);
+
+  int get surfaceContainer => getArgb(_dynamicColors.surfaceContainer);
+
+  int get surfaceContainerHigh => getArgb(_dynamicColors.surfaceContainerHigh);
+
+  int get surfaceContainerHighest =>
+      getArgb(_dynamicColors.surfaceContainerHighest);
+
+  int get onSurface => getArgb(_dynamicColors.onSurface);
+
+  int get surfaceVariant => getArgb(_dynamicColors.surfaceVariant);
+
+  int get onSurfaceVariant => getArgb(_dynamicColors.onSurfaceVariant);
+
+  int get outline => getArgb(_dynamicColors.outline);
+
+  int get outlineVariant => getArgb(_dynamicColors.outlineVariant);
+
+  int get inverseSurface => getArgb(_dynamicColors.inverseSurface);
+
+  int get inverseOnSurface => getArgb(_dynamicColors.inverseOnSurface);
+
+  int get shadow => getArgb(_dynamicColors.shadow);
+
+  int get scrim => getArgb(_dynamicColors.scrim);
+
+  int get surfaceTint => getArgb(_dynamicColors.surfaceTint);
+
+  int get primary => getArgb(_dynamicColors.primary);
+
+  int get primaryDim => getArgb(_dynamicColors.primaryDim);
+
+  int get onPrimary => getArgb(_dynamicColors.onPrimary);
+
+  int get primaryContainer => getArgb(_dynamicColors.primaryContainer);
+
+  int get onPrimaryContainer => getArgb(_dynamicColors.onPrimaryContainer);
+
+  int get primaryFixed => getArgb(_dynamicColors.primaryFixed);
+
+  int get primaryFixedDim => getArgb(_dynamicColors.primaryFixedDim);
+
+  int get onPrimaryFixed => getArgb(_dynamicColors.onPrimaryFixed);
+
+  int get onPrimaryFixedVariant =>
+      getArgb(_dynamicColors.onPrimaryFixedVariant);
+
+  int get inversePrimary => getArgb(_dynamicColors.inversePrimary);
+
+  int get secondary => getArgb(_dynamicColors.secondary);
+
+  int get secondaryDim => getArgb(_dynamicColors.secondaryDim);
+
+  int get onSecondary => getArgb(_dynamicColors.onSecondary);
+
+  int get secondaryContainer => getArgb(_dynamicColors.secondaryContainer);
+
+  int get onSecondaryContainer => getArgb(_dynamicColors.onSecondaryContainer);
+
+  int get secondaryFixed => getArgb(_dynamicColors.secondaryFixed);
+
+  int get secondaryFixedDim => getArgb(_dynamicColors.secondaryFixedDim);
+
+  int get onSecondaryFixed => getArgb(_dynamicColors.onSecondaryFixed);
+
+  int get onSecondaryFixedVariant =>
+      getArgb(_dynamicColors.onSecondaryFixedVariant);
+
+  int get tertiary => getArgb(_dynamicColors.tertiary);
+
+  int get tertiaryDim => getArgb(_dynamicColors.tertiaryDim);
+
+  int get onTertiary => getArgb(_dynamicColors.onTertiary);
+
+  int get tertiaryContainer => getArgb(_dynamicColors.tertiaryContainer);
+
+  int get onTertiaryContainer => getArgb(_dynamicColors.onTertiaryContainer);
+
+  int get tertiaryFixed => getArgb(_dynamicColors.tertiaryFixed);
+
+  int get tertiaryFixedDim => getArgb(_dynamicColors.tertiaryFixedDim);
+
+  int get onTertiaryFixed => getArgb(_dynamicColors.onTertiaryFixed);
+
+  int get onTertiaryFixedVariant =>
+      getArgb(_dynamicColors.onTertiaryFixedVariant);
+
+  int get error => getArgb(_dynamicColors.error);
+
+  int get errorDim => getArgb(_dynamicColors.errorDim);
+
+  int get onError => getArgb(_dynamicColors.onError);
+
+  int get errorContainer => getArgb(_dynamicColors.errorContainer);
+
+  int get onErrorContainer => getArgb(_dynamicColors.onErrorContainer);
+
+  int get controlActivated => getArgb(_dynamicColors.controlActivated);
+
+  int get controlNormal => getArgb(_dynamicColors.controlNormal);
+
+  int get controlHighlight => getArgb(_dynamicColors.controlHighlight);
+
+  int get textPrimaryInverse => getArgb(_dynamicColors.textPrimaryInverse);
+
   int get textSecondaryAndTertiaryInverse =>
-      getArgb(_colors.textSecondaryAndTertiaryInverse());
+      getArgb(_dynamicColors.textSecondaryAndTertiaryInverse);
+
   int get textPrimaryInverseDisableOnly =>
-      getArgb(_colors.textPrimaryInverseDisableOnly());
+      getArgb(_dynamicColors.textPrimaryInverseDisableOnly);
+
   int get textSecondaryAndTertiaryInverseDisabled =>
-      getArgb(_colors.textSecondaryAndTertiaryInverseDisabled());
-  int get textHintInverse => getArgb(_colors.textHintInverse());
+      getArgb(_dynamicColors.textSecondaryAndTertiaryInverseDisabled);
+
+  int get textHintInverse => getArgb(_dynamicColors.textHintInverse);
 
   @override
   String toString() =>
@@ -356,7 +402,10 @@ class DynamicScheme {
     errorPalette,
   );
 
-  static const MaterialDynamicColors _colors = MaterialDynamicColors();
+  static const SpecVersion defaultSpecVersion = SpecVersion.spec2021;
+  static const Platform defaultPlatform = Platform.phone;
+
+  static const MaterialDynamicColors _dynamicColors = MaterialDynamicColors();
 
   static DynamicScheme from(
     DynamicScheme other,
@@ -423,6 +472,10 @@ class DynamicScheme {
     Variant.vibrant ||
     Variant.tonalSpot ||
     Variant.neutral => specVersion,
-    _ => SpecVersion.spec2021,
+    Variant.monochrome ||
+    Variant.fidelity ||
+    Variant.content ||
+    Variant.rainbow ||
+    Variant.fruitSalad => SpecVersion.spec2021,
   };
 }
