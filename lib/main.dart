@@ -297,7 +297,7 @@ class _ObtainiumState extends State<Obtainium> {
     required Brightness brightness,
     bool highContrast = false,
   }) {
-    const variant = DynamicSchemeVariant.tonalSpot;
+    const variant = DynamicSchemeVariant.expressive;
     const platform = DynamicSchemePlatform.phone;
     const specVersion = DynamicSchemeSpecVersion.spec2025;
     if (settingsProvider.useMaterialYou) {
