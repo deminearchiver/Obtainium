@@ -73,7 +73,7 @@ class _DeterminateLoadingIndicatorState
   @override
   void initState() {
     super.initState();
-    _morphSequence = _buildMorphSequence(
+    _morphSequence = _updateMorphSequence(
       polygons: widget._indicatorPolygons,
       circularSequence: false,
     );
@@ -84,7 +84,7 @@ class _DeterminateLoadingIndicatorState
   void didUpdateWidget(covariant DeterminateLoadingIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (!listEquals(widget._indicatorPolygons, oldWidget._indicatorPolygons)) {
-      _morphSequence = _buildMorphSequence(
+      _morphSequence = _updateMorphSequence(
         morphSequence: _morphSequence,
         polygons: widget._indicatorPolygons,
         circularSequence: false,
@@ -108,7 +108,7 @@ class _DeterminateLoadingIndicatorState
   @override
   void reassemble() {
     super.reassemble();
-    _morphSequence = _buildMorphSequence(
+    _morphSequence = _updateMorphSequence(
       morphSequence: _morphSequence,
       polygons: widget._indicatorPolygons,
       circularSequence: false,
@@ -142,28 +142,27 @@ class _DeterminateLoadingIndicatorState
       child: SizedBox(
         width: _kContainerWidth,
         height: _kContainerHeight,
-        child: SizedBox.square(
-          dimension: _kIndicatorSize,
-          // child: Transform.rotate(
-          //   angle: rotation,
-          //   child: Material(
-          //     animationDuration: Duration.zero,
-          //     shape: MorphBorder(
-          //       morph: _morphSequence[activeMorphIndex],
-          //       progress: adjustedProgressValue,
-          //       startAngle: 0,
-          //     ),
-          //     color: Colors.red,
-          //   ),
-          // ),
-          child: CustomPaint(
-            painter: _DeterminateLoadingIndicatorPainter(
-              morphSequence: _morphSequence,
-              morphScaleFactor: _morphScaleFactor,
-              activeMorphIndex: activeMorphIndex,
-              adjustedProgressValue: adjustedProgressValue,
-              rotation: rotation,
-              indicatorColor: ColorTheme.of(context).primary,
+        child: Material(
+          animationDuration: Duration.zero,
+          clipBehavior: Clip.antiAlias,
+          type: MaterialType.card,
+          shape: const StadiumBorder(),
+          color: ColorTheme.of(context).primaryContainer,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: (_kContainerWidth - _kIndicatorSize) / 2.0,
+              vertical: (_kContainerHeight - _kIndicatorSize) / 2.0,
+            ),
+            child: CustomPaint(
+              size: Size.square(_kIndicatorSize),
+              painter: _DeterminateLoadingIndicatorPainter(
+                morphSequence: _morphSequence,
+                morphScaleFactor: _morphScaleFactor,
+                activeMorphIndex: activeMorphIndex,
+                adjustedProgressValue: adjustedProgressValue,
+                rotation: rotation,
+                indicatorColor: ColorTheme.of(context).onPrimaryContainer,
+              ),
             ),
           ),
         ),
@@ -192,29 +191,33 @@ class _DeterminateLoadingIndicatorPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = size.center(Offset.zero);
-    final paint = Paint()
-      ..style = PaintingStyle.fill
-      ..color = indicatorColor;
 
     final morphPath = morphSequence[activeMorphIndex].toPath(
       progress: adjustedProgressValue,
       startAngle: 0,
     );
+
     final processedPath = _processPath(
       path: morphPath,
       size: size,
       scaleFactor: morphScaleFactor,
     );
 
-    canvas.save();
+    final paint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = indicatorColor;
 
-    canvas.translate(center.dx, center.dy);
-    canvas.rotate(rotation);
-    canvas.translate(-center.dx, -center.dy);
-
-    canvas.drawPath(processedPath, paint);
-
-    canvas.restore();
+    canvas
+      // Save the canvas before applying the transform
+      ..save()
+      // Rotate the canvas around the size's center
+      ..translate(center.dx, center.dy)
+      ..rotate(rotation)
+      ..translate(-center.dx, -center.dy)
+      // Draw the processed path onto the canvas
+      ..drawPath(processedPath, paint)
+      // Restore the canvas after applying the transform
+      ..restore();
   }
 
   @override
@@ -239,7 +242,7 @@ const int _kMorphIntervalMs = 650;
 const double _kFullRotation = 2.0 * math.pi;
 const double _kQuarterRotation = _kFullRotation / 4.0;
 
-Iterable<Morph> _morphSequenceIterable({
+Iterable<Morph> _generateMorphSequence({
   required List<RoundedPolygon> polygons,
   required bool circularSequence,
   RoundedPolygon Function(RoundedPolygon polygon)? forEachPolygon,
@@ -255,33 +258,22 @@ Iterable<Morph> _morphSequenceIterable({
   }
 }
 
-List<Morph> _buildMorphSequence({
+List<Morph> _updateMorphSequence({
   List<Morph>? morphSequence,
   required List<RoundedPolygon> polygons,
   required bool circularSequence,
   RoundedPolygon Function(RoundedPolygon polygon)? forEachPolygon,
 }) {
-  final iterable = _morphSequenceIterable(
+  final iterable = _generateMorphSequence(
     polygons: polygons,
     circularSequence: circularSequence,
     forEachPolygon: forEachPolygon,
   );
 
-  // TODO: decide if this is better in terms of readability
-  // morphSequence
-  //   ?..clear()
-  //   ..addAll(iterable);
-  // morphSequence ??= [...iterable];
-
-  if (morphSequence != null) {
-    morphSequence
-      ..clear()
-      ..addAll(iterable);
-  } else {
-    morphSequence = [...iterable];
-  }
-
-  return morphSequence;
+  morphSequence
+    ?..clear()
+    ..addAll(iterable);
+  return morphSequence ?? [...iterable];
 }
 
 double _calculateScaleFactor(
@@ -311,21 +303,23 @@ Path _processPath({
   required Path path,
   required Size size,
   required double scaleFactor,
-  // scaleMatrix: Matrix = Matrix(),
+  Matrix4? scaleMatrix,
 }) {
-  // scaleMatrix.reset()
+  scaleMatrix ??= Matrix4.zero();
+  scaleMatrix
+    ..setIdentity()
+    ..scaleByDouble(
+      size.width * scaleFactor,
+      size.height * scaleFactor,
+      1.0,
+      1.0,
+    );
 
-  // scaleMatrix.apply { scale(x = size.width * scaleFactor, y = size.height * scaleFactor) }
+  // Scale to the desired size.
+  path = path.transform(scaleMatrix.storage);
 
-  final scaleMatrix = Matrix4.diagonal3Values(
-    size.width * scaleFactor,
-    size.height * scaleFactor,
-    1.0,
-  );
+  // Translate the path to align its center with the available size center.
+  path = path.shift(size.center(Offset.zero) - path.getBounds().center);
 
-  return path
-      // Scale to the desired size.
-      .transform(scaleMatrix.storage)
-      // Translate the path to align its center with the available size center.
-      .shift(size.center(Offset.zero) - path.getBounds().center);
+  return path;
 }

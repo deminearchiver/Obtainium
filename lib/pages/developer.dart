@@ -2095,7 +2095,7 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                   containerColor: colorTheme.primaryContainer,
                   child: MergeSemantics(
                     child: ListItemInteraction(
-                      onTap: () => setState(() => _enabled = !_enabled),
+                      onTap: () => setState(() => _selected = !_selected),
                       stateLayerColor: WidgetStatePropertyAll(
                         colorTheme.onPrimaryContainer,
                       ),
@@ -2110,11 +2110,43 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                           0.0,
                         ),
                         headline: Text(
-                          "Enabled",
+                          "Android 16 Switch",
                           style: typescaleTheme.titleMediumEmphasized
                               .toTextStyle(
                                 color: colorTheme.onPrimaryContainer,
                               ),
+                        ),
+                        trailing: ExcludeFocus(
+                          child: Switch(
+                            onCheckedChanged: (value) =>
+                                setState(() => _selected = value),
+                            checked: _selected,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: ListItemContainer(
+                  isFirst: true,
+                  child: MergeSemantics(
+                    child: ListItemInteraction(
+                      onTap: () => setState(() => _enabled = !_enabled),
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0 - 8.0,
+                          12.0,
+                        ),
+                        headline: const Text(
+                          "Enable switch, checkbox and radio button",
+                          maxLines: 2,
                         ),
                         trailing: ExcludeFocus(
                           child: Switch(
@@ -2128,193 +2160,274 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 2.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: SizedBox(
-                  height: 128,
-                  child: Material(
-                    animationDuration: Duration.zero,
-                    color: colorTheme.surfaceBright,
-                    shape: const StadiumBorder(),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 16.0,
+                child: ListItemContainer(
+                  child: Flex.vertical(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ListItemLayout(
+                        isMultiline: true,
+                        headline: Text(
+                          "Basic input components",
+                          style: TextStyle(
+                            color: _enabled
+                                ? null
+                                : colorTheme.onSurface.withValues(alpha: 0.38),
+                          ),
+                        ),
+                        supportingText: Text(
+                          "Switch, checkbox and radio button",
+                          style: TextStyle(
+                            color: _enabled
+                                ? null
+                                : colorTheme.onSurface.withValues(alpha: 0.38),
+                          ),
+                        ),
                       ),
-                      child: Flex.horizontal(
-                        children: [
-                          Flexible.tight(
-                            child: FittedBox(
-                              fit: BoxFit.contain,
-                              child: Switch(
-                                onCheckedChanged: _enabled
-                                    ? (value) =>
-                                          setState(() => _selected = value)
-                                    : null,
-                                checked: _selected,
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          0.0,
+                          16.0,
+                          16.0,
+                        ),
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxHeight: 160.0),
+                          child: Flex.horizontal(
+                            spacing: 16.0,
+                            children: [
+                              Flexible.tight(
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: Switch(
+                                    onCheckedChanged: _enabled
+                                        ? (value) =>
+                                              setState(() => _selected = value)
+                                        : null,
+                                    checked: _selected,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          Flexible.tight(
-                            child: FittedBox(
-                              fit: BoxFit.contain,
-                              child: Checkbox.biState(
-                                onCheckedChanged: _enabled
-                                    ? (value) =>
-                                          setState(() => _selected = value)
-                                    : null,
-                                checked: _selected,
+                              Flexible.tight(
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: Checkbox.biState(
+                                    onCheckedChanged: _enabled
+                                        ? (value) =>
+                                              setState(() => _selected = value)
+                                        : null,
+                                    checked: _selected,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          Flexible.tight(
-                            child: FittedBox(
-                              fit: BoxFit.contain,
-                              child: RadioButton(
-                                onTap: _enabled
-                                    ? () =>
-                                          setState(() => _selected = !_selected)
-                                    : null,
-                                selected: _selected,
+                              Flexible.tight(
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: RadioButton(
+                                    onTap: _enabled
+                                        ? () => setState(
+                                            () => _selected = !_selected,
+                                          )
+                                        : null,
+                                    selected: _selected,
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
               ),
-              const SizedBox(height: 16.0),
-              // Flexible.tight(
-              //   child: FittedBox(
-              //     fit: BoxFit.contain,
-              //     child: LoadingIndicator(
-              //       indicatorPolygons: [
-              //         // RoundedPolygon.circle(
-              //         //       numVertices: 10,
-              //         //       centerX: 0.5,
-              //         //       centerY: 0.5,
-              //         //       radius: 0.5,
-              //         //     )
-              //         MaterialShapes.circle
-              //             .normalized(approximate: false)
-              //             // .transformedWithMatrix(
-              //             //   Matrix4.rotationZ(18 * math.pi / 180.0),
-              //             // )
-              //             .normalized(approximate: false),
-              //         MaterialShapes.softBurst.normalized(
-              //           approximate: false,
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
+              const SizedBox(height: 2.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Material(
-                  animationDuration: Duration.zero,
-                  color: colorTheme.surfaceBright,
-                  shape: const StadiumBorder(),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Flex.horizontal(
-                      spacing: 16.0,
-                      children: [
-                        Flexible.tight(
-                          child: FittedBox(
-                            fit: BoxFit.contain,
-                            child: LoadingIndicator(),
+                child: ListItemContainer(
+                  child: Flex.vertical(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const ListItemLayout(
+                        isMultiline: true,
+                        headline: Text("Loading indicator"),
+                        supportingText: Text("Indeterminate uncontained"),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          0.0,
+                          16.0,
+                          16.0,
+                        ),
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxHeight: 160.0),
+                          child: Flex.horizontal(
+                            spacing: 16.0,
+                            children: [
+                              Flexible.tight(
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: LoadingIndicator(),
+                                ),
+                              ),
+                              Flexible.tight(
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: LoadingIndicator(
+                                    indicatorPolygons:
+                                        _indeterminateIndicatorPolygons1,
+                                  ),
+                                ),
+                              ),
+                              Flexible.tight(
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: LoadingIndicator(
+                                    indicatorPolygons:
+                                        _indeterminateIndicatorPolygons2,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Flexible.tight(
-                          child: FittedBox(
-                            fit: BoxFit.contain,
-                            child: LoadingIndicator(
-                              indicatorPolygons:
-                                  _indeterminateIndicatorPolygons1,
-                            ),
-                          ),
-                        ),
-                        Flexible.tight(
-                          child: FittedBox(
-                            fit: BoxFit.contain,
-                            child: LoadingIndicator(
-                              indicatorPolygons:
-                                  _indeterminateIndicatorPolygons2,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              const SizedBox(height: 16.0),
+              const SizedBox(height: 2.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Material(
-                  animationDuration: Duration.zero,
-                  color: colorTheme.surfaceBright,
-                  shape: const StadiumBorder(),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Flex.horizontal(
-                      spacing: 16.0,
-                      children: [
-                        Flexible.tight(
-                          child: FittedBox(
-                            fit: BoxFit.contain,
-                            child: LoadingIndicator.contained(),
+                child: ListItemContainer(
+                  child: Flex.vertical(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const ListItemLayout(
+                        isMultiline: true,
+                        headline: Text("Loading indicator"),
+                        supportingText: Text("Indeterminate contained"),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          0.0,
+                          16.0,
+                          16.0,
+                        ),
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxHeight: 160.0),
+                          child: Flex.horizontal(
+                            spacing: 16.0,
+                            children: [
+                              Flexible.tight(
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: LoadingIndicator.contained(),
+                                ),
+                              ),
+                              Flexible.tight(
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: LoadingIndicator.contained(
+                                    indicatorPolygons:
+                                        _indeterminateIndicatorPolygons1,
+                                  ),
+                                ),
+                              ),
+                              Flexible.tight(
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: LoadingIndicator.contained(
+                                    indicatorPolygons:
+                                        _indeterminateIndicatorPolygons2,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Flexible.tight(
-                          child: FittedBox(
-                            fit: BoxFit.contain,
-                            child: LoadingIndicator.contained(
-                              indicatorPolygons:
-                                  _indeterminateIndicatorPolygons1,
-                            ),
-                          ),
-                        ),
-                        Flexible.tight(
-                          child: FittedBox(
-                            fit: BoxFit.contain,
-                            child: LoadingIndicator.contained(
-                              indicatorPolygons:
-                                  _indeterminateIndicatorPolygons2,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              Slider(
-                value: _progress,
-                onChanged: (value) => setState(() => _progress = value),
+              const SizedBox(height: 2.0),
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              ),
-              Align.center(
-                child: DeterminateLoadingIndicator(
-                  progress: _progress,
-                  // indicatorPolygons: [
-                  //   // RoundedPolygon.circle(
-                  //   //       numVertices: 10,
-                  //   //       centerX: 0.5,
-                  //   //       centerY: 0.5,
-                  //   //       radius: 0.5,
-                  //   //     )
-                  //   MaterialShapes.circle
-                  //       .normalized(approximate: false)
-                  //       .transformedWithMatrix(
-                  //         Matrix4.rotationZ(18.0 * math.pi / 180.0),
-                  //       )
-                  //       .normalized(approximate: false),
-                  //   MaterialShapes.softBurst.normalized(approximate: false),
-                  // ],
+                child: ListItemContainer(
+                  isLast: true,
+                  child: Flex.vertical(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ListItemLayout(
+                        isMultiline: true,
+                        headline: const Text("Loading indicator"),
+                        supportingText: const Text("Determinate contained"),
+                        trailing: Text("${(_progress * 100.0).round()}%"),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 16.0),
+                        child: Slider(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          value: _progress,
+                          onChanged: (value) =>
+                              setState(() => _progress = value),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          0.0,
+                          16.0,
+                          16.0,
+                        ),
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxHeight: 160.0),
+                          child: Flex.horizontal(
+                            spacing: 16.0,
+                            children: [
+                              Flexible.tight(
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: DeterminateLoadingIndicator(
+                                    progress: _progress,
+                                  ),
+                                ),
+                              ),
+                              Flexible.tight(
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: DeterminateLoadingIndicator(
+                                    progress: _progress,
+                                    indicatorPolygons: [
+                                      ..._indeterminateIndicatorPolygons1,
+                                      _indeterminateIndicatorPolygons1.first,
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Flexible.tight(
+                                child: FittedBox(
+                                  fit: BoxFit.contain,
+                                  child: DeterminateLoadingIndicator(
+                                    progress: _progress,
+                                    indicatorPolygons: [
+                                      ..._indeterminateIndicatorPolygons2,
+                                      _indeterminateIndicatorPolygons2.first,
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
