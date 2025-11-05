@@ -2145,7 +2145,7 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                           12.0,
                         ),
                         headline: const Text(
-                          "Enable switch, checkbox and radio button",
+                          "Enable basic input components",
                           maxLines: 2,
                         ),
                         trailing: ExcludeFocus(
@@ -2178,7 +2178,7 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                           ),
                         ),
                         supportingText: Text(
-                          "Switch, checkbox and radio button",
+                          "Switch · Checkbox · Radio button",
                           style: TextStyle(
                             color: _enabled
                                 ? null
@@ -2253,7 +2253,7 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                       const ListItemLayout(
                         isMultiline: true,
                         headline: Text("Loading indicator"),
-                        supportingText: Text("Indeterminate uncontained"),
+                        supportingText: Text("Indeterminate · Uncontained"),
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(
@@ -2309,7 +2309,7 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                       const ListItemLayout(
                         isMultiline: true,
                         headline: Text("Loading indicator"),
-                        supportingText: Text("Indeterminate contained"),
+                        supportingText: Text("Indeterminate · Contained"),
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(
@@ -2366,7 +2366,7 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                       ListItemLayout(
                         isMultiline: true,
                         headline: const Text("Loading indicator"),
-                        supportingText: const Text("Determinate contained"),
+                        supportingText: const Text("Determinate · Contained"),
                         trailing: Text("${(_progress * 100.0).round()}%"),
                       ),
                       Padding(
