@@ -280,27 +280,29 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
         indicatorTheme?.containedContainerColor ??
         colorTheme.primaryContainer;
 
-    return Semantics(
-      label: widget.semanticsLabel,
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(
-          minWidth: _kContainerSize,
-          minHeight: _kContainerSize,
-        ),
-        child: ClipOval(
-          child: CustomPaint(
-            painter: widget._isContained
-                ? _ContainerPainter(containerColor: containerColor)
-                : null,
-            foregroundPainter: _ActiveIndicatorPainter(
-              activeIndicatorColor: activeIndicatorColor,
-              morphScaleFactor: _morphScaleFactor,
-              morphs: _morphs,
-              morphIndex: _morphIndex,
-              globalAngle: _globalAngle,
-              rotation: _rotation,
-              scale: _scale,
-              morphProgress: _morphProgress,
+    return RepaintBoundary(
+      child: Semantics(
+        label: widget.semanticsLabel,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            minWidth: _kContainerSize,
+            minHeight: _kContainerSize,
+          ),
+          child: ClipOval(
+            child: CustomPaint(
+              painter: widget._isContained
+                  ? _ContainerPainter(containerColor: containerColor)
+                  : null,
+              foregroundPainter: _ActiveIndicatorPainter(
+                activeIndicatorColor: activeIndicatorColor,
+                morphScaleFactor: _morphScaleFactor,
+                morphs: _morphs,
+                morphIndex: _morphIndex,
+                globalAngle: _globalAngle,
+                rotation: _rotation,
+                scale: _scale,
+                morphProgress: _morphProgress,
+              ),
             ),
           ),
         ),

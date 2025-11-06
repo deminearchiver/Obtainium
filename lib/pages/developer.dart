@@ -2040,7 +2040,7 @@ class _MaterialDemoView extends StatefulWidget {
 class _MaterialDemoViewState extends State<_MaterialDemoView> {
   bool _enabled = true;
   bool _selected = false;
-  double _progress = 0.5;
+  double _progress = 0.0;
 
   final List<RoundedPolygon> _indeterminateIndicatorPolygons1 = [
     MaterialShapes.flower,
@@ -2064,378 +2064,413 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
     final typescaleTheme = TypescaleTheme.of(context);
     return Scaffold(
       backgroundColor: colorTheme.surfaceContainer,
-      body: CustomScrollView(
-        slivers: [
-          CustomAppBar(
-            leading: const Padding(
-              padding: EdgeInsets.only(left: 8.0 - 4.0),
-              child: DeveloperPageBackButton(),
+      body: SafeArea(
+        top: false,
+        child: CustomScrollView(
+          slivers: [
+            CustomAppBar(
+              leading: const Padding(
+                padding: EdgeInsets.only(left: 8.0 - 4.0),
+                child: DeveloperPageBackButton(),
+              ),
+              type: CustomAppBarType.largeFlexible,
+              behavior: CustomAppBarBehavior.duplicate,
+              expandedContainerColor: colorTheme.surfaceContainer,
+              collapsedContainerColor: colorTheme.surfaceContainer,
+              collapsedPadding: const EdgeInsets.fromLTRB(
+                8.0 + 40.0 + 8.0,
+                0.0,
+                16.0,
+                0.0,
+              ),
+              title: Text("Material 3 Expressive"),
+              subtitle: Text("Design system"),
             ),
-            type: CustomAppBarType.largeFlexible,
-            behavior: CustomAppBarBehavior.duplicate,
-            expandedContainerColor: colorTheme.surfaceContainer,
-            collapsedContainerColor: colorTheme.surfaceContainer,
-            collapsedPadding: const EdgeInsets.fromLTRB(
-              8.0 + 40.0 + 8.0,
-              0.0,
-              16.0,
-              0.0,
-            ),
-            title: Text("Material 3 Expressive"),
-            subtitle: Text("Design system"),
-          ),
-          SliverList.list(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: ListItemContainer(
-                  isFirst: true,
-                  isLast: true,
-                  containerShape: const StadiumBorder(),
-                  containerColor: colorTheme.primaryContainer,
-                  child: MergeSemantics(
-                    child: ListItemInteraction(
-                      onTap: () => setState(() => _selected = !_selected),
-                      stateLayerColor: WidgetStatePropertyAll(
-                        colorTheme.onPrimaryContainer,
-                      ),
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        minHeight: 72.0,
-                        maxHeight: 72.0,
-                        padding: const EdgeInsets.fromLTRB(
-                          32.0,
-                          0.0,
-                          20.0 - 8.0,
-                          0.0,
+            SliverList.list(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: ListItemContainer(
+                    isFirst: true,
+                    isLast: true,
+                    containerShape: const StadiumBorder(),
+                    containerColor: colorTheme.primaryContainer,
+                    child: MergeSemantics(
+                      child: ListItemInteraction(
+                        onTap: () => setState(() => _selected = !_selected),
+                        stateLayerColor: WidgetStatePropertyAll(
+                          colorTheme.onPrimaryContainer,
                         ),
-                        headline: Text(
-                          "Android 16 Switch",
-                          style: typescaleTheme.titleMediumEmphasized
-                              .toTextStyle(
-                                color: colorTheme.onPrimaryContainer,
-                              ),
-                        ),
-                        trailing: ExcludeFocus(
-                          child: Switch(
-                            onCheckedChanged: (value) =>
-                                setState(() => _selected = value),
-                            checked: _selected,
+                        child: ListItemLayout(
+                          isMultiline: true,
+                          minHeight: 72.0,
+                          maxHeight: 72.0,
+                          padding: const EdgeInsets.fromLTRB(
+                            32.0,
+                            0.0,
+                            20.0 - 8.0,
+                            0.0,
+                          ),
+                          headline: Text(
+                            "Android 16 Switch",
+                            style: typescaleTheme.titleMediumEmphasized
+                                .toTextStyle(
+                                  color: colorTheme.onPrimaryContainer,
+                                ),
+                          ),
+                          trailing: ExcludeFocus(
+                            child: Switch(
+                              onCheckedChanged: (value) =>
+                                  setState(() => _selected = value),
+                              checked: _selected,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 16.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: ListItemContainer(
-                  isFirst: true,
-                  child: MergeSemantics(
-                    child: ListItemInteraction(
-                      onTap: () => setState(() => _enabled = !_enabled),
-                      child: ListItemLayout(
-                        isMultiline: true,
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          12.0,
-                          16.0 - 8.0,
-                          12.0,
-                        ),
-                        headline: const Text(
-                          "Enable basic input components",
-                          maxLines: 2,
-                        ),
-                        trailing: ExcludeFocus(
-                          child: Switch(
-                            onCheckedChanged: (value) =>
-                                setState(() => _enabled = value),
-                            checked: _enabled,
+                const SizedBox(height: 16.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: ListItemContainer(
+                    isFirst: true,
+                    child: MergeSemantics(
+                      child: ListItemInteraction(
+                        onTap: () => setState(() => _enabled = !_enabled),
+                        child: ListItemLayout(
+                          isMultiline: true,
+                          padding: const EdgeInsets.fromLTRB(
+                            16.0,
+                            12.0,
+                            16.0 - 8.0,
+                            12.0,
+                          ),
+                          leading: const Icon(Symbols.ads_click, fill: 1.0),
+                          headline: const Text(
+                            "Enable basic input",
+                            maxLines: 2,
+                          ),
+                          trailing: ExcludeFocus(
+                            child: Switch(
+                              onCheckedChanged: (value) =>
+                                  setState(() => _enabled = value),
+                              checked: _enabled,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 2.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: ListItemContainer(
-                  child: Flex.vertical(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      ListItemLayout(
-                        isMultiline: true,
-                        headline: Text(
-                          "Basic input components",
-                          style: TextStyle(
-                            color: _enabled
-                                ? null
-                                : colorTheme.onSurface.withValues(alpha: 0.38),
+                const SizedBox(height: 2.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: ListItemContainer(
+                    isLast: true,
+                    child: Flex.vertical(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        ListItemLayout(
+                          isMultiline: true,
+                          leading: const Icon(
+                            Symbols.check_box_rounded,
+                            fill: 1.0,
+                          ),
+                          headline: Text(
+                            "Basic input",
+                            style: TextStyle(
+                              color: _enabled
+                                  ? null
+                                  : colorTheme.onSurface.withValues(
+                                      alpha: 0.38,
+                                    ),
+                            ),
+                          ),
+                          supportingText: Text(
+                            "Switch · Checkbox · Radio button",
+                            style: TextStyle(
+                              color: _enabled
+                                  ? null
+                                  : colorTheme.onSurface.withValues(
+                                      alpha: 0.38,
+                                    ),
+                            ),
                           ),
                         ),
-                        supportingText: Text(
-                          "Switch · Checkbox · Radio button",
-                          style: TextStyle(
-                            color: _enabled
-                                ? null
-                                : colorTheme.onSurface.withValues(alpha: 0.38),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            16.0,
+                            0.0,
+                            16.0,
+                            16.0,
+                          ),
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxHeight: 160.0),
+                            child: Flex.horizontal(
+                              spacing: 16.0,
+                              children: [
+                                Flexible.tight(
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: Switch(
+                                      onCheckedChanged: _enabled
+                                          ? (value) => setState(
+                                              () => _selected = value,
+                                            )
+                                          : null,
+                                      checked: _selected,
+                                    ),
+                                  ),
+                                ),
+                                Flexible.tight(
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: Checkbox.biState(
+                                      onCheckedChanged: _enabled
+                                          ? (value) => setState(
+                                              () => _selected = value,
+                                            )
+                                          : null,
+                                      checked: _selected,
+                                    ),
+                                  ),
+                                ),
+                                Flexible.tight(
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: RadioButton(
+                                      onTap: _enabled
+                                          ? () => setState(
+                                              () => _selected = !_selected,
+                                            )
+                                          : null,
+                                      selected: _selected,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          0.0,
-                          16.0,
-                          16.0,
-                        ),
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxHeight: 160.0),
-                          child: Flex.horizontal(
-                            spacing: 16.0,
-                            children: [
-                              Flexible.tight(
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: Switch(
-                                    onCheckedChanged: _enabled
-                                        ? (value) =>
-                                              setState(() => _selected = value)
-                                        : null,
-                                    checked: _selected,
-                                  ),
-                                ),
-                              ),
-                              Flexible.tight(
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: Checkbox.biState(
-                                    onCheckedChanged: _enabled
-                                        ? (value) =>
-                                              setState(() => _selected = value)
-                                        : null,
-                                    checked: _selected,
-                                  ),
-                                ),
-                              ),
-                              Flexible.tight(
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: RadioButton(
-                                    onTap: _enabled
-                                        ? () => setState(
-                                            () => _selected = !_selected,
-                                          )
-                                        : null,
-                                    selected: _selected,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 2.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: ListItemContainer(
-                  child: Flex.vertical(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const ListItemLayout(
-                        isMultiline: true,
-                        headline: Text("Loading indicator"),
-                        supportingText: Text("Indeterminate · Uncontained"),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          0.0,
-                          16.0,
-                          16.0,
-                        ),
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxHeight: 160.0),
-                          child: Flex.horizontal(
-                            spacing: 16.0,
-                            children: [
-                              Flexible.tight(
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: LoadingIndicator(),
-                                ),
-                              ),
-                              Flexible.tight(
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: LoadingIndicator(
-                                    indicatorPolygons:
-                                        _indeterminateIndicatorPolygons1,
-                                  ),
-                                ),
-                              ),
-                              Flexible.tight(
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: LoadingIndicator(
-                                    indicatorPolygons:
-                                        _indeterminateIndicatorPolygons2,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 8.0),
+                  child: Text(
+                    "Loading indicator",
+                    style: typescaleTheme.labelLarge.toTextStyle(
+                      color: colorTheme.onSurfaceVariant,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 2.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: ListItemContainer(
-                  child: Flex.vertical(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const ListItemLayout(
-                        isMultiline: true,
-                        headline: Text("Loading indicator"),
-                        supportingText: Text("Indeterminate · Contained"),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          0.0,
-                          16.0,
-                          16.0,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: ListItemContainer(
+                    isFirst: true,
+                    child: Flex.vertical(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const ListItemLayout(
+                          isMultiline: true,
+                          leading: Icon(Symbols.refresh_rounded),
+                          headline: Text("Loading indicator"),
+                          supportingText: Text("Indeterminate · Uncontained"),
                         ),
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxHeight: 160.0),
-                          child: Flex.horizontal(
-                            spacing: 16.0,
-                            children: [
-                              Flexible.tight(
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: LoadingIndicator.contained(),
-                                ),
-                              ),
-                              Flexible.tight(
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: LoadingIndicator.contained(
-                                    indicatorPolygons:
-                                        _indeterminateIndicatorPolygons1,
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            16.0,
+                            0.0,
+                            16.0,
+                            16.0,
+                          ),
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxHeight: 160.0),
+                            child: Flex.horizontal(
+                              spacing: 16.0,
+                              children: [
+                                Flexible.tight(
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: LoadingIndicator(),
                                   ),
                                 ),
-                              ),
-                              Flexible.tight(
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: LoadingIndicator.contained(
-                                    indicatorPolygons:
-                                        _indeterminateIndicatorPolygons2,
+                                Flexible.tight(
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: LoadingIndicator(
+                                      indicatorPolygons:
+                                          _indeterminateIndicatorPolygons1,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                                Flexible.tight(
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: LoadingIndicator(
+                                      indicatorPolygons:
+                                          _indeterminateIndicatorPolygons2,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 2.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: ListItemContainer(
-                  isLast: true,
-                  child: Flex.vertical(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      ListItemLayout(
-                        isMultiline: true,
-                        headline: const Text("Loading indicator"),
-                        supportingText: const Text("Determinate · Contained"),
-                        trailing: Text("${(_progress * 100.0).round()}%"),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 16.0),
-                        child: Slider(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          value: _progress,
-                          onChanged: (value) =>
-                              setState(() => _progress = value),
+                const SizedBox(height: 2.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: ListItemContainer(
+                    child: Flex.vertical(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const ListItemLayout(
+                          isMultiline: true,
+                          leading: Icon(Symbols.refresh_rounded),
+                          headline: Text("Loading indicator"),
+                          supportingText: Text("Indeterminate · Contained"),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                          16.0,
-                          0.0,
-                          16.0,
-                          16.0,
-                        ),
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxHeight: 160.0),
-                          child: Flex.horizontal(
-                            spacing: 16.0,
-                            children: [
-                              Flexible.tight(
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: DeterminateLoadingIndicator(
-                                    progress: _progress,
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            16.0,
+                            0.0,
+                            16.0,
+                            16.0,
+                          ),
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxHeight: 160.0),
+                            child: Flex.horizontal(
+                              spacing: 16.0,
+                              children: [
+                                Flexible.tight(
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: LoadingIndicator.contained(),
                                   ),
                                 ),
-                              ),
-                              Flexible.tight(
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: DeterminateLoadingIndicator(
-                                    progress: _progress,
-                                    indicatorPolygons: [
-                                      ..._indeterminateIndicatorPolygons1,
-                                      _indeterminateIndicatorPolygons1.first,
-                                    ],
+                                Flexible.tight(
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: LoadingIndicator.contained(
+                                      indicatorPolygons:
+                                          _indeterminateIndicatorPolygons1,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Flexible.tight(
-                                child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: DeterminateLoadingIndicator(
-                                    progress: _progress,
-                                    indicatorPolygons: [
-                                      ..._indeterminateIndicatorPolygons2,
-                                      _indeterminateIndicatorPolygons2.first,
-                                    ],
+                                Flexible.tight(
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: LoadingIndicator.contained(
+                                      indicatorPolygons:
+                                          _indeterminateIndicatorPolygons2,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          SliverToBoxAdapter(
-            child: SizedBox(height: MediaQuery.heightOf(context)),
-          ),
-        ],
+                const SizedBox(height: 2.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: ListItemContainer(
+                    isLast: true,
+                    child: Flex.vertical(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        ListItemLayout(
+                          isMultiline: true,
+                          leading: const Icon(Symbols.sync_arrow_down_rounded),
+                          headline: const Text("Loading indicator"),
+                          supportingText: const Text("Determinate · Contained"),
+                          trailing: Text("${(_progress * 100.0).round()}%"),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            0.0,
+                            0.0,
+                            0.0,
+                            16.0,
+                          ),
+                          child: Slider(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                            ),
+                            value: _progress,
+                            onChanged: (value) =>
+                                setState(() => _progress = value),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            16.0,
+                            0.0,
+                            16.0,
+                            16.0,
+                          ),
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxHeight: 160.0),
+                            child: Flex.horizontal(
+                              spacing: 16.0,
+                              children: [
+                                Flexible.tight(
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: DeterminateLoadingIndicator(
+                                      progress: _progress,
+                                    ),
+                                  ),
+                                ),
+                                Flexible.tight(
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: DeterminateLoadingIndicator(
+                                      progress: _progress,
+                                      indicatorPolygons: [
+                                        ..._indeterminateIndicatorPolygons1,
+                                        _indeterminateIndicatorPolygons1.first,
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Flexible.tight(
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: DeterminateLoadingIndicator(
+                                      progress: _progress,
+                                      indicatorPolygons: [
+                                        ..._indeterminateIndicatorPolygons2,
+                                        _indeterminateIndicatorPolygons2.first,
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+              ],
+            ),
+            // SliverToBoxAdapter(
+            //   child: SizedBox(height: MediaQuery.heightOf(context)),
+            // ),
+          ],
+        ),
       ),
     );
   }

@@ -136,32 +136,34 @@ class _DeterminateLoadingIndicatorState
     // Rotate counterclockwise.
     final rotation = -_progressValue * math.pi;
 
-    return Semantics(
-      label: "$_progressValue",
-      value: "$_progressValue",
-      child: SizedBox(
-        width: _kContainerWidth,
-        height: _kContainerHeight,
-        child: Material(
-          animationDuration: Duration.zero,
-          clipBehavior: Clip.antiAlias,
-          type: MaterialType.card,
-          shape: const StadiumBorder(),
-          color: ColorTheme.of(context).primaryContainer,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: (_kContainerWidth - _kIndicatorSize) / 2.0,
-              vertical: (_kContainerHeight - _kIndicatorSize) / 2.0,
-            ),
-            child: CustomPaint(
-              size: Size.square(_kIndicatorSize),
-              painter: _DeterminateLoadingIndicatorPainter(
-                morphSequence: _morphSequence,
-                morphScaleFactor: _morphScaleFactor,
-                activeMorphIndex: activeMorphIndex,
-                adjustedProgressValue: adjustedProgressValue,
-                rotation: rotation,
-                indicatorColor: ColorTheme.of(context).onPrimaryContainer,
+    return RepaintBoundary(
+      child: Semantics(
+        label: "$_progressValue",
+        value: "$_progressValue",
+        child: SizedBox(
+          width: _kContainerWidth,
+          height: _kContainerHeight,
+          child: Material(
+            animationDuration: Duration.zero,
+            clipBehavior: Clip.antiAlias,
+            type: MaterialType.card,
+            shape: const StadiumBorder(),
+            color: ColorTheme.of(context).primaryContainer,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: (_kContainerWidth - _kIndicatorSize) / 2.0,
+                vertical: (_kContainerHeight - _kIndicatorSize) / 2.0,
+              ),
+              child: CustomPaint(
+                size: Size.square(_kIndicatorSize),
+                painter: _DeterminateLoadingIndicatorPainter(
+                  morphSequence: _morphSequence,
+                  morphScaleFactor: _morphScaleFactor,
+                  activeMorphIndex: activeMorphIndex,
+                  adjustedProgressValue: adjustedProgressValue,
+                  rotation: rotation,
+                  indicatorColor: ColorTheme.of(context).onPrimaryContainer,
+                ),
               ),
             ),
           ),
