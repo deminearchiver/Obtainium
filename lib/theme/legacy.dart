@@ -5,12 +5,14 @@ import 'package:obtainium/flutter.dart';
 abstract final class LegacyThemeFactory {
   static ThemeData create({
     required ColorThemeData colorTheme,
+    required ElevationThemeData elevationTheme,
     required ShapeThemeData shapeTheme,
+    required StateThemeData stateTheme,
     required TypescaleThemeData typescaleTheme,
   }) {
-    final colorScheme = colorTheme.toLegacy();
+    final modalBarrierColor = colorTheme.scrim.withValues(alpha: 0.32);
     return ThemeData(
-      colorScheme: colorScheme,
+      colorScheme: colorTheme.toLegacy(),
       visualDensity: VisualDensity.standard,
       splashFactory: InkSparkle.splashFactory,
       textTheme: typescaleTheme.toBaselineTextTheme(),
@@ -36,7 +38,7 @@ abstract final class LegacyThemeFactory {
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: colorTheme.surfaceContainer,
-        elevation: 0.0,
+        elevation: elevationTheme.level0,
         height: 64.0,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         indicatorColor: colorTheme.secondaryContainer,
@@ -45,7 +47,7 @@ abstract final class LegacyThemeFactory {
           final isSelected = states.contains(WidgetState.selected);
           return IconThemeDataLegacy(
             color: isSelected
-                ? colorScheme.onSecondaryContainer
+                ? colorTheme.onSecondaryContainer
                 : colorTheme.onSurfaceVariant,
             fill: isSelected ? 1.0 : 0.0,
             size: 24.0,
@@ -100,19 +102,12 @@ abstract final class LegacyThemeFactory {
         overlayColor: WidgetStateProperty.resolveWith((states) {
           final isSelected = states.contains(WidgetState.selected);
           final color = isSelected ? colorTheme.primary : colorTheme.onSurface;
-          if (states.contains(WidgetState.disabled)) {
-            return color.withAlpha(0);
-          }
-          if (states.contains(WidgetState.pressed)) {
-            return color.withValues(alpha: 0.1);
-          }
-          if (states.contains(WidgetState.focused)) {
-            return color.withValues(alpha: 0.1);
-          }
-          if (states.contains(WidgetState.hovered)) {
-            return color.withValues(alpha: 0.08);
-          }
-          return color.withAlpha(0);
+          final opacity = stateTheme.stateLayerOpacity.resolve(states);
+          return switch (opacity) {
+            0.0 => color.withAlpha(0),
+            1.0 => color,
+            final value => color.withValues(alpha: value),
+          };
         }),
         thumbIcon: WidgetStateProperty.resolveWith((states) {
           final isSelected = states.contains(WidgetState.selected);
@@ -155,7 +150,7 @@ abstract final class LegacyThemeFactory {
       dialogTheme: DialogThemeData(
         backgroundColor: colorTheme.surfaceContainerHigh,
         clipBehavior: Clip.antiAlias,
-        elevation: 0.0,
+        elevation: elevationTheme.level0,
         surfaceTintColor: Colors.transparent,
         shadowColor: Colors.transparent,
         shape: CornersBorder.rounded(
@@ -166,6 +161,26 @@ abstract final class LegacyThemeFactory {
         ),
         constraints: const BoxConstraints(minWidth: 280.0, maxWidth: 560.0),
         insetPadding: const EdgeInsets.all(56.0),
+        barrierColor: modalBarrierColor,
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        showDragHandle: true,
+        clipBehavior: Clip.antiAlias,
+        shape: CornersBorder.rounded(
+          corners: Corners.vertical(
+            top: shapeTheme.corner.extraLarge,
+            bottom: shapeTheme.corner.none,
+          ),
+        ),
+        surfaceTintColor: Colors.transparent,
+        shadowColor: colorTheme.shadow,
+        backgroundColor: colorTheme.surfaceContainerLow,
+        elevation: elevationTheme.level3,
+        modalBarrierColor: modalBarrierColor,
+        modalBackgroundColor: colorTheme.surfaceContainerLow,
+        modalElevation: elevationTheme.level0,
+        dragHandleSize: const Size(32.0, 4.0),
+        dragHandleColor: colorTheme.onSurfaceVariant,
       ),
       dividerTheme: DividerThemeData(
         color: colorTheme.outlineVariant,
