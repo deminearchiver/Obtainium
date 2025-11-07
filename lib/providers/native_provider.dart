@@ -1,22 +1,24 @@
-import 'dart:async';
-import 'dart:io';
-import 'package:android_system_font/android_system_font.dart';
-import 'package:obtainium/flutter.dart';
+// TODO: remove this file when the "system font" option gets replaced with a "custom font" option
 
-class NativeFeatures {
-  static bool _systemFontLoaded = false;
+// import 'dart:async';
+// import 'dart:io';
+// import 'package:android_system_font/android_system_font.dart';
+// import 'package:obtainium/flutter.dart';
 
-  static Future<ByteData> _readFileBytes(String path) async {
-    var bytes = await File(path).readAsBytes();
-    return ByteData.view(bytes.buffer);
-  }
+// class NativeFeatures {
+//   static bool _systemFontLoaded = false;
 
-  static Future loadSystemFont() async {
-    if (_systemFontLoaded) return;
-    var fontLoader = FontLoader('SystemFont');
-    var fontFilePath = await AndroidSystemFont().getFilePath();
-    fontLoader.addFont(_readFileBytes(fontFilePath!));
-    fontLoader.load();
-    _systemFontLoaded = true;
-  }
-}
+//   static Future<ByteData> _readFileBytes(String path) async {
+//     var bytes = await File(path).readAsBytes();
+//     return ByteData.view(bytes.buffer);
+//   }
+
+//   static Future loadSystemFont() async {
+//     if (_systemFontLoaded) return;
+//     var fontLoader = FontLoader('SystemFont');
+//     var fontFilePath = await AndroidSystemFont().getFilePath();
+//     fontLoader.addFont(_readFileBytes(fontFilePath!));
+//     fontLoader.load();
+//     _systemFontLoaded = true;
+//   }
+// }
