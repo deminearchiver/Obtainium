@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:nested_scroll_view_plus/nested_scroll_view_plus.dart';
 import 'package:obtainium/components/custom_decorated_sliver.dart';
 import 'package:obtainium/flutter.dart';
 import 'package:obtainium/app_sources/fdroidrepo.dart';

@@ -92,11 +92,8 @@ dependencies:
   flutter_typeahead: ^5.2.0
   battery_plus: ^7.0.0
   flutter_charset_detector: ^5.0.0
-
   flutter_foreground_task: ^9.1.0
   material_symbols_icons: ^4.2874.0
-  gpt_markdown: ^1.1.4
-  flutter_md: ^0.0.8
   flutter_markdown_plus: ^1.0.5
   skeletonizer: ^2.1.0+1
   super_keyboard: ^0.3.0
@@ -107,7 +104,6 @@ dependencies:
   flutter_svg: ^2.2.2
   vector_graphics: ^1.1.19
   collection: ^1.19.1
-  nested_scroll_view_plus: ^3.0.0
   syntax_highlight: ^0.4.0
 
 dev_dependencies:
