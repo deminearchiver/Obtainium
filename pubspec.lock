@@ -328,10 +328,10 @@ packages:
     dependency: "direct main"
     description:
       name: crypto
-      sha256: "1e445881f28f22d6140f181e07737b22f1e099a5e1ff94b0af2f9e4a463f4855"
+      sha256: c8ea0233063ba03258fbcf2ca4d6dadfefe14f02fab57702265467a19f27fadf
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.6"
+    version: "3.0.7"
   csslib:
     dependency: transitive
     description:
@@ -488,10 +488,10 @@ packages:
     dependency: transitive
     description:
       name: flex_seed_scheme
-      sha256: b06d8b367b84cbf7ca5c5603c858fa5edae88486c4e4da79ac1044d73b6c62ec
+      sha256: "828291a5a4d4283590541519d8b57821946660ac61d2e07d955f81cfcab22e5d"
       url: "https://pub.dev"
     source: hosted
-    version: "3.5.1"
+    version: "3.6.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -703,10 +703,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_svg
-      sha256: b9c2ad5872518a27507ab432d1fb97e8813b05f0fc693f9d40fad06d073e0678
+      sha256: "055de8921be7b8e8b98a233c7a5ef84b3a6fcc32f46f1ebf5b9bb3576d108355"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.1"
+    version: "2.2.2"
   flutter_test:
     dependency: transitive
     description: flutter
@@ -753,10 +753,10 @@ packages:
     dependency: transitive
     description:
       name: follow_the_leader
-      sha256: "4fe0d2c22b6c88d023b9b91d70258e1ccfa806232c73bd8527eef22e8b793167"
+      sha256: "2e4c4ebe6b3f1942b2385904b118ba8ba117fae0b30c8c453be0b64a271dd07a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.1"
+    version: "0.5.2"
   fraction:
     dependency: transitive
     description:
@@ -1570,10 +1570,10 @@ packages:
     dependency: "direct main"
     description:
       name: super_editor
-      sha256: "52368ab52cc28710bdf4334c091cfa04eae229ca84a84f5696b02d4409af5b14"
+      sha256: "44d01e9978ff9e5858bc0028ec20a41b41e1e3ea4bc0e3d338c9751838fd40e3"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0-dev.36"
+    version: "0.3.0-dev.37"
   super_editor_markdown:
     dependency: "direct main"
     description:
@@ -1586,10 +1586,10 @@ packages:
     dependency: "direct main"
     description:
       name: super_keyboard
-      sha256: "1a0a32dd799118554fb801822ae2eed7669fbbf7c754d94d240ec3e8ee7dbd67"
+      sha256: e3accebf33635f760efbd4d3c13f6484242a09e773ce8e711f4aa745d52b73b1
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.2"
+    version: "0.3.0"
   super_text_layout:
     dependency: transitive
     description:
