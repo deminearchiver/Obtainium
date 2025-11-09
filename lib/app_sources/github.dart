@@ -403,7 +403,10 @@ class GitHub extends AppSource {
       List<dynamic> findReleaseAssetUrls(dynamic release) =>
           (release['assets'] as List<dynamic>?)?.map((e) {
             var ext = e['name'].toString().toLowerCase().split('.').last;
-            var url = !(ext == 'apk' || (includeZips && ext == 'zip'))
+            var url =
+                !(ext == 'apk' ||
+                    ext == 'xapk' ||
+                    (includeZips && ext == 'zip'))
                 ? (e['browser_download_url'] ?? e['url'])
                 : (e['url'] ?? e['browser_download_url']);
             url = undoGHProxyMod(url, sourceConfigSettingValues);
@@ -548,7 +551,7 @@ class GitHub extends AppSource {
               .toLowerCase()
               .split('.')
               .last;
-          return ext == 'apk' || (includeZips && ext == 'zip');
+          return ext == 'apk' || ext == 'xapk' || (includeZips && ext == 'zip');
         }).toList();
 
         var filteredApkUrls = filterApks(

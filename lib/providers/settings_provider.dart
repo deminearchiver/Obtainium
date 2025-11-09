@@ -9,7 +9,6 @@ import 'package:obtainium/app_sources/github.dart';
 import 'package:obtainium/main.dart';
 import 'package:obtainium/providers/apps_provider.dart';
 import 'package:obtainium/providers/source_provider.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_preferences/util/legacy_to_async_migration_util.dart';
@@ -58,7 +57,7 @@ class SettingsProvider with ChangeNotifier {
         sharedPreferencesOptions: sharedPreferencesOptions,
         cacheOptions: const SharedPreferencesWithCacheOptions(),
       ),
-      defaultAppDir: (await getExternalStorageDirectory())!.path,
+      defaultAppDir: (await getAppStorageDir()).path,
     );
 
     await instance.reload();
@@ -68,7 +67,7 @@ class SettingsProvider with ChangeNotifier {
 
   Future<void> reload() async {
     await _prefsWithCache.reloadCache();
-    _defaultAppDir = (await getExternalStorageDirectory())!.path;
+    _defaultAppDir = (await getAppStorageDir()).path;
 
     _developerModeV1 = prefsWithCache.getBool("developerModeV1") ?? kDebugMode;
 
