@@ -50,7 +50,7 @@ dependencies:
   flutter_fgbg: ^0.7.1
   flutter_local_notifications: ^18.0.1
   provider: ^6.1.5+1
-  http: ^1.5.0
+  http: ^1.6.0
   webview_flutter: ^4.13.0
   html: ^0.15.6
   shared_preferences: ^2.5.3
@@ -97,7 +97,7 @@ dependencies:
   flutter_markdown_plus: ^1.0.5
   skeletonizer: ^2.1.0+1
   super_keyboard: ^0.3.0
-  super_editor: ^0.3.0-dev.37
+  super_editor: ^0.3.0-dev.38
   super_editor_markdown: ^0.2.0
   freezed_annotation: ^3.1.0
   json_annotation: ^4.9.0
