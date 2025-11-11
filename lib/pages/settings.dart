@@ -147,67 +147,62 @@ class _SettingsPageState extends State<SettingsPage> {
       future: DeviceInfoPlugin().androidInfo,
     );
 
-    Future<bool> colorPickerDialog() async {
-      return ColorPicker(
-        color: settingsProvider.themeColor,
-        onColorChanged: (color) =>
-            setState(() => settingsProvider.themeColor = color),
-        actionButtons: const ColorPickerActionButtons(
-          okButton: true,
-          closeButton: true,
-          dialogActionButtons: false,
-        ),
-        pickersEnabled: const <ColorPickerType, bool>{
-          ColorPickerType.both: false,
-          ColorPickerType.primary: false,
-          ColorPickerType.accent: false,
-          ColorPickerType.bw: false,
-          ColorPickerType.custom: true,
-          ColorPickerType.wheel: true,
-        },
-        pickerTypeLabels: <ColorPickerType, String>{
-          ColorPickerType.custom: tr('standard'),
-          ColorPickerType.wheel: tr('custom'),
-        },
-        title: Text(
-          tr('selectX', args: [tr('colour').toLowerCase()]),
-          style: typescaleTheme.titleLarge.toTextStyle(),
-        ),
-        wheelDiameter: 192,
-        wheelSquareBorderRadius: 32,
-        width: 48,
-        height: 48,
-        borderRadius: 24,
-        spacing: 8,
-        runSpacing: 8,
-        enableShadesSelection: false,
-        customColorSwatchesAndNames: colorsNameMap,
-        showMaterialName: true,
-        showColorName: true,
-        materialNameTextStyle: typescaleTheme.bodySmall.toTextStyle(),
-        colorNameTextStyle: typescaleTheme.bodySmall.toTextStyle(),
-        copyPasteBehavior: const ColorPickerCopyPasteBehavior(
-          longPressMenu: true,
-        ),
-      ).showPickerDialog(
-        context,
-        transitionBuilder:
-            (
-              BuildContext context,
-              Animation<double> a1,
-              Animation<double> a2,
-              Widget widget,
-            ) {
-              final double curvedValue = Curves.easeInCubic.transform(a1.value);
-              return Transform(
-                alignment: Alignment.center,
-                transform: Matrix4.diagonal3Values(curvedValue, curvedValue, 1),
-                child: Opacity(opacity: curvedValue, child: widget),
-              );
-            },
-        transitionDuration: const Duration(milliseconds: 250),
-      );
-    }
+    Future<bool> colorPickerDialog() =>
+        ColorPicker(
+          color: settingsProvider.themeColor,
+          onColorChanged: (color) =>
+              setState(() => settingsProvider.themeColor = color),
+          actionButtons: const ColorPickerActionButtons(
+            okButton: true,
+            closeButton: true,
+            dialogActionButtons: false,
+          ),
+          pickersEnabled: const <ColorPickerType, bool>{
+            ColorPickerType.both: false,
+            ColorPickerType.primary: false,
+            ColorPickerType.accent: false,
+            ColorPickerType.bw: false,
+            ColorPickerType.custom: true,
+            ColorPickerType.wheel: true,
+          },
+          pickerTypeLabels: <ColorPickerType, String>{
+            ColorPickerType.custom: tr('standard'),
+            ColorPickerType.wheel: tr('custom'),
+          },
+          title: Text(
+            tr('selectX', args: [tr('colour').toLowerCase()]),
+            style: typescaleTheme.titleLarge.toTextStyle(),
+          ),
+          wheelDiameter: 192,
+          wheelSquareBorderRadius: 32,
+          width: 48,
+          height: 48,
+          borderRadius: 24,
+          spacing: 8,
+          runSpacing: 8,
+          enableShadesSelection: false,
+          customColorSwatchesAndNames: colorsNameMap,
+          showMaterialName: true,
+          showColorName: true,
+          materialNameTextStyle: typescaleTheme.bodySmall.toTextStyle(),
+          colorNameTextStyle: typescaleTheme.bodySmall.toTextStyle(),
+          copyPasteBehavior: const ColorPickerCopyPasteBehavior(
+            longPressMenu: true,
+          ),
+        ).showPickerDialog(
+          context,
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionBuilder: (context, a1, a2, widget) {
+            final curvedValue = Curves.easeInOutCubicEmphasized.transform(
+              a1.value,
+            );
+            return Transform.scale(
+              scale: curvedValue,
+              alignment: Alignment.center,
+              child: Opacity(opacity: curvedValue, child: widget),
+            );
+          },
+        );
 
     final Widget colorPicker = ListTile(
       dense: true,
