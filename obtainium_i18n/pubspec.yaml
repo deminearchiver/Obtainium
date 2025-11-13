@@ -6,23 +6,23 @@ publish_to: none
 resolution: workspace
 
 environment:
-  sdk: ^3.9.2
-  flutter: ">=3.35.0"
+  sdk: ^3.10.0-0
+  flutter: ">=3.38.0"
 
 dependencies:
   collection: ^1.19.1
   flutter:
     sdk: flutter
   meta: ^1.17.0
-  slang: ^4.9.2
-  slang_flutter: ^4.9.0
+  slang: ^4.10.0
+  slang_flutter: ^4.10.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  build_runner: ^2.7.1
-  slang_build_runner: ^4.9.0
+  build_runner: ^2.10.2
+  slang_build_runner: ^4.10.0
 
 flutter:
 
