@@ -1,3 +1,5 @@
+// ignore_for_file: recursive_getters
+
 import 'dart:math' as math;
 
 import '../utils/math_utils.dart';
@@ -115,7 +117,7 @@ final class ColorSpec2021 implements ColorSpec {
     palette: (s) => s.neutralPalette,
     tone: (s) => s.isDark ? 90.0 : 10.0,
     background: (s) => background,
-    contrastCurve: (s) => ContrastCurve(3.0, 3.0, 4.5, 7.0),
+    contrastCurve: (s) => const ContrastCurve(3.0, 3.0, 4.5, 7.0),
   );
 
   @override
@@ -515,7 +517,7 @@ final class ColorSpec2021 implements ColorSpec {
     },
     isBackground: true,
     background: highestSurface,
-    contrastCurve: (s) => ContrastCurve(1.0, 1.0, 3.0, 4.5),
+    contrastCurve: (s) => const ContrastCurve(1.0, 1.0, 3.0, 4.5),
     toneDeltaPair: (s) => ToneDeltaPair(
       roleA: tertiaryContainer,
       roleB: tertiary,

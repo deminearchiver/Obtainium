@@ -1,3 +1,5 @@
+// ignore_for_file: recursive_getters
+
 import 'dart:math' as math;
 
 import '../utils/math_utils.dart';

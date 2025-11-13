@@ -36,15 +36,9 @@ abstract final class Blend {
   static int cam16Ucs(int from, int to, double amount) {
     final fromCam = Cam16.fromInt(from);
     final toCam = Cam16.fromInt(to);
-    final fromJ = fromCam.jstar;
-    final fromA = fromCam.astar;
-    final fromB = fromCam.bstar;
-    final toJ = toCam.jstar;
-    final toA = toCam.astar;
-    final toB = toCam.bstar;
-    final jstar = fromJ + (toJ - fromJ) * amount;
-    final astar = fromA + (toA - fromA) * amount;
-    final bstar = fromB + (toB - fromB) * amount;
+    final jstar = MathUtils.lerp(fromCam.jstar, toCam.jstar, amount);
+    final astar = MathUtils.lerp(fromCam.astar, toCam.astar, amount);
+    final bstar = MathUtils.lerp(fromCam.bstar, toCam.bstar, amount);
     return Cam16.fromUcs(jstar, astar, bstar).toInt();
   }
 }
