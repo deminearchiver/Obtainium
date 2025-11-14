@@ -23,10 +23,10 @@ final List<RoundedPolygon> _indeterminateIndicatorPolygonsCustom1 = [
 ];
 
 final List<RoundedPolygon> _determinateIndicatorPolygons = [
+  // ignore: invalid_use_of_internal_member
   MaterialShapes.circle.transformedWithMatrix(
     Matrix4.rotationZ(2.0 * math.pi / 20.0),
   ),
-  // .transformedWithMatrix(Matrix4.rotationZ(18.0 * math.pi / 180.0),),
   MaterialShapes.softBurst,
 ];
 
@@ -95,13 +95,11 @@ class _DeterminateLoadingIndicatorState
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -113,6 +111,7 @@ class _DeterminateLoadingIndicatorState
       polygons: widget._indicatorPolygons,
       circularSequence: false,
     );
+    _updateMorphScaleFactor(widget._indicatorPolygons);
   }
 
   @override
@@ -157,9 +156,8 @@ class _DeterminateLoadingIndicatorState
               child: CustomPaint(
                 size: Size.square(_kIndicatorSize),
                 painter: _DeterminateLoadingIndicatorPainter(
-                  morphSequence: _morphSequence,
+                  currentMorph: currentMorph,
                   morphScaleFactor: _morphScaleFactor,
-                  activeMorphIndex: activeMorphIndex,
                   adjustedProgressValue: adjustedProgressValue,
                   rotation: rotation,
                   indicatorColor: ColorTheme.of(context).onPrimaryContainer,
@@ -175,17 +173,15 @@ class _DeterminateLoadingIndicatorState
 
 class _DeterminateLoadingIndicatorPainter extends CustomPainter {
   const _DeterminateLoadingIndicatorPainter({
-    required this.morphSequence,
+    required this.currentMorph,
     required this.morphScaleFactor,
-    required this.activeMorphIndex,
     required this.adjustedProgressValue,
     required this.rotation,
     required this.indicatorColor,
   });
 
-  final List<Morph> morphSequence;
+  final Morph currentMorph;
   final double morphScaleFactor;
-  final int activeMorphIndex;
   final double adjustedProgressValue;
   final double rotation;
   final Color indicatorColor;
@@ -194,7 +190,7 @@ class _DeterminateLoadingIndicatorPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final center = size.center(Offset.zero);
 
-    final morphPath = morphSequence[activeMorphIndex].toPath(
+    final morphPath = currentMorph.toPath(
       progress: adjustedProgressValue,
       startAngle: 0,
     );
@@ -224,10 +220,11 @@ class _DeterminateLoadingIndicatorPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_DeterminateLoadingIndicatorPainter oldDelegate) {
-    return true;
-    // return processedPath != oldDelegate.processedPath ||
-    //     rotation != oldDelegate.rotation ||
-    //     indicatorColor != oldDelegate.indicatorColor;
+    return currentMorph != oldDelegate.currentMorph ||
+        morphScaleFactor != oldDelegate.morphScaleFactor ||
+        adjustedProgressValue != oldDelegate.adjustedProgressValue ||
+        rotation != oldDelegate.rotation ||
+        indicatorColor != oldDelegate.indicatorColor;
   }
 }
 
