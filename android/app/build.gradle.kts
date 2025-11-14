@@ -30,7 +30,7 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace = "dev.imranr.obtainium"
     compileSdk = 36
-    ndkVersion = "27.0.12077973" // 'flutter.ndkVersion' produces warnings (TODO can/should we switch back?)
+    ndkVersion = "28.2.13676358"
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true

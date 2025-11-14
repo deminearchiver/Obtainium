@@ -12,7 +12,6 @@ import 'package:obtainium/flutter.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:obtainium/theme/theme.dart';
 import 'package:super_editor/super_editor.dart';
-import 'package:super_editor_markdown/super_editor_markdown.dart';
 
 // ignore: implementation_imports
 import 'package:obtainium_fonts/src/assets/fonts.gen.dart';

@@ -97,8 +97,7 @@ dependencies:
   flutter_markdown_plus: ^1.0.5
   skeletonizer: ^2.1.0+1
   super_keyboard: ^0.3.0
-  super_editor: ^0.3.0-dev.38
-  super_editor_markdown: ^0.2.0
+  super_editor: ^0.3.0-dev.40
   freezed_annotation: ^3.1.0
   json_annotation: ^4.9.0
   flutter_svg: ^2.2.2
@@ -108,7 +107,7 @@ dependencies:
 
 dev_dependencies:
   flutter_lints: ^6.0.0
-  build_runner: ^2.10.2
+  build_runner: ^2.10.3
   json_serializable: ^6.11.1
   freezed: ^3.2.3
   flutter_gen_runner: ^5.12.0
