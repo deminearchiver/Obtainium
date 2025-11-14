@@ -319,7 +319,10 @@ class _ContainerPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
-    canvas.drawOval(rect, Paint()..color = containerColor);
+    final paint = Paint()
+      ..style = PaintingStyle.fill
+      ..color = containerColor;
+    canvas.drawOval(rect, paint);
   }
 
   @override
