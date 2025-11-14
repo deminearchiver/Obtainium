@@ -22,11 +22,14 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class NavigationPageItem {
-  const NavigationPageItem(this.destination, this.widget);
+extension type const NavigationPageItem._(
+  ({NavigationDestination destination, Widget widget}) _
+) {
+  const NavigationPageItem(NavigationDestination destination, Widget widget)
+    : this._((destination: destination, widget: widget));
 
-  final NavigationDestination destination;
-  final Widget widget;
+  NavigationDestination get destination => _.destination;
+  Widget get widget => _.widget;
 }
 
 class _HomePageState extends State<HomePage> {
