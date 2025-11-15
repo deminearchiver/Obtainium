@@ -1,10 +1,9 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:equations/equations.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:obtainium/components/custom_list.dart';
-import 'package:obtainium/components/custom_progress_indicator.dart';
+import 'package:obtainium/equations.dart';
 import 'package:obtainium/flutter.dart';
 import 'package:obtainium/components/custom_app_bar.dart';
 import 'package:obtainium/components/generated_form.dart';
@@ -29,7 +28,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  List<int> updateIntervalNodes = [
+  static const List<int> updateIntervalNodes = <int>[
     15,
     30,
     60,
@@ -43,22 +42,28 @@ class _SettingsPageState extends State<SettingsPage> {
     20160,
     43200,
   ];
+
   int updateInterval = 0;
-  late SplineInterpolation updateIntervalInterpolator; // 🤓
+
+  late SplineInterpolation updateIntervalInterpolator;
+
   String updateIntervalLabel = tr('neverManualOnly');
+
   bool showIntervalLabel = true;
+
   final Map<ColorSwatch<Object>, String> colorsNameMap =
       <ColorSwatch<Object>, String>{
         ColorTools.createPrimarySwatch(obtainiumThemeColor): 'Obtainium',
       };
 
   void initUpdateIntervalInterpolator() {
-    List<InterpolationNode> nodes = [];
-    for (final (index, element) in updateIntervalNodes.indexed) {
-      nodes.add(
-        InterpolationNode(x: index.toDouble() + 1, y: element.toDouble()),
-      );
-    }
+    final List<InterpolationNode> nodes = <InterpolationNode>[
+      for (var index = 0; index < updateIntervalNodes.length; index)
+        InterpolationNode(
+          x: index.toDouble() + 1,
+          y: updateIntervalNodes[index].toDouble(),
+        ),
+    ];
     updateIntervalInterpolator = SplineInterpolation(nodes: nodes);
   }
 
@@ -1197,8 +1202,10 @@ class _SettingsPageState extends State<SettingsPage> {
                           16.0 - 8.0,
                           12.0,
                         ),
-                        headline: Text("Developer Mode"),
-                        supportingText: Text("Enable options for developers"),
+                        headline: const Text("Developer Mode"),
+                        supportingText: const Text(
+                          "Enable options for developers",
+                        ),
                         trailing: ExcludeFocus(
                           child: Switch(
                             onCheckedChanged: (value) =>
