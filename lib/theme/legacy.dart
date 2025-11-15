@@ -2,6 +2,8 @@ import 'dart:math' as math;
 
 import 'package:obtainium/flutter.dart';
 
+enum MenuVariant { standard, vibrant }
+
 abstract final class LegacyThemeFactory {
   static ThemeData create({
     required ColorThemeData colorTheme,
@@ -232,20 +234,21 @@ abstract final class LegacyThemeFactory {
     required ColorThemeData colorTheme,
     required ElevationThemeData elevationTheme,
     required ShapeThemeData shapeTheme,
-    bool vibrant = false,
+    MenuVariant variant = MenuVariant.standard,
   }) {
     return MenuThemeData(
       style: MenuStyle(
-        padding: const WidgetStatePropertyAll(EdgeInsets.all(4.0)),
         visualDensity: VisualDensity.standard,
-        backgroundColor: WidgetStatePropertyAll(
-          vibrant
-              ? colorTheme.tertiaryContainer
-              : colorTheme.surfaceContainerLow,
+        padding: const WidgetStatePropertyAll(
+          EdgeInsets.fromLTRB(4.0, 2.0, 4.0, 2.0),
         ),
         shape: WidgetStatePropertyAll(
           CornersBorder.rounded(corners: Corners.all(shapeTheme.corner.large)),
         ),
+        backgroundColor: WidgetStatePropertyAll(switch (variant) {
+          MenuVariant.standard => colorTheme.surfaceContainerLow,
+          MenuVariant.vibrant => colorTheme.tertiaryContainer,
+        }),
         elevation: WidgetStatePropertyAll(elevationTheme.level2),
         shadowColor: WidgetStatePropertyAll(colorTheme.shadow),
         side: const WidgetStatePropertyAll(BorderSide.none),
@@ -259,78 +262,97 @@ abstract final class LegacyThemeFactory {
     required ShapeThemeData shapeTheme,
     required StateThemeData stateTheme,
     required TypescaleThemeData typescaleTheme,
-    bool vibrant = false,
+    MenuVariant variant = MenuVariant.standard,
   }) {
+    final overlayColor = WidgetStateLayerColor(
+      color: WidgetStateProperty.resolveWith((states) {
+        final isSelected = states.contains(WidgetState.selected);
+        return switch (variant) {
+          MenuVariant.standard =>
+            isSelected ? colorTheme.onTertiaryContainer : colorTheme.onSurface,
+          MenuVariant.vibrant =>
+            isSelected ? colorTheme.onTertiary : colorTheme.onTertiaryContainer,
+        };
+      }),
+      opacity: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.pressed)) {
+          return stateTheme.pressedStateLayerOpacity;
+        }
+        if (states.contains(WidgetState.hovered)) {
+          return stateTheme.hoverStateLayerOpacity;
+        }
+        if (states.contains(WidgetState.focused)) {
+          return stateTheme.focusStateLayerOpacity;
+        }
+        return 0.0;
+      }),
+    );
     return MenuButtonThemeData(
       style: ButtonStyle(
         animationDuration: Duration.zero,
         minimumSize: const WidgetStatePropertyAll(Size(0.0, 44.0)),
         maximumSize: const WidgetStatePropertyAll(Size(double.infinity, 44.0)),
-        mouseCursor: WidgetStateMouseCursor.clickable,
-        overlayColor: WidgetStateLayerColor(
-          color: WidgetStateProperty.resolveWith((states) {
-            final isFocused = states.contains(WidgetState.focused);
-            return switch (vibrant) {
-              false =>
-                isFocused
-                    ? colorTheme.onTertiaryContainer
-                    : colorTheme.onSurface,
-              true =>
-                isFocused
-                    ? colorTheme.onTertiary
-                    : colorTheme.onTertiaryContainer,
-            };
-          }),
-          opacity: WidgetStateProperty.resolveWith((states) {
-            if (states.contains(WidgetState.pressed)) {
-              return stateTheme.pressedStateLayerOpacity;
-            }
-            if (states.contains(WidgetState.hovered)) {
-              return stateTheme.hoverStateLayerOpacity;
-            }
-            return 0.0;
-          }),
+        padding: const WidgetStatePropertyAll(
+          EdgeInsets.fromLTRB(12.0, 0.0, 12.0, 0.0),
         ),
+        tapTargetSize: MaterialTapTargetSize.padded,
+        mouseCursor: WidgetStateMouseCursor.clickable,
         shape: WidgetStatePropertyAll(
           CornersBorder.rounded(corners: Corners.all(shapeTheme.corner.medium)),
         ),
+        overlayColor: overlayColor,
         backgroundColor: WidgetStateProperty.resolveWith((states) {
-          final isFocused = states.contains(WidgetState.focused);
-
-          return switch (vibrant) {
-            false =>
-              isFocused ? colorTheme.tertiaryContainer : Colors.transparent,
-            true =>
-              isFocused ? colorTheme.tertiary : colorTheme.tertiaryContainer,
+          final isSelected = states.contains(WidgetState.selected);
+          final containerColor = switch (variant) {
+            MenuVariant.standard =>
+              isSelected ? colorTheme.tertiaryContainer : Colors.transparent,
+            MenuVariant.vibrant =>
+              isSelected ? colorTheme.tertiary : colorTheme.tertiaryContainer,
           };
+          final canShowOverlayColor =
+              states.contains(WidgetState.focused) &&
+              !states.contains(WidgetState.hovered) &&
+              !states.contains(WidgetState.pressed);
+          final resolvedOverlayColor = canShowOverlayColor
+              ? overlayColor.resolve(const {WidgetState.focused})
+              : null;
+          return resolvedOverlayColor != null
+              ? Color.alphaBlend(resolvedOverlayColor, containerColor)
+              : containerColor;
         }),
         foregroundColor: WidgetStateProperty.resolveWith((states) {
-          final isFocused = states.contains(WidgetState.focused);
-          return switch (vibrant) {
-            false =>
-              isFocused ? colorTheme.onTertiaryContainer : colorTheme.onSurface,
-            true =>
-              isFocused
+          final isSelected = states.contains(WidgetState.selected);
+          return switch (variant) {
+            MenuVariant.standard =>
+              isSelected
+                  ? colorTheme.onTertiaryContainer
+                  : colorTheme.onSurface,
+            MenuVariant.vibrant =>
+              isSelected
                   ? colorTheme.onTertiary
                   : colorTheme.onTertiaryContainer,
           };
         }),
-        iconSize: WidgetStatePropertyAll(24.0),
+        iconSize: const WidgetStatePropertyAll(24.0),
         iconColor: WidgetStateProperty.resolveWith((states) {
-          final isFocused = states.contains(WidgetState.focused);
-          return switch (vibrant) {
-            false =>
-              isFocused
+          final isSelected = states.contains(WidgetState.selected);
+          return switch (variant) {
+            MenuVariant.standard =>
+              isSelected
                   ? colorTheme.onTertiaryContainer
                   : colorTheme.onSurfaceVariant,
-            true =>
-              isFocused
+            MenuVariant.vibrant =>
+              isSelected
                   ? colorTheme.onTertiary
                   : colorTheme.onTertiaryContainer,
           };
         }),
         textStyle: WidgetStateProperty.resolveWith((states) {
-          return typescaleTheme.bodyMedium.toTextStyle();
+          final isSelected = states.contains(WidgetState.selected);
+          return (isSelected
+                  ? typescaleTheme.labelLargeEmphasized
+                  : typescaleTheme.labelLarge)
+              .toTextStyle();
         }),
       ),
     );

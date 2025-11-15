@@ -220,87 +220,13 @@ class _SettingsPageState extends State<SettingsPage> {
           },
         );
 
-    final Widget colorPicker = ListTile(
-      dense: true,
-      contentPadding: EdgeInsets.zero,
-      title: Text(tr('selectX', args: [tr('colour').toLowerCase()])),
-      subtitle: Text(
-        "${ColorTools.nameThatColor(settingsProvider.themeColor)} "
-        "(${ColorTools.materialNameAndCode(settingsProvider.themeColor, colorSwatchNameMap: colorsNameMap)})",
-      ),
-      trailing: ColorIndicator(
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        color: settingsProvider.themeColor,
-        onSelectFocus: false,
-        onSelect: () async {
-          final Color colorBeforeDialog = settingsProvider.themeColor;
-          if (!(await colorPickerDialog())) {
-            setState(() {
-              settingsProvider.themeColor = colorBeforeDialog;
-            });
-          }
-        },
-      ),
-    );
-    final Widget sortDropdown = DropdownMenuFormField<SortColumnSettings>(
-      expandedInsets: EdgeInsets.zero,
-      inputDecorationTheme: const InputDecorationThemeData(
-        border: UnderlineInputBorder(),
-        filled: true,
-      ),
-      label: Text(tr('appSortBy')),
-      initialSelection: settingsProvider.sortColumn,
-      dropdownMenuEntries: [
-        DropdownMenuEntry(
-          value: SortColumnSettings.authorName,
-          label: tr('authorName'),
-        ),
-        DropdownMenuEntry(
-          value: SortColumnSettings.nameAuthor,
-          label: tr('nameAuthor'),
-        ),
-        DropdownMenuEntry(
-          value: SortColumnSettings.added,
-          label: tr('asAdded'),
-        ),
-        DropdownMenuEntry(
-          value: SortColumnSettings.releaseDate,
-          label: tr('releaseDate'),
-        ),
-      ],
-      onSelected: (value) {
-        if (value != null) {
-          settingsProvider.sortColumn = value;
-        }
-      },
-    );
-
-    final Widget orderDropdown = DropdownMenuFormField<SortOrderSettings>(
-      expandedInsets: EdgeInsets.zero,
-      inputDecorationTheme: const InputDecorationThemeData(
-        border: UnderlineInputBorder(),
-        filled: true,
-      ),
-      label: Text(tr('appSortOrder')),
-      initialSelection: settingsProvider.sortOrder,
-      dropdownMenuEntries: [
-        DropdownMenuEntry(
-          value: SortOrderSettings.ascending,
-          label: tr('ascending'),
-        ),
-        DropdownMenuEntry(
-          value: SortOrderSettings.descending,
-          label: tr('descending'),
-        ),
-      ],
-      onSelected: (value) {
-        if (value != null) {
-          settingsProvider.sortOrder = value;
-        }
-      },
-    );
+    void selectColor() async {
+      final previousThemeColor = settingsProvider.themeColor;
+      final result = await colorPickerDialog();
+      if (context.mounted && !result) {
+        setState(() => settingsProvider.themeColor = previousThemeColor);
+      }
+    }
 
     final Widget localeDropdown = DropdownMenuFormField<Locale?>(
       expandedInsets: EdgeInsets.zero,
@@ -379,46 +305,6 @@ class _SettingsPageState extends State<SettingsPage> {
       }
     });
 
-    const Widget height4 = SizedBox(height: 4.0);
-
-    const Widget height8 = SizedBox(height: 8.0);
-
-    const Widget height12 = SizedBox(height: 12.0);
-
-    const Widget height16 = SizedBox(height: 16.0);
-
-    const Widget height24 = SizedBox(height: 24.0);
-
-    const Widget height32 = SizedBox(height: 32.0);
-
-    final ButtonStyle footerButtonsStyle = ButtonStyle(
-      animationDuration: Duration.zero,
-      elevation: const WidgetStatePropertyAll(0.0),
-      shadowColor: WidgetStateColor.transparent,
-      minimumSize: const WidgetStatePropertyAll(Size.zero),
-      fixedSize: const WidgetStatePropertyAll(Size(72.0, 56.0)),
-      maximumSize: const WidgetStatePropertyAll(Size.infinite),
-      padding: const WidgetStatePropertyAll(EdgeInsets.zero),
-      iconSize: const WidgetStatePropertyAll(24.0),
-      shape: WidgetStatePropertyAll(
-        CornersBorder.rounded(corners: Corners.all(shapeTheme.corner.full)),
-      ),
-      overlayColor: WidgetStateLayerColor(
-        color: WidgetStatePropertyAll(colorTheme.onSurfaceVariant),
-        opacity: stateTheme.stateLayerOpacity,
-      ),
-      backgroundColor: WidgetStateProperty.resolveWith(
-        (states) => states.contains(WidgetState.disabled)
-            ? colorTheme.onSurface.withValues(alpha: 0.1)
-            : colorTheme.surfaceBright,
-      ),
-      iconColor: WidgetStateProperty.resolveWith(
-        (states) => states.contains(WidgetState.disabled)
-            ? colorTheme.onSurface.withValues(alpha: 0.38)
-            : colorTheme.onSurfaceVariant,
-      ),
-    );
-
     return Scaffold(
       backgroundColor: colorTheme.surfaceContainer,
       body: CustomScrollView(
@@ -445,7 +331,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                     ),
                   ),
-                  height8,
+                  const SizedBox(height: 8.0),
                   ListItemContainer(
                     isFirst: true,
                     child: ListItemInteraction(
@@ -593,7 +479,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                     ),
                   ),
-                  height12,
+                  const SizedBox(height: 12.0),
                 ],
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -604,7 +490,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                 ),
-                height8,
+                const SizedBox(height: 8.0),
                 ListItemContainer(
                   isFirst: true,
                   child: Flex.vertical(
@@ -1084,7 +970,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                 ),
-                height8,
+                const SizedBox(height: 8.0),
                 ...sourceSpecificFields,
                 const SizedBox(height: 12.0 + 8.0),
                 Padding(
@@ -1096,66 +982,14 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                 ),
-                height8,
-                DropdownMenuFormField<ThemeSettings>(
-                  expandedInsets: EdgeInsets.zero,
-                  inputDecorationTheme: InputDecorationThemeData(
-                    border: UnderlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(shapeTheme.cornerValue.large),
-                        bottom: Radius.circular(
-                          shapeTheme.cornerValue.extraSmall,
-                        ),
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: colorTheme.surfaceBright,
-                    contentPadding: const EdgeInsets.fromLTRB(
-                      16.0,
-                      12.0,
-                      8.0,
-                      12.0,
-                    ),
-                  ),
-                  textStyle: typescaleTheme.titleMediumEmphasized.toTextStyle(),
-                  label: Text(tr("theme")),
-                  initialSelection: settingsProvider.theme,
-                  dropdownMenuEntries: [
-                    DropdownMenuEntry(
-                      value: ThemeSettings.system,
-                      leadingIcon: const IconLegacy(Symbols.auto_mode_rounded),
-                      label: tr("followSystem"),
-                    ),
-                    DropdownMenuEntry(
-                      value: ThemeSettings.light,
-                      leadingIcon: const IconLegacy(Symbols.light_mode_rounded),
-                      label: tr("light"),
-                    ),
-                    DropdownMenuEntry(
-                      value: ThemeSettings.dark,
-                      leadingIcon: const IconLegacy(Symbols.dark_mode_rounded),
-                      label: tr("dark"),
-                    ),
-                  ],
-                  onSelected: (value) {
-                    if (value != null) {
-                      settingsProvider.theme = value;
-                    }
-                  },
-                ),
-
-                // height8,
-                // if (settingsProvider.theme == ThemeSettings.system)
-                //   followSystemThemeExplanation,
-                // height4,
-                const SizedBox(height: 2.0),
+                const SizedBox(height: 8.0),
                 FutureBuilder(
                   future: const DynamicColor().isDynamicColorAvailable(),
                   builder: (context, snapshot) {
                     return snapshot.data == true
                         ? ListItemContainer(
-                            isLast: true,
+                            isFirst: true,
+                            isLast: settingsProvider.useMaterialYou,
                             child: MergeSemantics(
                               child: ListItemInteraction(
                                 onTap: () => settingsProvider.useMaterialYou =
@@ -1187,20 +1021,147 @@ class _SettingsPageState extends State<SettingsPage> {
                         : const SizedBox.shrink();
                   },
                 ),
-                height12,
-                if (!settingsProvider.useMaterialYou) colorPicker,
+                if (!settingsProvider.useMaterialYou) ...[
+                  const SizedBox(height: 2.0),
+                  ListItemContainer(
+                    isLast: true,
+                    child: ListItemInteraction(
+                      onTap: selectColor,
+                      child: ListItemLayout(
+                        isMultiline: true,
+                        padding: const EdgeInsets.fromLTRB(
+                          16.0,
+                          12.0,
+                          16.0,
+                          12.0,
+                        ),
+                        headline: Text(
+                          tr('selectX', args: [tr('colour').toLowerCase()]),
+                        ),
+                        supportingText: Text(
+                          "${ColorTools.nameThatColor(settingsProvider.themeColor)} "
+                          "(${ColorTools.materialNameAndCode(settingsProvider.themeColor, colorSwatchNameMap: colorsNameMap)})",
+                          maxLines: 2,
+                        ),
+                        trailing: ColorIndicator(
+                          width: 40,
+                          height: 40,
+                          borderRadius: 20,
+                          color: settingsProvider.themeColor,
+                          onSelectFocus: false,
+                          onSelect: selectColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 12.0),
+                DropdownMenuFormField<ThemeSettings>(
+                  expandedInsets: EdgeInsets.zero,
+                  inputDecorationTheme: const InputDecorationThemeData(
+                    border: UnderlineInputBorder(),
+                    filled: true,
+                  ),
+                  textStyle: typescaleTheme.titleMediumEmphasized.toTextStyle(),
+                  label: Text(tr("theme")),
+                  initialSelection: settingsProvider.theme,
+                  dropdownMenuEntries: [
+                    DropdownMenuEntry(
+                      value: ThemeSettings.system,
+                      leadingIcon: const IconLegacy(Symbols.auto_mode_rounded),
+                      label: tr("followSystem"),
+                    ),
+                    DropdownMenuEntry(
+                      value: ThemeSettings.light,
+                      leadingIcon: const IconLegacy(Symbols.light_mode_rounded),
+                      label: tr("light"),
+                    ),
+                    DropdownMenuEntry(
+                      value: ThemeSettings.dark,
+                      leadingIcon: const IconLegacy(Symbols.dark_mode_rounded),
+                      label: tr("dark"),
+                    ),
+                  ],
+                  onSelected: (value) {
+                    if (value != null) {
+                      settingsProvider.theme = value;
+                    }
+                  },
+                ),
+                const SizedBox(height: 8.0),
+                if (settingsProvider.theme == ThemeSettings.system)
+                  followSystemThemeExplanation,
+                const SizedBox(height: 4.0),
                 Flex.horizontal(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Flexible.tight(child: sortDropdown),
+                    Flexible.tight(
+                      child: DropdownMenuFormField<SortColumnSettings>(
+                        expandedInsets: EdgeInsets.zero,
+                        inputDecorationTheme: const InputDecorationThemeData(
+                          border: UnderlineInputBorder(),
+                          filled: true,
+                        ),
+                        label: Text(tr('appSortBy')),
+                        initialSelection: settingsProvider.sortColumn,
+                        dropdownMenuEntries: [
+                          DropdownMenuEntry(
+                            value: SortColumnSettings.authorName,
+                            label: tr('authorName'),
+                          ),
+                          DropdownMenuEntry(
+                            value: SortColumnSettings.nameAuthor,
+                            label: tr('nameAuthor'),
+                          ),
+                          DropdownMenuEntry(
+                            value: SortColumnSettings.added,
+                            label: tr('asAdded'),
+                          ),
+                          DropdownMenuEntry(
+                            value: SortColumnSettings.releaseDate,
+                            label: tr('releaseDate'),
+                          ),
+                        ],
+                        onSelected: (value) {
+                          if (value != null) {
+                            settingsProvider.sortColumn = value;
+                          }
+                        },
+                      ),
+                    ),
                     const SizedBox(width: 16),
-                    Flexible.tight(child: orderDropdown),
+                    Flexible.tight(
+                      child: DropdownMenuFormField<SortOrderSettings>(
+                        expandedInsets: EdgeInsets.zero,
+                        inputDecorationTheme: const InputDecorationThemeData(
+                          border: UnderlineInputBorder(),
+                          filled: true,
+                        ),
+                        label: Text(tr('appSortOrder')),
+                        initialSelection: settingsProvider.sortOrder,
+                        dropdownMenuEntries: [
+                          DropdownMenuEntry(
+                            value: SortOrderSettings.ascending,
+                            label: tr('ascending'),
+                          ),
+                          DropdownMenuEntry(
+                            value: SortOrderSettings.descending,
+                            label: tr('descending'),
+                          ),
+                        ],
+                        onSelected: (value) {
+                          if (value != null) {
+                            settingsProvider.sortOrder = value;
+                          }
+                        },
+                      ),
+                    ),
                   ],
                 ),
-                height16,
+                const SizedBox(height: 16.0),
                 localeDropdown,
-                height16,
+                const SizedBox(height: 16.0),
                 ListItemContainer(
                   isFirst: true,
                   child: MergeSemantics(
@@ -1433,9 +1394,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                 ),
-                height16,
+                const SizedBox(height: 16.0),
                 const CategoryEditorSelector(showLabelWhenNotEmpty: false),
-                height16,
+                const SizedBox(height: 16.0),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
@@ -1445,7 +1406,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                 ),
-                height8,
+                const SizedBox(height: 8.0),
                 ListItemContainer(
                   isFirst: true,
                   child: ListItemInteraction(
