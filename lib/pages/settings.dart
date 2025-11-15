@@ -319,6 +319,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+            // TODO: fix switches reparenting (add ValueKey or GlobalKey to list items)
             sliver: SliverList.list(
               children: [
                 if (settingsProvider.developerModeV1) ...[
