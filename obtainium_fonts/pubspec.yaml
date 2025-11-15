@@ -30,12 +30,12 @@ flutter:
         - asset: assets/fonts/firacode/FiraCode-VariableFont_wght.ttf
           style: normal
 
-    - family: Google Sans Code
-      fonts:
-        - asset: assets/fonts/googlesanscode/GoogleSansCode-VariableFont_wght.ttf
-          style: normal
-        - asset: assets/fonts/googlesanscode/GoogleSansCode-Italic-VariableFont_wght.ttf
-          style: italic
+    # - family: Google Sans Code
+    #   fonts:
+    #     - asset: assets/fonts/googlesanscode/GoogleSansCode-VariableFont_wght.ttf
+    #       style: normal
+    #     - asset: assets/fonts/googlesanscode/GoogleSansCode-Italic-VariableFont_wght.ttf
+    #       style: italic
 
     - family: Roboto Flex
       fonts:
@@ -51,12 +51,12 @@ flutter:
 
     # Google Restricted
 
-    - family: Google Sans
-      fonts:
-        - asset: assets/fonts/googlerestricted/GoogleSans-Regular.ttf
-          style: normal
-        - asset: assets/fonts/googlerestricted/GoogleSans-Italic.ttf
-          style: italic
+    # - family: Google Sans
+    #   fonts:
+    #     - asset: assets/fonts/googlerestricted/GoogleSans-Regular.ttf
+    #       style: normal
+    #     - asset: assets/fonts/googlerestricted/GoogleSans-Italic.ttf
+    #       style: italic
 
     # - family: Google Sans Clock
     #   fonts:

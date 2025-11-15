@@ -7,7 +7,9 @@ import 'package:obtainium_fonts/src/assets/fonts.gen.dart';
 
 const String _roboto = "Roboto";
 const String _robotoFlex = Fonts.robotoFlex;
-const String _googleSans = Fonts.googleSans;
+const String _googleSans = "Google Sans";
+const String _googleSansDisplay = "Google Sans Display";
+const String _googleSansText = "Google Sans Text";
 const String _googleSansFlex = Fonts.googleSansFlex;
 
 @immutable
@@ -115,8 +117,8 @@ class TypographyDefaults with Diagnosticable {
       TypographyDefaults.from(
         typeface: TypefaceThemeDataPartial.from(
           // Google Sans (not "Flex") doesn't support ROND.
-          brand: [_googleSans, _roboto],
-          plain: [_googleSans, _roboto],
+          brand: [_googleSansDisplay, _roboto],
+          plain: [_googleSansText, _roboto],
         ),
         typescale: TypescaleThemeDataPartial.from(
           // ROND wasn't used before the introduction of GM3 Expressive.
@@ -161,7 +163,7 @@ class TypographyDefaults with Diagnosticable {
           // making it a no-op for most of the other possibly installed fonts.
           // This particular information was ripped from a file
           // located at the path "/product/etc/fonts_customization.xml"
-          // on a Google Pixel with Android 16 QPR1 (Material 3 Expressive)
+          // on a Google Pixel with Android 16 QPR1 (Material 3 Expressive).
           brand: [_googleSansFlex, _robotoFlex, _googleSans, _roboto],
           plain: [_googleSansFlex, _robotoFlex, _googleSans, _roboto],
         ),
