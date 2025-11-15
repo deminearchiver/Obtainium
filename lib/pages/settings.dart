@@ -58,9 +58,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void initUpdateIntervalInterpolator() {
     final List<InterpolationNode> nodes = <InterpolationNode>[
-      for (var index = 0; index < updateIntervalNodes.length; index)
+      for (var index = 0; index < updateIntervalNodes.length; index++)
         InterpolationNode(
-          x: index.toDouble() + 1,
+          x: index.toDouble() + 1.0,
           y: updateIntervalNodes[index].toDouble(),
         ),
     ];
