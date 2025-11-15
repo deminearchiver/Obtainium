@@ -30,7 +30,11 @@ class LogsProvider {
     return data;
   }
 
-  MultiSelectable<Log> select({DateTime? before, DateTime? after}) {
+  MultiSelectable<Log> select({
+    DateTime? before,
+    DateTime? after,
+    OrderingMode orderingMode = OrderingMode.desc,
+  }) {
     final query = _database.select(_database.logs);
     if (before != null) {
       query.where((t) => t.createdAt.isSmallerOrEqualValue(before));
@@ -38,7 +42,9 @@ class LogsProvider {
     if (after != null) {
       query.where((t) => t.createdAt.isBiggerOrEqualValue(after));
     }
-    query.orderBy([(t) => OrderingTerm.desc(t.createdAt)]);
+    query.orderBy([
+      (t) => OrderingTerm(expression: t.createdAt, mode: orderingMode),
+    ]);
     return query;
   }
 

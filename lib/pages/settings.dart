@@ -1,4 +1,5 @@
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:drift/drift.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
@@ -1583,14 +1584,20 @@ class _LogsPage extends StatefulWidget {
 class _LogsPageState extends State<_LogsPage> {
   static const List<int> _days = <int>[7, 5, 4, 3, 2, 1];
 
-  late Stream<List<Log>> _logs;
+  late Stream<List<Log>> _logsDescending;
+  late Stream<List<Log>> _logsAscending;
 
   void _filterLogs(int days) {
-    final logs = LogsProvider.instance
-        .select(after: DateTime.now().subtract(Duration(days: days)))
+    final after = DateTime.now().subtract(Duration(days: days));
+    final logsDescending = LogsProvider.instance
+        .select(after: after, orderingMode: OrderingMode.desc)
+        .watch();
+    final logsAscending = LogsProvider.instance
+        .select(after: after, orderingMode: OrderingMode.asc)
         .watch();
     setState(() {
-      _logs = logs;
+      _logsDescending = logsDescending;
+      _logsAscending = logsAscending;
     });
   }
 
@@ -1600,7 +1607,10 @@ class _LogsPageState extends State<_LogsPage> {
     for (var i = 0; i < logs.length; i++) {
       final log = logs[i];
       final isLast = i == logs.length - 1;
-      final text = "${log.createdAt}: ${log.level.name}: ${log.message}";
+      final text =
+          "[${log.level.name.toUpperCase()}] "
+          "(${log.createdAt}) "
+          "${log.message}";
       buffer.write(text);
       if (!isLast) {
         buffer.write("\n\n");
@@ -1613,17 +1623,6 @@ class _LogsPageState extends State<_LogsPage> {
   void initState() {
     super.initState();
     _filterLogs(_days.first);
-  }
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -1790,7 +1789,7 @@ class _LogsPageState extends State<_LogsPage> {
                         ),
                       ),
                       StreamBuilder(
-                        stream: _logs,
+                        stream: _logsAscending,
                         builder: (context, snapshot) {
                           final logs = snapshot.data;
                           return Flexible.tight(
@@ -1853,7 +1852,7 @@ class _LogsPageState extends State<_LogsPage> {
               ),
             ),
             StreamBuilder(
-              stream: _logs,
+              stream: _logsDescending,
               builder: (context, snapshot) {
                 final logs = snapshot.data;
                 const spacing = 2.0;
@@ -1910,46 +1909,52 @@ class _LogsPageState extends State<_LogsPage> {
                                 staticColors.cyan.onColorContainer,
                             };
 
-                            return Padding(
-                              padding: EdgeInsets.fromLTRB(
-                                0.0,
-                                isFirst ? 0.0 : spacing / 2.0,
-                                0.0,
-                                isLast ? 0.0 : spacing / 2.0,
-                              ),
-                              child: ListItemContainer(
-                                isFirst: isFirst,
-                                isLast: isLast,
-                                child: ListItemInteraction(
-                                  onTap: () async {
-                                    await Fluttertoast.showToast(
-                                      msg: "Not yet implemented!",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                    );
-                                  },
-                                  child: ListItemLayout(
-                                    isMultiline: true,
-                                    leading: SizedBox.square(
-                                      dimension: 40.0,
-                                      child: Material(
-                                        animationDuration: Duration.zero,
-                                        type: MaterialType.card,
-                                        clipBehavior: Clip.antiAlias,
-                                        color: iconBackgroundColor,
-                                        shape: const StadiumBorder(),
-                                        child: Align.center(
-                                          child: IconTheme.merge(
-                                            data: IconThemeDataPartial.from(
-                                              color: iconForegroundColor,
+                            return KeyedSubtree(
+                              key: ValueKey(log.id),
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(
+                                  0.0,
+                                  isFirst ? 0.0 : spacing / 2.0,
+                                  0.0,
+                                  isLast ? 0.0 : spacing / 2.0,
+                                ),
+                                child: Tooltip(
+                                  message: "ID: ${log.id}",
+                                  child: ListItemContainer(
+                                    isFirst: isFirst,
+                                    isLast: isLast,
+                                    child: ListItemInteraction(
+                                      onTap: () async {
+                                        await Fluttertoast.showToast(
+                                          msg: "Not yet implemented!",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                        );
+                                      },
+                                      child: ListItemLayout(
+                                        isMultiline: true,
+                                        leading: SizedBox.square(
+                                          dimension: 40.0,
+                                          child: Material(
+                                            animationDuration: Duration.zero,
+                                            type: MaterialType.card,
+                                            clipBehavior: Clip.antiAlias,
+                                            color: iconBackgroundColor,
+                                            shape: const StadiumBorder(),
+                                            child: Align.center(
+                                              child: IconTheme.merge(
+                                                data: IconThemeDataPartial.from(
+                                                  color: iconForegroundColor,
+                                                ),
+                                                child: icon,
+                                              ),
                                             ),
-                                            child: icon,
                                           ),
                                         ),
+                                        headline: Text(log.message),
+                                        supportingText: Text(
+                                          log.createdAt.toString(),
+                                        ),
                                       ),
-                                    ),
-                                    headline: Text(log.message),
-                                    supportingText: Text(
-                                      log.createdAt.toString(),
                                     ),
                                   ),
                                 ),
