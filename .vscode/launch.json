@@ -6,7 +6,7 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "debug",
-      "args": ["--flavor", "normal"],
+      "args": [],
       "program": "lib/main.dart"
     },
     {
@@ -14,7 +14,7 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile",
-      "args": ["--flavor", "normal"],
+      "args": [],
       "program": "lib/main.dart"
     },
     {
@@ -22,7 +22,7 @@
       "request": "launch",
       "type": "dart",
       "flutterMode": "release",
-      "args": ["--flavor", "normal"],
+      "args": [],
       "program": "lib/main.dart"
     }
   ]

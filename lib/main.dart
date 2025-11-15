@@ -57,7 +57,6 @@ List<MapEntry<Locale, String>> supportedLocales = const [
 ];
 const fallbackLocale = Locale('en');
 final localeDir = Assets.translations.path;
-var fdroid = false;
 
 final globalNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -486,36 +485,31 @@ class _ObtainiumState extends State<Obtainium> {
     final isFirstRun = settingsProvider.checkAndFlipFirstRun();
     if (isFirstRun) {
       logs.add('This is the first ever run of Obtainium.');
+
       // If this is the first run, add Obtainium to the Apps list
-      if (!fdroid) {
-        getInstalledInfo(obtainiumId)
-            .then((value) {
-              if (value?.versionName != null) {
-                appsProvider.saveApps([
-                  App(
-                    obtainiumId,
-                    obtainiumUrl,
-                    'ImranR98',
-                    'Obtainium',
-                    value!.versionName,
-                    value.versionName!,
-                    [],
-                    0,
-                    {
-                      'versionDetection': true,
-                      'apkFilterRegEx': 'fdroid',
-                      'invertAPKFilter': true,
-                    },
-                    null,
-                    false,
-                  ),
-                ], onlyIfExists: false);
-              }
-            })
-            .catchError((err) {
-              print(err);
-            });
-      }
+      getInstalledInfo(obtainiumId).then((value) {
+        if (value?.versionName != null) {
+          appsProvider.saveApps([
+            App(
+              obtainiumId,
+              obtainiumUrl,
+              "ImranR98",
+              "Obtainium",
+              value!.versionName,
+              value.versionName!,
+              [],
+              0,
+              {
+                'versionDetection': true,
+                'apkFilterRegEx': 'fdroid',
+                'invertAPKFilter': true,
+              },
+              null,
+              false,
+            ),
+          ], onlyIfExists: false);
+        }
+      });
 
       if (!supportedLocales.map((e) => e.key).contains(context.locale) ||
           (settingsProvider.forcedLocale == null &&
