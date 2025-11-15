@@ -274,6 +274,7 @@ class ListItemLayout extends StatefulWidget {
     this.leadingSpace,
     this.trailingSpace,
     this.leading,
+    this.overline,
     this.headline,
     this.supportingText,
     this.trailing,
@@ -287,6 +288,7 @@ class ListItemLayout extends StatefulWidget {
   final double? trailingSpace;
 
   final Widget? leading;
+  final Widget? overline;
   final Widget? headline;
   final Widget? supportingText;
   final Widget? trailing;
@@ -352,7 +354,6 @@ class _ListItemLayoutState extends State<ListItemLayout> {
                 ),
                 child: leading,
               ),
-
             Flexible.tight(
               child: Padding(
                 padding: contentPadding,
@@ -361,6 +362,16 @@ class _ListItemLayoutState extends State<ListItemLayout> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    if (widget.overline case final overline?)
+                      DefaultTextStyle(
+                        style: typescaleTheme.labelMedium.toTextStyle(
+                          color: colorTheme.onSurfaceVariant,
+                        ),
+                        textAlign: TextAlign.start,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        child: overline,
+                      ),
                     if (widget.headline case final headline?)
                       DefaultTextStyle(
                         style: typescaleTheme.titleMediumEmphasized.toTextStyle(
