@@ -305,6 +305,7 @@ class _ListItemLayoutState extends State<ListItemLayout> {
 
     final isMultiline =
         widget.isMultiline ??
+        // TODO: add logic for determining isMultiline when overline is set
         (widget.headline != null && widget.supportingText != null);
 
     final minHeight = widget.minHeight ?? (isMultiline ? 72.0 : 56.0);

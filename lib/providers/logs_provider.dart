@@ -30,7 +30,7 @@ class LogsProvider {
     return data;
   }
 
-  Future<List<Log>> get({DateTime? before, DateTime? after}) async {
+  MultiSelectable<Log> select({DateTime? before, DateTime? after}) {
     final query = _database.select(_database.logs);
     if (before != null) {
       query.where((t) => t.createdAt.isSmallerOrEqualValue(before));
@@ -38,7 +38,8 @@ class LogsProvider {
     if (after != null) {
       query.where((t) => t.createdAt.isBiggerOrEqualValue(after));
     }
-    return query.get();
+    query.orderBy([(t) => OrderingTerm.desc(t.createdAt)]);
+    return query;
   }
 
   Future<int> clear({DateTime? before, DateTime? after}) async {

@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:obtainium/components/custom_list.dart';
+import 'package:obtainium/database/database.dart';
 import 'package:obtainium/equations.dart';
 import 'package:obtainium/flutter.dart';
 import 'package:obtainium/components/custom_app_bar.dart';
@@ -1467,19 +1468,20 @@ class _SettingsPageState extends State<SettingsPage> {
                 ListItemContainer(
                   isLast: true,
                   child: ListItemInteraction(
-                    onTap: () => LogsProvider.instance.get().then((logs) {
-                      if (!context.mounted) return;
-                      if (logs.isEmpty) {
-                        showMessage(ObtainiumError(tr('noLogs')), context);
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (ctx) {
-                            return const LogsDialog();
-                          },
-                        );
-                      }
-                    }),
+                    onTap: () =>
+                        LogsProvider.instance.select().get().then((logs) {
+                          if (!context.mounted) return;
+                          if (logs.isEmpty) {
+                            showMessage(ObtainiumError(tr('noLogs')), context);
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const _LogsPage(),
+                              ),
+                            );
+                          }
+                        }),
                     child: ListItemLayout(
                       isMultiline: true,
                       leading: const Icon(
@@ -1495,104 +1497,6 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class LogsDialog extends StatefulWidget {
-  const LogsDialog({super.key});
-
-  @override
-  State<LogsDialog> createState() => _LogsDialogState();
-}
-
-class _LogsDialogState extends State<LogsDialog> {
-  String? logString;
-  List<int> days = [7, 5, 4, 3, 2, 1];
-
-  @override
-  Widget build(BuildContext context) {
-    final logsProvider = LogsProvider.instance;
-    void filterLogs(int days) {
-      logsProvider
-          .get(after: DateTime.now().subtract(Duration(days: days)))
-          .then((value) {
-            setState(() {
-              String l = value
-                  .map((e) => "${e.createdAt}: ${e.level.name}: ${e.message}")
-                  .join('\n\n');
-              logString = l.isNotEmpty ? l : tr('noLogs');
-            });
-          });
-    }
-
-    if (logString == null) {
-      filterLogs(days.first);
-    }
-
-    return AlertDialog(
-      scrollable: true,
-      title: Text(tr('appLogs')),
-      content: Flex.vertical(
-        children: [
-          DropdownMenuFormField<int>(
-            expandedInsets: EdgeInsets.zero,
-            inputDecorationTheme: const InputDecorationThemeData(
-              border: OutlineInputBorder(),
-            ),
-            initialSelection: days.first,
-            dropdownMenuEntries: days
-                .map(
-                  (e) => DropdownMenuEntry(value: e, label: plural("day", e)),
-                )
-                .toList(),
-            onSelected: (d) {
-              filterLogs(d ?? 7);
-            },
-          ),
-          const SizedBox(height: 32),
-          Text(logString ?? ''),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () async {
-            final cont =
-                (await showDialog<Map<String, dynamic>?>(
-                  context: context,
-                  builder: (ctx) {
-                    return GeneratedFormModal(
-                      title: tr('appLogs'),
-                      items: const [],
-                      initValid: true,
-                      message: tr('removeFromObtainium'),
-                    );
-                  },
-                )) !=
-                null;
-            if (cont) {
-              logsProvider.clear();
-              if (context.mounted) Navigator.of(context).pop();
-            }
-          },
-          child: Text(tr('remove')),
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text(tr('close')),
-        ),
-        TextButton(
-          onPressed: () {
-            SharePlus.instance.share(
-              ShareParams(text: logString ?? '', subject: tr('appLogs')),
-            );
-            Navigator.of(context).pop();
-          },
-          child: Text(tr('share')),
-        ),
-      ],
     );
   }
 }
@@ -1665,6 +1569,402 @@ class _CategoryEditorSelectorState extends State<CategoryEditorSelector> {
           }
         }
       }),
+    );
+  }
+}
+
+class _LogsPage extends StatefulWidget {
+  const _LogsPage({super.key});
+
+  @override
+  State<_LogsPage> createState() => _LogsPageState();
+}
+
+class _LogsPageState extends State<_LogsPage> {
+  static const List<int> _days = <int>[7, 5, 4, 3, 2, 1];
+
+  late Stream<List<Log>> _logs;
+
+  void _filterLogs(int days) {
+    final logs = LogsProvider.instance
+        .select(after: DateTime.now().subtract(Duration(days: days)))
+        .watch();
+    setState(() {
+      _logs = logs;
+    });
+  }
+
+  String _buildLogsString(List<Log> logs) {
+    if (logs.isEmpty) return tr("noLogs");
+    final buffer = StringBuffer();
+    for (var i = 0; i < logs.length; i++) {
+      final log = logs[i];
+      final isLast = i == logs.length - 1;
+      final text = "${log.createdAt}: ${log.level.name}: ${log.message}";
+      buffer.write(text);
+      if (!isLast) {
+        buffer.write("\n\n");
+      }
+    }
+    return buffer.toString();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _filterLogs(_days.first);
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final padding = MediaQuery.paddingOf(context);
+
+    final logsProvider = LogsProvider.instance;
+    final settingsProvider = context.read<SettingsProvider>();
+
+    final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+
+    final staticColors = StaticColorsData.fallback(
+      variant: DynamicSchemeVariant.tonalSpot,
+      brightness: Brightness.light,
+      specVersion: DynamicSchemeSpecVersion.spec2025,
+    ).harmonizeWithPrimary(colorTheme);
+
+    final actionButtonStyle = ButtonStyle(
+      animationDuration: Duration.zero,
+      elevation: const WidgetStatePropertyAll(0.0),
+      shadowColor: WidgetStateColor.transparent,
+      minimumSize: const WidgetStatePropertyAll(Size(48.0, 56.0)),
+      fixedSize: const WidgetStatePropertyAll(null),
+      maximumSize: const WidgetStatePropertyAll(Size.infinite),
+      padding: const WidgetStatePropertyAll(
+        EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 16.0),
+      ),
+      iconSize: const WidgetStatePropertyAll(24.0),
+      shape: WidgetStatePropertyAll(
+        CornersBorder.rounded(corners: Corners.all(shapeTheme.corner.large)),
+      ),
+      overlayColor: WidgetStateLayerColor(
+        color: WidgetStatePropertyAll(colorTheme.onPrimaryContainer),
+        opacity: stateTheme.stateLayerOpacity,
+      ),
+      backgroundColor: WidgetStateProperty.resolveWith(
+        (states) => states.contains(WidgetState.disabled)
+            ? colorTheme.onSurface.withValues(alpha: 0.1)
+            : colorTheme.primaryContainer,
+      ),
+      foregroundColor: WidgetStateProperty.resolveWith(
+        (states) => states.contains(WidgetState.disabled)
+            ? colorTheme.onSurface.withValues(alpha: 0.38)
+            : colorTheme.onPrimaryContainer,
+      ),
+      textStyle: WidgetStateProperty.resolveWith(
+        (states) => typescaleTheme.titleMedium.toTextStyle(),
+      ),
+    );
+
+    final developerButtonStyle = ButtonStyle(
+      animationDuration: Duration.zero,
+      elevation: const WidgetStatePropertyAll(0.0),
+      shadowColor: WidgetStateColor.transparent,
+      minimumSize: const WidgetStatePropertyAll(Size(48.0, 40.0)),
+      fixedSize: const WidgetStatePropertyAll(null),
+      maximumSize: const WidgetStatePropertyAll(Size.infinite),
+      padding: const WidgetStatePropertyAll(
+        EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 10.0),
+      ),
+      iconSize: const WidgetStatePropertyAll(20.0),
+      shape: WidgetStatePropertyAll(
+        CornersBorder.rounded(corners: Corners.all(shapeTheme.corner.full)),
+      ),
+      overlayColor: WidgetStateLayerColor(
+        color: WidgetStatePropertyAll(colorTheme.onSurfaceVariant),
+        opacity: stateTheme.stateLayerOpacity,
+      ),
+      backgroundColor: WidgetStateProperty.resolveWith(
+        (states) => states.contains(WidgetState.disabled)
+            ? colorTheme.onSurface.withValues(alpha: 0.1)
+            : colorTheme.surfaceContainerHighest,
+      ),
+      foregroundColor: WidgetStateProperty.resolveWith(
+        (states) => states.contains(WidgetState.disabled)
+            ? colorTheme.onSurface.withValues(alpha: 0.38)
+            : colorTheme.onSurfaceVariant,
+      ),
+      textStyle: WidgetStateProperty.resolveWith(
+        (states) => typescaleTheme.labelLarge.toTextStyle(),
+      ),
+    );
+
+    return Scaffold(
+      backgroundColor: colorTheme.surfaceContainer,
+      body: SafeArea(
+        top: false,
+        bottom: false,
+        child: CustomScrollView(
+          slivers: [
+            CustomAppBar(
+              leading: const Padding(
+                padding: EdgeInsets.only(left: 8.0 - 4.0),
+                child: DeveloperPageBackButton(),
+              ),
+              type: CustomAppBarType.largeFlexible,
+              behavior: CustomAppBarBehavior.duplicate,
+              expandedContainerColor: colorTheme.surfaceContainer,
+              collapsedContainerColor: colorTheme.surfaceContainer,
+              collapsedPadding: const EdgeInsets.fromLTRB(
+                8.0 + 40.0 + 8.0,
+                0.0,
+                16.0,
+                0.0,
+              ),
+              title: Text(tr("appLogs")),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 0.0),
+              sliver: SliverList.list(
+                children: [
+                  DropdownMenuFormField<int>(
+                    expandedInsets: EdgeInsets.zero,
+                    inputDecorationTheme: const InputDecorationThemeData(
+                      border: UnderlineInputBorder(),
+                      filled: true,
+                    ),
+                    initialSelection: _days.first,
+                    dropdownMenuEntries: _days
+                        .map(
+                          (e) => DropdownMenuEntry(
+                            value: e,
+                            label: plural("day", e),
+                          ),
+                        )
+                        .toList(),
+                    onSelected: (d) {
+                      _filterLogs(d ?? 7);
+                    },
+                  ),
+                  const SizedBox(height: 16.0),
+                  Flex.horizontal(
+                    spacing: 8.0,
+                    children: [
+                      Flexible.tight(
+                        child: FilledButton.icon(
+                          style: actionButtonStyle,
+                          onPressed: () async {
+                            final result =
+                                (await showDialog<Map<String, dynamic>?>(
+                                  context: context,
+                                  builder: (ctx) {
+                                    return GeneratedFormModal(
+                                      title: tr("appLogs"),
+                                      items: const [],
+                                      initValid: true,
+                                      message: tr("removeFromObtainium"),
+                                    );
+                                  },
+                                )) !=
+                                null;
+                            if (result) {
+                              logsProvider.clear();
+                            }
+                          },
+                          icon: const IconLegacy(
+                            Symbols.delete_forever_rounded,
+                            fill: 1.0,
+                          ),
+                          label: Text(tr("remove")),
+                        ),
+                      ),
+                      StreamBuilder(
+                        stream: _logs,
+                        builder: (context, snapshot) {
+                          final logs = snapshot.data;
+                          return Flexible.tight(
+                            child: FilledButton.icon(
+                              style: actionButtonStyle,
+                              onPressed: logs != null
+                                  ? () async {
+                                      await SharePlus.instance.share(
+                                        ShareParams(
+                                          text: _buildLogsString(logs),
+                                          subject: tr("appLogs"),
+                                        ),
+                                      );
+                                    }
+                                  : null,
+                              icon: const IconLegacy(
+                                Symbols.share_rounded,
+                                fill: 1.0,
+                              ),
+                              label: Text(tr("share")),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  ListenableBuilder(
+                    listenable: settingsProvider,
+                    builder: (context, child) =>
+                        settingsProvider.developerModeV1
+                        ? Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                              0.0,
+                              16.0 - 4.0,
+                              0.0,
+                              16.0 - 4.0,
+                            ),
+                            child: FilledButton.icon(
+                              style: developerButtonStyle,
+                              onPressed: () async {
+                                for (final level in LogLevels.values) {
+                                  await LogsProvider.instance.add(
+                                    "Hello world!",
+                                    level: level,
+                                  );
+                                }
+                              },
+                              icon: const IconLegacy(
+                                Symbols.add_notes_rounded,
+                                fill: 1.0,
+                                size: 20.0,
+                                opticalSize: 20.0,
+                              ),
+                              label: Text(tr("add")),
+                            ),
+                          )
+                        : const SizedBox(height: 16.0),
+                  ),
+                ],
+              ),
+            ),
+            StreamBuilder(
+              stream: _logs,
+              builder: (context, snapshot) {
+                final logs = snapshot.data;
+                const spacing = 2.0;
+                return logs != null
+                    ? SliverPadding(
+                        padding: const EdgeInsetsGeometry.fromLTRB(
+                          16.0,
+                          0.0,
+                          16.0,
+                          16.0,
+                        ),
+                        sliver: SliverList.builder(
+                          itemCount: logs.length,
+                          itemBuilder: (context, index) {
+                            final log = logs[index];
+                            final isFirst = index == 0;
+                            final isLast = index == logs.length - 1;
+                            final icon = switch (log.level) {
+                              LogLevels.info => const Icon(
+                                Symbols.info_rounded,
+                                fill: 1.0,
+                              ),
+                              LogLevels.warning => const Icon(
+                                Symbols.warning_rounded,
+                                fill: 1.0,
+                              ),
+                              LogLevels.error => const Icon(
+                                Symbols.error_rounded,
+                                fill: 1.0,
+                              ),
+                              LogLevels.debug => const Icon(
+                                Symbols.bug_report_rounded,
+                                fill: 1.0,
+                              ),
+                            };
+                            final iconBackgroundColor = switch (log.level) {
+                              LogLevels.info =>
+                                staticColors.blue.colorContainer,
+                              LogLevels.warning =>
+                                staticColors.yellow.colorContainer,
+                              LogLevels.error =>
+                                staticColors.red.colorContainer,
+                              LogLevels.debug =>
+                                staticColors.cyan.colorContainer,
+                            };
+                            final iconForegroundColor = switch (log.level) {
+                              LogLevels.info =>
+                                staticColors.blue.onColorContainer,
+                              LogLevels.warning =>
+                                staticColors.yellow.onColorContainer,
+                              LogLevels.error =>
+                                staticColors.red.onColorContainer,
+                              LogLevels.debug =>
+                                staticColors.cyan.onColorContainer,
+                            };
+
+                            return Padding(
+                              padding: EdgeInsets.fromLTRB(
+                                0.0,
+                                isFirst ? 0.0 : spacing / 2.0,
+                                0.0,
+                                isLast ? 0.0 : spacing / 2.0,
+                              ),
+                              child: ListItemContainer(
+                                isFirst: isFirst,
+                                isLast: isLast,
+                                child: ListItemInteraction(
+                                  onTap: () async {
+                                    await Fluttertoast.showToast(
+                                      msg: "Not yet implemented!",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                    );
+                                  },
+                                  child: ListItemLayout(
+                                    isMultiline: true,
+                                    leading: SizedBox.square(
+                                      dimension: 40.0,
+                                      child: Material(
+                                        animationDuration: Duration.zero,
+                                        type: MaterialType.card,
+                                        clipBehavior: Clip.antiAlias,
+                                        color: iconBackgroundColor,
+                                        shape: const StadiumBorder(),
+                                        child: Align.center(
+                                          child: IconTheme.merge(
+                                            data: IconThemeDataPartial.from(
+                                              color: iconForegroundColor,
+                                            ),
+                                            child: icon,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    headline: Text(log.message),
+                                    supportingText: Text(
+                                      log.createdAt.toString(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : const SliverToBoxAdapter(child: SizedBox.shrink());
+              },
+            ),
+            SliverToBoxAdapter(child: SizedBox(height: padding.bottom)),
+          ],
+        ),
+      ),
     );
   }
 }
