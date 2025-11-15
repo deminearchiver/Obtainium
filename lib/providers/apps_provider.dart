@@ -506,7 +506,7 @@ class AppsProvider with ChangeNotifier {
   Map<String, AppInMemory> apps = {};
   bool loadingApps = false;
   bool gettingUpdates = false;
-  LogsProvider logs = LogsProvider();
+  final logs = LogsProvider.instance;
 
   // Variables to keep track of the app foreground status (installs can't run in the background)
   bool isForeground = true;
@@ -2332,7 +2332,7 @@ Future<void> bgUpdateCheck(String taskId, Map<String, dynamic>? params) async {
   await EasyLocalization.ensureInitialized();
   await loadTranslations();
 
-  LogsProvider logs = LogsProvider();
+  final logs = LogsProvider.instance;
   NotificationsProvider notificationsProvider = NotificationsProvider();
   AppsProvider appsProvider = AppsProvider(isBg: true);
   await appsProvider.loadApps();

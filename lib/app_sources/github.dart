@@ -237,7 +237,7 @@ class GitHub extends AppSource {
               return appIds.first;
             }
           } catch (err) {
-            LogsProvider().add(
+            LogsProvider.instance.add(
               'Error parsing build.gradle from ${res.request!.url.toString()}: ${err.toString()}',
             );
           }

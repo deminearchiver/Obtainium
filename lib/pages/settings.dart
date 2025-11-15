@@ -1335,20 +1335,19 @@ class _SettingsPageState extends State<SettingsPage> {
                 ListItemContainer(
                   isLast: true,
                   child: ListItemInteraction(
-                    onTap: () =>
-                        context.read<LogsProvider>().get().then((logs) {
-                          if (!context.mounted) return;
-                          if (logs.isEmpty) {
-                            showMessage(ObtainiumError(tr('noLogs')), context);
-                          } else {
-                            showDialog(
-                              context: context,
-                              builder: (ctx) {
-                                return const LogsDialog();
-                              },
-                            );
-                          }
-                        }),
+                    onTap: () => LogsProvider.instance.get().then((logs) {
+                      if (!context.mounted) return;
+                      if (logs.isEmpty) {
+                        showMessage(ObtainiumError(tr('noLogs')), context);
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (ctx) {
+                            return const LogsDialog();
+                          },
+                        );
+                      }
+                    }),
                     child: ListItemLayout(
                       isMultiline: true,
                       leading: const Icon(
@@ -1381,13 +1380,15 @@ class _LogsDialogState extends State<LogsDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final logsProvider = context.read<LogsProvider>();
+    final logsProvider = LogsProvider.instance;
     void filterLogs(int days) {
       logsProvider
           .get(after: DateTime.now().subtract(Duration(days: days)))
           .then((value) {
             setState(() {
-              String l = value.map((e) => e.toString()).join('\n\n');
+              String l = value
+                  .map((e) => "${e.createdAt}: ${e.level.name}: ${e.message}")
+                  .join('\n\n');
               logString = l.isNotEmpty ? l : tr('noLogs');
             });
           });

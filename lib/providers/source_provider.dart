@@ -394,7 +394,7 @@ class App {
       json = appJSONCompatibilityModifiers(json);
     } catch (e) {
       json = originalJSON;
-      LogsProvider().add(
+      LogsProvider.instance.add(
         'Error running JSON compat modifiers: ${e.toString()}: ${originalJSON.toString()}',
       );
     }

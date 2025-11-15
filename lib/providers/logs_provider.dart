@@ -1,127 +1,135 @@
+import 'package:drift/drift.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:obtainium/database/database.dart';
 import 'package:obtainium/flutter.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite/sqflite.dart' as sqflite;
 
-const String logTable = 'logs';
-const String idColumn = '_id';
-const String levelColumn = 'level';
-const String messageColumn = 'message';
-const String timestampColumn = 'timestamp';
-const String dbPath = 'logs.db';
+// TODO: replace logging with talker
 
 enum LogLevels { debug, info, warning, error }
 
-class Log {
-  int? id;
-  late LogLevels level;
-  late String message;
-  DateTime timestamp = DateTime.now();
-
-  Map<String, Object?> toMap() {
-    var map = <String, Object?>{
-      idColumn: id,
-      levelColumn: level.index,
-      messageColumn: message,
-      timestampColumn: timestamp.millisecondsSinceEpoch,
-    };
-    return map;
-  }
-
-  Log(this.message, this.level);
-
-  Log.fromMap(Map<String, Object?> map) {
-    id = map[idColumn] as int;
-    level = LogLevels.values.elementAt(map[levelColumn] as int);
-    message = map[messageColumn] as String;
-    timestamp = DateTime.fromMillisecondsSinceEpoch(
-      map[timestampColumn] as int,
-    );
-  }
-
-  @override
-  String toString() {
-    return '${timestamp.toString()}: ${level.name}: $message';
-  }
-}
-
 class LogsProvider {
-  LogsProvider({bool runDefaultClear = true}) {
-    clear(before: DateTime.now().subtract(const Duration(days: 7)));
-  }
+  LogsProvider._();
 
-  Database? db;
-
-  Future<Database> getDB() async {
-    db ??= await openDatabase(
-      dbPath,
-      version: 1,
-      onCreate: (db, version) async {
-        await db.execute('''
-create table if not exists $logTable ( 
-  $idColumn integer primary key autoincrement, 
-  $levelColumn integer not null,
-  $messageColumn text not null,
-  $timestampColumn integer not null)
-''');
-      },
-    );
-    return db!;
-  }
+  AppDatabase get _database => AppDatabase.instance;
 
   Future<Log> add(String message, {LogLevels level = LogLevels.info}) async {
-    Log l = Log(message, level);
-    l.id = await (await getDB()).insert(logTable, l.toMap());
+    final createdAt = DateTime.now();
+    final data = await _database
+        .into(_database.logs)
+        .insertReturning(
+          LogsCompanion.insert(
+            level: level,
+            message: message,
+            createdAt: Value(createdAt),
+          ),
+        );
     if (kDebugMode) {
-      print(l);
+      debugPrint("${data.createdAt}: ${data.level.name}: ${data.message}");
     }
-    return l;
+    return data;
   }
 
   Future<List<Log>> get({DateTime? before, DateTime? after}) async {
-    var where = getWhereDates(before: before, after: after);
-    return (await (await getDB()).query(
-      logTable,
-      where: where.key,
-      whereArgs: where.value,
-    )).map((e) => Log.fromMap(e)).toList();
+    final query = _database.select(_database.logs);
+    if (before != null) {
+      query.where((t) => t.createdAt.isSmallerOrEqualValue(before));
+    }
+    if (after != null) {
+      query.where((t) => t.createdAt.isBiggerOrEqualValue(after));
+    }
+    return query.get();
   }
 
   Future<int> clear({DateTime? before, DateTime? after}) async {
-    var where = getWhereDates(before: before, after: after);
-    var res = await (await getDB()).delete(
-      logTable,
-      where: where.key,
-      whereArgs: where.value,
-    );
-    if (res > 0) {
+    final query = _database.delete(_database.logs);
+    if (before != null) {
+      query.where((t) => t.createdAt.isSmallerOrEqualValue(before));
+    }
+    if (after != null) {
+      query.where((t) => t.createdAt.isBiggerOrEqualValue(after));
+    }
+    final amount = await query.go();
+    if (amount > 0) {
       add(
         plural(
-          'clearedNLogsBeforeXAfterY',
-          res,
-          namedArgs: {'before': before.toString(), 'after': after.toString()},
-          name: 'n',
+          "clearedNLogsBeforeXAfterY",
+          amount,
+          namedArgs: {"before": before.toString(), "after": after.toString()},
+          name: "n",
         ),
       );
     }
-    return res;
+    return amount;
   }
-}
 
-MapEntry<String?, List<int>?> getWhereDates({
-  DateTime? before,
-  DateTime? after,
-}) {
-  List<String> where = [];
-  List<int> whereArgs = [];
-  if (before != null) {
-    where.add('$timestampColumn < ?');
-    whereArgs.add(before.millisecondsSinceEpoch);
+  Future<int> clearDefault() =>
+      clear(before: DateTime.now().subtract(const Duration(days: 7)));
+
+  static LogsProvider? _instance;
+
+  static LogsProvider get instance {
+    assert(_instance != null);
+    return _instance!;
   }
-  if (after != null) {
-    where.add('$timestampColumn > ?');
-    whereArgs.add(after.millisecondsSinceEpoch);
+
+  static Future<void> ensureInitialized({bool runDefaultClear = true}) async {
+    if (_instance != null) return;
+
+    final instance = LogsProvider._();
+
+    if (runDefaultClear) {
+      await instance.clearDefault();
+    }
+
+    try {
+      final legacyDatabaseExists = await sqflite.databaseExists(
+        _legacyDatabasePath,
+      );
+      if (legacyDatabaseExists) {
+        await instance.add("Legacy database found, trying to purge.");
+
+        // We clear the database before deletion just in case
+        final legacyDatabase = await _openLegacyDatabase();
+        await legacyDatabase.delete(_legacyDatabaseTable);
+        await legacyDatabase.close();
+        await instance.add("Legacy database was successfully cleared.");
+
+        // Delete the legacy database
+        await sqflite.databaseFactory.deleteDatabase(_legacyDatabasePath);
+        await instance.add("Legacy database was successfully deleted.");
+      } else {
+        await instance.add("Legacy database not found.");
+      }
+    } on Object catch (e) {
+      instance.add(
+        "Legacy database purge failed. $e",
+        level: LogLevels.warning,
+      );
+    }
+
+    _instance = instance;
   }
-  return whereArgs.isEmpty
-      ? const MapEntry(null, null)
-      : MapEntry(where.join(' and '), whereArgs);
+
+  static const String _legacyDatabasePath = "logs.db";
+  static const String _legacyDatabaseTable = "logs";
+  static const String _legacyDatabaseIdColumn = "_id";
+  static const String _legacyDatabaseLevelColumn = "level";
+  static const String _legacyDatabaseMessageColumn = "message";
+  static const String _legacyDatabaseTimestampColumn = "timestamp";
+
+  static Future<sqflite.Database> _openLegacyDatabase() => sqflite.openDatabase(
+    _legacyDatabasePath,
+    version: 1,
+    onCreate: (db, version) async {
+      await db.execute(
+        "create table if not exists $_legacyDatabaseTable ("
+        "  $_legacyDatabaseIdColumn integer primary key autoincrement,"
+        "  $_legacyDatabaseLevelColumn integer not null,"
+        "  $_legacyDatabaseMessageColumn text not null,"
+        "  $_legacyDatabaseTimestampColumn integer not null"
+        ")",
+      );
+    },
+  );
 }

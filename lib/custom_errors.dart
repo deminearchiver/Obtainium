@@ -112,10 +112,10 @@ class MultiAppMultiError extends ObtainiumError {
 }
 
 void showMessage(Object? e, BuildContext context, {bool isError = false}) {
-  Provider.of<LogsProvider>(
-    context,
-    listen: false,
-  ).add(e.toString(), level: isError ? LogLevels.error : LogLevels.info);
+  LogsProvider.instance.add(
+    e.toString(),
+    level: isError ? LogLevels.error : LogLevels.info,
+  );
   if (e is String || (e is ObtainiumError && !e.unexpected)) {
     ScaffoldMessenger.of(
       context,

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:obtainium/assets/assets.gen.dart';
+import 'package:obtainium/database/database.dart';
 import 'package:obtainium/flutter.dart';
 import 'package:obtainium/pages/home.dart';
 import 'package:obtainium/providers/apps_provider.dart';
@@ -129,6 +130,7 @@ class MyTaskHandler extends TaskHandler {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await AppDatabase.ensureInitialized();
   try {
     ByteData data = await rootBundle.load(Assets.ca.letsEncryptR3);
     SecurityContext.defaultContext.setTrustedCertificatesBytes(
@@ -149,13 +151,13 @@ void main() async {
   FlutterForegroundTask.initCommunicationPort();
   await DynamicColorBuilder.preload();
   final settingsProvider = await SettingsProvider.ensureInitialized();
+  await LogsProvider.ensureInitialized();
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AppsProvider()),
         ChangeNotifierProvider(create: (context) => settingsProvider),
         Provider(create: (context) => np),
-        Provider(create: (context) => LogsProvider()),
       ],
       child: EasyLocalization(
         supportedLocales: supportedLocales.map((e) => e.key).toList(),
@@ -285,7 +287,7 @@ class _ObtainiumState extends State<Obtainium> {
         BackgroundFetch.finish(taskId);
       },
       (String taskId) async {
-        context.read<LogsProvider>().add('BG update task timed out.');
+        LogsProvider.instance.add('BG update task timed out.');
         BackgroundFetch.finish(taskId);
       },
     );
@@ -467,7 +469,7 @@ class _ObtainiumState extends State<Obtainium> {
   Widget build(BuildContext context) {
     final settingsProvider = context.watch<SettingsProvider>();
     final appsProvider = context.read<AppsProvider>();
-    final logs = context.read<LogsProvider>();
+    final logs = LogsProvider.instance;
     final notifs = context.read<NotificationsProvider>();
     if (settingsProvider.updateInterval == 0) {
       stopForegroundService();
