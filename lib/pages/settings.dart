@@ -47,6 +47,9 @@ class _SettingsPageState extends State<SettingsPage> {
     43200,
   ];
 
+  late Future<AndroidDeviceInfo> _androidInfo;
+  late Future<bool> _isDynamicColorAvailable;
+
   int updateInterval = 0;
 
   late SplineInterpolation updateIntervalInterpolator;
@@ -105,6 +108,13 @@ class _SettingsPageState extends State<SettingsPage> {
       updateInterval = valRounded;
       updateIntervalLabel = plural('day', valRounded ~/ (24 * 60));
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _androidInfo = DeviceInfoPlugin().androidInfo;
+    _isDynamicColorAvailable = const DynamicColor().isDynamicColorAvailable();
   }
 
   @override
@@ -476,9 +486,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
                 FutureBuilder(
-                  builder: (ctx, val) {
+                  future: _androidInfo,
+                  builder: (context, snapshot) {
                     return (settingsProvider.updateInterval > 0) &&
-                            (((val.data?.version.sdkInt ?? 0) >= 30) ||
+                            (((snapshot.data?.version.sdkInt ?? 0) >= 30) ||
                                 settingsProvider.useShizuku)
                         ? Flex.vertical(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -665,7 +676,6 @@ class _SettingsPageState extends State<SettingsPage> {
                           )
                         : const SizedBox.shrink();
                   },
-                  future: DeviceInfoPlugin().androidInfo,
                 ),
                 const SizedBox(height: 2.0),
                 ListItemContainer(
@@ -943,7 +953,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 8.0),
                 FutureBuilder(
-                  future: const DynamicColor().isDynamicColorAvailable(),
+                  key: const ValueKey("useMaterialYou"),
+                  future: _isDynamicColorAvailable,
                   builder: (context, snapshot) {
                     return snapshot.data == true
                         ? ListItemContainer(
@@ -1050,15 +1061,15 @@ class _SettingsPageState extends State<SettingsPage> {
                 const SizedBox(height: 4.0),
                 if (settingsProvider.theme == ThemeSettings.system)
                   FutureBuilder(
-                    builder: (ctx, val) {
-                      return ((val.data?.version.sdkInt ?? 30) < 29)
+                    future: _androidInfo,
+                    builder: (context, snapshot) {
+                      return ((snapshot.data?.version.sdkInt ?? 30) < 29)
                           ? Text(
                               tr('followSystemThemeExplanation'),
                               style: typescaleTheme.labelSmall.toTextStyle(),
                             )
                           : const SizedBox.shrink();
                     },
-                    future: DeviceInfoPlugin().androidInfo,
                   ),
                 const SizedBox(height: 12.0),
                 Flex.horizontal(
@@ -1184,6 +1195,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 ListItemContainer(
+                  key: const ValueKey("pinUpdates"),
                   child: MergeSemantics(
                     child: ListItemInteraction(
                       onTap: () => settingsProvider.pinUpdates =
@@ -1210,6 +1222,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 ListItemContainer(
+                  key: const ValueKey("buryNonInstalled"),
                   child: MergeSemantics(
                     child: ListItemInteraction(
                       onTap: () => settingsProvider.buryNonInstalled =
@@ -1239,6 +1252,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 ListItemContainer(
+                  key: const ValueKey("groupByCategory"),
                   child: MergeSemantics(
                     child: ListItemInteraction(
                       onTap: () => settingsProvider.groupByCategory =
@@ -1265,6 +1279,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 ListItemContainer(
+                  key: const ValueKey("hideTrackOnlyWarning"),
                   child: MergeSemantics(
                     child: ListItemInteraction(
                       onTap: () => settingsProvider.hideTrackOnlyWarning =
@@ -1294,6 +1309,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 ListItemContainer(
+                  key: const ValueKey("hideAPKOriginWarning"),
                   child: MergeSemantics(
                     child: ListItemInteraction(
                       onTap: () => settingsProvider.hideAPKOriginWarning =
@@ -1323,6 +1339,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 2.0),
                 ListItemContainer(
+                  key: const ValueKey("developerModeV1"),
                   isLast: true,
                   child: MergeSemantics(
                     child: ListItemInteraction(
