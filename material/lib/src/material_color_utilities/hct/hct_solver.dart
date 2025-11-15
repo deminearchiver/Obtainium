@@ -347,7 +347,7 @@ abstract final class HctSolver {
     return 0.0 <= x && x <= 100.0;
   }
 
-  static List<double> _nthVertex(double y, int n) {
+  static List<double>? _nthVertex(double y, int n) {
     final kR = _yFromLinrgb[0];
     final kG = _yFromLinrgb[1];
     final kB = _yFromLinrgb[2];
@@ -357,65 +357,50 @@ abstract final class HctSolver {
       final g = coordA;
       final b = coordB;
       final r = (y - g * kG - b * kB) / kR;
-      if (isBounded(r)) {
-        return [r, g, b];
-      } else {
-        return [-1.0, -1.0, -1.0];
-      }
+      return isBounded(r) ? [r, g, b] : null;
     } else if (n < 8) {
       final b = coordA;
       final r = coordB;
       final g = (y - r * kR - b * kB) / kG;
-      if (isBounded(g)) {
-        return [r, g, b];
-      } else {
-        return [-1.0, -1.0, -1.0];
-      }
+      return isBounded(g) ? [r, g, b] : null;
     } else {
       final r = coordA;
       final g = coordB;
       final b = (y - r * kR - g * kG) / kB;
-      if (isBounded(b)) {
-        return [r, g, b];
-      } else {
-        return [-1.0, -1.0, -1.0];
-      }
+      return isBounded(b) ? [r, g, b] : null;
     }
   }
 
   static List<List<double>> _bisectToSegment(double y, double targetHue) {
-    List<double> left = [-1.0, -1.0, -1.0];
-    List<double> right = left;
+    List<double>? left;
+    List<double>? right = left;
     double leftHue = 0.0;
     double rightHue = 0.0;
     bool initialized = false;
     bool uncut = true;
     for (int n = 0; n < 12; n++) {
       final mid = _nthVertex(y, n);
-      if (mid[0] < 0) {
-        continue;
-      }
-      final midHue = _hueOf(mid);
-      if (!initialized) {
-        left = mid;
-        right = mid;
-        leftHue = midHue;
-        rightHue = midHue;
-        initialized = true;
-        continue;
-      }
-      if (uncut || _areInCyclicOrder(leftHue, midHue, rightHue)) {
-        uncut = false;
-        if (_areInCyclicOrder(leftHue, targetHue, midHue)) {
-          right = mid;
-          rightHue = midHue;
-        } else {
+      if (mid != null) {
+        final midHue = _hueOf(mid);
+        if (!initialized) {
           left = mid;
+          right = mid;
           leftHue = midHue;
+          rightHue = midHue;
+          initialized = true;
+        } else if (uncut || _areInCyclicOrder(leftHue, midHue, rightHue)) {
+          uncut = false;
+          if (_areInCyclicOrder(leftHue, targetHue, midHue)) {
+            right = mid;
+            rightHue = midHue;
+          } else {
+            left = mid;
+            leftHue = midHue;
+          }
         }
       }
     }
-    return [left, right];
+    return [left!, right!];
   }
 
   static List<double> _midpoint(List<double> a, List<double> b) {

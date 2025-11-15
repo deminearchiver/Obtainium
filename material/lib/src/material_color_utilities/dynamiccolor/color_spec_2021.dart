@@ -1000,10 +1000,10 @@ final class ColorSpec2021 implements ColorSpec {
 
       // Tones suitable for the foreground.
       final List<double> availables = [];
-      if (lightOption != -1) {
+      if (lightOption != null) {
         availables.add(lightOption);
       }
-      if (darkOption != -1) {
+      if (darkOption != null) {
         availables.add(darkOption);
       }
 
@@ -1011,12 +1011,9 @@ final class ColorSpec2021 implements ColorSpec {
           DynamicColor.tonePrefersLightForeground(bgTone1) ||
           DynamicColor.tonePrefersLightForeground(bgTone2);
       if (prefersLight) {
-        return (lightOption == -1) ? 100 : lightOption;
+        return lightOption ?? 100.0;
       }
-      if (availables.length == 1) {
-        return availables[0];
-      }
-      return (darkOption == -1) ? 0 : darkOption;
+      return availables.length == 1 ? availables[0] : (darkOption ?? 0.0);
     }
   }
 

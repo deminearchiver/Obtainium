@@ -7,7 +7,8 @@ final class MaterialDynamicColors {
 
   final ColorSpec2025 _colorSpec;
 
-  DynamicColor highestSurface(DynamicScheme s) => _colorSpec.highestSurface(s);
+  DynamicColor highestSurface(DynamicScheme scheme) =>
+      _colorSpec.highestSurface(scheme);
 
   DynamicColor get primaryPaletteKeyColor => _colorSpec.primaryPaletteKeyColor;
 
