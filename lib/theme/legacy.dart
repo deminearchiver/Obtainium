@@ -205,6 +205,18 @@ abstract final class LegacyThemeFactory {
           corners: Corners.all(shapeTheme.corner.extraSmall),
         ),
       ),
+      menuTheme: createMenuTheme(
+        colorTheme: colorTheme,
+        elevationTheme: elevationTheme,
+        shapeTheme: shapeTheme,
+      ),
+      menuButtonTheme: createMenuButtonTheme(
+        colorTheme: colorTheme,
+        elevationTheme: elevationTheme,
+        shapeTheme: shapeTheme,
+        stateTheme: stateTheme,
+        typescaleTheme: typescaleTheme,
+      ),
       pageTransitionsTheme: PageTransitionsTheme(
         builders: {
           // TODO: replace with  a custom transition system and add support for background color
@@ -212,6 +224,114 @@ abstract final class LegacyThemeFactory {
             backgroundColor: colorTheme.surfaceContainer,
           ),
         },
+      ),
+    );
+  }
+
+  static MenuThemeData createMenuTheme({
+    required ColorThemeData colorTheme,
+    required ElevationThemeData elevationTheme,
+    required ShapeThemeData shapeTheme,
+    bool vibrant = false,
+  }) {
+    return MenuThemeData(
+      style: MenuStyle(
+        padding: const WidgetStatePropertyAll(EdgeInsets.all(4.0)),
+        visualDensity: VisualDensity.standard,
+        backgroundColor: WidgetStatePropertyAll(
+          vibrant
+              ? colorTheme.tertiaryContainer
+              : colorTheme.surfaceContainerLow,
+        ),
+        shape: WidgetStatePropertyAll(
+          CornersBorder.rounded(corners: Corners.all(shapeTheme.corner.large)),
+        ),
+        elevation: WidgetStatePropertyAll(elevationTheme.level2),
+        shadowColor: WidgetStatePropertyAll(colorTheme.shadow),
+        side: const WidgetStatePropertyAll(BorderSide.none),
+      ),
+    );
+  }
+
+  static MenuButtonThemeData createMenuButtonTheme({
+    required ColorThemeData colorTheme,
+    required ElevationThemeData elevationTheme,
+    required ShapeThemeData shapeTheme,
+    required StateThemeData stateTheme,
+    required TypescaleThemeData typescaleTheme,
+    bool vibrant = false,
+  }) {
+    return MenuButtonThemeData(
+      style: ButtonStyle(
+        animationDuration: Duration.zero,
+        minimumSize: const WidgetStatePropertyAll(Size(0.0, 44.0)),
+        maximumSize: const WidgetStatePropertyAll(Size(double.infinity, 44.0)),
+        mouseCursor: WidgetStateMouseCursor.clickable,
+        overlayColor: WidgetStateLayerColor(
+          color: WidgetStateProperty.resolveWith((states) {
+            final isFocused = states.contains(WidgetState.focused);
+            return switch (vibrant) {
+              false =>
+                isFocused
+                    ? colorTheme.onTertiaryContainer
+                    : colorTheme.onSurface,
+              true =>
+                isFocused
+                    ? colorTheme.onTertiary
+                    : colorTheme.onTertiaryContainer,
+            };
+          }),
+          opacity: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.pressed)) {
+              return stateTheme.pressedStateLayerOpacity;
+            }
+            if (states.contains(WidgetState.hovered)) {
+              return stateTheme.hoverStateLayerOpacity;
+            }
+            return 0.0;
+          }),
+        ),
+        shape: WidgetStatePropertyAll(
+          CornersBorder.rounded(corners: Corners.all(shapeTheme.corner.medium)),
+        ),
+        backgroundColor: WidgetStateProperty.resolveWith((states) {
+          final isFocused = states.contains(WidgetState.focused);
+
+          return switch (vibrant) {
+            false =>
+              isFocused ? colorTheme.tertiaryContainer : Colors.transparent,
+            true =>
+              isFocused ? colorTheme.tertiary : colorTheme.tertiaryContainer,
+          };
+        }),
+        foregroundColor: WidgetStateProperty.resolveWith((states) {
+          final isFocused = states.contains(WidgetState.focused);
+          return switch (vibrant) {
+            false =>
+              isFocused ? colorTheme.onTertiaryContainer : colorTheme.onSurface,
+            true =>
+              isFocused
+                  ? colorTheme.onTertiary
+                  : colorTheme.onTertiaryContainer,
+          };
+        }),
+        iconSize: WidgetStatePropertyAll(24.0),
+        iconColor: WidgetStateProperty.resolveWith((states) {
+          final isFocused = states.contains(WidgetState.focused);
+          return switch (vibrant) {
+            false =>
+              isFocused
+                  ? colorTheme.onTertiaryContainer
+                  : colorTheme.onSurfaceVariant,
+            true =>
+              isFocused
+                  ? colorTheme.onTertiary
+                  : colorTheme.onTertiaryContainer,
+          };
+        }),
+        textStyle: WidgetStateProperty.resolveWith((states) {
+          return typescaleTheme.bodyMedium.toTextStyle();
+        }),
       ),
     );
   }

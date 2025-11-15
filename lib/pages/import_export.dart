@@ -9,6 +9,7 @@ import 'package:obtainium/components/custom_app_bar.dart';
 import 'package:obtainium/components/generated_form.dart';
 import 'package:obtainium/components/generated_form_modal.dart';
 import 'package:obtainium/custom_errors.dart';
+import 'package:obtainium/pages/developer.dart';
 import 'package:obtainium/providers/apps_provider.dart';
 import 'package:obtainium/providers/settings_provider.dart';
 import 'package:obtainium/providers/source_provider.dart';
@@ -31,6 +32,8 @@ class _ImportExportPageState extends State<ImportExportPage> {
     final sourceProvider = SourceProvider();
     final appsProvider = context.watch<AppsProvider>();
     final settingsProvider = context.watch<SettingsProvider>();
+
+    final canPop = ModalRoute.canPopOf(context) ?? false;
 
     final colorTheme = ColorTheme.of(context);
     final shapeTheme = ShapeTheme.of(context);
@@ -366,6 +369,15 @@ class _ImportExportPageState extends State<ImportExportPage> {
       behavior: CustomAppBarBehavior.duplicate,
       expandedContainerColor: colorTheme.surfaceContainer,
       collapsedContainerColor: colorTheme.surfaceContainer,
+      collapsedPadding: canPop
+          ? const EdgeInsets.fromLTRB(8.0 + 40.0 + 8.0, 0.0, 16.0, 0.0)
+          : null,
+      leading: canPop
+          ? const Padding(
+              padding: EdgeInsets.only(left: 8.0 - 4.0),
+              child: DeveloperPageBackButton(),
+            )
+          : null,
       title: Text(tr("importExport")),
     );
 

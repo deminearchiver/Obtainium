@@ -173,7 +173,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                 animationDuration: Duration.zero,
                                 type: MaterialType.card,
                                 clipBehavior: Clip.antiAlias,
-                                color: staticColors.green.colorFixedDim,
+                                color: staticColors.green.colorFixed,
                                 shape: const StadiumBorder(),
                                 child: Align.center(
                                   child: Icon(
@@ -214,7 +214,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                 animationDuration: Duration.zero,
                                 type: MaterialType.card,
                                 clipBehavior: Clip.antiAlias,
-                                color: staticColors.green.colorFixedDim,
+                                color: staticColors.green.colorFixed,
                                 shape: const StadiumBorder(),
                                 child: Align.center(
                                   child: Icon(
@@ -252,7 +252,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                 animationDuration: Duration.zero,
                                 type: MaterialType.card,
                                 clipBehavior: Clip.antiAlias,
-                                color: staticColors.blue.colorFixedDim,
+                                color: staticColors.blue.colorFixed,
                                 shape: const StadiumBorder(),
                                 child: Align.center(
                                   child: Icon(
@@ -293,7 +293,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
                                 animationDuration: Duration.zero,
                                 type: MaterialType.card,
                                 clipBehavior: Clip.antiAlias,
-                                color: staticColors.cyan.colorFixedDim,
+                                color: staticColors.cyan.colorFixed,
                                 shape: const StadiumBorder(),
                                 child: Align.center(
                                   child: Icon(
@@ -1441,102 +1441,56 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
                 ),
                 const SizedBox(width: 8.0 - 4.0),
 
-                MenuButtonTheme(
-                  data: MenuButtonThemeData(
-                    style: ButtonStyle(
-                      padding: WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 16.0),
-                      ),
-                      minimumSize: WidgetStatePropertyAll(
-                        Size(double.infinity, 48.0),
-                      ),
-                      maximumSize: WidgetStatePropertyAll(
-                        Size(double.infinity, 48.0),
-                      ),
-                      textStyle: WidgetStatePropertyAll(
-                        typescaleTheme.titleSmall.toTextStyle(),
-                      ),
+                MenuAnchor(
+                  consumeOutsideTap: true,
+                  crossAxisUnconstrained: false,
+                  menuChildren: [
+                    MenuItemButton(
+                      onPressed: () {},
+                      leadingIcon: const Icon(Symbols.reset_settings_rounded),
+                      child: const Text("Reset settings"),
                     ),
-                  ),
-                  child: MenuAnchor(
-                    consumeOutsideTap: true,
-                    crossAxisUnconstrained: false,
-                    style: MenuStyle(
-                      minimumSize: const WidgetStatePropertyAll(
-                        Size(208.0, 0.0),
-                      ),
-                      maximumSize: const WidgetStatePropertyAll(
-                        Size(280.0, double.infinity),
-                      ),
-                      backgroundColor: WidgetStatePropertyAll(
-                        colorTheme.surface,
-                      ),
+                  ],
+                  builder: (context, controller, child) => IconButton(
+                    onPressed: () {
+                      if (controller.isOpen) {
+                        controller.close();
+                      } else {
+                        controller.open();
+                      }
+                    },
+                    style: ButtonStyle(
+                      animationDuration: Duration.zero,
+                      elevation: const WidgetStatePropertyAll(0.0),
+                      shadowColor: WidgetStateColor.transparent,
+                      minimumSize: const WidgetStatePropertyAll(Size.zero),
+                      fixedSize: const WidgetStatePropertyAll(Size(40.0, 40.0)),
+                      maximumSize: const WidgetStatePropertyAll(Size.infinite),
+                      padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+                      iconSize: const WidgetStatePropertyAll(24.0),
                       shape: WidgetStatePropertyAll(
                         CornersBorder.rounded(
-                          corners: Corners.all(Corner.circular(24.0)),
+                          corners: Corners.all(shapeTheme.corner.full),
                         ),
                       ),
-                      padding: WidgetStatePropertyAll(
-                        EdgeInsets.symmetric(vertical: 12.0),
+                      overlayColor: WidgetStateLayerColor(
+                        color: WidgetStatePropertyAll(
+                          colorTheme.onSurfaceVariant,
+                        ),
+                        opacity: stateTheme.stateLayerOpacity,
+                      ),
+                      backgroundColor: WidgetStateProperty.resolveWith(
+                        (states) => states.contains(WidgetState.disabled)
+                            ? colorTheme.onSurface.withValues(alpha: 0.1)
+                            : Colors.transparent,
+                      ),
+                      iconColor: WidgetStateProperty.resolveWith(
+                        (states) => states.contains(WidgetState.disabled)
+                            ? colorTheme.onSurface.withValues(alpha: 0.38)
+                            : colorTheme.onSurfaceVariant,
                       ),
                     ),
-                    menuChildren: [
-                      MenuItemButton(
-                        onPressed: () {},
-                        leadingIcon: Icon(
-                          Symbols.reset_settings_rounded,
-                          color: colorTheme.onSurfaceVariant,
-                          size: 20.0,
-                          opticalSize: 20.0,
-                        ),
-                        child: Text("Reset settings"),
-                      ),
-                    ],
-                    builder: (context, controller, child) => IconButton(
-                      onPressed: () {
-                        if (controller.isOpen) {
-                          controller.close();
-                        } else {
-                          controller.open();
-                        }
-                      },
-                      style: ButtonStyle(
-                        animationDuration: Duration.zero,
-                        elevation: const WidgetStatePropertyAll(0.0),
-                        shadowColor: WidgetStateColor.transparent,
-                        minimumSize: const WidgetStatePropertyAll(Size.zero),
-                        fixedSize: const WidgetStatePropertyAll(
-                          Size(40.0, 40.0),
-                        ),
-                        maximumSize: const WidgetStatePropertyAll(
-                          Size.infinite,
-                        ),
-                        padding: const WidgetStatePropertyAll(EdgeInsets.zero),
-                        iconSize: const WidgetStatePropertyAll(24.0),
-                        shape: WidgetStatePropertyAll(
-                          CornersBorder.rounded(
-                            corners: Corners.all(shapeTheme.corner.full),
-                          ),
-                        ),
-                        overlayColor: WidgetStateLayerColor(
-                          color: WidgetStatePropertyAll(
-                            colorTheme.onSurfaceVariant,
-                          ),
-                          opacity: stateTheme.stateLayerOpacity,
-                        ),
-                        backgroundColor: WidgetStateProperty.resolveWith(
-                          (states) => states.contains(WidgetState.disabled)
-                              ? colorTheme.onSurface.withValues(alpha: 0.1)
-                              : Colors.transparent,
-                        ),
-                        iconColor: WidgetStateProperty.resolveWith(
-                          (states) => states.contains(WidgetState.disabled)
-                              ? colorTheme.onSurface.withValues(alpha: 0.38)
-                              : colorTheme.onSurfaceVariant,
-                        ),
-                      ),
-                      icon: const IconLegacy(Symbols.more_vert_rounded),
-                    ),
+                    icon: const IconLegacy(Symbols.more_vert_rounded),
                   ),
                 ),
                 const SizedBox(width: 8.0 - 4.0),
@@ -1879,7 +1833,7 @@ class _Settings2ViewState extends State<Settings2View> {
                           animationDuration: Duration.zero,
                           type: MaterialType.card,
                           clipBehavior: Clip.antiAlias,
-                          color: staticColors.blue.colorFixedDim,
+                          color: staticColors.blue.colorFixed,
                           shape: CornersBorder.rounded(
                             corners: Corners.all(shapeTheme.corner.full),
                           ),
@@ -1916,7 +1870,7 @@ class _Settings2ViewState extends State<Settings2View> {
                           animationDuration: Duration.zero,
                           type: MaterialType.card,
                           clipBehavior: Clip.antiAlias,
-                          color: staticColors.yellow.colorFixedDim,
+                          color: staticColors.yellow.colorFixed,
                           shape: CornersBorder.rounded(
                             corners: Corners.all(shapeTheme.corner.full),
                           ),
@@ -1959,7 +1913,7 @@ class _Settings2ViewState extends State<Settings2View> {
                             animationDuration: Duration.zero,
                             type: MaterialType.card,
                             clipBehavior: Clip.antiAlias,
-                            color: staticColors.pink.colorFixedDim,
+                            color: staticColors.pink.colorFixed,
                             shape: const StadiumBorder(),
                             child: Align.center(
                               child: Icon(
