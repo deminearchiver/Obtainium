@@ -25,3 +25,8 @@ targets:
             flutter_svg: true
             lottie: false
             rive: false
+      drift_dev:
+        options:
+          databases:
+            obtainium: lib/database/database.dart
+          schema_dir: drift_schemas/
