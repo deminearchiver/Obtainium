@@ -19,22 +19,11 @@ class Fonts {
   /// Font family: Google Sans
   static const String googleSans = 'packages/$package/Google Sans';
 
-  /// Font family: Google Sans Clock
-  static const String googleSansClock = 'packages/$package/Google Sans Clock';
-
   /// Font family: Google Sans Code
   static const String googleSansCode = 'packages/$package/Google Sans Code';
 
   /// Font family: Google Sans Flex
   static const String googleSansFlex = 'packages/$package/Google Sans Flex';
-
-  /// Font family: Google Sans Flex Clock
-  static const String googleSansFlexClock =
-      'packages/$package/Google Sans Flex Clock';
-
-  /// Font family: Google Sans Rounded
-  static const String googleSansRounded =
-      'packages/$package/Google Sans Rounded';
 
   /// Font family: Roboto Flex
   static const String robotoFlex = 'packages/$package/Roboto Flex';

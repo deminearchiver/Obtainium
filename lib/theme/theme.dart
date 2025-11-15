@@ -97,7 +97,7 @@ class TypographyDefaults with Diagnosticable {
 
   static const TypographyDefaults material3Baseline = TypographyDefaults.from(
     typeface: TypefaceThemeDataPartial.from(
-      // Roboto was the default typeface for M3 Baseline
+      // Roboto was the default typeface for Material 3 Baseline
       brand: [_roboto],
       plain: [_roboto],
     ),
@@ -105,7 +105,7 @@ class TypographyDefaults with Diagnosticable {
 
   static const TypographyDefaults material3Expressive = TypographyDefaults.from(
     typeface: TypefaceThemeDataPartial.from(
-      // M3 Expressive introduced variable font support
+      // Material 3 Expressive introduced variable font support
       brand: [_robotoFlex, _roboto],
       plain: [_robotoFlex, _roboto],
     ),
@@ -154,50 +154,50 @@ class TypographyDefaults with Diagnosticable {
         ),
       );
 
-  static const TypographyDefaults
-  googleMaterial3Expressive = TypographyDefaults.from(
-    typeface: TypefaceThemeDataPartial.from(
-      // The ROND axis is currently only available for Google Sans Flex,
-      // making it a no-op for most of the other possibly installed fonts.
-      // This particular information was ripped from a file
-      // located at the path "/product/etc/fonts_customization.xml"
-      // on a Google Pixel with Android 16 QPR1 beta 3 (Material 3 Expressive)
-      brand: [_googleSansFlex, _robotoFlex, _googleSans, _roboto],
-      plain: [_googleSansFlex, _robotoFlex, _googleSans, _roboto],
-    ),
-    typescale: TypescaleThemeDataPartial.from(
-      displayLarge: TypeStylePartial.from(rond: 0.0),
-      displayMedium: TypeStylePartial.from(rond: 0.0),
-      displaySmall: TypeStylePartial.from(rond: 0.0),
-      headlineLarge: TypeStylePartial.from(rond: 0.0),
-      headlineMedium: TypeStylePartial.from(rond: 0.0),
-      headlineSmall: TypeStylePartial.from(rond: 0.0),
-      titleLarge: TypeStylePartial.from(rond: 0.0),
-      titleMedium: TypeStylePartial.from(rond: 0.0),
-      titleSmall: TypeStylePartial.from(rond: 0.0),
-      bodyLarge: TypeStylePartial.from(rond: 0.0),
-      bodyMedium: TypeStylePartial.from(rond: 0.0),
-      bodySmall: TypeStylePartial.from(rond: 0.0),
-      labelLarge: TypeStylePartial.from(rond: 0.0),
-      labelMedium: TypeStylePartial.from(rond: 0.0),
-      labelSmall: TypeStylePartial.from(rond: 0.0),
-      displayLargeEmphasized: TypeStylePartial.from(rond: 100.0),
-      displayMediumEmphasized: TypeStylePartial.from(rond: 100.0),
-      displaySmallEmphasized: TypeStylePartial.from(rond: 100.0),
-      headlineLargeEmphasized: TypeStylePartial.from(rond: 100.0),
-      headlineMediumEmphasized: TypeStylePartial.from(rond: 100.0),
-      headlineSmallEmphasized: TypeStylePartial.from(rond: 100.0),
-      titleLargeEmphasized: TypeStylePartial.from(rond: 100.0),
-      titleMediumEmphasized: TypeStylePartial.from(rond: 100.0),
-      titleSmallEmphasized: TypeStylePartial.from(rond: 100.0),
-      bodyLargeEmphasized: TypeStylePartial.from(rond: 100.0),
-      bodyMediumEmphasized: TypeStylePartial.from(rond: 100.0),
-      bodySmallEmphasized: TypeStylePartial.from(rond: 100.0),
-      labelLargeEmphasized: TypeStylePartial.from(rond: 100.0),
-      labelMediumEmphasized: TypeStylePartial.from(rond: 100.0),
-      labelSmallEmphasized: TypeStylePartial.from(rond: 100.0),
-    ),
-  );
+  static const TypographyDefaults googleMaterial3Expressive =
+      TypographyDefaults.from(
+        typeface: TypefaceThemeDataPartial.from(
+          // The ROND axis is currently only available for Google Sans Flex,
+          // making it a no-op for most of the other possibly installed fonts.
+          // This particular information was ripped from a file
+          // located at the path "/product/etc/fonts_customization.xml"
+          // on a Google Pixel with Android 16 QPR1 (Material 3 Expressive)
+          brand: [_googleSansFlex, _robotoFlex, _googleSans, _roboto],
+          plain: [_googleSansFlex, _robotoFlex, _googleSans, _roboto],
+        ),
+        typescale: TypescaleThemeDataPartial.from(
+          displayLarge: TypeStylePartial.from(rond: 0.0),
+          displayMedium: TypeStylePartial.from(rond: 0.0),
+          displaySmall: TypeStylePartial.from(rond: 0.0),
+          headlineLarge: TypeStylePartial.from(rond: 0.0),
+          headlineMedium: TypeStylePartial.from(rond: 0.0),
+          headlineSmall: TypeStylePartial.from(rond: 0.0),
+          titleLarge: TypeStylePartial.from(rond: 0.0),
+          titleMedium: TypeStylePartial.from(rond: 0.0),
+          titleSmall: TypeStylePartial.from(rond: 0.0),
+          bodyLarge: TypeStylePartial.from(rond: 0.0),
+          bodyMedium: TypeStylePartial.from(rond: 0.0),
+          bodySmall: TypeStylePartial.from(rond: 0.0),
+          labelLarge: TypeStylePartial.from(rond: 0.0),
+          labelMedium: TypeStylePartial.from(rond: 0.0),
+          labelSmall: TypeStylePartial.from(rond: 0.0),
+          displayLargeEmphasized: TypeStylePartial.from(rond: 100.0),
+          displayMediumEmphasized: TypeStylePartial.from(rond: 100.0),
+          displaySmallEmphasized: TypeStylePartial.from(rond: 100.0),
+          headlineLargeEmphasized: TypeStylePartial.from(rond: 100.0),
+          headlineMediumEmphasized: TypeStylePartial.from(rond: 100.0),
+          headlineSmallEmphasized: TypeStylePartial.from(rond: 100.0),
+          titleLargeEmphasized: TypeStylePartial.from(rond: 100.0),
+          titleMediumEmphasized: TypeStylePartial.from(rond: 100.0),
+          titleSmallEmphasized: TypeStylePartial.from(rond: 100.0),
+          bodyLargeEmphasized: TypeStylePartial.from(rond: 100.0),
+          bodyMediumEmphasized: TypeStylePartial.from(rond: 100.0),
+          bodySmallEmphasized: TypeStylePartial.from(rond: 100.0),
+          labelLargeEmphasized: TypeStylePartial.from(rond: 100.0),
+          labelMediumEmphasized: TypeStylePartial.from(rond: 100.0),
+          labelSmallEmphasized: TypeStylePartial.from(rond: 100.0),
+        ),
+      );
 }
 
 abstract final class MarkdownThemeFactory {
