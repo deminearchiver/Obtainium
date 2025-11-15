@@ -151,18 +151,6 @@ class _SettingsPageState extends State<SettingsPage> {
       }
     }
 
-    final Widget followSystemThemeExplanation = FutureBuilder(
-      builder: (ctx, val) {
-        return ((val.data?.version.sdkInt ?? 30) < 29)
-            ? Text(
-                tr('followSystemThemeExplanation'),
-                style: typescaleTheme.labelSmall.toTextStyle(),
-              )
-            : const SizedBox.shrink();
-      },
-      future: DeviceInfoPlugin().androidInfo,
-    );
-
     Future<bool> colorPickerDialog() =>
         ColorPicker(
           color: settingsProvider.themeColor,
@@ -227,52 +215,6 @@ class _SettingsPageState extends State<SettingsPage> {
         setState(() => settingsProvider.themeColor = previousThemeColor);
       }
     }
-
-    final Widget localeDropdown = DropdownMenuFormField<Locale?>(
-      expandedInsets: EdgeInsets.zero,
-      inputDecorationTheme: const InputDecorationThemeData(
-        border: UnderlineInputBorder(),
-        filled: true,
-      ),
-      label: Text(tr('language')),
-      enableFilter: true,
-      enableSearch: true,
-      requestFocusOnTap: true,
-
-      initialSelection: settingsProvider.forcedLocale,
-      dropdownMenuEntries: [
-        DropdownMenuEntry(value: null, label: tr('followSystem')),
-        ...supportedLocales.map(
-          (e) => DropdownMenuEntry(value: e.key, label: e.value),
-        ),
-      ],
-      onSelected: (value) {
-        settingsProvider.forcedLocale = value;
-        if (value != null) {
-          context.setLocale(value);
-        } else {
-          settingsProvider.resetLocaleSafe(context);
-        }
-      },
-    );
-
-    final Widget intervalSlider = Slider(
-      value: settingsProvider.updateIntervalSliderVal,
-      max: updateIntervalNodes.length.toDouble(),
-      divisions: updateIntervalNodes.length * 20,
-      label: updateIntervalLabel,
-      onChanged: (value) => setState(() {
-        settingsProvider.updateIntervalSliderVal = value;
-        processIntervalSliderValue(value);
-      }),
-      onChangeStart: (value) => setState(() {
-        showIntervalLabel = false;
-      }),
-      onChangeEnd: (value) => setState(() {
-        showIntervalLabel = true;
-        settingsProvider.updateInterval = updateInterval;
-      }),
-    );
 
     final sourceSpecificFields = sourceProvider.sources.map((e) {
       if (e.sourceConfigSettingFormItems.isNotEmpty) {
@@ -512,7 +454,23 @@ class _SettingsPageState extends State<SettingsPage> {
                           16.0,
                           12.0,
                         ),
-                        child: intervalSlider,
+                        child: Slider(
+                          value: settingsProvider.updateIntervalSliderVal,
+                          max: updateIntervalNodes.length.toDouble(),
+                          divisions: updateIntervalNodes.length * 20,
+                          label: updateIntervalLabel,
+                          onChanged: (value) => setState(() {
+                            settingsProvider.updateIntervalSliderVal = value;
+                            processIntervalSliderValue(value);
+                          }),
+                          onChangeStart: (value) => setState(() {
+                            showIntervalLabel = false;
+                          }),
+                          onChangeEnd: (value) => setState(() {
+                            showIntervalLabel = true;
+                            settingsProvider.updateInterval = updateInterval;
+                          }),
+                        ),
                       ),
                     ],
                   ),
@@ -1056,7 +1014,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                 ],
-                const SizedBox(height: 12.0),
+                const SizedBox(height: 16.0),
                 DropdownMenuFormField<ThemeSettings>(
                   expandedInsets: EdgeInsets.zero,
                   inputDecorationTheme: const InputDecorationThemeData(
@@ -1089,10 +1047,20 @@ class _SettingsPageState extends State<SettingsPage> {
                     }
                   },
                 ),
-                const SizedBox(height: 8.0),
-                if (settingsProvider.theme == ThemeSettings.system)
-                  followSystemThemeExplanation,
                 const SizedBox(height: 4.0),
+                if (settingsProvider.theme == ThemeSettings.system)
+                  FutureBuilder(
+                    builder: (ctx, val) {
+                      return ((val.data?.version.sdkInt ?? 30) < 29)
+                          ? Text(
+                              tr('followSystemThemeExplanation'),
+                              style: typescaleTheme.labelSmall.toTextStyle(),
+                            )
+                          : const SizedBox.shrink();
+                    },
+                    future: DeviceInfoPlugin().androidInfo,
+                  ),
+                const SizedBox(height: 12.0),
                 Flex.horizontal(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1161,7 +1129,32 @@ class _SettingsPageState extends State<SettingsPage> {
                   ],
                 ),
                 const SizedBox(height: 16.0),
-                localeDropdown,
+                DropdownMenuFormField<Locale?>(
+                  expandedInsets: EdgeInsets.zero,
+                  inputDecorationTheme: const InputDecorationThemeData(
+                    border: UnderlineInputBorder(),
+                    filled: true,
+                  ),
+                  label: Text(tr('language')),
+                  enableFilter: true,
+                  enableSearch: true,
+                  requestFocusOnTap: true,
+                  initialSelection: settingsProvider.forcedLocale,
+                  dropdownMenuEntries: [
+                    DropdownMenuEntry(value: null, label: tr('followSystem')),
+                    ...supportedLocales.map(
+                      (e) => DropdownMenuEntry(value: e.key, label: e.value),
+                    ),
+                  ],
+                  onSelected: (value) {
+                    settingsProvider.forcedLocale = value;
+                    if (value != null) {
+                      context.setLocale(value);
+                    } else {
+                      settingsProvider.resetLocaleSafe(context);
+                    }
+                  },
+                ),
                 const SizedBox(height: 16.0),
                 ListItemContainer(
                   isFirst: true,
