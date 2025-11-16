@@ -21,6 +21,8 @@ import 'package:material/src/material_shapes.dart'
     show
         // ignore: invalid_use_of_internal_member
         RoundedPolygonInternalExtension;
+import 'package:syntax_highlight/syntax_highlight.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DeveloperPageBackButton extends StatelessWidget {
   const DeveloperPageBackButton({super.key});
@@ -335,15 +337,55 @@ class DeveloperMarkdown1Page extends StatefulWidget {
   State<DeveloperMarkdown1Page> createState() => _DeveloperMarkdown1PageState();
 }
 
+List<md.Node> _parseMarkdown(
+  ({String data, md.ExtensionSet extensionSet}) message,
+) => CustomMarkdownWidget.parseFromString(
+  data: message.data,
+  extensionSet: message.extensionSet,
+);
+
 class _DeveloperMarkdown1PageState extends State<DeveloperMarkdown1Page> {
   static final md.ExtensionSet _extensionSet = md.ExtensionSet(
     [...md.ExtensionSet.gitHubWeb.blockSyntaxes],
     [...md.ExtensionSet.gitHubWeb.inlineSyntaxes],
   );
-  static final List<md.Node> _nodes = CustomMarkdownWidget.parseFromString(
-    data: _custom,
-    extensionSet: _extensionSet,
-  );
+
+  late ScrollController _scrollController;
+
+  late Future<HighlighterTheme> _highlighterTheme;
+  late Future<List<md.Node>> _nodes;
+
+  void _loadHighlighterTheme(Brightness brightness) {
+    final highlighterInitialized = Highlighter.initialize(["dart"]);
+    final highlighterTheme = HighlighterTheme.loadForBrightness(brightness);
+    _highlighterTheme = (
+      highlighterInitialized,
+      highlighterTheme,
+    ).wait.then((value) => value.$2);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _nodes = compute(_parseMarkdown, (
+      data: _custom * 50,
+      extensionSet: _extensionSet,
+    ));
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final brightness = Theme.brightnessOf(context);
+    _loadHighlighterTheme(brightness);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -353,6 +395,7 @@ class _DeveloperMarkdown1PageState extends State<DeveloperMarkdown1Page> {
     return Scaffold(
       backgroundColor: colorTheme.surfaceContainer,
       body: CustomScrollView(
+        controller: _scrollController,
         slivers: [
           CustomAppBar(
             leading: const Padding(
@@ -367,61 +410,165 @@ class _DeveloperMarkdown1PageState extends State<DeveloperMarkdown1Page> {
               8.0 + 40.0 + 8.0,
               0.0,
               16.0,
-              0.0,
+              8.0 + 40.0 + 8.0,
             ),
             title: Text("Markdown"),
             subtitle: Text("flutter_markdown_plus"),
+            trailing: Padding(
+              padding: EdgeInsets.only(right: 8.0 - 4.0),
+              child: IconButton.filledTonal(
+                onPressed: () => _scrollController.animateTo(
+                  0.0,
+                  duration: Durations.extralong4,
+                  curve: Curves.easeInOutCubicEmphasized,
+                ),
+                icon: Icon(
+                  Symbols.arrow_upward_rounded,
+                  color: colorTheme.onSecondaryContainer,
+                ),
+              ),
+            ),
           ),
           SliverPadding(
             padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-            sliver: CustomMarkdownWidget.builder(
-              nodes: _nodes,
-              selectable: true,
-              checkboxBuilder: (value) => Icon(
-                value
-                    ? Symbols.check_box_rounded
-                    : Symbols.check_box_outline_blank_rounded,
-                fill: value ? 1.0 : 0.0,
-                color: value ? colorTheme.primary : colorTheme.onSurfaceVariant,
-              ),
-              extensionSet: _extensionSet,
-              styleSheet: MarkdownStyleSheet(
-                p: typescaleTheme.bodyMedium.toTextStyle(
-                  color: colorTheme.onSurface,
-                ),
-                a: TextStyle(
-                  color: colorTheme.tertiary,
-                  decoration: TextDecoration.underline,
-                  decorationColor: colorTheme.tertiary,
-                  decorationStyle: TextDecorationStyle.dotted,
-                ),
-                h1: typescaleTheme.displayMediumEmphasized.toTextStyle(),
-                h1Padding: EdgeInsets.zero,
-                h2: typescaleTheme.displaySmallEmphasized.toTextStyle(),
-                h2Padding: EdgeInsets.zero,
-                h3: typescaleTheme.headlineSmallEmphasized.toTextStyle(),
-                h3Padding: EdgeInsets.zero,
-                code: typescaleTheme.bodyMedium.toTextStyle().copyWith(
-                  fontFamily: Fonts.firaCode,
-                  color: colorTheme.onSurface,
-                ),
-                codeblockDecoration: ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadiusGeometry.circular(12.0),
-                    side: BorderSide(color: colorTheme.outlineVariant),
-                  ),
-                  color: colorTheme.surface,
-                ),
-                codeblockPadding: EdgeInsets.all(16.0),
-              ),
-              builder: (context, children) =>
-                  SliverList.list(children: children ?? const []),
+            sliver: FutureBuilder(
+              future: _nodes,
+              builder: (context, nodesSnapshot) {
+                final nodes = nodesSnapshot.data;
+                if (nodes == null || nodes.isEmpty) {
+                  return const SliverFillRemaining(
+                    fillOverscroll: false,
+                    hasScrollBody: false,
+                    child: Flex.vertical(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Flexible.space(flex: 1.0),
+                        SizedBox.square(
+                          dimension: 160.0,
+                          child: LoadingIndicator(),
+                        ),
+                        Flexible.space(flex: 3.0),
+                      ],
+                    ),
+                  );
+                }
+                return FutureBuilder(
+                  future: _highlighterTheme,
+                  builder: (context, highlighterThemeSnapshot) {
+                    final highlighterTheme = highlighterThemeSnapshot.data;
+                    return CustomMarkdownWidget.builder(
+                      nodes: nodes,
+                      selectable: true,
+                      checkboxBuilder: (value) => Icon(
+                        value
+                            ? Symbols.check_box_rounded
+                            : Symbols.check_box_outline_blank_rounded,
+                        fill: value ? 1.0 : 0.0,
+                        color: value
+                            ? colorTheme.primary
+                            : colorTheme.onSurfaceVariant,
+                      ),
+                      extensionSet: _extensionSet,
+                      syntaxHighlighter: highlighterTheme != null
+                          ? _SyntaxHighlighter(
+                              language: "dart",
+                              theme: highlighterTheme,
+                              style: typescaleTheme.bodyMedium
+                                  .toTextStyle()
+                                  .copyWith(
+                                    fontFamily: Fonts.firaCode,
+                                    fontWeight: FontWeight.w400,
+                                    fontVariations: const [
+                                      FontVariation.weight(400.0),
+                                    ],
+                                  ),
+                            )
+                          : null,
+                      onTapLink: (text, href, title) async {
+                        if (href == null) return;
+                        final url = Uri.tryParse(href);
+                        if (url == null) return;
+                        await launchUrl(url);
+                      },
+                      styleSheet: MarkdownStyleSheet(
+                        p: typescaleTheme.bodyMedium.toTextStyle(
+                          color: colorTheme.onSurface,
+                        ),
+                        a: TextStyle(
+                          color: colorTheme.tertiary,
+                          decoration: TextDecoration.underline,
+                          decorationColor: colorTheme.tertiary,
+                          decorationStyle: TextDecorationStyle.dotted,
+                        ),
+                        h1: typescaleTheme.displayMediumEmphasized
+                            .toTextStyle(),
+                        h1Padding: EdgeInsets.zero,
+                        h2: typescaleTheme.displaySmallEmphasized.toTextStyle(),
+                        h2Padding: EdgeInsets.zero,
+                        h3: typescaleTheme.headlineSmallEmphasized
+                            .toTextStyle(),
+                        h3Padding: EdgeInsets.zero,
+                        code: const TextStyle(
+                          inherit: true,
+                          fontFamily: Fonts.firaCode,
+                          fontWeight: FontWeight.w500,
+                          fontVariations: [FontVariation.weight(500.0)],
+                        ),
+                        codeblockDecoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadiusGeometry.circular(16.0),
+                            side: BorderSide(color: colorTheme.outlineVariant),
+                          ),
+                          color: colorTheme.surfaceContainerLow,
+                        ),
+                        codeblockPadding: const EdgeInsets.all(16.0),
+                      ),
+                      builder: (context, children) => SliverList.list(
+                        addAutomaticKeepAlives: false,
+                        addRepaintBoundaries: false,
+                        children: children ?? const [],
+                      ),
+                    );
+                  },
+                );
+              },
             ),
           ),
         ],
       ),
     );
   }
+}
+
+class _SyntaxHighlighter implements SyntaxHighlighter {
+  _SyntaxHighlighter({required this.language, required this.theme, this.style})
+    : _highlighter = Highlighter(language: language, theme: theme);
+
+  final String language;
+  final HighlighterTheme theme;
+  final TextStyle? style;
+
+  final Highlighter _highlighter;
+
+  @override
+  TextSpan format(String source) {
+    final result = _highlighter.highlight(source);
+    if (style == null) return result;
+    return TextSpan(style: style, children: [result]);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        runtimeType == other.runtimeType &&
+            other is _SyntaxHighlighter &&
+            language == other.language &&
+            theme == other.theme &&
+            style == other.style;
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, language, theme, style);
 }
 
 class DeveloperMarkdown2Page extends StatefulWidget {
@@ -618,6 +765,19 @@ No significant changes were made to Markdown stylesheets yet, because the update
 
 This section contains the list of projects that are planned to be implemented.
 
+### User-facing changes
+
+- [ ] Migrate to a new localization file structure
+  - [ ] Develop a new localization file structure to use with [`slang`](https://pub.dev/packages/slang)
+  - [ ] Create a Dart script which remaps [`easy_localization`](https://pub.dev/packages/easy_localization) files to the new localization structure (to preserve some of the existing translations)
+  - [ ] Intermediate steps (TBA)
+  - [ ] Start accepting localization contributions
+
+### New features
+
+- [ ] Add the ability to require biometric authentication upon opening the app via the [`local_auth`](https://pub.dev/packages/local_auth) package
+- [ ] Cookie Manager - a way for users to obtain and store cookies for any website. The cookies will be used globally across the app for all web requests
+
 ### Material 3 Expressive
 
 Many Material widgets used still come from Flutter's Material library. The long-standing goal of this project is to get rid of the dependency on Flutter's Material library. It is considered "legacy" in the scope of this repository (it's not actually deprecated).
@@ -626,37 +786,73 @@ Here's a list of widgets that are planned to have a custom implementation:
 - [ ] Switch (`Switch`)
   - [x] Support default style
   - [ ] Support theming
-
 - [ ] Checkbox (`Checkbox`)
   - [x] Support default style
   - [ ] Support theming
-
 - [ ] Radio button (`RadioButton`)
   - [x] Support default style
   - [ ] Support theming
-
 - [ ] Common buttons (`Button` and `ToggleButton`)
   - [x] Support default style
   - [ ] Support theming
-
 - [ ] Icon buttons (`IconButton` and `IconToggleButton`)
   - [x] Support default style
   - [ ] Support theming
-
 - [ ] Standard button group (`StandardButtonGroup`)
   - One of the most complex widgets to implement, will probably require a custom render object. In that case children will be required to support dry layout.
-
 - [ ] Connected button group (`ConnectedButtonGroup`)
-
-- [ ] FAB
-
-- [ ] FAB menu
-
-- [ ] App bar
+- [ ] FAB (`FloatingActionButton`)
+- [ ] FAB menu (`FloatingActionButtonMenu`)
+- [ ] App bar (`AppBar`)
   - [x] Implement using existing `SliverAppBar`
   - [ ] Improve title layout to account for actions
   - [ ] Fully custom implementation (must use `SliverPersistentHeader` under the hood)
+- [ ] Loading indicator (`LoadingIndicator`)
+  - [x] Port `androidx.graphics.shapes` and `androidx.compose.material3.MaterialShapes` libraries
+  - [x] Use a placeholder implementation
+  - [ ] Create a complete implementation
+- [ ] Progress indicators
+  - [ ] Linear progress indicator (`LinearProgressIndicator`)
+    - [x] Use a placeholder implementation
+    - [ ] Flat shape (`LinearProgressIndicator`)
+    - [ ] Wavy shape (`LinearWavyProgressIndicator`)
+    - [ ] Implement complex transition logic (`LinearProgressIndicatorController`)
+  - [ ] Circular progress indicator
+    - [x] Use a placeholder implementation
+    - [ ] Flat shape (`CircularProgressIndicator`)
+    - [ ] Wavy shape (`CircularWavyProgressIndicator`)
+    - [ ] Implement complex transition logic (`CircularProgressIndicatorController`)
 
+### Internal changes
+
+These changes are expected to not affect the user experience. They include various architecural and structural changes to the project.
+
+Here's a tree-like checklist of the changes expected to be implemented in the near future:
+
+- [ ] Migrate from [`easy_localization`](https://pub.dev/packages/easy_localization) to [`slang`](https://pub.dev/packages/slang) localization solution
+  - [x] Create workspace [`obtainium_i18n`](./obtainium_i18n) package
+  - [x] Set up [`slang`](https://pub.dev/packages/slang) in the workspace package
+  - [ ] Create a Dart script which migrates [`easy_localization`](https://pub.dev/packages/easy_localization) to [`slang`](https://pub.dev/packages/slang) localization files
+  - [ ] Add tests for the migrated localizations
+  - [ ] Migrate application code to use [`slang`](https://pub.dev/packages/slang) generated localizations
+  - [ ] Completely remove the [`easy_localization`](https://pub.dev/packages/easy_localization) dependency
+  - [ ] Clean up [`assets/translations`](./assets/translations) directory
+- [ ] Migrate from [`http`](https://pub.dev/packages/http) to [`dio`](https://pub.dev/packages/dio) package
+
+### Organization
+
+The following list contains changes regarding the project's repository:
+
+- [ ] Modernize issue temlates
+- [ ] Create pull request templates
+- [ ] Set up discussions
+- [ ] Start accepting open-source contributions
+- [ ] Consider choosing a different name for the app to further deviate from the original project
+- [ ] Set up [**Renovate CLI**](https://github.com/renovatebot/renovate)
+  - [ ] Install [**Renovate**](https://github.com/apps/renovate) GitHub app in this repository
+### Miscellaneous
+
+- [ ] Create a website for the app
 
 | a | b | c |
 | - | - | - |
@@ -694,246 +890,6 @@ class SliverMarkdown extends MarkdownWidget {
   }
 }
 ```
-""";
-
-const String _readme = r"""
-> [!IMPORTANT]
-> You are viewing a fork of the original **Obtainium** project.
->
-> If you are looking for the original, proceed to [**ImranR98/Obtainium**](https://github.com/ImranR98/Obtainium).
->
-> To view details about this fork, go to the [**Fork**](#fork) section.
-
-<div align="center">
-  <img width="96" height="96" src="./assets/graphics/icon_small.png" alt="Obtainium Icon">
-  <h3>Obtainium</h3>
-  <p>Get Android app updates straight from the source.</p>
-  <h6>
-    Original by
-    <a href="https://github.com/ImranR98"><b>ImranR98</b></a>
-    · Modified by
-    <a href="https://github.com/deminearchiver"><b>deminearchiver</b></a>
-  </h6>
-  <p>
-    <a href="https://github.com/deminearchiver/Obtainium/issues/new?template=bug_report.md">Report a bug</a>
-    ·
-    <a href="https://github.com/deminearchiver/Obtainium/issues/new?template=feature_request.md">Request a feature</a>
-  </p>
-</div>
-
-<details>
-  <summary>
-    <h3>Table of contents</h3>
-  </summary>
-
-- [Fork](#fork)
-  - [Self-built only](#self-built-only)
-    - [What about codesigning?](#what-about-codesigning)
-  - [Redesign](#redesign)
-    - [Material 3 Expressive](#material-3-expressive)
-    - [Markdown styles update](#markdown-styles-update)
-  - [Internal changes](#internal-changes)
-  - [Other](#other)
-- [Roadmap](#roadmap)
-  - [Material 3 Expressive](#material-3-expressive-1)
-- [About](#about)
-  - [Useful links](#useful-links)
-  - [Supported app sources](#supported-app-sources)
-    - [Open Source (general)](#open-source-general)
-    - [Other (general)](#other-general)
-    - [Other (app-specific)](#other-app-specific)
-    - [Direct APK Link](#direct-apk-link)
-    - [HTML](#html)
-- [Finding app configurations](#finding-app-configurations)
-- [Limitations](#limitations)
-</details>
-
-## Fork
-
-The repository you are currenly viewing [**deminearchiver/Obtainium**](https://github.com/deminearchiver/Obtainium) is a **fork** of [**ImranR98/Obtainium**](https://github.com/ImranR98/Obtainium).
-
-In this section the primary differences and deviations compared to the original project are described.
-
-### Self-built only
-
-Unfortunately, this fork does not provide any builds. If you want to use this version the app, you'll have to build it from source.
-
-#### What about codesigning?
-
-For the time being, it's recommended to use the default "debug" keystore for release builds, as redistribution of builds is not provided.
-
-### Redesign
-
-The redesign of the app is introduced through incremental adoption, which involves introducing changes gradually.
-
-#### Material 3 Expressive
-
-This version of the app features the all-new fresh and shiny [**Material 3 Expressive**](https://m3.material.io) open-source design system created at **Google**.
-
-The [**2025 "Expressive" update**](https://m3.material.io/blog/building-with-m3-expressive) the Material You design system received a big update, which made it look more polished and finished.
-
-Currently, implementation of **Material 3 Expressive** design across the app is considered incomplete, but over time the support for the new design language will improve.
-
-The design changes begin with refactoring the code for a certain UI element, then using legacy styling methods to achieve wanted looks. In order to fully embrace the new design language, it's needed to create new implementations for certain UI elements. This process is slow and tedious, hence the adoption of the new design language will be split a number of migration steps depending on the specific component's complexity. In the process of the redesign, the UI may looks incomplete, but it's the only way to properly apply design changes currently.
-
-#### Markdown styles update
-
-The app uses Markdown to display certain rich text messages, namely changelogs for tracked apps.
-
-While not a part of the Material Design spec, a refresh of the default Markdown styles is urgently needed.
-
-The priority of this change is low, because Markdown is rarely encountered throughout the app normally.
-
-No significant changes were made to Markdown stylesheets yet, because the update is at the design stage.
-
-
-### Internal changes
-
-This fork features important developer-facing changes, such as:
-
-- Differences in the process of building the app.
-
-- Updated tooling configurations:
-  - Removal of Docked support.
-  - Framework and SDK updates.
-
-- Code style updates:
-  - General improvement of code quality.
-  - Application of widely known best practices.
-  - Added support for EditorConfig.
-
-- Resolving feature deprecations *(and introducing new ones)*.
-
-- Source code splitting via [internal unpublished packages](https://docs.flutter.dev/packages-and-plugins/using-packages#dependencies-on-unpublished-packages), such as custom implementations of layout, UI, platform interfaces, internationalization, assets.
-
-### Other
-
-Currently, there are a lot of changes not yet covered in this section, which means that this section is incomplete. The changelist will be updated and more changes will be described.
-
-## Roadmap
-
-This section contains the list of projects that are planned to be implemented.
-
-### Material 3 Expressive
-
-Many Material widgets used still come from Flutter's Material library. The long-standing goal of this project is to get rid of the dependency on Flutter's Material library. It is considered "legacy" in the scope of this repository (it's not actually deprecated).
-
-Here's a list of widgets that are planned to have a custom implementation:
-- [ ] Switch (`Switch`)
-  - [x] Support default style
-  - [ ] Support theming
-- [ ] Checkbox (`Checkbox`)
-  - [x] Support default style
-  - [ ] Support theming
-- [ ] Radio button (`RadioButton`)
-  - [x] Support default style
-  - [ ] Support theming
-- [ ] Common buttons (`Button` and `ToggleButton`)
-  - [x] Support default style
-  - [ ] Support theming
-- [ ] Icon buttons (`IconButton` and `IconToggleButton`)
-  - [x] Support default style
-  - [ ] Support theming
-- [ ] Standard button group (`StandardButtonGroup`)
-  - One of the most complex widgets to implement, will probably require a custom render object. In that case children will be required to support dry layout.
-- [ ] Connected button group (`ConnectedButtonGroup`)
-- [ ] FAB
-- [ ] FAB menu
-- [ ] App bar
-  - [x] Implement using existing `SliverAppBar`
-  - [ ] Improve title layout to account for actions
-  - [ ] Fully custom implementation (must use `SliverPersistentHeader` under the hood)
-
-<!-- ### Organization
-
-This list contains changes regarding the project's repository. -->
-
-## About
-
-Obtainium allows you to install and update apps directly from their releases pages, and receive notifications when new releases are made available.
-
-### Useful links
-
-- [Obtainium Wiki](https://wiki.obtainium.imranr.dev/) ([repository](https://github.com/ImranR98/Obtainium-Wiki))
-- [Obtainium 101](https://www.youtube.com/watch?v=0MF_v2OBncw) - Tutorial video
-- [AppVerifier](https://github.com/soupslurpr/AppVerifier) - App verification tool (recommended, integrates with Obtainium)
-- [apps.obtainium.imranr.dev](https://apps.obtainium.imranr.dev/) - Crowdsourced app configurations ([repository](https://github.com/ImranR98/apps.obtainium.imranr.dev))
-- [Side Of Burritos - You should use this instead of F-Droid | How to use app RSS feed](https://youtu.be/FFz57zNR_M0) - Original motivation for this app
-- [Website](https://obtainium.imranr.dev) ([repository](https://github.com/ImranR98/obtainium.imranr.dev))
-- [Source code](https://github.com/ImranR98/Obtainium)
-
-### Supported app sources
-
-#### Open Source (general)
-
-- [GitHub](https://github.com/)
-- [GitLab](https://gitlab.com/)
-- [Forgejo](https://forgejo.org/) ([Codeberg](https://codeberg.org/))
-- [F-Droid](https://f-droid.org/) and third-party repos
-- [IzzyOnDroid](https://android.izzysoft.de/)
-- [SourceHut](https://git.sr.ht/)
-
-#### Other (general)
-
-- [APKPure](https://apkpure.net/)
-- [Aptoide](https://aptoide.com/)
-- [Uptodown](https://uptodown.com/)
-- [Huawei AppGallery](https://appgallery.huawei.com/)
-- [Tencent App Store](https://sj.qq.com/)
-- [CoolApk](https://coolapk.com/)
-- [vivo App Store (CN)](https://h5.appstore.vivo.com.cn/)
-- [RuStore](https://rustore.ru/)
-- [Farsroid](https://www.farsroid.com)
-- Jenkins Jobs
-- [APKMirror](https://apkmirror.com/) (Track-Only)
-
-#### Other (app-specific)
-
-- [Telegram App](https://telegram.org/)
-- [Neutron Code](https://neutroncode.com/)
-
-#### Direct APK Link
-
-#### HTML
-
-Any other URL that returns an HTML page with links to APK files
-
-## Finding app configurations
-
-You can find crowdsourced app configurations at [**apps.obtainium.imranr.dev**](https://apps.obtainium.imranr.dev).
-
-If you can't find the configuration for an app you want, feel free to leave a request on the [**Discussions page**](https://github.com/ImranR98/apps.obtainium.imranr.dev/discussions/new?category=app-requests).
-
-Or, contribute some configurations to the website by creating a PR at [**ImranR98/apps.obtainium.imranr.dev**](https://github.com/ImranR98/apps.obtainium.imranr.dev).
-
-<!-- ## Installation
-
-[<img src="https://raw.githubusercontent.com/NeoApplications/Neo-Backup/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png"
-    alt="Get it on GitHub"
-    height="80">](https://github.com/ImranR98/Obtainium/releases)
-[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
-     alt="Get it on IzzyOnDroid"
-     height="80">](https://apt.izzysoft.de/fdroid/index/apk/dev.imranr.obtainium)
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-    alt="Get it on F-Droid"
-    height="80">](https://f-droid.org/packages/dev.imranr.obtainium.fdroid/)
-
-Verification info:
-- Package ID: `dev.imranr.obtainium`
-- SHA-256 hash of signing certificate: `B3:53:60:1F:6A:1D:5F:D6:60:3A:E2:F5:0B:E8:0C:F3:01:36:7B:86:B6:AB:8B:1F:66:24:3D:A9:6C:D5:73:62`
-  - Note: The above signature is also valid for the F-Droid flavour of Obtainium, thanks to [reproducible builds](https://f-droid.org/docs/Reproducible_Builds/).
-- [PGP Public Key](https://keyserver.ubuntu.com/pks/lookup?search=contact%40imranr.dev&fingerprint=on&op=index) (to verify APK hashes) -->
-
-## Limitations
-
-For some sources, data is gathered using Web scraping and can easily break due to changes in website design. In such cases, more reliable methods may be unavailable.
-
-<!-- ## Screenshots
-
-| <img src="./assets/screenshots/1.apps.png" alt="Apps Page" /> | <img src="./assets/screenshots/2.dark_theme.png" alt="Dark Theme" />           | <img src="./assets/screenshots/3.material_you.png" alt="Material You" />    |
-| ------------------------------------------------------ | ----------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| <img src="./assets/screenshots/4.app.png" alt="App Page" />   | <img src="./assets/screenshots/5.app_opts.png" alt="App Options" /> | <img src="./assets/screenshots/6.app_webview.png" alt="App Web View" /> | -->
-
 """;
 
 const String _markdownIt = r"""---
