@@ -25,8 +25,8 @@ const _kMorphRotationAngle = _kSingleRotationAngle - _kLinearRotationAngle;
 /// a background container.
 /// - *_Contained_*. The active loading indicator is displayed over a container
 /// surface.
-class LoadingIndicator extends StatefulWidget {
-  const LoadingIndicator._({
+class IndeterminateLoadingIndicator extends StatefulWidget {
+  const IndeterminateLoadingIndicator._({
     required bool isContained,
     this.indicatorPolygons,
     this.activeIndicatorColor,
@@ -39,8 +39,8 @@ class LoadingIndicator extends StatefulWidget {
          'indicatorPolygons should have, at least, two RoundedPolygons',
        );
 
-  /// Creates a default (non-contained) version of [LoadingIndicator].
-  const LoadingIndicator({
+  /// Creates a default (non-contained) version of [IndeterminateLoadingIndicator].
+  const IndeterminateLoadingIndicator({
     List<RoundedPolygon>? indicatorPolygons,
     Color? activeIndicatorColor,
     Color? containerColor,
@@ -55,8 +55,8 @@ class LoadingIndicator extends StatefulWidget {
          key: key,
        );
 
-  /// Creates a contained version of [LoadingIndicator].
-  const LoadingIndicator.contained({
+  /// Creates a contained version of [IndeterminateLoadingIndicator].
+  const IndeterminateLoadingIndicator.contained({
     List<RoundedPolygon>? indicatorPolygons,
     Color? activeIndicatorColor,
     Color? containerColor,
@@ -76,7 +76,7 @@ class LoadingIndicator extends StatefulWidget {
 
   /// Color of the active indicator shape.
   ///
-  /// If [LoadingIndicator.activeIndicatorColor] is null, the value from
+  /// If [IndeterminateLoadingIndicator.activeIndicatorColor] is null, the value from
   /// [LoadingIndicatorThemeData.indicatorColor] in the ambient theme is
   /// used. If that is also null, the color defaults to [ColorScheme.primary]
   /// for non-contained indicators, and to [ColorScheme.onPrimaryContainer] for
@@ -85,7 +85,7 @@ class LoadingIndicator extends StatefulWidget {
 
   /// Color of the background container.
   ///
-  /// If [LoadingIndicator.containerColor] is null, the value from
+  /// If [IndeterminateLoadingIndicator.containerColor] is null, the value from
   /// [LoadingIndicatorThemeData.containedContainerColor] in the ambient theme is used.
   /// If that is also null, the color defaults to
   /// [ColorScheme.primaryContainer].
@@ -102,17 +102,17 @@ class LoadingIndicator extends StatefulWidget {
   ///
   /// The loading indicator expects at least two items in this list.
   ///
-  /// Defaults to [LoadingIndicator.indeterminateIndicatorPolygons].
+  /// Defaults to [IndeterminateLoadingIndicator.indeterminateIndicatorPolygons].
   final List<RoundedPolygon>? indicatorPolygons;
 
   List<RoundedPolygon> get _indicatorPolygons =>
       indicatorPolygons ?? indeterminateIndicatorPolygons;
 
   /// The sequence of [RoundedPolygon]s that the indeterminate
-  /// [LoadingIndicator] will morph between when animating.
+  /// [IndeterminateLoadingIndicator] will morph between when animating.
   ///
   /// This list is used as the default value for the
-  /// [LoadingIndicator.indicatorPolygons] parameter when none is explicitly
+  /// [IndeterminateLoadingIndicator.indicatorPolygons] parameter when none is explicitly
   /// provided.
   static final List<RoundedPolygon> indeterminateIndicatorPolygons =
       UnmodifiableListView([
@@ -125,16 +125,18 @@ class LoadingIndicator extends StatefulWidget {
         MaterialShapes.oval,
       ]);
 
-  /// The sequence of [RoundedPolygon]s that the determinate [LoadingIndicator]
+  /// The sequence of [RoundedPolygon]s that the determinate [IndeterminateLoadingIndicator]
   /// will morph between when animating.
   static final List<RoundedPolygon> determinateIndicatorPolygons =
       UnmodifiableListView([MaterialShapes.circle, MaterialShapes.softBurst]);
 
   @override
-  State<LoadingIndicator> createState() => _LoadingIndicatorState();
+  State<IndeterminateLoadingIndicator> createState() =>
+      _IndeterminateLoadingIndicatorState();
 }
 
-class _LoadingIndicatorState extends State<LoadingIndicator>
+class _IndeterminateLoadingIndicatorState
+    extends State<IndeterminateLoadingIndicator>
     with SingleTickerProviderStateMixin {
   final _globalAngle = ValueNotifier<double>(0);
 
@@ -192,7 +194,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
   }
 
   @override
-  void didUpdateWidget(LoadingIndicator oldWidget) {
+  void didUpdateWidget(IndeterminateLoadingIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (!listEquals(widget.indicatorPolygons, oldWidget.indicatorPolygons)) {
       _initMorphs();

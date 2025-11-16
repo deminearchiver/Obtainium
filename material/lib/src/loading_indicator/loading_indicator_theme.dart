@@ -1,6 +1,6 @@
 import 'package:material/src/flutter.dart';
 
-/// Defines the visual properties of [LoadingIndicator] widgets.
+/// Defines the visual properties of [IndeterminateLoadingIndicator] widgets.
 ///
 /// Used by [LoadingIndicatorTheme] to control the visual properties of
 /// loading indicators in a widget subtree.
@@ -14,7 +14,7 @@ import 'package:material/src/flutter.dart';
 ///    theme down its subtree.
 @immutable
 class LoadingIndicatorThemeData with Diagnosticable {
-  /// Creates the set of properties used to configure [LoadingIndicator]
+  /// Creates the set of properties used to configure [IndeterminateLoadingIndicator]
   /// widgets.
   const LoadingIndicatorThemeData({
     this.indicatorColor,
@@ -22,18 +22,18 @@ class LoadingIndicatorThemeData with Diagnosticable {
     this.containedContainerColor,
   });
 
-  /// The color of the uncontained [LoadingIndicator]'s active indicator.
+  /// The color of the uncontained [IndeterminateLoadingIndicator]'s active indicator.
   ///
   /// If null, the active indicator color will default to [ColorThemeData.primary]
   final Color? indicatorColor;
 
-  /// The color of the contained [LoadingIndicator]'s active indicator.
+  /// The color of the contained [IndeterminateLoadingIndicator]'s active indicator.
   ///
   /// If null, the active indicator color will default to
   /// [ColorThemeData.onPrimaryContainer]
   final Color? containedIndicatorColor;
 
-  /// The color of the [LoadingIndicator]'s container.
+  /// The color of the [IndeterminateLoadingIndicator]'s container.
   ///
   /// If null, then the ambient theme's [ColorScheme.primaryContainer]
   /// will be used to draw the container.
@@ -127,10 +127,10 @@ class LoadingIndicatorThemeData with Diagnosticable {
   );
 }
 
-/// An inherited widget that defines the configuration for [LoadingIndicator]s
+/// An inherited widget that defines the configuration for [IndeterminateLoadingIndicator]s
 /// in this widget's subtree.
 ///
-/// Values specified here are used for [LoadingIndicator] properties that are
+/// Values specified here are used for [IndeterminateLoadingIndicator] properties that are
 /// not given an explicit non-null value.
 ///
 /// {@tool snippet}
@@ -148,7 +148,7 @@ class LoadingIndicatorThemeData with Diagnosticable {
 /// ```
 /// {@end-tool}
 class LoadingIndicatorTheme extends InheritedTheme {
-  /// Creates a theme that controls the configurations for [LoadingIndicator]
+  /// Creates a theme that controls the configurations for [IndeterminateLoadingIndicator]
   /// widgets.
   const LoadingIndicatorTheme({
     super.key,
@@ -156,7 +156,7 @@ class LoadingIndicatorTheme extends InheritedTheme {
     required super.child,
   });
 
-  /// The properties for descendant [LoadingIndicator] widgets.
+  /// The properties for descendant [IndeterminateLoadingIndicator] widgets.
   final LoadingIndicatorThemeData data;
 
   @override

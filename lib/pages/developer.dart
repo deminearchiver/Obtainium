@@ -450,7 +450,7 @@ class _DeveloperMarkdown1PageState extends State<DeveloperMarkdown1Page> {
                         Flexible.space(flex: 1.0),
                         SizedBox.square(
                           dimension: 160.0,
-                          child: LoadingIndicator.contained(),
+                          child: IndeterminateLoadingIndicator.contained(),
                         ),
                         Flexible.space(flex: 3.0),
                       ],
@@ -2421,13 +2421,13 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                                 const Flexible.tight(
                                   child: FittedBox(
                                     fit: BoxFit.contain,
-                                    child: LoadingIndicator(),
+                                    child: IndeterminateLoadingIndicator(),
                                   ),
                                 ),
                                 Flexible.tight(
                                   child: FittedBox(
                                     fit: BoxFit.contain,
-                                    child: LoadingIndicator(
+                                    child: IndeterminateLoadingIndicator(
                                       indicatorPolygons:
                                           _indeterminateIndicatorPolygons1,
                                     ),
@@ -2436,7 +2436,7 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                                 Flexible.tight(
                                   child: FittedBox(
                                     fit: BoxFit.contain,
-                                    child: LoadingIndicator(
+                                    child: IndeterminateLoadingIndicator(
                                       indicatorPolygons:
                                           _indeterminateIndicatorPolygons2,
                                     ),
@@ -2505,25 +2505,28 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                                 const Flexible.tight(
                                   child: FittedBox(
                                     fit: BoxFit.contain,
-                                    child: LoadingIndicator.contained(),
+                                    child:
+                                        IndeterminateLoadingIndicator.contained(),
                                   ),
                                 ),
                                 Flexible.tight(
                                   child: FittedBox(
                                     fit: BoxFit.contain,
-                                    child: LoadingIndicator.contained(
-                                      indicatorPolygons:
-                                          _indeterminateIndicatorPolygons1,
-                                    ),
+                                    child:
+                                        IndeterminateLoadingIndicator.contained(
+                                          indicatorPolygons:
+                                              _indeterminateIndicatorPolygons1,
+                                        ),
                                   ),
                                 ),
                                 Flexible.tight(
                                   child: FittedBox(
                                     fit: BoxFit.contain,
-                                    child: LoadingIndicator.contained(
-                                      indicatorPolygons:
-                                          _indeterminateIndicatorPolygons2,
-                                    ),
+                                    child:
+                                        IndeterminateLoadingIndicator.contained(
+                                          indicatorPolygons:
+                                              _indeterminateIndicatorPolygons2,
+                                        ),
                                   ),
                                 ),
                               ],
