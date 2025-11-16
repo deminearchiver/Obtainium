@@ -9,7 +9,6 @@ import 'package:material/material_shapes.dart';
 
 import 'package:obtainium/components/custom_app_bar.dart';
 import 'package:obtainium/components/custom_list.dart';
-import 'package:obtainium/components/custom_loading_indicator.dart';
 import 'package:obtainium/components/custom_markdown.dart';
 import 'package:obtainium/flutter.dart';
 
