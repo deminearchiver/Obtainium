@@ -187,7 +187,9 @@ class _SettingsPageState extends State<SettingsPage> {
           },
           title: Text(
             tr('selectX', args: [tr('colour').toLowerCase()]),
-            style: typescaleTheme.titleLarge.toTextStyle(),
+            style: typescaleTheme.titleLarge.toTextStyle(
+              color: colorTheme.onSurface,
+            ),
           ),
           wheelDiameter: 192,
           wheelSquareBorderRadius: 32,
@@ -205,6 +207,10 @@ class _SettingsPageState extends State<SettingsPage> {
           copyPasteBehavior: const ColorPickerCopyPasteBehavior(
             longPressMenu: true,
           ),
+          pickerTypeTextStyle: typescaleTheme.labelLarge.toTextStyle(
+            color: colorTheme.onSecondaryContainer,
+          ),
+          selectedPickerTypeColor: colorTheme.secondary,
         ).showPickerDialog(
           context,
           transitionDuration: const Duration(milliseconds: 500),

@@ -445,7 +445,7 @@ class _DeveloperMarkdown1PageState extends State<DeveloperMarkdown1Page> {
                         Flexible.space(flex: 1.0),
                         SizedBox.square(
                           dimension: 160.0,
-                          child: LoadingIndicator(),
+                          child: LoadingIndicator.contained(),
                         ),
                         Flexible.space(flex: 3.0),
                       ],
