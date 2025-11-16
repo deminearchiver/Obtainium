@@ -253,7 +253,8 @@ class _CustomMarkdownWidgetState extends State<CustomMarkdownWidget>
   void didUpdateWidget(covariant CustomMarkdownWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.nodes != oldWidget.nodes ||
-        widget.styleSheet != oldWidget.styleSheet) {
+        widget.styleSheet != oldWidget.styleSheet ||
+        widget.syntaxHighlighter != oldWidget.syntaxHighlighter) {
       _parseMarkdown();
     }
   }
