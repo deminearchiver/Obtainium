@@ -26,8 +26,21 @@ const _kMorphRotationAngle = _kSingleRotationAngle - _kLinearRotationAngle;
 /// - *_Contained_*. The active loading indicator is displayed over a container
 /// surface.
 class LoadingIndicator extends StatefulWidget {
+  const LoadingIndicator._({
+    required bool isContained,
+    this.indicatorPolygons,
+    this.activeIndicatorColor,
+    this.containerColor,
+    this.semanticsLabel,
+    super.key,
+  }) : _isContained = isContained,
+       assert(
+         indicatorPolygons == null || indicatorPolygons.length > 1,
+         'indicatorPolygons should have, at least, two RoundedPolygons',
+       );
+
   /// Creates a default (non-contained) version of [LoadingIndicator].
-  LoadingIndicator({
+  const LoadingIndicator({
     List<RoundedPolygon>? indicatorPolygons,
     Color? activeIndicatorColor,
     Color? containerColor,
@@ -43,7 +56,7 @@ class LoadingIndicator extends StatefulWidget {
        );
 
   /// Creates a contained version of [LoadingIndicator].
-  LoadingIndicator.contained({
+  const LoadingIndicator.contained({
     List<RoundedPolygon>? indicatorPolygons,
     Color? activeIndicatorColor,
     Color? containerColor,
@@ -56,21 +69,6 @@ class LoadingIndicator extends StatefulWidget {
          containerColor: containerColor,
          semanticsLabel: semanticsLabel,
          key: key,
-       );
-
-  LoadingIndicator._({
-    required bool isContained,
-    List<RoundedPolygon>? indicatorPolygons,
-    this.activeIndicatorColor,
-    this.containerColor,
-    this.semanticsLabel,
-    super.key,
-  }) : _isContained = isContained,
-       indicatorPolygons =
-           indicatorPolygons ?? LoadingIndicator.indeterminateIndicatorPolygons,
-       assert(
-         indicatorPolygons == null || indicatorPolygons.length > 1,
-         'indicatorPolygons should have, at least, two RoundedPolygons',
        );
 
   /// Whether this indicator is contained.
@@ -105,7 +103,10 @@ class LoadingIndicator extends StatefulWidget {
   /// The loading indicator expects at least two items in this list.
   ///
   /// Defaults to [LoadingIndicator.indeterminateIndicatorPolygons].
-  final List<RoundedPolygon> indicatorPolygons;
+  final List<RoundedPolygon>? indicatorPolygons;
+
+  List<RoundedPolygon> get _indicatorPolygons =>
+      indicatorPolygons ?? indeterminateIndicatorPolygons;
 
   /// The sequence of [RoundedPolygon]s that the indeterminate
   /// [LoadingIndicator] will morph between when animating.
@@ -220,11 +221,11 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
     _morphIndex.value = 0;
 
     _morphs.clear();
-    for (var i = 0; i < widget.indicatorPolygons.length; i++) {
+    for (var i = 0; i < widget._indicatorPolygons.length; i++) {
       _morphs.add(
         Morph(
-          widget.indicatorPolygons[i],
-          widget.indicatorPolygons[(i + 1) % widget.indicatorPolygons.length],
+          widget._indicatorPolygons[i],
+          widget._indicatorPolygons[(i + 1) % widget._indicatorPolygons.length],
         ),
       );
     }
@@ -235,7 +236,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
     // clipping and at the correct ratio within the component by taking into
     // account their occupied size as they rotate, and taking into account the
     // spec's _kActiveIndicatorScale.
-    _morphScaleFactor = _calculateScaleFactor(widget.indicatorPolygons);
+    _morphScaleFactor = _calculateScaleFactor(widget._indicatorPolygons);
   }
 
   /// Calculates a scale factor that will be used when scaling the provided
