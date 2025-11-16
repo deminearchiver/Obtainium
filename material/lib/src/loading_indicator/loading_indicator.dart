@@ -398,6 +398,9 @@ class DeterminateLoadingIndicator extends StatefulWidget {
     super.key,
     required this.progress,
     this.indicatorPolygons,
+    this.contained = false,
+    this.containerColor,
+    this.indicatorColor,
   }) : assert(progress >= 0.0 && progress <= 1.0),
        assert(
          indicatorPolygons == null || indicatorPolygons.length >= 2,
@@ -406,6 +409,11 @@ class DeterminateLoadingIndicator extends StatefulWidget {
 
   final double progress;
   final List<RoundedPolygon>? indicatorPolygons;
+
+  final bool contained;
+
+  final Color? containerColor;
+  final Color? indicatorColor;
 
   List<RoundedPolygon> get _indicatorPolygons =>
       indicatorPolygons ?? _determinateIndicatorPolygons;
@@ -470,6 +478,18 @@ class _DeterminateLoadingIndicatorState
     final elevationTheme = ElevationTheme.of(context);
     final shapeTheme = ShapeTheme.of(context);
 
+    final indicatorTheme = LoadingIndicatorTheme.maybeOf(context);
+
+    final indicatorColor =
+        widget.indicatorColor ??
+        indicatorTheme?.indicatorColor ??
+        (widget.contained ? colorTheme.onPrimaryContainer : colorTheme.primary);
+
+    final containerColor =
+        widget.containerColor ??
+        indicatorTheme?.containedContainerColor ??
+        colorTheme.primaryContainer;
+
     // Adjust the active morph index according to the progress.
     final activeMorphIndex = math.min(
       (_morphSequence.length * _progressValue).toInt(),
@@ -505,9 +525,11 @@ class _DeterminateLoadingIndicatorState
             shape: CornersBorder.rounded(
               corners: Corners.all(shapeTheme.corner.full),
             ),
-            color: colorTheme.primaryContainer,
-            elevation: elevationTheme.level0,
-            shadowColor: colorTheme.shadow,
+            color: widget.contained ? containerColor : Colors.transparent,
+            elevation: widget.contained ? elevationTheme.level0 : 0.0,
+            shadowColor: widget.contained
+                ? colorTheme.shadow
+                : Colors.transparent,
             child: CustomPaint(
               isComplex: true,
               willChange: false,
@@ -516,7 +538,7 @@ class _DeterminateLoadingIndicatorState
                 morphScaleFactor: _morphScaleFactor,
                 adjustedProgressValue: adjustedProgressValue,
                 rotation: rotation,
-                indicatorColor: ColorTheme.of(context).onPrimaryContainer,
+                indicatorColor: indicatorColor,
                 scaleMatrix: _scaleMatrix,
               ),
             ),
