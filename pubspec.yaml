@@ -102,7 +102,7 @@ dependencies:
   flutter_svg: ^2.2.2
   vector_graphics: ^1.1.19
   collection: ^1.19.1
-  syntax_highlight: ^0.4.0
+  syntax_highlight: ^0.5.0
   drift: ^2.29.0
   drift_flutter: ^0.2.7
   drift_sqflite: ^2.0.1
@@ -118,6 +118,7 @@ dev_dependencies:
 dependency_overrides:
   material_color_utilities: ^0.13.0
   meta: ^1.17.0
+  device_info_plus: ^12.2.0
 
 flutter_launcher_icons:
   android: "ic_launcher"
