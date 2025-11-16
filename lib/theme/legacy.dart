@@ -211,6 +211,7 @@ abstract final class LegacyThemeFactory {
         colorTheme: colorTheme,
         elevationTheme: elevationTheme,
         shapeTheme: shapeTheme,
+        variant: MenuVariant.vibrant,
       ),
       menuButtonTheme: createMenuButtonTheme(
         colorTheme: colorTheme,
@@ -218,6 +219,7 @@ abstract final class LegacyThemeFactory {
         shapeTheme: shapeTheme,
         stateTheme: stateTheme,
         typescaleTheme: typescaleTheme,
+        variant: MenuVariant.vibrant,
       ),
       pageTransitionsTheme: PageTransitionsTheme(
         builders: {
@@ -264,14 +266,55 @@ abstract final class LegacyThemeFactory {
     required TypescaleThemeData typescaleTheme,
     MenuVariant variant = MenuVariant.standard,
   }) {
-    final overlayColor = WidgetStateLayerColor(
+    final containerShape = WidgetStatePropertyAll(
+      CornersBorder.rounded(corners: Corners.all(shapeTheme.corner.medium)),
+    );
+    final containerColor = WidgetStateProperty.resolveWith((states) {
+      final isFocused = states.contains(WidgetState.focused);
+      return switch (variant) {
+        MenuVariant.standard =>
+          isFocused
+              ? colorTheme.tertiaryContainer
+              : colorTheme.surfaceContainerLow,
+        MenuVariant.vibrant =>
+          isFocused ? colorTheme.tertiary : colorTheme.tertiaryContainer,
+      };
+    });
+    final iconColor = WidgetStateProperty.resolveWith((states) {
+      final isFocused = states.contains(WidgetState.focused);
+      return switch (variant) {
+        MenuVariant.standard =>
+          isFocused
+              ? colorTheme.onTertiaryContainer
+              : colorTheme.onSurfaceVariant,
+        MenuVariant.vibrant =>
+          isFocused ? colorTheme.onTertiary : colorTheme.onTertiaryContainer,
+      };
+    });
+    final labelTextStyle = WidgetStateProperty.resolveWith((states) {
+      final isFocused = states.contains(WidgetState.focused);
+      return (isFocused
+              ? typescaleTheme.labelLargeEmphasized
+              : typescaleTheme.labelLarge)
+          .toTextStyle();
+    });
+    final labelTextColor = WidgetStateProperty.resolveWith((states) {
+      final isFocused = states.contains(WidgetState.focused);
+      return switch (variant) {
+        MenuVariant.standard =>
+          isFocused ? colorTheme.onTertiaryContainer : colorTheme.onSurface,
+        MenuVariant.vibrant =>
+          isFocused ? colorTheme.onTertiary : colorTheme.onTertiaryContainer,
+      };
+    });
+    final stateLayerColor = WidgetStateLayerColor(
       color: WidgetStateProperty.resolveWith((states) {
-        final isSelected = states.contains(WidgetState.selected);
+        final isFocused = states.contains(WidgetState.focused);
         return switch (variant) {
           MenuVariant.standard =>
-            isSelected ? colorTheme.onTertiaryContainer : colorTheme.onSurface,
+            isFocused ? colorTheme.onTertiaryContainer : colorTheme.onSurface,
           MenuVariant.vibrant =>
-            isSelected ? colorTheme.onTertiary : colorTheme.onTertiaryContainer,
+            isFocused ? colorTheme.onTertiary : colorTheme.onTertiaryContainer,
         };
       }),
       opacity: WidgetStateProperty.resolveWith((states) {
@@ -297,63 +340,13 @@ abstract final class LegacyThemeFactory {
         ),
         tapTargetSize: MaterialTapTargetSize.padded,
         mouseCursor: WidgetStateMouseCursor.clickable,
-        shape: WidgetStatePropertyAll(
-          CornersBorder.rounded(corners: Corners.all(shapeTheme.corner.medium)),
-        ),
-        overlayColor: overlayColor,
-        backgroundColor: WidgetStateProperty.resolveWith((states) {
-          final isSelected = states.contains(WidgetState.selected);
-          final containerColor = switch (variant) {
-            MenuVariant.standard =>
-              isSelected ? colorTheme.tertiaryContainer : Colors.transparent,
-            MenuVariant.vibrant =>
-              isSelected ? colorTheme.tertiary : colorTheme.tertiaryContainer,
-          };
-          final canShowOverlayColor =
-              states.contains(WidgetState.focused) &&
-              !states.contains(WidgetState.hovered) &&
-              !states.contains(WidgetState.pressed);
-          final resolvedOverlayColor = canShowOverlayColor
-              ? overlayColor.resolve(const {WidgetState.focused})
-              : null;
-          return resolvedOverlayColor != null
-              ? Color.alphaBlend(resolvedOverlayColor, containerColor)
-              : containerColor;
-        }),
-        foregroundColor: WidgetStateProperty.resolveWith((states) {
-          final isSelected = states.contains(WidgetState.selected);
-          return switch (variant) {
-            MenuVariant.standard =>
-              isSelected
-                  ? colorTheme.onTertiaryContainer
-                  : colorTheme.onSurface,
-            MenuVariant.vibrant =>
-              isSelected
-                  ? colorTheme.onTertiary
-                  : colorTheme.onTertiaryContainer,
-          };
-        }),
+        shape: containerShape,
+        backgroundColor: containerColor,
         iconSize: const WidgetStatePropertyAll(24.0),
-        iconColor: WidgetStateProperty.resolveWith((states) {
-          final isSelected = states.contains(WidgetState.selected);
-          return switch (variant) {
-            MenuVariant.standard =>
-              isSelected
-                  ? colorTheme.onTertiaryContainer
-                  : colorTheme.onSurfaceVariant,
-            MenuVariant.vibrant =>
-              isSelected
-                  ? colorTheme.onTertiary
-                  : colorTheme.onTertiaryContainer,
-          };
-        }),
-        textStyle: WidgetStateProperty.resolveWith((states) {
-          final isSelected = states.contains(WidgetState.selected);
-          return (isSelected
-                  ? typescaleTheme.labelLargeEmphasized
-                  : typescaleTheme.labelLarge)
-              .toTextStyle();
-        }),
+        iconColor: iconColor,
+        textStyle: labelTextStyle,
+        foregroundColor: labelTextColor,
+        overlayColor: stateLayerColor,
       ),
     );
   }

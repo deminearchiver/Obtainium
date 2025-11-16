@@ -132,7 +132,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
     final staticColors = StaticColorsData.fallback(
       variant: DynamicSchemeVariant.tonalSpot,
-      brightness: Brightness.light,
+      brightness: Theme.brightnessOf(context),
       specVersion: DynamicSchemeSpecVersion.spec2025,
     ).harmonizeWithPrimary(colorTheme);
 
@@ -1584,21 +1584,28 @@ class _LogsPage extends StatefulWidget {
 class _LogsPageState extends State<_LogsPage> {
   static const List<int> _days = <int>[7, 5, 4, 3, 2, 1];
 
-  late Stream<List<Log>> _logsDescending;
-  late Stream<List<Log>> _logsAscending;
+  int _selectedDays = _days.first;
 
-  void _filterLogs(int days) {
-    final after = DateTime.now().subtract(Duration(days: days));
-    final logsDescending = LogsProvider.instance
-        .select(after: after, orderingMode: OrderingMode.desc)
-        .watch();
-    final logsAscending = LogsProvider.instance
-        .select(after: after, orderingMode: OrderingMode.asc)
-        .watch();
-    setState(() {
-      _logsDescending = logsDescending;
-      _logsAscending = logsAscending;
-    });
+  late Stream<List<Log>> _logsDescending;
+
+  MultiSelectable<Log> _selectLogs({
+    int? days,
+    required OrderingMode orderingMode,
+  }) {
+    final after = days != null
+        ? DateTime.now().subtract(Duration(days: days))
+        : null;
+    return LogsProvider.instance.select(
+      after: after,
+      orderingMode: orderingMode,
+    );
+  }
+
+  void _refreshLogs() {
+    _logsDescending = _selectLogs(
+      days: _selectedDays,
+      orderingMode: OrderingMode.desc,
+    ).watch();
   }
 
   String _buildLogsString(List<Log> logs) {
@@ -1610,11 +1617,9 @@ class _LogsPageState extends State<_LogsPage> {
       final text =
           "[${log.level.name.toUpperCase()}] "
           "(${log.createdAt}) "
-          "${log.message}";
+          "${log.message}"
+          "${!isLast ? "\n\n" : ""}";
       buffer.write(text);
-      if (!isLast) {
-        buffer.write("\n\n");
-      }
     }
     return buffer.toString();
   }
@@ -1622,7 +1627,7 @@ class _LogsPageState extends State<_LogsPage> {
   @override
   void initState() {
     super.initState();
-    _filterLogs(_days.first);
+    _refreshLogs();
   }
 
   @override
@@ -1639,7 +1644,7 @@ class _LogsPageState extends State<_LogsPage> {
 
     final staticColors = StaticColorsData.fallback(
       variant: DynamicSchemeVariant.tonalSpot,
-      brightness: Brightness.light,
+      brightness: Theme.brightnessOf(context),
       specVersion: DynamicSchemeSpecVersion.spec2025,
     ).harmonizeWithPrimary(colorTheme);
 
@@ -1743,7 +1748,7 @@ class _LogsPageState extends State<_LogsPage> {
                       border: UnderlineInputBorder(),
                       filled: true,
                     ),
-                    initialSelection: _days.first,
+                    initialSelection: _selectedDays,
                     dropdownMenuEntries: _days
                         .map(
                           (e) => DropdownMenuEntry(
@@ -1752,8 +1757,13 @@ class _LogsPageState extends State<_LogsPage> {
                           ),
                         )
                         .toList(),
-                    onSelected: (d) {
-                      _filterLogs(d ?? 7);
+                    onSelected: (value) {
+                      if (value != null) {
+                        setState(() {
+                          _selectedDays = value;
+                          _refreshLogs();
+                        });
+                      }
                     },
                   ),
                   const SizedBox(height: 16.0),
@@ -1788,31 +1798,26 @@ class _LogsPageState extends State<_LogsPage> {
                           label: Text(tr("remove")),
                         ),
                       ),
-                      StreamBuilder(
-                        stream: _logsAscending,
-                        builder: (context, snapshot) {
-                          final logs = snapshot.data;
-                          return Flexible.tight(
-                            child: FilledButton.icon(
-                              style: actionButtonStyle,
-                              onPressed: logs != null
-                                  ? () async {
-                                      await SharePlus.instance.share(
-                                        ShareParams(
-                                          text: _buildLogsString(logs),
-                                          subject: tr("appLogs"),
-                                        ),
-                                      );
-                                    }
-                                  : null,
-                              icon: const IconLegacy(
-                                Symbols.share_rounded,
-                                fill: 1.0,
+                      Flexible.tight(
+                        child: FilledButton.icon(
+                          style: actionButtonStyle,
+                          onPressed: () async {
+                            final logsAscending = await _selectLogs(
+                              orderingMode: OrderingMode.asc,
+                            ).get();
+                            await SharePlus.instance.share(
+                              ShareParams(
+                                text: _buildLogsString(logsAscending),
+                                subject: tr("appLogs"),
                               ),
-                              label: Text(tr("share")),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                          icon: const IconLegacy(
+                            Symbols.share_rounded,
+                            fill: 1.0,
+                          ),
+                          label: Text(tr("share")),
+                        ),
                       ),
                     ],
                   ),

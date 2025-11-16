@@ -80,7 +80,7 @@ class _DeveloperPageState extends State<DeveloperPage> {
 
     final staticColors = StaticColorsData.fallback(
       variant: DynamicSchemeVariant.tonalSpot,
-      brightness: Brightness.light,
+      brightness: Theme.brightnessOf(context),
       specVersion: DynamicSchemeSpecVersion.spec2025,
     ).harmonizeWithPrimary(colorTheme);
 
@@ -1447,7 +1447,9 @@ class _SettingsAppBarState extends State<SettingsAppBar> {
                   menuChildren: [
                     MenuItemButton(
                       onPressed: () {},
-                      leadingIcon: const Icon(Symbols.reset_settings_rounded),
+                      leadingIcon: const IconLegacy(
+                        Symbols.reset_settings_rounded,
+                      ),
                       child: const Text("Reset settings"),
                     ),
                   ],
@@ -1787,9 +1789,10 @@ class _Settings2ViewState extends State<Settings2View> {
     final shapeTheme = ShapeTheme.of(context);
     final stateTheme = StateTheme.of(context);
     final typescaleTheme = TypescaleTheme.of(context);
+
     final staticColors = StaticColorsData.fallback(
       variant: DynamicSchemeVariant.tonalSpot,
-      brightness: Brightness.light,
+      brightness: Theme.brightnessOf(context),
       specVersion: DynamicSchemeSpecVersion.spec2025,
     ).harmonizeWithPrimary(colorTheme);
 
