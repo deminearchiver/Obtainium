@@ -1975,6 +1975,7 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
   @override
   Widget build(BuildContext context) {
     final colorTheme = ColorTheme.of(context);
+    final elevationTheme = ElevationTheme.of(context);
     final shapeTheme = ShapeTheme.of(context);
     final stateTheme = StateTheme.of(context);
     final typescaleTheme = TypescaleTheme.of(context);
@@ -2026,12 +2027,12 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                   child: ListItemContainer(
                     isFirst: true,
                     child: ListItemInteraction(
-                      onTap: () async {
-                        await Fluttertoast.showToast(
-                          msg: "Not yet implemented!",
-                          toastLength: Toast.LENGTH_SHORT,
-                        );
-                      },
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const _ShapeLibraryView(),
+                        ),
+                      ),
                       onLongPress: () async {
                         await launchUrlString(
                           "https://m3.material.io/styles/shape/overview-principles#579dd4ba-39f3-4e60-bd9b-1d97ed6ef1bf",
@@ -2540,6 +2541,160 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: ListItemContainer(
+                    child: Flex.vertical(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        ListItemInteraction(
+                          onTap: () async {
+                            await Fluttertoast.showToast(
+                              msg: "Not yet implemented!",
+                              toastLength: Toast.LENGTH_SHORT,
+                            );
+                          },
+                          child: ListItemLayout(
+                            isMultiline: true,
+                            leading: SizedBox.square(
+                              dimension: 40.0,
+                              child: Material(
+                                animationDuration: Duration.zero,
+                                type: MaterialType.card,
+                                clipBehavior: Clip.antiAlias,
+                                color: staticColors.blue.colorFixed,
+                                shape: const StadiumBorder(),
+                                child: Align.center(
+                                  child: Icon(
+                                    Symbols.clock_loader_60_rounded,
+                                    fill: 1.0,
+                                    color:
+                                        staticColors.blue.onColorFixedVariant,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            headline: const Text("Progress"),
+                            supportingText: const Text(
+                              "Determinate loading indicator progress",
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            16.0,
+                            8.0,
+                            16.0,
+                            16.0,
+                          ),
+                          child: Slider(
+                            padding: EdgeInsets.zero,
+                            value: _progress,
+                            onChanged: (value) =>
+                                setState(() => _progress = value),
+                            label: (_progress * 100.0).round().toString(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 2.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: ListItemContainer(
+                    child: Flex.vertical(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        ListItemInteraction(
+                          onTap: () async {
+                            await Fluttertoast.showToast(
+                              msg: "Not yet implemented!",
+                              toastLength: Toast.LENGTH_SHORT,
+                            );
+                          },
+                          child: ListItemLayout(
+                            isMultiline: true,
+                            leading: SizedBox.square(
+                              dimension: 40.0,
+                              child: Material(
+                                animationDuration: Duration.zero,
+                                type: MaterialType.card,
+                                clipBehavior: Clip.antiAlias,
+                                color: staticColors.blue.colorFixed,
+                                shape: const StadiumBorder(),
+                                child: Align.center(
+                                  child: Icon(
+                                    Symbols.refresh_rounded,
+                                    fill: 1.0,
+                                    color:
+                                        staticColors.blue.onColorFixedVariant,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            headline: const Text("Loading indicator"),
+                            supportingText: const Text(
+                              "Determinate · Uncontained",
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            16.0,
+                            12.0,
+                            16.0,
+                            16.0,
+                          ),
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxHeight: 160.0),
+                            child: Flex.horizontal(
+                              spacing: 16.0,
+                              children: [
+                                Flexible.tight(
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: DeterminateLoadingIndicator(
+                                      progress: _progress,
+                                      contained: false,
+                                    ),
+                                  ),
+                                ),
+                                Flexible.tight(
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: DeterminateLoadingIndicator(
+                                      progress: _progress,
+                                      contained: false,
+                                      indicatorPolygons: [
+                                        ..._indeterminateIndicatorPolygons1,
+                                        _indeterminateIndicatorPolygons1.first,
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Flexible.tight(
+                                  child: FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: DeterminateLoadingIndicator(
+                                      progress: _progress,
+                                      contained: false,
+                                      indicatorPolygons: [
+                                        ..._indeterminateIndicatorPolygons2,
+                                        _indeterminateIndicatorPolygons2.first,
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 2.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: ListItemContainer(
                     isLast: true,
                     child: Flex.vertical(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -2580,22 +2735,7 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(
                             16.0,
-                            8.0,
-                            16.0,
-                            16.0,
-                          ),
-                          child: Slider(
-                            padding: EdgeInsets.zero,
-                            value: _progress,
-                            onChanged: (value) =>
-                                setState(() => _progress = value),
-                            label: (_progress * 100.0).round().toString(),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                            16.0,
-                            0.0,
+                            12.0,
                             16.0,
                             16.0,
                           ),
@@ -2609,6 +2749,7 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                                     fit: BoxFit.contain,
                                     child: DeterminateLoadingIndicator(
                                       progress: _progress,
+                                      contained: true,
                                     ),
                                   ),
                                 ),
@@ -2617,6 +2758,7 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                                     fit: BoxFit.contain,
                                     child: DeterminateLoadingIndicator(
                                       progress: _progress,
+                                      contained: true,
                                       indicatorPolygons: [
                                         ..._indeterminateIndicatorPolygons1,
                                         _indeterminateIndicatorPolygons1.first,
@@ -2629,6 +2771,7 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                                     fit: BoxFit.contain,
                                     child: DeterminateLoadingIndicator(
                                       progress: _progress,
+                                      contained: true,
                                       indicatorPolygons: [
                                         ..._indeterminateIndicatorPolygons2,
                                         _indeterminateIndicatorPolygons2.first,
@@ -2697,6 +2840,157 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                 ),
                 const SizedBox(height: 16.0),
               ],
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(height: MediaQuery.paddingOf(context).bottom),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ShapeLibraryView extends StatefulWidget {
+  const _ShapeLibraryView({super.key});
+
+  @override
+  State<_ShapeLibraryView> createState() => _ShapeLibraryViewState();
+}
+
+class _ShapeLibraryViewState extends State<_ShapeLibraryView> {
+  static final Map<String, RoundedPolygon> _shapes = <String, RoundedPolygon>{
+    "Circle": MaterialShapes.circle,
+    "Square": MaterialShapes.square,
+    "Slanted": MaterialShapes.slanted,
+    "Arch": MaterialShapes.arch,
+    "Fan": MaterialShapes.fan,
+    "Arrow": MaterialShapes.arrow,
+    "Semicircle": MaterialShapes.semiCircle,
+    "Oval": MaterialShapes.oval,
+    "Pill": MaterialShapes.pill,
+    "Triangle": MaterialShapes.triangle,
+    "Diamond": MaterialShapes.diamond,
+    "Clamshell": MaterialShapes.clamShell,
+    "Pentagon": MaterialShapes.pentagon,
+    "Gem": MaterialShapes.gem,
+    "Very sunny": MaterialShapes.verySunny,
+    "Sunny": MaterialShapes.sunny,
+    "4-sided cookie": MaterialShapes.cookie4Sided,
+    "6-sided cookie": MaterialShapes.cookie6Sided,
+    "7-sided cookie": MaterialShapes.cookie7Sided,
+    "9-sided cookie": MaterialShapes.cookie9Sided,
+    "12-sided cookie": MaterialShapes.cookie12Sided,
+    "Ghost-ish": MaterialShapes.ghostish,
+    "4-leaf clover": MaterialShapes.clover4Leaf,
+    "8-leaf clover": MaterialShapes.clover8Leaf,
+    "Burst": MaterialShapes.burst,
+    "Soft burst": MaterialShapes.softBurst,
+    "Boom": MaterialShapes.boom,
+    "Soft boom": MaterialShapes.softBoom,
+    "Flower": MaterialShapes.flower,
+    "Puffy": MaterialShapes.puffy,
+    "Puffy diamond": MaterialShapes.puffyDiamond,
+    "Pixel circle": MaterialShapes.pixelCircle,
+    "Pixel triangle": MaterialShapes.pixelTriangle,
+    "Bun": MaterialShapes.bun,
+    "Heart": MaterialShapes.heart,
+  };
+
+  static final _shapesEntries = _shapes.entries.toList();
+
+  @override
+  Widget build(BuildContext context) {
+    final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+
+    final windowWidthSizeClass = WindowWidthSizeClass.of(context);
+    final crossAxisCount = switch (windowWidthSizeClass) {
+      >= WindowWidthSizeClass.expanded => 7,
+      _ => 5,
+    };
+
+    final labelTextStyle = switch (windowWidthSizeClass) {
+      >= WindowWidthSizeClass.expanded => typescaleTheme.labelLarge,
+      >= WindowWidthSizeClass.medium => typescaleTheme.labelMedium,
+      _ => typescaleTheme.labelSmall,
+    }.toTextStyle(color: colorTheme.onSurfaceVariant);
+
+    return Scaffold(
+      backgroundColor: colorTheme.surfaceContainer,
+      body: SafeArea(
+        top: false,
+        bottom: false,
+        child: CustomScrollView(
+          slivers: [
+            CustomAppBar(
+              leading: const Padding(
+                padding: EdgeInsets.only(left: 8.0 - 4.0),
+                child: DeveloperPageBackButton(),
+              ),
+              type: CustomAppBarType.small,
+              behavior: CustomAppBarBehavior.duplicate,
+              expandedContainerColor: colorTheme.surfaceContainer,
+              collapsedContainerColor: colorTheme.surfaceContainer,
+              collapsedPadding: const EdgeInsets.fromLTRB(
+                8.0 + 40.0 + 8.0,
+                0.0,
+                16.0,
+                0.0,
+              ),
+              title: const Text("Shape library"),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+              sliver: SliverGrid.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  childAspectRatio: 1.0 / 1.5,
+                  mainAxisSpacing: 12.0,
+                  crossAxisSpacing: 12.0,
+                ),
+                itemCount: _shapesEntries.length,
+                itemBuilder: (context, index) {
+                  final MapEntry(key: name, value: polygon) =
+                      _shapesEntries[index];
+                  final shape = RoundedPolygonBorder(polygon: polygon);
+                  return Flex.vertical(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      AspectRatio(
+                        aspectRatio: 1.0,
+                        child: Material(
+                          animationDuration: Duration.zero,
+                          clipBehavior: Clip.antiAlias,
+                          type: MaterialType.card,
+                          shape: shape,
+                          color: colorTheme.primary,
+                          child: InkWell(
+                            mouseCursor: WidgetStateMouseCursor.clickable,
+                            overlayColor: WidgetStateLayerColor(
+                              color: WidgetStatePropertyAll(
+                                colorTheme.onPrimary,
+                              ),
+                              opacity: stateTheme.stateLayerOpacity,
+                            ),
+                            onTap: () {},
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 4.0),
+                      Text(
+                        name,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: labelTextStyle,
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
             SliverToBoxAdapter(
               child: SizedBox(height: MediaQuery.paddingOf(context).bottom),
