@@ -1,6 +1,8 @@
 // ignore_for_file: invalid_use_of_internal_member
 
+import 'dart:collection';
 import 'dart:math' as math;
+import 'dart:ui';
 
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
@@ -2859,7 +2861,7 @@ class _ShapeLibraryView extends StatefulWidget {
 }
 
 class _ShapeLibraryViewState extends State<_ShapeLibraryView> {
-  static final Map<String, RoundedPolygon> _shapes = <String, RoundedPolygon>{
+  static final Map<String, RoundedPolygon> _shapes = UnmodifiableMapView({
     "Circle": MaterialShapes.circle,
     "Square": MaterialShapes.square,
     "Slanted": MaterialShapes.slanted,
@@ -2895,9 +2897,49 @@ class _ShapeLibraryViewState extends State<_ShapeLibraryView> {
     "Pixel triangle": MaterialShapes.pixelTriangle,
     "Bun": MaterialShapes.bun,
     "Heart": MaterialShapes.heart,
-  };
+  });
 
-  static final _shapesEntries = _shapes.entries.toList();
+  static final List<MapEntry<String, RoundedPolygon>> _shapesEntries =
+      UnmodifiableListView(_shapes.entries.toList());
+
+  List<MapEntry<String, RoundedPolygon>> _filteredShapesEntries =
+      _shapesEntries;
+
+  late TextEditingController _controller;
+  late FocusNode _focusNode;
+
+  void _listener() {
+    final query = _controller.text.trim().toLowerCase();
+    final filteredShapesEntries = query.isNotEmpty
+        ? _shapesEntries
+              .where((entry) => entry.key.toLowerCase().contains(query))
+              .toList()
+        : _shapesEntries;
+
+    setState(() {
+      _filteredShapesEntries = filteredShapesEntries;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _filteredShapesEntries = _shapes.entries.toList();
+    _controller = TextEditingController()..addListener(_listener);
+    _focusNode = FocusNode();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -2916,7 +2958,116 @@ class _ShapeLibraryViewState extends State<_ShapeLibraryView> {
       >= WindowWidthSizeClass.expanded => typescaleTheme.labelLarge,
       >= WindowWidthSizeClass.medium => typescaleTheme.labelMedium,
       _ => typescaleTheme.labelSmall,
-    }.toTextStyle(color: colorTheme.onSurfaceVariant);
+    }.toTextStyle(color: colorTheme.onSurface);
+
+    final supportingTypeStyle = typescaleTheme.bodyLarge;
+    final supportingTextStyle = supportingTypeStyle.toTextStyle(
+      color: colorTheme.onSurfaceVariant,
+    );
+    final inputTextStyle = typescaleTheme.bodyLarge.toTextStyle(
+      color: colorTheme.onSurface,
+    );
+
+    final searchBar = SizedBox(
+      width: double.infinity,
+      height: 56.0,
+      child: Material(
+        animationDuration: Duration.zero,
+        clipBehavior: Clip.antiAlias,
+        shape: CornersBorder.rounded(
+          corners: Corners.all(shapeTheme.corner.full),
+        ),
+        color: colorTheme.surfaceBright,
+        child: InkWell(
+          onTap: () => _focusNode.requestFocus(),
+          overlayColor: WidgetStateLayerColor(
+            color: WidgetStatePropertyAll(colorTheme.onSurface),
+            opacity: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.disabled)) {
+                return 0.0;
+              }
+              if (states.contains(WidgetState.focused)) {
+                return 0.0;
+              }
+              if (states.contains(WidgetState.pressed)) {
+                return stateTheme.pressedStateLayerOpacity;
+              }
+              if (states.contains(WidgetState.hovered)) {
+                return stateTheme.hoverStateLayerOpacity;
+              }
+              return 0.0;
+            }),
+          ),
+          child: Flex.horizontal(
+            children: [
+              const SizedBox(width: 16.0),
+              Icon(Symbols.search_rounded, color: colorTheme.onSurface),
+              const SizedBox(width: 12.0),
+              Flexible.tight(
+                child: TapRegion(
+                  onTapOutside: (_) => _focusNode.unfocus(),
+                  child: TextField(
+                    controller: _controller,
+                    focusNode: _focusNode,
+                    style: inputTextStyle,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      filled: false,
+                      constraints: const BoxConstraints(
+                        minHeight: 56.0,
+                        maxHeight: 56.0,
+                      ),
+                      hintText: "Search ${_shapesEntries.length} shapes",
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: (56.0 - supportingTypeStyle.lineHeight) / 2.0,
+                      ),
+                      hintStyle: supportingTextStyle,
+                    ),
+                  ),
+                ),
+              ),
+              if (_controller.text.isNotEmpty)
+                IconButton(
+                  style: ButtonStyle(
+                    animationDuration: Duration.zero,
+                    elevation: const WidgetStatePropertyAll(0.0),
+                    shadowColor: WidgetStateColor.transparent,
+                    minimumSize: const WidgetStatePropertyAll(Size.zero),
+                    fixedSize: const WidgetStatePropertyAll(Size(40.0, 40.0)),
+                    maximumSize: const WidgetStatePropertyAll(Size.infinite),
+                    padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+                    iconSize: const WidgetStatePropertyAll(24.0),
+                    shape: WidgetStatePropertyAll(
+                      CornersBorder.rounded(
+                        corners: Corners.all(shapeTheme.corner.full),
+                      ),
+                    ),
+                    overlayColor: WidgetStateLayerColor(
+                      color: WidgetStatePropertyAll(
+                        colorTheme.onSurfaceVariant,
+                      ),
+                      opacity: stateTheme.stateLayerOpacity,
+                    ),
+                    backgroundColor: WidgetStateProperty.resolveWith(
+                      (states) => states.contains(WidgetState.disabled)
+                          ? colorTheme.onSurface.withValues(alpha: 0.1)
+                          : Colors.transparent,
+                    ),
+                    iconColor: WidgetStateProperty.resolveWith(
+                      (states) => states.contains(WidgetState.disabled)
+                          ? colorTheme.onSurface.withValues(alpha: 0.38)
+                          : colorTheme.onSurfaceVariant,
+                    ),
+                  ),
+                  onPressed: () => _controller.clear(),
+                  icon: const IconLegacy(Symbols.close_rounded),
+                ),
+              const SizedBox(width: 4.0),
+            ],
+          ),
+        ),
+      ),
+    );
 
     return Scaffold(
       backgroundColor: colorTheme.surfaceContainer,
@@ -2942,54 +3093,189 @@ class _ShapeLibraryViewState extends State<_ShapeLibraryView> {
               ),
               title: const Text("Shape library"),
             ),
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-              sliver: SliverGrid.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: crossAxisCount,
-                  childAspectRatio: 1.0 / 1.5,
-                  mainAxisSpacing: 12.0,
-                  crossAxisSpacing: 12.0,
+            SliverHeader(
+              minExtent: 4.0 + 56.0 + 16.0,
+              maxExtent: 4.0 + 56.0 + 16.0,
+              pinned: true,
+              builder: (context, shrinkOffset, overlapsContent) => Material(
+                animationDuration: Duration.zero,
+                clipBehavior: Clip.none,
+                color: colorTheme.surfaceContainer,
+                shape: CornersBorder.rounded(
+                  corners: Corners.all(shapeTheme.corner.none),
                 ),
-                itemCount: _shapesEntries.length,
-                itemBuilder: (context, index) {
-                  final MapEntry(key: name, value: polygon) =
-                      _shapesEntries[index];
-                  final shape = RoundedPolygonBorder(polygon: polygon);
-                  return Flex.vertical(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      AspectRatio(
-                        aspectRatio: 1.0,
-                        child: Material(
-                          animationDuration: Duration.zero,
-                          clipBehavior: Clip.antiAlias,
-                          type: MaterialType.card,
-                          shape: shape,
-                          color: colorTheme.primary,
-                          child: InkWell(
-                            mouseCursor: WidgetStateMouseCursor.clickable,
-                            overlayColor: WidgetStateLayerColor(
-                              color: WidgetStatePropertyAll(
-                                colorTheme.onPrimary,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 16.0),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      const minWidth = 312.0;
+
+                      assert(constraints.hasTightWidth);
+                      final maxWidth = constraints.maxWidth;
+
+                      final hugWidth = clampDouble(
+                        maxWidth / 2.0,
+                        minWidth,
+                        maxWidth,
+                      );
+
+                      final fillWidth = maxWidth;
+
+                      final fraction =
+                          windowWidthSizeClass >= WindowWidthSizeClass.medium
+                          ? 1.0
+                          : 0.0;
+
+                      return Align.center(
+                        child: TweenAnimationBuilder(
+                          tween: Tween<double>(end: fraction),
+                          curve: Curves.easeInOutCubicEmphasized,
+                          duration: Durations.extralong4,
+                          child: searchBar,
+                          builder: (context, value, child) {
+                            print(lerpDouble(fillWidth, hugWidth, value)!);
+                            return SizedBox(
+                              width: lerpDouble(fillWidth, hugWidth, value)!,
+                              child: child,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                child: Material(
+                  animationDuration: Duration.zero,
+                  clipBehavior: Clip.antiAlias,
+                  shape: CornersBorder.rounded(
+                    corners: Corners.all(shapeTheme.corner.full),
+                  ),
+                  color: colorTheme.surfaceContainerLow,
+                  child: InkWell(
+                    onTap: () => _controller.clear(),
+                    overlayColor: WidgetStateLayerColor(
+                      color: WidgetStatePropertyAll(colorTheme.error),
+                      opacity: stateTheme.stateLayerOpacity,
+                    ),
+                    child: AnimatedAlign(
+                      duration: Durations.medium4,
+                      curve: Easing.standard,
+                      alignment: Alignment.center,
+                      widthFactor: 1.0,
+                      heightFactor: _filteredShapesEntries.isEmpty ? 1.0 : 0.0,
+                      child: AnimatedOpacity(
+                        duration: Durations.medium4,
+                        curve: Easing.standard,
+                        opacity: _filteredShapesEntries.isEmpty ? 1.0 : 0.0,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                            24.0,
+                            24.0,
+                            24.0,
+                            24.0,
+                          ),
+                          child: Flex.vertical(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Align.center(
+                                child: Icon(
+                                  Symbols.search_off_rounded,
+                                  size: 48.0,
+                                  opticalSize: 48.0,
+                                  color: colorTheme.error,
+                                ),
                               ),
-                              opacity: stateTheme.stateLayerOpacity,
-                            ),
-                            onTap: () {},
+                              const SizedBox(height: 8.0),
+                              Text(
+                                "No results",
+                                textAlign: TextAlign.center,
+                                style: typescaleTheme.titleLargeEmphasized
+                                    .toTextStyle(color: colorTheme.error),
+                              ),
+                              const SizedBox(height: 4.0),
+                              Text(
+                                "Tap to clear search query",
+                                textAlign: TextAlign.center,
+                                style: typescaleTheme.bodySmall.toTextStyle(
+                                  color: colorTheme.onSurfaceVariant,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      const SizedBox(height: 4.0),
-                      Text(
-                        name,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                        style: labelTextStyle,
-                      ),
-                    ],
-                  );
-                },
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+              sliver: TweenAnimationBuilder<double>(
+                tween: Tween<double>(
+                  end: _filteredShapesEntries.isNotEmpty ? 1.0 : 0.0,
+                ),
+                duration: Durations.medium4,
+                curve: Easing.standard,
+                builder: (context, value, child) => SliverOpacity(
+                  opacity: value,
+                  sliver: SliverTransform.scale(
+                    scale: lerpDouble(0.75, 1.0, value)!,
+                    sliver: child,
+                  ),
+                ),
+                child: SliverGrid.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
+                    childAspectRatio: 1.0 / 1.5,
+                    mainAxisSpacing: 12.0,
+                    crossAxisSpacing: 12.0,
+                  ),
+                  itemCount: _filteredShapesEntries.length,
+                  itemBuilder: (context, index) {
+                    final MapEntry(key: name, value: polygon) =
+                        _filteredShapesEntries[index];
+                    final shape = RoundedPolygonBorder(polygon: polygon);
+                    return Flex.vertical(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 1.0,
+                          child: Material(
+                            animationDuration: Duration.zero,
+                            clipBehavior: Clip.antiAlias,
+                            type: MaterialType.card,
+                            shape: shape,
+                            color: colorTheme.primary,
+                            child: InkWell(
+                              mouseCursor: WidgetStateMouseCursor.clickable,
+                              overlayColor: WidgetStateLayerColor(
+                                color: WidgetStatePropertyAll(
+                                  colorTheme.onPrimary,
+                                ),
+                                opacity: stateTheme.stateLayerOpacity,
+                              ),
+                              onTap: () {},
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 4.0),
+                        Text(
+                          name,
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          style: labelTextStyle,
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
             SliverToBoxAdapter(
