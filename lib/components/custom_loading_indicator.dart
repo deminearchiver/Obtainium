@@ -64,6 +64,8 @@ class _DeterminateLoadingIndicatorState
   late List<Morph> _morphSequence;
   late double _morphScaleFactor;
 
+  final Matrix4 _scaleMatrix = Matrix4.zero();
+
   void _updateMorphScaleFactor(List<RoundedPolygon> indicatorPolygons) {
     _morphScaleFactor =
         _calculateScaleFactor(widget._indicatorPolygons) *
@@ -91,16 +93,6 @@ class _DeterminateLoadingIndicatorState
       );
       _updateMorphScaleFactor(widget._indicatorPolygons);
     }
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -135,6 +127,10 @@ class _DeterminateLoadingIndicatorState
     // Rotate counterclockwise.
     final rotation = -_progressValue * math.pi;
 
+    final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final elevationTheme = ElevationTheme.of(context);
+
     return RepaintBoundary(
       child: Semantics(
         label: "$_progressValue",
@@ -146,22 +142,22 @@ class _DeterminateLoadingIndicatorState
             animationDuration: Duration.zero,
             clipBehavior: Clip.antiAlias,
             type: MaterialType.card,
-            shape: const StadiumBorder(),
-            color: ColorTheme.of(context).primaryContainer,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: (_kContainerWidth - _kIndicatorSize) / 2.0,
-                vertical: (_kContainerHeight - _kIndicatorSize) / 2.0,
-              ),
-              child: CustomPaint(
-                size: Size.square(_kIndicatorSize),
-                painter: _DeterminateLoadingIndicatorPainter(
-                  currentMorph: currentMorph,
-                  morphScaleFactor: _morphScaleFactor,
-                  adjustedProgressValue: adjustedProgressValue,
-                  rotation: rotation,
-                  indicatorColor: ColorTheme.of(context).onPrimaryContainer,
-                ),
+            shape: CornersBorder.rounded(
+              corners: Corners.all(shapeTheme.corner.full),
+            ),
+            color: colorTheme.primaryContainer,
+            elevation: elevationTheme.level0,
+            shadowColor: colorTheme.shadow,
+            child: CustomPaint(
+              isComplex: true,
+              willChange: false,
+              painter: _DeterminateLoadingIndicatorPainter(
+                currentMorph: currentMorph,
+                morphScaleFactor: _morphScaleFactor,
+                adjustedProgressValue: adjustedProgressValue,
+                rotation: rotation,
+                indicatorColor: ColorTheme.of(context).onPrimaryContainer,
+                scaleMatrix: _scaleMatrix,
               ),
             ),
           ),
@@ -172,12 +168,13 @@ class _DeterminateLoadingIndicatorState
 }
 
 class _DeterminateLoadingIndicatorPainter extends CustomPainter {
-  const _DeterminateLoadingIndicatorPainter({
+  _DeterminateLoadingIndicatorPainter({
     required this.currentMorph,
     required this.morphScaleFactor,
     required this.adjustedProgressValue,
     required this.rotation,
     required this.indicatorColor,
+    this.scaleMatrix,
   });
 
   final Morph currentMorph;
@@ -185,6 +182,7 @@ class _DeterminateLoadingIndicatorPainter extends CustomPainter {
   final double adjustedProgressValue;
   final double rotation;
   final Color indicatorColor;
+  final Matrix4? scaleMatrix;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -199,6 +197,7 @@ class _DeterminateLoadingIndicatorPainter extends CustomPainter {
       path: morphPath,
       size: size,
       scaleFactor: morphScaleFactor,
+      scaleMatrix: scaleMatrix,
     );
 
     final paint = Paint()
@@ -220,11 +219,13 @@ class _DeterminateLoadingIndicatorPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_DeterminateLoadingIndicatorPainter oldDelegate) {
+    // TODO: measure the performance impact of these comparisons
     return currentMorph != oldDelegate.currentMorph ||
         morphScaleFactor != oldDelegate.morphScaleFactor ||
         adjustedProgressValue != oldDelegate.adjustedProgressValue ||
         rotation != oldDelegate.rotation ||
-        indicatorColor != oldDelegate.indicatorColor;
+        indicatorColor != oldDelegate.indicatorColor ||
+        scaleMatrix != oldDelegate.scaleMatrix;
   }
 }
 
@@ -247,7 +248,7 @@ Iterable<Morph> _generateMorphSequence({
   RoundedPolygon Function(RoundedPolygon polygon)? forEachPolygon,
 }) sync* {
   forEachPolygon ??= (polygon) => polygon.normalized();
-  for (int i = 0; i < polygons.length; i++) {
+  for (var i = 0; i < polygons.length; i++) {
     if (i + 1 < polygons.length) {
       yield Morph(forEachPolygon(polygons[i]), forEachPolygon(polygons[i + 1]));
     } else if (circularSequence) {
@@ -268,7 +269,6 @@ List<Morph> _updateMorphSequence({
     circularSequence: circularSequence,
     forEachPolygon: forEachPolygon,
   );
-
   morphSequence
     ?..clear()
     ..addAll(iterable);
@@ -279,9 +279,8 @@ double _calculateScaleFactor(
   List<RoundedPolygon> indicatorPolygons, {
   bool approximate = true,
 }) {
-  double scaleFactor = 1.0;
-
-  for (int i = 0; i < indicatorPolygons.length; i++) {
+  var scaleFactor = 1.0;
+  for (var i = 0; i < indicatorPolygons.length; i++) {
     final polygon = indicatorPolygons[i];
 
     final bounds = polygon.calculateBounds(approximate: approximate);
@@ -294,7 +293,6 @@ double _calculateScaleFactor(
     // entire calculation.
     scaleFactor = math.min(scaleFactor, math.max(scaleX, scaleY));
   }
-
   return scaleFactor;
 }
 
