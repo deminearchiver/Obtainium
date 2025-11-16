@@ -3113,33 +3113,14 @@ class _ShapeLibraryViewState extends State<_ShapeLibraryView> {
                       assert(constraints.hasTightWidth);
                       final maxWidth = constraints.maxWidth;
 
-                      final hugWidth = clampDouble(
+                      final resolvedWidth = clampDouble(
                         maxWidth / 2.0,
                         minWidth,
                         maxWidth,
                       );
 
-                      final fillWidth = maxWidth;
-
-                      final fraction =
-                          windowWidthSizeClass >= WindowWidthSizeClass.medium
-                          ? 1.0
-                          : 0.0;
-
                       return Align.center(
-                        child: TweenAnimationBuilder(
-                          tween: Tween<double>(end: fraction),
-                          curve: Curves.easeInOutCubicEmphasized,
-                          duration: Durations.extralong4,
-                          child: searchBar,
-                          builder: (context, value, child) {
-                            print(lerpDouble(fillWidth, hugWidth, value)!);
-                            return SizedBox(
-                              width: lerpDouble(fillWidth, hugWidth, value)!,
-                              child: child,
-                            );
-                          },
-                        ),
+                        child: SizedBox(width: resolvedWidth, child: searchBar),
                       );
                     },
                   ),
