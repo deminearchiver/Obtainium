@@ -7,7 +7,7 @@
 
 <div align="center">
   <img width="96" height="96" src="./assets/graphics/icon_small.png" alt="Obtainium Icon">
-  <h3>Obtainium</h3>
+  <h3>Materium</h3>
   <p>Get Android app updates straight from the source.</p>
   <h6>
     Original by
@@ -36,6 +36,7 @@
   - [Internal changes](#internal-changes)
   - [Other](#other)
 - [Roadmap](#roadmap)
+  - [Global changes](#global-changes)
   - [User-facing changes](#user-facing-changes)
   - [New features](#new-features)
   - [Material 3 Expressive](#material-3-expressive-1)
@@ -120,6 +121,26 @@ Currently, there are a lot of changes not yet covered in this section, which mea
 
 This section contains the list of projects that are planned to be implemented.
 
+
+### Global changes
+
+- [ ] Rebrand the project from Obtainium to Materium
+  - [x] Rename GitHub repository
+  - [x] Change internal package names
+    - [x] `obtainium` -> `materium`
+    - [x] `obtainium_fonts` -> `materium_fonts`
+    - [x] `obtainium_i18n` -> `materium_i18n`
+    - [x] `obtainium_tools` -> `materium_tools`
+    - [x] Regenerate `flutter_gen` assets
+  - [x] Change the name in Visual Studio Code launch configuration ([`.vscode/launch.json`](.vscode/launch.json))
+  - [x] Rename platform-specific parts of the project
+    - [x] [`android`](android)
+  - [x] Change the name in [`README.md`](README.md)
+  - [ ] Change the name in issue templates ([`.github/ISSUE_TEMPLATE`](.github/ISSUE_TEMPLATE))
+  - [ ] Automatically change the name in translation files ([`assets/translations/*.json`](assets/translations)) to apply changes across the app
+
+
+
 ### User-facing changes
 
 - [ ] Migrate to a new localization file structure
@@ -185,7 +206,7 @@ These changes are expected to not affect the user experience. They include vario
 Here's a tree-like checklist of the changes expected to be implemented in the near future:
 
 - [ ] Migrate from [`easy_localization`](https://pub.dev/packages/easy_localization) to [`slang`](https://pub.dev/packages/slang) localization solution
-  - [x] Create workspace [`obtainium_i18n`](./obtainium_i18n) package
+  - [x] Create workspace [`materium_i18n`](./materium_i18n) package
   - [x] Set up [`slang`](https://pub.dev/packages/slang) in the workspace package
   - [ ] Create a Dart script which migrates [`easy_localization`](https://pub.dev/packages/easy_localization) to [`slang`](https://pub.dev/packages/slang) localization files
   - [ ] Add tests for the migrated localizations
@@ -208,25 +229,11 @@ The following list contains changes regarding the project's repository:
 
 ### Miscellaneous
 
-- [ ] Change the project name from Obtainium to Materium
-  - [x] Rename GitHub repository
-  - [ ] Change internal package names
-    - [ ] `obtainium` -> `materium`
-    - [ ] `obtainium_fonts` -> `materium_fonts`
-    - [ ] `obtainium_i18n` -> `materium_i18n`
-    - [ ] `obtainium_tools` -> `materium_tools`
-    - [ ] Regenerate `flutter_gen` assets
-  - [ ] Change the name in Visual Studio Code launch configuration ([`.vscode/launch.json`](.vscode/launch.json))
-  - [ ] Rename platform-specific parts of the project
-    - [ ] [`android`](android)
-  - [ ] Change the name in [`README.md`](README.md)
-  - [ ] Change the name in issue templates ([`.github/ISSUE_TEMPLATE`](.github/ISSUE_TEMPLATE))
-  - [ ] Automatically change the name in translation files ([`assets/translations/*.json`](assets/translations)) to apply changes across the app
 - [ ] Create a website for the app
 
 ## About
 
-Obtainium allows you to install and update apps directly from their releases pages, and receive notifications when new releases are made available.
+Materium allows you to install and update apps directly from their releases pages, and receive notifications when new releases are made available.
 
 ### Useful links
 
@@ -236,7 +243,7 @@ Obtainium allows you to install and update apps directly from their releases pag
 - [apps.obtainium.imranr.dev](https://apps.obtainium.imranr.dev/) - Crowdsourced app configurations ([repository](https://github.com/ImranR98/apps.obtainium.imranr.dev))
 - [Side Of Burritos - You should use this instead of F-Droid | How to use app RSS feed](https://youtu.be/FFz57zNR_M0) - Original motivation for this app
 - [Website](https://obtainium.imranr.dev) ([repository](https://github.com/ImranR98/obtainium.imranr.dev))
-- [Source code](https://github.com/ImranR98/Obtainium)
+- [Source code](https://github.com/deminearchiver/materium)
 
 ### Supported app sources
 
