@@ -23,7 +23,7 @@ workspace:
   - material
   - obtainium_fonts
   - obtainium_i18n
-  - obtainium_tools
+  - materium_tools
   - shapes
 
 environment:
