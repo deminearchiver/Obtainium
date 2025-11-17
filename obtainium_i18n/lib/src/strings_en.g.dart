@@ -52,82 +52,75 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
   /// en: 'Obtainium'
   String get obtainium => 'Obtainium';
 
-  late final TranslationsNavigationV1En navigationV1 =
-      TranslationsNavigationV1En.internal(_root);
+  late final TranslationsCompatEn compat = TranslationsCompatEn.internal(_root);
 }
 
-// Path: navigationV1
-class TranslationsNavigationV1En {
-  TranslationsNavigationV1En.internal(this._root);
+// Path: compat
+class TranslationsCompatEn {
+  TranslationsCompatEn.internal(this._root);
 
   final Translations _root; // ignore: unused_field
 
   // Translations
-  late final TranslationsNavigationV1AppsEn apps =
-      TranslationsNavigationV1AppsEn.internal(_root);
-  late final TranslationsNavigationV1AddAppEn addApp =
-      TranslationsNavigationV1AddAppEn.internal(_root);
-  late final TranslationsNavigationV1ImportExportEn importExport =
-      TranslationsNavigationV1ImportExportEn.internal(_root);
-  late final TranslationsNavigationV1SettingsEn settings =
-      TranslationsNavigationV1SettingsEn.internal(_root);
+  late final TranslationsCompatAppsPageEn appsPage =
+      TranslationsCompatAppsPageEn.internal(_root);
+  late final TranslationsCompatAddAppPageEn addAppPage =
+      TranslationsCompatAddAppPageEn.internal(_root);
+  late final TranslationsCompatImportExportPageEn importExportPage =
+      TranslationsCompatImportExportPageEn.internal(_root);
+  late final TranslationsCompatSettingsPageEn settingsPage =
+      TranslationsCompatSettingsPageEn.internal(_root);
+
+  /// en: 'Supported sources'
+  String get supportedSources => 'Supported sources';
+
+  /// en: 'Crowdsourced app configurations'
+  String get crowdsourcedAppConfigurations => 'Crowdsourced app configurations';
 }
 
-// Path: navigationV1.apps
-class TranslationsNavigationV1AppsEn {
-  TranslationsNavigationV1AppsEn.internal(this._root);
+// Path: compat.appsPage
+class TranslationsCompatAppsPageEn {
+  TranslationsCompatAppsPageEn.internal(this._root);
 
   final Translations _root; // ignore: unused_field
 
   // Translations
-
-  /// en: 'Apps'
-  String get label => 'Apps';
 
   /// en: 'Apps'
   String get title => 'Apps';
 }
 
-// Path: navigationV1.addApp
-class TranslationsNavigationV1AddAppEn {
-  TranslationsNavigationV1AddAppEn.internal(this._root);
+// Path: compat.addAppPage
+class TranslationsCompatAddAppPageEn {
+  TranslationsCompatAddAppPageEn.internal(this._root);
 
   final Translations _root; // ignore: unused_field
 
   // Translations
-
-  /// en: 'Add app'
-  String get label => 'Add app';
 
   /// en: 'Add app'
   String get title => 'Add app';
 }
 
-// Path: navigationV1.importExport
-class TranslationsNavigationV1ImportExportEn {
-  TranslationsNavigationV1ImportExportEn.internal(this._root);
+// Path: compat.importExportPage
+class TranslationsCompatImportExportPageEn {
+  TranslationsCompatImportExportPageEn.internal(this._root);
 
   final Translations _root; // ignore: unused_field
 
   // Translations
 
-  /// en: 'Import / export'
-  String get label => 'Import / export';
-
-  /// en: 'Import / export'
-  String get title => 'Import / export';
+  /// en: 'Import/export'
+  String get title => 'Import/export';
 }
 
-// Path: navigationV1.settings
-class TranslationsNavigationV1SettingsEn {
-  TranslationsNavigationV1SettingsEn.internal(this._root);
+// Path: compat.settingsPage
+class TranslationsCompatSettingsPageEn {
+  TranslationsCompatSettingsPageEn.internal(this._root);
 
   final Translations _root; // ignore: unused_field
 
   // Translations
-
-  /// en: 'Settings'
-  String get label => 'Settings';
 
   /// en: 'Settings'
   String get title => 'Settings';

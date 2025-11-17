@@ -1,21 +1,22 @@
 {
   "obtainium": "Obtainium",
-  "navigationV1": {
-    "apps": {
-      "label": "Apps",
+  "compat": {
+    "appsPage": {
       "title": "Apps"
     },
-    "addApp": {
-      "label": "Add app",
+    "addAppPage": {
       "title": "Add app"
     },
-    "importExport": {
-      "label": "Import / export",
-      "title": "Import / export"
+    "importExportPage": {
+      "title": "Import/export"
     },
-    "settings": {
-      "label": "Settings",
+    "settingsPage": {
       "title": "Settings"
-    }
+    },
+    "supportedSources": "Supported sources",
+    "crowdsourcedAppConfigurations": "Crowdsourced app configurations"
+  },
+  "v1": {
+
   }
 }
