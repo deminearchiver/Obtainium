@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Obtainium (debug mode)",
+      "name": "materium (debug mode)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "debug",
@@ -10,7 +10,7 @@
       "program": "lib/main.dart"
     },
     {
-      "name": "Obtainium (profile mode)",
+      "name": "materium (profile mode)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile",
@@ -18,7 +18,7 @@
       "program": "lib/main.dart"
     },
     {
-      "name": "Obtainium (release mode)",
+      "name": "materium (release mode)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release",
