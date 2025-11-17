@@ -62,7 +62,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   final Map<ColorSwatch<Object>, String> colorsNameMap =
       <ColorSwatch<Object>, String>{
-        ColorTools.createPrimarySwatch(obtainiumThemeColor): 'Obtainium',
+        ColorTools.createPrimarySwatch(obtainiumThemeColor): "Obtainium",
       };
 
   void initUpdateIntervalInterpolator() {

@@ -45,7 +45,7 @@ class ApkMirror extends AppSource {
   }) async {
     return {
       "User-Agent":
-          "Obtainium/${(await getInstalledInfo(obtainiumId))?.versionName ?? '1.0.0'}",
+          "Materium/${(await getInstalledInfo(obtainiumId))?.versionName ?? '1.0.0'}",
     };
   }
 

@@ -1045,7 +1045,7 @@ class AppsPageState extends State<AppsPage> {
                     SharePlus.instance.share(
                       ShareParams(
                         text: urls,
-                        subject: 'Obtainium - ${tr('appsString')}',
+                        subject: "Materium - ${tr("appsString")}",
                       ),
                     );
                     Navigator.of(context).pop();
@@ -1077,7 +1077,7 @@ class AppsPageState extends State<AppsPage> {
                       SharePlus.instance.share(
                         ShareParams(
                           text: urls,
-                          subject: 'Obtainium - ${tr('appsString')}',
+                          subject: "Materium - ${tr("appsString")}",
                         ),
                       );
                     },
@@ -1236,7 +1236,7 @@ class AppsPageState extends State<AppsPage> {
                         SharePlus.instance.share(
                           ShareParams(
                             text: urls,
-                            subject: 'Obtainium - ${tr('appsString')}',
+                            subject: "Materium - ${tr("appsString")}",
                           ),
                         );
                         Navigator.of(context).pop();
@@ -1256,7 +1256,7 @@ class AppsPageState extends State<AppsPage> {
                               SharePlus.instance.share(
                                 ShareParams(
                                   text: urls,
-                                  subject: 'Obtainium - ${tr('appsString')}',
+                                  subject: "Materium - ${tr("appsString")}",
                                 ),
                               );
                             },

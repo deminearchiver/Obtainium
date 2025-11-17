@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:materium/flutter.dart';
 import 'package:materium/assets/assets.gen.dart';
 import 'package:materium/database/database.dart';
-import 'package:materium/flutter.dart';
 import 'package:materium/pages/home.dart';
 import 'package:materium/providers/apps_provider.dart';
 import 'package:materium/providers/logs_provider.dart';
@@ -16,48 +16,51 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:background_fetch/background_fetch.dart';
 import 'package:easy_localization/easy_localization.dart';
-// ignore: implementation_imports
-import 'package:easy_localization/src/easy_localization_controller.dart';
-// ignore: implementation_imports
-import 'package:easy_localization/src/localization.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 
+// ignore: implementation_imports
+import 'package:easy_localization/src/easy_localization_controller.dart';
+
+// ignore: implementation_imports
+import 'package:easy_localization/src/localization.dart';
+
+// ignore: implementation_imports
 import 'package:materium_fonts/src/assets/assets.gen.dart' as materium_fonts;
 
 List<MapEntry<Locale, String>> supportedLocales = const [
-  MapEntry(Locale('en'), 'English'),
-  MapEntry(Locale('zh'), '简体中文'),
-  MapEntry(Locale('zh', 'Hant_TW'), '臺灣話'),
-  MapEntry(Locale('it'), 'Italiano'),
-  MapEntry(Locale('ja'), '日本語'),
-  MapEntry(Locale('hu'), 'Magyar'),
-  MapEntry(Locale('de'), 'Deutsch'),
-  MapEntry(Locale('fa'), 'فارسی'),
-  MapEntry(Locale('fr'), 'Français'),
-  MapEntry(Locale('es'), 'Español'),
-  MapEntry(Locale('pl'), 'Polski'),
-  MapEntry(Locale('ru'), 'Русский'),
-  MapEntry(Locale('bs'), 'Bosanski'),
-  MapEntry(Locale('pt'), 'Português'),
-  MapEntry(Locale('pt', 'BR'), 'Brasileiro'),
-  MapEntry(Locale('cs'), 'Česky'),
-  MapEntry(Locale('sv'), 'Svenska'),
-  MapEntry(Locale('nl'), 'Nederlands'),
-  MapEntry(Locale('vi'), 'Tiếng Việt'),
-  MapEntry(Locale('tr'), 'Türkçe'),
-  MapEntry(Locale('uk'), 'Українська'),
-  MapEntry(Locale('da'), 'Dansk'),
+  MapEntry(Locale("en"), "English"),
+  MapEntry(Locale("zh"), "简体中文"),
+  MapEntry(Locale("zh", "Hant_TW"), "臺灣話"),
+  MapEntry(Locale("it"), "Italiano"),
+  MapEntry(Locale("ja"), "日本語"),
+  MapEntry(Locale("hu"), "Magyar"),
+  MapEntry(Locale("de"), "Deutsch"),
+  MapEntry(Locale("fa"), "فارسی"),
+  MapEntry(Locale("fr"), "Français"),
+  MapEntry(Locale("es"), "Español"),
+  MapEntry(Locale("pl"), "Polski"),
+  MapEntry(Locale("ru"), "Русский"),
+  MapEntry(Locale("bs"), "Bosanski"),
+  MapEntry(Locale("pt"), "Português"),
+  MapEntry(Locale("pt", "BR"), "Brasileiro"),
+  MapEntry(Locale("cs"), "Česky"),
+  MapEntry(Locale("sv"), "Svenska"),
+  MapEntry(Locale("nl"), "Nederlands"),
+  MapEntry(Locale("vi"), "Tiếng Việt"),
+  MapEntry(Locale("tr"), "Türkçe"),
+  MapEntry(Locale("uk"), "Українська"),
+  MapEntry(Locale("da"), "Dansk"),
   MapEntry(
-    Locale('en', 'EO'),
-    'Esperanto',
+    Locale("en", "EO"),
+    "Esperanto",
   ), // https://github.com/aissat/easy_localization/issues/220#issuecomment-846035493
-  MapEntry(Locale('in'), 'Bahasa Indonesia'),
-  MapEntry(Locale('ko'), '한국어'),
-  MapEntry(Locale('ca'), 'Català'),
-  MapEntry(Locale('ar'), 'العربية'),
-  MapEntry(Locale('ml'), 'മലയാളം'),
+  MapEntry(Locale("in"), "Bahasa Indonesia"),
+  MapEntry(Locale("ko"), "한국어"),
+  MapEntry(Locale("ca"), "Català"),
+  MapEntry(Locale("ar"), "العربية"),
+  MapEntry(Locale("ml"), "മലയാളം"),
 ];
-const fallbackLocale = Locale('en');
+const fallbackLocale = Locale("en");
 final localeDir = Assets.translations.path;
 
 final globalNavigatorKey = GlobalKey<NavigatorState>();
@@ -88,12 +91,12 @@ Future<void> loadTranslations() async {
   );
 }
 
-@pragma('vm:entry-point')
+@pragma("vm:entry-point")
 void backgroundFetchHeadlessTask(HeadlessTask task) async {
   String taskId = task.taskId;
   bool isTimeout = task.timeout;
   if (isTimeout) {
-    print('BG update task timed out.');
+    print("BG update task timed out.");
     BackgroundFetch.finish(taskId);
     return;
   }
@@ -101,28 +104,28 @@ void backgroundFetchHeadlessTask(HeadlessTask task) async {
   BackgroundFetch.finish(taskId);
 }
 
-@pragma('vm:entry-point')
+@pragma("vm:entry-point")
 void startCallback() {
   FlutterForegroundTask.setTaskHandler(MyTaskHandler());
 }
 
 class MyTaskHandler extends TaskHandler {
-  static const String incrementCountCommand = 'incrementCount';
+  static const String incrementCountCommand = "incrementCount";
 
   @override
   Future<void> onStart(DateTime timestamp, TaskStarter starter) async {
-    print('onStart(starter: ${starter.name})');
-    bgUpdateCheck('bg_check', null);
+    print("onStart(starter: ${starter.name})");
+    bgUpdateCheck("bg_check", null);
   }
 
   @override
   void onRepeatEvent(DateTime timestamp) {
-    bgUpdateCheck('bg_check', null);
+    bgUpdateCheck("bg_check", null);
   }
 
   @override
   Future<void> onDestroy(DateTime timestamp, bool isTimeout) async {
-    print('Foreground service onDestroy(isTimeout: $isTimeout)');
+    print("Foreground service onDestroy(isTimeout: $isTimeout)");
   }
 
   @override
@@ -226,9 +229,9 @@ class _ObtainiumState extends State<Obtainium> {
     if (!FlutterForegroundTask.isInitialized) {
       FlutterForegroundTask.init(
         androidNotificationOptions: AndroidNotificationOptions(
-          channelId: 'bg_update',
-          channelName: tr('foregroundService'),
-          channelDescription: tr('foregroundService'),
+          channelId: "bg_update",
+          channelName: tr("foregroundService"),
+          channelDescription: tr("foregroundService"),
           onlyAlertOnce: true,
         ),
         iosNotificationOptions: const IOSNotificationOptions(
@@ -256,10 +259,10 @@ class _ObtainiumState extends State<Obtainium> {
       return FlutterForegroundTask.startService(
         serviceTypes: [ForegroundServiceTypes.specialUse],
         serviceId: 666,
-        notificationTitle: tr('foregroundService'),
-        notificationText: tr('fgServiceNotice'),
+        notificationTitle: tr("foregroundService"),
+        notificationText: tr("fgServiceNotice"),
         notificationIcon: const NotificationIcon(
-          metaDataName: 'dev.imranr.obtainium.service.NOTIFICATION_ICON',
+          metaDataName: "dev.deminearchiver.materium.service.NOTIFICATION_ICON",
         ),
         callback: startCallback,
       );
@@ -275,7 +278,7 @@ class _ObtainiumState extends State<Obtainium> {
   }
 
   // void onReceiveForegroundServiceData(Object data) {
-  //   print('onReceiveTaskData: $data');
+  //   print("onReceiveTaskData: $data");
   // }
 
   @override
@@ -303,7 +306,7 @@ class _ObtainiumState extends State<Obtainium> {
         BackgroundFetch.finish(taskId);
       },
       (String taskId) async {
-        LogsProvider.instance.add('BG update task timed out.');
+        LogsProvider.instance.add("BG update task timed out.");
         BackgroundFetch.finish(taskId);
       },
     );
@@ -413,7 +416,7 @@ class _ObtainiumState extends State<Obtainium> {
       debugShowCheckedModeBanner: false,
 
       // Localization
-      title: 'Obtainium',
+      title: "Materium",
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
@@ -501,25 +504,25 @@ class _ObtainiumState extends State<Obtainium> {
     }
     final isFirstRun = settingsProvider.checkAndFlipFirstRun();
     if (isFirstRun) {
-      logs.add('This is the first ever run of Obtainium.');
+      logs.add("This is the first ever run of Materium.");
 
-      // If this is the first run, add Obtainium to the Apps list
+      // If this is the first run, add Materium to the Apps list
       getInstalledInfo(obtainiumId).then((value) {
         if (value?.versionName != null) {
           appsProvider.saveApps([
             App(
               obtainiumId,
               obtainiumUrl,
-              "ImranR98",
-              "Obtainium",
+              "deminearchiver",
+              "materium",
               value!.versionName,
               value.versionName!,
               [],
               0,
               {
-                'versionDetection': true,
-                'apkFilterRegEx': 'fdroid',
-                'invertAPKFilter': true,
+                "versionDetection": true,
+                "apkFilterRegEx": "fdroid",
+                "invertAPKFilter": true,
               },
               null,
               false,

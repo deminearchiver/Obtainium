@@ -1,4 +1,4 @@
-package dev.imranr.obtainium
+package dev.deminearchiver.materium
 
 import io.flutter.embedding.android.FlutterActivity
 

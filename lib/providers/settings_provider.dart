@@ -14,9 +14,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_preferences/util/legacy_to_async_migration_util.dart';
 import 'package:shared_storage/shared_storage.dart' as saf;
 
-final String obtainiumTempId = 'imranr98_obtainium_${GitHub().hosts[0]}';
-const String obtainiumId = 'dev.imranr.obtainium';
-const String obtainiumUrl = 'https://github.com/ImranR98/Obtainium';
+final String obtainiumTempId = 'deminearchiver_materium_${GitHub().hosts[0]}';
+const String obtainiumId = 'dev.deminearchiver.materium';
+const String obtainiumUrl = 'https://github.com/deminearchiver/materium';
 const Color obtainiumThemeColor = Color(0xFF6438B5);
 
 const String _migration1CompletedKey = "migration1Completed";
@@ -82,7 +82,7 @@ class SettingsProvider with ChangeNotifier {
 
   bool _justStarted = true;
 
-  static const String sourceUrl = 'https://github.com/ImranR98/Obtainium';
+  static const String sourceUrl = 'https://github.com/deminearchiver/materium';
 
   // bool get useSystemFont {
   //   return prefsWithCache.getBool('useSystemFont') ?? false;
