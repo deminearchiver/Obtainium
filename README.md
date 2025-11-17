@@ -1,7 +1,7 @@
 > [!IMPORTANT]
-> You are viewing a fork of the original **Obtainium** project.
+> This is a **hard fork** of the original **Obtainium** project.
 >
-> If you are looking for the original, proceed to [**ImranR98/Obtainium**](https://github.com/ImranR98/Obtainium).
+> If you were looking for the **upstream** repository, please proceed to [**ImranR98/Obtainium**](https://github.com/ImranR98/Obtainium).
 >
 > To view details about this fork, go to the [**Fork**](#fork) section.
 
@@ -16,9 +16,9 @@
     <a href="https://github.com/deminearchiver"><b>deminearchiver</b></a>
   </h6>
   <p>
-    <a href="https://github.com/deminearchiver/Obtainium/issues/new?template=bug_report.md">Report a bug</a>
+    <a href="https://github.com/deminearchiver/materium/issues/new?template=bug_report.md">Report a bug</a>
     ·
-    <a href="https://github.com/deminearchiver/Obtainium/issues/new?template=feature_request.md">Request a feature</a>
+    <a href="https://github.com/deminearchiver/materium/issues/new?template=feature_request.md">Request a feature</a>
   </p>
 </div>
 
@@ -56,7 +56,7 @@
 
 ## Fork
 
-The repository you are currenly viewing [**deminearchiver/Obtainium**](https://github.com/deminearchiver/Obtainium) is a **fork** of [**ImranR98/Obtainium**](https://github.com/ImranR98/Obtainium).
+The repository you are currenly viewing [**deminearchiver/materium**](https://github.com/deminearchiver/materium) is a **fork** of [**ImranR98/Obtainium**](https://github.com/ImranR98/Obtainium).
 
 In this section the primary differences and deviations compared to the original project are described.
 
@@ -100,7 +100,7 @@ This fork features important developer-facing changes, such as:
 - Differences in the process of building the app.
 
 - Updated tooling configurations:
-  - Removal of Docked support.
+  - Removal of Docker support.
   - Framework and SDK updates.
 
 - Code style updates:
@@ -205,8 +205,23 @@ The following list contains changes regarding the project's repository:
 - [ ] Consider choosing a different name for the app to further deviate from the original project
 - [ ] Set up [**Renovate CLI**](https://github.com/renovatebot/renovate)
   - [ ] Install [**Renovate**](https://github.com/apps/renovate) GitHub app in this repository
+
 ### Miscellaneous
 
+- [ ] Change the project name from Obtainium to Materium
+  - [x] Rename GitHub repository
+  - [ ] Change internal package names
+    - [ ] `obtainium` -> `materium`
+    - [ ] `obtainium_fonts` -> `materium_fonts`
+    - [ ] `obtainium_i18n` -> `materium_i18n`
+    - [ ] `obtainium_tools` -> `materium_tools`
+    - [ ] Regenerate `flutter_gen` assets
+  - [ ] Change the name in Visual Studio Code launch configuration ([`.vscode/launch.json`](.vscode/launch.json))
+  - [ ] Rename platform-specific parts of the project
+    - [ ] [`android`](android)
+  - [ ] Change the name in [`README.md`](README.md)
+  - [ ] Change the name in issue templates ([`.github/ISSUE_TEMPLATE`](.github/ISSUE_TEMPLATE))
+  - [ ] Automatically change the name in translation files ([`assets/translations/*.json`](assets/translations)) to apply changes across the app
 - [ ] Create a website for the app
 
 ## About
