@@ -16,6 +16,9 @@ class Fonts {
   /// Font family: Fira Code
   static const String firaCode = 'packages/$package/Fira Code';
 
+  /// Font family: Google Sans Code
+  static const String googleSansCode = 'packages/$package/Google Sans Code';
+
   /// Font family: Google Sans Flex
   static const String googleSansFlex = 'packages/$package/Google Sans Flex';
 
