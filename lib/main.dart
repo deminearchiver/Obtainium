@@ -22,6 +22,8 @@ import 'package:easy_localization/src/easy_localization_controller.dart';
 import 'package:easy_localization/src/localization.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 
+import 'package:obtainium_fonts/src/assets/assets.gen.dart' as obtainium_fonts;
+
 List<MapEntry<Locale, String>> supportedLocales = const [
   MapEntry(Locale('en'), 'English'),
   MapEntry(Locale('zh'), '简体中文'),
@@ -129,7 +131,23 @@ class MyTaskHandler extends TaskHandler {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await AppDatabase.ensureInitialized();
+  await LogsProvider.ensureInitialized();
+
+  LicenseRegistry.addLicense(() async* {
+    final List<String> assets = <String>[
+      obtainium_fonts.Assets.fonts.firacode.ofl,
+      obtainium_fonts.Assets.fonts.googlesanscode.ofl,
+      obtainium_fonts.Assets.fonts.googlesansflex.ofl,
+      obtainium_fonts.Assets.fonts.robotoflex.ofl,
+    ];
+    for (final asset in assets) {
+      final license = await rootBundle.loadString(asset);
+      yield LicenseEntryWithLineBreaks(const <String>["google_fonts"], license);
+    }
+  });
+
   try {
     ByteData data = await rootBundle.load(Assets.ca.letsEncryptR3);
     SecurityContext.defaultContext.setTrustedCertificatesBytes(
@@ -150,7 +168,6 @@ void main() async {
   FlutterForegroundTask.initCommunicationPort();
   await DynamicColorBuilder.preload();
   final settingsProvider = await SettingsProvider.ensureInitialized();
-  await LogsProvider.ensureInitialized();
   runApp(
     MultiProvider(
       providers: [
