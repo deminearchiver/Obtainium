@@ -28,5 +28,5 @@ targets:
       drift_dev:
         options:
           databases:
-            obtainium: lib/database/database.dart
+            materium: lib/database/database.dart
           schema_dir: drift_schemas/
