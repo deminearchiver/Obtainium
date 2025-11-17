@@ -22,7 +22,7 @@ import 'package:easy_localization/src/easy_localization_controller.dart';
 import 'package:easy_localization/src/localization.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 
-import 'package:obtainium_fonts/src/assets/assets.gen.dart' as obtainium_fonts;
+import 'package:materium_fonts/src/assets/assets.gen.dart' as materium_fonts;
 
 List<MapEntry<Locale, String>> supportedLocales = const [
   MapEntry(Locale('en'), 'English'),
@@ -137,10 +137,10 @@ void main() async {
 
   LicenseRegistry.addLicense(() async* {
     final List<String> assets = <String>[
-      obtainium_fonts.Assets.fonts.firacode.ofl,
-      obtainium_fonts.Assets.fonts.googlesanscode.ofl,
-      obtainium_fonts.Assets.fonts.googlesansflex.ofl,
-      obtainium_fonts.Assets.fonts.robotoflex.ofl,
+      materium_fonts.Assets.fonts.firacode.ofl,
+      materium_fonts.Assets.fonts.googlesanscode.ofl,
+      materium_fonts.Assets.fonts.googlesansflex.ofl,
+      materium_fonts.Assets.fonts.robotoflex.ofl,
     ];
     for (final asset in assets) {
       final license = await rootBundle.loadString(asset);

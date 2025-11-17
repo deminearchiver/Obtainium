@@ -11,7 +11,7 @@
 class Fonts {
   Fonts._();
 
-  static const String package = 'obtainium_fonts';
+  static const String package = 'materium_fonts';
 
   /// Font family: Fira Code
   static const String firaCode = 'packages/$package/Fira Code';

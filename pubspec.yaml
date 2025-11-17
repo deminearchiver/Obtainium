@@ -41,7 +41,7 @@ dependencies:
     path: layout
   material:
     path: material
-  obtainium_fonts:
+  materium_fonts:
     path: obtainium_fonts
   materium_i18n:
     path: materium_i18n

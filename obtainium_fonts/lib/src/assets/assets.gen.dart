@@ -26,18 +26,18 @@ class $AssetsFontsGen {
   /// Directory path: assets/fonts/robotoflex
   $AssetsFontsRobotoflexGen get robotoflex => const $AssetsFontsRobotoflexGen();
 
-  /// Directory path: packages/obtainium_fonts/assets/fonts
-  String get path => 'packages/obtainium_fonts/assets/fonts';
+  /// Directory path: packages/materium_fonts/assets/fonts
+  String get path => 'packages/materium_fonts/assets/fonts';
 }
 
 class $AssetsFontsFiracodeGen {
   const $AssetsFontsFiracodeGen();
 
   /// File path: assets/fonts/firacode/OFL.txt
-  String get ofl => 'packages/obtainium_fonts/assets/fonts/firacode/OFL.txt';
+  String get ofl => 'packages/materium_fonts/assets/fonts/firacode/OFL.txt';
 
-  /// Directory path: packages/obtainium_fonts/assets/fonts/firacode
-  String get path => 'packages/obtainium_fonts/assets/fonts/firacode';
+  /// Directory path: packages/materium_fonts/assets/fonts/firacode
+  String get path => 'packages/materium_fonts/assets/fonts/firacode';
 
   /// List of all assets
   List<String> get values => [ofl];
@@ -48,10 +48,10 @@ class $AssetsFontsGooglesanscodeGen {
 
   /// File path: assets/fonts/googlesanscode/OFL.txt
   String get ofl =>
-      'packages/obtainium_fonts/assets/fonts/googlesanscode/OFL.txt';
+      'packages/materium_fonts/assets/fonts/googlesanscode/OFL.txt';
 
-  /// Directory path: packages/obtainium_fonts/assets/fonts/googlesanscode
-  String get path => 'packages/obtainium_fonts/assets/fonts/googlesanscode';
+  /// Directory path: packages/materium_fonts/assets/fonts/googlesanscode
+  String get path => 'packages/materium_fonts/assets/fonts/googlesanscode';
 
   /// List of all assets
   List<String> get values => [ofl];
@@ -62,10 +62,10 @@ class $AssetsFontsGooglesansflexGen {
 
   /// File path: assets/fonts/googlesansflex/OFL.txt
   String get ofl =>
-      'packages/obtainium_fonts/assets/fonts/googlesansflex/OFL.txt';
+      'packages/materium_fonts/assets/fonts/googlesansflex/OFL.txt';
 
-  /// Directory path: packages/obtainium_fonts/assets/fonts/googlesansflex
-  String get path => 'packages/obtainium_fonts/assets/fonts/googlesansflex';
+  /// Directory path: packages/materium_fonts/assets/fonts/googlesansflex
+  String get path => 'packages/materium_fonts/assets/fonts/googlesansflex';
 
   /// List of all assets
   List<String> get values => [ofl];
@@ -75,10 +75,10 @@ class $AssetsFontsRobotoflexGen {
   const $AssetsFontsRobotoflexGen();
 
   /// File path: assets/fonts/robotoflex/OFL.txt
-  String get ofl => 'packages/obtainium_fonts/assets/fonts/robotoflex/OFL.txt';
+  String get ofl => 'packages/materium_fonts/assets/fonts/robotoflex/OFL.txt';
 
-  /// Directory path: packages/obtainium_fonts/assets/fonts/robotoflex
-  String get path => 'packages/obtainium_fonts/assets/fonts/robotoflex';
+  /// Directory path: packages/materium_fonts/assets/fonts/robotoflex
+  String get path => 'packages/materium_fonts/assets/fonts/robotoflex';
 
   /// List of all assets
   List<String> get values => [ofl];
@@ -87,7 +87,7 @@ class $AssetsFontsRobotoflexGen {
 class Assets {
   const Assets._();
 
-  static const String package = 'obtainium_fonts';
+  static const String package = 'materium_fonts';
 
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
 }

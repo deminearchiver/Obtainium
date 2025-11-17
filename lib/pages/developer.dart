@@ -19,7 +19,7 @@ import 'package:obtainium/theme/theme.dart';
 import 'package:super_editor/super_editor.dart';
 
 // ignore: implementation_imports
-import 'package:obtainium_fonts/src/assets/fonts.gen.dart';
+import 'package:materium_fonts/src/assets/fonts.gen.dart';
 
 // ignore: implementation_imports
 import 'package:material/src/material_shapes.dart'
