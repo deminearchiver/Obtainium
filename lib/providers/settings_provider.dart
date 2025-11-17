@@ -3,12 +3,12 @@
 import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:obtainium/flutter.dart';
+import 'package:materium/flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:obtainium/app_sources/github.dart';
-import 'package:obtainium/main.dart';
-import 'package:obtainium/providers/apps_provider.dart';
-import 'package:obtainium/providers/source_provider.dart';
+import 'package:materium/app_sources/github.dart';
+import 'package:materium/main.dart';
+import 'package:materium/providers/apps_provider.dart';
+import 'package:materium/providers/source_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_preferences/util/legacy_to_async_migration_util.dart';

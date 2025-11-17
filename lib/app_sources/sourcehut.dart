@@ -1,8 +1,8 @@
 import 'package:html/parser.dart';
-import 'package:obtainium/app_sources/html.dart';
-import 'package:obtainium/custom_errors.dart';
-import 'package:obtainium/providers/source_provider.dart';
-import 'package:obtainium/components/generated_form.dart';
+import 'package:materium/app_sources/html.dart';
+import 'package:materium/custom_errors.dart';
+import 'package:materium/providers/source_provider.dart';
+import 'package:materium/components/generated_form.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class SourceHut extends AppSource {

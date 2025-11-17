@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:obtainium/flutter.dart';
+import 'package:materium/flutter.dart';
 
 const double _kCollapsedHeight = 64.0;
 const double _kExpandedBottomPadding = 12.0;

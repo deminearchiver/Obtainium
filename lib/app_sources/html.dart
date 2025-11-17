@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
-import 'package:obtainium/components/generated_form.dart';
-import 'package:obtainium/custom_errors.dart';
-import 'package:obtainium/providers/apps_provider.dart';
-import 'package:obtainium/providers/source_provider.dart';
+import 'package:materium/components/generated_form.dart';
+import 'package:materium/custom_errors.dart';
+import 'package:materium/providers/apps_provider.dart';
+import 'package:materium/providers/source_provider.dart';
 
 String ensureAbsoluteUrl(String ambiguousUrl, Uri referenceAbsoluteUrl) {
   try {

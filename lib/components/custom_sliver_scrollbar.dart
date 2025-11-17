@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:obtainium/flutter.dart';
+import 'package:materium/flutter.dart';
 
 class SliverScrollbar extends StatefulWidget {
   const SliverScrollbar({super.key, required this.sliver});

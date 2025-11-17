@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
-import 'package:obtainium/custom_errors.dart';
-import 'package:obtainium/providers/source_provider.dart';
+import 'package:materium/custom_errors.dart';
+import 'package:materium/providers/source_provider.dart';
 
 class HuaweiAppGallery extends AppSource {
   HuaweiAppGallery() {

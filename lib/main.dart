@@ -1,16 +1,16 @@
 import 'dart:io';
 
-import 'package:obtainium/assets/assets.gen.dart';
-import 'package:obtainium/database/database.dart';
-import 'package:obtainium/flutter.dart';
-import 'package:obtainium/pages/home.dart';
-import 'package:obtainium/providers/apps_provider.dart';
-import 'package:obtainium/providers/logs_provider.dart';
-import 'package:obtainium/providers/notifications_provider.dart';
-import 'package:obtainium/providers/settings_provider.dart';
-import 'package:obtainium/providers/source_provider.dart';
-import 'package:obtainium/theme/legacy.dart';
-import 'package:obtainium/theme/theme.dart';
+import 'package:materium/assets/assets.gen.dart';
+import 'package:materium/database/database.dart';
+import 'package:materium/flutter.dart';
+import 'package:materium/pages/home.dart';
+import 'package:materium/providers/apps_provider.dart';
+import 'package:materium/providers/logs_provider.dart';
+import 'package:materium/providers/notifications_provider.dart';
+import 'package:materium/providers/settings_provider.dart';
+import 'package:materium/providers/source_provider.dart';
+import 'package:materium/theme/legacy.dart';
+import 'package:materium/theme/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:device_info_plus/device_info_plus.dart';

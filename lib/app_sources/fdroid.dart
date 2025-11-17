@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
-import 'package:obtainium/app_sources/github.dart';
-import 'package:obtainium/app_sources/gitlab.dart';
-import 'package:obtainium/components/generated_form.dart';
-import 'package:obtainium/custom_errors.dart';
-import 'package:obtainium/providers/source_provider.dart';
+import 'package:materium/app_sources/github.dart';
+import 'package:materium/app_sources/gitlab.dart';
+import 'package:materium/components/generated_form.dart';
+import 'package:materium/custom_errors.dart';
+import 'package:materium/providers/source_provider.dart';
 
 class FDroid extends AppSource {
   FDroid() {

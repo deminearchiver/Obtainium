@@ -10,7 +10,7 @@ import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_markdown_plus/src/_functions_io.dart'
     if (dart.library.js_interop) 'package:flutter_markdown_plus/src/_functions_web.dart';
 
-import 'package:obtainium/flutter.dart';
+import 'package:materium/flutter.dart';
 
 abstract class CustomMarkdownWidget extends StatefulWidget {
   const CustomMarkdownWidget({

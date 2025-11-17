@@ -22,7 +22,7 @@
 
 import 'dart:math' as math;
 
-import 'package:obtainium/flutter.dart';
+import 'package:materium/flutter.dart';
 
 /// A point in the cartesian coordinate system used by [Interpolation] types to
 /// represent interpolation nodes. This class simply represents the `x` and `y`

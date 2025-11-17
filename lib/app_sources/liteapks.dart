@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:obtainium/custom_errors.dart';
-import 'package:obtainium/providers/source_provider.dart';
+import 'package:materium/custom_errors.dart';
+import 'package:materium/providers/source_provider.dart';
 
 class LiteApks extends AppSource {
   LiteApks() {

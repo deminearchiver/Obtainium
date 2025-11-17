@@ -1,4 +1,4 @@
-name: obtainium
+name: materium
 description: Get Android app updates straight from the source.
 publish_to: none
 
@@ -42,7 +42,7 @@ dependencies:
   material:
     path: material
   materium_fonts:
-    path: obtainium_fonts
+    path: materium_fonts
   materium_i18n:
     path: materium_i18n
   meta: ^1.17.0

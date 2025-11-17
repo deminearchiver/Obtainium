@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:obtainium/flutter.dart';
+import 'package:materium/flutter.dart';
 import 'package:flutter/gestures.dart';
 
 const double _kMinThumbExtent = 18.0;

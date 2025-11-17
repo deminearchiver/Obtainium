@@ -1,6 +1,6 @@
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:material/material_color_utilities.dart';
-import 'package:obtainium/flutter.dart';
+import 'package:materium/flutter.dart';
 
 // ignore: implementation_imports
 import 'package:materium_fonts/src/assets/fonts.gen.dart';

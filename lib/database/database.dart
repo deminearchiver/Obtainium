@@ -1,7 +1,7 @@
-import 'package:obtainium/flutter.dart' show WidgetsFlutterBinding;
+import 'package:materium/flutter.dart' show WidgetsFlutterBinding;
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
-import 'package:obtainium/providers/logs_provider.dart';
+import 'package:materium/providers/logs_provider.dart';
 import 'package:path_provider/path_provider.dart';
 
 part 'database.g.dart';

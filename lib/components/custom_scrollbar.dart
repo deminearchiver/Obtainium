@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:obtainium/flutter.dart' hide RawScrollbar, RawScrollbarState;
+import 'package:materium/flutter.dart' hide RawScrollbar, RawScrollbarState;
 import 'custom_raw_scrollbar.dart';
 
 const Duration _kScrollbarFadeDuration = Duration(milliseconds: 300);

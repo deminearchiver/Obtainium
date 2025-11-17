@@ -3,8 +3,8 @@ import 'dart:typed_data';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_charset_detector/flutter_charset_detector.dart';
-import 'package:obtainium/custom_errors.dart';
-import 'package:obtainium/providers/source_provider.dart';
+import 'package:materium/custom_errors.dart';
+import 'package:materium/providers/source_provider.dart';
 
 class RuStore extends AppSource {
   RuStore() {

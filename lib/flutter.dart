@@ -73,7 +73,7 @@ export 'package:material/material.dart';
 // Self-import
 
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:obtainium/flutter.dart';
+import 'package:materium/flutter.dart';
 
 @immutable
 class CombiningBuilder extends StatelessWidget {

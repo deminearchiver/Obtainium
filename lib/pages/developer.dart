@@ -9,13 +9,13 @@ import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:material/material_shapes.dart';
 
-import 'package:obtainium/components/custom_app_bar.dart';
-import 'package:obtainium/components/custom_list.dart';
-import 'package:obtainium/components/custom_markdown.dart';
-import 'package:obtainium/flutter.dart';
+import 'package:materium/components/custom_app_bar.dart';
+import 'package:materium/components/custom_list.dart';
+import 'package:materium/components/custom_markdown.dart';
+import 'package:materium/flutter.dart';
 
 import 'package:markdown/markdown.dart' as md;
-import 'package:obtainium/theme/theme.dart';
+import 'package:materium/theme/theme.dart';
 import 'package:super_editor/super_editor.dart';
 
 // ignore: implementation_imports
