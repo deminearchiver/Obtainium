@@ -63,7 +63,7 @@ In this section the primary differences and deviations compared to the original 
 
 ### Self-built only
 
-Unfortunately, this fork does not provide any builds. If you want to use this version the app, you'll have to build it from source.
+For now, this fork does not provide any builds. If you want to use this version the app, you'll have to build it from source.
 
 #### What about codesigning?
 
@@ -124,6 +124,8 @@ This section contains the list of projects that are planned to be implemented.
 
 ### Global changes
 
+Changes affecting the project as a whole.
+
 - [ ] Rebrand the project from Obtainium to Materium
   - [x] Rename GitHub repository
   - [x] Change internal package names
@@ -138,8 +140,8 @@ This section contains the list of projects that are planned to be implemented.
   - [x] Change the name in [`README.md`](README.md)
   - [ ] Change the name in issue templates ([`.github/ISSUE_TEMPLATE`](.github/ISSUE_TEMPLATE))
   - [ ] Automatically change the name in translation files ([`assets/translations/*.json`](assets/translations)) to apply changes across the app
-
-
+  - [ ] Create new brand assets
+    - [ ] Change app icon
 
 ### User-facing changes
 
@@ -223,13 +225,21 @@ The following list contains changes regarding the project's repository:
 - [ ] Create pull request templates
 - [ ] Set up discussions
 - [ ] Start accepting open-source contributions
-- [ ] Consider choosing a different name for the app to further deviate from the original project
+- [x] ~~Consider choosing a different name for the app to further deviate from the original project~~
 - [ ] Set up [**Renovate CLI**](https://github.com/renovatebot/renovate)
   - [ ] Install [**Renovate**](https://github.com/apps/renovate) GitHub app in this repository
+- [ ] Start providing build APKs via CI
+  - [ ] Set up GitHub actions
+  - [ ] Set up a Telegram channel to act as the CI feed
 
 ### Miscellaneous
 
+Features not directly related to the project or not urgently needed.
+
 - [ ] Create a website for the app
+  - [ ] Change website link in [`README.md`](README.md)
+  - [ ] Change website link throughout the GitHub repository
+  - [ ] Change website link inside of the app
 
 ## About
 
