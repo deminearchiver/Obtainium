@@ -20,11 +20,12 @@ abstract final class LegacyThemeFactory {
       textTheme: typescaleTheme.toBaselineTextTheme(),
       // TODO: remove this after migration to CustomScrollbar
       scrollbarTheme: ScrollbarThemeData(
-        thickness: const WidgetStatePropertyAll(8.0),
-        radius: const Radius.circular(4.0),
+        thickness: const WidgetStatePropertyAll(4.0),
+        radius: const Radius.circular(2.0),
         minThumbLength: 48.0,
+        crossAxisMargin: 4.0,
         thumbColor: WidgetStateProperty.resolveWith((states) {
-          return colorTheme.primary;
+          return colorTheme.outline;
         }),
       ),
       iconTheme: IconThemeDataLegacy(
@@ -211,7 +212,7 @@ abstract final class LegacyThemeFactory {
         colorTheme: colorTheme,
         elevationTheme: elevationTheme,
         shapeTheme: shapeTheme,
-        variant: MenuVariant.vibrant,
+        variant: MenuVariant.standard,
       ),
       menuButtonTheme: createMenuButtonTheme(
         colorTheme: colorTheme,
@@ -219,7 +220,7 @@ abstract final class LegacyThemeFactory {
         shapeTheme: shapeTheme,
         stateTheme: stateTheme,
         typescaleTheme: typescaleTheme,
-        variant: MenuVariant.vibrant,
+        variant: MenuVariant.standard,
       ),
       pageTransitionsTheme: PageTransitionsTheme(
         builders: {

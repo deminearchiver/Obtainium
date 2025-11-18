@@ -5,7 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:materium/assets/assets.gen.dart';
 import 'package:materium/components/custom_decorated_sliver.dart';
 import 'package:materium/components/custom_list.dart';
-import 'package:materium/components/custom_scrollbar.dart';
+import 'package:materium/components/custom_refresh_indicator.dart';
 import 'package:materium/components/custom_sliver_scrollbar.dart';
 import 'package:materium/flutter.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
@@ -165,8 +165,8 @@ class AppsPageState extends State<AppsPage> {
     }
   }
 
-  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<CustomRefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<CustomRefreshIndicatorState>();
 
   late final ScrollController scrollController = ScrollController();
 
@@ -1861,18 +1861,23 @@ class AppsPageState extends State<AppsPage> {
       );
     }
 
+    final padding = MediaQuery.paddingOf(context);
+
     return Scaffold(
       backgroundColor: colorTheme.surfaceContainer,
-      // TODO: replace with a Loading indicator
-      body: RefreshIndicator(
+      body: CustomRefreshIndicator(
         key: _refreshIndicatorKey,
-        edgeOffset: 0.0,
-        displacement: MediaQuery.paddingOf(context).top + (64.0 - 49.0) / 2.0,
-        elevation: 0.0,
-        backgroundColor: colorTheme.primaryContainer,
-        color: colorTheme.onPrimaryContainer,
-        onRefresh: refresh,
-        child: CustomScrollbar(
+        onRefresh: () async {
+          if (kDebugMode) {
+            await Future.delayed(const Duration(seconds: 5));
+          }
+          if (context.mounted) {
+            await refresh();
+          }
+        },
+        edgeOffset: padding.top + 120.0,
+        displacement: 80.0,
+        child: Scrollbar(
           controller: scrollController,
           interactive: true,
           child: CustomScrollView(

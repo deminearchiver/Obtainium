@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:materium/components/custom_app_bar.dart';
 import 'package:materium/components/custom_decorated_sliver.dart';
 import 'package:materium/components/custom_list.dart';
+import 'package:materium/components/custom_refresh_indicator.dart';
 import 'package:materium/flutter.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:materium/components/generated_form_modal.dart';
@@ -801,23 +802,24 @@ class _AppPageState extends State<AppPage> {
 
     final showProgressIndicator = app?.downloadProgress != null;
 
+    final padding = MediaQuery.paddingOf(context);
+
     return Scaffold(
       extendBody: false,
       appBar: showAppWebpageFinal ? AppBar() : null,
       backgroundColor: colorTheme.surfaceContainer,
       // TODO: replace with a Loading indicator
-      body: RefreshIndicator(
-        edgeOffset: 0.0,
-        displacement: MediaQuery.paddingOf(context).top + (64.0 - 49.0) / 2.0,
-        backgroundColor: colorTheme.primaryContainer,
-        color: colorTheme.onPrimaryContainer,
-        elevation: 0.0,
+      body: CustomRefreshIndicator(
         onRefresh: () async {
-          // if (kDebugMode) return Future.delayed(const Duration(minutes: 1));
+          if (kDebugMode) {
+            await Future.delayed(const Duration(seconds: 5));
+          }
           if (app != null) {
             return getUpdate(app.app.id);
           }
         },
+        edgeOffset: padding.top + 64.0,
+        displacement: 80.0,
         child: showAppWebpageFinal
             ? getAppWebView()
             : CustomScrollView(
@@ -890,9 +892,7 @@ class _AppPageState extends State<AppPage> {
           ),
           color: colorTheme.surfaceContainerHigh,
           child: Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.paddingOf(context).bottom,
-            ),
+            padding: EdgeInsets.only(bottom: padding.bottom),
             child: SizedBox(
               width: double.infinity,
               height: 64.0,
