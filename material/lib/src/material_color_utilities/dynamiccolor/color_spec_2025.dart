@@ -2030,25 +2030,16 @@ final class ColorSpec2025 implements ColorSpec {
   }
 
   static ContrastCurve _getContrastCurve(double defaultContrast) {
-    if (defaultContrast == 1.5) {
-      return const ContrastCurve(1.5, 1.5, 3.0, 4.5);
-    } else if (defaultContrast == 3.0) {
-      return const ContrastCurve(3.0, 3.0, 4.5, 7.0);
-    } else if (defaultContrast == 4.5) {
-      return const ContrastCurve(4.5, 4.5, 7.0, 11.0);
-    } else if (defaultContrast == 6.0) {
-      return const ContrastCurve(6.0, 6.0, 7.0, 11.0);
-    } else if (defaultContrast == 7.0) {
-      return const ContrastCurve(7.0, 7.0, 11.0, 21.0);
-    } else if (defaultContrast == 9.0) {
-      return const ContrastCurve(9.0, 9.0, 11.0, 21.0);
-    } else if (defaultContrast == 11.0) {
-      return const ContrastCurve(11.0, 11.0, 21.0, 21.0);
-    } else if (defaultContrast == 21.0) {
-      return const ContrastCurve(21.0, 21.0, 21.0, 21.0);
-    } else {
-      // Shouldn't happen.
-      return ContrastCurve(defaultContrast, defaultContrast, 7, 21);
-    }
+    return switch (defaultContrast) {
+      1.5 => const ContrastCurve(1.5, 1.5, 3.0, 5.5),
+      3.0 => const ContrastCurve(3.0, 3.0, 4.5, 7.0),
+      4.5 => const ContrastCurve(4.5, 4.5, 7.0, 11.0),
+      6.0 => const ContrastCurve(6.0, 6.0, 7.0, 11.0),
+      7.0 => const ContrastCurve(7.0, 7.0, 11.0, 21.0),
+      9.0 => const ContrastCurve(9.0, 9.0, 11.0, 21.0),
+      11.0 => const ContrastCurve(11.0, 11.0, 21.0, 21.0),
+      21.0 => const ContrastCurve(21.0, 21.0, 21.0, 21.0),
+      _ => ContrastCurve(defaultContrast, defaultContrast, 7.0, 21.0),
+    };
   }
 }
