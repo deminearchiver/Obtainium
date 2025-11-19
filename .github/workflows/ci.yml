@@ -23,6 +23,12 @@ jobs:
         with:
           fetch-depth: 1
           submodules: recursive
+      - name: 🚀 Cache pub deps
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: ${{ runner.os }}-pub-
 
       - name: Setup Java (Temurin 17)
         uses: actions/setup-java@v5
@@ -46,9 +52,9 @@ jobs:
       - name: Find APKs
         if: github.event_name != 'pull_request'
         run: |
-          APK_FILE=$(find build/app/outputs/flutter-apk -name "app-release.apk")
-          echo "APK_FILE=$APK_FILE" >> $GITHUB_ENV
-          echo "APK_FILE_NAME=$(basename $APK_FILE .apk)" >> $GITHUB_ENV
+          APK_FILE=$(find build/app/outputs/flutter-apk -name 'app-release.apk')
+          echo 'APK_FILE=$APK_FILE' >> $GITHUB_ENV
+          echo 'APK_FILE_NAME=$(basename $APK_FILE .apk)' >> $GITHUB_ENV
 
       - name: Upload files to Telegram
         uses: xz-dev/TelegramFileUploader@v1.1.1
