@@ -40,4 +40,24 @@ jobs:
         run: flutter pub get
 
       - name: Build APKs
-        run: flutter build apk --release
+        run: |
+          flutter build apk --release
+
+      - name: Find APKs
+        if: github.event_name != 'pull_request'
+        run: |
+          APK_FILE=$(find build/app/outputs/flutter-apk -name "app-release.apk")
+          echo "APK_FILE=$APK_FILE" >> $GITHUB_ENV
+          echo "APK_FILE_NAME=$(basename $APK_FILE .apk)" >> $GITHUB_ENV
+
+      - name: Upload files to Telegram
+        uses: xz-dev/TelegramFileUploader@v1.1.1
+        with:
+          to-who: ${{ secrets.TELEGRAM_CHAT_ID }}
+          message: ${{ github.sha }}
+          files: |
+            ${{ env.APK_FILE }}
+        env:
+          API_ID: ${{ secrets.TELEGRAM_APP_API_ID }}
+          API_HASH: ${{ secrets.TELEGRAM_APP_API_HASH }}
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
