@@ -23,7 +23,7 @@ jobs:
         with:
           fetch-depth: 1
           submodules: recursive
-      - name: 🚀 Cache pub deps
+      - name: Pub cache
         uses: actions/cache@v4
         with:
           path: ~/.pub-cache
@@ -49,12 +49,12 @@ jobs:
         run: |
           flutter build apk --release
 
-      - name: Find APKs
-        if: github.event_name != 'pull_request'
-        run: |
-          APK_FILE=$(find build/app/outputs/flutter-apk -name 'app-release.apk')
-          echo 'APK_FILE=$APK_FILE' >> $GITHUB_ENV
-          echo 'APK_FILE_NAME=$(basename $APK_FILE .apk)' >> $GITHUB_ENV
+      # - name: Find APKs
+      #   if: github.event_name != 'pull_request'
+      #   run: |
+      #     APK_FILE=$(find build/app/outputs/flutter-apk -name 'app-release.apk')
+      #     echo 'APK_FILE=$APK_FILE' >> $GITHUB_ENV
+      #     echo 'APK_FILE_NAME=$(basename $APK_FILE .apk)' >> $GITHUB_ENV
 
       - name: Upload files to Telegram
         uses: xz-dev/TelegramFileUploader@v1.1.1
@@ -62,7 +62,7 @@ jobs:
           to-who: ${{ secrets.TELEGRAM_CHAT_ID }}
           message: ${{ github.sha }}
           files: |
-            ${{ env.APK_FILE }}
+            build/app/outputs/flutter-apk/app-release.apk
         env:
           API_ID: ${{ secrets.TELEGRAM_APP_API_ID }}
           API_HASH: ${{ secrets.TELEGRAM_APP_API_HASH }}
