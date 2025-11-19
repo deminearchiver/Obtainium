@@ -363,26 +363,29 @@ class _HomePageState extends State<HomePage> {
         ? 0
         : _selectedIndexHistory.last;
 
-    // TODO: this doesn't seem to do anything because onWillPop is null
-    return Scaffold(
-      backgroundColor: colorTheme.surfaceContainer,
-      body: pages
-          .elementAt(
-            _selectedIndexHistory.isEmpty ? 0 : _selectedIndexHistory.last,
-          )
-          .widget,
-      bottomNavigationBar: NavigationBar(
-        backgroundColor: switch (selectedIndex) {
-          0 => colorTheme.surfaceContainerHigh,
-          1 || 2 || 3 => colorTheme.surfaceContainerHigh,
-          _ => colorTheme.surfaceContainer,
-        },
-        onDestinationSelected: (index) async {
-          HapticFeedback.selectionClick();
-          _switchToPage(index);
-        },
-        selectedIndex: selectedIndex,
-        destinations: pages.map((e) => e.destination).toList(),
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (didPop, result) {},
+      child: Scaffold(
+        backgroundColor: colorTheme.surfaceContainer,
+        body: pages
+            .elementAt(
+              _selectedIndexHistory.isEmpty ? 0 : _selectedIndexHistory.last,
+            )
+            .widget,
+        bottomNavigationBar: NavigationBar(
+          backgroundColor: switch (selectedIndex) {
+            0 => colorTheme.surfaceContainerHigh,
+            1 || 2 || 3 => colorTheme.surfaceContainerHigh,
+            _ => colorTheme.surfaceContainer,
+          },
+          onDestinationSelected: (index) async {
+            HapticFeedback.selectionClick();
+            _switchToPage(index);
+          },
+          selectedIndex: selectedIndex,
+          destinations: pages.map((e) => e.destination).toList(),
+        ),
       ),
     );
   }
