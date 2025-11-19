@@ -69,68 +69,6 @@ abstract final class LegacyThemeFactory {
           );
         }),
       ),
-      switchTheme: SwitchThemeDataLegacy(
-        materialTapTargetSize: MaterialTapTargetSize.padded,
-        mouseCursor: WidgetStateMouseCursor.clickable,
-        splashRadius: 20.0,
-        trackOutlineWidth: const WidgetStatePropertyAll(2.0),
-        trackOutlineColor: WidgetStateProperty.resolveWith((states) {
-          final isSelected = states.contains(WidgetState.selected);
-          final isDisabled = states.contains(WidgetState.disabled);
-          final color = isSelected ? colorTheme.primary : colorTheme.outline;
-          return isDisabled ? color.withAlpha(0) : color;
-        }),
-        trackColor: WidgetStateProperty.resolveWith((states) {
-          final isSelected = states.contains(WidgetState.selected);
-          final isDisabled = states.contains(WidgetState.disabled);
-          return isDisabled
-              ? isSelected
-                    ? colorTheme.onSurface.withValues(alpha: 0.10)
-                    : colorTheme.surfaceContainerHighest.withValues(alpha: 0.10)
-              : isSelected
-              ? colorTheme.primary
-              : colorTheme.surfaceContainerHighest;
-        }),
-        thumbColor: WidgetStateProperty.resolveWith((states) {
-          final isSelected = states.contains(WidgetState.selected);
-          final isDisabled = states.contains(WidgetState.disabled);
-          return isDisabled
-              ? isSelected
-                    ? colorTheme.surface
-                    : colorTheme.onSurface.withValues(alpha: 0.38)
-              : isSelected
-              ? colorTheme.onPrimary
-              : colorTheme.outline;
-        }),
-        overlayColor: WidgetStateProperty.resolveWith((states) {
-          final isSelected = states.contains(WidgetState.selected);
-          final color = isSelected ? colorTheme.primary : colorTheme.onSurface;
-          final opacity = stateTheme.stateLayerOpacity.resolve(states);
-          return switch (opacity) {
-            0.0 => color.withAlpha(0),
-            1.0 => color,
-            final value => color.withValues(alpha: value),
-          };
-        }),
-        thumbIcon: WidgetStateProperty.resolveWith((states) {
-          final isSelected = states.contains(WidgetState.selected);
-          final isDisabled = states.contains(WidgetState.disabled);
-          return IconLegacy(
-            isSelected ? Symbols.check_rounded : Symbols.close_rounded,
-            size: 16.0,
-            opticalSize: 24.0,
-            color: isDisabled
-                ? isSelected
-                      ? colorTheme.onSurface.withValues(alpha: 0.38)
-                      : colorTheme.surfaceContainerHighest.withValues(
-                          alpha: 0.38,
-                        )
-                : isSelected
-                ? colorTheme.primary
-                : colorTheme.surfaceContainerHighest,
-          );
-        }),
-      ),
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         // ignore: deprecated_member_use
         year2023: false,
@@ -169,12 +107,7 @@ abstract final class LegacyThemeFactory {
       bottomSheetTheme: BottomSheetThemeData(
         showDragHandle: true,
         clipBehavior: Clip.antiAlias,
-        shape: CornersBorder.rounded(
-          corners: Corners.vertical(
-            top: shapeTheme.corner.extraLarge,
-            bottom: shapeTheme.corner.none,
-          ),
-        ),
+        shape: CornersBorder.rounded(corners: shapeTheme.corner.extraLargeTop),
         surfaceTintColor: Colors.transparent,
         shadowColor: colorTheme.shadow,
         backgroundColor: colorTheme.surfaceContainerLow,
@@ -184,6 +117,7 @@ abstract final class LegacyThemeFactory {
         modalElevation: elevationTheme.level0,
         dragHandleSize: const Size(32.0, 4.0),
         dragHandleColor: colorTheme.onSurfaceVariant,
+        constraints: const BoxConstraints(maxWidth: 640.0),
       ),
       dividerTheme: DividerThemeData(
         color: colorTheme.outlineVariant,

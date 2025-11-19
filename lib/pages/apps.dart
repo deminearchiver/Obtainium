@@ -135,7 +135,7 @@ Null Function()? getChangeLogFn(BuildContext context, App app) {
         };
 }
 
-class AppsPageState extends State<AppsPage> {
+class AppsPageState extends State<AppsPage> with TickerProviderStateMixin {
   AppsFilter filter = AppsFilter();
   final AppsFilter neutralFilter = AppsFilter();
   var updatesOnlyFilter = AppsFilter(
@@ -973,285 +973,129 @@ class AppsPageState extends State<AppsPage> {
     }
 
     Future<void> showMoreOptionsDialog() {
-      if (kDebugMode) {
-        return showModalBottomSheet(
-          context: context,
-          useRootNavigator: true,
-          isDismissible: true,
-          clipBehavior: Clip.antiAlias,
-          elevation: 0.0,
-          shape: CornersBorder.rounded(
-            corners: Corners.vertical(
-              top: shapeTheme.corner.extraLarge,
-              bottom: shapeTheme.corner.none,
-            ),
-          ),
-          showDragHandle: true,
-          backgroundColor: colorTheme.surfaceContainerLow,
-          builder: (context) => ListTileTheme(
-            data: ListTileThemeData(
-              minTileHeight: 56.0,
-              iconColor: colorTheme.onSurfaceVariant,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 8.0,
-              ),
-              horizontalTitleGap: 12.0,
-              titleTextStyle: typescaleTheme.titleMediumEmphasized.toTextStyle(
-                color: colorTheme.onSurface,
-              ),
-            ),
-            child: Flex.vertical(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ListTile(
-                  onTap: pinSelectedApps,
-                  leading: SizedBox(
-                    width: 40.0,
-                    height: 40.0,
-                    child: Material(
-                      animationDuration: Duration.zero,
-                      type: MaterialType.card,
-                      clipBehavior: Clip.antiAlias,
-                      color: colorTheme.surfaceContainerHighest,
-                      shape: CornersBorder.rounded(
-                        corners: Corners.all(shapeTheme.corner.full),
-                      ),
-                      child:
-                          selectedApps
-                              .where((element) => element.pinned)
-                              .isEmpty
-                          ? const IconLegacy(Symbols.keep_rounded, fill: 1.0)
-                          : const IconLegacy(
-                              Symbols.keep_off_rounded,
-                              fill: 1.0,
+      return showModalBottomSheet(
+        context: context,
+        barrierColor: colorTheme.scrim.withValues(alpha: 0.32),
+        useRootNavigator: true,
+        isDismissible: true,
+        isScrollControlled: true,
+        useSafeArea: true,
+        builder: (context) {
+          final colorTheme = ColorTheme.of(context);
+          final listItemContainerColor = colorTheme.surfaceContainerHigh;
+          final iconContainerColor = colorTheme.surfaceContainerLow;
+          final iconColor = colorTheme.onSurfaceVariant;
+          final windowHeightSizeClass = WindowHeightSizeClass.of(context);
+          return DraggableScrollableSheet(
+            expand: false,
+            shouldCloseOnMinExtent: true,
+            initialChildSize: switch (windowHeightSizeClass) {
+              WindowHeightSizeClass.compact => 1.0,
+              WindowHeightSizeClass.medium => 0.75,
+              WindowHeightSizeClass.expanded => 0.55,
+            },
+            maxChildSize: 1.0,
+            builder: (context, scrollController) => CustomScrollView(
+              controller: scrollController,
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                  sliver: SliverList.list(
+                    children: [
+                      ListItemContainer(
+                        isFirst: true,
+                        containerColor: listItemContainerColor,
+                        child: ListItemInteraction(
+                          onTap: pinSelectedApps,
+                          child: ListItemLayout(
+                            isMultiline: true,
+                            leading: SizedBox.square(
+                              dimension: 40.0,
+                              child: Material(
+                                animationDuration: Duration.zero,
+                                type: MaterialType.card,
+                                clipBehavior: Clip.antiAlias,
+                                color: iconContainerColor,
+                                shape: const StadiumBorder(),
+                                child: Align.center(
+                                  child:
+                                      selectedApps
+                                          .where((element) => element.pinned)
+                                          .isEmpty
+                                      ? IconLegacy(
+                                          Symbols.keep_rounded,
+                                          fill: 1.0,
+                                          color: colorTheme.onSurfaceVariant,
+                                        )
+                                      : IconLegacy(
+                                          Symbols.keep_off_rounded,
+                                          fill: 1.0,
+                                          color: colorTheme.onSurfaceVariant,
+                                        ),
+                                ),
+                              ),
                             ),
-                    ),
-                  ),
-                  title: Text(
-                    selectedApps.where((element) => element.pinned).isEmpty
-                        ? tr('pinToTop')
-                        : tr('unpinFromTop'),
-                  ),
-                ),
-                ListTile(
-                  onTap: () {
-                    String urls = '';
-                    for (var a in selectedApps) {
-                      urls += '${a.url}\n';
-                    }
-                    urls = urls.substring(0, urls.length - 1);
-                    SharePlus.instance.share(
-                      ShareParams(
-                        text: urls,
-                        subject: "Materium - ${tr("appsString")}",
-                      ),
-                    );
-                    Navigator.of(context).pop();
-                  },
-                  leading: SizedBox(
-                    width: 40.0,
-                    height: 40.0,
-                    child: Material(
-                      animationDuration: Duration.zero,
-                      type: MaterialType.card,
-                      clipBehavior: Clip.antiAlias,
-                      color: colorTheme.surfaceContainerHighest,
-                      shape: CornersBorder.rounded(
-                        corners: Corners.all(shapeTheme.corner.full),
-                      ),
-                      child: const IconLegacy(Symbols.share_rounded, fill: 1.0),
-                    ),
-                  ),
-                  title: Text(tr('shareSelectedAppURLs')),
-                ),
-                if (selectedAppIds.isNotEmpty)
-                  ListTile(
-                    onTap: () {
-                      String urls = '';
-                      for (var a in selectedApps) {
-                        urls +=
-                            'https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/${Uri.encodeComponent(jsonEncode({'id': a.id, 'url': a.url, 'author': a.author, 'name': a.name, 'preferredApkIndex': a.preferredApkIndex, 'additionalSettings': jsonEncode(a.additionalSettings), 'overrideSource': a.overrideSource}))}\n\n';
-                      }
-                      SharePlus.instance.share(
-                        ShareParams(
-                          text: urls,
-                          subject: "Materium - ${tr("appsString")}",
-                        ),
-                      );
-                    },
-                    leading: SizedBox(
-                      width: 40.0,
-                      height: 40.0,
-                      child: Material(
-                        animationDuration: Duration.zero,
-                        type: MaterialType.card,
-                        clipBehavior: Clip.antiAlias,
-                        color: colorTheme.surfaceContainerHighest,
-                        shape: CornersBorder.rounded(
-                          corners: Corners.all(shapeTheme.corner.full),
-                        ),
-                        child: const IconLegacy(
-                          Symbols.share_rounded,
-                          fill: 1.0,
-                        ),
-                      ),
-                    ),
-                    title: Text(tr('shareAppConfigLinks')),
-                  ),
-                if (selectedAppIds.isNotEmpty)
-                  ListTile(
-                    onTap: () {
-                      var encoder = const JsonEncoder.withIndent("    ");
-                      var exportJSON = encoder.convert(
-                        appsProvider.generateExportJSON(
-                          appIds: selectedApps.map((e) => e.id).toList(),
-                          overrideExportSettings: 0,
-                        ),
-                      );
-                      String fn =
-                          '${tr('obtainiumExportHyphenatedLowercase')}-${DateTime.now().toIso8601String().replaceAll(':', '-')}-count-${selectedApps.length}';
-                      XFile f = XFile.fromData(
-                        Uint8List.fromList(utf8.encode(exportJSON)),
-                        mimeType: 'application/json',
-                        name: fn,
-                      );
-                      SharePlus.instance.share(
-                        ShareParams(
-                          files: [f],
-                          fileNameOverrides: ['$fn.json'],
-                        ),
-                      );
-                    },
-                    leading: SizedBox(
-                      width: 40.0,
-                      height: 40.0,
-                      child: Material(
-                        animationDuration: Duration.zero,
-                        type: MaterialType.card,
-                        clipBehavior: Clip.antiAlias,
-                        color: colorTheme.surfaceContainerHighest,
-                        shape: CornersBorder.rounded(
-                          corners: Corners.all(shapeTheme.corner.full),
-                        ),
-                        child: const IconLegacy(
-                          Symbols.share_rounded,
-                          fill: 1.0,
-                        ),
-                      ),
-                    ),
-                    title: Text('${tr('share')} - ${tr('obtainiumExport')}'),
-                  ),
-                ListTile(
-                  onTap: () {
-                    appsProvider
-                        .downloadAppAssets(
-                          selectedApps.map((e) => e.id).toList(),
-                          globalNavigatorKey.currentContext ?? context,
-                        )
-                        .catchError(
-                          // ignore: invalid_return_type_for_catch_error
-                          (e) => showError(
-                            e,
-                            globalNavigatorKey.currentContext ?? context,
+                            headline: Text(
+                              selectedApps
+                                      .where((element) => element.pinned)
+                                      .isEmpty
+                                  ? tr("pinToTop")
+                                  : tr("unpinFromTop"),
+                            ),
                           ),
-                        );
-                    Navigator.of(context).pop();
-                  },
-                  leading: SizedBox(
-                    width: 40.0,
-                    height: 40.0,
-                    child: Material(
-                      animationDuration: Duration.zero,
-                      type: MaterialType.card,
-                      clipBehavior: Clip.antiAlias,
-                      color: colorTheme.surfaceContainerHighest,
-                      shape: CornersBorder.rounded(
-                        corners: Corners.all(shapeTheme.corner.full),
+                        ),
                       ),
-                      child: const IconLegacy(Symbols.download_rounded),
-                    ),
-                  ),
-                  title: Text(
-                    tr(
-                      'downloadX',
-                      args: [lowerCaseIfEnglish(tr('releaseAsset'))],
-                    ),
-                  ),
-                ),
-                ListTile(
-                  onTap: appsProvider.areDownloadsRunning()
-                      ? null
-                      : showMassMarkDialog,
-                  leading: SizedBox(
-                    width: 40.0,
-                    height: 40.0,
-                    child: Material(
-                      animationDuration: Duration.zero,
-                      type: MaterialType.card,
-                      clipBehavior: Clip.antiAlias,
-                      color: colorTheme.surfaceContainerHighest,
-                      shape: CornersBorder.rounded(
-                        corners: Corners.all(shapeTheme.corner.full),
-                      ),
-                      child: const IconLegacy(Symbols.done_all_rounded),
-                    ),
-                  ),
-                  title: Text(tr('markSelectedAppsUpdated')),
-                ),
-                const SizedBox(height: 16.0),
-                SizedBox(height: MediaQuery.paddingOf(context).bottom),
-              ],
-            ),
-          ),
-        );
-      } else {
-        return showDialog(
-          context: context,
-          builder: (ctx) {
-            return AlertDialog(
-              scrollable: true,
-              content: Padding(
-                padding: const EdgeInsets.only(top: 6),
-                child: Flex.vertical(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    TextButton(
-                      onPressed: pinSelectedApps,
-                      child: Text(
-                        selectedApps.where((element) => element.pinned).isEmpty
-                            ? tr('pinToTop')
-                            : tr('unpinFromTop'),
-                      ),
-                    ),
-                    const Divider(),
-                    TextButton(
-                      onPressed: () {
-                        String urls = '';
-                        for (var a in selectedApps) {
-                          urls += '${a.url}\n';
-                        }
-                        urls = urls.substring(0, urls.length - 1);
-                        SharePlus.instance.share(
-                          ShareParams(
-                            text: urls,
-                            subject: "Materium - ${tr("appsString")}",
+                      const SizedBox(height: 2.0),
+                      ListItemContainer(
+                        containerColor: listItemContainerColor,
+                        child: ListItemInteraction(
+                          onTap: () {
+                            String urls = "";
+                            for (var a in selectedApps) {
+                              urls += "${a.url}\n";
+                            }
+                            urls = urls.substring(0, urls.length - 1);
+                            SharePlus.instance.share(
+                              ShareParams(
+                                text: urls,
+                                subject: "Materium - ${tr("appsString")}",
+                              ),
+                            );
+                            Navigator.of(context).pop();
+                          },
+                          child: ListItemLayout(
+                            isMultiline: true,
+                            leading: SizedBox.square(
+                              dimension: 40.0,
+                              child: Material(
+                                animationDuration: Duration.zero,
+                                type: MaterialType.card,
+                                clipBehavior: Clip.antiAlias,
+                                color: iconContainerColor,
+                                shape: const StadiumBorder(),
+                                child: Align.center(
+                                  child: IconLegacy(
+                                    Symbols.share_rounded,
+                                    fill: 1.0,
+                                    color: colorTheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            headline: Text(tr("shareSelectedAppURLs")),
                           ),
-                        );
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(tr('shareSelectedAppURLs')),
-                    ),
-                    const Divider(),
-                    TextButton(
-                      onPressed: selectedAppIds.isEmpty
-                          ? null
-                          : () {
-                              String urls = '';
+                        ),
+                      ),
+                      if (selectedApps.isNotEmpty) ...[
+                        const SizedBox(height: 2.0),
+                        ListItemContainer(
+                          containerColor: listItemContainerColor,
+                          child: ListItemInteraction(
+                            onTap: () {
+                              String urls = "";
                               for (var a in selectedApps) {
                                 urls +=
-                                    'https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/${Uri.encodeComponent(jsonEncode({'id': a.id, 'url': a.url, 'author': a.author, 'name': a.name, 'preferredApkIndex': a.preferredApkIndex, 'additionalSettings': jsonEncode(a.additionalSettings), 'overrideSource': a.overrideSource}))}\n\n';
+                                    "https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/${Uri.encodeComponent(jsonEncode({"id": a.id, "url": a.url, "author": a.author, "name": a.name, "preferredApkIndex": a.preferredApkIndex, "additionalSettings": jsonEncode(a.additionalSettings), "overrideSource": a.overrideSource}))}\n\n";
                               }
                               SharePlus.instance.share(
                                 ShareParams(
@@ -1260,13 +1104,34 @@ class AppsPageState extends State<AppsPage> {
                                 ),
                               );
                             },
-                      child: Text(tr('shareAppConfigLinks')),
-                    ),
-                    const Divider(),
-                    TextButton(
-                      onPressed: selectedAppIds.isEmpty
-                          ? null
-                          : () {
+                            child: ListItemLayout(
+                              isMultiline: true,
+                              leading: SizedBox.square(
+                                dimension: 40.0,
+                                child: Material(
+                                  animationDuration: Duration.zero,
+                                  type: MaterialType.card,
+                                  clipBehavior: Clip.antiAlias,
+                                  color: iconContainerColor,
+                                  shape: const StadiumBorder(),
+                                  child: Align.center(
+                                    child: IconLegacy(
+                                      Symbols.share_rounded,
+                                      fill: 1.0,
+                                      color: colorTheme.onSurfaceVariant,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              headline: Text(tr("shareAppConfigLinks")),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 2.0),
+                        ListItemContainer(
+                          containerColor: listItemContainerColor,
+                          child: ListItemInteraction(
+                            onTap: () {
                               var encoder = const JsonEncoder.withIndent(
                                 "    ",
                               );
@@ -1279,59 +1144,137 @@ class AppsPageState extends State<AppsPage> {
                                 ),
                               );
                               String fn =
-                                  '${tr('obtainiumExportHyphenatedLowercase')}-${DateTime.now().toIso8601String().replaceAll(':', '-')}-count-${selectedApps.length}';
+                                  "${tr("obtainiumExportHyphenatedLowercase")}-${DateTime.now().toIso8601String().replaceAll(":", "-")}-count-${selectedApps.length}";
                               XFile f = XFile.fromData(
                                 Uint8List.fromList(utf8.encode(exportJSON)),
-                                mimeType: 'application/json',
+                                mimeType: "application/json",
                                 name: fn,
                               );
                               SharePlus.instance.share(
                                 ShareParams(
                                   files: [f],
-                                  fileNameOverrides: ['$fn.json'],
+                                  fileNameOverrides: ["$fn.json"],
                                 ),
                               );
                             },
-                      child: Text('${tr('share')} - ${tr('obtainiumExport')}'),
-                    ),
-                    const Divider(),
-                    TextButton(
-                      onPressed: () {
-                        appsProvider
-                            .downloadAppAssets(
-                              selectedApps.map((e) => e.id).toList(),
-                              globalNavigatorKey.currentContext ?? context,
-                            )
-                            .catchError(
-                              // ignore: invalid_return_type_for_catch_error
-                              (e) => showError(
-                                e,
-                                globalNavigatorKey.currentContext ?? context,
+                            child: ListItemLayout(
+                              isMultiline: true,
+                              leading: SizedBox.square(
+                                dimension: 40.0,
+                                child: Material(
+                                  animationDuration: Duration.zero,
+                                  type: MaterialType.card,
+                                  clipBehavior: Clip.antiAlias,
+                                  color: iconContainerColor,
+                                  shape: const StadiumBorder(),
+                                  child: Align.center(
+                                    child: IconLegacy(
+                                      Symbols.share_rounded,
+                                      fill: 1.0,
+                                      color: colorTheme.onSurfaceVariant,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            );
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                        tr(
-                          'downloadX',
-                          args: [lowerCaseIfEnglish(tr('releaseAsset'))],
+                              headline: Text(
+                                "${tr("share")} - ${tr("obtainiumExport")}",
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                      const SizedBox(height: 2.0),
+                      ListItemContainer(
+                        containerColor: listItemContainerColor,
+                        child: ListItemInteraction(
+                          onTap: () {
+                            appsProvider
+                                .downloadAppAssets(
+                                  selectedApps.map((e) => e.id).toList(),
+                                  globalNavigatorKey.currentContext ?? context,
+                                )
+                                .catchError(
+                                  // ignore: invalid_return_type_for_catch_error
+                                  (e) => showError(
+                                    e,
+                                    globalNavigatorKey.currentContext ??
+                                        context,
+                                  ),
+                                );
+                            Navigator.of(context).pop();
+                          },
+                          child: ListItemLayout(
+                            isMultiline: true,
+                            leading: SizedBox.square(
+                              dimension: 40.0,
+                              child: Material(
+                                animationDuration: Duration.zero,
+                                type: MaterialType.card,
+                                clipBehavior: Clip.antiAlias,
+                                color: iconContainerColor,
+                                shape: const StadiumBorder(),
+                                child: Align.center(
+                                  child: IconLegacy(
+                                    Symbols.download_rounded,
+                                    fill: 1.0,
+                                    color: colorTheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            headline: Text(
+                              tr(
+                                "downloadX",
+                                args: [lowerCaseIfEnglish(tr("releaseAsset"))],
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    const Divider(),
-                    TextButton(
-                      onPressed: appsProvider.areDownloadsRunning()
-                          ? null
-                          : showMassMarkDialog,
-                      child: Text(tr('markSelectedAppsUpdated')),
-                    ),
-                  ],
+                      const SizedBox(height: 2.0),
+                      ListItemContainer(
+                        isLast: true,
+                        containerColor: listItemContainerColor,
+                        child: ListItemInteraction(
+                          onTap: () {
+                            if (!appsProvider.areDownloadsRunning()) {
+                              showMassMarkDialog();
+                            }
+                          },
+                          child: ListItemLayout(
+                            isMultiline: true,
+                            leading: SizedBox.square(
+                              dimension: 40.0,
+                              child: Material(
+                                animationDuration: Duration.zero,
+                                type: MaterialType.card,
+                                clipBehavior: Clip.antiAlias,
+                                color: iconContainerColor,
+                                shape: const StadiumBorder(),
+                                child: Align.center(
+                                  child: IconLegacy(
+                                    Symbols.done_all_rounded,
+                                    fill: 1.0,
+                                    color: colorTheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            headline: Text(tr("markSelectedAppsUpdated")),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
-        );
-      }
+                SliverToBoxAdapter(
+                  child: SizedBox(height: MediaQuery.paddingOf(context).bottom),
+                ),
+              ],
+            ),
+          );
+        },
+      );
     }
 
     Future<void> showFilterDialog() async {
