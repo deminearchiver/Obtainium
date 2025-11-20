@@ -25,9 +25,8 @@ import 'package:materium_fonts/src/assets/fonts.gen.dart';
 
 // ignore: implementation_imports
 import 'package:material/src/material_shapes.dart'
-    show
-        // ignore: invalid_use_of_internal_member
-        RoundedPolygonInternalExtension;
+    show RoundedPolygonInternalExtension;
+
 import 'package:syntax_highlight/syntax_highlight.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -453,7 +452,7 @@ class _DeveloperMarkdown1PageState extends State<DeveloperMarkdown1Page> {
                         Flexible.space(flex: 1.0),
                         SizedBox.square(
                           dimension: 160.0,
-                          child: IndeterminateLoadingIndicator.contained(),
+                          child: IndeterminateLoadingIndicator(contained: true),
                         ),
                         Flexible.space(flex: 3.0),
                       ],
@@ -2469,13 +2468,16 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                                   const Flexible.tight(
                                     child: FittedBox(
                                       fit: BoxFit.contain,
-                                      child: IndeterminateLoadingIndicator(),
+                                      child: IndeterminateLoadingIndicator(
+                                        contained: false,
+                                      ),
                                     ),
                                   ),
                                   Flexible.tight(
                                     child: FittedBox(
                                       fit: BoxFit.contain,
                                       child: IndeterminateLoadingIndicator(
+                                        contained: false,
                                         indicatorPolygons:
                                             _indeterminateIndicatorPolygons1,
                                       ),
@@ -2485,6 +2487,7 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                                     child: FittedBox(
                                       fit: BoxFit.contain,
                                       child: IndeterminateLoadingIndicator(
+                                        contained: false,
                                         indicatorPolygons:
                                             _indeterminateIndicatorPolygons2,
                                       ),
@@ -2555,28 +2558,29 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
                                   const Flexible.tight(
                                     child: FittedBox(
                                       fit: BoxFit.contain,
-                                      child:
-                                          IndeterminateLoadingIndicator.contained(),
+                                      child: IndeterminateLoadingIndicator(
+                                        contained: true,
+                                      ),
                                     ),
                                   ),
                                   Flexible.tight(
                                     child: FittedBox(
                                       fit: BoxFit.contain,
-                                      child:
-                                          IndeterminateLoadingIndicator.contained(
-                                            indicatorPolygons:
-                                                _indeterminateIndicatorPolygons1,
-                                          ),
+                                      child: IndeterminateLoadingIndicator(
+                                        contained: true,
+                                        indicatorPolygons:
+                                            _indeterminateIndicatorPolygons1,
+                                      ),
                                     ),
                                   ),
                                   Flexible.tight(
                                     child: FittedBox(
                                       fit: BoxFit.contain,
-                                      child:
-                                          IndeterminateLoadingIndicator.contained(
-                                            indicatorPolygons:
-                                                _indeterminateIndicatorPolygons2,
-                                          ),
+                                      child: IndeterminateLoadingIndicator(
+                                        contained: true,
+                                        indicatorPolygons:
+                                            _indeterminateIndicatorPolygons2,
+                                      ),
                                     ),
                                   ),
                                 ],

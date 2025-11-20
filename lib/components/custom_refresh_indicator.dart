@@ -564,21 +564,15 @@ class CustomRefreshIndicatorState extends State<CustomRefreshIndicator>
             0.0,
             0.5,
             curve: Curves.easeIn,
-          ).transform(clampDouble(1.0 - _switchController.value, 0.0, 1.0));
-          return Opacity(opacity: opacity, child: child!);
+          ).transform(clampDouble(_switchController.value, 0.0, 1.0));
+          return Visibility(
+            visible: opacity > 0.0,
+            child: Opacity(opacity: opacity, child: child!),
+          );
         },
-        child: AnimatedBuilder(
-          animation: _positionController,
-          builder: (context, child) {
-            final progress = _positionFactor.value;
-            return Transform.rotate(
-              angle: progress > 1.0 ? -(progress - 1) * math.pi : 0.0,
-              child: DeterminateLoadingIndicator(
-                progress: clampDouble(progress, 0.0, 1.0),
-                contained: true,
-              ),
-            );
-          },
+        child: IndeterminateLoadingIndicator(
+          contained: false,
+          indicatorColor: indicatorColor,
         ),
       );
       final Widget determinateLoadingIndicator = AnimatedBuilder(
@@ -588,14 +582,24 @@ class CustomRefreshIndicatorState extends State<CustomRefreshIndicator>
             0.0,
             0.5,
             curve: Curves.easeIn,
-          ).transform(clampDouble(_switchController.value, 0.0, 1.0));
+          ).transform(clampDouble(1.0 - _switchController.value, 0.0, 1.0));
           return Visibility(
             visible: opacity > 0.0,
             child: Opacity(opacity: opacity, child: child!),
           );
         },
-        child: IndeterminateLoadingIndicator(
-          activeIndicatorColor: indicatorColor,
+        child: AnimatedBuilder(
+          animation: _positionController,
+          builder: (context, child) {
+            final progress = _positionFactor.value;
+            return Transform.rotate(
+              angle: progress > 1.0 ? -(progress - 1) * math.pi : 0.0,
+              child: DeterminateLoadingIndicator(
+                contained: true,
+                progress: clampDouble(progress, 0.0, 1.0),
+              ),
+            );
+          },
         ),
       );
       final Widget containedLoadingIndicator = Material(
@@ -608,6 +612,7 @@ class CustomRefreshIndicatorState extends State<CustomRefreshIndicator>
         shadowColor: colorTheme.shadow,
         elevation: elevation,
         child: Stack(
+          alignment: Alignment.center,
           children: [
             indeterminateLoadingIndicator,
             determinateLoadingIndicator,

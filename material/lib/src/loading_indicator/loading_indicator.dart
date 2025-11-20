@@ -40,83 +40,27 @@ final List<RoundedPolygon> _determinateIndicatorPolygons = <RoundedPolygon>[
 ];
 
 class IndeterminateLoadingIndicator extends StatefulWidget {
-  const IndeterminateLoadingIndicator._({
-    required bool isContained,
+  const IndeterminateLoadingIndicator({
+    super.key,
+    required this.contained,
     this.indicatorPolygons,
     this.indicatorColor,
     this.containerColor,
     this.semanticsLabel,
-    super.key,
-  }) : _isContained = isContained,
-       assert(
+  }) : assert(
          indicatorPolygons == null || indicatorPolygons.length >= 2,
          "indicatorPolygons should have, at least, two RoundedPolygons",
        );
 
-  /// Creates a default (non-contained) version of [IndeterminateLoadingIndicator].
-  const IndeterminateLoadingIndicator({
-    List<RoundedPolygon>? indicatorPolygons,
-    Color? activeIndicatorColor,
-    Color? containerColor,
-    String? semanticsLabel,
-    Key? key,
-  }) : this._(
-         isContained: false,
-         indicatorPolygons: indicatorPolygons,
-         indicatorColor: activeIndicatorColor,
-         containerColor: containerColor,
-         semanticsLabel: semanticsLabel,
-         key: key,
-       );
+  final bool contained;
 
-  /// Creates a contained version of [IndeterminateLoadingIndicator].
-  const IndeterminateLoadingIndicator.contained({
-    List<RoundedPolygon>? indicatorPolygons,
-    Color? activeIndicatorColor,
-    Color? containerColor,
-    String? semanticsLabel,
-    Key? key,
-  }) : this._(
-         isContained: true,
-         indicatorPolygons: indicatorPolygons,
-         indicatorColor: activeIndicatorColor,
-         containerColor: containerColor,
-         semanticsLabel: semanticsLabel,
-         key: key,
-       );
+  final List<RoundedPolygon>? indicatorPolygons;
 
-  final bool _isContained;
-
-  /// Color of the active indicator shape.
-  ///
-  /// If [IndeterminateLoadingIndicator.indicatorColor] is null, the value from
-  /// [LoadingIndicatorThemeData.indicatorColor] in the ambient theme is
-  /// used. If that is also null, the color defaults to [ColorScheme.primary]
-  /// for non-contained indicators, and to [ColorScheme.onPrimaryContainer] for
-  /// contained indicators.
   final Color? indicatorColor;
 
-  /// Color of the background container.
-  ///
-  /// If [IndeterminateLoadingIndicator.containerColor] is null, the value from
-  /// [LoadingIndicatorThemeData.containedContainerColor] in the ambient theme is used.
-  /// If that is also null, the color defaults to
-  /// [ColorScheme.primaryContainer].
   final Color? containerColor;
 
-  /// The semantic label for this loading indicator.
-
-  /// This value is read aloud to describe the indicator’s purpose.
-  /// It corresponds to [SemanticsProperties.label].
   final String? semanticsLabel;
-
-  /// A list of [RoundedPolygon]s for the sequence of shapes this loading
-  /// indicator will morph between as it progresses.
-  ///
-  /// The loading indicator expects at least two items in this list.
-  ///
-  /// Defaults to [IndeterminateLoadingIndicator.indeterminateIndicatorPolygons].
-  final List<RoundedPolygon>? indicatorPolygons;
 
   List<RoundedPolygon> get _indicatorPolygons =>
       indicatorPolygons ?? _indeterminateIndicatorPolygons;
@@ -252,7 +196,7 @@ class _IndeterminateLoadingIndicatorState
 
     final indicatorColor =
         widget.indicatorColor ??
-        (widget._isContained
+        (widget.contained
             ? loadingIndicatorTheme.containedIndicatorColor
             : loadingIndicatorTheme.indicatorColor);
 
@@ -274,9 +218,9 @@ class _IndeterminateLoadingIndicatorState
             shape: CornersBorder.rounded(
               corners: Corners.all(shapeTheme.corner.full),
             ),
-            color: widget._isContained ? containerColor : Colors.transparent,
-            elevation: widget._isContained ? elevationTheme.level0 : 0.0,
-            shadowColor: widget._isContained
+            color: widget.contained ? containerColor : Colors.transparent,
+            elevation: widget.contained ? elevationTheme.level0 : 0.0,
+            shadowColor: widget.contained
                 ? colorTheme.shadow
                 : Colors.transparent,
             child: CustomPaint(
@@ -393,9 +337,9 @@ class LoadingIndicatorController {
 class DeterminateLoadingIndicator extends StatefulWidget {
   const DeterminateLoadingIndicator({
     super.key,
+    required this.contained,
     required this.progress,
     this.indicatorPolygons,
-    this.contained = false,
     this.containerColor,
     this.indicatorColor,
   }) : assert(progress >= 0.0 && progress <= 1.0),
@@ -404,12 +348,14 @@ class DeterminateLoadingIndicator extends StatefulWidget {
          "indicatorPolygons should have, at least, two RoundedPolygons",
        );
 
-  final double progress;
-  final List<RoundedPolygon>? indicatorPolygons;
-
   final bool contained;
 
+  final double progress;
+
+  final List<RoundedPolygon>? indicatorPolygons;
+
   final Color? containerColor;
+
   final Color? indicatorColor;
 
   List<RoundedPolygon> get _indicatorPolygons =>
