@@ -320,48 +320,53 @@ class Flex extends MultiChildRenderObjectWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(EnumProperty<Axis>("direction", direction));
-    properties.add(
-      EnumProperty<MainAxisAlignment>("mainAxisAlignment", mainAxisAlignment),
-    );
-    properties.add(
-      EnumProperty<MainAxisSize>(
-        "mainAxisSize",
-        mainAxisSize,
-        defaultValue: MainAxisSize.max,
-      ),
-    );
-    properties.add(
-      EnumProperty<CrossAxisAlignment>(
-        "crossAxisAlignment",
-        crossAxisAlignment,
-      ),
-    );
-    properties.add(
-      EnumProperty<TextDirection>(
-        "textDirection",
-        textDirection,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      EnumProperty<VerticalDirection>(
-        "verticalDirection",
-        verticalDirection,
-        defaultValue: VerticalDirection.down,
-      ),
-    );
-    properties.add(
-      EnumProperty<TextBaseline>(
-        "textBaseline",
-        textBaseline,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      EnumProperty<Clip>("clipBehavior", clipBehavior, defaultValue: Clip.none),
-    );
-    properties.add(DoubleProperty("spacing", spacing, defaultValue: 0.0));
+    properties
+      ..add(EnumProperty<Axis>("direction", direction))
+      ..add(
+        EnumProperty<MainAxisAlignment>("mainAxisAlignment", mainAxisAlignment),
+      )
+      ..add(
+        EnumProperty<MainAxisSize>(
+          "mainAxisSize",
+          mainAxisSize,
+          defaultValue: MainAxisSize.max,
+        ),
+      )
+      ..add(
+        EnumProperty<CrossAxisAlignment>(
+          "crossAxisAlignment",
+          crossAxisAlignment,
+        ),
+      )
+      ..add(
+        EnumProperty<TextDirection>(
+          "textDirection",
+          textDirection,
+          defaultValue: null,
+        ),
+      )
+      ..add(
+        EnumProperty<VerticalDirection>(
+          "verticalDirection",
+          verticalDirection,
+          defaultValue: VerticalDirection.down,
+        ),
+      )
+      ..add(
+        EnumProperty<TextBaseline>(
+          "textBaseline",
+          textBaseline,
+          defaultValue: null,
+        ),
+      )
+      ..add(
+        EnumProperty<Clip>(
+          "clipBehavior",
+          clipBehavior,
+          defaultValue: Clip.none,
+        ),
+      )
+      ..add(DoubleProperty("spacing", spacing, defaultValue: 0.0));
   }
 }
 
@@ -2399,38 +2404,39 @@ class RenderFlex extends RenderBox
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(EnumProperty<Axis>("direction", direction));
-    properties.add(
-      EnumProperty<MainAxisAlignment>("mainAxisAlignment", mainAxisAlignment),
-    );
-    properties.add(EnumProperty<MainAxisSize>("mainAxisSize", mainAxisSize));
-    properties.add(
-      EnumProperty<CrossAxisAlignment>(
-        "crossAxisAlignment",
-        crossAxisAlignment,
-      ),
-    );
-    properties.add(
-      EnumProperty<TextDirection>(
-        "textDirection",
-        textDirection,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      EnumProperty<VerticalDirection>(
-        "verticalDirection",
-        verticalDirection,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      EnumProperty<TextBaseline>(
-        "textBaseline",
-        textBaseline,
-        defaultValue: null,
-      ),
-    );
-    properties.add(DoubleProperty("spacing", spacing, defaultValue: null));
+    properties
+      ..add(EnumProperty<Axis>("direction", direction))
+      ..add(
+        EnumProperty<MainAxisAlignment>("mainAxisAlignment", mainAxisAlignment),
+      )
+      ..add(EnumProperty<MainAxisSize>("mainAxisSize", mainAxisSize))
+      ..add(
+        EnumProperty<CrossAxisAlignment>(
+          "crossAxisAlignment",
+          crossAxisAlignment,
+        ),
+      )
+      ..add(
+        EnumProperty<TextDirection>(
+          "textDirection",
+          textDirection,
+          defaultValue: null,
+        ),
+      )
+      ..add(
+        EnumProperty<VerticalDirection>(
+          "verticalDirection",
+          verticalDirection,
+          defaultValue: null,
+        ),
+      )
+      ..add(
+        EnumProperty<TextBaseline>(
+          "textBaseline",
+          textBaseline,
+          defaultValue: null,
+        ),
+      )
+      ..add(DoubleProperty("spacing", spacing, defaultValue: null));
   }
 }

@@ -1,12 +1,10 @@
-// Copyright 2014 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 import 'dart:math' as math;
 import 'dart:ui' as ui;
+
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:layout/src/sliver.dart';
+
+import 'sliver.dart';
 
 class SliverTransform extends SingleChildRenderObjectWidget {
   /// Creates a widget that transforms its child.
@@ -597,20 +595,17 @@ class RenderSliverTransform extends RenderProxySliver {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(TransformProperty("transform matrix", _transform));
-    properties.add(DiagnosticsProperty<Offset>("origin", origin));
-    properties.add(
-      DiagnosticsProperty<AlignmentGeometry>("alignment", alignment),
-    );
-    properties.add(
-      EnumProperty<TextDirection>(
-        "textDirection",
-        textDirection,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      DiagnosticsProperty<bool>("transformHitTests", transformHitTests),
-    );
+    properties
+      ..add(TransformProperty("transform matrix", _transform))
+      ..add(DiagnosticsProperty<Offset>("origin", origin))
+      ..add(DiagnosticsProperty<AlignmentGeometry>("alignment", alignment))
+      ..add(
+        EnumProperty<TextDirection>(
+          "textDirection",
+          textDirection,
+          defaultValue: null,
+        ),
+      )
+      ..add(DiagnosticsProperty<bool>("transformHitTests", transformHitTests));
   }
 }

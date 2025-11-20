@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/rendering.dart' as flutter;
 import 'package:flutter/widgets.dart';
+
+import 'package:flutter/rendering.dart' as flutter;
 
 @immutable
 class FloatingHeaderSnapConfiguration
@@ -17,13 +18,12 @@ class FloatingHeaderSnapConfiguration
   final Duration duration;
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is FloatingHeaderSnapConfiguration &&
-            curve == other.curve &&
-            duration == other.duration;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is FloatingHeaderSnapConfiguration &&
+          curve == other.curve &&
+          duration == other.duration;
 
   @override
   int get hashCode => Object.hash(runtimeType, curve, duration);
@@ -44,13 +44,12 @@ class PersistentHeaderShowOnScreenConfiguration
   final double maxShowOnScreenExtent;
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is PersistentHeaderShowOnScreenConfiguration &&
-            minShowOnScreenExtent == other.minShowOnScreenExtent &&
-            maxShowOnScreenExtent == other.maxShowOnScreenExtent;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is PersistentHeaderShowOnScreenConfiguration &&
+          minShowOnScreenExtent == other.minShowOnScreenExtent &&
+          maxShowOnScreenExtent == other.maxShowOnScreenExtent;
 
   @override
   int get hashCode =>
@@ -72,13 +71,12 @@ class OverScrollHeaderStretchConfiguration
   final AsyncCallback? onStretchTrigger;
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is OverScrollHeaderStretchConfiguration &&
-            stretchTriggerOffset == other.stretchTriggerOffset &&
-            onStretchTrigger == other.onStretchTrigger;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is OverScrollHeaderStretchConfiguration &&
+          stretchTriggerOffset == other.stretchTriggerOffset &&
+          onStretchTrigger == other.onStretchTrigger;
 
   @override
   int get hashCode =>
@@ -119,24 +117,23 @@ class SliverHeader extends StatefulWidget {
   State<SliverHeader> createState() => _SliverHeaderState();
 }
 
+// TODO: investigate sometimes creating multiple tickers
 class _SliverHeaderState extends State<SliverHeader>
     with SingleTickerProviderStateMixin {
   @override
-  Widget build(BuildContext context) {
-    return SliverPersistentHeader(
-      pinned: widget.pinned,
-      floating: widget.floating,
-      delegate: _SliverHeaderDelegate(
-        vsync: this,
-        snapConfiguration: widget.snapConfiguration,
-        showOnScreenConfiguration: widget.showOnScreenConfiguration,
-        stretchConfiguration: widget.stretchConfiguration,
-        minExtent: widget.minExtent,
-        maxExtent: widget.maxExtent,
-        builder: widget.builder,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => SliverPersistentHeader(
+    pinned: widget.pinned,
+    floating: widget.floating,
+    delegate: _SliverHeaderDelegate(
+      vsync: this,
+      snapConfiguration: widget.snapConfiguration,
+      showOnScreenConfiguration: widget.showOnScreenConfiguration,
+      stretchConfiguration: widget.stretchConfiguration,
+      minExtent: widget.minExtent,
+      maxExtent: widget.maxExtent,
+      builder: widget.builder,
+    ),
+  );
 }
 
 class _SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
@@ -178,28 +175,12 @@ class _SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   ) => builder(context, shrinkOffset, overlapsContent);
 
   @override
-  bool shouldRebuild(covariant _SliverHeaderDelegate oldDelegate) {
-    return vsync != oldDelegate.vsync ||
-        snapConfiguration != oldDelegate.snapConfiguration ||
-        showOnScreenConfiguration != oldDelegate.showOnScreenConfiguration ||
-        stretchConfiguration != oldDelegate.stretchConfiguration ||
-        minExtent != oldDelegate.minExtent ||
-        maxExtent != oldDelegate.maxExtent ||
-        builder != oldDelegate.builder;
-
-    // TODO: figure out if this actually cannot be optimized. See below for comments.
-    return true;
-
-    // The solution below returns true every time because "configurations"
-    // don't have the equality operator and hashCode overriden,
-    // so it's easier to return true each time without checking.
-
-    // return vsync != oldDelegate.vsync ||
-    //     snapConfiguration != oldDelegate.snapConfiguration ||
-    //     showOnScreenConfiguration != oldDelegate.showOnScreenConfiguration ||
-    //     stretchConfiguration != oldDelegate.stretchConfiguration ||
-    //     minExtent != oldDelegate.minExtent ||
-    //     maxExtent != oldDelegate.maxExtent ||
-    //     builder != oldDelegate.builder;
-  }
+  bool shouldRebuild(_SliverHeaderDelegate oldDelegate) =>
+      vsync != oldDelegate.vsync ||
+      snapConfiguration != oldDelegate.snapConfiguration ||
+      showOnScreenConfiguration != oldDelegate.showOnScreenConfiguration ||
+      stretchConfiguration != oldDelegate.stretchConfiguration ||
+      minExtent != oldDelegate.minExtent ||
+      maxExtent != oldDelegate.maxExtent ||
+      builder != oldDelegate.builder;
 }

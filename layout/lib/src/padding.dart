@@ -287,13 +287,14 @@ class RenderPadding extends RenderShiftedBox {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<EdgeInsetsGeometry>("padding", padding));
-    properties.add(
-      EnumProperty<TextDirection>(
-        "textDirection",
-        textDirection,
-        defaultValue: null,
-      ),
-    );
+    properties
+      ..add(DiagnosticsProperty<EdgeInsetsGeometry>("padding", padding))
+      ..add(
+        EnumProperty<TextDirection>(
+          "textDirection",
+          textDirection,
+          defaultValue: null,
+        ),
+      );
   }
 }

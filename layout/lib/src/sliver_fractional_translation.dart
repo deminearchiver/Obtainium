@@ -163,9 +163,8 @@ class RenderSliverFractionalTranslation extends RenderProxySliver {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<Offset>("translation", translation));
-    properties.add(
-      DiagnosticsProperty<bool>("transformHitTests", transformHitTests),
-    );
+    properties
+      ..add(DiagnosticsProperty<Offset>("translation", translation))
+      ..add(DiagnosticsProperty<bool>("transformHitTests", transformHitTests));
   }
 }
