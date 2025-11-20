@@ -43,9 +43,6 @@ export 'src/loading_indicator/loading_indicator_theme.dart';
 
 import 'src/flutter.dart';
 
-// TODO: maybe this should be moved to the layout package?
-typedef ChildPositioner = void Function(RenderBox child, Offset position);
-
 extension PaintingContextExtension on PaintingContext {
   void withCanvasTransform(void Function(PaintingContext context) paint) {
     late int debugPreviousCanvasSaveCount;
