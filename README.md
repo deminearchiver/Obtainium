@@ -53,6 +53,7 @@
     - [HTML](#html)
 - [Finding app configurations](#finding-app-configurations)
 - [Limitations](#limitations)
+
 </details>
 
 ## Fork
@@ -93,7 +94,6 @@ The priority of this change is low, because Markdown is rarely encountered throu
 
 No significant changes were made to Markdown stylesheets yet, because the update is at the design stage.
 
-
 ### Internal changes
 
 This fork features important developer-facing changes, such as:
@@ -120,7 +120,6 @@ Currently, there are a lot of changes not yet covered in this section, which mea
 ## Roadmap
 
 This section contains the list of projects that are planned to be implemented.
-
 
 ### Global changes
 
@@ -161,6 +160,7 @@ Changes affecting the project as a whole.
 Many Material widgets used still come from Flutter's Material library. The long-standing goal of this project is to get rid of the dependency on Flutter's Material library. It is considered "legacy" in the scope of this repository (it's not actually deprecated).
 
 Here's a list of widgets that are planned to have a custom implementation:
+
 - [ ] Switch (`Switch`)
   - [x] Support default style
   - [ ] Support theming
