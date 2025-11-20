@@ -1,89 +1,51 @@
 import 'package:material/src/flutter.dart';
 
-/// Defines the visual properties of [IndeterminateLoadingIndicator] widgets.
-///
-/// Used by [LoadingIndicatorTheme] to control the visual properties of
-/// loading indicators in a widget subtree.
-///
-/// To obtain this configuration, use [LoadingIndicatorTheme.maybeOf] to access
-/// the closest ancestor [LoadingIndicatorTheme] of the current [BuildContext].
-///
-/// See also:
-///
-///  * [LoadingIndicatorTheme], an [InheritedWidget] that propagates the
-///    theme down its subtree.
 @immutable
-class LoadingIndicatorThemeData with Diagnosticable {
-  /// Creates the set of properties used to configure [IndeterminateLoadingIndicator]
-  /// widgets.
-  const LoadingIndicatorThemeData({
-    this.indicatorColor,
-    this.containedIndicatorColor,
-    this.containedContainerColor,
-  });
+abstract class LoadingIndicatorThemeDataPartial with Diagnosticable {
+  const LoadingIndicatorThemeDataPartial();
 
-  /// The color of the uncontained [IndeterminateLoadingIndicator]'s active indicator.
-  ///
-  /// If null, the active indicator color will default to [ColorThemeData.primary]
-  final Color? indicatorColor;
-
-  /// The color of the contained [IndeterminateLoadingIndicator]'s active indicator.
-  ///
-  /// If null, the active indicator color will default to
-  /// [ColorThemeData.onPrimaryContainer]
-  final Color? containedIndicatorColor;
-
-  /// The color of the [IndeterminateLoadingIndicator]'s container.
-  ///
-  /// If null, then the ambient theme's [ColorScheme.primaryContainer]
-  /// will be used to draw the container.
-  final Color? containedContainerColor;
-
-  /// Creates a copy of this object but with the given fields replaced with the
-  /// new values.
-  LoadingIndicatorThemeData copyWith({
+  const factory LoadingIndicatorThemeDataPartial.from({
     Color? indicatorColor,
-    Color? containedIndicatorColor,
     Color? containedContainerColor,
+    Color? containedIndicatorColor,
+  }) = _LoadingIndicatorThemeDataPartial.from;
+
+  Color? get indicatorColor;
+
+  Color? get containedContainerColor;
+
+  Color? get containedIndicatorColor;
+
+  LoadingIndicatorThemeDataPartial copyWith({
+    Color? indicatorColor,
+    Color? containedContainerColor,
+    Color? containedIndicatorColor,
   }) =>
-      // TODO: migrate other ThemeDatas' copyWith implementation to follow this skeleton
       indicatorColor != null ||
           containedIndicatorColor != null ||
           containedContainerColor != null
-      ? LoadingIndicatorThemeData(
+      ? LoadingIndicatorThemeDataPartial.from(
           indicatorColor: indicatorColor ?? this.indicatorColor,
-          containedIndicatorColor:
-              containedIndicatorColor ?? this.containedIndicatorColor,
           containedContainerColor:
               containedContainerColor ?? this.containedContainerColor,
+          containedIndicatorColor:
+              containedIndicatorColor ?? this.containedIndicatorColor,
         )
       : this;
 
-  /// Linearly interpolate between two loading indicator themes.
-  ///
-  /// If both arguments are null, then null is returned.
-  static LoadingIndicatorThemeData? lerp(
-    LoadingIndicatorThemeData? a,
-    LoadingIndicatorThemeData? b,
-    double t,
-  ) {
-    if (identical(a, b)) {
-      return a;
-    }
-    return LoadingIndicatorThemeData(
-      indicatorColor: Color.lerp(a?.indicatorColor, b?.indicatorColor, t),
-      containedContainerColor: Color.lerp(
-        a?.containedContainerColor,
-        b?.containedContainerColor,
-        t,
-      ),
-    );
-  }
+  LoadingIndicatorThemeDataPartial merge(
+    LoadingIndicatorThemeDataPartial? other,
+  ) => other != null
+      ? copyWith(
+          indicatorColor: other.indicatorColor,
+          containedContainerColor: other.containedContainerColor,
+          containedIndicatorColor: other.containedIndicatorColor,
+        )
+      : this;
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    // TODO: migrate other ThemeDatas' debugFillProperties to use ..add
     properties
       ..add(
         ColorProperty(
@@ -94,15 +56,15 @@ class LoadingIndicatorThemeData with Diagnosticable {
       )
       ..add(
         ColorProperty(
-          "containedIndicatorColor",
-          containedIndicatorColor,
+          "containedContainerColor",
+          containedContainerColor,
           defaultValue: null,
         ),
       )
       ..add(
         ColorProperty(
-          "containedContainerColor",
-          containedContainerColor,
+          "containedIndicatorColor",
+          containedIndicatorColor,
           defaultValue: null,
         ),
       );
@@ -110,63 +72,206 @@ class LoadingIndicatorThemeData with Diagnosticable {
 
   @override
   bool operator ==(Object other) =>
-      // TODO: migrate other ThemeData's == implementation to use arrow syntax
       identical(this, other) ||
       runtimeType == other.runtimeType &&
-          other is LoadingIndicatorThemeData &&
+          other is LoadingIndicatorThemeDataPartial &&
           indicatorColor == other.indicatorColor &&
-          containedIndicatorColor == other.containedIndicatorColor &&
-          containedContainerColor == other.containedContainerColor;
+          containedContainerColor == other.containedContainerColor &&
+          containedIndicatorColor == other.containedIndicatorColor;
 
   @override
   int get hashCode => Object.hash(
     runtimeType,
     indicatorColor,
-    containedIndicatorColor,
     containedContainerColor,
+    containedIndicatorColor,
   );
+
+  static LoadingIndicatorThemeDataPartial? lerp(
+    LoadingIndicatorThemeDataPartial? a,
+    LoadingIndicatorThemeDataPartial? b,
+    double t,
+  ) {
+    if (a == b) return a;
+    return LoadingIndicatorThemeDataPartial.from(
+      indicatorColor: Color.lerp(a?.indicatorColor, b?.indicatorColor, t),
+      containedContainerColor: Color.lerp(
+        a?.containedContainerColor,
+        b?.containedContainerColor,
+        t,
+      ),
+      containedIndicatorColor: Color.lerp(
+        a?.containedIndicatorColor,
+        b?.containedIndicatorColor,
+        t,
+      ),
+    );
+  }
 }
 
-/// An inherited widget that defines the configuration for [IndeterminateLoadingIndicator]s
-/// in this widget's subtree.
-///
-/// Values specified here are used for [IndeterminateLoadingIndicator] properties that are
-/// not given an explicit non-null value.
-///
-/// {@tool snippet}
-///
-/// Here is an example of a loading indicator theme that applies a red active
-/// indicator color.
-///
-/// ```dart
-/// const LoadingIndicatorTheme(
-///   data: LoadingIndicatorThemeData(
-///     activeIndicatorColor: Colors.red,
-///   ),
-///   child: LoadingIndicator(),
-/// )
-/// ```
-/// {@end-tool}
+class _LoadingIndicatorThemeDataPartial
+    extends LoadingIndicatorThemeDataPartial {
+  const _LoadingIndicatorThemeDataPartial.from({
+    this.indicatorColor,
+    this.containedContainerColor,
+    this.containedIndicatorColor,
+  });
+
+  @override
+  final Color? indicatorColor;
+
+  @override
+  final Color? containedContainerColor;
+
+  @override
+  final Color? containedIndicatorColor;
+}
+
+@immutable
+abstract class LoadingIndicatorThemeData
+    extends LoadingIndicatorThemeDataPartial {
+  const LoadingIndicatorThemeData();
+
+  const factory LoadingIndicatorThemeData.from({
+    required Color indicatorColor,
+    required Color containedContainerColor,
+    required Color containedIndicatorColor,
+  }) = _LoadingIndicatorThemeData.from;
+
+  @override
+  Color get indicatorColor;
+
+  @override
+  Color get containedContainerColor;
+
+  @override
+  Color get containedIndicatorColor;
+
+  @override
+  LoadingIndicatorThemeData copyWith({
+    Color? indicatorColor,
+    Color? containedContainerColor,
+    Color? containedIndicatorColor,
+  }) =>
+      indicatorColor != null ||
+          containedContainerColor != null ||
+          containedIndicatorColor != null
+      ? LoadingIndicatorThemeData.from(
+          indicatorColor: indicatorColor ?? this.indicatorColor,
+          containedContainerColor:
+              containedContainerColor ?? this.containedContainerColor,
+          containedIndicatorColor:
+              containedIndicatorColor ?? this.containedIndicatorColor,
+        )
+      : this;
+
+  @override
+  LoadingIndicatorThemeData merge(LoadingIndicatorThemeDataPartial? other) =>
+      other != null
+      ? copyWith(
+          indicatorColor: other.indicatorColor,
+          containedContainerColor: other.containedContainerColor,
+          containedIndicatorColor: other.containedIndicatorColor,
+        )
+      : this;
+
+  @override
+  // ignore: must_call_super
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(ColorProperty("activeIndicatorColor", indicatorColor))
+      ..add(ColorProperty("containedContainerColor", containedContainerColor))
+      ..add(ColorProperty("containedIndicatorColor", containedIndicatorColor));
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is LoadingIndicatorThemeData &&
+          indicatorColor == other.indicatorColor &&
+          containedContainerColor == other.containedContainerColor &&
+          containedIndicatorColor == other.containedIndicatorColor;
+
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    indicatorColor,
+    containedContainerColor,
+    containedIndicatorColor,
+  );
+
+  static LoadingIndicatorThemeData lerp(
+    LoadingIndicatorThemeData a,
+    LoadingIndicatorThemeData b,
+    double t,
+  ) {
+    if (a == b) return a;
+    return LoadingIndicatorThemeData.from(
+      indicatorColor: Color.lerp(a.indicatorColor, b.indicatorColor, t)!,
+      containedContainerColor: Color.lerp(
+        a.containedContainerColor,
+        b.containedContainerColor,
+        t,
+      )!,
+      containedIndicatorColor: Color.lerp(
+        a.containedIndicatorColor,
+        b.containedIndicatorColor,
+        t,
+      )!,
+    );
+  }
+}
+
+class _LoadingIndicatorThemeData extends LoadingIndicatorThemeData {
+  const _LoadingIndicatorThemeData.from({
+    required this.indicatorColor,
+    required this.containedIndicatorColor,
+    required this.containedContainerColor,
+  });
+
+  @override
+  final Color indicatorColor;
+
+  @override
+  final Color containedContainerColor;
+
+  @override
+  final Color containedIndicatorColor;
+}
+
+class _LoadingIndicatorThemeDataDefaults extends LoadingIndicatorThemeData {
+  const _LoadingIndicatorThemeDataDefaults({required ColorThemeData colorTheme})
+    : _colorTheme = colorTheme;
+
+  final ColorThemeData _colorTheme;
+
+  @override
+  Color get indicatorColor => _colorTheme.primary;
+
+  @override
+  Color get containedContainerColor => _colorTheme.primaryContainer;
+
+  @override
+  Color get containedIndicatorColor => _colorTheme.onPrimaryContainer;
+}
+
 class LoadingIndicatorTheme extends InheritedTheme {
-  /// Creates a theme that controls the configurations for [IndeterminateLoadingIndicator]
-  /// widgets.
   const LoadingIndicatorTheme({
     super.key,
     required this.data,
     required super.child,
   });
 
-  /// The properties for descendant [IndeterminateLoadingIndicator] widgets.
   final LoadingIndicatorThemeData data;
 
   @override
-  bool updateShouldNotify(LoadingIndicatorTheme oldWidget) =>
+  bool updateShouldNotify(covariant LoadingIndicatorTheme oldWidget) =>
       data != oldWidget.data;
 
   @override
-  Widget wrap(BuildContext context, Widget child) {
-    return LoadingIndicatorTheme(data: data, child: child);
-  }
+  Widget wrap(BuildContext context, Widget child) =>
+      LoadingIndicatorTheme(data: data, child: child);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -176,17 +281,25 @@ class LoadingIndicatorTheme extends InheritedTheme {
     );
   }
 
-  /// Returns the [data] from the closest [LoadingIndicatorTheme] ancestor. If
-  /// there is no ancestor, it returns null.
-  ///
-  /// Typical usage is as follows:
-  ///
-  /// ```dart
-  /// LoadingIndicatorThemeData? theme = LoadingIndicatorTheme.of(context);
-  /// ```
-  static LoadingIndicatorThemeData? maybeOf(BuildContext context) {
-    return context
-        .dependOnInheritedWidgetOfExactType<LoadingIndicatorTheme>()
-        ?.data;
+  static Widget merge({
+    Key? key,
+    required LoadingIndicatorThemeDataPartial data,
+    required Widget child,
+  }) => Builder(
+    builder: (context) => LoadingIndicatorTheme(
+      key: key,
+      data: of(context).merge(data),
+      child: child,
+    ),
+  );
+
+  static LoadingIndicatorThemeData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<LoadingIndicatorTheme>()?.data;
+
+  static LoadingIndicatorThemeData of(BuildContext context) {
+    final result = maybeOf(context);
+    if (result != null) return result;
+    final colorTheme = ColorTheme.of(context);
+    return _LoadingIndicatorThemeDataDefaults(colorTheme: colorTheme);
   }
 }

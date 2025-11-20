@@ -248,19 +248,16 @@ class _IndeterminateLoadingIndicatorState
     final elevationTheme = ElevationTheme.of(context);
     final shapeTheme = ShapeTheme.of(context);
 
-    final indicatorTheme = LoadingIndicatorTheme.maybeOf(context);
+    final loadingIndicatorTheme = LoadingIndicatorTheme.of(context);
 
     final indicatorColor =
         widget.indicatorColor ??
-        indicatorTheme?.indicatorColor ??
         (widget._isContained
-            ? colorTheme.onPrimaryContainer
-            : colorTheme.primary);
+            ? loadingIndicatorTheme.containedIndicatorColor
+            : loadingIndicatorTheme.indicatorColor);
 
     final containerColor =
-        widget.containerColor ??
-        indicatorTheme?.containedContainerColor ??
-        colorTheme.primaryContainer;
+        widget.containerColor ?? loadingIndicatorTheme.containedContainerColor;
 
     return RepaintBoundary(
       child: Semantics(
@@ -478,17 +475,16 @@ class _DeterminateLoadingIndicatorState
     final elevationTheme = ElevationTheme.of(context);
     final shapeTheme = ShapeTheme.of(context);
 
-    final indicatorTheme = LoadingIndicatorTheme.maybeOf(context);
+    final loadingIndicatorTheme = LoadingIndicatorTheme.of(context);
 
     final indicatorColor =
         widget.indicatorColor ??
-        indicatorTheme?.indicatorColor ??
-        (widget.contained ? colorTheme.onPrimaryContainer : colorTheme.primary);
+        (widget.contained
+            ? loadingIndicatorTheme.containedIndicatorColor
+            : loadingIndicatorTheme.indicatorColor);
 
     final containerColor =
-        widget.containerColor ??
-        indicatorTheme?.containedContainerColor ??
-        colorTheme.primaryContainer;
+        widget.containerColor ?? loadingIndicatorTheme.containedContainerColor;
 
     // Adjust the active morph index according to the progress.
     final activeMorphIndex = math.min(

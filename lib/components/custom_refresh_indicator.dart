@@ -546,17 +546,13 @@ class CustomRefreshIndicatorState extends State<CustomRefreshIndicator>
     final elevationTheme = ElevationTheme.of(context);
     final shapeTheme = ShapeTheme.of(context);
 
-    final loadingIndicatorTheme = LoadingIndicatorTheme.maybeOf(context);
+    final loadingIndicatorTheme = LoadingIndicatorTheme.of(context);
 
     final containerColor =
-        widget.containerColor ??
-        loadingIndicatorTheme?.containedContainerColor ??
-        colorTheme.primaryContainer;
+        widget.containerColor ?? loadingIndicatorTheme.containedContainerColor;
 
     final indicatorColor =
-        widget.indicatorColor ??
-        loadingIndicatorTheme?.containedIndicatorColor ??
-        colorTheme.onPrimaryContainer;
+        widget.indicatorColor ?? loadingIndicatorTheme.containedIndicatorColor;
 
     final elevation = widget.elevation ?? elevationTheme.level0;
 
