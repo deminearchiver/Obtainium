@@ -133,9 +133,8 @@ abstract final class Contrast {
   ///
   /// This method is unsafe because the returned value is guaranteed to be in
   /// bounds, but, the in bounds return value may not reach the desired ratio.
-  static double lighterUnsafe(double tone, double ratio) {
-    return lighter(tone, ratio) ?? 100.0;
-  }
+  static double lighterUnsafe(double tone, double ratio) =>
+      lighter(tone, ratio) ?? 100.0;
 
   /// Returns T in HCT, L* in L*a*b* <= tone parameter that ensures ratio with
   /// input T/L*. Returns null if ratio cannot be achieved.
@@ -166,7 +165,6 @@ abstract final class Contrast {
   ///
   /// This method is unsafe because the returned value is guaranteed to be in
   /// bounds, but, the in bounds return value may not reach the desired ratio.
-  static double darkerUnsafe(double tone, double ratio) {
-    return darker(tone, ratio) ?? 0.0;
-  }
+  static double darkerUnsafe(double tone, double ratio) =>
+      darker(tone, ratio) ?? 0.0;
 }

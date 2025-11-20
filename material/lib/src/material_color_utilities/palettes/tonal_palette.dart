@@ -1,45 +1,41 @@
 import '../hct/hct.dart';
 
+/// A convenience class for retrieving colors that are
+/// in hue and chroma, but vary in tone.
+///
+/// TonalPalette is intended for use in a single thread due to
+/// its stateful caching.
 final class TonalPalette {
-  final Map<int, int> _cache;
-  final Hct _keyColor;
-  final double _hue;
-  final double _chroma;
+  TonalPalette._(this.hue, this.chroma, this.keyColor);
 
-  factory TonalPalette.fromInt(int argb) {
-    return TonalPalette.fromHct(Hct.fromInt(argb));
-  }
+  final Map<int, int> _cache = <int, int>{};
+  final double hue;
+  final double chroma;
+  final Hct keyColor;
 
-  factory TonalPalette.fromHct(Hct hct) {
-    return TonalPalette._(hct.hue, hct.chroma, hct);
-  }
+  factory TonalPalette.fromInt(int argb) =>
+      TonalPalette.fromHct(Hct.fromInt(argb));
+
+  factory TonalPalette.fromHct(Hct hct) =>
+      TonalPalette._(hct.hue, hct.chroma, hct);
 
   factory TonalPalette.fromHueAndChroma(double hue, double chroma) {
     final keyColor = _KeyColor(hue, chroma).create();
     return TonalPalette._(hue, chroma, keyColor);
   }
 
-  TonalPalette._(this._hue, this._chroma, this._keyColor)
-    : _cache = <int, int>{};
+  /// Create an ARGB color with HCT hue and chroma of this Tones instance,
+  /// and the provided HCT tone.
+  int tone(int tone) => _cache.putIfAbsent(
+    tone,
+    () => tone == 99 && Hct.isYellow(hue)
+        ? _averageArgb(this.tone(98), this.tone(100))
+        : Hct.from(hue, chroma, tone.toDouble()).toInt(),
+  );
 
-  int tone(int tone) {
-    return _cache.putIfAbsent(
-      tone,
-      () => tone == 99 && Hct.isYellow(_hue)
-          ? _averageArgb(this.tone(98), this.tone(100))
-          : Hct.from(_hue, _chroma, tone.toDouble()).toInt(),
-    );
-  }
-
-  Hct getHct(double tone) {
-    return Hct.from(_hue, _chroma, tone);
-  }
-
-  double get chroma => _chroma;
-
-  double get hue => _hue;
-
-  Hct get keyColor => _keyColor;
+  /// Given a tone, use hue and chroma of palette to create a color,
+  /// and return it as HCT.
+  Hct getHct(double tone) => Hct.from(hue, chroma, tone);
 
   static int _averageArgb(int argb1, int argb2) {
     final red1 = (argb1 >>> 16) & 0xff;
@@ -59,17 +55,23 @@ final class TonalPalette {
   }
 }
 
+/// Key color is a color that represents the hue and chroma of a tonal palette.
 final class _KeyColor {
   final double _hue;
   final double _requestedChroma;
-  final Map<int, double> _chromaCache;
-  static const double _maxChromaValue = 200.0;
+
+  /// Cache that maps tone to max chroma to avoid duplicated HCT calculation.
+  final Map<int, double> _chromaCache = <int, double>{};
 
   _KeyColor(double hue, double requestedChroma)
     : _hue = hue,
-      _requestedChroma = requestedChroma,
-      _chromaCache = <int, double>{};
+      _requestedChroma = requestedChroma;
 
+  /// Creates a key color from a [hue] and a [chroma].
+  /// The key color is the first tone, starting from T50,
+  /// matching the given hue and chroma.
+  ///
+  /// Returns key color [Hct].
   Hct create() {
     // Pivot around T50 because T50 has the most chroma available, on
     // average. Thus it is most likely to have a direct answer.
@@ -114,10 +116,11 @@ final class _KeyColor {
     return Hct.from(_hue, _requestedChroma, lowerTone.toDouble());
   }
 
-  double _maxChroma(int tone) {
-    return _chromaCache.putIfAbsent(
-      tone,
-      () => Hct.from(_hue, _maxChromaValue, tone.toDouble()).chroma,
-    );
-  }
+  /// Find the maximum chroma for a given tone.
+  double _maxChroma(int tone) => _chromaCache.putIfAbsent(
+    tone,
+    () => Hct.from(_hue, _maxChromaValue, tone.toDouble()).chroma,
+  );
+
+  static const double _maxChromaValue = 200.0;
 }

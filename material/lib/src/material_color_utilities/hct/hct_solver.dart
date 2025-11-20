@@ -1,5 +1,7 @@
 import 'dart:math' as math;
 
+import 'package:meta/meta.dart';
+
 import '../utils/math_utils.dart';
 import '../utils/color_utils.dart';
 
@@ -7,21 +9,21 @@ import 'viewing_conditions.dart';
 import 'cam16.dart';
 
 abstract final class HctSolver {
-  static const List<List<double>> _scaledDiscountFromLinrgb = [
+  static const List<List<double>> _scaledDiscountFromLinrgb = <List<double>>[
     [0.001200833568784504, 0.002389694492170889, 0.0002795742885861124],
     [0.0005891086651375999, 0.0029785502573438758, 0.0003270666104008398],
     [0.00010146692491640572, 0.0005364214359186694, 0.0032979401770712076],
   ];
 
-  static const List<List<double>> _linrgbFromScaledDiscount = [
+  static const List<List<double>> _linrgbFromScaledDiscount = <List<double>>[
     [1373.2198709594231, -1100.4251190754821, -7.278681089101213],
     [-271.815969077903, 559.6580465940733, -32.46047482791194],
     [1.9622899599665666, -57.173814538844006, 308.7233197812385],
   ];
 
-  static const List<double> _yFromLinrgb = [0.2126, 0.7152, 0.0722];
+  static const List<double> _yFromLinrgb = <double>[0.2126, 0.7152, 0.0722];
 
-  static const List<double> _criticalPlanes = [
+  static const List<double> _criticalPlanes = <double>[
     0.015176349177441876,
     0.045529047532325624,
     0.07588174588720938,
@@ -279,11 +281,12 @@ abstract final class HctSolver {
     99.55452497210776,
   ];
 
-  static double _sanitizeRadians(double angle) {
-    return (angle + math.pi * 8) % (math.pi * 2);
-  }
+  @internal
+  static double sanitizeRadians(double angle) =>
+      (angle + math.pi * 8.0) % (math.pi * 2.0);
 
-  static double _trueDelinearized(double rgbComponent) {
+  @internal
+  static double trueDelinearized(double rgbComponent) {
     final normalized = rgbComponent / 100.0;
     final delinearized = normalized <= 0.0031308
         ? normalized * 12.92
@@ -291,19 +294,21 @@ abstract final class HctSolver {
     return delinearized * 255.0;
   }
 
-  static double _chromaticAdaptation(double component) {
+  @internal
+  static double chromaticAdaptation(double component) {
     final af = math.pow(component.abs(), 0.42).toDouble();
     return MathUtils.signum(component) * 400.0 * af / (af + 27.13);
   }
 
-  static double _hueOf(List<double> linrgb) {
+  @internal
+  static double hueOf(List<double> linrgb) {
     final scaledDiscount = MathUtils.matrixMultiply(
       linrgb,
       _scaledDiscountFromLinrgb,
     );
-    final rA = _chromaticAdaptation(scaledDiscount[0]);
-    final gA = _chromaticAdaptation(scaledDiscount[1]);
-    final bA = _chromaticAdaptation(scaledDiscount[2]);
+    final rA = chromaticAdaptation(scaledDiscount[0]);
+    final gA = chromaticAdaptation(scaledDiscount[1]);
+    final bA = chromaticAdaptation(scaledDiscount[2]);
     // redness-greenness
     final a = (11.0 * rA + -12.0 * gA + bA) / 11.0;
     // yellowness-blueness
@@ -311,43 +316,44 @@ abstract final class HctSolver {
     return math.atan2(b, a);
   }
 
-  static bool _areInCyclicOrder(double a, double b, double c) {
-    final deltaAB = _sanitizeRadians(b - a);
-    final deltaAC = _sanitizeRadians(c - a);
+  @internal
+  static bool areInCyclicOrder(double a, double b, double c) {
+    final deltaAB = sanitizeRadians(b - a);
+    final deltaAC = sanitizeRadians(c - a);
     return deltaAB < deltaAC;
   }
 
-  static double _intercept(double source, double mid, double target) {
-    return (mid - source) / (target - source);
-  }
+  @internal
+  static double intercept(double source, double mid, double target) =>
+      (mid - source) / (target - source);
 
-  static List<double> _lerpPoint(
+  @internal
+  static List<double> lerpPoint(
     List<double> source,
     double t,
     List<double> target,
-  ) {
-    return [
-      source[0] + (target[0] - source[0]) * t,
-      source[1] + (target[1] - source[1]) * t,
-      source[2] + (target[2] - source[2]) * t,
-    ];
-  }
+  ) => [
+    source[0] + (target[0] - source[0]) * t,
+    source[1] + (target[1] - source[1]) * t,
+    source[2] + (target[2] - source[2]) * t,
+  ];
 
-  static List<double> _setCoordinate(
+  @internal
+  static List<double> setCoordinate(
     List<double> source,
     double coordinate,
     List<double> target,
     int axis,
   ) {
-    final t = _intercept(source[axis], coordinate, target[axis]);
-    return _lerpPoint(source, t, target);
+    final t = intercept(source[axis], coordinate, target[axis]);
+    return lerpPoint(source, t, target);
   }
 
-  static bool isBounded(double x) {
-    return 0.0 <= x && x <= 100.0;
-  }
+  @internal
+  static bool isBounded(double x) => 0.0 <= x && x <= 100.0;
 
-  static List<double>? _nthVertex(double y, int n) {
+  @internal
+  static List<double>? nthVertex(double y, int n) {
     final kR = _yFromLinrgb[0];
     final kG = _yFromLinrgb[1];
     final kB = _yFromLinrgb[2];
@@ -371,26 +377,27 @@ abstract final class HctSolver {
     }
   }
 
-  static List<List<double>> _bisectToSegment(double y, double targetHue) {
+  @internal
+  static List<List<double>> bisectToSegment(double y, double targetHue) {
     List<double>? left;
     List<double>? right = left;
     double leftHue = 0.0;
     double rightHue = 0.0;
-    bool initialized = false;
-    bool uncut = true;
-    for (int n = 0; n < 12; n++) {
-      final mid = _nthVertex(y, n);
+    var initialized = false;
+    var uncut = true;
+    for (var n = 0; n < 12; n++) {
+      final mid = nthVertex(y, n);
       if (mid != null) {
-        final midHue = _hueOf(mid);
+        final midHue = hueOf(mid);
         if (!initialized) {
           left = mid;
           right = mid;
           leftHue = midHue;
           rightHue = midHue;
           initialized = true;
-        } else if (uncut || _areInCyclicOrder(leftHue, midHue, rightHue)) {
+        } else if (uncut || areInCyclicOrder(leftHue, midHue, rightHue)) {
           uncut = false;
-          if (_areInCyclicOrder(leftHue, targetHue, midHue)) {
+          if (areInCyclicOrder(leftHue, targetHue, midHue)) {
             right = mid;
             rightHue = midHue;
           } else {
@@ -403,43 +410,45 @@ abstract final class HctSolver {
     return [left!, right!];
   }
 
-  static List<double> _midpoint(List<double> a, List<double> b) {
-    return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2];
-  }
+  @internal
+  static List<double> midpoint(List<double> a, List<double> b) => [
+    (a[0] + b[0]) / 2,
+    (a[1] + b[1]) / 2,
+    (a[2] + b[2]) / 2,
+  ];
 
-  static int _criticalPlaneBelow(double x) {
-    return (x - 0.5).floor();
-  }
+  @internal
+  static int criticalPlaneBelow(double x) => (x - 0.5).floor();
 
-  static int _criticalPlaneAbove(double x) {
-    return (x - 0.5).ceil();
-  }
+  @internal
+  static int criticalPlaneAbove(double x) => (x - 0.5).ceil();
 
-  static List<double> _bisectToLimit(double y, double targetHue) {
-    final segment = _bisectToSegment(y, targetHue);
+  @internal
+  static List<double> bisectToLimit(double y, double targetHue) {
+    final segment = bisectToSegment(y, targetHue);
     var left = segment[0];
-    var leftHue = _hueOf(left);
+    var leftHue = hueOf(left);
     var right = segment[1];
-    for (int axis = 0; axis < 3; axis++) {
+    for (var axis = 0; axis < 3; axis++) {
       if (left[axis] != right[axis]) {
-        int lPlane = -1;
-        int rPlane = 255;
+        var lPlane = -1;
+        var rPlane = 255;
         if (left[axis] < right[axis]) {
-          lPlane = _criticalPlaneBelow(_trueDelinearized(left[axis]));
-          rPlane = _criticalPlaneAbove(_trueDelinearized(right[axis]));
+          lPlane = criticalPlaneBelow(trueDelinearized(left[axis]));
+          rPlane = criticalPlaneAbove(trueDelinearized(right[axis]));
         } else {
-          lPlane = _criticalPlaneAbove(_trueDelinearized(left[axis]));
-          rPlane = _criticalPlaneBelow(_trueDelinearized(right[axis]));
+          lPlane = criticalPlaneAbove(trueDelinearized(left[axis]));
+          rPlane = criticalPlaneBelow(trueDelinearized(right[axis]));
         }
-        for (int i = 0; i < 8; i++) {
+        for (var i = 0; i < 8; i++) {
           if ((rPlane - lPlane).abs() <= 1.0) {
             break;
           } else {
             final mPlane = ((lPlane + rPlane) / 2.0).floor();
             final midPlaneCoordinate = _criticalPlanes[mPlane];
-            final mid = _setCoordinate(left, midPlaneCoordinate, right, axis);
-            final midHue = _hueOf(mid);
-            if (_areInCyclicOrder(leftHue, targetHue, midHue)) {
+            final mid = setCoordinate(left, midPlaneCoordinate, right, axis);
+            final midHue = hueOf(mid);
+            if (areInCyclicOrder(leftHue, targetHue, midHue)) {
               right = mid;
               rPlane = mPlane;
             } else {
@@ -451,16 +460,18 @@ abstract final class HctSolver {
         }
       }
     }
-    return _midpoint(left, right);
+    return midpoint(left, right);
   }
 
-  static double _inverseChromaticAdaptation(double adapted) {
+  @internal
+  static double inverseChromaticAdaptation(double adapted) {
     final adaptedAbs = adapted.abs();
     final base = math.max(0.0, 27.13 * adaptedAbs / (400.0 - adaptedAbs));
     return MathUtils.signum(adapted) * math.pow(base, 1.0 / 0.42).toDouble();
   }
 
-  static int _findResultByJ(double hueRadians, double chroma, double y) {
+  @internal
+  static int findResultByJ(double hueRadians, double chroma, double y) {
     // Initial estimate of j.
     double j = math.sqrt(y) * 11.0;
     // ===========================================================
@@ -477,7 +488,7 @@ abstract final class HctSolver {
         eHue * (50000.0 / 13.0) * viewingConditions.nc * viewingConditions.ncb;
     final hSin = math.sin(hueRadians);
     final hCos = math.cos(hueRadians);
-    for (int iterationRound = 0; iterationRound < 5; iterationRound++) {
+    for (var iterationRound = 0; iterationRound < 5; iterationRound++) {
       // ===========================================================
       // Operations inlined from Cam16 to avoid repeated calculation
       // ===========================================================
@@ -503,9 +514,9 @@ abstract final class HctSolver {
       final rA = (460.0 * p2 + 451.0 * a + 288.0 * b) / 1403.0;
       final gA = (460.0 * p2 - 891.0 * a - 261.0 * b) / 1403.0;
       final bA = (460.0 * p2 - 220.0 * a - 6300.0 * b) / 1403.0;
-      final rCScaled = _inverseChromaticAdaptation(rA);
-      final gCScaled = _inverseChromaticAdaptation(gA);
-      final bCScaled = _inverseChromaticAdaptation(bA);
+      final rCScaled = inverseChromaticAdaptation(rA);
+      final gCScaled = inverseChromaticAdaptation(gA);
+      final bCScaled = inverseChromaticAdaptation(bA);
       final linrgb = MathUtils.matrixMultiply([
         rCScaled,
         gCScaled,
@@ -542,17 +553,16 @@ abstract final class HctSolver {
       return ColorUtils.argbFromLstar(lstar);
     }
     hueDegrees = MathUtils.sanitizeDegreesDouble(hueDegrees);
-    final hueRadians = hueDegrees / 180 * math.pi;
+    final hueRadians = hueDegrees / 180.0 * math.pi;
     final y = ColorUtils.yFromLstar(lstar);
-    final exactAnswer = _findResultByJ(hueRadians, chroma, y);
+    final exactAnswer = findResultByJ(hueRadians, chroma, y);
     if (exactAnswer != 0) {
       return exactAnswer;
     }
-    final linrgb = _bisectToLimit(y, hueRadians);
+    final linrgb = bisectToLimit(y, hueRadians);
     return ColorUtils.argbFromLinrgb(linrgb);
   }
 
-  static Cam16 solveToCam(double hueDegrees, double chroma, double lstar) {
-    return Cam16.fromInt(solveToInt(hueDegrees, chroma, lstar));
-  }
+  static Cam16 solveToCam(double hueDegrees, double chroma, double lstar) =>
+      Cam16.fromInt(solveToInt(hueDegrees, chroma, lstar));
 }

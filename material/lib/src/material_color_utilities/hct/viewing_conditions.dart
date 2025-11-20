@@ -3,28 +3,9 @@ import 'dart:math' as math;
 import '../utils/math_utils.dart';
 import '../utils/color_utils.dart';
 
+import 'cam16.dart';
+
 final class ViewingConditions {
-  static final ViewingConditions standard = sRgb;
-  static final ViewingConditions sRgb =
-      ViewingConditions.defaultWithBackgroundLstar(50.0);
-
-  static const List<List<double>> _xyzToCam16rgb = [
-    [0.401288, 0.650173, -0.051461],
-    [-0.250268, 1.204414, 0.045854],
-    [-0.002079, 0.048952, 0.953127],
-  ];
-
-  final double aw;
-  final double nbb;
-  final double ncb;
-  final double c;
-  final double nc;
-  final double n;
-  final List<double> rgbD;
-  final double fl;
-  final double flRoot;
-  final double z;
-
   const ViewingConditions._(
     this.n,
     this.aw,
@@ -49,7 +30,7 @@ final class ViewingConditions {
     // that any color viewed in pure black can't be seen.
     backgroundLstar = math.max(0.1, backgroundLstar);
     // Transform white point XYZ to 'cone'/'rgb' responses
-    const matrix = _xyzToCam16rgb;
+    const matrix = Cam16.xyzToCam16rgb;
     final xyz = whitePoint;
     final rW =
         (xyz[0] * matrix[0][0]) +
@@ -127,4 +108,55 @@ final class ViewingConditions {
         2.0,
         false,
       );
+
+  final double aw;
+  final double nbb;
+  final double ncb;
+  final double c;
+  final double nc;
+  final double n;
+  final List<double> rgbD;
+  final double fl;
+  final double flRoot;
+  final double z;
+
+  @override
+  String toString() =>
+      "ViewingConditions("
+      "n: $n, "
+      "aw: $aw, "
+      "nbb: $nbb, "
+      "ncb: $ncb, "
+      "c: $c, "
+      "nc: $nc, "
+      "rgbD: $rgbD, "
+      "fl: $fl, "
+      "flRoot: $flRoot, "
+      "z: $z"
+      ")";
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        runtimeType == other.runtimeType &&
+            other is ViewingConditions &&
+            n == other.n &&
+            aw == other.aw &&
+            nbb == other.nbb &&
+            ncb == other.ncb &&
+            c == other.c &&
+            nc == other.nc &&
+            rgbD == other.rgbD &&
+            fl == other.fl &&
+            flRoot == other.flRoot &&
+            z == other.z;
+  }
+
+  @override
+  int get hashCode => Object.hash(n, aw, nbb, ncb, c, nc, rgbD, fl, flRoot, z);
+
+  static final ViewingConditions sRgb =
+      ViewingConditions.defaultWithBackgroundLstar(50.0);
+
+  static final ViewingConditions standard = sRgb;
 }

@@ -36,29 +36,17 @@ enum TonePolarity {
   relativeLighter,
 }
 
-/// Documents a constraint between two DynamicColors, in which their tones must have a certain
-/// distance from each other.
+/// Documents a constraint between two DynamicColors, in which their tones
+/// must have a certain distance from each other.
 ///
-/// The polarity is an adjective that describes "A", compared to "B". For instance, ToneDeltaPair(A,
-/// B, 15, 'darker') states that A's tone should be at least 15 darker than B's.
+/// The polarity is an adjective that describes "A", compared to "B".
+/// For instance, ToneDeltaPair(A, B, 15, 'darker') states that A's tone
+/// should be at least 15 darker than B's.
 ///
-/// Prefer a DynamicColor with a background, this is for special cases when designers want tonal
-/// distance, literally contrast, between two colors that don't have a background / foreground
-/// relationship or a contrast guarantee.
-///
-/// roleA - The first role in a pair.
-///
-/// roleB - The second role in a pair.
-///
-/// delta - Required difference between tones. Absolute value, negative values have undefined
-///   behavior.
-///
-/// polarity - The relative relation between tones of roleA and roleB, as described above.
-///
-/// stayTogether - Whether these two roles should stay on the same side of the "awkward zone"
-///   (T50-59). This is necessary for certain cases where one role has two backgrounds.
-///
-/// constraint - How to fulfill the tone delta pair constraint.
+/// Prefer a DynamicColor with a background, this is for special cases
+/// when designers want tonal distance, literally contrast, between two colors
+/// that don't have a background / foreground relationship or a contrast
+/// guarantee.
 final class ToneDeltaPair {
   const ToneDeltaPair({
     required this.roleA,
@@ -69,11 +57,25 @@ final class ToneDeltaPair {
     this.constraint = DeltaConstraint.exact,
   });
 
+  /// The first role in a pair.
   final DynamicColor roleA;
+
+  /// The second role in a pair.
   final DynamicColor roleB;
+
+  /// Required difference between tones.
+  /// Absolute value, negative values have undefined behavior.
   final double delta;
+
+  /// The relative relation between tones of [roleA] and [roleB].
   final TonePolarity polarity;
+
+  /// Whether these two roles should stay on the same side
+  /// of the "awkward zone" (T50-59). This is necessary for certain cases where
+  /// one role has two backgrounds.
   final bool stayTogether;
+
+  /// How to fulfill the tone delta pair constraint.
   final DeltaConstraint constraint;
 
   @override
@@ -90,13 +92,6 @@ final class ToneDeltaPair {
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    roleA,
-    roleA,
-    delta,
-    polarity,
-    stayTogether,
-    constraint,
-  );
+  int get hashCode =>
+      Object.hash(roleA, roleA, delta, polarity, stayTogether, constraint);
 }

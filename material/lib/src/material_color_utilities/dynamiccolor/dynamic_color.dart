@@ -284,7 +284,6 @@ final class DynamicColor {
 
   @override
   int get hashCode => Object.hash(
-    runtimeType,
     name,
     palette,
     tone,

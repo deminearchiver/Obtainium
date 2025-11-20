@@ -1,8 +1,14 @@
 import '../utils/math_utils.dart';
 import '../hct/hct.dart';
 
+/// Given a large set of colors, remove colors that are unsuitable for
+/// a UI theme, and rank the rest based on suitability.
+///
+/// Enables use of a high cluster count for image quantization, thus ensuring
+/// colors aren't muddied, while curating the high cluster count
+/// to a much smaller number of appropriate choices.
 abstract final class Score {
-  static const double _targetChroma = 48.0;
+  static const double _targetChroma = 48.0; // A1 Chroma
   static const double _weightProportion = 0.7;
   static const double _weightChromaAbove = 0.3;
   static const double _weightChromaBelow = 0.1;
@@ -20,20 +26,20 @@ abstract final class Score {
     final colorsHct = <Hct>[];
     final List<int> huePopulation = List.filled(360, 0);
     double populationSum = 0.0;
-    for (final entry in colorsToPopulation.entries) {
-      Hct hct = Hct.fromInt(entry.key);
+    for (final MapEntry(:key, :value) in colorsToPopulation.entries) {
+      final hct = Hct.fromInt(key);
       colorsHct.add(hct);
-      int hue = hct.hue.floor();
-      huePopulation[hue] += entry.value;
-      populationSum += entry.value;
+      final hue = hct.hue.floor();
+      huePopulation[hue] += value;
+      populationSum += value.toDouble();
     }
 
     // Hues with more usage in neighboring 30 degree slice get a larger number.
     final List<double> hueExcitedProportions = List.filled(360, 0.0);
-    for (int hue = 0; hue < 360; hue++) {
-      double proportion = huePopulation[hue] / populationSum;
-      for (int i = hue - 14; i < hue + 16; i++) {
-        int neighborHue = MathUtils.sanitizeDegreesInt(i);
+    for (var hue = 0; hue < 360; hue++) {
+      var proportion = huePopulation[hue].toDouble() / populationSum;
+      for (var i = hue - 14; i < hue + 16; i++) {
+        final neighborHue = MathUtils.sanitizeDegreesInt(i);
         hueExcitedProportions[neighborHue] += proportion;
       }
     }
@@ -49,7 +55,6 @@ abstract final class Score {
               proportion <= _cutoffExcitedProportion)) {
         continue;
       }
-
       final proportionScore = proportion * 100.0 * _weightProportion;
       final chromaWeight = hct.chroma < _targetChroma
           ? _weightChromaBelow
@@ -58,6 +63,7 @@ abstract final class Score {
       final score = proportionScore + chromaScore;
       scoredHcts.add(_ScoredHct(hct, score));
     }
+
     // Sorted so that colors with higher scores come first.
     scoredHcts.sort((a, b) => b.score.compareTo(a.score));
 
@@ -67,14 +73,14 @@ abstract final class Score {
     // 15 degree minimum.
     final List<Hct> chosenColors = <Hct>[];
     for (
-      int differenceDegrees = 90;
+      var differenceDegrees = 90;
       differenceDegrees >= 15;
       differenceDegrees--
     ) {
       chosenColors.clear();
       for (final entry in scoredHcts) {
-        Hct hct = entry.hct;
-        bool hasDuplicateHue = false;
+        final hct = entry.hct;
+        var hasDuplicateHue = false;
         for (final chosenHct in chosenColors) {
           if (MathUtils.differenceDegrees(hct.hue, chosenHct.hue) <
               differenceDegrees) {
@@ -93,7 +99,7 @@ abstract final class Score {
         break;
       }
     }
-    final colors = <int>[];
+    final List<int> colors = <int>[];
     if (chosenColors.isEmpty) {
       colors.add(fallbackColorArgb);
     }
@@ -120,5 +126,5 @@ final class _ScoredHct {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, hct, score);
+  int get hashCode => Object.hash(hct, score);
 }

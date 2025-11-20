@@ -16,6 +16,7 @@ import 'dynamic_scheme.dart';
 import 'tone_delta_pair.dart';
 import 'variant.dart';
 
+/// [ColorSpec] implementation for the 2021 spec.
 final class ColorSpec2021 implements ColorSpec {
   const ColorSpec2021();
 

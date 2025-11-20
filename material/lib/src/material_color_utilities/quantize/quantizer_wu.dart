@@ -397,7 +397,7 @@ final class _MaximizeResult {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, cutLocation, maximum);
+  int get hashCode => Object.hash(cutLocation, maximum);
 }
 
 final class _CreateBoxesResult {
@@ -416,7 +416,7 @@ final class _CreateBoxesResult {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, requestedCount, resultCount);
+  int get hashCode => Object.hash(requestedCount, resultCount);
 }
 
 final class _Box {

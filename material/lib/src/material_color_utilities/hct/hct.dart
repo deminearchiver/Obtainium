@@ -5,30 +5,32 @@ import 'cam16.dart';
 import 'hct_solver.dart';
 
 final class Hct {
-  late int _argb;
+  Hct._(int argb) {
+    _setInternalState(argb);
+  }
 
   factory Hct.from(double hue, double chroma, double tone) {
     final argb = HctSolver.solveToInt(hue, chroma, tone);
     return Hct._(argb);
   }
 
-  factory Hct.fromInt(int argb) {
-    return Hct._(argb);
-  }
+  factory Hct.fromInt(int argb) => Hct._(argb);
 
+  late int _argb;
   late double _hue;
+  late double _chroma;
+  late double _tone;
+
   double get hue => _hue;
   set hue(double newHue) {
     _setInternalState(HctSolver.solveToInt(newHue, chroma, tone));
   }
 
-  late double _chroma;
   double get chroma => _chroma;
   set chroma(double newChroma) {
     _setInternalState(HctSolver.solveToInt(hue, newChroma, tone));
   }
 
-  late double _tone;
   double get tone => _tone;
   set tone(double newTone) {
     _setInternalState(HctSolver.solveToInt(hue, chroma, newTone));
@@ -59,10 +61,6 @@ final class Hct {
     );
   }
 
-  Hct._(int argb) {
-    _setInternalState(argb);
-  }
-
   void _setInternalState(int argb) {
     _argb = argb;
     final cam = Cam16.fromInt(argb);
@@ -79,18 +77,6 @@ final class Hct {
       "${_tone.round()}"
       ")";
 
-  static bool isBlue(double hue) {
-    return hue >= 250.0 && hue < 270.0;
-  }
-
-  static bool isYellow(double hue) {
-    return hue >= 105.0 && hue < 125.0;
-  }
-
-  static bool isCyan(double hue) {
-    return hue >= 170.0 && hue < 207.0;
-  }
-
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
@@ -103,5 +89,11 @@ final class Hct {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, _argb, _hue, _chroma, _tone);
+  int get hashCode => Object.hash(_argb, _hue, _chroma, _tone);
+
+  static bool isBlue(double hue) => hue >= 250.0 && hue < 270.0;
+
+  static bool isYellow(double hue) => hue >= 105.0 && hue < 125.0;
+
+  static bool isCyan(double hue) => hue >= 170.0 && hue < 207.0;
 }

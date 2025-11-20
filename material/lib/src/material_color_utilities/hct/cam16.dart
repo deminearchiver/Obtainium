@@ -1,42 +1,29 @@
 import 'dart:math' as math;
 
+import 'package:meta/meta.dart';
+
 import '../utils/math_utils.dart';
 import '../utils/color_utils.dart';
 
 import 'viewing_conditions.dart';
 
+/// CAM16, a color appearance model. Colors are not just defined by their
+/// hex code, but rather, a hex code and viewing conditions.
+///
+/// CAM16 instances also have coordinates in the CAM16-UCS space,
+/// called J*, a*, b*, or jstar, astar, bstar in code. CAM16-UCS is included
+/// in the CAM16 specification, and should be used when measuring distances
+/// between colors.
+///
+/// In traditional color spaces, a color can be identified solely by the
+/// observer's measurement of the color. Color appearance models such as
+/// CAM16 also use information about the environment where the color
+/// was observed, known as the viewing conditions.
+///
+/// For example, white under the traditional assumption of a midday sun
+/// white point is accurately measured as a slightly chromatic blue by CAM16.
+/// (roughly, hue 203, chroma 3, lightness 100)
 final class Cam16 {
-  static const List<List<double>> _xyzToCam16rgb = [
-    [0.401288, 0.650173, -0.051461],
-    [-0.250268, 1.204414, 0.045854],
-    [-0.002079, 0.048952, 0.953127],
-  ];
-  static const List<List<double>> _cam16rgbToXyz = [
-    [1.8620678, -1.0112547, 0.14918678],
-    [0.38752654, 0.62144744, -0.00897398],
-    [-0.01584150, -0.03412294, 1.0499644],
-  ];
-
-  final double hue;
-  final double chroma;
-  final double j;
-  final double q;
-  final double m;
-  final double s;
-
-  final double jstar;
-  final double astar;
-  final double bstar;
-
-  double distance(Cam16 other) {
-    final dJ = jstar - other.jstar;
-    final dA = astar - other.astar;
-    final dB = bstar - other.bstar;
-    final dEPrime = math.sqrt(dJ * dJ + dA * dA + dB * dB);
-    final dE = 1.41 * math.pow(dEPrime, 0.63).toDouble();
-    return dE;
-  }
-
   const Cam16._(
     this.hue,
     this.chroma,
@@ -49,26 +36,7 @@ final class Cam16 {
     this.bstar,
   );
 
-  factory Cam16.fromInt(int argb) {
-    return Cam16.fromIntInViewingConditions(argb, ViewingConditions.sRgb);
-  }
-
-  factory Cam16.fromIntInViewingConditions(
-    int argb,
-    ViewingConditions viewingConditions,
-  ) {
-    final red = (argb & 0x00ff0000) >> 16;
-    final green = (argb & 0x0000ff00) >> 8;
-    final blue = (argb & 0x000000ff);
-    final redL = ColorUtils.linearized(red);
-    final greenL = ColorUtils.linearized(green);
-    final blueL = ColorUtils.linearized(blue);
-    final x = 0.41233895 * redL + 0.35762064 * greenL + 0.18051042 * blueL;
-    final y = 0.2126 * redL + 0.7152 * greenL + 0.0722 * blueL;
-    final z = 0.01932141 * redL + 0.11916382 * greenL + 0.95034478 * blueL;
-    return Cam16.fromXyzInViewingConditions(x, y, z, viewingConditions);
-  }
-
+  @internal
   factory Cam16.fromXyzInViewingConditions(
     double x,
     double y,
@@ -76,7 +44,7 @@ final class Cam16 {
     ViewingConditions viewingConditions,
   ) {
     // Transform XYZ to 'cone'/'rgb' responses
-    const matrix = _xyzToCam16rgb;
+    const matrix = xyzToCam16rgb;
     double rT = (x * matrix[0][0]) + (y * matrix[0][1]) + (z * matrix[0][2]);
     double gT = (x * matrix[1][0]) + (y * matrix[1][1]) + (z * matrix[1][2]);
     double bT = (x * matrix[2][0]) + (y * matrix[2][1]) + (z * matrix[2][2]);
@@ -112,11 +80,7 @@ final class Cam16 {
     // hue
     final atan2 = math.atan2(b, a);
     final atanDegrees = MathUtils.toDegrees(atan2);
-    final hue = atanDegrees < 0
-        ? atanDegrees + 360.0
-        : atanDegrees >= 360
-        ? atanDegrees - 360.0
-        : atanDegrees;
+    final hue = MathUtils.sanitizeDegreesDouble(atanDegrees);
     final hueRadians = MathUtils.toRadians(hue);
 
     // achromatic response to color
@@ -165,10 +129,27 @@ final class Cam16 {
     return Cam16._(hue, c, j, q, m, s, jstar, astar, bstar);
   }
 
-  factory Cam16.fromJch(double j, double c, double h) {
-    return Cam16.fromJchInViewingConditions(j, c, h, ViewingConditions.sRgb);
+  @internal
+  factory Cam16.fromIntInViewingConditions(
+    int argb,
+    ViewingConditions viewingConditions,
+  ) {
+    final red = (argb & 0x00ff0000) >> 16;
+    final green = (argb & 0x0000ff00) >> 8;
+    final blue = (argb & 0x000000ff);
+    final redL = ColorUtils.linearized(red);
+    final greenL = ColorUtils.linearized(green);
+    final blueL = ColorUtils.linearized(blue);
+    final x = 0.41233895 * redL + 0.35762064 * greenL + 0.18051042 * blueL;
+    final y = 0.2126 * redL + 0.7152 * greenL + 0.0722 * blueL;
+    final z = 0.01932141 * redL + 0.11916382 * greenL + 0.95034478 * blueL;
+    return Cam16.fromXyzInViewingConditions(x, y, z, viewingConditions);
   }
 
+  factory Cam16.fromInt(int argb) =>
+      Cam16.fromIntInViewingConditions(argb, ViewingConditions.sRgb);
+
+  @internal
   factory Cam16.fromJchInViewingConditions(
     double j,
     double c,
@@ -195,14 +176,9 @@ final class Cam16 {
     return Cam16._(h, c, j, q, m, s, jstar, astar, bstar);
   }
 
-  factory Cam16.fromUcs(double jstar, double astar, double bstar) {
-    return Cam16.fromUcsInViewingConditions(
-      jstar,
-      astar,
-      bstar,
-      ViewingConditions.sRgb,
-    );
-  }
+  @internal
+  factory Cam16.fromJch(double j, double c, double h) =>
+      Cam16.fromJchInViewingConditions(j, c, h, ViewingConditions.sRgb);
 
   factory Cam16.fromUcsInViewingConditions(
     double jstar,
@@ -221,11 +197,64 @@ final class Cam16 {
     return Cam16.fromJchInViewingConditions(j, c, h, viewingConditions);
   }
 
-  int toInt() => viewed(ViewingConditions.sRgb);
+  factory Cam16.fromUcs(double jstar, double astar, double bstar) =>
+      Cam16.fromUcsInViewingConditions(
+        jstar,
+        astar,
+        bstar,
+        ViewingConditions.sRgb,
+      );
 
-  int viewed(ViewingConditions viewingConditions) {
-    final xyz = xyzInViewingConditions(viewingConditions);
-    return ColorUtils.argbFromXyz(xyz[0], xyz[1], xyz[2]);
+  /// Hue in CAM16.
+  final double hue;
+
+  /// Chroma in CAM16.
+  final double chroma;
+
+  /// Lightness in CAM16.
+  final double j;
+
+  /// Brightness in CAM16.
+  ///
+  /// Prefer lightness, brightness is an absolute quantity. For example,
+  /// a sheet of white paper is much brighter viewed in sunlight than in
+  /// indoor light, but it is the lightest object under any lighting.
+  final double q;
+
+  /// Colorfulness in CAM16.
+  ///
+  /// Prefer chroma, colorfulness is an absolute quantity. For example,
+  /// a yellow toy car is much more colorful outside than inside,
+  /// but it has the same chroma in both environments.
+  final double m;
+
+  /// Saturation in CAM16.
+  ///
+  /// Colorfulness in proportion to brightness. Prefer chroma,
+  /// saturation measures colorfulness relative to the color's own brightness,
+  /// where chroma is colorfulness relative to white.
+  final double s;
+
+  /// Lightness coordinate in CAM16-UCS.
+  final double jstar;
+
+  /// a* coordinate in CAM16-UCS.
+  final double astar;
+
+  /// b* coordinate in CAM16-UCS.
+  final double bstar;
+
+  /// CAM16 instances also have coordinates in the CAM16-UCS space,
+  /// called J*, a*, b*, or jstar, astar, bstar in code.
+  /// CAM16-UCS is included in the CAM16 specification,
+  /// and is used to measure distances between colors.
+  double distance(Cam16 other) {
+    final dJ = jstar - other.jstar;
+    final dA = astar - other.astar;
+    final dB = bstar - other.bstar;
+    final dEPrime = math.sqrt(dJ * dJ + dA * dA + dB * dB);
+    final dE = 1.41 * math.pow(dEPrime, 0.63).toDouble();
+    return dE;
   }
 
   List<double> xyzInViewingConditions(ViewingConditions viewingConditions) {
@@ -282,10 +311,68 @@ final class Cam16 {
     final gF = gC / viewingConditions.rgbD[1];
     final bF = bC / viewingConditions.rgbD[2];
 
-    const matrix = _cam16rgbToXyz;
+    const matrix = cam16rgbToXyz;
     final x = (rF * matrix[0][0]) + (gF * matrix[0][1]) + (bF * matrix[0][2]);
     final y = (rF * matrix[1][0]) + (gF * matrix[1][1]) + (bF * matrix[1][2]);
     final z = (rF * matrix[2][0]) + (gF * matrix[2][1]) + (bF * matrix[2][2]);
     return [x, y, z];
   }
+
+  /// ARGB representation of the color, in defined viewing conditions.
+  int viewed(ViewingConditions viewingConditions) {
+    final xyz = xyzInViewingConditions(viewingConditions);
+    return ColorUtils.argbFromXyz(xyz[0], xyz[1], xyz[2]);
+  }
+
+  /// ARGB representation of the color. Assumes the color was viewed
+  /// in default viewing conditions, which are near-identical
+  /// to the default viewing conditions for sRGB.
+  int toInt() => viewed(ViewingConditions.sRgb);
+
+  @override
+  String toString() =>
+      "Cam16("
+      "hue: $hue, "
+      "chroma: $chroma, "
+      "j: $j, "
+      "q: $q, "
+      "m: $m, "
+      "s: $s, "
+      "jstar: $jstar, "
+      "astar: $astar, "
+      "bstar: $bstar"
+      ")";
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        runtimeType == other.runtimeType &&
+            other is Cam16 &&
+            hue == other.hue &&
+            chroma == other.chroma &&
+            j == other.j &&
+            q == other.q &&
+            m == other.m &&
+            s == other.s &&
+            jstar == other.jstar &&
+            astar == other.astar &&
+            bstar == other.bstar;
+  }
+
+  @override
+  int get hashCode => Object.hash(hue, chroma, j, q, m, s, jstar, astar, bstar);
+
+  @internal
+  static const List<List<double>> xyzToCam16rgb = [
+    [0.401288, 0.650173, -0.051461],
+    [-0.250268, 1.204414, 0.045854],
+    [-0.002079, 0.048952, 0.953127],
+  ];
+
+  @internal
+  static const List<List<double>> cam16rgbToXyz = [
+    [1.8620678, -1.0112547, 0.14918678],
+    [0.38752654, 0.62144744, -0.00897398],
+    [-0.01584150, -0.03412294, 1.0499644],
+  ];
 }
