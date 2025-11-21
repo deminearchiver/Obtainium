@@ -6,7 +6,7 @@
 > To view details about this fork, go to the [**Fork**](#fork) section.
 
 <div align="center">
-  <img width="96" height="96" src="./assets/graphics/icon_small.png" alt="Obtainium Icon">
+  <img width="96" height="96" src="./assets/ic_launcher/mipmap-xxxhdpi/ic_launcher.png" alt="Obtainium Icon">
   <h3>Materium</h3>
   <p>Get Android app updates straight from the source.</p>
   <h6>
