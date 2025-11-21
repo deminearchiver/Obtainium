@@ -1,48 +1,48 @@
 library;
 
-export 'src/color/color_theme.dart';
-export 'src/color/palette_theme.dart';
+export 'src/material/color/color_theme.dart';
+export 'src/material/color/palette_theme.dart';
 
-export 'src/icon/icon.dart';
-export 'src/icon/icon_theme.dart';
+export 'src/material/icon/icon.dart';
+export 'src/material/icon/icon_theme.dart';
 
-export 'src/motion/duration_theme.dart';
-export 'src/motion/easing_theme.dart';
-export 'src/motion/spring_theme.dart';
+export 'src/material/motion/duration_theme.dart';
+export 'src/material/motion/easing_theme.dart';
+export 'src/material/motion/spring_theme.dart';
 
-export 'src/shape/corners_border.dart';
-export 'src/shape/corners.dart';
-export 'src/shape/shape_theme.dart';
+export 'src/material/shape/corners_border.dart';
+export 'src/material/shape/corners.dart';
+export 'src/material/shape/shape_theme.dart';
 
-export 'src/state/state.dart';
-export 'src/state/state_theme.dart';
+export 'src/material/state/state.dart';
+export 'src/material/state/state_theme.dart';
 
-export 'src/typography/type_style.dart';
-export 'src/typography/typeface_theme.dart';
-export 'src/typography/typescale_theme.dart';
+export 'src/material/typography/type_style.dart';
+export 'src/material/typography/typeface_theme.dart';
+export 'src/material/typography/typescale_theme.dart';
 
-export 'src/elevation/elevation_theme.dart';
+export 'src/material/elevation/elevation_theme.dart';
 
-export 'src/focus_ring/focus_ring_theme.dart';
-export 'src/focus_ring/focus_ring.dart';
+export 'src/material/focus_ring/focus_ring_theme.dart';
+export 'src/material/focus_ring/focus_ring.dart';
 
-export 'src/progress_indicator.dart';
+export 'src/material/progress_indicator.dart';
 
-export 'src/checkbox.dart';
+export 'src/material/checkbox.dart';
 
-export 'src/radio_button.dart';
+export 'src/material/radio_button.dart';
 
-export 'src/switch.dart';
+export 'src/material/switch.dart';
 
-export 'src/window_size_class.dart';
+export 'src/material/window_size_class.dart';
 
-export 'src/animation_extensions.dart';
+export 'src/material/animation_extensions.dart';
 
 // TODO: review after LoadingIndicator gets a custom implementation
-export 'src/loading_indicator/loading_indicator.dart';
-export 'src/loading_indicator/loading_indicator_theme.dart';
+export 'src/material/loading_indicator/loading_indicator.dart';
+export 'src/material/loading_indicator/loading_indicator_theme.dart';
 
-import 'src/flutter.dart';
+import 'src/material/flutter.dart';
 
 extension PaintingContextExtension on PaintingContext {
   void withCanvasTransform(void Function(PaintingContext context) paint) {
