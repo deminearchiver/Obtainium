@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:material/src/material_shapes.dart';
+import 'package:material/src/material_shapes/material_shapes.dart';
 
 import 'package:material/src/flutter.dart';
 

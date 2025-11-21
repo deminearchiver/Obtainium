@@ -24,7 +24,7 @@ import 'package:super_editor/super_editor.dart';
 import 'package:materium_fonts/src/assets/fonts.gen.dart';
 
 // ignore: implementation_imports
-import 'package:material/src/material_shapes.dart'
+import 'package:material/src/material_shapes/material_shapes.dart'
     show RoundedPolygonInternalExtension;
 
 import 'package:syntax_highlight/syntax_highlight.dart';
