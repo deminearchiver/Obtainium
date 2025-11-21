@@ -119,18 +119,31 @@ abstract class TypeStylePartial with Diagnosticable {
   }) = _TypeStylePartial;
 
   List<String>? get font;
+
   double? get weight;
+
   double? get size;
+
   double? get tracking;
+
   double? get lineHeight;
+
   double? get wght;
+
   double? get grad;
+
   double? get wdth;
+
   double? get rond;
+
   double? get opsz;
+
   double? get crsv;
+
   double? get slnt;
+
   double? get fill;
+
   double? get hexp;
 
   TypeStylePartial copyWith({
@@ -148,40 +161,38 @@ abstract class TypeStylePartial with Diagnosticable {
     double? slnt,
     double? fill,
     double? hexp,
-  }) {
-    if (font == null &&
-        weight == null &&
-        size == null &&
-        tracking == null &&
-        lineHeight == null &&
-        wght == null &&
-        grad == null &&
-        wdth == null &&
-        rond == null &&
-        opsz == null &&
-        crsv == null &&
-        slnt == null &&
-        fill == null &&
-        hexp == null) {
-      return this;
-    }
-    return TypeStylePartial.from(
-      font: font ?? this.font,
-      weight: weight ?? this.weight,
-      size: size ?? this.size,
-      tracking: tracking ?? this.tracking,
-      lineHeight: lineHeight ?? this.lineHeight,
-      wght: wght ?? this.wght,
-      grad: grad ?? this.grad,
-      wdth: wdth ?? this.wdth,
-      rond: rond ?? this.rond,
-      opsz: opsz ?? this.opsz,
-      crsv: crsv ?? this.crsv,
-      slnt: slnt ?? this.slnt,
-      fill: fill ?? this.fill,
-      hexp: hexp ?? this.hexp,
-    );
-  }
+  }) =>
+      font != null ||
+          weight != null ||
+          size != null ||
+          tracking != null ||
+          lineHeight != null ||
+          wght != null ||
+          grad != null ||
+          wdth != null ||
+          rond != null ||
+          opsz != null ||
+          crsv != null ||
+          slnt != null ||
+          fill != null ||
+          hexp != null
+      ? TypeStylePartial.from(
+          font: font ?? this.font,
+          weight: weight ?? this.weight,
+          size: size ?? this.size,
+          tracking: tracking ?? this.tracking,
+          lineHeight: lineHeight ?? this.lineHeight,
+          wght: wght ?? this.wght,
+          grad: grad ?? this.grad,
+          wdth: wdth ?? this.wdth,
+          rond: rond ?? this.rond,
+          opsz: opsz ?? this.opsz,
+          crsv: crsv ?? this.crsv,
+          slnt: slnt ?? this.slnt,
+          fill: fill ?? this.fill,
+          hexp: hexp ?? this.hexp,
+        )
+      : this;
 
   TypeStylePartial mergeWith({
     List<String>? font,
@@ -198,60 +209,57 @@ abstract class TypeStylePartial with Diagnosticable {
     double? slnt,
     double? fill,
     double? hexp,
-  }) {
-    if (font == null &&
-        weight == null &&
-        size == null &&
-        tracking == null &&
-        lineHeight == null &&
-        wght == null &&
-        grad == null &&
-        wdth == null &&
-        rond == null &&
-        opsz == null &&
-        crsv == null &&
-        slnt == null &&
-        fill == null &&
-        hexp == null) {
-      return this;
-    }
-    return TypeStylePartial.from(
-      font: font != null ? [...font, ...?this.font] : this.font,
-      weight: weight ?? this.weight,
-      size: size ?? this.size,
-      tracking: tracking ?? this.tracking,
-      lineHeight: lineHeight ?? this.lineHeight,
-      wght: wght ?? this.wght,
-      grad: grad ?? this.grad,
-      wdth: wdth ?? this.wdth,
-      rond: rond ?? this.rond,
-      opsz: opsz ?? this.opsz,
-      crsv: crsv ?? this.crsv,
-      slnt: slnt ?? this.slnt,
-      fill: fill ?? this.fill,
-      hexp: hexp ?? this.hexp,
-    );
-  }
+  }) =>
+      font != null ||
+          weight != null ||
+          size != null ||
+          tracking != null ||
+          lineHeight != null ||
+          wght != null ||
+          grad != null ||
+          wdth != null ||
+          rond != null ||
+          opsz != null ||
+          crsv != null ||
+          slnt != null ||
+          fill != null ||
+          hexp != null
+      ? TypeStylePartial.from(
+          font: font != null ? [...font, ...?this.font] : this.font,
+          weight: weight ?? this.weight,
+          size: size ?? this.size,
+          tracking: tracking ?? this.tracking,
+          lineHeight: lineHeight ?? this.lineHeight,
+          wght: wght ?? this.wght,
+          grad: grad ?? this.grad,
+          wdth: wdth ?? this.wdth,
+          rond: rond ?? this.rond,
+          opsz: opsz ?? this.opsz,
+          crsv: crsv ?? this.crsv,
+          slnt: slnt ?? this.slnt,
+          fill: fill ?? this.fill,
+          hexp: hexp ?? this.hexp,
+        )
+      : this;
 
-  TypeStylePartial merge(TypeStylePartial? other) {
-    if (other == null) return this;
-    return mergeWith(
-      font: other.font,
-      weight: other.weight,
-      size: other.size,
-      tracking: other.tracking,
-      lineHeight: other.lineHeight,
-      wght: other.wght,
-      grad: other.grad,
-      wdth: other.wdth,
-      rond: other.rond,
-      opsz: other.opsz,
-      crsv: other.crsv,
-      slnt: other.slnt,
-      fill: other.fill,
-      hexp: other.hexp,
-    );
-  }
+  TypeStylePartial merge(TypeStylePartial? other) => other != null
+      ? mergeWith(
+          font: other.font,
+          weight: other.weight,
+          size: other.size,
+          tracking: other.tracking,
+          lineHeight: other.lineHeight,
+          wght: other.wght,
+          grad: other.grad,
+          wdth: other.wdth,
+          rond: other.rond,
+          opsz: other.opsz,
+          crsv: other.crsv,
+          slnt: other.slnt,
+          fill: other.fill,
+          hexp: other.hexp,
+        )
+      : this;
 
   Map<String, double> get variableFontAxes => {
     if (wght case final wght?) _VariableFontAxes.wght: wght,
@@ -292,46 +300,44 @@ abstract class TypeStylePartial with Diagnosticable {
   }
 
   @override
+  // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(IterableProperty("font", font, defaultValue: null));
-    properties.add(DoubleProperty("weight", weight, defaultValue: null));
-    properties.add(DoubleProperty("size", size, defaultValue: null));
-    properties.add(DoubleProperty("tracking", tracking, defaultValue: null));
-    properties.add(
-      DoubleProperty("lineHeight", lineHeight, defaultValue: null),
-    );
-    properties.add(DoubleProperty("wght", wght, defaultValue: null));
-    properties.add(DoubleProperty("grad", grad, defaultValue: null));
-    properties.add(DoubleProperty("wdth", wdth, defaultValue: null));
-    properties.add(DoubleProperty("rond", rond, defaultValue: null));
-    properties.add(DoubleProperty("opsz", opsz, defaultValue: null));
-    properties.add(DoubleProperty("crsv", crsv, defaultValue: null));
-    properties.add(DoubleProperty("slnt", slnt, defaultValue: null));
-    properties.add(DoubleProperty("fill", fill, defaultValue: null));
-    properties.add(DoubleProperty("hexp", hexp, defaultValue: null));
+    properties
+      ..add(IterableProperty("font", font, defaultValue: null))
+      ..add(DoubleProperty("weight", weight, defaultValue: null))
+      ..add(DoubleProperty("size", size, defaultValue: null))
+      ..add(DoubleProperty("tracking", tracking, defaultValue: null))
+      ..add(DoubleProperty("lineHeight", lineHeight, defaultValue: null))
+      ..add(DoubleProperty("wght", wght, defaultValue: null))
+      ..add(DoubleProperty("grad", grad, defaultValue: null))
+      ..add(DoubleProperty("wdth", wdth, defaultValue: null))
+      ..add(DoubleProperty("rond", rond, defaultValue: null))
+      ..add(DoubleProperty("opsz", opsz, defaultValue: null))
+      ..add(DoubleProperty("crsv", crsv, defaultValue: null))
+      ..add(DoubleProperty("slnt", slnt, defaultValue: null))
+      ..add(DoubleProperty("fill", fill, defaultValue: null))
+      ..add(DoubleProperty("hexp", hexp, defaultValue: null));
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is TypeStylePartial &&
-            listEquals(font, other.font) &&
-            weight == other.weight &&
-            size == other.size &&
-            tracking == other.tracking &&
-            lineHeight == other.lineHeight &&
-            wght == other.wght &&
-            grad == other.grad &&
-            wdth == other.wdth &&
-            rond == other.rond &&
-            opsz == other.opsz &&
-            crsv == other.crsv &&
-            slnt == other.slnt &&
-            fill == other.fill &&
-            hexp == other.hexp;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is TypeStylePartial &&
+          listEquals(font, other.font) &&
+          weight == other.weight &&
+          size == other.size &&
+          tracking == other.tracking &&
+          lineHeight == other.lineHeight &&
+          wght == other.wght &&
+          grad == other.grad &&
+          wdth == other.wdth &&
+          rond == other.rond &&
+          opsz == other.opsz &&
+          crsv == other.crsv &&
+          slnt == other.slnt &&
+          fill == other.fill &&
+          hexp == other.hexp;
 
   @override
   int get hashCode => Object.hash(
@@ -351,6 +357,30 @@ abstract class TypeStylePartial with Diagnosticable {
     fill,
     hexp,
   );
+
+  static TypeStylePartial? lerp(
+    TypeStylePartial? a,
+    TypeStylePartial? b,
+    double t,
+  ) {
+    if (identical(a, b)) return a;
+    return TypeStylePartial.from(
+      font: t < 0.5 ? a?.font : b?.font,
+      weight: lerpDouble(a?.weight, b?.weight, t),
+      size: lerpDouble(a?.size, b?.size, t),
+      lineHeight: lerpDouble(a?.lineHeight, b?.lineHeight, t),
+      tracking: lerpDouble(a?.tracking, b?.tracking, t),
+      wght: lerpDouble(a?.wght, b?.wght, t),
+      grad: lerpDouble(a?.grad, b?.grad, t),
+      wdth: lerpDouble(a?.wdth, b?.wdth, t),
+      rond: lerpDouble(a?.rond, b?.rond, t),
+      opsz: lerpDouble(a?.opsz, b?.opsz, t),
+      crsv: lerpDouble(a?.crsv, b?.crsv, t),
+      slnt: lerpDouble(a?.slnt, b?.slnt, t),
+      fill: lerpDouble(a?.fill, b?.fill, t),
+      hexp: lerpDouble(a?.hexp, b?.hexp, t),
+    );
+  }
 }
 
 @immutable
@@ -494,40 +524,38 @@ abstract class TypeStyle extends TypeStylePartial {
     double? slnt,
     double? fill,
     double? hexp,
-  }) {
-    if (font == null &&
-        weight == null &&
-        size == null &&
-        tracking == null &&
-        lineHeight == null &&
-        wght == null &&
-        grad == null &&
-        wdth == null &&
-        rond == null &&
-        opsz == null &&
-        crsv == null &&
-        slnt == null &&
-        fill == null &&
-        hexp == null) {
-      return this;
-    }
-    return TypeStyle.from(
-      font: font ?? this.font,
-      weight: weight ?? this.weight,
-      size: size ?? this.size,
-      tracking: tracking ?? this.tracking,
-      lineHeight: lineHeight ?? this.lineHeight,
-      wght: wght ?? this.wght,
-      grad: grad ?? this.grad,
-      wdth: wdth ?? this.wdth,
-      rond: rond ?? this.rond,
-      opsz: opsz ?? this.opsz,
-      crsv: crsv ?? this.crsv,
-      slnt: slnt ?? this.slnt,
-      fill: fill ?? this.fill,
-      hexp: hexp ?? this.hexp,
-    );
-  }
+  }) =>
+      font != null ||
+          weight != null ||
+          size != null ||
+          tracking != null ||
+          lineHeight != null ||
+          wght != null ||
+          grad != null ||
+          wdth != null ||
+          rond != null ||
+          opsz != null ||
+          crsv != null ||
+          slnt != null ||
+          fill != null ||
+          hexp != null
+      ? TypeStyle.from(
+          font: font ?? this.font,
+          weight: weight ?? this.weight,
+          size: size ?? this.size,
+          tracking: tracking ?? this.tracking,
+          lineHeight: lineHeight ?? this.lineHeight,
+          wght: wght ?? this.wght,
+          grad: grad ?? this.grad,
+          wdth: wdth ?? this.wdth,
+          rond: rond ?? this.rond,
+          opsz: opsz ?? this.opsz,
+          crsv: crsv ?? this.crsv,
+          slnt: slnt ?? this.slnt,
+          fill: fill ?? this.fill,
+          hexp: hexp ?? this.hexp,
+        )
+      : this;
 
   @override
   TypeStyle mergeWith({
@@ -545,61 +573,58 @@ abstract class TypeStyle extends TypeStylePartial {
     double? slnt,
     double? fill,
     double? hexp,
-  }) {
-    if (font == null &&
-        weight == null &&
-        size == null &&
-        tracking == null &&
-        lineHeight == null &&
-        wght == null &&
-        grad == null &&
-        wdth == null &&
-        rond == null &&
-        opsz == null &&
-        crsv == null &&
-        slnt == null &&
-        fill == null &&
-        hexp == null) {
-      return this;
-    }
-    return TypeStyle.from(
-      font: font != null ? [...font, ...this.font] : this.font,
-      weight: weight ?? this.weight,
-      size: size ?? this.size,
-      tracking: tracking ?? this.tracking,
-      lineHeight: lineHeight ?? this.lineHeight,
-      wght: wght ?? this.wght,
-      grad: grad ?? this.grad,
-      wdth: wdth ?? this.wdth,
-      rond: rond ?? this.rond,
-      opsz: opsz ?? this.opsz,
-      crsv: crsv ?? this.crsv,
-      slnt: slnt ?? this.slnt,
-      fill: fill ?? this.fill,
-      hexp: hexp ?? this.hexp,
-    );
-  }
+  }) =>
+      font != null ||
+          weight != null ||
+          size != null ||
+          tracking != null ||
+          lineHeight != null ||
+          wght != null ||
+          grad != null ||
+          wdth != null ||
+          rond != null ||
+          opsz != null ||
+          crsv != null ||
+          slnt != null ||
+          fill != null ||
+          hexp != null
+      ? TypeStyle.from(
+          font: font != null ? [...font, ...this.font] : this.font,
+          weight: weight ?? this.weight,
+          size: size ?? this.size,
+          tracking: tracking ?? this.tracking,
+          lineHeight: lineHeight ?? this.lineHeight,
+          wght: wght ?? this.wght,
+          grad: grad ?? this.grad,
+          wdth: wdth ?? this.wdth,
+          rond: rond ?? this.rond,
+          opsz: opsz ?? this.opsz,
+          crsv: crsv ?? this.crsv,
+          slnt: slnt ?? this.slnt,
+          fill: fill ?? this.fill,
+          hexp: hexp ?? this.hexp,
+        )
+      : this;
 
   @override
-  TypeStyle merge(TypeStylePartial? other) {
-    if (other == null) return this;
-    return mergeWith(
-      font: other.font,
-      weight: other.weight,
-      size: other.size,
-      tracking: other.tracking,
-      lineHeight: other.lineHeight,
-      wght: other.wght,
-      grad: other.grad,
-      wdth: other.wdth,
-      rond: other.rond,
-      opsz: other.opsz,
-      crsv: other.crsv,
-      slnt: other.slnt,
-      fill: other.fill,
-      hexp: other.hexp,
-    );
-  }
+  TypeStyle merge(TypeStylePartial? other) => other != null
+      ? mergeWith(
+          font: other.font,
+          weight: other.weight,
+          size: other.size,
+          tracking: other.tracking,
+          lineHeight: other.lineHeight,
+          wght: other.wght,
+          grad: other.grad,
+          wdth: other.wdth,
+          rond: other.rond,
+          opsz: other.opsz,
+          crsv: other.crsv,
+          slnt: other.slnt,
+          fill: other.fill,
+          hexp: other.hexp,
+        )
+      : this;
 
   @override
   Map<String, double> get variableFontAxes => {
@@ -646,44 +671,44 @@ abstract class TypeStyle extends TypeStylePartial {
   }
 
   @override
+  // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(IterableProperty("font", font));
-    properties.add(DoubleProperty("weight", weight));
-    properties.add(DoubleProperty("size", size));
-    properties.add(DoubleProperty("tracking", tracking));
-    properties.add(DoubleProperty("lineHeight", lineHeight));
-    properties.add(DoubleProperty("wght", wght));
-    properties.add(DoubleProperty("grad", grad));
-    properties.add(DoubleProperty("wdth", wdth));
-    properties.add(DoubleProperty("rond", rond));
-    properties.add(DoubleProperty("opsz", opsz));
-    properties.add(DoubleProperty("crsv", crsv));
-    properties.add(DoubleProperty("slnt", slnt));
-    properties.add(DoubleProperty("fill", fill));
-    properties.add(DoubleProperty("hexp", hexp));
+    properties
+      ..add(IterableProperty("font", font))
+      ..add(DoubleProperty("weight", weight))
+      ..add(DoubleProperty("size", size))
+      ..add(DoubleProperty("tracking", tracking))
+      ..add(DoubleProperty("lineHeight", lineHeight))
+      ..add(DoubleProperty("wght", wght))
+      ..add(DoubleProperty("grad", grad))
+      ..add(DoubleProperty("wdth", wdth))
+      ..add(DoubleProperty("rond", rond))
+      ..add(DoubleProperty("opsz", opsz))
+      ..add(DoubleProperty("crsv", crsv))
+      ..add(DoubleProperty("slnt", slnt))
+      ..add(DoubleProperty("fill", fill))
+      ..add(DoubleProperty("hexp", hexp));
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is TypeStyle &&
-            listEquals(font, other.font) &&
-            weight == other.weight &&
-            size == other.size &&
-            tracking == other.tracking &&
-            lineHeight == other.lineHeight &&
-            wght == other.wght &&
-            grad == other.grad &&
-            wdth == other.wdth &&
-            rond == other.rond &&
-            opsz == other.opsz &&
-            crsv == other.crsv &&
-            slnt == other.slnt &&
-            fill == other.fill &&
-            hexp == other.hexp;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is TypeStyle &&
+          listEquals(font, other.font) &&
+          weight == other.weight &&
+          size == other.size &&
+          tracking == other.tracking &&
+          lineHeight == other.lineHeight &&
+          wght == other.wght &&
+          grad == other.grad &&
+          wdth == other.wdth &&
+          rond == other.rond &&
+          opsz == other.opsz &&
+          crsv == other.crsv &&
+          slnt == other.slnt &&
+          fill == other.fill &&
+          hexp == other.hexp;
 
   @override
   int get hashCode => Object.hash(

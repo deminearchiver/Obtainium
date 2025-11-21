@@ -274,11 +274,17 @@ abstract class FocusRingThemeDataPartial {
   }) = _FocusRingThemeDataPartial;
 
   double? get activeWidth;
+
   Color? get color;
+
   Duration? get duration;
+
   double? get inwardOffset;
+
   double? get outwardOffset;
+
   CornersGeometry? get shape;
+
   double? get width;
 
   FocusRingThemeDataPartial copyWith({
@@ -289,53 +295,50 @@ abstract class FocusRingThemeDataPartial {
     double? outwardOffset,
     CornersGeometry? shape,
     double? width,
-  }) {
-    if (activeWidth == null &&
-        color == null &&
-        duration == null &&
-        inwardOffset == null &&
-        outwardOffset == null &&
-        shape == null &&
-        width == null) {
-      return this;
-    }
-    return FocusRingThemeDataPartial.from(
-      activeWidth: activeWidth ?? this.activeWidth,
-      color: color ?? this.color,
-      duration: duration ?? this.duration,
-      inwardOffset: inwardOffset ?? this.inwardOffset,
-      outwardOffset: outwardOffset ?? this.outwardOffset,
-      shape: shape ?? this.shape,
-      width: width ?? this.width,
-    );
-  }
+  }) =>
+      activeWidth != null ||
+          color != null ||
+          duration != null ||
+          inwardOffset != null ||
+          outwardOffset != null ||
+          shape != null ||
+          width != null
+      ? FocusRingThemeDataPartial.from(
+          activeWidth: activeWidth ?? this.activeWidth,
+          color: color ?? this.color,
+          duration: duration ?? this.duration,
+          inwardOffset: inwardOffset ?? this.inwardOffset,
+          outwardOffset: outwardOffset ?? this.outwardOffset,
+          shape: shape ?? this.shape,
+          width: width ?? this.width,
+        )
+      : this;
 
-  FocusRingThemeDataPartial merge(FocusRingThemeDataPartial? other) {
-    if (other == null) return this;
-    return copyWith(
-      activeWidth: other.activeWidth,
-      color: other.color,
-      duration: other.duration,
-      inwardOffset: other.inwardOffset,
-      outwardOffset: other.outwardOffset,
-      shape: other.shape,
-      width: other.width,
-    );
-  }
+  FocusRingThemeDataPartial merge(FocusRingThemeDataPartial? other) =>
+      other != null
+      ? copyWith(
+          activeWidth: other.activeWidth,
+          color: other.color,
+          duration: other.duration,
+          inwardOffset: other.inwardOffset,
+          outwardOffset: other.outwardOffset,
+          shape: other.shape,
+          width: other.width,
+        )
+      : this;
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is FocusRingThemeDataPartial &&
-            activeWidth == other.activeWidth &&
-            color == other.color &&
-            duration == other.duration &&
-            inwardOffset == other.inwardOffset &&
-            outwardOffset == other.outwardOffset &&
-            shape == other.shape &&
-            width == other.width;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is FocusRingThemeDataPartial &&
+          activeWidth == other.activeWidth &&
+          color == other.color &&
+          duration == other.duration &&
+          inwardOffset == other.inwardOffset &&
+          outwardOffset == other.outwardOffset &&
+          shape == other.shape &&
+          width == other.width;
 
   @override
   int get hashCode => Object.hash(
@@ -426,54 +429,50 @@ abstract class FocusRingThemeData extends FocusRingThemeDataPartial {
     double? outwardOffset,
     CornersGeometry? shape,
     double? width,
-  }) {
-    if (activeWidth == null &&
-        color == null &&
-        duration == null &&
-        inwardOffset == null &&
-        outwardOffset == null &&
-        shape == null &&
-        width == null) {
-      return this;
-    }
-    return FocusRingThemeData.from(
-      activeWidth: activeWidth ?? this.activeWidth,
-      color: color ?? this.color,
-      duration: duration ?? this.duration,
-      inwardOffset: inwardOffset ?? this.inwardOffset,
-      outwardOffset: outwardOffset ?? this.outwardOffset,
-      shape: shape ?? this.shape,
-      width: width ?? this.width,
-    );
-  }
+  }) =>
+      activeWidth != null ||
+          color != null ||
+          duration != null ||
+          inwardOffset != null ||
+          outwardOffset != null ||
+          shape != null ||
+          width != null
+      ? FocusRingThemeData.from(
+          activeWidth: activeWidth ?? this.activeWidth,
+          color: color ?? this.color,
+          duration: duration ?? this.duration,
+          inwardOffset: inwardOffset ?? this.inwardOffset,
+          outwardOffset: outwardOffset ?? this.outwardOffset,
+          shape: shape ?? this.shape,
+          width: width ?? this.width,
+        )
+      : this;
 
   @override
-  FocusRingThemeData merge(FocusRingThemeDataPartial? other) {
-    if (other == null) return this;
-    return copyWith(
-      activeWidth: other.activeWidth,
-      color: other.color,
-      duration: other.duration,
-      inwardOffset: other.inwardOffset,
-      outwardOffset: other.outwardOffset,
-      shape: other.shape,
-      width: other.width,
-    );
-  }
+  FocusRingThemeData merge(FocusRingThemeDataPartial? other) => other != null
+      ? copyWith(
+          activeWidth: other.activeWidth,
+          color: other.color,
+          duration: other.duration,
+          inwardOffset: other.inwardOffset,
+          outwardOffset: other.outwardOffset,
+          shape: other.shape,
+          width: other.width,
+        )
+      : this;
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is FocusRingThemeData &&
-            activeWidth == other.activeWidth &&
-            color == other.color &&
-            duration == other.duration &&
-            inwardOffset == other.inwardOffset &&
-            outwardOffset == other.outwardOffset &&
-            shape == other.shape &&
-            width == other.width;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is FocusRingThemeData &&
+          activeWidth == other.activeWidth &&
+          color == other.color &&
+          duration == other.duration &&
+          inwardOffset == other.inwardOffset &&
+          outwardOffset == other.outwardOffset &&
+          shape == other.shape &&
+          width == other.width;
 
   @override
   int get hashCode => Object.hash(
@@ -562,14 +561,11 @@ class FocusRingTheme extends InheritedTheme {
   final FocusRingThemeData data;
 
   @override
-  bool updateShouldNotify(covariant FocusRingTheme oldWidget) {
-    return data != oldWidget.data;
-  }
+  bool updateShouldNotify(FocusRingTheme oldWidget) => data != oldWidget.data;
 
   @override
-  Widget wrap(BuildContext context, Widget child) {
-    return FocusRingTheme(data: data, child: child);
-  }
+  Widget wrap(BuildContext context, Widget child) =>
+      FocusRingTheme(data: data, child: child);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -586,17 +582,14 @@ class FocusRingTheme extends InheritedTheme {
         FocusRingTheme(key: key, data: of(context).merge(data), child: child),
   );
 
-  static FocusRingThemeData? maybeOf(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<FocusRingTheme>()?.data;
-  }
+  static FocusRingThemeData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<FocusRingTheme>()?.data;
 
-  static FocusRingThemeData of(BuildContext context) {
-    final result = maybeOf(context);
-    if (result != null) return result;
-    return _FocusRingThemeDataFallback(
-      colorTheme: ColorTheme.of(context),
-      shapeTheme: ShapeTheme.of(context),
-      durationTheme: DurationTheme.of(context),
-    );
-  }
+  static FocusRingThemeData of(BuildContext context) =>
+      maybeOf(context) ??
+      _FocusRingThemeDataFallback(
+        colorTheme: ColorTheme.of(context),
+        shapeTheme: ShapeTheme.of(context),
+        durationTheme: DurationTheme.of(context),
+      );
 }

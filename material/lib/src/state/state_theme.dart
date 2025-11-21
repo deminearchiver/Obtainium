@@ -22,8 +22,11 @@ abstract class StateThemeDataPartial with Diagnosticable {
   }) = _StateThemeDataPartial;
 
   double? get hoverStateLayerOpacity;
+
   double? get focusStateLayerOpacity;
+
   double? get pressedStateLayerOpacity;
+
   double? get draggedStateLayerOpacity;
 
   StateThemeDataPartial copyWith({
@@ -31,78 +34,75 @@ abstract class StateThemeDataPartial with Diagnosticable {
     covariant double? focusStateLayerOpacity,
     covariant double? pressedStateLayerOpacity,
     covariant double? draggedStateLayerOpacity,
-  }) {
-    if (hoverStateLayerOpacity == null &&
-        focusStateLayerOpacity == null &&
-        pressedStateLayerOpacity == null &&
-        draggedStateLayerOpacity == null) {
-      return this;
-    }
-    return StateThemeDataPartial.from(
-      hoverStateLayerOpacity:
-          hoverStateLayerOpacity ?? this.hoverStateLayerOpacity,
-      focusStateLayerOpacity:
-          focusStateLayerOpacity ?? this.focusStateLayerOpacity,
-      pressedStateLayerOpacity:
-          pressedStateLayerOpacity ?? this.pressedStateLayerOpacity,
-      draggedStateLayerOpacity:
-          draggedStateLayerOpacity ?? this.draggedStateLayerOpacity,
-    );
-  }
+  }) =>
+      hoverStateLayerOpacity != null ||
+          focusStateLayerOpacity != null ||
+          pressedStateLayerOpacity != null ||
+          draggedStateLayerOpacity != null
+      ? StateThemeDataPartial.from(
+          hoverStateLayerOpacity:
+              hoverStateLayerOpacity ?? this.hoverStateLayerOpacity,
+          focusStateLayerOpacity:
+              focusStateLayerOpacity ?? this.focusStateLayerOpacity,
+          pressedStateLayerOpacity:
+              pressedStateLayerOpacity ?? this.pressedStateLayerOpacity,
+          draggedStateLayerOpacity:
+              draggedStateLayerOpacity ?? this.draggedStateLayerOpacity,
+        )
+      : this;
 
-  StateThemeDataPartial merge(StateThemeDataPartial? other) {
-    if (other == null) return this;
-    return copyWith(
-      hoverStateLayerOpacity: other.hoverStateLayerOpacity,
-      focusStateLayerOpacity: other.focusStateLayerOpacity,
-      pressedStateLayerOpacity: other.pressedStateLayerOpacity,
-      draggedStateLayerOpacity: other.draggedStateLayerOpacity,
-    );
-  }
+  StateThemeDataPartial merge(StateThemeDataPartial? other) => other != null
+      ? copyWith(
+          hoverStateLayerOpacity: other.hoverStateLayerOpacity,
+          focusStateLayerOpacity: other.focusStateLayerOpacity,
+          pressedStateLayerOpacity: other.pressedStateLayerOpacity,
+          draggedStateLayerOpacity: other.draggedStateLayerOpacity,
+        )
+      : this;
 
   @override
   // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties.add(
-      DiagnosticsProperty<double>(
-        "hoverStateLayerOpacity",
-        hoverStateLayerOpacity,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      DiagnosticsProperty<double>(
-        "focusStateLayerOpacity",
-        focusStateLayerOpacity,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      DiagnosticsProperty<double>(
-        "pressedStateLayerOpacity",
-        pressedStateLayerOpacity,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      DiagnosticsProperty<double>(
-        "draggedStateLayerOpacity",
-        draggedStateLayerOpacity,
-        defaultValue: null,
-      ),
-    );
+    properties
+      ..add(
+        DiagnosticsProperty<double>(
+          "hoverStateLayerOpacity",
+          hoverStateLayerOpacity,
+          defaultValue: null,
+        ),
+      )
+      ..add(
+        DiagnosticsProperty<double>(
+          "focusStateLayerOpacity",
+          focusStateLayerOpacity,
+          defaultValue: null,
+        ),
+      )
+      ..add(
+        DiagnosticsProperty<double>(
+          "pressedStateLayerOpacity",
+          pressedStateLayerOpacity,
+          defaultValue: null,
+        ),
+      )
+      ..add(
+        DiagnosticsProperty<double>(
+          "draggedStateLayerOpacity",
+          draggedStateLayerOpacity,
+          defaultValue: null,
+        ),
+      );
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is StateThemeDataPartial &&
-            hoverStateLayerOpacity == other.hoverStateLayerOpacity &&
-            focusStateLayerOpacity == other.focusStateLayerOpacity &&
-            pressedStateLayerOpacity == other.pressedStateLayerOpacity &&
-            draggedStateLayerOpacity == other.draggedStateLayerOpacity;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is StateThemeDataPartial &&
+          hoverStateLayerOpacity == other.hoverStateLayerOpacity &&
+          focusStateLayerOpacity == other.focusStateLayerOpacity &&
+          pressedStateLayerOpacity == other.pressedStateLayerOpacity &&
+          draggedStateLayerOpacity == other.draggedStateLayerOpacity;
 
   @override
   int get hashCode => Object.hash(
@@ -167,63 +167,56 @@ abstract class StateThemeData extends StateThemeDataPartial {
     double? focusStateLayerOpacity,
     double? pressedStateLayerOpacity,
     double? draggedStateLayerOpacity,
-  }) {
-    if (hoverStateLayerOpacity == null &&
-        focusStateLayerOpacity == null &&
-        pressedStateLayerOpacity == null &&
-        draggedStateLayerOpacity == null) {
-      return this;
-    }
-    return StateThemeData.from(
-      hoverStateLayerOpacity:
-          hoverStateLayerOpacity ?? this.hoverStateLayerOpacity,
-      focusStateLayerOpacity:
-          focusStateLayerOpacity ?? this.focusStateLayerOpacity,
-      pressedStateLayerOpacity:
-          pressedStateLayerOpacity ?? this.pressedStateLayerOpacity,
-      draggedStateLayerOpacity:
-          draggedStateLayerOpacity ?? this.draggedStateLayerOpacity,
-    );
-  }
+  }) =>
+      hoverStateLayerOpacity != null ||
+          focusStateLayerOpacity != null ||
+          pressedStateLayerOpacity != null ||
+          draggedStateLayerOpacity != null
+      ? StateThemeData.from(
+          hoverStateLayerOpacity:
+              hoverStateLayerOpacity ?? this.hoverStateLayerOpacity,
+          focusStateLayerOpacity:
+              focusStateLayerOpacity ?? this.focusStateLayerOpacity,
+          pressedStateLayerOpacity:
+              pressedStateLayerOpacity ?? this.pressedStateLayerOpacity,
+          draggedStateLayerOpacity:
+              draggedStateLayerOpacity ?? this.draggedStateLayerOpacity,
+        )
+      : this;
 
   @override
-  StateThemeData merge(StateThemeDataPartial? other) {
-    if (other == null) return this;
-    return copyWith(
-      hoverStateLayerOpacity: other.hoverStateLayerOpacity,
-      focusStateLayerOpacity: other.focusStateLayerOpacity,
-      pressedStateLayerOpacity: other.pressedStateLayerOpacity,
-      draggedStateLayerOpacity: other.draggedStateLayerOpacity,
-    );
-  }
+  StateThemeData merge(StateThemeDataPartial? other) => other != null
+      ? copyWith(
+          hoverStateLayerOpacity: other.hoverStateLayerOpacity,
+          focusStateLayerOpacity: other.focusStateLayerOpacity,
+          pressedStateLayerOpacity: other.pressedStateLayerOpacity,
+          draggedStateLayerOpacity: other.draggedStateLayerOpacity,
+        )
+      : this;
 
   @override
   // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties.add(
-      DoubleProperty("hoverStateLayerOpacity", hoverStateLayerOpacity),
-    );
-    properties.add(
-      DoubleProperty("focusStateLayerOpacity", focusStateLayerOpacity),
-    );
-    properties.add(
-      DoubleProperty("pressedStateLayerOpacity", pressedStateLayerOpacity),
-    );
-    properties.add(
-      DoubleProperty("draggedStateLayerOpacity", draggedStateLayerOpacity),
-    );
+    properties
+      ..add(DoubleProperty("hoverStateLayerOpacity", hoverStateLayerOpacity))
+      ..add(DoubleProperty("focusStateLayerOpacity", focusStateLayerOpacity))
+      ..add(
+        DoubleProperty("pressedStateLayerOpacity", pressedStateLayerOpacity),
+      )
+      ..add(
+        DoubleProperty("draggedStateLayerOpacity", draggedStateLayerOpacity),
+      );
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is StateThemeData &&
-            hoverStateLayerOpacity == other.hoverStateLayerOpacity &&
-            focusStateLayerOpacity == other.focusStateLayerOpacity &&
-            pressedStateLayerOpacity == other.pressedStateLayerOpacity &&
-            draggedStateLayerOpacity == other.draggedStateLayerOpacity;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is StateThemeData &&
+          hoverStateLayerOpacity == other.hoverStateLayerOpacity &&
+          focusStateLayerOpacity == other.focusStateLayerOpacity &&
+          pressedStateLayerOpacity == other.pressedStateLayerOpacity &&
+          draggedStateLayerOpacity == other.draggedStateLayerOpacity;
 
   @override
   int get hashCode => Object.hash(
@@ -270,14 +263,11 @@ class StateTheme extends InheritedTheme {
   final StateThemeData data;
 
   @override
-  bool updateShouldNotify(covariant StateTheme oldWidget) {
-    return data != oldWidget.data;
-  }
+  bool updateShouldNotify(StateTheme oldWidget) => data != oldWidget.data;
 
   @override
-  Widget wrap(BuildContext context, Widget child) {
-    return StateTheme(data: data, child: child);
-  }
+  Widget wrap(BuildContext context, Widget child) =>
+      StateTheme(data: data, child: child);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -294,15 +284,11 @@ class StateTheme extends InheritedTheme {
         StateTheme(key: key, data: of(context).merge(data), child: child),
   );
 
-  static StateThemeData? maybeOf(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<StateTheme>()?.data;
-  }
+  static StateThemeData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<StateTheme>()?.data;
 
-  static StateThemeData of(BuildContext context) {
-    final result = maybeOf(context);
-    if (result != null) return result;
-    return const StateThemeData.fallback();
-  }
+  static StateThemeData of(BuildContext context) =>
+      maybeOf(context) ?? const StateThemeData.fallback();
 }
 
 // class _StateLayerOpacity implements WidgetStateProperty<double> {

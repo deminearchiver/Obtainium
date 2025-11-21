@@ -13,10 +13,19 @@ abstract class TypefaceThemeDataPartial with Diagnosticable {
     double? weightBold,
   }) = _TypefaceThemeDataPartial;
 
+  /// md.ref.typeface.plain
   List<String>? get plain;
+
+  /// md.ref.typeface.brand
   List<String>? get brand;
+
+  /// md.ref.typeface.weight-regular
   double? get weightRegular;
+
+  /// md.ref.typeface.weight-medium
   double? get weightMedium;
+
+  /// md.ref.typeface.weight-bold
   double? get weightBold;
 
   TypefaceThemeDataPartial copyWith({
@@ -25,22 +34,20 @@ abstract class TypefaceThemeDataPartial with Diagnosticable {
     double? weightRegular,
     double? weightMedium,
     double? weightBold,
-  }) {
-    if (plain == null &&
-        brand == null &&
-        weightRegular == null &&
-        weightMedium == null &&
-        weightBold == null) {
-      return this;
-    }
-    return TypefaceThemeDataPartial.from(
-      plain: plain ?? this.plain,
-      brand: brand ?? this.brand,
-      weightRegular: weightRegular ?? this.weightRegular,
-      weightMedium: weightMedium ?? this.weightMedium,
-      weightBold: weightBold ?? this.weightBold,
-    );
-  }
+  }) =>
+      plain != null ||
+          brand == null ||
+          weightRegular == null ||
+          weightMedium == null ||
+          weightBold == null
+      ? TypefaceThemeDataPartial.from(
+          plain: plain ?? this.plain,
+          brand: brand ?? this.brand,
+          weightRegular: weightRegular ?? this.weightRegular,
+          weightMedium: weightMedium ?? this.weightMedium,
+          weightBold: weightBold ?? this.weightBold,
+        )
+      : this;
 
   TypefaceThemeDataPartial mergeWith({
     List<String>? plain,
@@ -48,61 +55,53 @@ abstract class TypefaceThemeDataPartial with Diagnosticable {
     double? weightRegular,
     double? weightMedium,
     double? weightBold,
-  }) {
-    if (plain == null &&
-        brand == null &&
-        weightRegular == null &&
-        weightMedium == null &&
-        weightBold == null) {
-      return this;
-    }
-    return TypefaceThemeDataPartial.from(
-      plain: plain != null ? [...plain, ...?this.plain] : this.plain,
-      brand: brand != null ? [...brand, ...?this.brand] : this.brand,
-      weightRegular: weightRegular ?? this.weightRegular,
-      weightMedium: weightMedium ?? this.weightMedium,
-      weightBold: weightBold ?? this.weightBold,
-    );
-  }
+  }) =>
+      plain != null ||
+          brand != null ||
+          weightRegular != null ||
+          weightMedium != null ||
+          weightBold != null
+      ? TypefaceThemeDataPartial.from(
+          plain: plain != null ? [...plain, ...?this.plain] : this.plain,
+          brand: brand != null ? [...brand, ...?this.brand] : this.brand,
+          weightRegular: weightRegular ?? this.weightRegular,
+          weightMedium: weightMedium ?? this.weightMedium,
+          weightBold: weightBold ?? this.weightBold,
+        )
+      : this;
 
-  TypefaceThemeDataPartial merge(TypefaceThemeDataPartial? other) {
-    if (other == null) return this;
-    return mergeWith(
-      plain: other.plain,
-      brand: other.brand,
-      weightRegular: other.weightRegular,
-      weightMedium: other.weightMedium,
-      weightBold: other.weightBold,
-    );
-  }
+  TypefaceThemeDataPartial merge(TypefaceThemeDataPartial? other) =>
+      other != null
+      ? mergeWith(
+          plain: other.plain,
+          brand: other.brand,
+          weightRegular: other.weightRegular,
+          weightMedium: other.weightMedium,
+          weightBold: other.weightBold,
+        )
+      : this;
 
   @override
+  // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(IterableProperty("plain", plain, defaultValue: null));
-    properties.add(IterableProperty("brand", brand, defaultValue: null));
-    properties.add(
-      DoubleProperty("weightRegular", weightRegular, defaultValue: null),
-    );
-    properties.add(
-      DoubleProperty("weightMedium", weightMedium, defaultValue: null),
-    );
-    properties.add(
-      DoubleProperty("weightBold", weightBold, defaultValue: null),
-    );
+    properties
+      ..add(IterableProperty("plain", plain, defaultValue: null))
+      ..add(IterableProperty("brand", brand, defaultValue: null))
+      ..add(DoubleProperty("weightRegular", weightRegular, defaultValue: null))
+      ..add(DoubleProperty("weightMedium", weightMedium, defaultValue: null))
+      ..add(DoubleProperty("weightBold", weightBold, defaultValue: null));
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is TypefaceThemeDataPartial &&
-            listEquals(plain, other.plain) &&
-            listEquals(brand, other.brand) &&
-            weightRegular == other.weightRegular &&
-            weightMedium == other.weightMedium &&
-            weightBold == other.weightBold;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is TypefaceThemeDataPartial &&
+          listEquals(plain, other.plain) &&
+          listEquals(brand, other.brand) &&
+          weightRegular == other.weightRegular &&
+          weightMedium == other.weightMedium &&
+          weightBold == other.weightBold;
 
   @override
   int get hashCode => Object.hash(
@@ -177,22 +176,20 @@ abstract class TypefaceThemeData extends TypefaceThemeDataPartial {
     double? weightRegular,
     double? weightMedium,
     double? weightBold,
-  }) {
-    if (plain == null &&
-        brand == null &&
-        weightRegular == null &&
-        weightMedium == null &&
-        weightBold == null) {
-      return this;
-    }
-    return TypefaceThemeData.from(
-      plain: plain ?? this.plain,
-      brand: brand ?? this.brand,
-      weightRegular: weightRegular ?? this.weightRegular,
-      weightMedium: weightMedium ?? this.weightMedium,
-      weightBold: weightBold ?? this.weightBold,
-    );
-  }
+  }) =>
+      plain != null ||
+          brand != null ||
+          weightRegular != null ||
+          weightMedium != null ||
+          weightBold != null
+      ? TypefaceThemeData.from(
+          plain: plain ?? this.plain,
+          brand: brand ?? this.brand,
+          weightRegular: weightRegular ?? this.weightRegular,
+          weightMedium: weightMedium ?? this.weightMedium,
+          weightBold: weightBold ?? this.weightBold,
+        )
+      : this;
 
   @override
   TypefaceThemeData mergeWith({
@@ -201,56 +198,53 @@ abstract class TypefaceThemeData extends TypefaceThemeDataPartial {
     double? weightRegular,
     double? weightMedium,
     double? weightBold,
-  }) {
-    if (plain == null &&
-        brand == null &&
-        weightRegular == null &&
-        weightMedium == null &&
-        weightBold == null) {
-      return this;
-    }
-    return TypefaceThemeData.from(
-      plain: plain != null ? [...plain, ...this.plain] : this.plain,
-      brand: brand != null ? [...brand, ...this.brand] : this.brand,
-      weightRegular: weightRegular ?? this.weightRegular,
-      weightMedium: weightMedium ?? this.weightMedium,
-      weightBold: weightBold ?? this.weightBold,
-    );
-  }
+  }) =>
+      plain != null ||
+          brand != null ||
+          weightRegular != null ||
+          weightMedium != null ||
+          weightBold != null
+      ? TypefaceThemeData.from(
+          plain: plain != null ? [...plain, ...this.plain] : this.plain,
+          brand: brand != null ? [...brand, ...this.brand] : this.brand,
+          weightRegular: weightRegular ?? this.weightRegular,
+          weightMedium: weightMedium ?? this.weightMedium,
+          weightBold: weightBold ?? this.weightBold,
+        )
+      : this;
 
   @override
-  TypefaceThemeData merge(TypefaceThemeDataPartial? other) {
-    if (other == null) return this;
-    return mergeWith(
-      plain: other.plain,
-      brand: other.brand,
-      weightRegular: other.weightRegular,
-      weightMedium: other.weightMedium,
-      weightBold: other.weightBold,
-    );
-  }
+  TypefaceThemeData merge(TypefaceThemeDataPartial? other) => other != null
+      ? mergeWith(
+          plain: other.plain,
+          brand: other.brand,
+          weightRegular: other.weightRegular,
+          weightMedium: other.weightMedium,
+          weightBold: other.weightBold,
+        )
+      : this;
 
   @override
+  // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(IterableProperty("plain", plain));
-    properties.add(IterableProperty("brand", brand));
-    properties.add(DoubleProperty("weightRegular", weightRegular));
-    properties.add(DoubleProperty("weightMedium", weightMedium));
-    properties.add(DoubleProperty("weightBold", weightBold));
+    properties
+      ..add(IterableProperty("plain", plain))
+      ..add(IterableProperty("brand", brand))
+      ..add(DoubleProperty("weightRegular", weightRegular))
+      ..add(DoubleProperty("weightMedium", weightMedium))
+      ..add(DoubleProperty("weightBold", weightBold));
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is TypefaceThemeData &&
-            listEquals(plain, other.plain) &&
-            listEquals(brand, other.brand) &&
-            weightRegular == other.weightRegular &&
-            weightMedium == other.weightMedium &&
-            weightBold == other.weightBold;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is TypefaceThemeData &&
+          listEquals(plain, other.plain) &&
+          listEquals(brand, other.brand) &&
+          weightRegular == other.weightRegular &&
+          weightMedium == other.weightMedium &&
+          weightBold == other.weightBold;
 
   @override
   int get hashCode => Object.hash(
@@ -296,21 +290,17 @@ class _TypefaceThemeData extends TypefaceThemeData {
   final double weightBold;
 }
 
-@immutable
 class TypefaceTheme extends InheritedTheme {
   const TypefaceTheme({super.key, required this.data, required super.child});
 
   final TypefaceThemeData data;
 
   @override
-  bool updateShouldNotify(covariant TypefaceTheme oldWidget) {
-    return data != oldWidget.data;
-  }
+  bool updateShouldNotify(TypefaceTheme oldWidget) => data != oldWidget.data;
 
   @override
-  Widget wrap(BuildContext context, Widget child) {
-    return TypefaceTheme(data: data, child: child);
-  }
+  Widget wrap(BuildContext context, Widget child) =>
+      TypefaceTheme(data: data, child: child);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -327,13 +317,9 @@ class TypefaceTheme extends InheritedTheme {
         TypefaceTheme(key: key, data: of(context).merge(data), child: child),
   );
 
-  static TypefaceThemeData? maybeOf(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<TypefaceTheme>()?.data;
-  }
+  static TypefaceThemeData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<TypefaceTheme>()?.data;
 
-  static TypefaceThemeData of(BuildContext context) {
-    final result = maybeOf(context);
-    if (result != null) return result;
-    return const TypefaceThemeData.fallback();
-  }
+  static TypefaceThemeData of(BuildContext context) =>
+      maybeOf(context) ?? const TypefaceThemeData.fallback();
 }

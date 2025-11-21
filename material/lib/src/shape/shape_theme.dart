@@ -597,31 +597,28 @@ abstract class ShapeCornerValueThemeDataPartial with Diagnosticable {
       : this;
 
   @override
+  // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DoubleProperty("none", none, defaultValue: null));
-    properties.add(
-      DoubleProperty("extraSmall", extraSmall, defaultValue: null),
-    );
-    properties.add(DoubleProperty("small", small, defaultValue: null));
-    properties.add(DoubleProperty("medium", medium, defaultValue: null));
-    properties.add(DoubleProperty("large", large, defaultValue: null));
-    properties.add(
-      DoubleProperty("largeIncreased", largeIncreased, defaultValue: null),
-    );
-    properties.add(
-      DoubleProperty("extraLarge", extraLarge, defaultValue: null),
-    );
-    properties.add(
-      DoubleProperty(
-        "extraLargeIncreased",
-        extraLargeIncreased,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      DoubleProperty("extraExtraLarge", extraExtraLarge, defaultValue: null),
-    );
+    properties
+      ..add(DoubleProperty("none", none, defaultValue: null))
+      ..add(DoubleProperty("extraSmall", extraSmall, defaultValue: null))
+      ..add(DoubleProperty("small", small, defaultValue: null))
+      ..add(DoubleProperty("medium", medium, defaultValue: null))
+      ..add(DoubleProperty("large", large, defaultValue: null))
+      ..add(
+        DoubleProperty("largeIncreased", largeIncreased, defaultValue: null),
+      )
+      ..add(DoubleProperty("extraLarge", extraLarge, defaultValue: null))
+      ..add(
+        DoubleProperty(
+          "extraLargeIncreased",
+          extraLargeIncreased,
+          defaultValue: null,
+        ),
+      )
+      ..add(
+        DoubleProperty("extraExtraLarge", extraExtraLarge, defaultValue: null),
+      );
   }
 
   @override
@@ -796,8 +793,8 @@ abstract class ShapeCornerValueThemeData
       : this;
 
   @override
+  // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
     properties
       ..add(DoubleProperty("none", none))
       ..add(DoubleProperty("extraSmall", extraSmall))

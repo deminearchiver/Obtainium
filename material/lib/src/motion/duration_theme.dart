@@ -131,8 +131,8 @@ abstract class DurationThemeDataPartial with Diagnosticable {
       : this;
 
   @override
+  // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty<Duration>("short1", short1, defaultValue: null))
       ..add(DiagnosticsProperty<Duration>("short2", short2, defaultValue: null))
@@ -449,8 +449,8 @@ abstract class DurationThemeData extends DurationThemeDataPartial {
       : this;
 
   @override
+  // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty<Duration>("short1", short1))
       ..add(DiagnosticsProperty<Duration>("short2", short2))

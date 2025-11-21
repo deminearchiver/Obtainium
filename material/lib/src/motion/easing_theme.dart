@@ -98,8 +98,8 @@ abstract class EasingThemeDataPartial with Diagnosticable {
       : this;
 
   @override
+  // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
     properties
       ..add(
         DiagnosticsProperty<Curve>(
@@ -340,8 +340,8 @@ abstract class EasingThemeData extends EasingThemeDataPartial {
       : this;
 
   @override
+  // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty<Curve>("emphasized", emphasized))
       ..add(

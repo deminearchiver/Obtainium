@@ -266,7 +266,7 @@ class LoadingIndicatorTheme extends InheritedTheme {
   final LoadingIndicatorThemeData data;
 
   @override
-  bool updateShouldNotify(covariant LoadingIndicatorTheme oldWidget) =>
+  bool updateShouldNotify(LoadingIndicatorTheme oldWidget) =>
       data != oldWidget.data;
 
   @override
@@ -296,10 +296,7 @@ class LoadingIndicatorTheme extends InheritedTheme {
   static LoadingIndicatorThemeData? maybeOf(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<LoadingIndicatorTheme>()?.data;
 
-  static LoadingIndicatorThemeData of(BuildContext context) {
-    final result = maybeOf(context);
-    if (result != null) return result;
-    final colorTheme = ColorTheme.of(context);
-    return _LoadingIndicatorThemeDataDefaults(colorTheme: colorTheme);
-  }
+  static LoadingIndicatorThemeData of(BuildContext context) =>
+      maybeOf(context) ??
+      _LoadingIndicatorThemeDataDefaults(colorTheme: ColorTheme.of(context));
 }
