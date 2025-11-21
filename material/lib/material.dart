@@ -23,6 +23,7 @@ export 'src/typography/typescale_theme.dart';
 
 export 'src/elevation/elevation_theme.dart';
 
+export 'src/focus_ring/focus_ring_theme.dart';
 export 'src/focus_ring/focus_ring.dart';
 
 export 'src/progress_indicator.dart';
