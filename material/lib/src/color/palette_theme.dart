@@ -1,5 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import 'package:material/src/flutter.dart';
 
 @immutable
 abstract class BaselinePaletteThemeDataPartial with Diagnosticable {
@@ -103,98 +102,191 @@ abstract class BaselinePaletteThemeDataPartial with Diagnosticable {
   }) = _BaselinePaletteThemeDataPartial;
 
   Color? get primary0;
+
   Color? get primary10;
+
   Color? get primary20;
+
   Color? get primary30;
+
   Color? get primary40;
+
   Color? get primary50;
+
   Color? get primary60;
+
   Color? get primary70;
+
   Color? get primary80;
+
   Color? get primary90;
+
   Color? get primary95;
+
   Color? get primary98;
+
   Color? get primary99;
+
   Color? get primary100;
+
   Color? get secondary0;
+
   Color? get secondary10;
+
   Color? get secondary20;
+
   Color? get secondary30;
+
   Color? get secondary40;
+
   Color? get secondary50;
+
   Color? get secondary60;
+
   Color? get secondary70;
+
   Color? get secondary80;
+
   Color? get secondary90;
+
   Color? get secondary95;
+
   Color? get secondary98;
+
   Color? get secondary99;
+
   Color? get secondary100;
+
   Color? get tertiary0;
+
   Color? get tertiary10;
+
   Color? get tertiary20;
+
   Color? get tertiary30;
+
   Color? get tertiary40;
+
   Color? get tertiary50;
+
   Color? get tertiary60;
+
   Color? get tertiary70;
+
   Color? get tertiary80;
+
   Color? get tertiary90;
+
   Color? get tertiary95;
+
   Color? get tertiary98;
+
   Color? get tertiary99;
+
   Color? get tertiary100;
+
   Color? get neutral0;
+
   Color? get neutral4;
+
   Color? get neutral6;
+
   Color? get neutral10;
+
   Color? get neutral12;
+
   Color? get neutral17;
+
   Color? get neutral20;
+
   Color? get neutral22;
+
   Color? get neutral24;
+
   Color? get neutral30;
+
   Color? get neutral40;
+
   Color? get neutral50;
+
   Color? get neutral60;
+
   Color? get neutral70;
+
   Color? get neutral80;
+
   Color? get neutral87;
+
   Color? get neutral90;
+
   Color? get neutral92;
+
   Color? get neutral94;
+
   Color? get neutral95;
+
   Color? get neutral96;
+
   Color? get neutral98;
+
   Color? get neutral99;
+
   Color? get neutral100;
+
   Color? get neutralVariant0;
+
   Color? get neutralVariant10;
+
   Color? get neutralVariant20;
+
   Color? get neutralVariant30;
+
   Color? get neutralVariant40;
+
   Color? get neutralVariant50;
+
   Color? get neutralVariant60;
+
   Color? get neutralVariant70;
+
   Color? get neutralVariant80;
+
   Color? get neutralVariant90;
+
   Color? get neutralVariant95;
+
   Color? get neutralVariant98;
+
   Color? get neutralVariant99;
+
   Color? get neutralVariant100;
+
   Color? get error0;
+
   Color? get error10;
+
   Color? get error20;
+
   Color? get error30;
+
   Color? get error40;
+
   Color? get error50;
+
   Color? get error60;
+
   Color? get error70;
+
   Color? get error80;
+
   Color? get error90;
+
   Color? get error95;
+
   Color? get error98;
+
   Color? get error99;
+
   Color? get error100;
 
   BaselinePaletteThemeDataPartial copyWith({
@@ -292,558 +384,531 @@ abstract class BaselinePaletteThemeDataPartial with Diagnosticable {
     Color? error98,
     Color? error99,
     Color? error100,
-  }) {
-    if (primary0 == null &&
-        primary10 == null &&
-        primary20 == null &&
-        primary30 == null &&
-        primary40 == null &&
-        primary50 == null &&
-        primary60 == null &&
-        primary70 == null &&
-        primary80 == null &&
-        primary90 == null &&
-        primary95 == null &&
-        primary98 == null &&
-        primary99 == null &&
-        primary100 == null &&
-        secondary0 == null &&
-        secondary10 == null &&
-        secondary20 == null &&
-        secondary30 == null &&
-        secondary40 == null &&
-        secondary50 == null &&
-        secondary60 == null &&
-        secondary70 == null &&
-        secondary80 == null &&
-        secondary90 == null &&
-        secondary95 == null &&
-        secondary98 == null &&
-        secondary99 == null &&
-        secondary100 == null &&
-        tertiary0 == null &&
-        tertiary10 == null &&
-        tertiary20 == null &&
-        tertiary30 == null &&
-        tertiary40 == null &&
-        tertiary50 == null &&
-        tertiary60 == null &&
-        tertiary70 == null &&
-        tertiary80 == null &&
-        tertiary90 == null &&
-        tertiary95 == null &&
-        tertiary98 == null &&
-        tertiary99 == null &&
-        tertiary100 == null &&
-        neutral0 == null &&
-        neutral4 == null &&
-        neutral6 == null &&
-        neutral10 == null &&
-        neutral12 == null &&
-        neutral17 == null &&
-        neutral20 == null &&
-        neutral22 == null &&
-        neutral24 == null &&
-        neutral30 == null &&
-        neutral40 == null &&
-        neutral50 == null &&
-        neutral60 == null &&
-        neutral70 == null &&
-        neutral80 == null &&
-        neutral87 == null &&
-        neutral90 == null &&
-        neutral92 == null &&
-        neutral94 == null &&
-        neutral95 == null &&
-        neutral96 == null &&
-        neutral98 == null &&
-        neutral99 == null &&
-        neutral100 == null &&
-        neutralVariant0 == null &&
-        neutralVariant10 == null &&
-        neutralVariant20 == null &&
-        neutralVariant30 == null &&
-        neutralVariant40 == null &&
-        neutralVariant50 == null &&
-        neutralVariant60 == null &&
-        neutralVariant70 == null &&
-        neutralVariant80 == null &&
-        neutralVariant90 == null &&
-        neutralVariant95 == null &&
-        neutralVariant98 == null &&
-        neutralVariant99 == null &&
-        neutralVariant100 == null &&
-        error0 == null &&
-        error10 == null &&
-        error20 == null &&
-        error30 == null &&
-        error40 == null &&
-        error50 == null &&
-        error60 == null &&
-        error70 == null &&
-        error80 == null &&
-        error90 == null &&
-        error95 == null &&
-        error98 == null &&
-        error99 == null &&
-        error100 == null) {
-      return this;
-    }
-    return BaselinePaletteThemeDataPartial.from(
-      primary0: primary0 ?? this.primary0,
-      primary10: primary10 ?? this.primary10,
-      primary20: primary20 ?? this.primary20,
-      primary30: primary30 ?? this.primary30,
-      primary40: primary40 ?? this.primary40,
-      primary50: primary50 ?? this.primary50,
-      primary60: primary60 ?? this.primary60,
-      primary70: primary70 ?? this.primary70,
-      primary80: primary80 ?? this.primary80,
-      primary90: primary90 ?? this.primary90,
-      primary95: primary95 ?? this.primary95,
-      primary98: primary98 ?? this.primary98,
-      primary99: primary99 ?? this.primary99,
-      primary100: primary100 ?? this.primary100,
-      secondary0: secondary0 ?? this.secondary0,
-      secondary10: secondary10 ?? this.secondary10,
-      secondary20: secondary20 ?? this.secondary20,
-      secondary30: secondary30 ?? this.secondary30,
-      secondary40: secondary40 ?? this.secondary40,
-      secondary50: secondary50 ?? this.secondary50,
-      secondary60: secondary60 ?? this.secondary60,
-      secondary70: secondary70 ?? this.secondary70,
-      secondary80: secondary80 ?? this.secondary80,
-      secondary90: secondary90 ?? this.secondary90,
-      secondary95: secondary95 ?? this.secondary95,
-      secondary98: secondary98 ?? this.secondary98,
-      secondary99: secondary99 ?? this.secondary99,
-      secondary100: secondary100 ?? this.secondary100,
-      tertiary0: tertiary0 ?? this.tertiary0,
-      tertiary10: tertiary10 ?? this.tertiary10,
-      tertiary20: tertiary20 ?? this.tertiary20,
-      tertiary30: tertiary30 ?? this.tertiary30,
-      tertiary40: tertiary40 ?? this.tertiary40,
-      tertiary50: tertiary50 ?? this.tertiary50,
-      tertiary60: tertiary60 ?? this.tertiary60,
-      tertiary70: tertiary70 ?? this.tertiary70,
-      tertiary80: tertiary80 ?? this.tertiary80,
-      tertiary90: tertiary90 ?? this.tertiary90,
-      tertiary95: tertiary95 ?? this.tertiary95,
-      tertiary98: tertiary98 ?? this.tertiary98,
-      tertiary99: tertiary99 ?? this.tertiary99,
-      tertiary100: tertiary100 ?? this.tertiary100,
-      neutral0: neutral0 ?? this.neutral0,
-      neutral4: neutral4 ?? this.neutral4,
-      neutral6: neutral6 ?? this.neutral6,
-      neutral10: neutral10 ?? this.neutral10,
-      neutral12: neutral12 ?? this.neutral12,
-      neutral17: neutral17 ?? this.neutral17,
-      neutral20: neutral20 ?? this.neutral20,
-      neutral22: neutral22 ?? this.neutral22,
-      neutral24: neutral24 ?? this.neutral24,
-      neutral30: neutral30 ?? this.neutral30,
-      neutral40: neutral40 ?? this.neutral40,
-      neutral50: neutral50 ?? this.neutral50,
-      neutral60: neutral60 ?? this.neutral60,
-      neutral70: neutral70 ?? this.neutral70,
-      neutral80: neutral80 ?? this.neutral80,
-      neutral87: neutral87 ?? this.neutral87,
-      neutral90: neutral90 ?? this.neutral90,
-      neutral92: neutral92 ?? this.neutral92,
-      neutral94: neutral94 ?? this.neutral94,
-      neutral95: neutral95 ?? this.neutral95,
-      neutral96: neutral96 ?? this.neutral96,
-      neutral98: neutral98 ?? this.neutral98,
-      neutral99: neutral99 ?? this.neutral99,
-      neutral100: neutral100 ?? this.neutral100,
-      neutralVariant0: neutralVariant0 ?? this.neutralVariant0,
-      neutralVariant10: neutralVariant10 ?? this.neutralVariant10,
-      neutralVariant20: neutralVariant20 ?? this.neutralVariant20,
-      neutralVariant30: neutralVariant30 ?? this.neutralVariant30,
-      neutralVariant40: neutralVariant40 ?? this.neutralVariant40,
-      neutralVariant50: neutralVariant50 ?? this.neutralVariant50,
-      neutralVariant60: neutralVariant60 ?? this.neutralVariant60,
-      neutralVariant70: neutralVariant70 ?? this.neutralVariant70,
-      neutralVariant80: neutralVariant80 ?? this.neutralVariant80,
-      neutralVariant90: neutralVariant90 ?? this.neutralVariant90,
-      neutralVariant95: neutralVariant95 ?? this.neutralVariant95,
-      neutralVariant98: neutralVariant98 ?? this.neutralVariant98,
-      neutralVariant99: neutralVariant99 ?? this.neutralVariant99,
-      neutralVariant100: neutralVariant100 ?? this.neutralVariant100,
-      error0: error0 ?? this.error0,
-      error10: error10 ?? this.error10,
-      error20: error20 ?? this.error20,
-      error30: error30 ?? this.error30,
-      error40: error40 ?? this.error40,
-      error50: error50 ?? this.error50,
-      error60: error60 ?? this.error60,
-      error70: error70 ?? this.error70,
-      error80: error80 ?? this.error80,
-      error90: error90 ?? this.error90,
-      error95: error95 ?? this.error95,
-      error98: error98 ?? this.error98,
-      error99: error99 ?? this.error99,
-      error100: error100 ?? this.error100,
-    );
-  }
+  }) =>
+      primary0 != null ||
+          primary10 != null ||
+          primary20 != null ||
+          primary30 != null ||
+          primary40 != null ||
+          primary50 != null ||
+          primary60 != null ||
+          primary70 != null ||
+          primary80 != null ||
+          primary90 != null ||
+          primary95 != null ||
+          primary98 != null ||
+          primary99 != null ||
+          primary100 != null ||
+          secondary0 != null ||
+          secondary10 != null ||
+          secondary20 != null ||
+          secondary30 != null ||
+          secondary40 != null ||
+          secondary50 != null ||
+          secondary60 != null ||
+          secondary70 != null ||
+          secondary80 != null ||
+          secondary90 != null ||
+          secondary95 != null ||
+          secondary98 != null ||
+          secondary99 != null ||
+          secondary100 != null ||
+          tertiary0 != null ||
+          tertiary10 != null ||
+          tertiary20 != null ||
+          tertiary30 != null ||
+          tertiary40 != null ||
+          tertiary50 != null ||
+          tertiary60 != null ||
+          tertiary70 != null ||
+          tertiary80 != null ||
+          tertiary90 != null ||
+          tertiary95 != null ||
+          tertiary98 != null ||
+          tertiary99 != null ||
+          tertiary100 != null ||
+          neutral0 != null ||
+          neutral4 != null ||
+          neutral6 != null ||
+          neutral10 != null ||
+          neutral12 != null ||
+          neutral17 != null ||
+          neutral20 != null ||
+          neutral22 != null ||
+          neutral24 != null ||
+          neutral30 != null ||
+          neutral40 != null ||
+          neutral50 != null ||
+          neutral60 != null ||
+          neutral70 != null ||
+          neutral80 != null ||
+          neutral87 != null ||
+          neutral90 != null ||
+          neutral92 != null ||
+          neutral94 != null ||
+          neutral95 != null ||
+          neutral96 != null ||
+          neutral98 != null ||
+          neutral99 != null ||
+          neutral100 != null ||
+          neutralVariant0 != null ||
+          neutralVariant10 != null ||
+          neutralVariant20 != null ||
+          neutralVariant30 != null ||
+          neutralVariant40 != null ||
+          neutralVariant50 != null ||
+          neutralVariant60 != null ||
+          neutralVariant70 != null ||
+          neutralVariant80 != null ||
+          neutralVariant90 != null ||
+          neutralVariant95 != null ||
+          neutralVariant98 != null ||
+          neutralVariant99 != null ||
+          neutralVariant100 != null ||
+          error0 != null ||
+          error10 != null ||
+          error20 != null ||
+          error30 != null ||
+          error40 != null ||
+          error50 != null ||
+          error60 != null ||
+          error70 != null ||
+          error80 != null ||
+          error90 != null ||
+          error95 != null ||
+          error98 != null ||
+          error99 != null ||
+          error100 != null
+      ? BaselinePaletteThemeDataPartial.from(
+          primary0: primary0 ?? this.primary0,
+          primary10: primary10 ?? this.primary10,
+          primary20: primary20 ?? this.primary20,
+          primary30: primary30 ?? this.primary30,
+          primary40: primary40 ?? this.primary40,
+          primary50: primary50 ?? this.primary50,
+          primary60: primary60 ?? this.primary60,
+          primary70: primary70 ?? this.primary70,
+          primary80: primary80 ?? this.primary80,
+          primary90: primary90 ?? this.primary90,
+          primary95: primary95 ?? this.primary95,
+          primary98: primary98 ?? this.primary98,
+          primary99: primary99 ?? this.primary99,
+          primary100: primary100 ?? this.primary100,
+          secondary0: secondary0 ?? this.secondary0,
+          secondary10: secondary10 ?? this.secondary10,
+          secondary20: secondary20 ?? this.secondary20,
+          secondary30: secondary30 ?? this.secondary30,
+          secondary40: secondary40 ?? this.secondary40,
+          secondary50: secondary50 ?? this.secondary50,
+          secondary60: secondary60 ?? this.secondary60,
+          secondary70: secondary70 ?? this.secondary70,
+          secondary80: secondary80 ?? this.secondary80,
+          secondary90: secondary90 ?? this.secondary90,
+          secondary95: secondary95 ?? this.secondary95,
+          secondary98: secondary98 ?? this.secondary98,
+          secondary99: secondary99 ?? this.secondary99,
+          secondary100: secondary100 ?? this.secondary100,
+          tertiary0: tertiary0 ?? this.tertiary0,
+          tertiary10: tertiary10 ?? this.tertiary10,
+          tertiary20: tertiary20 ?? this.tertiary20,
+          tertiary30: tertiary30 ?? this.tertiary30,
+          tertiary40: tertiary40 ?? this.tertiary40,
+          tertiary50: tertiary50 ?? this.tertiary50,
+          tertiary60: tertiary60 ?? this.tertiary60,
+          tertiary70: tertiary70 ?? this.tertiary70,
+          tertiary80: tertiary80 ?? this.tertiary80,
+          tertiary90: tertiary90 ?? this.tertiary90,
+          tertiary95: tertiary95 ?? this.tertiary95,
+          tertiary98: tertiary98 ?? this.tertiary98,
+          tertiary99: tertiary99 ?? this.tertiary99,
+          tertiary100: tertiary100 ?? this.tertiary100,
+          neutral0: neutral0 ?? this.neutral0,
+          neutral4: neutral4 ?? this.neutral4,
+          neutral6: neutral6 ?? this.neutral6,
+          neutral10: neutral10 ?? this.neutral10,
+          neutral12: neutral12 ?? this.neutral12,
+          neutral17: neutral17 ?? this.neutral17,
+          neutral20: neutral20 ?? this.neutral20,
+          neutral22: neutral22 ?? this.neutral22,
+          neutral24: neutral24 ?? this.neutral24,
+          neutral30: neutral30 ?? this.neutral30,
+          neutral40: neutral40 ?? this.neutral40,
+          neutral50: neutral50 ?? this.neutral50,
+          neutral60: neutral60 ?? this.neutral60,
+          neutral70: neutral70 ?? this.neutral70,
+          neutral80: neutral80 ?? this.neutral80,
+          neutral87: neutral87 ?? this.neutral87,
+          neutral90: neutral90 ?? this.neutral90,
+          neutral92: neutral92 ?? this.neutral92,
+          neutral94: neutral94 ?? this.neutral94,
+          neutral95: neutral95 ?? this.neutral95,
+          neutral96: neutral96 ?? this.neutral96,
+          neutral98: neutral98 ?? this.neutral98,
+          neutral99: neutral99 ?? this.neutral99,
+          neutral100: neutral100 ?? this.neutral100,
+          neutralVariant0: neutralVariant0 ?? this.neutralVariant0,
+          neutralVariant10: neutralVariant10 ?? this.neutralVariant10,
+          neutralVariant20: neutralVariant20 ?? this.neutralVariant20,
+          neutralVariant30: neutralVariant30 ?? this.neutralVariant30,
+          neutralVariant40: neutralVariant40 ?? this.neutralVariant40,
+          neutralVariant50: neutralVariant50 ?? this.neutralVariant50,
+          neutralVariant60: neutralVariant60 ?? this.neutralVariant60,
+          neutralVariant70: neutralVariant70 ?? this.neutralVariant70,
+          neutralVariant80: neutralVariant80 ?? this.neutralVariant80,
+          neutralVariant90: neutralVariant90 ?? this.neutralVariant90,
+          neutralVariant95: neutralVariant95 ?? this.neutralVariant95,
+          neutralVariant98: neutralVariant98 ?? this.neutralVariant98,
+          neutralVariant99: neutralVariant99 ?? this.neutralVariant99,
+          neutralVariant100: neutralVariant100 ?? this.neutralVariant100,
+          error0: error0 ?? this.error0,
+          error10: error10 ?? this.error10,
+          error20: error20 ?? this.error20,
+          error30: error30 ?? this.error30,
+          error40: error40 ?? this.error40,
+          error50: error50 ?? this.error50,
+          error60: error60 ?? this.error60,
+          error70: error70 ?? this.error70,
+          error80: error80 ?? this.error80,
+          error90: error90 ?? this.error90,
+          error95: error95 ?? this.error95,
+          error98: error98 ?? this.error98,
+          error99: error99 ?? this.error99,
+          error100: error100 ?? this.error100,
+        )
+      : this;
 
   BaselinePaletteThemeDataPartial merge(
     BaselinePaletteThemeDataPartial? other,
-  ) {
-    if (other == null) return this;
-    return copyWith(
-      primary0: other.primary0,
-      primary10: other.primary10,
-      primary20: other.primary20,
-      primary30: other.primary30,
-      primary40: other.primary40,
-      primary50: other.primary50,
-      primary60: other.primary60,
-      primary70: other.primary70,
-      primary80: other.primary80,
-      primary90: other.primary90,
-      primary95: other.primary95,
-      primary98: other.primary98,
-      primary99: other.primary99,
-      primary100: other.primary100,
-      secondary0: other.secondary0,
-      secondary10: other.secondary10,
-      secondary20: other.secondary20,
-      secondary30: other.secondary30,
-      secondary40: other.secondary40,
-      secondary50: other.secondary50,
-      secondary60: other.secondary60,
-      secondary70: other.secondary70,
-      secondary80: other.secondary80,
-      secondary90: other.secondary90,
-      secondary95: other.secondary95,
-      secondary98: other.secondary98,
-      secondary99: other.secondary99,
-      secondary100: other.secondary100,
-      tertiary0: other.tertiary0,
-      tertiary10: other.tertiary10,
-      tertiary20: other.tertiary20,
-      tertiary30: other.tertiary30,
-      tertiary40: other.tertiary40,
-      tertiary50: other.tertiary50,
-      tertiary60: other.tertiary60,
-      tertiary70: other.tertiary70,
-      tertiary80: other.tertiary80,
-      tertiary90: other.tertiary90,
-      tertiary95: other.tertiary95,
-      tertiary98: other.tertiary98,
-      tertiary99: other.tertiary99,
-      tertiary100: other.tertiary100,
-      neutral0: other.neutral0,
-      neutral4: other.neutral4,
-      neutral6: other.neutral6,
-      neutral10: other.neutral10,
-      neutral12: other.neutral12,
-      neutral17: other.neutral17,
-      neutral20: other.neutral20,
-      neutral22: other.neutral22,
-      neutral24: other.neutral24,
-      neutral30: other.neutral30,
-      neutral40: other.neutral40,
-      neutral50: other.neutral50,
-      neutral60: other.neutral60,
-      neutral70: other.neutral70,
-      neutral80: other.neutral80,
-      neutral87: other.neutral87,
-      neutral90: other.neutral90,
-      neutral92: other.neutral92,
-      neutral94: other.neutral94,
-      neutral95: other.neutral95,
-      neutral96: other.neutral96,
-      neutral98: other.neutral98,
-      neutral99: other.neutral99,
-      neutral100: other.neutral100,
-      neutralVariant0: other.neutralVariant0,
-      neutralVariant10: other.neutralVariant10,
-      neutralVariant20: other.neutralVariant20,
-      neutralVariant30: other.neutralVariant30,
-      neutralVariant40: other.neutralVariant40,
-      neutralVariant50: other.neutralVariant50,
-      neutralVariant60: other.neutralVariant60,
-      neutralVariant70: other.neutralVariant70,
-      neutralVariant80: other.neutralVariant80,
-      neutralVariant90: other.neutralVariant90,
-      neutralVariant95: other.neutralVariant95,
-      neutralVariant98: other.neutralVariant98,
-      neutralVariant99: other.neutralVariant99,
-      neutralVariant100: other.neutralVariant100,
-      error0: other.error0,
-      error10: other.error10,
-      error20: other.error20,
-      error30: other.error30,
-      error40: other.error40,
-      error50: other.error50,
-      error60: other.error60,
-      error70: other.error70,
-      error80: other.error80,
-      error90: other.error90,
-      error95: other.error95,
-      error98: other.error98,
-      error99: other.error99,
-      error100: other.error100,
-    );
-  }
+  ) => other != null
+      ? copyWith(
+          primary0: other.primary0,
+          primary10: other.primary10,
+          primary20: other.primary20,
+          primary30: other.primary30,
+          primary40: other.primary40,
+          primary50: other.primary50,
+          primary60: other.primary60,
+          primary70: other.primary70,
+          primary80: other.primary80,
+          primary90: other.primary90,
+          primary95: other.primary95,
+          primary98: other.primary98,
+          primary99: other.primary99,
+          primary100: other.primary100,
+          secondary0: other.secondary0,
+          secondary10: other.secondary10,
+          secondary20: other.secondary20,
+          secondary30: other.secondary30,
+          secondary40: other.secondary40,
+          secondary50: other.secondary50,
+          secondary60: other.secondary60,
+          secondary70: other.secondary70,
+          secondary80: other.secondary80,
+          secondary90: other.secondary90,
+          secondary95: other.secondary95,
+          secondary98: other.secondary98,
+          secondary99: other.secondary99,
+          secondary100: other.secondary100,
+          tertiary0: other.tertiary0,
+          tertiary10: other.tertiary10,
+          tertiary20: other.tertiary20,
+          tertiary30: other.tertiary30,
+          tertiary40: other.tertiary40,
+          tertiary50: other.tertiary50,
+          tertiary60: other.tertiary60,
+          tertiary70: other.tertiary70,
+          tertiary80: other.tertiary80,
+          tertiary90: other.tertiary90,
+          tertiary95: other.tertiary95,
+          tertiary98: other.tertiary98,
+          tertiary99: other.tertiary99,
+          tertiary100: other.tertiary100,
+          neutral0: other.neutral0,
+          neutral4: other.neutral4,
+          neutral6: other.neutral6,
+          neutral10: other.neutral10,
+          neutral12: other.neutral12,
+          neutral17: other.neutral17,
+          neutral20: other.neutral20,
+          neutral22: other.neutral22,
+          neutral24: other.neutral24,
+          neutral30: other.neutral30,
+          neutral40: other.neutral40,
+          neutral50: other.neutral50,
+          neutral60: other.neutral60,
+          neutral70: other.neutral70,
+          neutral80: other.neutral80,
+          neutral87: other.neutral87,
+          neutral90: other.neutral90,
+          neutral92: other.neutral92,
+          neutral94: other.neutral94,
+          neutral95: other.neutral95,
+          neutral96: other.neutral96,
+          neutral98: other.neutral98,
+          neutral99: other.neutral99,
+          neutral100: other.neutral100,
+          neutralVariant0: other.neutralVariant0,
+          neutralVariant10: other.neutralVariant10,
+          neutralVariant20: other.neutralVariant20,
+          neutralVariant30: other.neutralVariant30,
+          neutralVariant40: other.neutralVariant40,
+          neutralVariant50: other.neutralVariant50,
+          neutralVariant60: other.neutralVariant60,
+          neutralVariant70: other.neutralVariant70,
+          neutralVariant80: other.neutralVariant80,
+          neutralVariant90: other.neutralVariant90,
+          neutralVariant95: other.neutralVariant95,
+          neutralVariant98: other.neutralVariant98,
+          neutralVariant99: other.neutralVariant99,
+          neutralVariant100: other.neutralVariant100,
+          error0: other.error0,
+          error10: other.error10,
+          error20: other.error20,
+          error30: other.error30,
+          error40: other.error40,
+          error50: other.error50,
+          error60: other.error60,
+          error70: other.error70,
+          error80: other.error80,
+          error90: other.error90,
+          error95: other.error95,
+          error98: other.error98,
+          error99: other.error99,
+          error100: other.error100,
+        )
+      : this;
 
   @override
   // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties.add(ColorProperty("primary0", primary0, defaultValue: null));
-    properties.add(ColorProperty("primary10", primary10, defaultValue: null));
-    properties.add(ColorProperty("primary20", primary20, defaultValue: null));
-    properties.add(ColorProperty("primary30", primary30, defaultValue: null));
-    properties.add(ColorProperty("primary40", primary40, defaultValue: null));
-    properties.add(ColorProperty("primary50", primary50, defaultValue: null));
-    properties.add(ColorProperty("primary60", primary60, defaultValue: null));
-    properties.add(ColorProperty("primary70", primary70, defaultValue: null));
-    properties.add(ColorProperty("primary80", primary80, defaultValue: null));
-    properties.add(ColorProperty("primary90", primary90, defaultValue: null));
-    properties.add(ColorProperty("primary95", primary95, defaultValue: null));
-    properties.add(ColorProperty("primary98", primary98, defaultValue: null));
-    properties.add(ColorProperty("primary99", primary99, defaultValue: null));
-    properties.add(ColorProperty("primary100", primary100, defaultValue: null));
-    properties.add(ColorProperty("secondary0", secondary0, defaultValue: null));
-    properties.add(
-      ColorProperty("secondary10", secondary10, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("secondary20", secondary20, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("secondary30", secondary30, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("secondary40", secondary40, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("secondary50", secondary50, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("secondary60", secondary60, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("secondary70", secondary70, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("secondary80", secondary80, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("secondary90", secondary90, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("secondary95", secondary95, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("secondary98", secondary98, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("secondary99", secondary99, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("secondary100", secondary100, defaultValue: null),
-    );
-    properties.add(ColorProperty("tertiary0", tertiary0, defaultValue: null));
-    properties.add(ColorProperty("tertiary10", tertiary10, defaultValue: null));
-    properties.add(ColorProperty("tertiary20", tertiary20, defaultValue: null));
-    properties.add(ColorProperty("tertiary30", tertiary30, defaultValue: null));
-    properties.add(ColorProperty("tertiary40", tertiary40, defaultValue: null));
-    properties.add(ColorProperty("tertiary50", tertiary50, defaultValue: null));
-    properties.add(ColorProperty("tertiary60", tertiary60, defaultValue: null));
-    properties.add(ColorProperty("tertiary70", tertiary70, defaultValue: null));
-    properties.add(ColorProperty("tertiary80", tertiary80, defaultValue: null));
-    properties.add(ColorProperty("tertiary90", tertiary90, defaultValue: null));
-    properties.add(ColorProperty("tertiary95", tertiary95, defaultValue: null));
-    properties.add(ColorProperty("tertiary98", tertiary98, defaultValue: null));
-    properties.add(ColorProperty("tertiary99", tertiary99, defaultValue: null));
-    properties.add(
-      ColorProperty("tertiary100", tertiary100, defaultValue: null),
-    );
-    properties.add(ColorProperty("neutral0", neutral0, defaultValue: null));
-    properties.add(ColorProperty("neutral4", neutral4, defaultValue: null));
-    properties.add(ColorProperty("neutral6", neutral6, defaultValue: null));
-    properties.add(ColorProperty("neutral10", neutral10, defaultValue: null));
-    properties.add(ColorProperty("neutral12", neutral12, defaultValue: null));
-    properties.add(ColorProperty("neutral17", neutral17, defaultValue: null));
-    properties.add(ColorProperty("neutral20", neutral20, defaultValue: null));
-    properties.add(ColorProperty("neutral22", neutral22, defaultValue: null));
-    properties.add(ColorProperty("neutral24", neutral24, defaultValue: null));
-    properties.add(ColorProperty("neutral30", neutral30, defaultValue: null));
-    properties.add(ColorProperty("neutral40", neutral40, defaultValue: null));
-    properties.add(ColorProperty("neutral50", neutral50, defaultValue: null));
-    properties.add(ColorProperty("neutral60", neutral60, defaultValue: null));
-    properties.add(ColorProperty("neutral70", neutral70, defaultValue: null));
-    properties.add(ColorProperty("neutral80", neutral80, defaultValue: null));
-    properties.add(ColorProperty("neutral87", neutral87, defaultValue: null));
-    properties.add(ColorProperty("neutral90", neutral90, defaultValue: null));
-    properties.add(ColorProperty("neutral92", neutral92, defaultValue: null));
-    properties.add(ColorProperty("neutral94", neutral94, defaultValue: null));
-    properties.add(ColorProperty("neutral95", neutral95, defaultValue: null));
-    properties.add(ColorProperty("neutral96", neutral96, defaultValue: null));
-    properties.add(ColorProperty("neutral98", neutral98, defaultValue: null));
-    properties.add(ColorProperty("neutral99", neutral99, defaultValue: null));
-    properties.add(ColorProperty("neutral100", neutral100, defaultValue: null));
-    properties.add(
-      ColorProperty("neutralVariant0", neutralVariant0, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("neutralVariant10", neutralVariant10, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("neutralVariant20", neutralVariant20, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("neutralVariant30", neutralVariant30, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("neutralVariant40", neutralVariant40, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("neutralVariant50", neutralVariant50, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("neutralVariant60", neutralVariant60, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("neutralVariant70", neutralVariant70, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("neutralVariant80", neutralVariant80, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("neutralVariant90", neutralVariant90, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("neutralVariant95", neutralVariant95, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("neutralVariant98", neutralVariant98, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("neutralVariant99", neutralVariant99, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("neutralVariant100", neutralVariant100, defaultValue: null),
-    );
-    properties.add(ColorProperty("error0", error0, defaultValue: null));
-    properties.add(ColorProperty("error10", error10, defaultValue: null));
-    properties.add(ColorProperty("error20", error20, defaultValue: null));
-    properties.add(ColorProperty("error30", error30, defaultValue: null));
-    properties.add(ColorProperty("error40", error40, defaultValue: null));
-    properties.add(ColorProperty("error50", error50, defaultValue: null));
-    properties.add(ColorProperty("error60", error60, defaultValue: null));
-    properties.add(ColorProperty("error70", error70, defaultValue: null));
-    properties.add(ColorProperty("error80", error80, defaultValue: null));
-    properties.add(ColorProperty("error90", error90, defaultValue: null));
-    properties.add(ColorProperty("error95", error95, defaultValue: null));
-    properties.add(ColorProperty("error98", error98, defaultValue: null));
-    properties.add(ColorProperty("error99", error99, defaultValue: null));
-    properties.add(ColorProperty("error100", error100, defaultValue: null));
+    properties
+      ..add(ColorProperty("primary0", primary0, defaultValue: null))
+      ..add(ColorProperty("primary10", primary10, defaultValue: null))
+      ..add(ColorProperty("primary20", primary20, defaultValue: null))
+      ..add(ColorProperty("primary30", primary30, defaultValue: null))
+      ..add(ColorProperty("primary40", primary40, defaultValue: null))
+      ..add(ColorProperty("primary50", primary50, defaultValue: null))
+      ..add(ColorProperty("primary60", primary60, defaultValue: null))
+      ..add(ColorProperty("primary70", primary70, defaultValue: null))
+      ..add(ColorProperty("primary80", primary80, defaultValue: null))
+      ..add(ColorProperty("primary90", primary90, defaultValue: null))
+      ..add(ColorProperty("primary95", primary95, defaultValue: null))
+      ..add(ColorProperty("primary98", primary98, defaultValue: null))
+      ..add(ColorProperty("primary99", primary99, defaultValue: null))
+      ..add(ColorProperty("primary100", primary100, defaultValue: null))
+      ..add(ColorProperty("secondary0", secondary0, defaultValue: null))
+      ..add(ColorProperty("secondary10", secondary10, defaultValue: null))
+      ..add(ColorProperty("secondary20", secondary20, defaultValue: null))
+      ..add(ColorProperty("secondary30", secondary30, defaultValue: null))
+      ..add(ColorProperty("secondary40", secondary40, defaultValue: null))
+      ..add(ColorProperty("secondary50", secondary50, defaultValue: null))
+      ..add(ColorProperty("secondary60", secondary60, defaultValue: null))
+      ..add(ColorProperty("secondary70", secondary70, defaultValue: null))
+      ..add(ColorProperty("secondary80", secondary80, defaultValue: null))
+      ..add(ColorProperty("secondary90", secondary90, defaultValue: null))
+      ..add(ColorProperty("secondary95", secondary95, defaultValue: null))
+      ..add(ColorProperty("secondary98", secondary98, defaultValue: null))
+      ..add(ColorProperty("secondary99", secondary99, defaultValue: null))
+      ..add(ColorProperty("secondary100", secondary100, defaultValue: null))
+      ..add(ColorProperty("tertiary0", tertiary0, defaultValue: null))
+      ..add(ColorProperty("tertiary10", tertiary10, defaultValue: null))
+      ..add(ColorProperty("tertiary20", tertiary20, defaultValue: null))
+      ..add(ColorProperty("tertiary30", tertiary30, defaultValue: null))
+      ..add(ColorProperty("tertiary40", tertiary40, defaultValue: null))
+      ..add(ColorProperty("tertiary50", tertiary50, defaultValue: null))
+      ..add(ColorProperty("tertiary60", tertiary60, defaultValue: null))
+      ..add(ColorProperty("tertiary70", tertiary70, defaultValue: null))
+      ..add(ColorProperty("tertiary80", tertiary80, defaultValue: null))
+      ..add(ColorProperty("tertiary90", tertiary90, defaultValue: null))
+      ..add(ColorProperty("tertiary95", tertiary95, defaultValue: null))
+      ..add(ColorProperty("tertiary98", tertiary98, defaultValue: null))
+      ..add(ColorProperty("tertiary99", tertiary99, defaultValue: null))
+      ..add(ColorProperty("tertiary100", tertiary100, defaultValue: null))
+      ..add(ColorProperty("neutral0", neutral0, defaultValue: null))
+      ..add(ColorProperty("neutral4", neutral4, defaultValue: null))
+      ..add(ColorProperty("neutral6", neutral6, defaultValue: null))
+      ..add(ColorProperty("neutral10", neutral10, defaultValue: null))
+      ..add(ColorProperty("neutral12", neutral12, defaultValue: null))
+      ..add(ColorProperty("neutral17", neutral17, defaultValue: null))
+      ..add(ColorProperty("neutral20", neutral20, defaultValue: null))
+      ..add(ColorProperty("neutral22", neutral22, defaultValue: null))
+      ..add(ColorProperty("neutral24", neutral24, defaultValue: null))
+      ..add(ColorProperty("neutral30", neutral30, defaultValue: null))
+      ..add(ColorProperty("neutral40", neutral40, defaultValue: null))
+      ..add(ColorProperty("neutral50", neutral50, defaultValue: null))
+      ..add(ColorProperty("neutral60", neutral60, defaultValue: null))
+      ..add(ColorProperty("neutral70", neutral70, defaultValue: null))
+      ..add(ColorProperty("neutral80", neutral80, defaultValue: null))
+      ..add(ColorProperty("neutral87", neutral87, defaultValue: null))
+      ..add(ColorProperty("neutral90", neutral90, defaultValue: null))
+      ..add(ColorProperty("neutral92", neutral92, defaultValue: null))
+      ..add(ColorProperty("neutral94", neutral94, defaultValue: null))
+      ..add(ColorProperty("neutral95", neutral95, defaultValue: null))
+      ..add(ColorProperty("neutral96", neutral96, defaultValue: null))
+      ..add(ColorProperty("neutral98", neutral98, defaultValue: null))
+      ..add(ColorProperty("neutral99", neutral99, defaultValue: null))
+      ..add(ColorProperty("neutral100", neutral100, defaultValue: null))
+      ..add(
+        ColorProperty("neutralVariant0", neutralVariant0, defaultValue: null),
+      )
+      ..add(
+        ColorProperty("neutralVariant10", neutralVariant10, defaultValue: null),
+      )
+      ..add(
+        ColorProperty("neutralVariant20", neutralVariant20, defaultValue: null),
+      )
+      ..add(
+        ColorProperty("neutralVariant30", neutralVariant30, defaultValue: null),
+      )
+      ..add(
+        ColorProperty("neutralVariant40", neutralVariant40, defaultValue: null),
+      )
+      ..add(
+        ColorProperty("neutralVariant50", neutralVariant50, defaultValue: null),
+      )
+      ..add(
+        ColorProperty("neutralVariant60", neutralVariant60, defaultValue: null),
+      )
+      ..add(
+        ColorProperty("neutralVariant70", neutralVariant70, defaultValue: null),
+      )
+      ..add(
+        ColorProperty("neutralVariant80", neutralVariant80, defaultValue: null),
+      )
+      ..add(
+        ColorProperty("neutralVariant90", neutralVariant90, defaultValue: null),
+      )
+      ..add(
+        ColorProperty("neutralVariant95", neutralVariant95, defaultValue: null),
+      )
+      ..add(
+        ColorProperty("neutralVariant98", neutralVariant98, defaultValue: null),
+      )
+      ..add(
+        ColorProperty("neutralVariant99", neutralVariant99, defaultValue: null),
+      )
+      ..add(
+        ColorProperty(
+          "neutralVariant100",
+          neutralVariant100,
+          defaultValue: null,
+        ),
+      )
+      ..add(ColorProperty("error0", error0, defaultValue: null))
+      ..add(ColorProperty("error10", error10, defaultValue: null))
+      ..add(ColorProperty("error20", error20, defaultValue: null))
+      ..add(ColorProperty("error30", error30, defaultValue: null))
+      ..add(ColorProperty("error40", error40, defaultValue: null))
+      ..add(ColorProperty("error50", error50, defaultValue: null))
+      ..add(ColorProperty("error60", error60, defaultValue: null))
+      ..add(ColorProperty("error70", error70, defaultValue: null))
+      ..add(ColorProperty("error80", error80, defaultValue: null))
+      ..add(ColorProperty("error90", error90, defaultValue: null))
+      ..add(ColorProperty("error95", error95, defaultValue: null))
+      ..add(ColorProperty("error98", error98, defaultValue: null))
+      ..add(ColorProperty("error99", error99, defaultValue: null))
+      ..add(ColorProperty("error100", error100, defaultValue: null));
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is BaselinePaletteThemeDataPartial &&
-            primary0 == other.primary0 &&
-            primary10 == other.primary10 &&
-            primary20 == other.primary20 &&
-            primary30 == other.primary30 &&
-            primary40 == other.primary40 &&
-            primary50 == other.primary50 &&
-            primary60 == other.primary60 &&
-            primary70 == other.primary70 &&
-            primary80 == other.primary80 &&
-            primary90 == other.primary90 &&
-            primary95 == other.primary95 &&
-            primary98 == other.primary98 &&
-            primary99 == other.primary99 &&
-            primary100 == other.primary100 &&
-            secondary0 == other.secondary0 &&
-            secondary10 == other.secondary10 &&
-            secondary20 == other.secondary20 &&
-            secondary30 == other.secondary30 &&
-            secondary40 == other.secondary40 &&
-            secondary50 == other.secondary50 &&
-            secondary60 == other.secondary60 &&
-            secondary70 == other.secondary70 &&
-            secondary80 == other.secondary80 &&
-            secondary90 == other.secondary90 &&
-            secondary95 == other.secondary95 &&
-            secondary98 == other.secondary98 &&
-            secondary99 == other.secondary99 &&
-            secondary100 == other.secondary100 &&
-            tertiary0 == other.tertiary0 &&
-            tertiary10 == other.tertiary10 &&
-            tertiary20 == other.tertiary20 &&
-            tertiary30 == other.tertiary30 &&
-            tertiary40 == other.tertiary40 &&
-            tertiary50 == other.tertiary50 &&
-            tertiary60 == other.tertiary60 &&
-            tertiary70 == other.tertiary70 &&
-            tertiary80 == other.tertiary80 &&
-            tertiary90 == other.tertiary90 &&
-            tertiary95 == other.tertiary95 &&
-            tertiary98 == other.tertiary98 &&
-            tertiary99 == other.tertiary99 &&
-            tertiary100 == other.tertiary100 &&
-            neutral0 == other.neutral0 &&
-            neutral4 == other.neutral4 &&
-            neutral6 == other.neutral6 &&
-            neutral10 == other.neutral10 &&
-            neutral12 == other.neutral12 &&
-            neutral17 == other.neutral17 &&
-            neutral20 == other.neutral20 &&
-            neutral22 == other.neutral22 &&
-            neutral24 == other.neutral24 &&
-            neutral30 == other.neutral30 &&
-            neutral40 == other.neutral40 &&
-            neutral50 == other.neutral50 &&
-            neutral60 == other.neutral60 &&
-            neutral70 == other.neutral70 &&
-            neutral80 == other.neutral80 &&
-            neutral87 == other.neutral87 &&
-            neutral90 == other.neutral90 &&
-            neutral92 == other.neutral92 &&
-            neutral94 == other.neutral94 &&
-            neutral95 == other.neutral95 &&
-            neutral96 == other.neutral96 &&
-            neutral98 == other.neutral98 &&
-            neutral99 == other.neutral99 &&
-            neutral100 == other.neutral100 &&
-            neutralVariant0 == other.neutralVariant0 &&
-            neutralVariant10 == other.neutralVariant10 &&
-            neutralVariant20 == other.neutralVariant20 &&
-            neutralVariant30 == other.neutralVariant30 &&
-            neutralVariant40 == other.neutralVariant40 &&
-            neutralVariant50 == other.neutralVariant50 &&
-            neutralVariant60 == other.neutralVariant60 &&
-            neutralVariant70 == other.neutralVariant70 &&
-            neutralVariant80 == other.neutralVariant80 &&
-            neutralVariant90 == other.neutralVariant90 &&
-            neutralVariant95 == other.neutralVariant95 &&
-            neutralVariant98 == other.neutralVariant98 &&
-            neutralVariant99 == other.neutralVariant99 &&
-            neutralVariant100 == other.neutralVariant100 &&
-            error0 == other.error0 &&
-            error10 == other.error10 &&
-            error20 == other.error20 &&
-            error30 == other.error30 &&
-            error40 == other.error40 &&
-            error50 == other.error50 &&
-            error60 == other.error60 &&
-            error70 == other.error70 &&
-            error80 == other.error80 &&
-            error90 == other.error90 &&
-            error95 == other.error95 &&
-            error98 == other.error98 &&
-            error99 == other.error99 &&
-            error100 == other.error100;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is BaselinePaletteThemeDataPartial &&
+          primary0 == other.primary0 &&
+          primary10 == other.primary10 &&
+          primary20 == other.primary20 &&
+          primary30 == other.primary30 &&
+          primary40 == other.primary40 &&
+          primary50 == other.primary50 &&
+          primary60 == other.primary60 &&
+          primary70 == other.primary70 &&
+          primary80 == other.primary80 &&
+          primary90 == other.primary90 &&
+          primary95 == other.primary95 &&
+          primary98 == other.primary98 &&
+          primary99 == other.primary99 &&
+          primary100 == other.primary100 &&
+          secondary0 == other.secondary0 &&
+          secondary10 == other.secondary10 &&
+          secondary20 == other.secondary20 &&
+          secondary30 == other.secondary30 &&
+          secondary40 == other.secondary40 &&
+          secondary50 == other.secondary50 &&
+          secondary60 == other.secondary60 &&
+          secondary70 == other.secondary70 &&
+          secondary80 == other.secondary80 &&
+          secondary90 == other.secondary90 &&
+          secondary95 == other.secondary95 &&
+          secondary98 == other.secondary98 &&
+          secondary99 == other.secondary99 &&
+          secondary100 == other.secondary100 &&
+          tertiary0 == other.tertiary0 &&
+          tertiary10 == other.tertiary10 &&
+          tertiary20 == other.tertiary20 &&
+          tertiary30 == other.tertiary30 &&
+          tertiary40 == other.tertiary40 &&
+          tertiary50 == other.tertiary50 &&
+          tertiary60 == other.tertiary60 &&
+          tertiary70 == other.tertiary70 &&
+          tertiary80 == other.tertiary80 &&
+          tertiary90 == other.tertiary90 &&
+          tertiary95 == other.tertiary95 &&
+          tertiary98 == other.tertiary98 &&
+          tertiary99 == other.tertiary99 &&
+          tertiary100 == other.tertiary100 &&
+          neutral0 == other.neutral0 &&
+          neutral4 == other.neutral4 &&
+          neutral6 == other.neutral6 &&
+          neutral10 == other.neutral10 &&
+          neutral12 == other.neutral12 &&
+          neutral17 == other.neutral17 &&
+          neutral20 == other.neutral20 &&
+          neutral22 == other.neutral22 &&
+          neutral24 == other.neutral24 &&
+          neutral30 == other.neutral30 &&
+          neutral40 == other.neutral40 &&
+          neutral50 == other.neutral50 &&
+          neutral60 == other.neutral60 &&
+          neutral70 == other.neutral70 &&
+          neutral80 == other.neutral80 &&
+          neutral87 == other.neutral87 &&
+          neutral90 == other.neutral90 &&
+          neutral92 == other.neutral92 &&
+          neutral94 == other.neutral94 &&
+          neutral95 == other.neutral95 &&
+          neutral96 == other.neutral96 &&
+          neutral98 == other.neutral98 &&
+          neutral99 == other.neutral99 &&
+          neutral100 == other.neutral100 &&
+          neutralVariant0 == other.neutralVariant0 &&
+          neutralVariant10 == other.neutralVariant10 &&
+          neutralVariant20 == other.neutralVariant20 &&
+          neutralVariant30 == other.neutralVariant30 &&
+          neutralVariant40 == other.neutralVariant40 &&
+          neutralVariant50 == other.neutralVariant50 &&
+          neutralVariant60 == other.neutralVariant60 &&
+          neutralVariant70 == other.neutralVariant70 &&
+          neutralVariant80 == other.neutralVariant80 &&
+          neutralVariant90 == other.neutralVariant90 &&
+          neutralVariant95 == other.neutralVariant95 &&
+          neutralVariant98 == other.neutralVariant98 &&
+          neutralVariant99 == other.neutralVariant99 &&
+          neutralVariant100 == other.neutralVariant100 &&
+          error0 == other.error0 &&
+          error10 == other.error10 &&
+          error20 == other.error20 &&
+          error30 == other.error30 &&
+          error40 == other.error40 &&
+          error50 == other.error50 &&
+          error60 == other.error60 &&
+          error70 == other.error70 &&
+          error80 == other.error80 &&
+          error90 == other.error90 &&
+          error95 == other.error95 &&
+          error98 == other.error98 &&
+          error99 == other.error99 &&
+          error100 == other.error100;
 
   @override
   int get hashCode => Object.hash(
@@ -1818,501 +1883,499 @@ abstract class BaselinePaletteThemeData
     Color? error98,
     Color? error99,
     Color? error100,
-  }) {
-    if (primary0 == null &&
-        primary10 == null &&
-        primary20 == null &&
-        primary30 == null &&
-        primary40 == null &&
-        primary50 == null &&
-        primary60 == null &&
-        primary70 == null &&
-        primary80 == null &&
-        primary90 == null &&
-        primary95 == null &&
-        primary98 == null &&
-        primary99 == null &&
-        primary100 == null &&
-        secondary0 == null &&
-        secondary10 == null &&
-        secondary20 == null &&
-        secondary30 == null &&
-        secondary40 == null &&
-        secondary50 == null &&
-        secondary60 == null &&
-        secondary70 == null &&
-        secondary80 == null &&
-        secondary90 == null &&
-        secondary95 == null &&
-        secondary98 == null &&
-        secondary99 == null &&
-        secondary100 == null &&
-        tertiary0 == null &&
-        tertiary10 == null &&
-        tertiary20 == null &&
-        tertiary30 == null &&
-        tertiary40 == null &&
-        tertiary50 == null &&
-        tertiary60 == null &&
-        tertiary70 == null &&
-        tertiary80 == null &&
-        tertiary90 == null &&
-        tertiary95 == null &&
-        tertiary98 == null &&
-        tertiary99 == null &&
-        tertiary100 == null &&
-        neutral0 == null &&
-        neutral4 == null &&
-        neutral6 == null &&
-        neutral10 == null &&
-        neutral12 == null &&
-        neutral17 == null &&
-        neutral20 == null &&
-        neutral22 == null &&
-        neutral24 == null &&
-        neutral30 == null &&
-        neutral40 == null &&
-        neutral50 == null &&
-        neutral60 == null &&
-        neutral70 == null &&
-        neutral80 == null &&
-        neutral87 == null &&
-        neutral90 == null &&
-        neutral92 == null &&
-        neutral94 == null &&
-        neutral95 == null &&
-        neutral96 == null &&
-        neutral98 == null &&
-        neutral99 == null &&
-        neutral100 == null &&
-        neutralVariant0 == null &&
-        neutralVariant10 == null &&
-        neutralVariant20 == null &&
-        neutralVariant30 == null &&
-        neutralVariant40 == null &&
-        neutralVariant50 == null &&
-        neutralVariant60 == null &&
-        neutralVariant70 == null &&
-        neutralVariant80 == null &&
-        neutralVariant90 == null &&
-        neutralVariant95 == null &&
-        neutralVariant98 == null &&
-        neutralVariant99 == null &&
-        neutralVariant100 == null &&
-        error0 == null &&
-        error10 == null &&
-        error20 == null &&
-        error30 == null &&
-        error40 == null &&
-        error50 == null &&
-        error60 == null &&
-        error70 == null &&
-        error80 == null &&
-        error90 == null &&
-        error95 == null &&
-        error98 == null &&
-        error99 == null &&
-        error100 == null) {
-      return this;
-    }
-    return BaselinePaletteThemeData.from(
-      primary0: primary0 ?? this.primary0,
-      primary10: primary10 ?? this.primary10,
-      primary20: primary20 ?? this.primary20,
-      primary30: primary30 ?? this.primary30,
-      primary40: primary40 ?? this.primary40,
-      primary50: primary50 ?? this.primary50,
-      primary60: primary60 ?? this.primary60,
-      primary70: primary70 ?? this.primary70,
-      primary80: primary80 ?? this.primary80,
-      primary90: primary90 ?? this.primary90,
-      primary95: primary95 ?? this.primary95,
-      primary98: primary98 ?? this.primary98,
-      primary99: primary99 ?? this.primary99,
-      primary100: primary100 ?? this.primary100,
-      secondary0: secondary0 ?? this.secondary0,
-      secondary10: secondary10 ?? this.secondary10,
-      secondary20: secondary20 ?? this.secondary20,
-      secondary30: secondary30 ?? this.secondary30,
-      secondary40: secondary40 ?? this.secondary40,
-      secondary50: secondary50 ?? this.secondary50,
-      secondary60: secondary60 ?? this.secondary60,
-      secondary70: secondary70 ?? this.secondary70,
-      secondary80: secondary80 ?? this.secondary80,
-      secondary90: secondary90 ?? this.secondary90,
-      secondary95: secondary95 ?? this.secondary95,
-      secondary98: secondary98 ?? this.secondary98,
-      secondary99: secondary99 ?? this.secondary99,
-      secondary100: secondary100 ?? this.secondary100,
-      tertiary0: tertiary0 ?? this.tertiary0,
-      tertiary10: tertiary10 ?? this.tertiary10,
-      tertiary20: tertiary20 ?? this.tertiary20,
-      tertiary30: tertiary30 ?? this.tertiary30,
-      tertiary40: tertiary40 ?? this.tertiary40,
-      tertiary50: tertiary50 ?? this.tertiary50,
-      tertiary60: tertiary60 ?? this.tertiary60,
-      tertiary70: tertiary70 ?? this.tertiary70,
-      tertiary80: tertiary80 ?? this.tertiary80,
-      tertiary90: tertiary90 ?? this.tertiary90,
-      tertiary95: tertiary95 ?? this.tertiary95,
-      tertiary98: tertiary98 ?? this.tertiary98,
-      tertiary99: tertiary99 ?? this.tertiary99,
-      tertiary100: tertiary100 ?? this.tertiary100,
-      neutral0: neutral0 ?? this.neutral0,
-      neutral4: neutral4 ?? this.neutral4,
-      neutral6: neutral6 ?? this.neutral6,
-      neutral10: neutral10 ?? this.neutral10,
-      neutral12: neutral12 ?? this.neutral12,
-      neutral17: neutral17 ?? this.neutral17,
-      neutral20: neutral20 ?? this.neutral20,
-      neutral22: neutral22 ?? this.neutral22,
-      neutral24: neutral24 ?? this.neutral24,
-      neutral30: neutral30 ?? this.neutral30,
-      neutral40: neutral40 ?? this.neutral40,
-      neutral50: neutral50 ?? this.neutral50,
-      neutral60: neutral60 ?? this.neutral60,
-      neutral70: neutral70 ?? this.neutral70,
-      neutral80: neutral80 ?? this.neutral80,
-      neutral87: neutral87 ?? this.neutral87,
-      neutral90: neutral90 ?? this.neutral90,
-      neutral92: neutral92 ?? this.neutral92,
-      neutral94: neutral94 ?? this.neutral94,
-      neutral95: neutral95 ?? this.neutral95,
-      neutral96: neutral96 ?? this.neutral96,
-      neutral98: neutral98 ?? this.neutral98,
-      neutral99: neutral99 ?? this.neutral99,
-      neutral100: neutral100 ?? this.neutral100,
-      neutralVariant0: neutralVariant0 ?? this.neutralVariant0,
-      neutralVariant10: neutralVariant10 ?? this.neutralVariant10,
-      neutralVariant20: neutralVariant20 ?? this.neutralVariant20,
-      neutralVariant30: neutralVariant30 ?? this.neutralVariant30,
-      neutralVariant40: neutralVariant40 ?? this.neutralVariant40,
-      neutralVariant50: neutralVariant50 ?? this.neutralVariant50,
-      neutralVariant60: neutralVariant60 ?? this.neutralVariant60,
-      neutralVariant70: neutralVariant70 ?? this.neutralVariant70,
-      neutralVariant80: neutralVariant80 ?? this.neutralVariant80,
-      neutralVariant90: neutralVariant90 ?? this.neutralVariant90,
-      neutralVariant95: neutralVariant95 ?? this.neutralVariant95,
-      neutralVariant98: neutralVariant98 ?? this.neutralVariant98,
-      neutralVariant99: neutralVariant99 ?? this.neutralVariant99,
-      neutralVariant100: neutralVariant100 ?? this.neutralVariant100,
-      error0: error0 ?? this.error0,
-      error10: error10 ?? this.error10,
-      error20: error20 ?? this.error20,
-      error30: error30 ?? this.error30,
-      error40: error40 ?? this.error40,
-      error50: error50 ?? this.error50,
-      error60: error60 ?? this.error60,
-      error70: error70 ?? this.error70,
-      error80: error80 ?? this.error80,
-      error90: error90 ?? this.error90,
-      error95: error95 ?? this.error95,
-      error98: error98 ?? this.error98,
-      error99: error99 ?? this.error99,
-      error100: error100 ?? this.error100,
-    );
-  }
+  }) =>
+      primary0 != null ||
+          primary10 != null ||
+          primary20 != null ||
+          primary30 != null ||
+          primary40 != null ||
+          primary50 != null ||
+          primary60 != null ||
+          primary70 != null ||
+          primary80 != null ||
+          primary90 != null ||
+          primary95 != null ||
+          primary98 != null ||
+          primary99 != null ||
+          primary100 != null ||
+          secondary0 != null ||
+          secondary10 != null ||
+          secondary20 != null ||
+          secondary30 != null ||
+          secondary40 != null ||
+          secondary50 != null ||
+          secondary60 != null ||
+          secondary70 != null ||
+          secondary80 != null ||
+          secondary90 != null ||
+          secondary95 != null ||
+          secondary98 != null ||
+          secondary99 != null ||
+          secondary100 != null ||
+          tertiary0 != null ||
+          tertiary10 != null ||
+          tertiary20 != null ||
+          tertiary30 != null ||
+          tertiary40 != null ||
+          tertiary50 != null ||
+          tertiary60 != null ||
+          tertiary70 != null ||
+          tertiary80 != null ||
+          tertiary90 != null ||
+          tertiary95 != null ||
+          tertiary98 != null ||
+          tertiary99 != null ||
+          tertiary100 != null ||
+          neutral0 != null ||
+          neutral4 != null ||
+          neutral6 != null ||
+          neutral10 != null ||
+          neutral12 != null ||
+          neutral17 != null ||
+          neutral20 != null ||
+          neutral22 != null ||
+          neutral24 != null ||
+          neutral30 != null ||
+          neutral40 != null ||
+          neutral50 != null ||
+          neutral60 != null ||
+          neutral70 != null ||
+          neutral80 != null ||
+          neutral87 != null ||
+          neutral90 != null ||
+          neutral92 != null ||
+          neutral94 != null ||
+          neutral95 != null ||
+          neutral96 != null ||
+          neutral98 != null ||
+          neutral99 != null ||
+          neutral100 != null ||
+          neutralVariant0 != null ||
+          neutralVariant10 != null ||
+          neutralVariant20 != null ||
+          neutralVariant30 != null ||
+          neutralVariant40 != null ||
+          neutralVariant50 != null ||
+          neutralVariant60 != null ||
+          neutralVariant70 != null ||
+          neutralVariant80 != null ||
+          neutralVariant90 != null ||
+          neutralVariant95 != null ||
+          neutralVariant98 != null ||
+          neutralVariant99 != null ||
+          neutralVariant100 != null ||
+          error0 != null ||
+          error10 != null ||
+          error20 != null ||
+          error30 != null ||
+          error40 != null ||
+          error50 != null ||
+          error60 != null ||
+          error70 != null ||
+          error80 != null ||
+          error90 != null ||
+          error95 != null ||
+          error98 != null ||
+          error99 != null ||
+          error100 != null
+      ? BaselinePaletteThemeData.from(
+          primary0: primary0 ?? this.primary0,
+          primary10: primary10 ?? this.primary10,
+          primary20: primary20 ?? this.primary20,
+          primary30: primary30 ?? this.primary30,
+          primary40: primary40 ?? this.primary40,
+          primary50: primary50 ?? this.primary50,
+          primary60: primary60 ?? this.primary60,
+          primary70: primary70 ?? this.primary70,
+          primary80: primary80 ?? this.primary80,
+          primary90: primary90 ?? this.primary90,
+          primary95: primary95 ?? this.primary95,
+          primary98: primary98 ?? this.primary98,
+          primary99: primary99 ?? this.primary99,
+          primary100: primary100 ?? this.primary100,
+          secondary0: secondary0 ?? this.secondary0,
+          secondary10: secondary10 ?? this.secondary10,
+          secondary20: secondary20 ?? this.secondary20,
+          secondary30: secondary30 ?? this.secondary30,
+          secondary40: secondary40 ?? this.secondary40,
+          secondary50: secondary50 ?? this.secondary50,
+          secondary60: secondary60 ?? this.secondary60,
+          secondary70: secondary70 ?? this.secondary70,
+          secondary80: secondary80 ?? this.secondary80,
+          secondary90: secondary90 ?? this.secondary90,
+          secondary95: secondary95 ?? this.secondary95,
+          secondary98: secondary98 ?? this.secondary98,
+          secondary99: secondary99 ?? this.secondary99,
+          secondary100: secondary100 ?? this.secondary100,
+          tertiary0: tertiary0 ?? this.tertiary0,
+          tertiary10: tertiary10 ?? this.tertiary10,
+          tertiary20: tertiary20 ?? this.tertiary20,
+          tertiary30: tertiary30 ?? this.tertiary30,
+          tertiary40: tertiary40 ?? this.tertiary40,
+          tertiary50: tertiary50 ?? this.tertiary50,
+          tertiary60: tertiary60 ?? this.tertiary60,
+          tertiary70: tertiary70 ?? this.tertiary70,
+          tertiary80: tertiary80 ?? this.tertiary80,
+          tertiary90: tertiary90 ?? this.tertiary90,
+          tertiary95: tertiary95 ?? this.tertiary95,
+          tertiary98: tertiary98 ?? this.tertiary98,
+          tertiary99: tertiary99 ?? this.tertiary99,
+          tertiary100: tertiary100 ?? this.tertiary100,
+          neutral0: neutral0 ?? this.neutral0,
+          neutral4: neutral4 ?? this.neutral4,
+          neutral6: neutral6 ?? this.neutral6,
+          neutral10: neutral10 ?? this.neutral10,
+          neutral12: neutral12 ?? this.neutral12,
+          neutral17: neutral17 ?? this.neutral17,
+          neutral20: neutral20 ?? this.neutral20,
+          neutral22: neutral22 ?? this.neutral22,
+          neutral24: neutral24 ?? this.neutral24,
+          neutral30: neutral30 ?? this.neutral30,
+          neutral40: neutral40 ?? this.neutral40,
+          neutral50: neutral50 ?? this.neutral50,
+          neutral60: neutral60 ?? this.neutral60,
+          neutral70: neutral70 ?? this.neutral70,
+          neutral80: neutral80 ?? this.neutral80,
+          neutral87: neutral87 ?? this.neutral87,
+          neutral90: neutral90 ?? this.neutral90,
+          neutral92: neutral92 ?? this.neutral92,
+          neutral94: neutral94 ?? this.neutral94,
+          neutral95: neutral95 ?? this.neutral95,
+          neutral96: neutral96 ?? this.neutral96,
+          neutral98: neutral98 ?? this.neutral98,
+          neutral99: neutral99 ?? this.neutral99,
+          neutral100: neutral100 ?? this.neutral100,
+          neutralVariant0: neutralVariant0 ?? this.neutralVariant0,
+          neutralVariant10: neutralVariant10 ?? this.neutralVariant10,
+          neutralVariant20: neutralVariant20 ?? this.neutralVariant20,
+          neutralVariant30: neutralVariant30 ?? this.neutralVariant30,
+          neutralVariant40: neutralVariant40 ?? this.neutralVariant40,
+          neutralVariant50: neutralVariant50 ?? this.neutralVariant50,
+          neutralVariant60: neutralVariant60 ?? this.neutralVariant60,
+          neutralVariant70: neutralVariant70 ?? this.neutralVariant70,
+          neutralVariant80: neutralVariant80 ?? this.neutralVariant80,
+          neutralVariant90: neutralVariant90 ?? this.neutralVariant90,
+          neutralVariant95: neutralVariant95 ?? this.neutralVariant95,
+          neutralVariant98: neutralVariant98 ?? this.neutralVariant98,
+          neutralVariant99: neutralVariant99 ?? this.neutralVariant99,
+          neutralVariant100: neutralVariant100 ?? this.neutralVariant100,
+          error0: error0 ?? this.error0,
+          error10: error10 ?? this.error10,
+          error20: error20 ?? this.error20,
+          error30: error30 ?? this.error30,
+          error40: error40 ?? this.error40,
+          error50: error50 ?? this.error50,
+          error60: error60 ?? this.error60,
+          error70: error70 ?? this.error70,
+          error80: error80 ?? this.error80,
+          error90: error90 ?? this.error90,
+          error95: error95 ?? this.error95,
+          error98: error98 ?? this.error98,
+          error99: error99 ?? this.error99,
+          error100: error100 ?? this.error100,
+        )
+      : this;
 
   @override
-  BaselinePaletteThemeData merge(BaselinePaletteThemeDataPartial? other) {
-    if (other == null) return this;
-    return copyWith(
-      primary0: other.primary0,
-      primary10: other.primary10,
-      primary20: other.primary20,
-      primary30: other.primary30,
-      primary40: other.primary40,
-      primary50: other.primary50,
-      primary60: other.primary60,
-      primary70: other.primary70,
-      primary80: other.primary80,
-      primary90: other.primary90,
-      primary95: other.primary95,
-      primary98: other.primary98,
-      primary99: other.primary99,
-      primary100: other.primary100,
-      secondary0: other.secondary0,
-      secondary10: other.secondary10,
-      secondary20: other.secondary20,
-      secondary30: other.secondary30,
-      secondary40: other.secondary40,
-      secondary50: other.secondary50,
-      secondary60: other.secondary60,
-      secondary70: other.secondary70,
-      secondary80: other.secondary80,
-      secondary90: other.secondary90,
-      secondary95: other.secondary95,
-      secondary98: other.secondary98,
-      secondary99: other.secondary99,
-      secondary100: other.secondary100,
-      tertiary0: other.tertiary0,
-      tertiary10: other.tertiary10,
-      tertiary20: other.tertiary20,
-      tertiary30: other.tertiary30,
-      tertiary40: other.tertiary40,
-      tertiary50: other.tertiary50,
-      tertiary60: other.tertiary60,
-      tertiary70: other.tertiary70,
-      tertiary80: other.tertiary80,
-      tertiary90: other.tertiary90,
-      tertiary95: other.tertiary95,
-      tertiary98: other.tertiary98,
-      tertiary99: other.tertiary99,
-      tertiary100: other.tertiary100,
-      neutral0: other.neutral0,
-      neutral4: other.neutral4,
-      neutral6: other.neutral6,
-      neutral10: other.neutral10,
-      neutral12: other.neutral12,
-      neutral17: other.neutral17,
-      neutral20: other.neutral20,
-      neutral22: other.neutral22,
-      neutral24: other.neutral24,
-      neutral30: other.neutral30,
-      neutral40: other.neutral40,
-      neutral50: other.neutral50,
-      neutral60: other.neutral60,
-      neutral70: other.neutral70,
-      neutral80: other.neutral80,
-      neutral87: other.neutral87,
-      neutral90: other.neutral90,
-      neutral92: other.neutral92,
-      neutral94: other.neutral94,
-      neutral95: other.neutral95,
-      neutral96: other.neutral96,
-      neutral98: other.neutral98,
-      neutral99: other.neutral99,
-      neutral100: other.neutral100,
-      neutralVariant0: other.neutralVariant0,
-      neutralVariant10: other.neutralVariant10,
-      neutralVariant20: other.neutralVariant20,
-      neutralVariant30: other.neutralVariant30,
-      neutralVariant40: other.neutralVariant40,
-      neutralVariant50: other.neutralVariant50,
-      neutralVariant60: other.neutralVariant60,
-      neutralVariant70: other.neutralVariant70,
-      neutralVariant80: other.neutralVariant80,
-      neutralVariant90: other.neutralVariant90,
-      neutralVariant95: other.neutralVariant95,
-      neutralVariant98: other.neutralVariant98,
-      neutralVariant99: other.neutralVariant99,
-      neutralVariant100: other.neutralVariant100,
-      error0: other.error0,
-      error10: other.error10,
-      error20: other.error20,
-      error30: other.error30,
-      error40: other.error40,
-      error50: other.error50,
-      error60: other.error60,
-      error70: other.error70,
-      error80: other.error80,
-      error90: other.error90,
-      error95: other.error95,
-      error98: other.error98,
-      error99: other.error99,
-      error100: other.error100,
-    );
-  }
+  BaselinePaletteThemeData merge(BaselinePaletteThemeDataPartial? other) =>
+      other != null
+      ? copyWith(
+          primary0: other.primary0,
+          primary10: other.primary10,
+          primary20: other.primary20,
+          primary30: other.primary30,
+          primary40: other.primary40,
+          primary50: other.primary50,
+          primary60: other.primary60,
+          primary70: other.primary70,
+          primary80: other.primary80,
+          primary90: other.primary90,
+          primary95: other.primary95,
+          primary98: other.primary98,
+          primary99: other.primary99,
+          primary100: other.primary100,
+          secondary0: other.secondary0,
+          secondary10: other.secondary10,
+          secondary20: other.secondary20,
+          secondary30: other.secondary30,
+          secondary40: other.secondary40,
+          secondary50: other.secondary50,
+          secondary60: other.secondary60,
+          secondary70: other.secondary70,
+          secondary80: other.secondary80,
+          secondary90: other.secondary90,
+          secondary95: other.secondary95,
+          secondary98: other.secondary98,
+          secondary99: other.secondary99,
+          secondary100: other.secondary100,
+          tertiary0: other.tertiary0,
+          tertiary10: other.tertiary10,
+          tertiary20: other.tertiary20,
+          tertiary30: other.tertiary30,
+          tertiary40: other.tertiary40,
+          tertiary50: other.tertiary50,
+          tertiary60: other.tertiary60,
+          tertiary70: other.tertiary70,
+          tertiary80: other.tertiary80,
+          tertiary90: other.tertiary90,
+          tertiary95: other.tertiary95,
+          tertiary98: other.tertiary98,
+          tertiary99: other.tertiary99,
+          tertiary100: other.tertiary100,
+          neutral0: other.neutral0,
+          neutral4: other.neutral4,
+          neutral6: other.neutral6,
+          neutral10: other.neutral10,
+          neutral12: other.neutral12,
+          neutral17: other.neutral17,
+          neutral20: other.neutral20,
+          neutral22: other.neutral22,
+          neutral24: other.neutral24,
+          neutral30: other.neutral30,
+          neutral40: other.neutral40,
+          neutral50: other.neutral50,
+          neutral60: other.neutral60,
+          neutral70: other.neutral70,
+          neutral80: other.neutral80,
+          neutral87: other.neutral87,
+          neutral90: other.neutral90,
+          neutral92: other.neutral92,
+          neutral94: other.neutral94,
+          neutral95: other.neutral95,
+          neutral96: other.neutral96,
+          neutral98: other.neutral98,
+          neutral99: other.neutral99,
+          neutral100: other.neutral100,
+          neutralVariant0: other.neutralVariant0,
+          neutralVariant10: other.neutralVariant10,
+          neutralVariant20: other.neutralVariant20,
+          neutralVariant30: other.neutralVariant30,
+          neutralVariant40: other.neutralVariant40,
+          neutralVariant50: other.neutralVariant50,
+          neutralVariant60: other.neutralVariant60,
+          neutralVariant70: other.neutralVariant70,
+          neutralVariant80: other.neutralVariant80,
+          neutralVariant90: other.neutralVariant90,
+          neutralVariant95: other.neutralVariant95,
+          neutralVariant98: other.neutralVariant98,
+          neutralVariant99: other.neutralVariant99,
+          neutralVariant100: other.neutralVariant100,
+          error0: other.error0,
+          error10: other.error10,
+          error20: other.error20,
+          error30: other.error30,
+          error40: other.error40,
+          error50: other.error50,
+          error60: other.error60,
+          error70: other.error70,
+          error80: other.error80,
+          error90: other.error90,
+          error95: other.error95,
+          error98: other.error98,
+          error99: other.error99,
+          error100: other.error100,
+        )
+      : this;
 
   @override
   // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties.add(ColorProperty("primary0", primary0));
-    properties.add(ColorProperty("primary10", primary10));
-    properties.add(ColorProperty("primary20", primary20));
-    properties.add(ColorProperty("primary30", primary30));
-    properties.add(ColorProperty("primary40", primary40));
-    properties.add(ColorProperty("primary50", primary50));
-    properties.add(ColorProperty("primary60", primary60));
-    properties.add(ColorProperty("primary70", primary70));
-    properties.add(ColorProperty("primary80", primary80));
-    properties.add(ColorProperty("primary90", primary90));
-    properties.add(ColorProperty("primary95", primary95));
-    properties.add(ColorProperty("primary98", primary98));
-    properties.add(ColorProperty("primary99", primary99));
-    properties.add(ColorProperty("primary100", primary100));
-    properties.add(ColorProperty("secondary0", secondary0));
-    properties.add(ColorProperty("secondary10", secondary10));
-    properties.add(ColorProperty("secondary20", secondary20));
-    properties.add(ColorProperty("secondary30", secondary30));
-    properties.add(ColorProperty("secondary40", secondary40));
-    properties.add(ColorProperty("secondary50", secondary50));
-    properties.add(ColorProperty("secondary60", secondary60));
-    properties.add(ColorProperty("secondary70", secondary70));
-    properties.add(ColorProperty("secondary80", secondary80));
-    properties.add(ColorProperty("secondary90", secondary90));
-    properties.add(ColorProperty("secondary95", secondary95));
-    properties.add(ColorProperty("secondary98", secondary98));
-    properties.add(ColorProperty("secondary99", secondary99));
-    properties.add(ColorProperty("secondary100", secondary100));
-    properties.add(ColorProperty("tertiary0", tertiary0));
-    properties.add(ColorProperty("tertiary10", tertiary10));
-    properties.add(ColorProperty("tertiary20", tertiary20));
-    properties.add(ColorProperty("tertiary30", tertiary30));
-    properties.add(ColorProperty("tertiary40", tertiary40));
-    properties.add(ColorProperty("tertiary50", tertiary50));
-    properties.add(ColorProperty("tertiary60", tertiary60));
-    properties.add(ColorProperty("tertiary70", tertiary70));
-    properties.add(ColorProperty("tertiary80", tertiary80));
-    properties.add(ColorProperty("tertiary90", tertiary90));
-    properties.add(ColorProperty("tertiary95", tertiary95));
-    properties.add(ColorProperty("tertiary98", tertiary98));
-    properties.add(ColorProperty("tertiary99", tertiary99));
-    properties.add(ColorProperty("tertiary100", tertiary100));
-    properties.add(ColorProperty("neutral0", neutral0));
-    properties.add(ColorProperty("neutral4", neutral4));
-    properties.add(ColorProperty("neutral6", neutral6));
-    properties.add(ColorProperty("neutral10", neutral10));
-    properties.add(ColorProperty("neutral12", neutral12));
-    properties.add(ColorProperty("neutral17", neutral17));
-    properties.add(ColorProperty("neutral20", neutral20));
-    properties.add(ColorProperty("neutral22", neutral22));
-    properties.add(ColorProperty("neutral24", neutral24));
-    properties.add(ColorProperty("neutral30", neutral30));
-    properties.add(ColorProperty("neutral40", neutral40));
-    properties.add(ColorProperty("neutral50", neutral50));
-    properties.add(ColorProperty("neutral60", neutral60));
-    properties.add(ColorProperty("neutral70", neutral70));
-    properties.add(ColorProperty("neutral80", neutral80));
-    properties.add(ColorProperty("neutral87", neutral87));
-    properties.add(ColorProperty("neutral90", neutral90));
-    properties.add(ColorProperty("neutral92", neutral92));
-    properties.add(ColorProperty("neutral94", neutral94));
-    properties.add(ColorProperty("neutral95", neutral95));
-    properties.add(ColorProperty("neutral96", neutral96));
-    properties.add(ColorProperty("neutral98", neutral98));
-    properties.add(ColorProperty("neutral99", neutral99));
-    properties.add(ColorProperty("neutral100", neutral100));
-    properties.add(ColorProperty("neutralVariant0", neutralVariant0));
-    properties.add(ColorProperty("neutralVariant10", neutralVariant10));
-    properties.add(ColorProperty("neutralVariant20", neutralVariant20));
-    properties.add(ColorProperty("neutralVariant30", neutralVariant30));
-    properties.add(ColorProperty("neutralVariant40", neutralVariant40));
-    properties.add(ColorProperty("neutralVariant50", neutralVariant50));
-    properties.add(ColorProperty("neutralVariant60", neutralVariant60));
-    properties.add(ColorProperty("neutralVariant70", neutralVariant70));
-    properties.add(ColorProperty("neutralVariant80", neutralVariant80));
-    properties.add(ColorProperty("neutralVariant90", neutralVariant90));
-    properties.add(ColorProperty("neutralVariant95", neutralVariant95));
-    properties.add(ColorProperty("neutralVariant98", neutralVariant98));
-    properties.add(ColorProperty("neutralVariant99", neutralVariant99));
-    properties.add(ColorProperty("neutralVariant100", neutralVariant100));
-    properties.add(ColorProperty("error0", error0));
-    properties.add(ColorProperty("error10", error10));
-    properties.add(ColorProperty("error20", error20));
-    properties.add(ColorProperty("error30", error30));
-    properties.add(ColorProperty("error40", error40));
-    properties.add(ColorProperty("error50", error50));
-    properties.add(ColorProperty("error60", error60));
-    properties.add(ColorProperty("error70", error70));
-    properties.add(ColorProperty("error80", error80));
-    properties.add(ColorProperty("error90", error90));
-    properties.add(ColorProperty("error95", error95));
-    properties.add(ColorProperty("error98", error98));
-    properties.add(ColorProperty("error99", error99));
-    properties.add(ColorProperty("error100", error100));
+    properties
+      ..add(ColorProperty("primary0", primary0))
+      ..add(ColorProperty("primary10", primary10))
+      ..add(ColorProperty("primary20", primary20))
+      ..add(ColorProperty("primary30", primary30))
+      ..add(ColorProperty("primary40", primary40))
+      ..add(ColorProperty("primary50", primary50))
+      ..add(ColorProperty("primary60", primary60))
+      ..add(ColorProperty("primary70", primary70))
+      ..add(ColorProperty("primary80", primary80))
+      ..add(ColorProperty("primary90", primary90))
+      ..add(ColorProperty("primary95", primary95))
+      ..add(ColorProperty("primary98", primary98))
+      ..add(ColorProperty("primary99", primary99))
+      ..add(ColorProperty("primary100", primary100))
+      ..add(ColorProperty("secondary0", secondary0))
+      ..add(ColorProperty("secondary10", secondary10))
+      ..add(ColorProperty("secondary20", secondary20))
+      ..add(ColorProperty("secondary30", secondary30))
+      ..add(ColorProperty("secondary40", secondary40))
+      ..add(ColorProperty("secondary50", secondary50))
+      ..add(ColorProperty("secondary60", secondary60))
+      ..add(ColorProperty("secondary70", secondary70))
+      ..add(ColorProperty("secondary80", secondary80))
+      ..add(ColorProperty("secondary90", secondary90))
+      ..add(ColorProperty("secondary95", secondary95))
+      ..add(ColorProperty("secondary98", secondary98))
+      ..add(ColorProperty("secondary99", secondary99))
+      ..add(ColorProperty("secondary100", secondary100))
+      ..add(ColorProperty("tertiary0", tertiary0))
+      ..add(ColorProperty("tertiary10", tertiary10))
+      ..add(ColorProperty("tertiary20", tertiary20))
+      ..add(ColorProperty("tertiary30", tertiary30))
+      ..add(ColorProperty("tertiary40", tertiary40))
+      ..add(ColorProperty("tertiary50", tertiary50))
+      ..add(ColorProperty("tertiary60", tertiary60))
+      ..add(ColorProperty("tertiary70", tertiary70))
+      ..add(ColorProperty("tertiary80", tertiary80))
+      ..add(ColorProperty("tertiary90", tertiary90))
+      ..add(ColorProperty("tertiary95", tertiary95))
+      ..add(ColorProperty("tertiary98", tertiary98))
+      ..add(ColorProperty("tertiary99", tertiary99))
+      ..add(ColorProperty("tertiary100", tertiary100))
+      ..add(ColorProperty("neutral0", neutral0))
+      ..add(ColorProperty("neutral4", neutral4))
+      ..add(ColorProperty("neutral6", neutral6))
+      ..add(ColorProperty("neutral10", neutral10))
+      ..add(ColorProperty("neutral12", neutral12))
+      ..add(ColorProperty("neutral17", neutral17))
+      ..add(ColorProperty("neutral20", neutral20))
+      ..add(ColorProperty("neutral22", neutral22))
+      ..add(ColorProperty("neutral24", neutral24))
+      ..add(ColorProperty("neutral30", neutral30))
+      ..add(ColorProperty("neutral40", neutral40))
+      ..add(ColorProperty("neutral50", neutral50))
+      ..add(ColorProperty("neutral60", neutral60))
+      ..add(ColorProperty("neutral70", neutral70))
+      ..add(ColorProperty("neutral80", neutral80))
+      ..add(ColorProperty("neutral87", neutral87))
+      ..add(ColorProperty("neutral90", neutral90))
+      ..add(ColorProperty("neutral92", neutral92))
+      ..add(ColorProperty("neutral94", neutral94))
+      ..add(ColorProperty("neutral95", neutral95))
+      ..add(ColorProperty("neutral96", neutral96))
+      ..add(ColorProperty("neutral98", neutral98))
+      ..add(ColorProperty("neutral99", neutral99))
+      ..add(ColorProperty("neutral100", neutral100))
+      ..add(ColorProperty("neutralVariant0", neutralVariant0))
+      ..add(ColorProperty("neutralVariant10", neutralVariant10))
+      ..add(ColorProperty("neutralVariant20", neutralVariant20))
+      ..add(ColorProperty("neutralVariant30", neutralVariant30))
+      ..add(ColorProperty("neutralVariant40", neutralVariant40))
+      ..add(ColorProperty("neutralVariant50", neutralVariant50))
+      ..add(ColorProperty("neutralVariant60", neutralVariant60))
+      ..add(ColorProperty("neutralVariant70", neutralVariant70))
+      ..add(ColorProperty("neutralVariant80", neutralVariant80))
+      ..add(ColorProperty("neutralVariant90", neutralVariant90))
+      ..add(ColorProperty("neutralVariant95", neutralVariant95))
+      ..add(ColorProperty("neutralVariant98", neutralVariant98))
+      ..add(ColorProperty("neutralVariant99", neutralVariant99))
+      ..add(ColorProperty("neutralVariant100", neutralVariant100))
+      ..add(ColorProperty("error0", error0))
+      ..add(ColorProperty("error10", error10))
+      ..add(ColorProperty("error20", error20))
+      ..add(ColorProperty("error30", error30))
+      ..add(ColorProperty("error40", error40))
+      ..add(ColorProperty("error50", error50))
+      ..add(ColorProperty("error60", error60))
+      ..add(ColorProperty("error70", error70))
+      ..add(ColorProperty("error80", error80))
+      ..add(ColorProperty("error90", error90))
+      ..add(ColorProperty("error95", error95))
+      ..add(ColorProperty("error98", error98))
+      ..add(ColorProperty("error99", error99))
+      ..add(ColorProperty("error100", error100));
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is BaselinePaletteThemeData &&
-            primary0 == other.primary0 &&
-            primary10 == other.primary10 &&
-            primary20 == other.primary20 &&
-            primary30 == other.primary30 &&
-            primary40 == other.primary40 &&
-            primary50 == other.primary50 &&
-            primary60 == other.primary60 &&
-            primary70 == other.primary70 &&
-            primary80 == other.primary80 &&
-            primary90 == other.primary90 &&
-            primary95 == other.primary95 &&
-            primary98 == other.primary98 &&
-            primary99 == other.primary99 &&
-            primary100 == other.primary100 &&
-            secondary0 == other.secondary0 &&
-            secondary10 == other.secondary10 &&
-            secondary20 == other.secondary20 &&
-            secondary30 == other.secondary30 &&
-            secondary40 == other.secondary40 &&
-            secondary50 == other.secondary50 &&
-            secondary60 == other.secondary60 &&
-            secondary70 == other.secondary70 &&
-            secondary80 == other.secondary80 &&
-            secondary90 == other.secondary90 &&
-            secondary95 == other.secondary95 &&
-            secondary98 == other.secondary98 &&
-            secondary99 == other.secondary99 &&
-            secondary100 == other.secondary100 &&
-            tertiary0 == other.tertiary0 &&
-            tertiary10 == other.tertiary10 &&
-            tertiary20 == other.tertiary20 &&
-            tertiary30 == other.tertiary30 &&
-            tertiary40 == other.tertiary40 &&
-            tertiary50 == other.tertiary50 &&
-            tertiary60 == other.tertiary60 &&
-            tertiary70 == other.tertiary70 &&
-            tertiary80 == other.tertiary80 &&
-            tertiary90 == other.tertiary90 &&
-            tertiary95 == other.tertiary95 &&
-            tertiary98 == other.tertiary98 &&
-            tertiary99 == other.tertiary99 &&
-            tertiary100 == other.tertiary100 &&
-            neutral0 == other.neutral0 &&
-            neutral4 == other.neutral4 &&
-            neutral6 == other.neutral6 &&
-            neutral10 == other.neutral10 &&
-            neutral12 == other.neutral12 &&
-            neutral17 == other.neutral17 &&
-            neutral20 == other.neutral20 &&
-            neutral22 == other.neutral22 &&
-            neutral24 == other.neutral24 &&
-            neutral30 == other.neutral30 &&
-            neutral40 == other.neutral40 &&
-            neutral50 == other.neutral50 &&
-            neutral60 == other.neutral60 &&
-            neutral70 == other.neutral70 &&
-            neutral80 == other.neutral80 &&
-            neutral87 == other.neutral87 &&
-            neutral90 == other.neutral90 &&
-            neutral92 == other.neutral92 &&
-            neutral94 == other.neutral94 &&
-            neutral95 == other.neutral95 &&
-            neutral96 == other.neutral96 &&
-            neutral98 == other.neutral98 &&
-            neutral99 == other.neutral99 &&
-            neutral100 == other.neutral100 &&
-            neutralVariant0 == other.neutralVariant0 &&
-            neutralVariant10 == other.neutralVariant10 &&
-            neutralVariant20 == other.neutralVariant20 &&
-            neutralVariant30 == other.neutralVariant30 &&
-            neutralVariant40 == other.neutralVariant40 &&
-            neutralVariant50 == other.neutralVariant50 &&
-            neutralVariant60 == other.neutralVariant60 &&
-            neutralVariant70 == other.neutralVariant70 &&
-            neutralVariant80 == other.neutralVariant80 &&
-            neutralVariant90 == other.neutralVariant90 &&
-            neutralVariant95 == other.neutralVariant95 &&
-            neutralVariant98 == other.neutralVariant98 &&
-            neutralVariant99 == other.neutralVariant99 &&
-            neutralVariant100 == other.neutralVariant100 &&
-            error0 == other.error0 &&
-            error10 == other.error10 &&
-            error20 == other.error20 &&
-            error30 == other.error30 &&
-            error40 == other.error40 &&
-            error50 == other.error50 &&
-            error60 == other.error60 &&
-            error70 == other.error70 &&
-            error80 == other.error80 &&
-            error90 == other.error90 &&
-            error95 == other.error95 &&
-            error98 == other.error98 &&
-            error99 == other.error99 &&
-            error100 == other.error100;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is BaselinePaletteThemeData &&
+          primary0 == other.primary0 &&
+          primary10 == other.primary10 &&
+          primary20 == other.primary20 &&
+          primary30 == other.primary30 &&
+          primary40 == other.primary40 &&
+          primary50 == other.primary50 &&
+          primary60 == other.primary60 &&
+          primary70 == other.primary70 &&
+          primary80 == other.primary80 &&
+          primary90 == other.primary90 &&
+          primary95 == other.primary95 &&
+          primary98 == other.primary98 &&
+          primary99 == other.primary99 &&
+          primary100 == other.primary100 &&
+          secondary0 == other.secondary0 &&
+          secondary10 == other.secondary10 &&
+          secondary20 == other.secondary20 &&
+          secondary30 == other.secondary30 &&
+          secondary40 == other.secondary40 &&
+          secondary50 == other.secondary50 &&
+          secondary60 == other.secondary60 &&
+          secondary70 == other.secondary70 &&
+          secondary80 == other.secondary80 &&
+          secondary90 == other.secondary90 &&
+          secondary95 == other.secondary95 &&
+          secondary98 == other.secondary98 &&
+          secondary99 == other.secondary99 &&
+          secondary100 == other.secondary100 &&
+          tertiary0 == other.tertiary0 &&
+          tertiary10 == other.tertiary10 &&
+          tertiary20 == other.tertiary20 &&
+          tertiary30 == other.tertiary30 &&
+          tertiary40 == other.tertiary40 &&
+          tertiary50 == other.tertiary50 &&
+          tertiary60 == other.tertiary60 &&
+          tertiary70 == other.tertiary70 &&
+          tertiary80 == other.tertiary80 &&
+          tertiary90 == other.tertiary90 &&
+          tertiary95 == other.tertiary95 &&
+          tertiary98 == other.tertiary98 &&
+          tertiary99 == other.tertiary99 &&
+          tertiary100 == other.tertiary100 &&
+          neutral0 == other.neutral0 &&
+          neutral4 == other.neutral4 &&
+          neutral6 == other.neutral6 &&
+          neutral10 == other.neutral10 &&
+          neutral12 == other.neutral12 &&
+          neutral17 == other.neutral17 &&
+          neutral20 == other.neutral20 &&
+          neutral22 == other.neutral22 &&
+          neutral24 == other.neutral24 &&
+          neutral30 == other.neutral30 &&
+          neutral40 == other.neutral40 &&
+          neutral50 == other.neutral50 &&
+          neutral60 == other.neutral60 &&
+          neutral70 == other.neutral70 &&
+          neutral80 == other.neutral80 &&
+          neutral87 == other.neutral87 &&
+          neutral90 == other.neutral90 &&
+          neutral92 == other.neutral92 &&
+          neutral94 == other.neutral94 &&
+          neutral95 == other.neutral95 &&
+          neutral96 == other.neutral96 &&
+          neutral98 == other.neutral98 &&
+          neutral99 == other.neutral99 &&
+          neutral100 == other.neutral100 &&
+          neutralVariant0 == other.neutralVariant0 &&
+          neutralVariant10 == other.neutralVariant10 &&
+          neutralVariant20 == other.neutralVariant20 &&
+          neutralVariant30 == other.neutralVariant30 &&
+          neutralVariant40 == other.neutralVariant40 &&
+          neutralVariant50 == other.neutralVariant50 &&
+          neutralVariant60 == other.neutralVariant60 &&
+          neutralVariant70 == other.neutralVariant70 &&
+          neutralVariant80 == other.neutralVariant80 &&
+          neutralVariant90 == other.neutralVariant90 &&
+          neutralVariant95 == other.neutralVariant95 &&
+          neutralVariant98 == other.neutralVariant98 &&
+          neutralVariant99 == other.neutralVariant99 &&
+          neutralVariant100 == other.neutralVariant100 &&
+          error0 == other.error0 &&
+          error10 == other.error10 &&
+          error20 == other.error20 &&
+          error30 == other.error30 &&
+          error40 == other.error40 &&
+          error50 == other.error50 &&
+          error60 == other.error60 &&
+          error70 == other.error70 &&
+          error80 == other.error80 &&
+          error90 == other.error90 &&
+          error95 == other.error95 &&
+          error98 == other.error98 &&
+          error99 == other.error99 &&
+          error100 == other.error100;
 
   @override
   int get hashCode => Object.hash(
@@ -3053,149 +3116,293 @@ abstract class StaticPaletteThemeDataPartial with Diagnosticable {
   }) = _StaticPaletteThemeDataPartial;
 
   Color? get white;
+
   Color? get black;
+
   Color? get blue0;
+
   Color? get blue10;
+
   Color? get blue20;
+
   Color? get blue30;
+
   Color? get blue40;
+
   Color? get blue50;
+
   Color? get blue60;
+
   Color? get blue70;
+
   Color? get blue80;
+
   Color? get blue90;
+
   Color? get blue95;
+
   Color? get blue98;
+
   Color? get blue100;
+
   Color? get blueVariant0;
+
   Color? get blueVariant10;
+
   Color? get blueVariant20;
+
   Color? get blueVariant30;
+
   Color? get blueVariant40;
+
   Color? get blueVariant50;
+
   Color? get blueVariant60;
+
   Color? get blueVariant70;
+
   Color? get blueVariant80;
+
   Color? get blueVariant90;
+
   Color? get blueVariant95;
+
   Color? get blueVariant98;
+
   Color? get blueVariant100;
+
   Color? get yellow0;
+
   Color? get yellow10;
+
   Color? get yellow20;
+
   Color? get yellow30;
+
   Color? get yellow40;
+
   Color? get yellow50;
+
   Color? get yellow60;
+
   Color? get yellow70;
+
   Color? get yellow80;
+
   Color? get yellow90;
+
   Color? get yellow95;
+
   Color? get yellow98;
+
   Color? get yellow100;
+
   Color? get red0;
+
   Color? get red10;
+
   Color? get red20;
+
   Color? get red30;
+
   Color? get red40;
+
   Color? get red50;
+
   Color? get red60;
+
   Color? get red70;
+
   Color? get red80;
+
   Color? get red90;
+
   Color? get red95;
+
   Color? get red98;
+
   Color? get red100;
+
   Color? get purple0;
+
   Color? get purple10;
+
   Color? get purple20;
+
   Color? get purple30;
+
   Color? get purple40;
+
   Color? get purple50;
+
   Color? get purple60;
+
   Color? get purple70;
+
   Color? get purple80;
+
   Color? get purple90;
+
   Color? get purple95;
+
   Color? get purple98;
+
   Color? get purple100;
+
   Color? get cyan0;
+
   Color? get cyan10;
+
   Color? get cyan20;
+
   Color? get cyan30;
+
   Color? get cyan40;
+
   Color? get cyan50;
+
   Color? get cyan60;
+
   Color? get cyan70;
+
   Color? get cyan80;
+
   Color? get cyan90;
+
   Color? get cyan95;
+
   Color? get cyan98;
+
   Color? get cyan100;
+
   Color? get grey0;
+
   Color? get grey10;
+
   Color? get grey20;
+
   Color? get grey30;
+
   Color? get grey40;
+
   Color? get grey50;
+
   Color? get grey60;
+
   Color? get grey70;
+
   Color? get grey80;
+
   Color? get grey90;
+
   Color? get grey95;
+
   Color? get grey98;
+
   Color? get grey100;
+
   Color? get greyVariant0;
+
   Color? get greyVariant10;
+
   Color? get greyVariant20;
+
   Color? get greyVariant30;
+
   Color? get greyVariant40;
+
   Color? get greyVariant50;
+
   Color? get greyVariant60;
+
   Color? get greyVariant70;
+
   Color? get greyVariant80;
+
   Color? get greyVariant90;
+
   Color? get greyVariant95;
+
   Color? get greyVariant98;
+
   Color? get greyVariant100;
+
   Color? get green0;
+
   Color? get green10;
+
   Color? get green20;
+
   Color? get green30;
+
   Color? get green40;
+
   Color? get green50;
+
   Color? get green60;
+
   Color? get green70;
+
   Color? get green80;
+
   Color? get green90;
+
   Color? get green95;
+
   Color? get green98;
+
   Color? get green100;
+
   Color? get orange0;
+
   Color? get orange10;
+
   Color? get orange20;
+
   Color? get orange30;
+
   Color? get orange40;
+
   Color? get orange50;
+
   Color? get orange60;
+
   Color? get orange70;
+
   Color? get orange80;
+
   Color? get orange90;
+
   Color? get orange95;
+
   Color? get orange98;
+
   Color? get orange100;
+
   Color? get pink0;
+
   Color? get pink10;
+
   Color? get pink20;
+
   Color? get pink30;
+
   Color? get pink40;
+
   Color? get pink50;
+
   Color? get pink60;
+
   Color? get pink70;
+
   Color? get pink80;
+
   Color? get pink90;
+
   Color? get pink95;
+
   Color? get pink98;
+
   Color? get pink100;
 
   StaticPaletteThemeDataPartial copyWith({
@@ -3344,807 +3551,753 @@ abstract class StaticPaletteThemeDataPartial with Diagnosticable {
     Color? pink95,
     Color? pink98,
     Color? pink100,
-  }) {
-    if (white == null &&
-        black == null &&
-        blue0 == null &&
-        blue10 == null &&
-        blue20 == null &&
-        blue30 == null &&
-        blue40 == null &&
-        blue50 == null &&
-        blue60 == null &&
-        blue70 == null &&
-        blue80 == null &&
-        blue90 == null &&
-        blue95 == null &&
-        blue98 == null &&
-        blue100 == null &&
-        blueVariant0 == null &&
-        blueVariant10 == null &&
-        blueVariant20 == null &&
-        blueVariant30 == null &&
-        blueVariant40 == null &&
-        blueVariant50 == null &&
-        blueVariant60 == null &&
-        blueVariant70 == null &&
-        blueVariant80 == null &&
-        blueVariant90 == null &&
-        blueVariant95 == null &&
-        blueVariant98 == null &&
-        blueVariant100 == null &&
-        yellow0 == null &&
-        yellow10 == null &&
-        yellow20 == null &&
-        yellow30 == null &&
-        yellow40 == null &&
-        yellow50 == null &&
-        yellow60 == null &&
-        yellow70 == null &&
-        yellow80 == null &&
-        yellow90 == null &&
-        yellow95 == null &&
-        yellow98 == null &&
-        yellow100 == null &&
-        red0 == null &&
-        red10 == null &&
-        red20 == null &&
-        red30 == null &&
-        red40 == null &&
-        red50 == null &&
-        red60 == null &&
-        red70 == null &&
-        red80 == null &&
-        red90 == null &&
-        red95 == null &&
-        red98 == null &&
-        red100 == null &&
-        purple0 == null &&
-        purple10 == null &&
-        purple20 == null &&
-        purple30 == null &&
-        purple40 == null &&
-        purple50 == null &&
-        purple60 == null &&
-        purple70 == null &&
-        purple80 == null &&
-        purple90 == null &&
-        purple95 == null &&
-        purple98 == null &&
-        purple100 == null &&
-        cyan0 == null &&
-        cyan10 == null &&
-        cyan20 == null &&
-        cyan30 == null &&
-        cyan40 == null &&
-        cyan50 == null &&
-        cyan60 == null &&
-        cyan70 == null &&
-        cyan80 == null &&
-        cyan90 == null &&
-        cyan95 == null &&
-        cyan98 == null &&
-        cyan100 == null &&
-        grey0 == null &&
-        grey10 == null &&
-        grey20 == null &&
-        grey30 == null &&
-        grey40 == null &&
-        grey50 == null &&
-        grey60 == null &&
-        grey70 == null &&
-        grey80 == null &&
-        grey90 == null &&
-        grey95 == null &&
-        grey98 == null &&
-        grey100 == null &&
-        greyVariant0 == null &&
-        greyVariant10 == null &&
-        greyVariant20 == null &&
-        greyVariant30 == null &&
-        greyVariant40 == null &&
-        greyVariant50 == null &&
-        greyVariant60 == null &&
-        greyVariant70 == null &&
-        greyVariant80 == null &&
-        greyVariant90 == null &&
-        greyVariant95 == null &&
-        greyVariant98 == null &&
-        greyVariant100 == null &&
-        green0 == null &&
-        green10 == null &&
-        green20 == null &&
-        green30 == null &&
-        green40 == null &&
-        green50 == null &&
-        green60 == null &&
-        green70 == null &&
-        green80 == null &&
-        green90 == null &&
-        green95 == null &&
-        green98 == null &&
-        green100 == null &&
-        orange0 == null &&
-        orange10 == null &&
-        orange20 == null &&
-        orange30 == null &&
-        orange40 == null &&
-        orange50 == null &&
-        orange60 == null &&
-        orange70 == null &&
-        orange80 == null &&
-        orange90 == null &&
-        orange95 == null &&
-        orange98 == null &&
-        orange100 == null &&
-        pink0 == null &&
-        pink10 == null &&
-        pink20 == null &&
-        pink30 == null &&
-        pink40 == null &&
-        pink50 == null &&
-        pink60 == null &&
-        pink70 == null &&
-        pink80 == null &&
-        pink90 == null &&
-        pink95 == null &&
-        pink98 == null &&
-        pink100 == null) {
-      return this;
-    }
-    return StaticPaletteThemeDataPartial.from(
-      white: white ?? this.white,
-      black: black ?? this.black,
-      blue0: blue0 ?? this.blue0,
-      blue10: blue10 ?? this.blue10,
-      blue20: blue20 ?? this.blue20,
-      blue30: blue30 ?? this.blue30,
-      blue40: blue40 ?? this.blue40,
-      blue50: blue50 ?? this.blue50,
-      blue60: blue60 ?? this.blue60,
-      blue70: blue70 ?? this.blue70,
-      blue80: blue80 ?? this.blue80,
-      blue90: blue90 ?? this.blue90,
-      blue95: blue95 ?? this.blue95,
-      blue98: blue98 ?? this.blue98,
-      blue100: blue100 ?? this.blue100,
-      blueVariant0: blueVariant0 ?? this.blueVariant0,
-      blueVariant10: blueVariant10 ?? this.blueVariant10,
-      blueVariant20: blueVariant20 ?? this.blueVariant20,
-      blueVariant30: blueVariant30 ?? this.blueVariant30,
-      blueVariant40: blueVariant40 ?? this.blueVariant40,
-      blueVariant50: blueVariant50 ?? this.blueVariant50,
-      blueVariant60: blueVariant60 ?? this.blueVariant60,
-      blueVariant70: blueVariant70 ?? this.blueVariant70,
-      blueVariant80: blueVariant80 ?? this.blueVariant80,
-      blueVariant90: blueVariant90 ?? this.blueVariant90,
-      blueVariant95: blueVariant95 ?? this.blueVariant95,
-      blueVariant98: blueVariant98 ?? this.blueVariant98,
-      blueVariant100: blueVariant100 ?? this.blueVariant100,
-      yellow0: yellow0 ?? this.yellow0,
-      yellow10: yellow10 ?? this.yellow10,
-      yellow20: yellow20 ?? this.yellow20,
-      yellow30: yellow30 ?? this.yellow30,
-      yellow40: yellow40 ?? this.yellow40,
-      yellow50: yellow50 ?? this.yellow50,
-      yellow60: yellow60 ?? this.yellow60,
-      yellow70: yellow70 ?? this.yellow70,
-      yellow80: yellow80 ?? this.yellow80,
-      yellow90: yellow90 ?? this.yellow90,
-      yellow95: yellow95 ?? this.yellow95,
-      yellow98: yellow98 ?? this.yellow98,
-      yellow100: yellow100 ?? this.yellow100,
-      red0: red0 ?? this.red0,
-      red10: red10 ?? this.red10,
-      red20: red20 ?? this.red20,
-      red30: red30 ?? this.red30,
-      red40: red40 ?? this.red40,
-      red50: red50 ?? this.red50,
-      red60: red60 ?? this.red60,
-      red70: red70 ?? this.red70,
-      red80: red80 ?? this.red80,
-      red90: red90 ?? this.red90,
-      red95: red95 ?? this.red95,
-      red98: red98 ?? this.red98,
-      red100: red100 ?? this.red100,
-      purple0: purple0 ?? this.purple0,
-      purple10: purple10 ?? this.purple10,
-      purple20: purple20 ?? this.purple20,
-      purple30: purple30 ?? this.purple30,
-      purple40: purple40 ?? this.purple40,
-      purple50: purple50 ?? this.purple50,
-      purple60: purple60 ?? this.purple60,
-      purple70: purple70 ?? this.purple70,
-      purple80: purple80 ?? this.purple80,
-      purple90: purple90 ?? this.purple90,
-      purple95: purple95 ?? this.purple95,
-      purple98: purple98 ?? this.purple98,
-      purple100: purple100 ?? this.purple100,
-      cyan0: cyan0 ?? this.cyan0,
-      cyan10: cyan10 ?? this.cyan10,
-      cyan20: cyan20 ?? this.cyan20,
-      cyan30: cyan30 ?? this.cyan30,
-      cyan40: cyan40 ?? this.cyan40,
-      cyan50: cyan50 ?? this.cyan50,
-      cyan60: cyan60 ?? this.cyan60,
-      cyan70: cyan70 ?? this.cyan70,
-      cyan80: cyan80 ?? this.cyan80,
-      cyan90: cyan90 ?? this.cyan90,
-      cyan95: cyan95 ?? this.cyan95,
-      cyan98: cyan98 ?? this.cyan98,
-      cyan100: cyan100 ?? this.cyan100,
-      grey0: grey0 ?? this.grey0,
-      grey10: grey10 ?? this.grey10,
-      grey20: grey20 ?? this.grey20,
-      grey30: grey30 ?? this.grey30,
-      grey40: grey40 ?? this.grey40,
-      grey50: grey50 ?? this.grey50,
-      grey60: grey60 ?? this.grey60,
-      grey70: grey70 ?? this.grey70,
-      grey80: grey80 ?? this.grey80,
-      grey90: grey90 ?? this.grey90,
-      grey95: grey95 ?? this.grey95,
-      grey98: grey98 ?? this.grey98,
-      grey100: grey100 ?? this.grey100,
-      greyVariant0: greyVariant0 ?? this.greyVariant0,
-      greyVariant10: greyVariant10 ?? this.greyVariant10,
-      greyVariant20: greyVariant20 ?? this.greyVariant20,
-      greyVariant30: greyVariant30 ?? this.greyVariant30,
-      greyVariant40: greyVariant40 ?? this.greyVariant40,
-      greyVariant50: greyVariant50 ?? this.greyVariant50,
-      greyVariant60: greyVariant60 ?? this.greyVariant60,
-      greyVariant70: greyVariant70 ?? this.greyVariant70,
-      greyVariant80: greyVariant80 ?? this.greyVariant80,
-      greyVariant90: greyVariant90 ?? this.greyVariant90,
-      greyVariant95: greyVariant95 ?? this.greyVariant95,
-      greyVariant98: greyVariant98 ?? this.greyVariant98,
-      greyVariant100: greyVariant100 ?? this.greyVariant100,
-      green0: green0 ?? this.green0,
-      green10: green10 ?? this.green10,
-      green20: green20 ?? this.green20,
-      green30: green30 ?? this.green30,
-      green40: green40 ?? this.green40,
-      green50: green50 ?? this.green50,
-      green60: green60 ?? this.green60,
-      green70: green70 ?? this.green70,
-      green80: green80 ?? this.green80,
-      green90: green90 ?? this.green90,
-      green95: green95 ?? this.green95,
-      green98: green98 ?? this.green98,
-      green100: green100 ?? this.green100,
-      orange0: orange0 ?? this.orange0,
-      orange10: orange10 ?? this.orange10,
-      orange20: orange20 ?? this.orange20,
-      orange30: orange30 ?? this.orange30,
-      orange40: orange40 ?? this.orange40,
-      orange50: orange50 ?? this.orange50,
-      orange60: orange60 ?? this.orange60,
-      orange70: orange70 ?? this.orange70,
-      orange80: orange80 ?? this.orange80,
-      orange90: orange90 ?? this.orange90,
-      orange95: orange95 ?? this.orange95,
-      orange98: orange98 ?? this.orange98,
-      orange100: orange100 ?? this.orange100,
-      pink0: pink0 ?? this.pink0,
-      pink10: pink10 ?? this.pink10,
-      pink20: pink20 ?? this.pink20,
-      pink30: pink30 ?? this.pink30,
-      pink40: pink40 ?? this.pink40,
-      pink50: pink50 ?? this.pink50,
-      pink60: pink60 ?? this.pink60,
-      pink70: pink70 ?? this.pink70,
-      pink80: pink80 ?? this.pink80,
-      pink90: pink90 ?? this.pink90,
-      pink95: pink95 ?? this.pink95,
-      pink98: pink98 ?? this.pink98,
-      pink100: pink100 ?? this.pink100,
-    );
-  }
+  }) =>
+      white != null ||
+          black != null ||
+          blue0 != null ||
+          blue10 != null ||
+          blue20 != null ||
+          blue30 != null ||
+          blue40 != null ||
+          blue50 != null ||
+          blue60 != null ||
+          blue70 != null ||
+          blue80 != null ||
+          blue90 != null ||
+          blue95 != null ||
+          blue98 != null ||
+          blue100 != null ||
+          blueVariant0 != null ||
+          blueVariant10 != null ||
+          blueVariant20 != null ||
+          blueVariant30 != null ||
+          blueVariant40 != null ||
+          blueVariant50 != null ||
+          blueVariant60 != null ||
+          blueVariant70 != null ||
+          blueVariant80 != null ||
+          blueVariant90 != null ||
+          blueVariant95 != null ||
+          blueVariant98 != null ||
+          blueVariant100 != null ||
+          yellow0 != null ||
+          yellow10 != null ||
+          yellow20 != null ||
+          yellow30 != null ||
+          yellow40 != null ||
+          yellow50 != null ||
+          yellow60 != null ||
+          yellow70 != null ||
+          yellow80 != null ||
+          yellow90 != null ||
+          yellow95 != null ||
+          yellow98 != null ||
+          yellow100 != null ||
+          red0 != null ||
+          red10 != null ||
+          red20 != null ||
+          red30 != null ||
+          red40 != null ||
+          red50 != null ||
+          red60 != null ||
+          red70 != null ||
+          red80 != null ||
+          red90 != null ||
+          red95 != null ||
+          red98 != null ||
+          red100 != null ||
+          purple0 != null ||
+          purple10 != null ||
+          purple20 != null ||
+          purple30 != null ||
+          purple40 != null ||
+          purple50 != null ||
+          purple60 != null ||
+          purple70 != null ||
+          purple80 != null ||
+          purple90 != null ||
+          purple95 != null ||
+          purple98 != null ||
+          purple100 != null ||
+          cyan0 != null ||
+          cyan10 != null ||
+          cyan20 != null ||
+          cyan30 != null ||
+          cyan40 != null ||
+          cyan50 != null ||
+          cyan60 != null ||
+          cyan70 != null ||
+          cyan80 != null ||
+          cyan90 != null ||
+          cyan95 != null ||
+          cyan98 != null ||
+          cyan100 != null ||
+          grey0 != null ||
+          grey10 != null ||
+          grey20 != null ||
+          grey30 != null ||
+          grey40 != null ||
+          grey50 != null ||
+          grey60 != null ||
+          grey70 != null ||
+          grey80 != null ||
+          grey90 != null ||
+          grey95 != null ||
+          grey98 != null ||
+          grey100 != null ||
+          greyVariant0 != null ||
+          greyVariant10 != null ||
+          greyVariant20 != null ||
+          greyVariant30 != null ||
+          greyVariant40 != null ||
+          greyVariant50 != null ||
+          greyVariant60 != null ||
+          greyVariant70 != null ||
+          greyVariant80 != null ||
+          greyVariant90 != null ||
+          greyVariant95 != null ||
+          greyVariant98 != null ||
+          greyVariant100 != null ||
+          green0 != null ||
+          green10 != null ||
+          green20 != null ||
+          green30 != null ||
+          green40 != null ||
+          green50 != null ||
+          green60 != null ||
+          green70 != null ||
+          green80 != null ||
+          green90 != null ||
+          green95 != null ||
+          green98 != null ||
+          green100 != null ||
+          orange0 != null ||
+          orange10 != null ||
+          orange20 != null ||
+          orange30 != null ||
+          orange40 != null ||
+          orange50 != null ||
+          orange60 != null ||
+          orange70 != null ||
+          orange80 != null ||
+          orange90 != null ||
+          orange95 != null ||
+          orange98 != null ||
+          orange100 != null ||
+          pink0 != null ||
+          pink10 != null ||
+          pink20 != null ||
+          pink30 != null ||
+          pink40 != null ||
+          pink50 != null ||
+          pink60 != null ||
+          pink70 != null ||
+          pink80 != null ||
+          pink90 != null ||
+          pink95 != null ||
+          pink98 != null ||
+          pink100 != null
+      ? StaticPaletteThemeDataPartial.from(
+          white: white ?? this.white,
+          black: black ?? this.black,
+          blue0: blue0 ?? this.blue0,
+          blue10: blue10 ?? this.blue10,
+          blue20: blue20 ?? this.blue20,
+          blue30: blue30 ?? this.blue30,
+          blue40: blue40 ?? this.blue40,
+          blue50: blue50 ?? this.blue50,
+          blue60: blue60 ?? this.blue60,
+          blue70: blue70 ?? this.blue70,
+          blue80: blue80 ?? this.blue80,
+          blue90: blue90 ?? this.blue90,
+          blue95: blue95 ?? this.blue95,
+          blue98: blue98 ?? this.blue98,
+          blue100: blue100 ?? this.blue100,
+          blueVariant0: blueVariant0 ?? this.blueVariant0,
+          blueVariant10: blueVariant10 ?? this.blueVariant10,
+          blueVariant20: blueVariant20 ?? this.blueVariant20,
+          blueVariant30: blueVariant30 ?? this.blueVariant30,
+          blueVariant40: blueVariant40 ?? this.blueVariant40,
+          blueVariant50: blueVariant50 ?? this.blueVariant50,
+          blueVariant60: blueVariant60 ?? this.blueVariant60,
+          blueVariant70: blueVariant70 ?? this.blueVariant70,
+          blueVariant80: blueVariant80 ?? this.blueVariant80,
+          blueVariant90: blueVariant90 ?? this.blueVariant90,
+          blueVariant95: blueVariant95 ?? this.blueVariant95,
+          blueVariant98: blueVariant98 ?? this.blueVariant98,
+          blueVariant100: blueVariant100 ?? this.blueVariant100,
+          yellow0: yellow0 ?? this.yellow0,
+          yellow10: yellow10 ?? this.yellow10,
+          yellow20: yellow20 ?? this.yellow20,
+          yellow30: yellow30 ?? this.yellow30,
+          yellow40: yellow40 ?? this.yellow40,
+          yellow50: yellow50 ?? this.yellow50,
+          yellow60: yellow60 ?? this.yellow60,
+          yellow70: yellow70 ?? this.yellow70,
+          yellow80: yellow80 ?? this.yellow80,
+          yellow90: yellow90 ?? this.yellow90,
+          yellow95: yellow95 ?? this.yellow95,
+          yellow98: yellow98 ?? this.yellow98,
+          yellow100: yellow100 ?? this.yellow100,
+          red0: red0 ?? this.red0,
+          red10: red10 ?? this.red10,
+          red20: red20 ?? this.red20,
+          red30: red30 ?? this.red30,
+          red40: red40 ?? this.red40,
+          red50: red50 ?? this.red50,
+          red60: red60 ?? this.red60,
+          red70: red70 ?? this.red70,
+          red80: red80 ?? this.red80,
+          red90: red90 ?? this.red90,
+          red95: red95 ?? this.red95,
+          red98: red98 ?? this.red98,
+          red100: red100 ?? this.red100,
+          purple0: purple0 ?? this.purple0,
+          purple10: purple10 ?? this.purple10,
+          purple20: purple20 ?? this.purple20,
+          purple30: purple30 ?? this.purple30,
+          purple40: purple40 ?? this.purple40,
+          purple50: purple50 ?? this.purple50,
+          purple60: purple60 ?? this.purple60,
+          purple70: purple70 ?? this.purple70,
+          purple80: purple80 ?? this.purple80,
+          purple90: purple90 ?? this.purple90,
+          purple95: purple95 ?? this.purple95,
+          purple98: purple98 ?? this.purple98,
+          purple100: purple100 ?? this.purple100,
+          cyan0: cyan0 ?? this.cyan0,
+          cyan10: cyan10 ?? this.cyan10,
+          cyan20: cyan20 ?? this.cyan20,
+          cyan30: cyan30 ?? this.cyan30,
+          cyan40: cyan40 ?? this.cyan40,
+          cyan50: cyan50 ?? this.cyan50,
+          cyan60: cyan60 ?? this.cyan60,
+          cyan70: cyan70 ?? this.cyan70,
+          cyan80: cyan80 ?? this.cyan80,
+          cyan90: cyan90 ?? this.cyan90,
+          cyan95: cyan95 ?? this.cyan95,
+          cyan98: cyan98 ?? this.cyan98,
+          cyan100: cyan100 ?? this.cyan100,
+          grey0: grey0 ?? this.grey0,
+          grey10: grey10 ?? this.grey10,
+          grey20: grey20 ?? this.grey20,
+          grey30: grey30 ?? this.grey30,
+          grey40: grey40 ?? this.grey40,
+          grey50: grey50 ?? this.grey50,
+          grey60: grey60 ?? this.grey60,
+          grey70: grey70 ?? this.grey70,
+          grey80: grey80 ?? this.grey80,
+          grey90: grey90 ?? this.grey90,
+          grey95: grey95 ?? this.grey95,
+          grey98: grey98 ?? this.grey98,
+          grey100: grey100 ?? this.grey100,
+          greyVariant0: greyVariant0 ?? this.greyVariant0,
+          greyVariant10: greyVariant10 ?? this.greyVariant10,
+          greyVariant20: greyVariant20 ?? this.greyVariant20,
+          greyVariant30: greyVariant30 ?? this.greyVariant30,
+          greyVariant40: greyVariant40 ?? this.greyVariant40,
+          greyVariant50: greyVariant50 ?? this.greyVariant50,
+          greyVariant60: greyVariant60 ?? this.greyVariant60,
+          greyVariant70: greyVariant70 ?? this.greyVariant70,
+          greyVariant80: greyVariant80 ?? this.greyVariant80,
+          greyVariant90: greyVariant90 ?? this.greyVariant90,
+          greyVariant95: greyVariant95 ?? this.greyVariant95,
+          greyVariant98: greyVariant98 ?? this.greyVariant98,
+          greyVariant100: greyVariant100 ?? this.greyVariant100,
+          green0: green0 ?? this.green0,
+          green10: green10 ?? this.green10,
+          green20: green20 ?? this.green20,
+          green30: green30 ?? this.green30,
+          green40: green40 ?? this.green40,
+          green50: green50 ?? this.green50,
+          green60: green60 ?? this.green60,
+          green70: green70 ?? this.green70,
+          green80: green80 ?? this.green80,
+          green90: green90 ?? this.green90,
+          green95: green95 ?? this.green95,
+          green98: green98 ?? this.green98,
+          green100: green100 ?? this.green100,
+          orange0: orange0 ?? this.orange0,
+          orange10: orange10 ?? this.orange10,
+          orange20: orange20 ?? this.orange20,
+          orange30: orange30 ?? this.orange30,
+          orange40: orange40 ?? this.orange40,
+          orange50: orange50 ?? this.orange50,
+          orange60: orange60 ?? this.orange60,
+          orange70: orange70 ?? this.orange70,
+          orange80: orange80 ?? this.orange80,
+          orange90: orange90 ?? this.orange90,
+          orange95: orange95 ?? this.orange95,
+          orange98: orange98 ?? this.orange98,
+          orange100: orange100 ?? this.orange100,
+          pink0: pink0 ?? this.pink0,
+          pink10: pink10 ?? this.pink10,
+          pink20: pink20 ?? this.pink20,
+          pink30: pink30 ?? this.pink30,
+          pink40: pink40 ?? this.pink40,
+          pink50: pink50 ?? this.pink50,
+          pink60: pink60 ?? this.pink60,
+          pink70: pink70 ?? this.pink70,
+          pink80: pink80 ?? this.pink80,
+          pink90: pink90 ?? this.pink90,
+          pink95: pink95 ?? this.pink95,
+          pink98: pink98 ?? this.pink98,
+          pink100: pink100 ?? this.pink100,
+        )
+      : this;
 
-  StaticPaletteThemeDataPartial merge(StaticPaletteThemeDataPartial? other) {
-    if (other == null) return this;
-    return copyWith(
-      white: other.white,
-      black: other.black,
-      blue0: other.blue0,
-      blue10: other.blue10,
-      blue20: other.blue20,
-      blue30: other.blue30,
-      blue40: other.blue40,
-      blue50: other.blue50,
-      blue60: other.blue60,
-      blue70: other.blue70,
-      blue80: other.blue80,
-      blue90: other.blue90,
-      blue95: other.blue95,
-      blue98: other.blue98,
-      blue100: other.blue100,
-      blueVariant0: other.blueVariant0,
-      blueVariant10: other.blueVariant10,
-      blueVariant20: other.blueVariant20,
-      blueVariant30: other.blueVariant30,
-      blueVariant40: other.blueVariant40,
-      blueVariant50: other.blueVariant50,
-      blueVariant60: other.blueVariant60,
-      blueVariant70: other.blueVariant70,
-      blueVariant80: other.blueVariant80,
-      blueVariant90: other.blueVariant90,
-      blueVariant95: other.blueVariant95,
-      blueVariant98: other.blueVariant98,
-      blueVariant100: other.blueVariant100,
-      yellow0: other.yellow0,
-      yellow10: other.yellow10,
-      yellow20: other.yellow20,
-      yellow30: other.yellow30,
-      yellow40: other.yellow40,
-      yellow50: other.yellow50,
-      yellow60: other.yellow60,
-      yellow70: other.yellow70,
-      yellow80: other.yellow80,
-      yellow90: other.yellow90,
-      yellow95: other.yellow95,
-      yellow98: other.yellow98,
-      yellow100: other.yellow100,
-      red0: other.red0,
-      red10: other.red10,
-      red20: other.red20,
-      red30: other.red30,
-      red40: other.red40,
-      red50: other.red50,
-      red60: other.red60,
-      red70: other.red70,
-      red80: other.red80,
-      red90: other.red90,
-      red95: other.red95,
-      red98: other.red98,
-      red100: other.red100,
-      purple0: other.purple0,
-      purple10: other.purple10,
-      purple20: other.purple20,
-      purple30: other.purple30,
-      purple40: other.purple40,
-      purple50: other.purple50,
-      purple60: other.purple60,
-      purple70: other.purple70,
-      purple80: other.purple80,
-      purple90: other.purple90,
-      purple95: other.purple95,
-      purple98: other.purple98,
-      purple100: other.purple100,
-      cyan0: other.cyan0,
-      cyan10: other.cyan10,
-      cyan20: other.cyan20,
-      cyan30: other.cyan30,
-      cyan40: other.cyan40,
-      cyan50: other.cyan50,
-      cyan60: other.cyan60,
-      cyan70: other.cyan70,
-      cyan80: other.cyan80,
-      cyan90: other.cyan90,
-      cyan95: other.cyan95,
-      cyan98: other.cyan98,
-      cyan100: other.cyan100,
-      grey0: other.grey0,
-      grey10: other.grey10,
-      grey20: other.grey20,
-      grey30: other.grey30,
-      grey40: other.grey40,
-      grey50: other.grey50,
-      grey60: other.grey60,
-      grey70: other.grey70,
-      grey80: other.grey80,
-      grey90: other.grey90,
-      grey95: other.grey95,
-      grey98: other.grey98,
-      grey100: other.grey100,
-      greyVariant0: other.greyVariant0,
-      greyVariant10: other.greyVariant10,
-      greyVariant20: other.greyVariant20,
-      greyVariant30: other.greyVariant30,
-      greyVariant40: other.greyVariant40,
-      greyVariant50: other.greyVariant50,
-      greyVariant60: other.greyVariant60,
-      greyVariant70: other.greyVariant70,
-      greyVariant80: other.greyVariant80,
-      greyVariant90: other.greyVariant90,
-      greyVariant95: other.greyVariant95,
-      greyVariant98: other.greyVariant98,
-      greyVariant100: other.greyVariant100,
-      green0: other.green0,
-      green10: other.green10,
-      green20: other.green20,
-      green30: other.green30,
-      green40: other.green40,
-      green50: other.green50,
-      green60: other.green60,
-      green70: other.green70,
-      green80: other.green80,
-      green90: other.green90,
-      green95: other.green95,
-      green98: other.green98,
-      green100: other.green100,
-      orange0: other.orange0,
-      orange10: other.orange10,
-      orange20: other.orange20,
-      orange30: other.orange30,
-      orange40: other.orange40,
-      orange50: other.orange50,
-      orange60: other.orange60,
-      orange70: other.orange70,
-      orange80: other.orange80,
-      orange90: other.orange90,
-      orange95: other.orange95,
-      orange98: other.orange98,
-      orange100: other.orange100,
-      pink0: other.pink0,
-      pink10: other.pink10,
-      pink20: other.pink20,
-      pink30: other.pink30,
-      pink40: other.pink40,
-      pink50: other.pink50,
-      pink60: other.pink60,
-      pink70: other.pink70,
-      pink80: other.pink80,
-      pink90: other.pink90,
-      pink95: other.pink95,
-      pink98: other.pink98,
-      pink100: other.pink100,
-    );
-  }
+  StaticPaletteThemeDataPartial merge(StaticPaletteThemeDataPartial? other) =>
+      other != null
+      ? copyWith(
+          white: other.white,
+          black: other.black,
+          blue0: other.blue0,
+          blue10: other.blue10,
+          blue20: other.blue20,
+          blue30: other.blue30,
+          blue40: other.blue40,
+          blue50: other.blue50,
+          blue60: other.blue60,
+          blue70: other.blue70,
+          blue80: other.blue80,
+          blue90: other.blue90,
+          blue95: other.blue95,
+          blue98: other.blue98,
+          blue100: other.blue100,
+          blueVariant0: other.blueVariant0,
+          blueVariant10: other.blueVariant10,
+          blueVariant20: other.blueVariant20,
+          blueVariant30: other.blueVariant30,
+          blueVariant40: other.blueVariant40,
+          blueVariant50: other.blueVariant50,
+          blueVariant60: other.blueVariant60,
+          blueVariant70: other.blueVariant70,
+          blueVariant80: other.blueVariant80,
+          blueVariant90: other.blueVariant90,
+          blueVariant95: other.blueVariant95,
+          blueVariant98: other.blueVariant98,
+          blueVariant100: other.blueVariant100,
+          yellow0: other.yellow0,
+          yellow10: other.yellow10,
+          yellow20: other.yellow20,
+          yellow30: other.yellow30,
+          yellow40: other.yellow40,
+          yellow50: other.yellow50,
+          yellow60: other.yellow60,
+          yellow70: other.yellow70,
+          yellow80: other.yellow80,
+          yellow90: other.yellow90,
+          yellow95: other.yellow95,
+          yellow98: other.yellow98,
+          yellow100: other.yellow100,
+          red0: other.red0,
+          red10: other.red10,
+          red20: other.red20,
+          red30: other.red30,
+          red40: other.red40,
+          red50: other.red50,
+          red60: other.red60,
+          red70: other.red70,
+          red80: other.red80,
+          red90: other.red90,
+          red95: other.red95,
+          red98: other.red98,
+          red100: other.red100,
+          purple0: other.purple0,
+          purple10: other.purple10,
+          purple20: other.purple20,
+          purple30: other.purple30,
+          purple40: other.purple40,
+          purple50: other.purple50,
+          purple60: other.purple60,
+          purple70: other.purple70,
+          purple80: other.purple80,
+          purple90: other.purple90,
+          purple95: other.purple95,
+          purple98: other.purple98,
+          purple100: other.purple100,
+          cyan0: other.cyan0,
+          cyan10: other.cyan10,
+          cyan20: other.cyan20,
+          cyan30: other.cyan30,
+          cyan40: other.cyan40,
+          cyan50: other.cyan50,
+          cyan60: other.cyan60,
+          cyan70: other.cyan70,
+          cyan80: other.cyan80,
+          cyan90: other.cyan90,
+          cyan95: other.cyan95,
+          cyan98: other.cyan98,
+          cyan100: other.cyan100,
+          grey0: other.grey0,
+          grey10: other.grey10,
+          grey20: other.grey20,
+          grey30: other.grey30,
+          grey40: other.grey40,
+          grey50: other.grey50,
+          grey60: other.grey60,
+          grey70: other.grey70,
+          grey80: other.grey80,
+          grey90: other.grey90,
+          grey95: other.grey95,
+          grey98: other.grey98,
+          grey100: other.grey100,
+          greyVariant0: other.greyVariant0,
+          greyVariant10: other.greyVariant10,
+          greyVariant20: other.greyVariant20,
+          greyVariant30: other.greyVariant30,
+          greyVariant40: other.greyVariant40,
+          greyVariant50: other.greyVariant50,
+          greyVariant60: other.greyVariant60,
+          greyVariant70: other.greyVariant70,
+          greyVariant80: other.greyVariant80,
+          greyVariant90: other.greyVariant90,
+          greyVariant95: other.greyVariant95,
+          greyVariant98: other.greyVariant98,
+          greyVariant100: other.greyVariant100,
+          green0: other.green0,
+          green10: other.green10,
+          green20: other.green20,
+          green30: other.green30,
+          green40: other.green40,
+          green50: other.green50,
+          green60: other.green60,
+          green70: other.green70,
+          green80: other.green80,
+          green90: other.green90,
+          green95: other.green95,
+          green98: other.green98,
+          green100: other.green100,
+          orange0: other.orange0,
+          orange10: other.orange10,
+          orange20: other.orange20,
+          orange30: other.orange30,
+          orange40: other.orange40,
+          orange50: other.orange50,
+          orange60: other.orange60,
+          orange70: other.orange70,
+          orange80: other.orange80,
+          orange90: other.orange90,
+          orange95: other.orange95,
+          orange98: other.orange98,
+          orange100: other.orange100,
+          pink0: other.pink0,
+          pink10: other.pink10,
+          pink20: other.pink20,
+          pink30: other.pink30,
+          pink40: other.pink40,
+          pink50: other.pink50,
+          pink60: other.pink60,
+          pink70: other.pink70,
+          pink80: other.pink80,
+          pink90: other.pink90,
+          pink95: other.pink95,
+          pink98: other.pink98,
+          pink100: other.pink100,
+        )
+      : this;
 
   @override
   // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties.add(ColorProperty("white", white, defaultValue: null));
-    properties.add(ColorProperty("black", black, defaultValue: null));
-    properties.add(ColorProperty("blue0", blue0, defaultValue: null));
-    properties.add(ColorProperty("blue10", blue10, defaultValue: null));
-    properties.add(ColorProperty("blue20", blue20, defaultValue: null));
-    properties.add(ColorProperty("blue30", blue30, defaultValue: null));
-    properties.add(ColorProperty("blue40", blue40, defaultValue: null));
-    properties.add(ColorProperty("blue50", blue50, defaultValue: null));
-    properties.add(ColorProperty("blue60", blue60, defaultValue: null));
-    properties.add(ColorProperty("blue70", blue70, defaultValue: null));
-    properties.add(ColorProperty("blue80", blue80, defaultValue: null));
-    properties.add(ColorProperty("blue90", blue90, defaultValue: null));
-    properties.add(ColorProperty("blue95", blue95, defaultValue: null));
-    properties.add(ColorProperty("blue98", blue98, defaultValue: null));
-    properties.add(ColorProperty("blue100", blue100, defaultValue: null));
-    properties.add(
-      ColorProperty("blueVariant0", blueVariant0, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("blueVariant10", blueVariant10, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("blueVariant20", blueVariant20, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("blueVariant30", blueVariant30, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("blueVariant40", blueVariant40, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("blueVariant50", blueVariant50, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("blueVariant60", blueVariant60, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("blueVariant70", blueVariant70, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("blueVariant80", blueVariant80, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("blueVariant90", blueVariant90, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("blueVariant95", blueVariant95, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("blueVariant98", blueVariant98, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("blueVariant100", blueVariant100, defaultValue: null),
-    );
-    properties.add(ColorProperty("yellow0", yellow0, defaultValue: null));
-    properties.add(ColorProperty("yellow10", yellow10, defaultValue: null));
-    properties.add(ColorProperty("yellow20", yellow20, defaultValue: null));
-    properties.add(ColorProperty("yellow30", yellow30, defaultValue: null));
-    properties.add(ColorProperty("yellow40", yellow40, defaultValue: null));
-    properties.add(ColorProperty("yellow50", yellow50, defaultValue: null));
-    properties.add(ColorProperty("yellow60", yellow60, defaultValue: null));
-    properties.add(ColorProperty("yellow70", yellow70, defaultValue: null));
-    properties.add(ColorProperty("yellow80", yellow80, defaultValue: null));
-    properties.add(ColorProperty("yellow90", yellow90, defaultValue: null));
-    properties.add(ColorProperty("yellow95", yellow95, defaultValue: null));
-    properties.add(ColorProperty("yellow98", yellow98, defaultValue: null));
-    properties.add(ColorProperty("yellow100", yellow100, defaultValue: null));
-    properties.add(ColorProperty("red0", red0, defaultValue: null));
-    properties.add(ColorProperty("red10", red10, defaultValue: null));
-    properties.add(ColorProperty("red20", red20, defaultValue: null));
-    properties.add(ColorProperty("red30", red30, defaultValue: null));
-    properties.add(ColorProperty("red40", red40, defaultValue: null));
-    properties.add(ColorProperty("red50", red50, defaultValue: null));
-    properties.add(ColorProperty("red60", red60, defaultValue: null));
-    properties.add(ColorProperty("red70", red70, defaultValue: null));
-    properties.add(ColorProperty("red80", red80, defaultValue: null));
-    properties.add(ColorProperty("red90", red90, defaultValue: null));
-    properties.add(ColorProperty("red95", red95, defaultValue: null));
-    properties.add(ColorProperty("red98", red98, defaultValue: null));
-    properties.add(ColorProperty("red100", red100, defaultValue: null));
-    properties.add(ColorProperty("purple0", purple0, defaultValue: null));
-    properties.add(ColorProperty("purple10", purple10, defaultValue: null));
-    properties.add(ColorProperty("purple20", purple20, defaultValue: null));
-    properties.add(ColorProperty("purple30", purple30, defaultValue: null));
-    properties.add(ColorProperty("purple40", purple40, defaultValue: null));
-    properties.add(ColorProperty("purple50", purple50, defaultValue: null));
-    properties.add(ColorProperty("purple60", purple60, defaultValue: null));
-    properties.add(ColorProperty("purple70", purple70, defaultValue: null));
-    properties.add(ColorProperty("purple80", purple80, defaultValue: null));
-    properties.add(ColorProperty("purple90", purple90, defaultValue: null));
-    properties.add(ColorProperty("purple95", purple95, defaultValue: null));
-    properties.add(ColorProperty("purple98", purple98, defaultValue: null));
-    properties.add(ColorProperty("purple100", purple100, defaultValue: null));
-    properties.add(ColorProperty("cyan0", cyan0, defaultValue: null));
-    properties.add(ColorProperty("cyan10", cyan10, defaultValue: null));
-    properties.add(ColorProperty("cyan20", cyan20, defaultValue: null));
-    properties.add(ColorProperty("cyan30", cyan30, defaultValue: null));
-    properties.add(ColorProperty("cyan40", cyan40, defaultValue: null));
-    properties.add(ColorProperty("cyan50", cyan50, defaultValue: null));
-    properties.add(ColorProperty("cyan60", cyan60, defaultValue: null));
-    properties.add(ColorProperty("cyan70", cyan70, defaultValue: null));
-    properties.add(ColorProperty("cyan80", cyan80, defaultValue: null));
-    properties.add(ColorProperty("cyan90", cyan90, defaultValue: null));
-    properties.add(ColorProperty("cyan95", cyan95, defaultValue: null));
-    properties.add(ColorProperty("cyan98", cyan98, defaultValue: null));
-    properties.add(ColorProperty("cyan100", cyan100, defaultValue: null));
-    properties.add(ColorProperty("grey0", grey0, defaultValue: null));
-    properties.add(ColorProperty("grey10", grey10, defaultValue: null));
-    properties.add(ColorProperty("grey20", grey20, defaultValue: null));
-    properties.add(ColorProperty("grey30", grey30, defaultValue: null));
-    properties.add(ColorProperty("grey40", grey40, defaultValue: null));
-    properties.add(ColorProperty("grey50", grey50, defaultValue: null));
-    properties.add(ColorProperty("grey60", grey60, defaultValue: null));
-    properties.add(ColorProperty("grey70", grey70, defaultValue: null));
-    properties.add(ColorProperty("grey80", grey80, defaultValue: null));
-    properties.add(ColorProperty("grey90", grey90, defaultValue: null));
-    properties.add(ColorProperty("grey95", grey95, defaultValue: null));
-    properties.add(ColorProperty("grey98", grey98, defaultValue: null));
-    properties.add(ColorProperty("grey100", grey100, defaultValue: null));
-    properties.add(
-      ColorProperty("greyVariant0", greyVariant0, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("greyVariant10", greyVariant10, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("greyVariant20", greyVariant20, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("greyVariant30", greyVariant30, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("greyVariant40", greyVariant40, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("greyVariant50", greyVariant50, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("greyVariant60", greyVariant60, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("greyVariant70", greyVariant70, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("greyVariant80", greyVariant80, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("greyVariant90", greyVariant90, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("greyVariant95", greyVariant95, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("greyVariant98", greyVariant98, defaultValue: null),
-    );
-    properties.add(
-      ColorProperty("greyVariant100", greyVariant100, defaultValue: null),
-    );
-    properties.add(ColorProperty("green0", green0, defaultValue: null));
-    properties.add(ColorProperty("green10", green10, defaultValue: null));
-    properties.add(ColorProperty("green20", green20, defaultValue: null));
-    properties.add(ColorProperty("green30", green30, defaultValue: null));
-    properties.add(ColorProperty("green40", green40, defaultValue: null));
-    properties.add(ColorProperty("green50", green50, defaultValue: null));
-    properties.add(ColorProperty("green60", green60, defaultValue: null));
-    properties.add(ColorProperty("green70", green70, defaultValue: null));
-    properties.add(ColorProperty("green80", green80, defaultValue: null));
-    properties.add(ColorProperty("green90", green90, defaultValue: null));
-    properties.add(ColorProperty("green95", green95, defaultValue: null));
-    properties.add(ColorProperty("green98", green98, defaultValue: null));
-    properties.add(ColorProperty("green100", green100, defaultValue: null));
-    properties.add(ColorProperty("orange0", orange0, defaultValue: null));
-    properties.add(ColorProperty("orange10", orange10, defaultValue: null));
-    properties.add(ColorProperty("orange20", orange20, defaultValue: null));
-    properties.add(ColorProperty("orange30", orange30, defaultValue: null));
-    properties.add(ColorProperty("orange40", orange40, defaultValue: null));
-    properties.add(ColorProperty("orange50", orange50, defaultValue: null));
-    properties.add(ColorProperty("orange60", orange60, defaultValue: null));
-    properties.add(ColorProperty("orange70", orange70, defaultValue: null));
-    properties.add(ColorProperty("orange80", orange80, defaultValue: null));
-    properties.add(ColorProperty("orange90", orange90, defaultValue: null));
-    properties.add(ColorProperty("orange95", orange95, defaultValue: null));
-    properties.add(ColorProperty("orange98", orange98, defaultValue: null));
-    properties.add(ColorProperty("orange100", orange100, defaultValue: null));
-    properties.add(ColorProperty("pink0", pink0, defaultValue: null));
-    properties.add(ColorProperty("pink10", pink10, defaultValue: null));
-    properties.add(ColorProperty("pink20", pink20, defaultValue: null));
-    properties.add(ColorProperty("pink30", pink30, defaultValue: null));
-    properties.add(ColorProperty("pink40", pink40, defaultValue: null));
-    properties.add(ColorProperty("pink50", pink50, defaultValue: null));
-    properties.add(ColorProperty("pink60", pink60, defaultValue: null));
-    properties.add(ColorProperty("pink70", pink70, defaultValue: null));
-    properties.add(ColorProperty("pink80", pink80, defaultValue: null));
-    properties.add(ColorProperty("pink90", pink90, defaultValue: null));
-    properties.add(ColorProperty("pink95", pink95, defaultValue: null));
-    properties.add(ColorProperty("pink98", pink98, defaultValue: null));
-    properties.add(ColorProperty("pink100", pink100, defaultValue: null));
+    properties
+      ..add(ColorProperty("white", white, defaultValue: null))
+      ..add(ColorProperty("black", black, defaultValue: null))
+      ..add(ColorProperty("blue0", blue0, defaultValue: null))
+      ..add(ColorProperty("blue10", blue10, defaultValue: null))
+      ..add(ColorProperty("blue20", blue20, defaultValue: null))
+      ..add(ColorProperty("blue30", blue30, defaultValue: null))
+      ..add(ColorProperty("blue40", blue40, defaultValue: null))
+      ..add(ColorProperty("blue50", blue50, defaultValue: null))
+      ..add(ColorProperty("blue60", blue60, defaultValue: null))
+      ..add(ColorProperty("blue70", blue70, defaultValue: null))
+      ..add(ColorProperty("blue80", blue80, defaultValue: null))
+      ..add(ColorProperty("blue90", blue90, defaultValue: null))
+      ..add(ColorProperty("blue95", blue95, defaultValue: null))
+      ..add(ColorProperty("blue98", blue98, defaultValue: null))
+      ..add(ColorProperty("blue100", blue100, defaultValue: null))
+      ..add(ColorProperty("blueVariant0", blueVariant0, defaultValue: null))
+      ..add(ColorProperty("blueVariant10", blueVariant10, defaultValue: null))
+      ..add(ColorProperty("blueVariant20", blueVariant20, defaultValue: null))
+      ..add(ColorProperty("blueVariant30", blueVariant30, defaultValue: null))
+      ..add(ColorProperty("blueVariant40", blueVariant40, defaultValue: null))
+      ..add(ColorProperty("blueVariant50", blueVariant50, defaultValue: null))
+      ..add(ColorProperty("blueVariant60", blueVariant60, defaultValue: null))
+      ..add(ColorProperty("blueVariant70", blueVariant70, defaultValue: null))
+      ..add(ColorProperty("blueVariant80", blueVariant80, defaultValue: null))
+      ..add(ColorProperty("blueVariant90", blueVariant90, defaultValue: null))
+      ..add(ColorProperty("blueVariant95", blueVariant95, defaultValue: null))
+      ..add(ColorProperty("blueVariant98", blueVariant98, defaultValue: null))
+      ..add(ColorProperty("blueVariant100", blueVariant100, defaultValue: null))
+      ..add(ColorProperty("yellow0", yellow0, defaultValue: null))
+      ..add(ColorProperty("yellow10", yellow10, defaultValue: null))
+      ..add(ColorProperty("yellow20", yellow20, defaultValue: null))
+      ..add(ColorProperty("yellow30", yellow30, defaultValue: null))
+      ..add(ColorProperty("yellow40", yellow40, defaultValue: null))
+      ..add(ColorProperty("yellow50", yellow50, defaultValue: null))
+      ..add(ColorProperty("yellow60", yellow60, defaultValue: null))
+      ..add(ColorProperty("yellow70", yellow70, defaultValue: null))
+      ..add(ColorProperty("yellow80", yellow80, defaultValue: null))
+      ..add(ColorProperty("yellow90", yellow90, defaultValue: null))
+      ..add(ColorProperty("yellow95", yellow95, defaultValue: null))
+      ..add(ColorProperty("yellow98", yellow98, defaultValue: null))
+      ..add(ColorProperty("yellow100", yellow100, defaultValue: null))
+      ..add(ColorProperty("red0", red0, defaultValue: null))
+      ..add(ColorProperty("red10", red10, defaultValue: null))
+      ..add(ColorProperty("red20", red20, defaultValue: null))
+      ..add(ColorProperty("red30", red30, defaultValue: null))
+      ..add(ColorProperty("red40", red40, defaultValue: null))
+      ..add(ColorProperty("red50", red50, defaultValue: null))
+      ..add(ColorProperty("red60", red60, defaultValue: null))
+      ..add(ColorProperty("red70", red70, defaultValue: null))
+      ..add(ColorProperty("red80", red80, defaultValue: null))
+      ..add(ColorProperty("red90", red90, defaultValue: null))
+      ..add(ColorProperty("red95", red95, defaultValue: null))
+      ..add(ColorProperty("red98", red98, defaultValue: null))
+      ..add(ColorProperty("red100", red100, defaultValue: null))
+      ..add(ColorProperty("purple0", purple0, defaultValue: null))
+      ..add(ColorProperty("purple10", purple10, defaultValue: null))
+      ..add(ColorProperty("purple20", purple20, defaultValue: null))
+      ..add(ColorProperty("purple30", purple30, defaultValue: null))
+      ..add(ColorProperty("purple40", purple40, defaultValue: null))
+      ..add(ColorProperty("purple50", purple50, defaultValue: null))
+      ..add(ColorProperty("purple60", purple60, defaultValue: null))
+      ..add(ColorProperty("purple70", purple70, defaultValue: null))
+      ..add(ColorProperty("purple80", purple80, defaultValue: null))
+      ..add(ColorProperty("purple90", purple90, defaultValue: null))
+      ..add(ColorProperty("purple95", purple95, defaultValue: null))
+      ..add(ColorProperty("purple98", purple98, defaultValue: null))
+      ..add(ColorProperty("purple100", purple100, defaultValue: null))
+      ..add(ColorProperty("cyan0", cyan0, defaultValue: null))
+      ..add(ColorProperty("cyan10", cyan10, defaultValue: null))
+      ..add(ColorProperty("cyan20", cyan20, defaultValue: null))
+      ..add(ColorProperty("cyan30", cyan30, defaultValue: null))
+      ..add(ColorProperty("cyan40", cyan40, defaultValue: null))
+      ..add(ColorProperty("cyan50", cyan50, defaultValue: null))
+      ..add(ColorProperty("cyan60", cyan60, defaultValue: null))
+      ..add(ColorProperty("cyan70", cyan70, defaultValue: null))
+      ..add(ColorProperty("cyan80", cyan80, defaultValue: null))
+      ..add(ColorProperty("cyan90", cyan90, defaultValue: null))
+      ..add(ColorProperty("cyan95", cyan95, defaultValue: null))
+      ..add(ColorProperty("cyan98", cyan98, defaultValue: null))
+      ..add(ColorProperty("cyan100", cyan100, defaultValue: null))
+      ..add(ColorProperty("grey0", grey0, defaultValue: null))
+      ..add(ColorProperty("grey10", grey10, defaultValue: null))
+      ..add(ColorProperty("grey20", grey20, defaultValue: null))
+      ..add(ColorProperty("grey30", grey30, defaultValue: null))
+      ..add(ColorProperty("grey40", grey40, defaultValue: null))
+      ..add(ColorProperty("grey50", grey50, defaultValue: null))
+      ..add(ColorProperty("grey60", grey60, defaultValue: null))
+      ..add(ColorProperty("grey70", grey70, defaultValue: null))
+      ..add(ColorProperty("grey80", grey80, defaultValue: null))
+      ..add(ColorProperty("grey90", grey90, defaultValue: null))
+      ..add(ColorProperty("grey95", grey95, defaultValue: null))
+      ..add(ColorProperty("grey98", grey98, defaultValue: null))
+      ..add(ColorProperty("grey100", grey100, defaultValue: null))
+      ..add(ColorProperty("greyVariant0", greyVariant0, defaultValue: null))
+      ..add(ColorProperty("greyVariant10", greyVariant10, defaultValue: null))
+      ..add(ColorProperty("greyVariant20", greyVariant20, defaultValue: null))
+      ..add(ColorProperty("greyVariant30", greyVariant30, defaultValue: null))
+      ..add(ColorProperty("greyVariant40", greyVariant40, defaultValue: null))
+      ..add(ColorProperty("greyVariant50", greyVariant50, defaultValue: null))
+      ..add(ColorProperty("greyVariant60", greyVariant60, defaultValue: null))
+      ..add(ColorProperty("greyVariant70", greyVariant70, defaultValue: null))
+      ..add(ColorProperty("greyVariant80", greyVariant80, defaultValue: null))
+      ..add(ColorProperty("greyVariant90", greyVariant90, defaultValue: null))
+      ..add(ColorProperty("greyVariant95", greyVariant95, defaultValue: null))
+      ..add(ColorProperty("greyVariant98", greyVariant98, defaultValue: null))
+      ..add(ColorProperty("greyVariant100", greyVariant100, defaultValue: null))
+      ..add(ColorProperty("green0", green0, defaultValue: null))
+      ..add(ColorProperty("green10", green10, defaultValue: null))
+      ..add(ColorProperty("green20", green20, defaultValue: null))
+      ..add(ColorProperty("green30", green30, defaultValue: null))
+      ..add(ColorProperty("green40", green40, defaultValue: null))
+      ..add(ColorProperty("green50", green50, defaultValue: null))
+      ..add(ColorProperty("green60", green60, defaultValue: null))
+      ..add(ColorProperty("green70", green70, defaultValue: null))
+      ..add(ColorProperty("green80", green80, defaultValue: null))
+      ..add(ColorProperty("green90", green90, defaultValue: null))
+      ..add(ColorProperty("green95", green95, defaultValue: null))
+      ..add(ColorProperty("green98", green98, defaultValue: null))
+      ..add(ColorProperty("green100", green100, defaultValue: null))
+      ..add(ColorProperty("orange0", orange0, defaultValue: null))
+      ..add(ColorProperty("orange10", orange10, defaultValue: null))
+      ..add(ColorProperty("orange20", orange20, defaultValue: null))
+      ..add(ColorProperty("orange30", orange30, defaultValue: null))
+      ..add(ColorProperty("orange40", orange40, defaultValue: null))
+      ..add(ColorProperty("orange50", orange50, defaultValue: null))
+      ..add(ColorProperty("orange60", orange60, defaultValue: null))
+      ..add(ColorProperty("orange70", orange70, defaultValue: null))
+      ..add(ColorProperty("orange80", orange80, defaultValue: null))
+      ..add(ColorProperty("orange90", orange90, defaultValue: null))
+      ..add(ColorProperty("orange95", orange95, defaultValue: null))
+      ..add(ColorProperty("orange98", orange98, defaultValue: null))
+      ..add(ColorProperty("orange100", orange100, defaultValue: null))
+      ..add(ColorProperty("pink0", pink0, defaultValue: null))
+      ..add(ColorProperty("pink10", pink10, defaultValue: null))
+      ..add(ColorProperty("pink20", pink20, defaultValue: null))
+      ..add(ColorProperty("pink30", pink30, defaultValue: null))
+      ..add(ColorProperty("pink40", pink40, defaultValue: null))
+      ..add(ColorProperty("pink50", pink50, defaultValue: null))
+      ..add(ColorProperty("pink60", pink60, defaultValue: null))
+      ..add(ColorProperty("pink70", pink70, defaultValue: null))
+      ..add(ColorProperty("pink80", pink80, defaultValue: null))
+      ..add(ColorProperty("pink90", pink90, defaultValue: null))
+      ..add(ColorProperty("pink95", pink95, defaultValue: null))
+      ..add(ColorProperty("pink98", pink98, defaultValue: null))
+      ..add(ColorProperty("pink100", pink100, defaultValue: null));
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is StaticPaletteThemeDataPartial &&
-            white == other.white &&
-            black == other.black &&
-            blue0 == other.blue0 &&
-            blue10 == other.blue10 &&
-            blue20 == other.blue20 &&
-            blue30 == other.blue30 &&
-            blue40 == other.blue40 &&
-            blue50 == other.blue50 &&
-            blue60 == other.blue60 &&
-            blue70 == other.blue70 &&
-            blue80 == other.blue80 &&
-            blue90 == other.blue90 &&
-            blue95 == other.blue95 &&
-            blue98 == other.blue98 &&
-            blue100 == other.blue100 &&
-            blueVariant0 == other.blueVariant0 &&
-            blueVariant10 == other.blueVariant10 &&
-            blueVariant20 == other.blueVariant20 &&
-            blueVariant30 == other.blueVariant30 &&
-            blueVariant40 == other.blueVariant40 &&
-            blueVariant50 == other.blueVariant50 &&
-            blueVariant60 == other.blueVariant60 &&
-            blueVariant70 == other.blueVariant70 &&
-            blueVariant80 == other.blueVariant80 &&
-            blueVariant90 == other.blueVariant90 &&
-            blueVariant95 == other.blueVariant95 &&
-            blueVariant98 == other.blueVariant98 &&
-            blueVariant100 == other.blueVariant100 &&
-            yellow0 == other.yellow0 &&
-            yellow10 == other.yellow10 &&
-            yellow20 == other.yellow20 &&
-            yellow30 == other.yellow30 &&
-            yellow40 == other.yellow40 &&
-            yellow50 == other.yellow50 &&
-            yellow60 == other.yellow60 &&
-            yellow70 == other.yellow70 &&
-            yellow80 == other.yellow80 &&
-            yellow90 == other.yellow90 &&
-            yellow95 == other.yellow95 &&
-            yellow98 == other.yellow98 &&
-            yellow100 == other.yellow100 &&
-            red0 == other.red0 &&
-            red10 == other.red10 &&
-            red20 == other.red20 &&
-            red30 == other.red30 &&
-            red40 == other.red40 &&
-            red50 == other.red50 &&
-            red60 == other.red60 &&
-            red70 == other.red70 &&
-            red80 == other.red80 &&
-            red90 == other.red90 &&
-            red95 == other.red95 &&
-            red98 == other.red98 &&
-            red100 == other.red100 &&
-            purple0 == other.purple0 &&
-            purple10 == other.purple10 &&
-            purple20 == other.purple20 &&
-            purple30 == other.purple30 &&
-            purple40 == other.purple40 &&
-            purple50 == other.purple50 &&
-            purple60 == other.purple60 &&
-            purple70 == other.purple70 &&
-            purple80 == other.purple80 &&
-            purple90 == other.purple90 &&
-            purple95 == other.purple95 &&
-            purple98 == other.purple98 &&
-            purple100 == other.purple100 &&
-            cyan0 == other.cyan0 &&
-            cyan10 == other.cyan10 &&
-            cyan20 == other.cyan20 &&
-            cyan30 == other.cyan30 &&
-            cyan40 == other.cyan40 &&
-            cyan50 == other.cyan50 &&
-            cyan60 == other.cyan60 &&
-            cyan70 == other.cyan70 &&
-            cyan80 == other.cyan80 &&
-            cyan90 == other.cyan90 &&
-            cyan95 == other.cyan95 &&
-            cyan98 == other.cyan98 &&
-            cyan100 == other.cyan100 &&
-            grey0 == other.grey0 &&
-            grey10 == other.grey10 &&
-            grey20 == other.grey20 &&
-            grey30 == other.grey30 &&
-            grey40 == other.grey40 &&
-            grey50 == other.grey50 &&
-            grey60 == other.grey60 &&
-            grey70 == other.grey70 &&
-            grey80 == other.grey80 &&
-            grey90 == other.grey90 &&
-            grey95 == other.grey95 &&
-            grey98 == other.grey98 &&
-            grey100 == other.grey100 &&
-            greyVariant0 == other.greyVariant0 &&
-            greyVariant10 == other.greyVariant10 &&
-            greyVariant20 == other.greyVariant20 &&
-            greyVariant30 == other.greyVariant30 &&
-            greyVariant40 == other.greyVariant40 &&
-            greyVariant50 == other.greyVariant50 &&
-            greyVariant60 == other.greyVariant60 &&
-            greyVariant70 == other.greyVariant70 &&
-            greyVariant80 == other.greyVariant80 &&
-            greyVariant90 == other.greyVariant90 &&
-            greyVariant95 == other.greyVariant95 &&
-            greyVariant98 == other.greyVariant98 &&
-            greyVariant100 == other.greyVariant100 &&
-            green0 == other.green0 &&
-            green10 == other.green10 &&
-            green20 == other.green20 &&
-            green30 == other.green30 &&
-            green40 == other.green40 &&
-            green50 == other.green50 &&
-            green60 == other.green60 &&
-            green70 == other.green70 &&
-            green80 == other.green80 &&
-            green90 == other.green90 &&
-            green95 == other.green95 &&
-            green98 == other.green98 &&
-            green100 == other.green100 &&
-            orange0 == other.orange0 &&
-            orange10 == other.orange10 &&
-            orange20 == other.orange20 &&
-            orange30 == other.orange30 &&
-            orange40 == other.orange40 &&
-            orange50 == other.orange50 &&
-            orange60 == other.orange60 &&
-            orange70 == other.orange70 &&
-            orange80 == other.orange80 &&
-            orange90 == other.orange90 &&
-            orange95 == other.orange95 &&
-            orange98 == other.orange98 &&
-            orange100 == other.orange100 &&
-            pink0 == other.pink0 &&
-            pink10 == other.pink10 &&
-            pink20 == other.pink20 &&
-            pink30 == other.pink30 &&
-            pink40 == other.pink40 &&
-            pink50 == other.pink50 &&
-            pink60 == other.pink60 &&
-            pink70 == other.pink70 &&
-            pink80 == other.pink80 &&
-            pink90 == other.pink90 &&
-            pink95 == other.pink95 &&
-            pink98 == other.pink98 &&
-            pink100 == other.pink100;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is StaticPaletteThemeDataPartial &&
+          white == other.white &&
+          black == other.black &&
+          blue0 == other.blue0 &&
+          blue10 == other.blue10 &&
+          blue20 == other.blue20 &&
+          blue30 == other.blue30 &&
+          blue40 == other.blue40 &&
+          blue50 == other.blue50 &&
+          blue60 == other.blue60 &&
+          blue70 == other.blue70 &&
+          blue80 == other.blue80 &&
+          blue90 == other.blue90 &&
+          blue95 == other.blue95 &&
+          blue98 == other.blue98 &&
+          blue100 == other.blue100 &&
+          blueVariant0 == other.blueVariant0 &&
+          blueVariant10 == other.blueVariant10 &&
+          blueVariant20 == other.blueVariant20 &&
+          blueVariant30 == other.blueVariant30 &&
+          blueVariant40 == other.blueVariant40 &&
+          blueVariant50 == other.blueVariant50 &&
+          blueVariant60 == other.blueVariant60 &&
+          blueVariant70 == other.blueVariant70 &&
+          blueVariant80 == other.blueVariant80 &&
+          blueVariant90 == other.blueVariant90 &&
+          blueVariant95 == other.blueVariant95 &&
+          blueVariant98 == other.blueVariant98 &&
+          blueVariant100 == other.blueVariant100 &&
+          yellow0 == other.yellow0 &&
+          yellow10 == other.yellow10 &&
+          yellow20 == other.yellow20 &&
+          yellow30 == other.yellow30 &&
+          yellow40 == other.yellow40 &&
+          yellow50 == other.yellow50 &&
+          yellow60 == other.yellow60 &&
+          yellow70 == other.yellow70 &&
+          yellow80 == other.yellow80 &&
+          yellow90 == other.yellow90 &&
+          yellow95 == other.yellow95 &&
+          yellow98 == other.yellow98 &&
+          yellow100 == other.yellow100 &&
+          red0 == other.red0 &&
+          red10 == other.red10 &&
+          red20 == other.red20 &&
+          red30 == other.red30 &&
+          red40 == other.red40 &&
+          red50 == other.red50 &&
+          red60 == other.red60 &&
+          red70 == other.red70 &&
+          red80 == other.red80 &&
+          red90 == other.red90 &&
+          red95 == other.red95 &&
+          red98 == other.red98 &&
+          red100 == other.red100 &&
+          purple0 == other.purple0 &&
+          purple10 == other.purple10 &&
+          purple20 == other.purple20 &&
+          purple30 == other.purple30 &&
+          purple40 == other.purple40 &&
+          purple50 == other.purple50 &&
+          purple60 == other.purple60 &&
+          purple70 == other.purple70 &&
+          purple80 == other.purple80 &&
+          purple90 == other.purple90 &&
+          purple95 == other.purple95 &&
+          purple98 == other.purple98 &&
+          purple100 == other.purple100 &&
+          cyan0 == other.cyan0 &&
+          cyan10 == other.cyan10 &&
+          cyan20 == other.cyan20 &&
+          cyan30 == other.cyan30 &&
+          cyan40 == other.cyan40 &&
+          cyan50 == other.cyan50 &&
+          cyan60 == other.cyan60 &&
+          cyan70 == other.cyan70 &&
+          cyan80 == other.cyan80 &&
+          cyan90 == other.cyan90 &&
+          cyan95 == other.cyan95 &&
+          cyan98 == other.cyan98 &&
+          cyan100 == other.cyan100 &&
+          grey0 == other.grey0 &&
+          grey10 == other.grey10 &&
+          grey20 == other.grey20 &&
+          grey30 == other.grey30 &&
+          grey40 == other.grey40 &&
+          grey50 == other.grey50 &&
+          grey60 == other.grey60 &&
+          grey70 == other.grey70 &&
+          grey80 == other.grey80 &&
+          grey90 == other.grey90 &&
+          grey95 == other.grey95 &&
+          grey98 == other.grey98 &&
+          grey100 == other.grey100 &&
+          greyVariant0 == other.greyVariant0 &&
+          greyVariant10 == other.greyVariant10 &&
+          greyVariant20 == other.greyVariant20 &&
+          greyVariant30 == other.greyVariant30 &&
+          greyVariant40 == other.greyVariant40 &&
+          greyVariant50 == other.greyVariant50 &&
+          greyVariant60 == other.greyVariant60 &&
+          greyVariant70 == other.greyVariant70 &&
+          greyVariant80 == other.greyVariant80 &&
+          greyVariant90 == other.greyVariant90 &&
+          greyVariant95 == other.greyVariant95 &&
+          greyVariant98 == other.greyVariant98 &&
+          greyVariant100 == other.greyVariant100 &&
+          green0 == other.green0 &&
+          green10 == other.green10 &&
+          green20 == other.green20 &&
+          green30 == other.green30 &&
+          green40 == other.green40 &&
+          green50 == other.green50 &&
+          green60 == other.green60 &&
+          green70 == other.green70 &&
+          green80 == other.green80 &&
+          green90 == other.green90 &&
+          green95 == other.green95 &&
+          green98 == other.green98 &&
+          green100 == other.green100 &&
+          orange0 == other.orange0 &&
+          orange10 == other.orange10 &&
+          orange20 == other.orange20 &&
+          orange30 == other.orange30 &&
+          orange40 == other.orange40 &&
+          orange50 == other.orange50 &&
+          orange60 == other.orange60 &&
+          orange70 == other.orange70 &&
+          orange80 == other.orange80 &&
+          orange90 == other.orange90 &&
+          orange95 == other.orange95 &&
+          orange98 == other.orange98 &&
+          orange100 == other.orange100 &&
+          pink0 == other.pink0 &&
+          pink10 == other.pink10 &&
+          pink20 == other.pink20 &&
+          pink30 == other.pink30 &&
+          pink40 == other.pink40 &&
+          pink50 == other.pink50 &&
+          pink60 == other.pink60 &&
+          pink70 == other.pink70 &&
+          pink80 == other.pink80 &&
+          pink90 == other.pink90 &&
+          pink95 == other.pink95 &&
+          pink98 == other.pink98 &&
+          pink100 == other.pink100;
 
   @override
   int get hashCode => Object.hash(
@@ -5634,756 +5787,754 @@ abstract class StaticPaletteThemeData extends StaticPaletteThemeDataPartial {
     Color? pink95,
     Color? pink98,
     Color? pink100,
-  }) {
-    if (white == null &&
-        black == null &&
-        blue0 == null &&
-        blue10 == null &&
-        blue20 == null &&
-        blue30 == null &&
-        blue40 == null &&
-        blue50 == null &&
-        blue60 == null &&
-        blue70 == null &&
-        blue80 == null &&
-        blue90 == null &&
-        blue95 == null &&
-        blue98 == null &&
-        blue100 == null &&
-        blueVariant0 == null &&
-        blueVariant10 == null &&
-        blueVariant20 == null &&
-        blueVariant30 == null &&
-        blueVariant40 == null &&
-        blueVariant50 == null &&
-        blueVariant60 == null &&
-        blueVariant70 == null &&
-        blueVariant80 == null &&
-        blueVariant90 == null &&
-        blueVariant95 == null &&
-        blueVariant98 == null &&
-        blueVariant100 == null &&
-        yellow0 == null &&
-        yellow10 == null &&
-        yellow20 == null &&
-        yellow30 == null &&
-        yellow40 == null &&
-        yellow50 == null &&
-        yellow60 == null &&
-        yellow70 == null &&
-        yellow80 == null &&
-        yellow90 == null &&
-        yellow95 == null &&
-        yellow98 == null &&
-        yellow100 == null &&
-        red0 == null &&
-        red10 == null &&
-        red20 == null &&
-        red30 == null &&
-        red40 == null &&
-        red50 == null &&
-        red60 == null &&
-        red70 == null &&
-        red80 == null &&
-        red90 == null &&
-        red95 == null &&
-        red98 == null &&
-        red100 == null &&
-        purple0 == null &&
-        purple10 == null &&
-        purple20 == null &&
-        purple30 == null &&
-        purple40 == null &&
-        purple50 == null &&
-        purple60 == null &&
-        purple70 == null &&
-        purple80 == null &&
-        purple90 == null &&
-        purple95 == null &&
-        purple98 == null &&
-        purple100 == null &&
-        cyan0 == null &&
-        cyan10 == null &&
-        cyan20 == null &&
-        cyan30 == null &&
-        cyan40 == null &&
-        cyan50 == null &&
-        cyan60 == null &&
-        cyan70 == null &&
-        cyan80 == null &&
-        cyan90 == null &&
-        cyan95 == null &&
-        cyan98 == null &&
-        cyan100 == null &&
-        grey0 == null &&
-        grey10 == null &&
-        grey20 == null &&
-        grey30 == null &&
-        grey40 == null &&
-        grey50 == null &&
-        grey60 == null &&
-        grey70 == null &&
-        grey80 == null &&
-        grey90 == null &&
-        grey95 == null &&
-        grey98 == null &&
-        grey100 == null &&
-        greyVariant0 == null &&
-        greyVariant10 == null &&
-        greyVariant20 == null &&
-        greyVariant30 == null &&
-        greyVariant40 == null &&
-        greyVariant50 == null &&
-        greyVariant60 == null &&
-        greyVariant70 == null &&
-        greyVariant80 == null &&
-        greyVariant90 == null &&
-        greyVariant95 == null &&
-        greyVariant98 == null &&
-        greyVariant100 == null &&
-        green0 == null &&
-        green10 == null &&
-        green20 == null &&
-        green30 == null &&
-        green40 == null &&
-        green50 == null &&
-        green60 == null &&
-        green70 == null &&
-        green80 == null &&
-        green90 == null &&
-        green95 == null &&
-        green98 == null &&
-        green100 == null &&
-        orange0 == null &&
-        orange10 == null &&
-        orange20 == null &&
-        orange30 == null &&
-        orange40 == null &&
-        orange50 == null &&
-        orange60 == null &&
-        orange70 == null &&
-        orange80 == null &&
-        orange90 == null &&
-        orange95 == null &&
-        orange98 == null &&
-        orange100 == null &&
-        pink0 == null &&
-        pink10 == null &&
-        pink20 == null &&
-        pink30 == null &&
-        pink40 == null &&
-        pink50 == null &&
-        pink60 == null &&
-        pink70 == null &&
-        pink80 == null &&
-        pink90 == null &&
-        pink95 == null &&
-        pink98 == null &&
-        pink100 == null) {
-      return this;
-    }
-    return StaticPaletteThemeData.from(
-      white: white ?? this.white,
-      black: black ?? this.black,
-      blue0: blue0 ?? this.blue0,
-      blue10: blue10 ?? this.blue10,
-      blue20: blue20 ?? this.blue20,
-      blue30: blue30 ?? this.blue30,
-      blue40: blue40 ?? this.blue40,
-      blue50: blue50 ?? this.blue50,
-      blue60: blue60 ?? this.blue60,
-      blue70: blue70 ?? this.blue70,
-      blue80: blue80 ?? this.blue80,
-      blue90: blue90 ?? this.blue90,
-      blue95: blue95 ?? this.blue95,
-      blue98: blue98 ?? this.blue98,
-      blue100: blue100 ?? this.blue100,
-      blueVariant0: blueVariant0 ?? this.blueVariant0,
-      blueVariant10: blueVariant10 ?? this.blueVariant10,
-      blueVariant20: blueVariant20 ?? this.blueVariant20,
-      blueVariant30: blueVariant30 ?? this.blueVariant30,
-      blueVariant40: blueVariant40 ?? this.blueVariant40,
-      blueVariant50: blueVariant50 ?? this.blueVariant50,
-      blueVariant60: blueVariant60 ?? this.blueVariant60,
-      blueVariant70: blueVariant70 ?? this.blueVariant70,
-      blueVariant80: blueVariant80 ?? this.blueVariant80,
-      blueVariant90: blueVariant90 ?? this.blueVariant90,
-      blueVariant95: blueVariant95 ?? this.blueVariant95,
-      blueVariant98: blueVariant98 ?? this.blueVariant98,
-      blueVariant100: blueVariant100 ?? this.blueVariant100,
-      yellow0: yellow0 ?? this.yellow0,
-      yellow10: yellow10 ?? this.yellow10,
-      yellow20: yellow20 ?? this.yellow20,
-      yellow30: yellow30 ?? this.yellow30,
-      yellow40: yellow40 ?? this.yellow40,
-      yellow50: yellow50 ?? this.yellow50,
-      yellow60: yellow60 ?? this.yellow60,
-      yellow70: yellow70 ?? this.yellow70,
-      yellow80: yellow80 ?? this.yellow80,
-      yellow90: yellow90 ?? this.yellow90,
-      yellow95: yellow95 ?? this.yellow95,
-      yellow98: yellow98 ?? this.yellow98,
-      yellow100: yellow100 ?? this.yellow100,
-      red0: red0 ?? this.red0,
-      red10: red10 ?? this.red10,
-      red20: red20 ?? this.red20,
-      red30: red30 ?? this.red30,
-      red40: red40 ?? this.red40,
-      red50: red50 ?? this.red50,
-      red60: red60 ?? this.red60,
-      red70: red70 ?? this.red70,
-      red80: red80 ?? this.red80,
-      red90: red90 ?? this.red90,
-      red95: red95 ?? this.red95,
-      red98: red98 ?? this.red98,
-      red100: red100 ?? this.red100,
-      purple0: purple0 ?? this.purple0,
-      purple10: purple10 ?? this.purple10,
-      purple20: purple20 ?? this.purple20,
-      purple30: purple30 ?? this.purple30,
-      purple40: purple40 ?? this.purple40,
-      purple50: purple50 ?? this.purple50,
-      purple60: purple60 ?? this.purple60,
-      purple70: purple70 ?? this.purple70,
-      purple80: purple80 ?? this.purple80,
-      purple90: purple90 ?? this.purple90,
-      purple95: purple95 ?? this.purple95,
-      purple98: purple98 ?? this.purple98,
-      purple100: purple100 ?? this.purple100,
-      cyan0: cyan0 ?? this.cyan0,
-      cyan10: cyan10 ?? this.cyan10,
-      cyan20: cyan20 ?? this.cyan20,
-      cyan30: cyan30 ?? this.cyan30,
-      cyan40: cyan40 ?? this.cyan40,
-      cyan50: cyan50 ?? this.cyan50,
-      cyan60: cyan60 ?? this.cyan60,
-      cyan70: cyan70 ?? this.cyan70,
-      cyan80: cyan80 ?? this.cyan80,
-      cyan90: cyan90 ?? this.cyan90,
-      cyan95: cyan95 ?? this.cyan95,
-      cyan98: cyan98 ?? this.cyan98,
-      cyan100: cyan100 ?? this.cyan100,
-      grey0: grey0 ?? this.grey0,
-      grey10: grey10 ?? this.grey10,
-      grey20: grey20 ?? this.grey20,
-      grey30: grey30 ?? this.grey30,
-      grey40: grey40 ?? this.grey40,
-      grey50: grey50 ?? this.grey50,
-      grey60: grey60 ?? this.grey60,
-      grey70: grey70 ?? this.grey70,
-      grey80: grey80 ?? this.grey80,
-      grey90: grey90 ?? this.grey90,
-      grey95: grey95 ?? this.grey95,
-      grey98: grey98 ?? this.grey98,
-      grey100: grey100 ?? this.grey100,
-      greyVariant0: greyVariant0 ?? this.greyVariant0,
-      greyVariant10: greyVariant10 ?? this.greyVariant10,
-      greyVariant20: greyVariant20 ?? this.greyVariant20,
-      greyVariant30: greyVariant30 ?? this.greyVariant30,
-      greyVariant40: greyVariant40 ?? this.greyVariant40,
-      greyVariant50: greyVariant50 ?? this.greyVariant50,
-      greyVariant60: greyVariant60 ?? this.greyVariant60,
-      greyVariant70: greyVariant70 ?? this.greyVariant70,
-      greyVariant80: greyVariant80 ?? this.greyVariant80,
-      greyVariant90: greyVariant90 ?? this.greyVariant90,
-      greyVariant95: greyVariant95 ?? this.greyVariant95,
-      greyVariant98: greyVariant98 ?? this.greyVariant98,
-      greyVariant100: greyVariant100 ?? this.greyVariant100,
-      green0: green0 ?? this.green0,
-      green10: green10 ?? this.green10,
-      green20: green20 ?? this.green20,
-      green30: green30 ?? this.green30,
-      green40: green40 ?? this.green40,
-      green50: green50 ?? this.green50,
-      green60: green60 ?? this.green60,
-      green70: green70 ?? this.green70,
-      green80: green80 ?? this.green80,
-      green90: green90 ?? this.green90,
-      green95: green95 ?? this.green95,
-      green98: green98 ?? this.green98,
-      green100: green100 ?? this.green100,
-      orange0: orange0 ?? this.orange0,
-      orange10: orange10 ?? this.orange10,
-      orange20: orange20 ?? this.orange20,
-      orange30: orange30 ?? this.orange30,
-      orange40: orange40 ?? this.orange40,
-      orange50: orange50 ?? this.orange50,
-      orange60: orange60 ?? this.orange60,
-      orange70: orange70 ?? this.orange70,
-      orange80: orange80 ?? this.orange80,
-      orange90: orange90 ?? this.orange90,
-      orange95: orange95 ?? this.orange95,
-      orange98: orange98 ?? this.orange98,
-      orange100: orange100 ?? this.orange100,
-      pink0: pink0 ?? this.pink0,
-      pink10: pink10 ?? this.pink10,
-      pink20: pink20 ?? this.pink20,
-      pink30: pink30 ?? this.pink30,
-      pink40: pink40 ?? this.pink40,
-      pink50: pink50 ?? this.pink50,
-      pink60: pink60 ?? this.pink60,
-      pink70: pink70 ?? this.pink70,
-      pink80: pink80 ?? this.pink80,
-      pink90: pink90 ?? this.pink90,
-      pink95: pink95 ?? this.pink95,
-      pink98: pink98 ?? this.pink98,
-      pink100: pink100 ?? this.pink100,
-    );
-  }
+  }) =>
+      white != null ||
+          black != null ||
+          blue0 != null ||
+          blue10 != null ||
+          blue20 != null ||
+          blue30 != null ||
+          blue40 != null ||
+          blue50 != null ||
+          blue60 != null ||
+          blue70 != null ||
+          blue80 != null ||
+          blue90 != null ||
+          blue95 != null ||
+          blue98 != null ||
+          blue100 != null ||
+          blueVariant0 != null ||
+          blueVariant10 != null ||
+          blueVariant20 != null ||
+          blueVariant30 != null ||
+          blueVariant40 != null ||
+          blueVariant50 != null ||
+          blueVariant60 != null ||
+          blueVariant70 != null ||
+          blueVariant80 != null ||
+          blueVariant90 != null ||
+          blueVariant95 != null ||
+          blueVariant98 != null ||
+          blueVariant100 != null ||
+          yellow0 != null ||
+          yellow10 != null ||
+          yellow20 != null ||
+          yellow30 != null ||
+          yellow40 != null ||
+          yellow50 != null ||
+          yellow60 != null ||
+          yellow70 != null ||
+          yellow80 != null ||
+          yellow90 != null ||
+          yellow95 != null ||
+          yellow98 != null ||
+          yellow100 != null ||
+          red0 != null ||
+          red10 != null ||
+          red20 != null ||
+          red30 != null ||
+          red40 != null ||
+          red50 != null ||
+          red60 != null ||
+          red70 != null ||
+          red80 != null ||
+          red90 != null ||
+          red95 != null ||
+          red98 != null ||
+          red100 != null ||
+          purple0 != null ||
+          purple10 != null ||
+          purple20 != null ||
+          purple30 != null ||
+          purple40 != null ||
+          purple50 != null ||
+          purple60 != null ||
+          purple70 != null ||
+          purple80 != null ||
+          purple90 != null ||
+          purple95 != null ||
+          purple98 != null ||
+          purple100 != null ||
+          cyan0 != null ||
+          cyan10 != null ||
+          cyan20 != null ||
+          cyan30 != null ||
+          cyan40 != null ||
+          cyan50 != null ||
+          cyan60 != null ||
+          cyan70 != null ||
+          cyan80 != null ||
+          cyan90 != null ||
+          cyan95 != null ||
+          cyan98 != null ||
+          cyan100 != null ||
+          grey0 != null ||
+          grey10 != null ||
+          grey20 != null ||
+          grey30 != null ||
+          grey40 != null ||
+          grey50 != null ||
+          grey60 != null ||
+          grey70 != null ||
+          grey80 != null ||
+          grey90 != null ||
+          grey95 != null ||
+          grey98 != null ||
+          grey100 != null ||
+          greyVariant0 != null ||
+          greyVariant10 != null ||
+          greyVariant20 != null ||
+          greyVariant30 != null ||
+          greyVariant40 != null ||
+          greyVariant50 != null ||
+          greyVariant60 != null ||
+          greyVariant70 != null ||
+          greyVariant80 != null ||
+          greyVariant90 != null ||
+          greyVariant95 != null ||
+          greyVariant98 != null ||
+          greyVariant100 != null ||
+          green0 != null ||
+          green10 != null ||
+          green20 != null ||
+          green30 != null ||
+          green40 != null ||
+          green50 != null ||
+          green60 != null ||
+          green70 != null ||
+          green80 != null ||
+          green90 != null ||
+          green95 != null ||
+          green98 != null ||
+          green100 != null ||
+          orange0 != null ||
+          orange10 != null ||
+          orange20 != null ||
+          orange30 != null ||
+          orange40 != null ||
+          orange50 != null ||
+          orange60 != null ||
+          orange70 != null ||
+          orange80 != null ||
+          orange90 != null ||
+          orange95 != null ||
+          orange98 != null ||
+          orange100 != null ||
+          pink0 != null ||
+          pink10 != null ||
+          pink20 != null ||
+          pink30 != null ||
+          pink40 != null ||
+          pink50 != null ||
+          pink60 != null ||
+          pink70 != null ||
+          pink80 != null ||
+          pink90 != null ||
+          pink95 != null ||
+          pink98 != null ||
+          pink100 != null
+      ? StaticPaletteThemeData.from(
+          white: white ?? this.white,
+          black: black ?? this.black,
+          blue0: blue0 ?? this.blue0,
+          blue10: blue10 ?? this.blue10,
+          blue20: blue20 ?? this.blue20,
+          blue30: blue30 ?? this.blue30,
+          blue40: blue40 ?? this.blue40,
+          blue50: blue50 ?? this.blue50,
+          blue60: blue60 ?? this.blue60,
+          blue70: blue70 ?? this.blue70,
+          blue80: blue80 ?? this.blue80,
+          blue90: blue90 ?? this.blue90,
+          blue95: blue95 ?? this.blue95,
+          blue98: blue98 ?? this.blue98,
+          blue100: blue100 ?? this.blue100,
+          blueVariant0: blueVariant0 ?? this.blueVariant0,
+          blueVariant10: blueVariant10 ?? this.blueVariant10,
+          blueVariant20: blueVariant20 ?? this.blueVariant20,
+          blueVariant30: blueVariant30 ?? this.blueVariant30,
+          blueVariant40: blueVariant40 ?? this.blueVariant40,
+          blueVariant50: blueVariant50 ?? this.blueVariant50,
+          blueVariant60: blueVariant60 ?? this.blueVariant60,
+          blueVariant70: blueVariant70 ?? this.blueVariant70,
+          blueVariant80: blueVariant80 ?? this.blueVariant80,
+          blueVariant90: blueVariant90 ?? this.blueVariant90,
+          blueVariant95: blueVariant95 ?? this.blueVariant95,
+          blueVariant98: blueVariant98 ?? this.blueVariant98,
+          blueVariant100: blueVariant100 ?? this.blueVariant100,
+          yellow0: yellow0 ?? this.yellow0,
+          yellow10: yellow10 ?? this.yellow10,
+          yellow20: yellow20 ?? this.yellow20,
+          yellow30: yellow30 ?? this.yellow30,
+          yellow40: yellow40 ?? this.yellow40,
+          yellow50: yellow50 ?? this.yellow50,
+          yellow60: yellow60 ?? this.yellow60,
+          yellow70: yellow70 ?? this.yellow70,
+          yellow80: yellow80 ?? this.yellow80,
+          yellow90: yellow90 ?? this.yellow90,
+          yellow95: yellow95 ?? this.yellow95,
+          yellow98: yellow98 ?? this.yellow98,
+          yellow100: yellow100 ?? this.yellow100,
+          red0: red0 ?? this.red0,
+          red10: red10 ?? this.red10,
+          red20: red20 ?? this.red20,
+          red30: red30 ?? this.red30,
+          red40: red40 ?? this.red40,
+          red50: red50 ?? this.red50,
+          red60: red60 ?? this.red60,
+          red70: red70 ?? this.red70,
+          red80: red80 ?? this.red80,
+          red90: red90 ?? this.red90,
+          red95: red95 ?? this.red95,
+          red98: red98 ?? this.red98,
+          red100: red100 ?? this.red100,
+          purple0: purple0 ?? this.purple0,
+          purple10: purple10 ?? this.purple10,
+          purple20: purple20 ?? this.purple20,
+          purple30: purple30 ?? this.purple30,
+          purple40: purple40 ?? this.purple40,
+          purple50: purple50 ?? this.purple50,
+          purple60: purple60 ?? this.purple60,
+          purple70: purple70 ?? this.purple70,
+          purple80: purple80 ?? this.purple80,
+          purple90: purple90 ?? this.purple90,
+          purple95: purple95 ?? this.purple95,
+          purple98: purple98 ?? this.purple98,
+          purple100: purple100 ?? this.purple100,
+          cyan0: cyan0 ?? this.cyan0,
+          cyan10: cyan10 ?? this.cyan10,
+          cyan20: cyan20 ?? this.cyan20,
+          cyan30: cyan30 ?? this.cyan30,
+          cyan40: cyan40 ?? this.cyan40,
+          cyan50: cyan50 ?? this.cyan50,
+          cyan60: cyan60 ?? this.cyan60,
+          cyan70: cyan70 ?? this.cyan70,
+          cyan80: cyan80 ?? this.cyan80,
+          cyan90: cyan90 ?? this.cyan90,
+          cyan95: cyan95 ?? this.cyan95,
+          cyan98: cyan98 ?? this.cyan98,
+          cyan100: cyan100 ?? this.cyan100,
+          grey0: grey0 ?? this.grey0,
+          grey10: grey10 ?? this.grey10,
+          grey20: grey20 ?? this.grey20,
+          grey30: grey30 ?? this.grey30,
+          grey40: grey40 ?? this.grey40,
+          grey50: grey50 ?? this.grey50,
+          grey60: grey60 ?? this.grey60,
+          grey70: grey70 ?? this.grey70,
+          grey80: grey80 ?? this.grey80,
+          grey90: grey90 ?? this.grey90,
+          grey95: grey95 ?? this.grey95,
+          grey98: grey98 ?? this.grey98,
+          grey100: grey100 ?? this.grey100,
+          greyVariant0: greyVariant0 ?? this.greyVariant0,
+          greyVariant10: greyVariant10 ?? this.greyVariant10,
+          greyVariant20: greyVariant20 ?? this.greyVariant20,
+          greyVariant30: greyVariant30 ?? this.greyVariant30,
+          greyVariant40: greyVariant40 ?? this.greyVariant40,
+          greyVariant50: greyVariant50 ?? this.greyVariant50,
+          greyVariant60: greyVariant60 ?? this.greyVariant60,
+          greyVariant70: greyVariant70 ?? this.greyVariant70,
+          greyVariant80: greyVariant80 ?? this.greyVariant80,
+          greyVariant90: greyVariant90 ?? this.greyVariant90,
+          greyVariant95: greyVariant95 ?? this.greyVariant95,
+          greyVariant98: greyVariant98 ?? this.greyVariant98,
+          greyVariant100: greyVariant100 ?? this.greyVariant100,
+          green0: green0 ?? this.green0,
+          green10: green10 ?? this.green10,
+          green20: green20 ?? this.green20,
+          green30: green30 ?? this.green30,
+          green40: green40 ?? this.green40,
+          green50: green50 ?? this.green50,
+          green60: green60 ?? this.green60,
+          green70: green70 ?? this.green70,
+          green80: green80 ?? this.green80,
+          green90: green90 ?? this.green90,
+          green95: green95 ?? this.green95,
+          green98: green98 ?? this.green98,
+          green100: green100 ?? this.green100,
+          orange0: orange0 ?? this.orange0,
+          orange10: orange10 ?? this.orange10,
+          orange20: orange20 ?? this.orange20,
+          orange30: orange30 ?? this.orange30,
+          orange40: orange40 ?? this.orange40,
+          orange50: orange50 ?? this.orange50,
+          orange60: orange60 ?? this.orange60,
+          orange70: orange70 ?? this.orange70,
+          orange80: orange80 ?? this.orange80,
+          orange90: orange90 ?? this.orange90,
+          orange95: orange95 ?? this.orange95,
+          orange98: orange98 ?? this.orange98,
+          orange100: orange100 ?? this.orange100,
+          pink0: pink0 ?? this.pink0,
+          pink10: pink10 ?? this.pink10,
+          pink20: pink20 ?? this.pink20,
+          pink30: pink30 ?? this.pink30,
+          pink40: pink40 ?? this.pink40,
+          pink50: pink50 ?? this.pink50,
+          pink60: pink60 ?? this.pink60,
+          pink70: pink70 ?? this.pink70,
+          pink80: pink80 ?? this.pink80,
+          pink90: pink90 ?? this.pink90,
+          pink95: pink95 ?? this.pink95,
+          pink98: pink98 ?? this.pink98,
+          pink100: pink100 ?? this.pink100,
+        )
+      : this;
 
   @override
-  StaticPaletteThemeData merge(StaticPaletteThemeDataPartial? other) {
-    if (other == null) return this;
-    return copyWith(
-      white: other.white,
-      black: other.black,
-      blue0: other.blue0,
-      blue10: other.blue10,
-      blue20: other.blue20,
-      blue30: other.blue30,
-      blue40: other.blue40,
-      blue50: other.blue50,
-      blue60: other.blue60,
-      blue70: other.blue70,
-      blue80: other.blue80,
-      blue90: other.blue90,
-      blue95: other.blue95,
-      blue98: other.blue98,
-      blue100: other.blue100,
-      blueVariant0: other.blueVariant0,
-      blueVariant10: other.blueVariant10,
-      blueVariant20: other.blueVariant20,
-      blueVariant30: other.blueVariant30,
-      blueVariant40: other.blueVariant40,
-      blueVariant50: other.blueVariant50,
-      blueVariant60: other.blueVariant60,
-      blueVariant70: other.blueVariant70,
-      blueVariant80: other.blueVariant80,
-      blueVariant90: other.blueVariant90,
-      blueVariant95: other.blueVariant95,
-      blueVariant98: other.blueVariant98,
-      blueVariant100: other.blueVariant100,
-      yellow0: other.yellow0,
-      yellow10: other.yellow10,
-      yellow20: other.yellow20,
-      yellow30: other.yellow30,
-      yellow40: other.yellow40,
-      yellow50: other.yellow50,
-      yellow60: other.yellow60,
-      yellow70: other.yellow70,
-      yellow80: other.yellow80,
-      yellow90: other.yellow90,
-      yellow95: other.yellow95,
-      yellow98: other.yellow98,
-      yellow100: other.yellow100,
-      red0: other.red0,
-      red10: other.red10,
-      red20: other.red20,
-      red30: other.red30,
-      red40: other.red40,
-      red50: other.red50,
-      red60: other.red60,
-      red70: other.red70,
-      red80: other.red80,
-      red90: other.red90,
-      red95: other.red95,
-      red98: other.red98,
-      red100: other.red100,
-      purple0: other.purple0,
-      purple10: other.purple10,
-      purple20: other.purple20,
-      purple30: other.purple30,
-      purple40: other.purple40,
-      purple50: other.purple50,
-      purple60: other.purple60,
-      purple70: other.purple70,
-      purple80: other.purple80,
-      purple90: other.purple90,
-      purple95: other.purple95,
-      purple98: other.purple98,
-      purple100: other.purple100,
-      cyan0: other.cyan0,
-      cyan10: other.cyan10,
-      cyan20: other.cyan20,
-      cyan30: other.cyan30,
-      cyan40: other.cyan40,
-      cyan50: other.cyan50,
-      cyan60: other.cyan60,
-      cyan70: other.cyan70,
-      cyan80: other.cyan80,
-      cyan90: other.cyan90,
-      cyan95: other.cyan95,
-      cyan98: other.cyan98,
-      cyan100: other.cyan100,
-      grey0: other.grey0,
-      grey10: other.grey10,
-      grey20: other.grey20,
-      grey30: other.grey30,
-      grey40: other.grey40,
-      grey50: other.grey50,
-      grey60: other.grey60,
-      grey70: other.grey70,
-      grey80: other.grey80,
-      grey90: other.grey90,
-      grey95: other.grey95,
-      grey98: other.grey98,
-      grey100: other.grey100,
-      greyVariant0: other.greyVariant0,
-      greyVariant10: other.greyVariant10,
-      greyVariant20: other.greyVariant20,
-      greyVariant30: other.greyVariant30,
-      greyVariant40: other.greyVariant40,
-      greyVariant50: other.greyVariant50,
-      greyVariant60: other.greyVariant60,
-      greyVariant70: other.greyVariant70,
-      greyVariant80: other.greyVariant80,
-      greyVariant90: other.greyVariant90,
-      greyVariant95: other.greyVariant95,
-      greyVariant98: other.greyVariant98,
-      greyVariant100: other.greyVariant100,
-      green0: other.green0,
-      green10: other.green10,
-      green20: other.green20,
-      green30: other.green30,
-      green40: other.green40,
-      green50: other.green50,
-      green60: other.green60,
-      green70: other.green70,
-      green80: other.green80,
-      green90: other.green90,
-      green95: other.green95,
-      green98: other.green98,
-      green100: other.green100,
-      orange0: other.orange0,
-      orange10: other.orange10,
-      orange20: other.orange20,
-      orange30: other.orange30,
-      orange40: other.orange40,
-      orange50: other.orange50,
-      orange60: other.orange60,
-      orange70: other.orange70,
-      orange80: other.orange80,
-      orange90: other.orange90,
-      orange95: other.orange95,
-      orange98: other.orange98,
-      orange100: other.orange100,
-      pink0: other.pink0,
-      pink10: other.pink10,
-      pink20: other.pink20,
-      pink30: other.pink30,
-      pink40: other.pink40,
-      pink50: other.pink50,
-      pink60: other.pink60,
-      pink70: other.pink70,
-      pink80: other.pink80,
-      pink90: other.pink90,
-      pink95: other.pink95,
-      pink98: other.pink98,
-      pink100: other.pink100,
-    );
-  }
+  StaticPaletteThemeData merge(StaticPaletteThemeDataPartial? other) =>
+      other != null
+      ? copyWith(
+          white: other.white,
+          black: other.black,
+          blue0: other.blue0,
+          blue10: other.blue10,
+          blue20: other.blue20,
+          blue30: other.blue30,
+          blue40: other.blue40,
+          blue50: other.blue50,
+          blue60: other.blue60,
+          blue70: other.blue70,
+          blue80: other.blue80,
+          blue90: other.blue90,
+          blue95: other.blue95,
+          blue98: other.blue98,
+          blue100: other.blue100,
+          blueVariant0: other.blueVariant0,
+          blueVariant10: other.blueVariant10,
+          blueVariant20: other.blueVariant20,
+          blueVariant30: other.blueVariant30,
+          blueVariant40: other.blueVariant40,
+          blueVariant50: other.blueVariant50,
+          blueVariant60: other.blueVariant60,
+          blueVariant70: other.blueVariant70,
+          blueVariant80: other.blueVariant80,
+          blueVariant90: other.blueVariant90,
+          blueVariant95: other.blueVariant95,
+          blueVariant98: other.blueVariant98,
+          blueVariant100: other.blueVariant100,
+          yellow0: other.yellow0,
+          yellow10: other.yellow10,
+          yellow20: other.yellow20,
+          yellow30: other.yellow30,
+          yellow40: other.yellow40,
+          yellow50: other.yellow50,
+          yellow60: other.yellow60,
+          yellow70: other.yellow70,
+          yellow80: other.yellow80,
+          yellow90: other.yellow90,
+          yellow95: other.yellow95,
+          yellow98: other.yellow98,
+          yellow100: other.yellow100,
+          red0: other.red0,
+          red10: other.red10,
+          red20: other.red20,
+          red30: other.red30,
+          red40: other.red40,
+          red50: other.red50,
+          red60: other.red60,
+          red70: other.red70,
+          red80: other.red80,
+          red90: other.red90,
+          red95: other.red95,
+          red98: other.red98,
+          red100: other.red100,
+          purple0: other.purple0,
+          purple10: other.purple10,
+          purple20: other.purple20,
+          purple30: other.purple30,
+          purple40: other.purple40,
+          purple50: other.purple50,
+          purple60: other.purple60,
+          purple70: other.purple70,
+          purple80: other.purple80,
+          purple90: other.purple90,
+          purple95: other.purple95,
+          purple98: other.purple98,
+          purple100: other.purple100,
+          cyan0: other.cyan0,
+          cyan10: other.cyan10,
+          cyan20: other.cyan20,
+          cyan30: other.cyan30,
+          cyan40: other.cyan40,
+          cyan50: other.cyan50,
+          cyan60: other.cyan60,
+          cyan70: other.cyan70,
+          cyan80: other.cyan80,
+          cyan90: other.cyan90,
+          cyan95: other.cyan95,
+          cyan98: other.cyan98,
+          cyan100: other.cyan100,
+          grey0: other.grey0,
+          grey10: other.grey10,
+          grey20: other.grey20,
+          grey30: other.grey30,
+          grey40: other.grey40,
+          grey50: other.grey50,
+          grey60: other.grey60,
+          grey70: other.grey70,
+          grey80: other.grey80,
+          grey90: other.grey90,
+          grey95: other.grey95,
+          grey98: other.grey98,
+          grey100: other.grey100,
+          greyVariant0: other.greyVariant0,
+          greyVariant10: other.greyVariant10,
+          greyVariant20: other.greyVariant20,
+          greyVariant30: other.greyVariant30,
+          greyVariant40: other.greyVariant40,
+          greyVariant50: other.greyVariant50,
+          greyVariant60: other.greyVariant60,
+          greyVariant70: other.greyVariant70,
+          greyVariant80: other.greyVariant80,
+          greyVariant90: other.greyVariant90,
+          greyVariant95: other.greyVariant95,
+          greyVariant98: other.greyVariant98,
+          greyVariant100: other.greyVariant100,
+          green0: other.green0,
+          green10: other.green10,
+          green20: other.green20,
+          green30: other.green30,
+          green40: other.green40,
+          green50: other.green50,
+          green60: other.green60,
+          green70: other.green70,
+          green80: other.green80,
+          green90: other.green90,
+          green95: other.green95,
+          green98: other.green98,
+          green100: other.green100,
+          orange0: other.orange0,
+          orange10: other.orange10,
+          orange20: other.orange20,
+          orange30: other.orange30,
+          orange40: other.orange40,
+          orange50: other.orange50,
+          orange60: other.orange60,
+          orange70: other.orange70,
+          orange80: other.orange80,
+          orange90: other.orange90,
+          orange95: other.orange95,
+          orange98: other.orange98,
+          orange100: other.orange100,
+          pink0: other.pink0,
+          pink10: other.pink10,
+          pink20: other.pink20,
+          pink30: other.pink30,
+          pink40: other.pink40,
+          pink50: other.pink50,
+          pink60: other.pink60,
+          pink70: other.pink70,
+          pink80: other.pink80,
+          pink90: other.pink90,
+          pink95: other.pink95,
+          pink98: other.pink98,
+          pink100: other.pink100,
+        )
+      : this;
 
   @override
   // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties.add(ColorProperty("white", white));
-    properties.add(ColorProperty("black", black));
-    properties.add(ColorProperty("blue0", blue0));
-    properties.add(ColorProperty("blue10", blue10));
-    properties.add(ColorProperty("blue20", blue20));
-    properties.add(ColorProperty("blue30", blue30));
-    properties.add(ColorProperty("blue40", blue40));
-    properties.add(ColorProperty("blue50", blue50));
-    properties.add(ColorProperty("blue60", blue60));
-    properties.add(ColorProperty("blue70", blue70));
-    properties.add(ColorProperty("blue80", blue80));
-    properties.add(ColorProperty("blue90", blue90));
-    properties.add(ColorProperty("blue95", blue95));
-    properties.add(ColorProperty("blue98", blue98));
-    properties.add(ColorProperty("blue100", blue100));
-    properties.add(ColorProperty("blueVariant0", blueVariant0));
-    properties.add(ColorProperty("blueVariant10", blueVariant10));
-    properties.add(ColorProperty("blueVariant20", blueVariant20));
-    properties.add(ColorProperty("blueVariant30", blueVariant30));
-    properties.add(ColorProperty("blueVariant40", blueVariant40));
-    properties.add(ColorProperty("blueVariant50", blueVariant50));
-    properties.add(ColorProperty("blueVariant60", blueVariant60));
-    properties.add(ColorProperty("blueVariant70", blueVariant70));
-    properties.add(ColorProperty("blueVariant80", blueVariant80));
-    properties.add(ColorProperty("blueVariant90", blueVariant90));
-    properties.add(ColorProperty("blueVariant95", blueVariant95));
-    properties.add(ColorProperty("blueVariant98", blueVariant98));
-    properties.add(ColorProperty("blueVariant100", blueVariant100));
-    properties.add(ColorProperty("yellow0", yellow0));
-    properties.add(ColorProperty("yellow10", yellow10));
-    properties.add(ColorProperty("yellow20", yellow20));
-    properties.add(ColorProperty("yellow30", yellow30));
-    properties.add(ColorProperty("yellow40", yellow40));
-    properties.add(ColorProperty("yellow50", yellow50));
-    properties.add(ColorProperty("yellow60", yellow60));
-    properties.add(ColorProperty("yellow70", yellow70));
-    properties.add(ColorProperty("yellow80", yellow80));
-    properties.add(ColorProperty("yellow90", yellow90));
-    properties.add(ColorProperty("yellow95", yellow95));
-    properties.add(ColorProperty("yellow98", yellow98));
-    properties.add(ColorProperty("yellow100", yellow100));
-    properties.add(ColorProperty("red0", red0));
-    properties.add(ColorProperty("red10", red10));
-    properties.add(ColorProperty("red20", red20));
-    properties.add(ColorProperty("red30", red30));
-    properties.add(ColorProperty("red40", red40));
-    properties.add(ColorProperty("red50", red50));
-    properties.add(ColorProperty("red60", red60));
-    properties.add(ColorProperty("red70", red70));
-    properties.add(ColorProperty("red80", red80));
-    properties.add(ColorProperty("red90", red90));
-    properties.add(ColorProperty("red95", red95));
-    properties.add(ColorProperty("red98", red98));
-    properties.add(ColorProperty("red100", red100));
-    properties.add(ColorProperty("purple0", purple0));
-    properties.add(ColorProperty("purple10", purple10));
-    properties.add(ColorProperty("purple20", purple20));
-    properties.add(ColorProperty("purple30", purple30));
-    properties.add(ColorProperty("purple40", purple40));
-    properties.add(ColorProperty("purple50", purple50));
-    properties.add(ColorProperty("purple60", purple60));
-    properties.add(ColorProperty("purple70", purple70));
-    properties.add(ColorProperty("purple80", purple80));
-    properties.add(ColorProperty("purple90", purple90));
-    properties.add(ColorProperty("purple95", purple95));
-    properties.add(ColorProperty("purple98", purple98));
-    properties.add(ColorProperty("purple100", purple100));
-    properties.add(ColorProperty("cyan0", cyan0));
-    properties.add(ColorProperty("cyan10", cyan10));
-    properties.add(ColorProperty("cyan20", cyan20));
-    properties.add(ColorProperty("cyan30", cyan30));
-    properties.add(ColorProperty("cyan40", cyan40));
-    properties.add(ColorProperty("cyan50", cyan50));
-    properties.add(ColorProperty("cyan60", cyan60));
-    properties.add(ColorProperty("cyan70", cyan70));
-    properties.add(ColorProperty("cyan80", cyan80));
-    properties.add(ColorProperty("cyan90", cyan90));
-    properties.add(ColorProperty("cyan95", cyan95));
-    properties.add(ColorProperty("cyan98", cyan98));
-    properties.add(ColorProperty("cyan100", cyan100));
-    properties.add(ColorProperty("grey0", grey0));
-    properties.add(ColorProperty("grey10", grey10));
-    properties.add(ColorProperty("grey20", grey20));
-    properties.add(ColorProperty("grey30", grey30));
-    properties.add(ColorProperty("grey40", grey40));
-    properties.add(ColorProperty("grey50", grey50));
-    properties.add(ColorProperty("grey60", grey60));
-    properties.add(ColorProperty("grey70", grey70));
-    properties.add(ColorProperty("grey80", grey80));
-    properties.add(ColorProperty("grey90", grey90));
-    properties.add(ColorProperty("grey95", grey95));
-    properties.add(ColorProperty("grey98", grey98));
-    properties.add(ColorProperty("grey100", grey100));
-    properties.add(ColorProperty("greyVariant0", greyVariant0));
-    properties.add(ColorProperty("greyVariant10", greyVariant10));
-    properties.add(ColorProperty("greyVariant20", greyVariant20));
-    properties.add(ColorProperty("greyVariant30", greyVariant30));
-    properties.add(ColorProperty("greyVariant40", greyVariant40));
-    properties.add(ColorProperty("greyVariant50", greyVariant50));
-    properties.add(ColorProperty("greyVariant60", greyVariant60));
-    properties.add(ColorProperty("greyVariant70", greyVariant70));
-    properties.add(ColorProperty("greyVariant80", greyVariant80));
-    properties.add(ColorProperty("greyVariant90", greyVariant90));
-    properties.add(ColorProperty("greyVariant95", greyVariant95));
-    properties.add(ColorProperty("greyVariant98", greyVariant98));
-    properties.add(ColorProperty("greyVariant100", greyVariant100));
-    properties.add(ColorProperty("green0", green0));
-    properties.add(ColorProperty("green10", green10));
-    properties.add(ColorProperty("green20", green20));
-    properties.add(ColorProperty("green30", green30));
-    properties.add(ColorProperty("green40", green40));
-    properties.add(ColorProperty("green50", green50));
-    properties.add(ColorProperty("green60", green60));
-    properties.add(ColorProperty("green70", green70));
-    properties.add(ColorProperty("green80", green80));
-    properties.add(ColorProperty("green90", green90));
-    properties.add(ColorProperty("green95", green95));
-    properties.add(ColorProperty("green98", green98));
-    properties.add(ColorProperty("green100", green100));
-    properties.add(ColorProperty("orange0", orange0));
-    properties.add(ColorProperty("orange10", orange10));
-    properties.add(ColorProperty("orange20", orange20));
-    properties.add(ColorProperty("orange30", orange30));
-    properties.add(ColorProperty("orange40", orange40));
-    properties.add(ColorProperty("orange50", orange50));
-    properties.add(ColorProperty("orange60", orange60));
-    properties.add(ColorProperty("orange70", orange70));
-    properties.add(ColorProperty("orange80", orange80));
-    properties.add(ColorProperty("orange90", orange90));
-    properties.add(ColorProperty("orange95", orange95));
-    properties.add(ColorProperty("orange98", orange98));
-    properties.add(ColorProperty("orange100", orange100));
-    properties.add(ColorProperty("pink0", pink0));
-    properties.add(ColorProperty("pink10", pink10));
-    properties.add(ColorProperty("pink20", pink20));
-    properties.add(ColorProperty("pink30", pink30));
-    properties.add(ColorProperty("pink40", pink40));
-    properties.add(ColorProperty("pink50", pink50));
-    properties.add(ColorProperty("pink60", pink60));
-    properties.add(ColorProperty("pink70", pink70));
-    properties.add(ColorProperty("pink80", pink80));
-    properties.add(ColorProperty("pink90", pink90));
-    properties.add(ColorProperty("pink95", pink95));
-    properties.add(ColorProperty("pink98", pink98));
-    properties.add(ColorProperty("pink100", pink100));
+    properties
+      ..add(ColorProperty("white", white))
+      ..add(ColorProperty("black", black))
+      ..add(ColorProperty("blue0", blue0))
+      ..add(ColorProperty("blue10", blue10))
+      ..add(ColorProperty("blue20", blue20))
+      ..add(ColorProperty("blue30", blue30))
+      ..add(ColorProperty("blue40", blue40))
+      ..add(ColorProperty("blue50", blue50))
+      ..add(ColorProperty("blue60", blue60))
+      ..add(ColorProperty("blue70", blue70))
+      ..add(ColorProperty("blue80", blue80))
+      ..add(ColorProperty("blue90", blue90))
+      ..add(ColorProperty("blue95", blue95))
+      ..add(ColorProperty("blue98", blue98))
+      ..add(ColorProperty("blue100", blue100))
+      ..add(ColorProperty("blueVariant0", blueVariant0))
+      ..add(ColorProperty("blueVariant10", blueVariant10))
+      ..add(ColorProperty("blueVariant20", blueVariant20))
+      ..add(ColorProperty("blueVariant30", blueVariant30))
+      ..add(ColorProperty("blueVariant40", blueVariant40))
+      ..add(ColorProperty("blueVariant50", blueVariant50))
+      ..add(ColorProperty("blueVariant60", blueVariant60))
+      ..add(ColorProperty("blueVariant70", blueVariant70))
+      ..add(ColorProperty("blueVariant80", blueVariant80))
+      ..add(ColorProperty("blueVariant90", blueVariant90))
+      ..add(ColorProperty("blueVariant95", blueVariant95))
+      ..add(ColorProperty("blueVariant98", blueVariant98))
+      ..add(ColorProperty("blueVariant100", blueVariant100))
+      ..add(ColorProperty("yellow0", yellow0))
+      ..add(ColorProperty("yellow10", yellow10))
+      ..add(ColorProperty("yellow20", yellow20))
+      ..add(ColorProperty("yellow30", yellow30))
+      ..add(ColorProperty("yellow40", yellow40))
+      ..add(ColorProperty("yellow50", yellow50))
+      ..add(ColorProperty("yellow60", yellow60))
+      ..add(ColorProperty("yellow70", yellow70))
+      ..add(ColorProperty("yellow80", yellow80))
+      ..add(ColorProperty("yellow90", yellow90))
+      ..add(ColorProperty("yellow95", yellow95))
+      ..add(ColorProperty("yellow98", yellow98))
+      ..add(ColorProperty("yellow100", yellow100))
+      ..add(ColorProperty("red0", red0))
+      ..add(ColorProperty("red10", red10))
+      ..add(ColorProperty("red20", red20))
+      ..add(ColorProperty("red30", red30))
+      ..add(ColorProperty("red40", red40))
+      ..add(ColorProperty("red50", red50))
+      ..add(ColorProperty("red60", red60))
+      ..add(ColorProperty("red70", red70))
+      ..add(ColorProperty("red80", red80))
+      ..add(ColorProperty("red90", red90))
+      ..add(ColorProperty("red95", red95))
+      ..add(ColorProperty("red98", red98))
+      ..add(ColorProperty("red100", red100))
+      ..add(ColorProperty("purple0", purple0))
+      ..add(ColorProperty("purple10", purple10))
+      ..add(ColorProperty("purple20", purple20))
+      ..add(ColorProperty("purple30", purple30))
+      ..add(ColorProperty("purple40", purple40))
+      ..add(ColorProperty("purple50", purple50))
+      ..add(ColorProperty("purple60", purple60))
+      ..add(ColorProperty("purple70", purple70))
+      ..add(ColorProperty("purple80", purple80))
+      ..add(ColorProperty("purple90", purple90))
+      ..add(ColorProperty("purple95", purple95))
+      ..add(ColorProperty("purple98", purple98))
+      ..add(ColorProperty("purple100", purple100))
+      ..add(ColorProperty("cyan0", cyan0))
+      ..add(ColorProperty("cyan10", cyan10))
+      ..add(ColorProperty("cyan20", cyan20))
+      ..add(ColorProperty("cyan30", cyan30))
+      ..add(ColorProperty("cyan40", cyan40))
+      ..add(ColorProperty("cyan50", cyan50))
+      ..add(ColorProperty("cyan60", cyan60))
+      ..add(ColorProperty("cyan70", cyan70))
+      ..add(ColorProperty("cyan80", cyan80))
+      ..add(ColorProperty("cyan90", cyan90))
+      ..add(ColorProperty("cyan95", cyan95))
+      ..add(ColorProperty("cyan98", cyan98))
+      ..add(ColorProperty("cyan100", cyan100))
+      ..add(ColorProperty("grey0", grey0))
+      ..add(ColorProperty("grey10", grey10))
+      ..add(ColorProperty("grey20", grey20))
+      ..add(ColorProperty("grey30", grey30))
+      ..add(ColorProperty("grey40", grey40))
+      ..add(ColorProperty("grey50", grey50))
+      ..add(ColorProperty("grey60", grey60))
+      ..add(ColorProperty("grey70", grey70))
+      ..add(ColorProperty("grey80", grey80))
+      ..add(ColorProperty("grey90", grey90))
+      ..add(ColorProperty("grey95", grey95))
+      ..add(ColorProperty("grey98", grey98))
+      ..add(ColorProperty("grey100", grey100))
+      ..add(ColorProperty("greyVariant0", greyVariant0))
+      ..add(ColorProperty("greyVariant10", greyVariant10))
+      ..add(ColorProperty("greyVariant20", greyVariant20))
+      ..add(ColorProperty("greyVariant30", greyVariant30))
+      ..add(ColorProperty("greyVariant40", greyVariant40))
+      ..add(ColorProperty("greyVariant50", greyVariant50))
+      ..add(ColorProperty("greyVariant60", greyVariant60))
+      ..add(ColorProperty("greyVariant70", greyVariant70))
+      ..add(ColorProperty("greyVariant80", greyVariant80))
+      ..add(ColorProperty("greyVariant90", greyVariant90))
+      ..add(ColorProperty("greyVariant95", greyVariant95))
+      ..add(ColorProperty("greyVariant98", greyVariant98))
+      ..add(ColorProperty("greyVariant100", greyVariant100))
+      ..add(ColorProperty("green0", green0))
+      ..add(ColorProperty("green10", green10))
+      ..add(ColorProperty("green20", green20))
+      ..add(ColorProperty("green30", green30))
+      ..add(ColorProperty("green40", green40))
+      ..add(ColorProperty("green50", green50))
+      ..add(ColorProperty("green60", green60))
+      ..add(ColorProperty("green70", green70))
+      ..add(ColorProperty("green80", green80))
+      ..add(ColorProperty("green90", green90))
+      ..add(ColorProperty("green95", green95))
+      ..add(ColorProperty("green98", green98))
+      ..add(ColorProperty("green100", green100))
+      ..add(ColorProperty("orange0", orange0))
+      ..add(ColorProperty("orange10", orange10))
+      ..add(ColorProperty("orange20", orange20))
+      ..add(ColorProperty("orange30", orange30))
+      ..add(ColorProperty("orange40", orange40))
+      ..add(ColorProperty("orange50", orange50))
+      ..add(ColorProperty("orange60", orange60))
+      ..add(ColorProperty("orange70", orange70))
+      ..add(ColorProperty("orange80", orange80))
+      ..add(ColorProperty("orange90", orange90))
+      ..add(ColorProperty("orange95", orange95))
+      ..add(ColorProperty("orange98", orange98))
+      ..add(ColorProperty("orange100", orange100))
+      ..add(ColorProperty("pink0", pink0))
+      ..add(ColorProperty("pink10", pink10))
+      ..add(ColorProperty("pink20", pink20))
+      ..add(ColorProperty("pink30", pink30))
+      ..add(ColorProperty("pink40", pink40))
+      ..add(ColorProperty("pink50", pink50))
+      ..add(ColorProperty("pink60", pink60))
+      ..add(ColorProperty("pink70", pink70))
+      ..add(ColorProperty("pink80", pink80))
+      ..add(ColorProperty("pink90", pink90))
+      ..add(ColorProperty("pink95", pink95))
+      ..add(ColorProperty("pink98", pink98))
+      ..add(ColorProperty("pink100", pink100));
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is StaticPaletteThemeData &&
-            white == other.white &&
-            black == other.black &&
-            blue0 == other.blue0 &&
-            blue10 == other.blue10 &&
-            blue20 == other.blue20 &&
-            blue30 == other.blue30 &&
-            blue40 == other.blue40 &&
-            blue50 == other.blue50 &&
-            blue60 == other.blue60 &&
-            blue70 == other.blue70 &&
-            blue80 == other.blue80 &&
-            blue90 == other.blue90 &&
-            blue95 == other.blue95 &&
-            blue98 == other.blue98 &&
-            blue100 == other.blue100 &&
-            blueVariant0 == other.blueVariant0 &&
-            blueVariant10 == other.blueVariant10 &&
-            blueVariant20 == other.blueVariant20 &&
-            blueVariant30 == other.blueVariant30 &&
-            blueVariant40 == other.blueVariant40 &&
-            blueVariant50 == other.blueVariant50 &&
-            blueVariant60 == other.blueVariant60 &&
-            blueVariant70 == other.blueVariant70 &&
-            blueVariant80 == other.blueVariant80 &&
-            blueVariant90 == other.blueVariant90 &&
-            blueVariant95 == other.blueVariant95 &&
-            blueVariant98 == other.blueVariant98 &&
-            blueVariant100 == other.blueVariant100 &&
-            yellow0 == other.yellow0 &&
-            yellow10 == other.yellow10 &&
-            yellow20 == other.yellow20 &&
-            yellow30 == other.yellow30 &&
-            yellow40 == other.yellow40 &&
-            yellow50 == other.yellow50 &&
-            yellow60 == other.yellow60 &&
-            yellow70 == other.yellow70 &&
-            yellow80 == other.yellow80 &&
-            yellow90 == other.yellow90 &&
-            yellow95 == other.yellow95 &&
-            yellow98 == other.yellow98 &&
-            yellow100 == other.yellow100 &&
-            red0 == other.red0 &&
-            red10 == other.red10 &&
-            red20 == other.red20 &&
-            red30 == other.red30 &&
-            red40 == other.red40 &&
-            red50 == other.red50 &&
-            red60 == other.red60 &&
-            red70 == other.red70 &&
-            red80 == other.red80 &&
-            red90 == other.red90 &&
-            red95 == other.red95 &&
-            red98 == other.red98 &&
-            red100 == other.red100 &&
-            purple0 == other.purple0 &&
-            purple10 == other.purple10 &&
-            purple20 == other.purple20 &&
-            purple30 == other.purple30 &&
-            purple40 == other.purple40 &&
-            purple50 == other.purple50 &&
-            purple60 == other.purple60 &&
-            purple70 == other.purple70 &&
-            purple80 == other.purple80 &&
-            purple90 == other.purple90 &&
-            purple95 == other.purple95 &&
-            purple98 == other.purple98 &&
-            purple100 == other.purple100 &&
-            cyan0 == other.cyan0 &&
-            cyan10 == other.cyan10 &&
-            cyan20 == other.cyan20 &&
-            cyan30 == other.cyan30 &&
-            cyan40 == other.cyan40 &&
-            cyan50 == other.cyan50 &&
-            cyan60 == other.cyan60 &&
-            cyan70 == other.cyan70 &&
-            cyan80 == other.cyan80 &&
-            cyan90 == other.cyan90 &&
-            cyan95 == other.cyan95 &&
-            cyan98 == other.cyan98 &&
-            cyan100 == other.cyan100 &&
-            grey0 == other.grey0 &&
-            grey10 == other.grey10 &&
-            grey20 == other.grey20 &&
-            grey30 == other.grey30 &&
-            grey40 == other.grey40 &&
-            grey50 == other.grey50 &&
-            grey60 == other.grey60 &&
-            grey70 == other.grey70 &&
-            grey80 == other.grey80 &&
-            grey90 == other.grey90 &&
-            grey95 == other.grey95 &&
-            grey98 == other.grey98 &&
-            grey100 == other.grey100 &&
-            greyVariant0 == other.greyVariant0 &&
-            greyVariant10 == other.greyVariant10 &&
-            greyVariant20 == other.greyVariant20 &&
-            greyVariant30 == other.greyVariant30 &&
-            greyVariant40 == other.greyVariant40 &&
-            greyVariant50 == other.greyVariant50 &&
-            greyVariant60 == other.greyVariant60 &&
-            greyVariant70 == other.greyVariant70 &&
-            greyVariant80 == other.greyVariant80 &&
-            greyVariant90 == other.greyVariant90 &&
-            greyVariant95 == other.greyVariant95 &&
-            greyVariant98 == other.greyVariant98 &&
-            greyVariant100 == other.greyVariant100 &&
-            green0 == other.green0 &&
-            green10 == other.green10 &&
-            green20 == other.green20 &&
-            green30 == other.green30 &&
-            green40 == other.green40 &&
-            green50 == other.green50 &&
-            green60 == other.green60 &&
-            green70 == other.green70 &&
-            green80 == other.green80 &&
-            green90 == other.green90 &&
-            green95 == other.green95 &&
-            green98 == other.green98 &&
-            green100 == other.green100 &&
-            orange0 == other.orange0 &&
-            orange10 == other.orange10 &&
-            orange20 == other.orange20 &&
-            orange30 == other.orange30 &&
-            orange40 == other.orange40 &&
-            orange50 == other.orange50 &&
-            orange60 == other.orange60 &&
-            orange70 == other.orange70 &&
-            orange80 == other.orange80 &&
-            orange90 == other.orange90 &&
-            orange95 == other.orange95 &&
-            orange98 == other.orange98 &&
-            orange100 == other.orange100 &&
-            pink0 == other.pink0 &&
-            pink10 == other.pink10 &&
-            pink20 == other.pink20 &&
-            pink30 == other.pink30 &&
-            pink40 == other.pink40 &&
-            pink50 == other.pink50 &&
-            pink60 == other.pink60 &&
-            pink70 == other.pink70 &&
-            pink80 == other.pink80 &&
-            pink90 == other.pink90 &&
-            pink95 == other.pink95 &&
-            pink98 == other.pink98 &&
-            pink100 == other.pink100;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is StaticPaletteThemeData &&
+          white == other.white &&
+          black == other.black &&
+          blue0 == other.blue0 &&
+          blue10 == other.blue10 &&
+          blue20 == other.blue20 &&
+          blue30 == other.blue30 &&
+          blue40 == other.blue40 &&
+          blue50 == other.blue50 &&
+          blue60 == other.blue60 &&
+          blue70 == other.blue70 &&
+          blue80 == other.blue80 &&
+          blue90 == other.blue90 &&
+          blue95 == other.blue95 &&
+          blue98 == other.blue98 &&
+          blue100 == other.blue100 &&
+          blueVariant0 == other.blueVariant0 &&
+          blueVariant10 == other.blueVariant10 &&
+          blueVariant20 == other.blueVariant20 &&
+          blueVariant30 == other.blueVariant30 &&
+          blueVariant40 == other.blueVariant40 &&
+          blueVariant50 == other.blueVariant50 &&
+          blueVariant60 == other.blueVariant60 &&
+          blueVariant70 == other.blueVariant70 &&
+          blueVariant80 == other.blueVariant80 &&
+          blueVariant90 == other.blueVariant90 &&
+          blueVariant95 == other.blueVariant95 &&
+          blueVariant98 == other.blueVariant98 &&
+          blueVariant100 == other.blueVariant100 &&
+          yellow0 == other.yellow0 &&
+          yellow10 == other.yellow10 &&
+          yellow20 == other.yellow20 &&
+          yellow30 == other.yellow30 &&
+          yellow40 == other.yellow40 &&
+          yellow50 == other.yellow50 &&
+          yellow60 == other.yellow60 &&
+          yellow70 == other.yellow70 &&
+          yellow80 == other.yellow80 &&
+          yellow90 == other.yellow90 &&
+          yellow95 == other.yellow95 &&
+          yellow98 == other.yellow98 &&
+          yellow100 == other.yellow100 &&
+          red0 == other.red0 &&
+          red10 == other.red10 &&
+          red20 == other.red20 &&
+          red30 == other.red30 &&
+          red40 == other.red40 &&
+          red50 == other.red50 &&
+          red60 == other.red60 &&
+          red70 == other.red70 &&
+          red80 == other.red80 &&
+          red90 == other.red90 &&
+          red95 == other.red95 &&
+          red98 == other.red98 &&
+          red100 == other.red100 &&
+          purple0 == other.purple0 &&
+          purple10 == other.purple10 &&
+          purple20 == other.purple20 &&
+          purple30 == other.purple30 &&
+          purple40 == other.purple40 &&
+          purple50 == other.purple50 &&
+          purple60 == other.purple60 &&
+          purple70 == other.purple70 &&
+          purple80 == other.purple80 &&
+          purple90 == other.purple90 &&
+          purple95 == other.purple95 &&
+          purple98 == other.purple98 &&
+          purple100 == other.purple100 &&
+          cyan0 == other.cyan0 &&
+          cyan10 == other.cyan10 &&
+          cyan20 == other.cyan20 &&
+          cyan30 == other.cyan30 &&
+          cyan40 == other.cyan40 &&
+          cyan50 == other.cyan50 &&
+          cyan60 == other.cyan60 &&
+          cyan70 == other.cyan70 &&
+          cyan80 == other.cyan80 &&
+          cyan90 == other.cyan90 &&
+          cyan95 == other.cyan95 &&
+          cyan98 == other.cyan98 &&
+          cyan100 == other.cyan100 &&
+          grey0 == other.grey0 &&
+          grey10 == other.grey10 &&
+          grey20 == other.grey20 &&
+          grey30 == other.grey30 &&
+          grey40 == other.grey40 &&
+          grey50 == other.grey50 &&
+          grey60 == other.grey60 &&
+          grey70 == other.grey70 &&
+          grey80 == other.grey80 &&
+          grey90 == other.grey90 &&
+          grey95 == other.grey95 &&
+          grey98 == other.grey98 &&
+          grey100 == other.grey100 &&
+          greyVariant0 == other.greyVariant0 &&
+          greyVariant10 == other.greyVariant10 &&
+          greyVariant20 == other.greyVariant20 &&
+          greyVariant30 == other.greyVariant30 &&
+          greyVariant40 == other.greyVariant40 &&
+          greyVariant50 == other.greyVariant50 &&
+          greyVariant60 == other.greyVariant60 &&
+          greyVariant70 == other.greyVariant70 &&
+          greyVariant80 == other.greyVariant80 &&
+          greyVariant90 == other.greyVariant90 &&
+          greyVariant95 == other.greyVariant95 &&
+          greyVariant98 == other.greyVariant98 &&
+          greyVariant100 == other.greyVariant100 &&
+          green0 == other.green0 &&
+          green10 == other.green10 &&
+          green20 == other.green20 &&
+          green30 == other.green30 &&
+          green40 == other.green40 &&
+          green50 == other.green50 &&
+          green60 == other.green60 &&
+          green70 == other.green70 &&
+          green80 == other.green80 &&
+          green90 == other.green90 &&
+          green95 == other.green95 &&
+          green98 == other.green98 &&
+          green100 == other.green100 &&
+          orange0 == other.orange0 &&
+          orange10 == other.orange10 &&
+          orange20 == other.orange20 &&
+          orange30 == other.orange30 &&
+          orange40 == other.orange40 &&
+          orange50 == other.orange50 &&
+          orange60 == other.orange60 &&
+          orange70 == other.orange70 &&
+          orange80 == other.orange80 &&
+          orange90 == other.orange90 &&
+          orange95 == other.orange95 &&
+          orange98 == other.orange98 &&
+          orange100 == other.orange100 &&
+          pink0 == other.pink0 &&
+          pink10 == other.pink10 &&
+          pink20 == other.pink20 &&
+          pink30 == other.pink30 &&
+          pink40 == other.pink40 &&
+          pink50 == other.pink50 &&
+          pink60 == other.pink60 &&
+          pink70 == other.pink70 &&
+          pink80 == other.pink80 &&
+          pink90 == other.pink90 &&
+          pink95 == other.pink95 &&
+          pink98 == other.pink98 &&
+          pink100 == other.pink100;
 
   @override
   int get hashCode => Object.hash(
@@ -7294,14 +7445,12 @@ class BaselinePaletteTheme extends InheritedTheme {
   final BaselinePaletteThemeData data;
 
   @override
-  bool updateShouldNotify(covariant BaselinePaletteTheme oldWidget) {
-    return data != oldWidget.data;
-  }
+  bool updateShouldNotify(BaselinePaletteTheme oldWidget) =>
+      data != oldWidget.data;
 
   @override
-  Widget wrap(BuildContext context, Widget child) {
-    return BaselinePaletteTheme(data: data, child: child);
-  }
+  Widget wrap(BuildContext context, Widget child) =>
+      BaselinePaletteTheme(data: data, child: child);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -7321,11 +7470,8 @@ class BaselinePaletteTheme extends InheritedTheme {
     ),
   );
 
-  static BaselinePaletteThemeData? maybeOf(BuildContext context) {
-    return context
-        .dependOnInheritedWidgetOfExactType<BaselinePaletteTheme>()
-        ?.data;
-  }
+  static BaselinePaletteThemeData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<BaselinePaletteTheme>()?.data;
 
   static BaselinePaletteThemeData of(BuildContext context) {
     final result = maybeOf(context);
@@ -7345,14 +7491,12 @@ class StaticPaletteTheme extends InheritedTheme {
   final StaticPaletteThemeData data;
 
   @override
-  bool updateShouldNotify(covariant StaticPaletteTheme oldWidget) {
-    return data != oldWidget.data;
-  }
+  bool updateShouldNotify(StaticPaletteTheme oldWidget) =>
+      data != oldWidget.data;
 
   @override
-  Widget wrap(BuildContext context, Widget child) {
-    return StaticPaletteTheme(data: data, child: child);
-  }
+  Widget wrap(BuildContext context, Widget child) =>
+      StaticPaletteTheme(data: data, child: child);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -7372,11 +7516,8 @@ class StaticPaletteTheme extends InheritedTheme {
     ),
   );
 
-  static StaticPaletteThemeData? maybeOf(BuildContext context) {
-    return context
-        .dependOnInheritedWidgetOfExactType<StaticPaletteTheme>()
-        ?.data;
-  }
+  static StaticPaletteThemeData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<StaticPaletteTheme>()?.data;
 
   static StaticPaletteThemeData of(BuildContext context) {
     final result = maybeOf(context);

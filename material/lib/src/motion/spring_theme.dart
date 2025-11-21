@@ -1,5 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import 'package:material/src/flutter.dart';
 
 @immutable
 abstract class SpringPartial with Diagnosticable {
@@ -9,38 +8,36 @@ abstract class SpringPartial with Diagnosticable {
       _SpringPartial.from;
 
   double? get stiffness;
+
   double? get damping;
 
-  SpringPartial copyWith({double? stiffness, double? damping}) {
-    if (stiffness == null && damping == null) {
-      return this;
-    }
-    return SpringPartial.from(
-      stiffness: stiffness ?? this.stiffness,
-      damping: damping ?? this.damping,
-    );
-  }
+  SpringPartial copyWith({double? stiffness, double? damping}) =>
+      stiffness != null || damping != null
+      ? SpringPartial.from(
+          stiffness: stiffness ?? this.stiffness,
+          damping: damping ?? this.damping,
+        )
+      : this;
 
-  SpringPartial merge(SpringPartial? other) {
-    if (other == null) return this;
-    return copyWith(stiffness: other.stiffness, damping: other.damping);
-  }
+  SpringPartial merge(SpringPartial? other) => other != null
+      ? copyWith(stiffness: other.stiffness, damping: other.damping)
+      : this;
 
   @override
+  // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DoubleProperty("stiffness", stiffness, defaultValue: null));
-    properties.add(DoubleProperty("damping", damping, defaultValue: null));
+    properties
+      ..add(DoubleProperty("stiffness", stiffness, defaultValue: null))
+      ..add(DoubleProperty("damping", damping, defaultValue: null));
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is SpringPartial &&
-            stiffness == other.stiffness &&
-            damping == other.damping;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is SpringPartial &&
+          stiffness == other.stiffness &&
+          damping == other.damping;
 
   @override
   int get hashCode => Object.hash(runtimeType, stiffness, damping);
@@ -73,21 +70,18 @@ abstract class Spring extends SpringPartial {
   double get damping;
 
   @override
-  Spring copyWith({double? stiffness, double? damping}) {
-    if (stiffness == null && damping == null) {
-      return this;
-    }
-    return Spring.from(
-      stiffness: stiffness ?? this.stiffness,
-      damping: damping ?? this.damping,
-    );
-  }
+  Spring copyWith({double? stiffness, double? damping}) =>
+      stiffness != null || damping != null
+      ? Spring.from(
+          stiffness: stiffness ?? this.stiffness,
+          damping: damping ?? this.damping,
+        )
+      : this;
 
   @override
-  Spring merge(SpringPartial? other) {
-    if (other == null) return this;
-    return copyWith(stiffness: other.stiffness, damping: other.damping);
-  }
+  Spring merge(SpringPartial? other) => other != null
+      ? copyWith(stiffness: other.stiffness, damping: other.damping)
+      : this;
 
   SpringDescription toSpringDescription() => SpringDescription.withDampingRatio(
     mass: 1.0,
@@ -96,20 +90,20 @@ abstract class Spring extends SpringPartial {
   );
 
   @override
+  // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DoubleProperty("stiffness", stiffness));
-    properties.add(DoubleProperty("damping", damping));
+    properties
+      ..add(DoubleProperty("stiffness", stiffness))
+      ..add(DoubleProperty("damping", damping));
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is Spring &&
-            stiffness == other.stiffness &&
-            damping == other.damping;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is Spring &&
+          stiffness == other.stiffness &&
+          damping == other.damping;
 
   @override
   int get hashCode => Object.hash(runtimeType, stiffness, damping);
@@ -140,10 +134,15 @@ abstract class SpringThemeDataPartial with Diagnosticable {
   }) = _SpringThemeDataPartial.from;
 
   SpringPartial? get fastSpatial;
+
   SpringPartial? get fastEffects;
+
   SpringPartial? get defaultSpatial;
+
   SpringPartial? get defaultEffects;
+
   SpringPartial? get slowSpatial;
+
   SpringPartial? get slowEffects;
 
   SpringThemeDataPartial copyWith({
@@ -153,24 +152,22 @@ abstract class SpringThemeDataPartial with Diagnosticable {
     covariant SpringPartial? defaultEffects,
     covariant SpringPartial? slowSpatial,
     covariant SpringPartial? slowEffects,
-  }) {
-    if (fastSpatial == null &&
-        fastEffects == null &&
-        defaultSpatial == null &&
-        defaultEffects == null &&
-        slowSpatial == null &&
-        slowEffects == null) {
-      return this;
-    }
-    return SpringThemeDataPartial.from(
-      fastSpatial: fastSpatial ?? this.fastSpatial,
-      fastEffects: fastEffects ?? this.fastEffects,
-      defaultSpatial: defaultSpatial ?? this.defaultSpatial,
-      defaultEffects: defaultEffects ?? this.defaultEffects,
-      slowSpatial: slowSpatial ?? this.slowSpatial,
-      slowEffects: slowEffects ?? this.slowEffects,
-    );
-  }
+  }) =>
+      fastSpatial != null ||
+          fastEffects != null ||
+          defaultSpatial != null ||
+          defaultEffects != null ||
+          slowSpatial != null ||
+          slowEffects != null
+      ? SpringThemeDataPartial.from(
+          fastSpatial: fastSpatial ?? this.fastSpatial,
+          fastEffects: fastEffects ?? this.fastEffects,
+          defaultSpatial: defaultSpatial ?? this.defaultSpatial,
+          defaultEffects: defaultEffects ?? this.defaultEffects,
+          slowSpatial: slowSpatial ?? this.slowSpatial,
+          slowEffects: slowEffects ?? this.slowEffects,
+        )
+      : this;
 
   SpringThemeDataPartial mergeWith({
     covariant SpringPartial? fastSpatial,
@@ -179,51 +176,47 @@ abstract class SpringThemeDataPartial with Diagnosticable {
     covariant SpringPartial? defaultEffects,
     covariant SpringPartial? slowSpatial,
     covariant SpringPartial? slowEffects,
-  }) {
-    if (fastSpatial == null &&
-        fastEffects == null &&
-        defaultSpatial == null &&
-        defaultEffects == null &&
-        slowSpatial == null &&
-        slowEffects == null) {
-      return this;
-    }
-    return SpringThemeDataPartial.from(
-      fastSpatial: this.fastSpatial?.merge(fastSpatial) ?? fastSpatial,
-      fastEffects: this.fastEffects?.merge(fastEffects) ?? fastEffects,
-      defaultSpatial:
-          this.defaultSpatial?.merge(defaultSpatial) ?? defaultSpatial,
-      defaultEffects:
-          this.defaultEffects?.merge(defaultEffects) ?? defaultEffects,
-      slowSpatial: this.slowSpatial?.merge(slowSpatial) ?? slowSpatial,
-      slowEffects: this.slowEffects?.merge(slowEffects) ?? slowEffects,
-    );
-  }
+  }) =>
+      fastSpatial != null ||
+          fastEffects != null ||
+          defaultSpatial != null ||
+          defaultEffects != null ||
+          slowSpatial != null ||
+          slowEffects != null
+      ? SpringThemeDataPartial.from(
+          fastSpatial: this.fastSpatial?.merge(fastSpatial) ?? fastSpatial,
+          fastEffects: this.fastEffects?.merge(fastEffects) ?? fastEffects,
+          defaultSpatial:
+              this.defaultSpatial?.merge(defaultSpatial) ?? defaultSpatial,
+          defaultEffects:
+              this.defaultEffects?.merge(defaultEffects) ?? defaultEffects,
+          slowSpatial: this.slowSpatial?.merge(slowSpatial) ?? slowSpatial,
+          slowEffects: this.slowEffects?.merge(slowEffects) ?? slowEffects,
+        )
+      : this;
 
-  SpringThemeDataPartial merge(SpringThemeDataPartial? other) {
-    if (other == null) return this;
-    return mergeWith(
-      fastSpatial: other.fastSpatial,
-      fastEffects: other.fastEffects,
-      defaultSpatial: other.defaultSpatial,
-      defaultEffects: other.defaultEffects,
-      slowSpatial: other.slowSpatial,
-      slowEffects: other.slowEffects,
-    );
-  }
+  SpringThemeDataPartial merge(SpringThemeDataPartial? other) => other != null
+      ? mergeWith(
+          fastSpatial: other.fastSpatial,
+          fastEffects: other.fastEffects,
+          defaultSpatial: other.defaultSpatial,
+          defaultEffects: other.defaultEffects,
+          slowSpatial: other.slowSpatial,
+          slowEffects: other.slowEffects,
+        )
+      : this;
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is SpringThemeDataPartial &&
-            fastSpatial == other.fastSpatial &&
-            fastEffects == other.fastEffects &&
-            defaultSpatial == other.defaultSpatial &&
-            defaultEffects == other.defaultEffects &&
-            slowSpatial == other.slowSpatial &&
-            slowEffects == other.slowEffects;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is SpringThemeDataPartial &&
+          fastSpatial == other.fastSpatial &&
+          fastEffects == other.fastEffects &&
+          defaultSpatial == other.defaultSpatial &&
+          defaultEffects == other.defaultEffects &&
+          slowSpatial == other.slowSpatial &&
+          slowEffects == other.slowEffects;
 
   @override
   int get hashCode => Object.hash(
@@ -280,6 +273,7 @@ abstract class SpringThemeData extends SpringThemeDataPartial {
   }) = _SpringThemeData.from;
 
   const factory SpringThemeData.standard() = _SpringThemeData.standard;
+
   const factory SpringThemeData.expressive() = _SpringThemeData.expressive;
 
   @override
@@ -308,24 +302,22 @@ abstract class SpringThemeData extends SpringThemeDataPartial {
     covariant Spring? defaultEffects,
     covariant Spring? slowSpatial,
     covariant Spring? slowEffects,
-  }) {
-    if (fastSpatial == null &&
-        fastEffects == null &&
-        defaultSpatial == null &&
-        defaultEffects == null &&
-        slowSpatial == null &&
-        slowEffects == null) {
-      return this;
-    }
-    return SpringThemeData.from(
-      fastSpatial: fastSpatial ?? this.fastSpatial,
-      fastEffects: fastEffects ?? this.fastEffects,
-      defaultSpatial: defaultSpatial ?? this.defaultSpatial,
-      defaultEffects: defaultEffects ?? this.defaultEffects,
-      slowSpatial: slowSpatial ?? this.slowSpatial,
-      slowEffects: slowEffects ?? this.slowEffects,
-    );
-  }
+  }) =>
+      fastSpatial != null ||
+          fastEffects != null ||
+          defaultSpatial != null ||
+          defaultEffects != null ||
+          slowSpatial != null ||
+          slowEffects != null
+      ? SpringThemeData.from(
+          fastSpatial: fastSpatial ?? this.fastSpatial,
+          fastEffects: fastEffects ?? this.fastEffects,
+          defaultSpatial: defaultSpatial ?? this.defaultSpatial,
+          defaultEffects: defaultEffects ?? this.defaultEffects,
+          slowSpatial: slowSpatial ?? this.slowSpatial,
+          slowEffects: slowEffects ?? this.slowEffects,
+        )
+      : this;
 
   @override
   SpringThemeData mergeWith({
@@ -335,50 +327,46 @@ abstract class SpringThemeData extends SpringThemeDataPartial {
     covariant SpringPartial? defaultEffects,
     covariant SpringPartial? slowSpatial,
     covariant SpringPartial? slowEffects,
-  }) {
-    if (fastSpatial == null &&
-        fastEffects == null &&
-        defaultSpatial == null &&
-        defaultEffects == null &&
-        slowSpatial == null &&
-        slowEffects == null) {
-      return this;
-    }
-    return SpringThemeData.from(
-      fastSpatial: this.fastSpatial.merge(fastSpatial),
-      fastEffects: this.fastEffects.merge(fastEffects),
-      defaultSpatial: this.defaultSpatial.merge(defaultSpatial),
-      defaultEffects: this.defaultEffects.merge(defaultEffects),
-      slowSpatial: this.slowSpatial.merge(slowSpatial),
-      slowEffects: this.slowEffects.merge(slowEffects),
-    );
-  }
+  }) =>
+      fastSpatial != null ||
+          fastEffects != null ||
+          defaultSpatial != null ||
+          defaultEffects != null ||
+          slowSpatial != null ||
+          slowEffects != null
+      ? SpringThemeData.from(
+          fastSpatial: this.fastSpatial.merge(fastSpatial),
+          fastEffects: this.fastEffects.merge(fastEffects),
+          defaultSpatial: this.defaultSpatial.merge(defaultSpatial),
+          defaultEffects: this.defaultEffects.merge(defaultEffects),
+          slowSpatial: this.slowSpatial.merge(slowSpatial),
+          slowEffects: this.slowEffects.merge(slowEffects),
+        )
+      : this;
 
   @override
-  SpringThemeData merge(SpringThemeDataPartial? other) {
-    if (other == null) return this;
-    return mergeWith(
-      fastSpatial: other.fastSpatial,
-      fastEffects: other.fastEffects,
-      defaultSpatial: other.defaultSpatial,
-      defaultEffects: other.defaultEffects,
-      slowSpatial: other.slowSpatial,
-      slowEffects: other.slowEffects,
-    );
-  }
+  SpringThemeData merge(SpringThemeDataPartial? other) => other != null
+      ? mergeWith(
+          fastSpatial: other.fastSpatial,
+          fastEffects: other.fastEffects,
+          defaultSpatial: other.defaultSpatial,
+          defaultEffects: other.defaultEffects,
+          slowSpatial: other.slowSpatial,
+          slowEffects: other.slowEffects,
+        )
+      : this;
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is SpringThemeData &&
-            fastSpatial == other.fastSpatial &&
-            fastEffects == other.fastEffects &&
-            defaultSpatial == other.defaultSpatial &&
-            defaultEffects == other.defaultEffects &&
-            slowSpatial == other.slowSpatial &&
-            slowEffects == other.slowEffects;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is SpringThemeData &&
+          fastSpatial == other.fastSpatial &&
+          fastEffects == other.fastEffects &&
+          defaultSpatial == other.defaultSpatial &&
+          defaultEffects == other.defaultEffects &&
+          slowSpatial == other.slowSpatial &&
+          slowEffects == other.slowEffects;
 
   @override
   int get hashCode => Object.hash(
@@ -438,8 +426,6 @@ class _SpringThemeData extends SpringThemeData {
   final Spring slowEffects;
 }
 
-// enum MotionScheme { standard, expressive }
-
 @immutable
 class SpringTheme extends InheritedTheme {
   const SpringTheme({super.key, required this.data, required super.child});
@@ -447,14 +433,11 @@ class SpringTheme extends InheritedTheme {
   final SpringThemeData data;
 
   @override
-  bool updateShouldNotify(covariant SpringTheme oldWidget) {
-    return data != oldWidget.data;
-  }
+  bool updateShouldNotify(SpringTheme oldWidget) => data != oldWidget.data;
 
   @override
-  Widget wrap(BuildContext context, Widget child) {
-    return SpringTheme(data: data, child: child);
-  }
+  Widget wrap(BuildContext context, Widget child) =>
+      SpringTheme(data: data, child: child);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -471,13 +454,9 @@ class SpringTheme extends InheritedTheme {
         SpringTheme(key: key, data: of(context).merge(data), child: child),
   );
 
-  static SpringThemeData? maybeOf(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<SpringTheme>()?.data;
-  }
+  static SpringThemeData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<SpringTheme>()?.data;
 
-  static SpringThemeData of(BuildContext context) {
-    final result = maybeOf(context);
-    if (result != null) return result;
-    return const SpringThemeData.standard();
-  }
+  static SpringThemeData of(BuildContext context) =>
+      maybeOf(context) ?? const SpringThemeData.standard();
 }

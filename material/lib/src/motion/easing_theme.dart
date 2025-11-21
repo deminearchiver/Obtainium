@@ -1,5 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import 'package:material/src/flutter.dart';
 
 @immutable
 class _Linear extends Curve {
@@ -7,6 +6,14 @@ class _Linear extends Curve {
 
   @override
   double transformInternal(double t) => t;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType && other is _Linear;
+
+  @override
+  int get hashCode => runtimeType.hashCode;
 }
 
 @immutable
@@ -48,124 +55,123 @@ abstract class EasingThemeDataPartial with Diagnosticable {
     Curve? legacyAccelerate,
     Curve? legacyDecelerate,
     Curve? linear,
-  }) {
-    if (emphasized == null &&
-        emphasizedAccelerate == null &&
-        emphasizedDecelerate == null &&
-        standard == null &&
-        standardAccelerate == null &&
-        standardDecelerate == null &&
-        legacy == null &&
-        legacyAccelerate == null &&
-        legacyDecelerate == null &&
-        linear == null) {
-      return this;
-    }
-    return EasingThemeDataPartial.from(
-      emphasized: emphasized ?? this.emphasized,
-      emphasizedAccelerate: emphasizedAccelerate ?? this.emphasizedAccelerate,
-      emphasizedDecelerate: emphasizedDecelerate ?? this.emphasizedDecelerate,
-      standard: standard ?? this.standard,
-      standardAccelerate: standardAccelerate ?? this.standardAccelerate,
-      standardDecelerate: standardDecelerate ?? this.standardDecelerate,
-      legacy: legacy ?? this.legacy,
-      legacyAccelerate: legacyAccelerate ?? this.legacyAccelerate,
-      legacyDecelerate: legacyDecelerate ?? this.legacyDecelerate,
-      linear: linear ?? this.linear,
-    );
-  }
+  }) =>
+      emphasized != null ||
+          emphasizedAccelerate != null ||
+          emphasizedDecelerate != null ||
+          standard != null ||
+          standardAccelerate != null ||
+          standardDecelerate != null ||
+          legacy != null ||
+          legacyAccelerate != null ||
+          legacyDecelerate != null ||
+          linear != null
+      ? EasingThemeDataPartial.from(
+          emphasized: emphasized ?? this.emphasized,
+          emphasizedAccelerate:
+              emphasizedAccelerate ?? this.emphasizedAccelerate,
+          emphasizedDecelerate:
+              emphasizedDecelerate ?? this.emphasizedDecelerate,
+          standard: standard ?? this.standard,
+          standardAccelerate: standardAccelerate ?? this.standardAccelerate,
+          standardDecelerate: standardDecelerate ?? this.standardDecelerate,
+          legacy: legacy ?? this.legacy,
+          legacyAccelerate: legacyAccelerate ?? this.legacyAccelerate,
+          legacyDecelerate: legacyDecelerate ?? this.legacyDecelerate,
+          linear: linear ?? this.linear,
+        )
+      : this;
 
-  EasingThemeDataPartial merge(EasingThemeDataPartial? other) {
-    if (other == null) return this;
-    return copyWith(
-      emphasized: other.emphasized,
-      emphasizedAccelerate: other.emphasizedAccelerate,
-      emphasizedDecelerate: other.emphasizedDecelerate,
-      standard: other.standard,
-      standardAccelerate: other.standardAccelerate,
-      standardDecelerate: other.standardDecelerate,
-      legacy: other.legacy,
-      legacyAccelerate: other.legacyAccelerate,
-      legacyDecelerate: other.legacyDecelerate,
-      linear: other.linear,
-    );
-  }
+  EasingThemeDataPartial merge(EasingThemeDataPartial? other) => other != null
+      ? copyWith(
+          emphasized: other.emphasized,
+          emphasizedAccelerate: other.emphasizedAccelerate,
+          emphasizedDecelerate: other.emphasizedDecelerate,
+          standard: other.standard,
+          standardAccelerate: other.standardAccelerate,
+          standardDecelerate: other.standardDecelerate,
+          legacy: other.legacy,
+          legacyAccelerate: other.legacyAccelerate,
+          legacyDecelerate: other.legacyDecelerate,
+          linear: other.linear,
+        )
+      : this;
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(
-      DiagnosticsProperty<Curve>("emphasized", emphasized, defaultValue: null),
-    );
-    properties.add(
-      DiagnosticsProperty<Curve>(
-        "emphasizedAccelerate",
-        emphasizedAccelerate,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      DiagnosticsProperty<Curve>(
-        "emphasizedDecelerate",
-        emphasizedDecelerate,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      DiagnosticsProperty<Curve>("standard", standard, defaultValue: null),
-    );
-    properties.add(
-      DiagnosticsProperty<Curve>(
-        "standardAccelerate",
-        standardAccelerate,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      DiagnosticsProperty<Curve>(
-        "standardDecelerate",
-        standardDecelerate,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      DiagnosticsProperty<Curve>("legacy", legacy, defaultValue: null),
-    );
-    properties.add(
-      DiagnosticsProperty<Curve>(
-        "legacyAccelerate",
-        legacyAccelerate,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      DiagnosticsProperty<Curve>(
-        "legacyDecelerate",
-        legacyDecelerate,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      DiagnosticsProperty<Curve>("linear", linear, defaultValue: null),
-    );
+    properties
+      ..add(
+        DiagnosticsProperty<Curve>(
+          "emphasized",
+          emphasized,
+          defaultValue: null,
+        ),
+      )
+      ..add(
+        DiagnosticsProperty<Curve>(
+          "emphasizedAccelerate",
+          emphasizedAccelerate,
+          defaultValue: null,
+        ),
+      )
+      ..add(
+        DiagnosticsProperty<Curve>(
+          "emphasizedDecelerate",
+          emphasizedDecelerate,
+          defaultValue: null,
+        ),
+      )
+      ..add(
+        DiagnosticsProperty<Curve>("standard", standard, defaultValue: null),
+      )
+      ..add(
+        DiagnosticsProperty<Curve>(
+          "standardAccelerate",
+          standardAccelerate,
+          defaultValue: null,
+        ),
+      )
+      ..add(
+        DiagnosticsProperty<Curve>(
+          "standardDecelerate",
+          standardDecelerate,
+          defaultValue: null,
+        ),
+      )
+      ..add(DiagnosticsProperty<Curve>("legacy", legacy, defaultValue: null))
+      ..add(
+        DiagnosticsProperty<Curve>(
+          "legacyAccelerate",
+          legacyAccelerate,
+          defaultValue: null,
+        ),
+      )
+      ..add(
+        DiagnosticsProperty<Curve>(
+          "legacyDecelerate",
+          legacyDecelerate,
+          defaultValue: null,
+        ),
+      )
+      ..add(DiagnosticsProperty<Curve>("linear", linear, defaultValue: null));
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is EasingThemeDataPartial &&
-            emphasized == other.emphasized &&
-            emphasizedAccelerate == other.emphasizedAccelerate &&
-            emphasizedDecelerate == other.emphasizedDecelerate &&
-            standard == other.standard &&
-            standardAccelerate == other.standardAccelerate &&
-            standardDecelerate == other.standardDecelerate &&
-            legacy == other.legacy &&
-            legacyAccelerate == other.legacyAccelerate &&
-            legacyDecelerate == other.legacyDecelerate &&
-            linear == other.linear;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is EasingThemeDataPartial &&
+          emphasized == other.emphasized &&
+          emphasizedAccelerate == other.emphasizedAccelerate &&
+          emphasizedDecelerate == other.emphasizedDecelerate &&
+          standard == other.standard &&
+          standardAccelerate == other.standardAccelerate &&
+          standardDecelerate == other.standardDecelerate &&
+          legacy == other.legacy &&
+          legacyAccelerate == other.legacyAccelerate &&
+          legacyDecelerate == other.legacyDecelerate &&
+          linear == other.linear;
 
   @override
   int get hashCode => Object.hash(
@@ -290,93 +296,94 @@ abstract class EasingThemeData extends EasingThemeDataPartial {
     Curve? legacyAccelerate,
     Curve? legacyDecelerate,
     Curve? linear,
-  }) {
-    if (emphasized == null &&
-        emphasizedAccelerate == null &&
-        emphasizedDecelerate == null &&
-        standard == null &&
-        standardAccelerate == null &&
-        standardDecelerate == null &&
-        legacy == null &&
-        legacyAccelerate == null &&
-        legacyDecelerate == null &&
-        linear == null) {
-      return this;
-    }
-    return EasingThemeData.from(
-      emphasized: emphasized ?? this.emphasized,
-      emphasizedAccelerate: emphasizedAccelerate ?? this.emphasizedAccelerate,
-      emphasizedDecelerate: emphasizedDecelerate ?? this.emphasizedDecelerate,
-      standard: standard ?? this.standard,
-      standardAccelerate: standardAccelerate ?? this.standardAccelerate,
-      standardDecelerate: standardDecelerate ?? this.standardDecelerate,
-      legacy: legacy ?? this.legacy,
-      legacyAccelerate: legacyAccelerate ?? this.legacyAccelerate,
-      legacyDecelerate: legacyDecelerate ?? this.legacyDecelerate,
-      linear: linear ?? this.linear,
-    );
-  }
+  }) =>
+      emphasized != null ||
+          emphasizedAccelerate != null ||
+          emphasizedDecelerate != null ||
+          standard != null ||
+          standardAccelerate != null ||
+          standardDecelerate != null ||
+          legacy != null ||
+          legacyAccelerate != null ||
+          legacyDecelerate != null ||
+          linear != null
+      ? EasingThemeData.from(
+          emphasized: emphasized ?? this.emphasized,
+          emphasizedAccelerate:
+              emphasizedAccelerate ?? this.emphasizedAccelerate,
+          emphasizedDecelerate:
+              emphasizedDecelerate ?? this.emphasizedDecelerate,
+          standard: standard ?? this.standard,
+          standardAccelerate: standardAccelerate ?? this.standardAccelerate,
+          standardDecelerate: standardDecelerate ?? this.standardDecelerate,
+          legacy: legacy ?? this.legacy,
+          legacyAccelerate: legacyAccelerate ?? this.legacyAccelerate,
+          legacyDecelerate: legacyDecelerate ?? this.legacyDecelerate,
+          linear: linear ?? this.linear,
+        )
+      : this;
 
   @override
-  EasingThemeData merge(EasingThemeDataPartial? other) {
-    if (other == null) return this;
-    return copyWith(
-      emphasized: other.emphasized,
-      emphasizedAccelerate: other.emphasizedAccelerate,
-      emphasizedDecelerate: other.emphasizedDecelerate,
-      standard: other.standard,
-      standardAccelerate: other.standardAccelerate,
-      standardDecelerate: other.standardDecelerate,
-      legacy: other.legacy,
-      legacyAccelerate: other.legacyAccelerate,
-      legacyDecelerate: other.legacyDecelerate,
-      linear: other.linear,
-    );
-  }
+  EasingThemeData merge(EasingThemeDataPartial? other) => other != null
+      ? copyWith(
+          emphasized: other.emphasized,
+          emphasizedAccelerate: other.emphasizedAccelerate,
+          emphasizedDecelerate: other.emphasizedDecelerate,
+          standard: other.standard,
+          standardAccelerate: other.standardAccelerate,
+          standardDecelerate: other.standardDecelerate,
+          legacy: other.legacy,
+          legacyAccelerate: other.legacyAccelerate,
+          legacyDecelerate: other.legacyDecelerate,
+          linear: other.linear,
+        )
+      : this;
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<Curve>("emphasized", emphasized));
-    properties.add(
-      DiagnosticsProperty<Curve>("emphasizedAccelerate", emphasizedAccelerate),
-    );
-    properties.add(
-      DiagnosticsProperty<Curve>("emphasizedDecelerate", emphasizedDecelerate),
-    );
-    properties.add(DiagnosticsProperty<Curve>("standard", standard));
-    properties.add(
-      DiagnosticsProperty<Curve>("standardAccelerate", standardAccelerate),
-    );
-    properties.add(
-      DiagnosticsProperty<Curve>("standardDecelerate", standardDecelerate),
-    );
-    properties.add(DiagnosticsProperty<Curve>("legacy", legacy));
-    properties.add(
-      DiagnosticsProperty<Curve>("legacyAccelerate", legacyAccelerate),
-    );
-    properties.add(
-      DiagnosticsProperty<Curve>("legacyDecelerate", legacyDecelerate),
-    );
-    properties.add(DiagnosticsProperty<Curve>("linear", linear));
+    properties
+      ..add(DiagnosticsProperty<Curve>("emphasized", emphasized))
+      ..add(
+        DiagnosticsProperty<Curve>(
+          "emphasizedAccelerate",
+          emphasizedAccelerate,
+        ),
+      )
+      ..add(
+        DiagnosticsProperty<Curve>(
+          "emphasizedDecelerate",
+          emphasizedDecelerate,
+        ),
+      )
+      ..add(DiagnosticsProperty<Curve>("standard", standard))
+      ..add(
+        DiagnosticsProperty<Curve>("standardAccelerate", standardAccelerate),
+      )
+      ..add(
+        DiagnosticsProperty<Curve>("standardDecelerate", standardDecelerate),
+      )
+      ..add(DiagnosticsProperty<Curve>("legacy", legacy))
+      ..add(DiagnosticsProperty<Curve>("legacyAccelerate", legacyAccelerate))
+      ..add(DiagnosticsProperty<Curve>("legacyDecelerate", legacyDecelerate))
+      ..add(DiagnosticsProperty<Curve>("linear", linear));
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is EasingThemeData &&
-            emphasized == other.emphasized &&
-            emphasizedAccelerate == other.emphasizedAccelerate &&
-            emphasizedDecelerate == other.emphasizedDecelerate &&
-            standard == other.standard &&
-            standardAccelerate == other.standardAccelerate &&
-            standardDecelerate == other.standardDecelerate &&
-            legacy == other.legacy &&
-            legacyAccelerate == other.legacyAccelerate &&
-            legacyDecelerate == other.legacyDecelerate &&
-            linear == other.linear;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is EasingThemeData &&
+          emphasized == other.emphasized &&
+          emphasizedAccelerate == other.emphasizedAccelerate &&
+          emphasizedDecelerate == other.emphasizedDecelerate &&
+          standard == other.standard &&
+          standardAccelerate == other.standardAccelerate &&
+          standardDecelerate == other.standardDecelerate &&
+          legacy == other.legacy &&
+          legacyAccelerate == other.legacyAccelerate &&
+          legacyDecelerate == other.legacyDecelerate &&
+          linear == other.linear;
 
   @override
   int get hashCode => Object.hash(
@@ -465,14 +472,11 @@ class EasingTheme extends InheritedTheme {
   final EasingThemeData data;
 
   @override
-  bool updateShouldNotify(covariant EasingTheme oldWidget) {
-    return data != oldWidget.data;
-  }
+  bool updateShouldNotify(EasingTheme oldWidget) => data != oldWidget.data;
 
   @override
-  Widget wrap(BuildContext context, Widget child) {
-    return EasingTheme(data: data, child: child);
-  }
+  Widget wrap(BuildContext context, Widget child) =>
+      EasingTheme(data: data, child: child);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -489,13 +493,9 @@ class EasingTheme extends InheritedTheme {
         EasingTheme(key: key, data: of(context).merge(data), child: child),
   );
 
-  static EasingThemeData? maybeOf(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<EasingTheme>()?.data;
-  }
+  static EasingThemeData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<EasingTheme>()?.data;
 
-  static EasingThemeData of(BuildContext context) {
-    final result = maybeOf(context);
-    if (result != null) return result;
-    return const EasingThemeData.fallback();
-  }
+  static EasingThemeData of(BuildContext context) =>
+      maybeOf(context) ?? const EasingThemeData.fallback();
 }

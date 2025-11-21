@@ -3,6 +3,58 @@ import 'package:flutter/material.dart' as flutter;
 
 typedef IconLegacy = flutter.Icon;
 
+/// A graphical icon widget drawn with a glyph from a font described in
+/// an [IconData] such as material's predefined [IconData]s in [Symbols].
+///
+/// Icons are not interactive. For an interactive icon, consider material's
+/// [IconButton].
+///
+/// There must be an ambient [Directionality] widget when using [Icon].
+/// Typically this is introduced automatically by the [WidgetsApp] or
+/// [MaterialApp].
+///
+/// This widget assumes that the rendered icon is squared. Non-squared icons may
+/// render incorrectly.
+///
+/// {@tool snippet}
+///
+/// This example shows how to create a [Flex.horizontal] of [Icon]s in different colors and
+/// sizes. The first [Icon] uses a [semanticLabel] to announce in accessibility
+/// modes like TalkBack and VoiceOver.
+///
+/// ![The following code snippet would generate a row of icons consisting of a pink heart, a green musical note, and a blue umbrella, each progressively bigger than the last.](https://flutter.github.io/assets-for-api-docs/assets/widgets/icon.png)
+///
+/// ```dart
+/// const Flex.horizontal(
+///   mainAxisAlignment: MainAxisAlignment.spaceAround,
+///   children: <Widget>[
+///     Icon(
+///       Icons.favorite,
+///       color: Colors.pink,
+///       size: 24.0,
+///       semanticLabel: 'Text to announce in accessibility modes',
+///     ),
+///     Icon(
+///       Icons.audiotrack,
+///       color: Colors.green,
+///       size: 30.0,
+///     ),
+///     Icon(
+///       Icons.beach_access,
+///       color: Colors.blue,
+///       size: 36.0,
+///     ),
+///   ],
+/// )
+/// ```
+/// {@end-tool}
+///
+/// See also:
+///
+///  * [IconButton], for interactive icons.
+///  * [Icons], for the list of available Material Icons for use with this class.
+///  * [IconTheme], which provides ambient configuration for icons.
+///  * [ImageIcon], for showing icons from [AssetImage]s or other [ImageProvider]s.
 class Icon extends StatelessWidget {
   /// Creates an icon.
   const Icon(
@@ -282,36 +334,29 @@ class Icon extends StatelessWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(
-      IconDataProperty("icon", icon, ifNull: "<empty>", showName: false),
-    );
-    properties.add(DoubleProperty("size", size, defaultValue: null));
-    properties.add(DoubleProperty("fill", fill, defaultValue: null));
-    properties.add(DoubleProperty("weight", weight, defaultValue: null));
-    properties.add(DoubleProperty("grade", grade, defaultValue: null));
-    properties.add(
-      DoubleProperty("opticalSize", opticalSize, defaultValue: null),
-    );
-    properties.add(ColorProperty("color", color, defaultValue: null));
-    properties.add(
-      IterableProperty<Shadow>("shadows", shadows, defaultValue: null),
-    );
-    properties.add(
-      StringProperty("semanticLabel", semanticLabel, defaultValue: null),
-    );
-    properties.add(
-      EnumProperty<TextDirection>(
-        "textDirection",
-        textDirection,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      DiagnosticsProperty<bool>(
-        "applyTextScaling",
-        applyTextScaling,
-        defaultValue: null,
-      ),
-    );
+    properties
+      ..add(IconDataProperty("icon", icon, ifNull: "<empty>", showName: false))
+      ..add(DoubleProperty("size", size, defaultValue: null))
+      ..add(DoubleProperty("fill", fill, defaultValue: null))
+      ..add(DoubleProperty("weight", weight, defaultValue: null))
+      ..add(DoubleProperty("grade", grade, defaultValue: null))
+      ..add(DoubleProperty("opticalSize", opticalSize, defaultValue: null))
+      ..add(ColorProperty("color", color, defaultValue: null))
+      ..add(IterableProperty<Shadow>("shadows", shadows, defaultValue: null))
+      ..add(StringProperty("semanticLabel", semanticLabel, defaultValue: null))
+      ..add(
+        EnumProperty<TextDirection>(
+          "textDirection",
+          textDirection,
+          defaultValue: null,
+        ),
+      )
+      ..add(
+        DiagnosticsProperty<bool>(
+          "applyTextScaling",
+          applyTextScaling,
+          defaultValue: null,
+        ),
+      );
   }
 }

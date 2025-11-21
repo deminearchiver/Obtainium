@@ -1,8 +1,7 @@
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/painting.dart';
+import 'package:material/src/flutter.dart';
 
 double? _clampCornerComponent(double? value, double? min, double? max) {
   assert(

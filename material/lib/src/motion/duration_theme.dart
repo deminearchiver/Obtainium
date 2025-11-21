@@ -1,5 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import 'package:material/src/flutter.dart';
 
 @immutable
 abstract class DurationThemeDataPartial with Diagnosticable {
@@ -24,20 +23,35 @@ abstract class DurationThemeDataPartial with Diagnosticable {
   }) = _DurationThemeDataPartial.from;
 
   Duration? get short1;
+
   Duration? get short2;
+
   Duration? get short3;
+
   Duration? get short4;
+
   Duration? get medium1;
+
   Duration? get medium2;
+
   Duration? get medium3;
+
   Duration? get medium4;
+
   Duration? get long1;
+
   Duration? get long2;
+
   Duration? get long3;
+
   Duration? get long4;
+
   Duration? get extraLong1;
+
   Duration? get extraLong2;
+
   Duration? get extraLong3;
+
   Duration? get extraLong4;
 
   DurationThemeDataPartial copyWith({
@@ -57,158 +71,140 @@ abstract class DurationThemeDataPartial with Diagnosticable {
     Duration? extraLong2,
     Duration? extraLong3,
     Duration? extraLong4,
-  }) {
-    if (short1 == null &&
-        short2 == null &&
-        short3 == null &&
-        short4 == null &&
-        medium1 == null &&
-        medium2 == null &&
-        medium3 == null &&
-        medium4 == null &&
-        long1 == null &&
-        long2 == null &&
-        long3 == null &&
-        long4 == null &&
-        extraLong1 == null &&
-        extraLong2 == null &&
-        extraLong3 == null &&
-        extraLong4 == null) {
-      return this;
-    }
-    return DurationThemeDataPartial.from(
-      short1: short1 ?? this.short1,
-      short2: short2 ?? this.short2,
-      short3: short3 ?? this.short3,
-      short4: short4 ?? this.short4,
-      medium1: medium1 ?? this.medium1,
-      medium2: medium2 ?? this.medium2,
-      medium3: medium3 ?? this.medium3,
-      medium4: medium4 ?? this.medium4,
-      long1: long1 ?? this.long1,
-      long2: long2 ?? this.long2,
-      long3: long3 ?? this.long3,
-      long4: long4 ?? this.long4,
-      extraLong1: extraLong1 ?? this.extraLong1,
-      extraLong2: extraLong2 ?? this.extraLong2,
-      extraLong3: extraLong3 ?? this.extraLong3,
-      extraLong4: extraLong4 ?? this.extraLong4,
-    );
-  }
+  }) =>
+      short1 != null ||
+          short2 != null ||
+          short3 != null ||
+          short4 != null ||
+          medium1 != null ||
+          medium2 != null ||
+          medium3 != null ||
+          medium4 != null ||
+          long1 != null ||
+          long2 != null ||
+          long3 != null ||
+          long4 != null ||
+          extraLong1 != null ||
+          extraLong2 != null ||
+          extraLong3 != null ||
+          extraLong4 != null
+      ? DurationThemeDataPartial.from(
+          short1: short1 ?? this.short1,
+          short2: short2 ?? this.short2,
+          short3: short3 ?? this.short3,
+          short4: short4 ?? this.short4,
+          medium1: medium1 ?? this.medium1,
+          medium2: medium2 ?? this.medium2,
+          medium3: medium3 ?? this.medium3,
+          medium4: medium4 ?? this.medium4,
+          long1: long1 ?? this.long1,
+          long2: long2 ?? this.long2,
+          long3: long3 ?? this.long3,
+          long4: long4 ?? this.long4,
+          extraLong1: extraLong1 ?? this.extraLong1,
+          extraLong2: extraLong2 ?? this.extraLong2,
+          extraLong3: extraLong3 ?? this.extraLong3,
+          extraLong4: extraLong4 ?? this.extraLong4,
+        )
+      : this;
 
-  DurationThemeDataPartial merge(DurationThemeDataPartial? other) {
-    if (other == null) return this;
-    return copyWith(
-      short1: other.short1,
-      short2: other.short2,
-      short3: other.short3,
-      short4: other.short4,
-      medium1: other.medium1,
-      medium2: other.medium2,
-      medium3: other.medium3,
-      medium4: other.medium4,
-      long1: other.long1,
-      long2: other.long2,
-      long3: other.long3,
-      long4: other.long4,
-      extraLong1: other.extraLong1,
-      extraLong2: other.extraLong2,
-      extraLong3: other.extraLong3,
-      extraLong4: other.extraLong4,
-    );
-  }
+  DurationThemeDataPartial merge(DurationThemeDataPartial? other) =>
+      other != null
+      ? copyWith(
+          short1: other.short1,
+          short2: other.short2,
+          short3: other.short3,
+          short4: other.short4,
+          medium1: other.medium1,
+          medium2: other.medium2,
+          medium3: other.medium3,
+          medium4: other.medium4,
+          long1: other.long1,
+          long2: other.long2,
+          long3: other.long3,
+          long4: other.long4,
+          extraLong1: other.extraLong1,
+          extraLong2: other.extraLong2,
+          extraLong3: other.extraLong3,
+          extraLong4: other.extraLong4,
+        )
+      : this;
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(
-      DiagnosticsProperty<Duration>("short1", short1, defaultValue: null),
-    );
-    properties.add(
-      DiagnosticsProperty<Duration>("short2", short2, defaultValue: null),
-    );
-    properties.add(
-      DiagnosticsProperty<Duration>("short3", short3, defaultValue: null),
-    );
-    properties.add(
-      DiagnosticsProperty<Duration>("short4", short4, defaultValue: null),
-    );
-    properties.add(
-      DiagnosticsProperty<Duration>("medium1", medium1, defaultValue: null),
-    );
-    properties.add(
-      DiagnosticsProperty<Duration>("medium2", medium2, defaultValue: null),
-    );
-    properties.add(
-      DiagnosticsProperty<Duration>("medium3", medium3, defaultValue: null),
-    );
-    properties.add(
-      DiagnosticsProperty<Duration>("medium4", medium4, defaultValue: null),
-    );
-    properties.add(
-      DiagnosticsProperty<Duration>("long1", long1, defaultValue: null),
-    );
-    properties.add(
-      DiagnosticsProperty<Duration>("long2", long2, defaultValue: null),
-    );
-    properties.add(
-      DiagnosticsProperty<Duration>("long3", long3, defaultValue: null),
-    );
-    properties.add(
-      DiagnosticsProperty<Duration>("long4", long4, defaultValue: null),
-    );
-    properties.add(
-      DiagnosticsProperty<Duration>(
-        "extraLong1",
-        extraLong1,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      DiagnosticsProperty<Duration>(
-        "extraLong2",
-        extraLong2,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      DiagnosticsProperty<Duration>(
-        "extraLong3",
-        extraLong3,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      DiagnosticsProperty<Duration>(
-        "extraLong4",
-        extraLong4,
-        defaultValue: null,
-      ),
-    );
+    properties
+      ..add(DiagnosticsProperty<Duration>("short1", short1, defaultValue: null))
+      ..add(DiagnosticsProperty<Duration>("short2", short2, defaultValue: null))
+      ..add(DiagnosticsProperty<Duration>("short3", short3, defaultValue: null))
+      ..add(DiagnosticsProperty<Duration>("short4", short4, defaultValue: null))
+      ..add(
+        DiagnosticsProperty<Duration>("medium1", medium1, defaultValue: null),
+      )
+      ..add(
+        DiagnosticsProperty<Duration>("medium2", medium2, defaultValue: null),
+      )
+      ..add(
+        DiagnosticsProperty<Duration>("medium3", medium3, defaultValue: null),
+      )
+      ..add(
+        DiagnosticsProperty<Duration>("medium4", medium4, defaultValue: null),
+      )
+      ..add(DiagnosticsProperty<Duration>("long1", long1, defaultValue: null))
+      ..add(DiagnosticsProperty<Duration>("long2", long2, defaultValue: null))
+      ..add(DiagnosticsProperty<Duration>("long3", long3, defaultValue: null))
+      ..add(DiagnosticsProperty<Duration>("long4", long4, defaultValue: null))
+      ..add(
+        DiagnosticsProperty<Duration>(
+          "extraLong1",
+          extraLong1,
+          defaultValue: null,
+        ),
+      )
+      ..add(
+        DiagnosticsProperty<Duration>(
+          "extraLong2",
+          extraLong2,
+          defaultValue: null,
+        ),
+      )
+      ..add(
+        DiagnosticsProperty<Duration>(
+          "extraLong3",
+          extraLong3,
+          defaultValue: null,
+        ),
+      )
+      ..add(
+        DiagnosticsProperty<Duration>(
+          "extraLong4",
+          extraLong4,
+          defaultValue: null,
+        ),
+      );
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is DurationThemeDataPartial &&
-            short1 == other.short1 &&
-            short2 == other.short2 &&
-            short3 == other.short3 &&
-            short4 == other.short4 &&
-            medium1 == other.medium1 &&
-            medium2 == other.medium2 &&
-            medium3 == other.medium3 &&
-            medium4 == other.medium4 &&
-            long1 == other.long1 &&
-            long2 == other.long2 &&
-            long3 == other.long3 &&
-            long4 == other.long4 &&
-            extraLong1 == other.extraLong1 &&
-            extraLong2 == other.extraLong2 &&
-            extraLong3 == other.extraLong3 &&
-            extraLong4 == other.extraLong4;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is DurationThemeDataPartial &&
+          short1 == other.short1 &&
+          short2 == other.short2 &&
+          short3 == other.short3 &&
+          short4 == other.short4 &&
+          medium1 == other.medium1 &&
+          medium2 == other.medium2 &&
+          medium3 == other.medium3 &&
+          medium4 == other.medium4 &&
+          long1 == other.long1 &&
+          long2 == other.long2 &&
+          long3 == other.long3 &&
+          long4 == other.long4 &&
+          extraLong1 == other.extraLong1 &&
+          extraLong2 == other.extraLong2 &&
+          extraLong3 == other.extraLong3 &&
+          extraLong4 == other.extraLong4;
 
   @override
   int get hashCode => Object.hash(
@@ -393,111 +389,108 @@ abstract class DurationThemeData extends DurationThemeDataPartial {
     Duration? extraLong2,
     Duration? extraLong3,
     Duration? extraLong4,
-  }) {
-    if (short1 == null &&
-        short2 == null &&
-        short3 == null &&
-        short4 == null &&
-        medium1 == null &&
-        medium2 == null &&
-        medium3 == null &&
-        medium4 == null &&
-        long1 == null &&
-        long2 == null &&
-        long3 == null &&
-        long4 == null &&
-        extraLong1 == null &&
-        extraLong2 == null &&
-        extraLong3 == null &&
-        extraLong4 == null) {
-      return this;
-    }
-    return DurationThemeData.from(
-      short1: short1 ?? this.short1,
-      short2: short2 ?? this.short2,
-      short3: short3 ?? this.short3,
-      short4: short4 ?? this.short4,
-      medium1: medium1 ?? this.medium1,
-      medium2: medium2 ?? this.medium2,
-      medium3: medium3 ?? this.medium3,
-      medium4: medium4 ?? this.medium4,
-      long1: long1 ?? this.long1,
-      long2: long2 ?? this.long2,
-      long3: long3 ?? this.long3,
-      long4: long4 ?? this.long4,
-      extraLong1: extraLong1 ?? this.extraLong1,
-      extraLong2: extraLong2 ?? this.extraLong2,
-      extraLong3: extraLong3 ?? this.extraLong3,
-      extraLong4: extraLong4 ?? this.extraLong4,
-    );
-  }
+  }) =>
+      short1 != null ||
+          short2 != null ||
+          short3 != null ||
+          short4 != null ||
+          medium1 != null ||
+          medium2 != null ||
+          medium3 != null ||
+          medium4 != null ||
+          long1 != null ||
+          long2 != null ||
+          long3 != null ||
+          long4 != null ||
+          extraLong1 != null ||
+          extraLong2 != null ||
+          extraLong3 != null ||
+          extraLong4 != null
+      ? DurationThemeData.from(
+          short1: short1 ?? this.short1,
+          short2: short2 ?? this.short2,
+          short3: short3 ?? this.short3,
+          short4: short4 ?? this.short4,
+          medium1: medium1 ?? this.medium1,
+          medium2: medium2 ?? this.medium2,
+          medium3: medium3 ?? this.medium3,
+          medium4: medium4 ?? this.medium4,
+          long1: long1 ?? this.long1,
+          long2: long2 ?? this.long2,
+          long3: long3 ?? this.long3,
+          long4: long4 ?? this.long4,
+          extraLong1: extraLong1 ?? this.extraLong1,
+          extraLong2: extraLong2 ?? this.extraLong2,
+          extraLong3: extraLong3 ?? this.extraLong3,
+          extraLong4: extraLong4 ?? this.extraLong4,
+        )
+      : this;
 
   @override
-  DurationThemeData merge(DurationThemeDataPartial? other) {
-    if (other == null) return this;
-    return copyWith(
-      short1: other.short1,
-      short2: other.short2,
-      short3: other.short3,
-      short4: other.short4,
-      medium1: other.medium1,
-      medium2: other.medium2,
-      medium3: other.medium3,
-      medium4: other.medium4,
-      long1: other.long1,
-      long2: other.long2,
-      long3: other.long3,
-      long4: other.long4,
-      extraLong1: other.extraLong1,
-      extraLong2: other.extraLong2,
-      extraLong3: other.extraLong3,
-      extraLong4: other.extraLong4,
-    );
-  }
+  DurationThemeData merge(DurationThemeDataPartial? other) => other != null
+      ? copyWith(
+          short1: other.short1,
+          short2: other.short2,
+          short3: other.short3,
+          short4: other.short4,
+          medium1: other.medium1,
+          medium2: other.medium2,
+          medium3: other.medium3,
+          medium4: other.medium4,
+          long1: other.long1,
+          long2: other.long2,
+          long3: other.long3,
+          long4: other.long4,
+          extraLong1: other.extraLong1,
+          extraLong2: other.extraLong2,
+          extraLong3: other.extraLong3,
+          extraLong4: other.extraLong4,
+        )
+      : this;
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<Duration>("short1", short1));
-    properties.add(DiagnosticsProperty<Duration>("short2", short2));
-    properties.add(DiagnosticsProperty<Duration>("short3", short3));
-    properties.add(DiagnosticsProperty<Duration>("short4", short4));
-    properties.add(DiagnosticsProperty<Duration>("medium1", medium1));
-    properties.add(DiagnosticsProperty<Duration>("medium2", medium2));
-    properties.add(DiagnosticsProperty<Duration>("medium3", medium3));
-    properties.add(DiagnosticsProperty<Duration>("medium4", medium4));
-    properties.add(DiagnosticsProperty<Duration>("long1", long1));
-    properties.add(DiagnosticsProperty<Duration>("long2", long2));
-    properties.add(DiagnosticsProperty<Duration>("long3", long3));
-    properties.add(DiagnosticsProperty<Duration>("long4", long4));
-    properties.add(DiagnosticsProperty<Duration>("extraLong1", extraLong1));
-    properties.add(DiagnosticsProperty<Duration>("extraLong2", extraLong2));
-    properties.add(DiagnosticsProperty<Duration>("extraLong3", extraLong3));
-    properties.add(DiagnosticsProperty<Duration>("extraLong4", extraLong4));
+    properties
+      ..add(DiagnosticsProperty<Duration>("short1", short1))
+      ..add(DiagnosticsProperty<Duration>("short2", short2))
+      ..add(DiagnosticsProperty<Duration>("short3", short3))
+      ..add(DiagnosticsProperty<Duration>("short4", short4))
+      ..add(DiagnosticsProperty<Duration>("medium1", medium1))
+      ..add(DiagnosticsProperty<Duration>("medium2", medium2))
+      ..add(DiagnosticsProperty<Duration>("medium3", medium3))
+      ..add(DiagnosticsProperty<Duration>("medium4", medium4))
+      ..add(DiagnosticsProperty<Duration>("long1", long1))
+      ..add(DiagnosticsProperty<Duration>("long2", long2))
+      ..add(DiagnosticsProperty<Duration>("long3", long3))
+      ..add(DiagnosticsProperty<Duration>("long4", long4))
+      ..add(DiagnosticsProperty<Duration>("extraLong1", extraLong1))
+      ..add(DiagnosticsProperty<Duration>("extraLong2", extraLong2))
+      ..add(DiagnosticsProperty<Duration>("extraLong3", extraLong3))
+      ..add(DiagnosticsProperty<Duration>("extraLong4", extraLong4));
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is DurationThemeData &&
-            short1 == other.short1 &&
-            short2 == other.short2 &&
-            short3 == other.short3 &&
-            short4 == other.short4 &&
-            medium1 == other.medium1 &&
-            medium2 == other.medium2 &&
-            medium3 == other.medium3 &&
-            medium4 == other.medium4 &&
-            long1 == other.long1 &&
-            long2 == other.long2 &&
-            long3 == other.long3 &&
-            long4 == other.long4 &&
-            extraLong1 == other.extraLong1 &&
-            extraLong2 == other.extraLong2 &&
-            extraLong3 == other.extraLong3 &&
-            extraLong4 == other.extraLong4;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is DurationThemeData &&
+          short1 == other.short1 &&
+          short2 == other.short2 &&
+          short3 == other.short3 &&
+          short4 == other.short4 &&
+          medium1 == other.medium1 &&
+          medium2 == other.medium2 &&
+          medium3 == other.medium3 &&
+          medium4 == other.medium4 &&
+          long1 == other.long1 &&
+          long2 == other.long2 &&
+          long3 == other.long3 &&
+          long4 == other.long4 &&
+          extraLong1 == other.extraLong1 &&
+          extraLong2 == other.extraLong2 &&
+          extraLong3 == other.extraLong3 &&
+          extraLong4 == other.extraLong4;
 
   @override
   int get hashCode => Object.hash(
@@ -616,14 +609,11 @@ class DurationTheme extends InheritedTheme {
   final DurationThemeData data;
 
   @override
-  bool updateShouldNotify(covariant DurationTheme oldWidget) {
-    return data != oldWidget.data;
-  }
+  bool updateShouldNotify(DurationTheme oldWidget) => data != oldWidget.data;
 
   @override
-  Widget wrap(BuildContext context, Widget child) {
-    return DurationTheme(data: data, child: child);
-  }
+  Widget wrap(BuildContext context, Widget child) =>
+      DurationTheme(data: data, child: child);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -640,13 +630,9 @@ class DurationTheme extends InheritedTheme {
         DurationTheme(key: key, data: of(context).merge(data), child: child),
   );
 
-  static DurationThemeData? maybeOf(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<DurationTheme>()?.data;
-  }
+  static DurationThemeData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<DurationTheme>()?.data;
 
-  static DurationThemeData of(BuildContext context) {
-    final result = maybeOf(context);
-    if (result != null) return result;
-    return const DurationThemeData.fallback();
-  }
+  static DurationThemeData of(BuildContext context) =>
+      maybeOf(context) ?? const DurationThemeData.fallback();
 }

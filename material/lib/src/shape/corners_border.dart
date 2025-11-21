@@ -1,9 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/painting.dart';
-
-import 'corners.dart';
+import 'package:material/src/flutter.dart';
 
 @immutable
 abstract class CornersBorderDelegate {

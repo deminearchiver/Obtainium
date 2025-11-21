@@ -18,10 +18,15 @@ abstract class IconThemeDataPartial with Diagnosticable {
   }) = _IconThemeDataPartial;
 
   Color? get color;
+
   double? get size;
+
   double? get weight;
+
   double? get grade;
+
   double? get opticalSize;
+
   double? get fill;
 
   IconThemeDataPartial copyWith({
@@ -31,62 +36,57 @@ abstract class IconThemeDataPartial with Diagnosticable {
     double? grade,
     double? opticalSize,
     double? fill,
-  }) {
-    if (color == null &&
-        size == null &&
-        weight == null &&
-        grade == null &&
-        opticalSize == null &&
-        fill == null) {
-      return this;
-    }
-    return IconThemeDataPartial.from(
-      color: color ?? this.color,
-      size: size ?? this.size,
-      weight: weight ?? this.weight,
-      grade: grade ?? this.grade,
-      opticalSize: opticalSize ?? this.opticalSize,
-      fill: fill ?? this.fill,
-    );
-  }
+  }) =>
+      color != null ||
+          size != null ||
+          weight != null ||
+          grade != null ||
+          opticalSize != null ||
+          fill != null
+      ? IconThemeDataPartial.from(
+          color: color ?? this.color,
+          size: size ?? this.size,
+          weight: weight ?? this.weight,
+          grade: grade ?? this.grade,
+          opticalSize: opticalSize ?? this.opticalSize,
+          fill: fill ?? this.fill,
+        )
+      : this;
 
-  IconThemeDataPartial merge(IconThemeDataPartial? other) {
-    if (other == null) return this;
-    return copyWith(
-      color: other.color,
-      size: other.size,
-      weight: other.weight,
-      grade: other.grade,
-      opticalSize: other.opticalSize,
-      fill: other.fill,
-    );
-  }
+  IconThemeDataPartial merge(IconThemeDataPartial? other) => other != null
+      ? copyWith(
+          color: other.color,
+          size: other.size,
+          weight: other.weight,
+          grade: other.grade,
+          opticalSize: other.opticalSize,
+          fill: other.fill,
+        )
+      : this;
 
   @override
   // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties.add(ColorProperty("color", color, defaultValue: null));
-    properties.add(DoubleProperty("size", size, defaultValue: null));
-    properties.add(DoubleProperty("weight", weight, defaultValue: null));
-    properties.add(DoubleProperty("grade", grade, defaultValue: null));
-    properties.add(
-      DoubleProperty("opticalSize", opticalSize, defaultValue: null),
-    );
-    properties.add(DoubleProperty("fill", fill, defaultValue: null));
+    properties
+      ..add(ColorProperty("color", color, defaultValue: null))
+      ..add(DoubleProperty("size", size, defaultValue: null))
+      ..add(DoubleProperty("weight", weight, defaultValue: null))
+      ..add(DoubleProperty("grade", grade, defaultValue: null))
+      ..add(DoubleProperty("opticalSize", opticalSize, defaultValue: null))
+      ..add(DoubleProperty("fill", fill, defaultValue: null));
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is IconThemeDataPartial &&
-            color == other.color &&
-            size == other.size &&
-            weight == other.weight &&
-            grade == other.grade &&
-            opticalSize == other.opticalSize &&
-            fill == other.fill;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is IconThemeDataPartial &&
+          color == other.color &&
+          size == other.size &&
+          weight == other.weight &&
+          grade == other.grade &&
+          opticalSize == other.opticalSize &&
+          fill == other.fill;
 
   @override
   int get hashCode =>
@@ -162,61 +162,58 @@ abstract class IconThemeData extends IconThemeDataPartial {
     double? grade,
     double? opticalSize,
     double? fill,
-  }) {
-    if (color == null &&
-        size == null &&
-        weight == null &&
-        grade == null &&
-        opticalSize == null &&
-        fill == null) {
-      return this;
-    }
-    return IconThemeData.from(
-      color: color ?? this.color,
-      size: size ?? this.size,
-      weight: weight ?? this.weight,
-      grade: grade ?? this.grade,
-      opticalSize: opticalSize ?? this.opticalSize,
-      fill: fill ?? this.fill,
-    );
-  }
+  }) =>
+      color != null ||
+          size != null ||
+          weight != null ||
+          grade != null ||
+          opticalSize != null ||
+          fill != null
+      ? IconThemeData.from(
+          color: color ?? this.color,
+          size: size ?? this.size,
+          weight: weight ?? this.weight,
+          grade: grade ?? this.grade,
+          opticalSize: opticalSize ?? this.opticalSize,
+          fill: fill ?? this.fill,
+        )
+      : this;
 
   @override
-  IconThemeData merge(IconThemeDataPartial? other) {
-    if (other == null) return this;
-    return copyWith(
-      color: other.color,
-      size: other.size,
-      weight: other.weight,
-      grade: other.grade,
-      opticalSize: other.opticalSize,
-      fill: other.fill,
-    );
-  }
+  IconThemeData merge(IconThemeDataPartial? other) => other != null
+      ? copyWith(
+          color: other.color,
+          size: other.size,
+          weight: other.weight,
+          grade: other.grade,
+          opticalSize: other.opticalSize,
+          fill: other.fill,
+        )
+      : this;
 
   @override
   // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties.add(ColorProperty("color", color));
-    properties.add(DoubleProperty("size", size));
-    properties.add(DoubleProperty("weight", weight));
-    properties.add(DoubleProperty("grade", grade));
-    properties.add(DoubleProperty("opticalSize", opticalSize));
-    properties.add(DoubleProperty("fill", fill));
+    properties
+      ..add(ColorProperty("color", color))
+      ..add(DoubleProperty("size", size))
+      ..add(DoubleProperty("weight", weight))
+      ..add(DoubleProperty("grade", grade))
+      ..add(DoubleProperty("opticalSize", opticalSize))
+      ..add(DoubleProperty("fill", fill));
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is IconThemeData &&
-            color == other.color &&
-            size == other.size &&
-            weight == other.weight &&
-            grade == other.grade &&
-            opticalSize == other.opticalSize &&
-            fill == other.fill;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is IconThemeData &&
+          color == other.color &&
+          size == other.size &&
+          weight == other.weight &&
+          grade == other.grade &&
+          opticalSize == other.opticalSize &&
+          fill == other.fill;
 
   @override
   int get hashCode =>
@@ -290,14 +287,11 @@ class IconTheme extends InheritedTheme {
   final IconThemeData data;
 
   @override
-  bool updateShouldNotify(covariant IconTheme oldWidget) {
-    return data != oldWidget.data;
-  }
+  bool updateShouldNotify(IconTheme oldWidget) => data != oldWidget.data;
 
   @override
-  Widget wrap(BuildContext context, Widget child) {
-    return IconTheme(data: data, child: child);
-  }
+  Widget wrap(BuildContext context, Widget child) =>
+      IconTheme(data: data, child: child);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -314,9 +308,8 @@ class IconTheme extends InheritedTheme {
         IconTheme(key: key, data: of(context).merge(data), child: child),
   );
 
-  static IconThemeData? maybeOf(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<IconTheme>()?.data;
-  }
+  static IconThemeData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<IconTheme>()?.data;
 
   static IconThemeData of(BuildContext context) {
     final result = maybeOf(context);

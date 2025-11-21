@@ -1,7 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
-
-import 'corners.dart';
+import 'package:material/src/flutter.dart';
 
 @immutable
 abstract class ShapeCornerThemeDataPartial with Diagnosticable {
@@ -26,19 +23,33 @@ abstract class ShapeCornerThemeDataPartial with Diagnosticable {
   }) = _ShapeCornerThemeDataPartial.from;
 
   Corner? get none;
+
   Corner? get extraSmall;
+
   CornersGeometry? get extraSmallTop;
+
   Corner? get small;
+
   Corner? get medium;
+
   Corner? get large;
+
   CornersGeometry? get largeStart;
+
   CornersGeometry? get largeEnd;
+
   CornersGeometry? get largeTop;
+
   Corner? get largeIncreased;
+
   Corner? get extraLarge;
+
   CornersGeometry? get extraLargeTop;
+
   Corner? get extraLargeIncreased;
+
   Corner? get extraExtraLarge;
+
   Corner? get full;
 
   ShapeCornerThemeDataPartial copyWith({
@@ -57,63 +68,61 @@ abstract class ShapeCornerThemeDataPartial with Diagnosticable {
     Corner? extraLargeIncreased,
     Corner? extraExtraLarge,
     Corner? full,
-  }) {
-    if (none == null &&
-        extraSmall == null &&
-        extraSmallTop == null &&
-        small == null &&
-        medium == null &&
-        large == null &&
-        largeStart == null &&
-        largeEnd == null &&
-        largeTop == null &&
-        largeIncreased == null &&
-        extraLarge == null &&
-        extraLargeTop == null &&
-        extraLargeIncreased == null &&
-        extraExtraLarge == null &&
-        full == null) {
-      return this;
-    }
-    return ShapeCornerThemeDataPartial.from(
-      none: none ?? this.none,
-      extraSmall: extraSmall ?? this.extraSmall,
-      extraSmallTop: extraSmallTop ?? this.extraSmallTop,
-      small: small ?? this.small,
-      medium: medium ?? this.medium,
-      large: large ?? this.large,
-      largeStart: largeStart ?? this.largeStart,
-      largeEnd: largeEnd ?? this.largeEnd,
-      largeTop: largeTop ?? this.largeTop,
-      largeIncreased: largeIncreased ?? this.largeIncreased,
-      extraLarge: extraLarge ?? this.extraLarge,
-      extraLargeTop: extraLargeTop ?? this.extraLargeTop,
-      extraLargeIncreased: extraLargeIncreased ?? this.extraLargeIncreased,
-      extraExtraLarge: extraExtraLarge ?? this.extraExtraLarge,
-      full: full ?? this.full,
-    );
-  }
+  }) =>
+      none != null ||
+          extraSmall != null ||
+          extraSmallTop != null ||
+          small != null ||
+          medium != null ||
+          large != null ||
+          largeStart != null ||
+          largeEnd != null ||
+          largeTop != null ||
+          largeIncreased != null ||
+          extraLarge != null ||
+          extraLargeTop != null ||
+          extraLargeIncreased != null ||
+          extraExtraLarge != null ||
+          full != null
+      ? ShapeCornerThemeDataPartial.from(
+          none: none ?? this.none,
+          extraSmall: extraSmall ?? this.extraSmall,
+          extraSmallTop: extraSmallTop ?? this.extraSmallTop,
+          small: small ?? this.small,
+          medium: medium ?? this.medium,
+          large: large ?? this.large,
+          largeStart: largeStart ?? this.largeStart,
+          largeEnd: largeEnd ?? this.largeEnd,
+          largeTop: largeTop ?? this.largeTop,
+          largeIncreased: largeIncreased ?? this.largeIncreased,
+          extraLarge: extraLarge ?? this.extraLarge,
+          extraLargeTop: extraLargeTop ?? this.extraLargeTop,
+          extraLargeIncreased: extraLargeIncreased ?? this.extraLargeIncreased,
+          extraExtraLarge: extraExtraLarge ?? this.extraExtraLarge,
+          full: full ?? this.full,
+        )
+      : this;
 
-  ShapeCornerThemeDataPartial merge(ShapeCornerThemeDataPartial? other) {
-    if (other == null) return this;
-    return copyWith(
-      none: none,
-      extraSmall: extraSmall,
-      extraSmallTop: extraSmallTop,
-      small: small,
-      medium: medium,
-      large: large,
-      largeStart: largeStart,
-      largeEnd: largeEnd,
-      largeTop: largeTop,
-      largeIncreased: largeIncreased,
-      extraLarge: extraLarge,
-      extraLargeTop: extraLargeTop,
-      extraLargeIncreased: extraLargeIncreased,
-      extraExtraLarge: extraExtraLarge,
-      full: full,
-    );
-  }
+  ShapeCornerThemeDataPartial merge(ShapeCornerThemeDataPartial? other) =>
+      other != null
+      ? copyWith(
+          none: other.none,
+          extraSmall: other.extraSmall,
+          extraSmallTop: other.extraSmallTop,
+          small: other.small,
+          medium: other.medium,
+          large: other.large,
+          largeStart: other.largeStart,
+          largeEnd: other.largeEnd,
+          largeTop: other.largeTop,
+          largeIncreased: other.largeIncreased,
+          extraLarge: other.extraLarge,
+          extraLargeTop: other.extraLargeTop,
+          extraLargeIncreased: other.extraLargeIncreased,
+          extraExtraLarge: other.extraExtraLarge,
+          full: other.full,
+        )
+      : this;
 
   @override
   // ignore: must_call_super
@@ -122,26 +131,25 @@ abstract class ShapeCornerThemeDataPartial with Diagnosticable {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is ShapeCornerThemeDataPartial &&
-            none == other.none &&
-            extraSmall == other.extraSmall &&
-            extraSmallTop == other.extraSmallTop &&
-            small == other.small &&
-            medium == other.medium &&
-            large == other.large &&
-            largeStart == other.largeStart &&
-            largeEnd == other.largeEnd &&
-            largeTop == other.largeTop &&
-            largeIncreased == other.largeIncreased &&
-            extraLarge == other.extraLarge &&
-            extraLargeTop == other.extraLargeTop &&
-            extraLargeIncreased == other.extraLargeIncreased &&
-            extraExtraLarge == other.extraExtraLarge &&
-            full == other.full;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is ShapeCornerThemeDataPartial &&
+          none == other.none &&
+          extraSmall == other.extraSmall &&
+          extraSmallTop == other.extraSmallTop &&
+          small == other.small &&
+          medium == other.medium &&
+          large == other.large &&
+          largeStart == other.largeStart &&
+          largeEnd == other.largeEnd &&
+          largeTop == other.largeTop &&
+          largeIncreased == other.largeIncreased &&
+          extraLarge == other.extraLarge &&
+          extraLargeTop == other.extraLargeTop &&
+          extraLargeIncreased == other.extraLargeIncreased &&
+          extraExtraLarge == other.extraExtraLarge &&
+          full == other.full;
 
   @override
   int get hashCode => Object.hash(
@@ -317,64 +325,62 @@ abstract class ShapeCornerThemeData extends ShapeCornerThemeDataPartial {
     Corner? extraLargeIncreased,
     Corner? extraExtraLarge,
     Corner? full,
-  }) {
-    if (none == null &&
-        extraSmall == null &&
-        extraSmallTop == null &&
-        small == null &&
-        medium == null &&
-        large == null &&
-        largeStart == null &&
-        largeEnd == null &&
-        largeTop == null &&
-        largeIncreased == null &&
-        extraLarge == null &&
-        extraLargeTop == null &&
-        extraLargeIncreased == null &&
-        extraExtraLarge == null &&
-        full == null) {
-      return this;
-    }
-    return ShapeCornerThemeData.from(
-      none: none ?? this.none,
-      extraSmall: extraSmall ?? this.extraSmall,
-      extraSmallTop: extraSmallTop ?? this.extraSmallTop,
-      small: small ?? this.small,
-      medium: medium ?? this.medium,
-      large: large ?? this.large,
-      largeStart: largeStart ?? this.largeStart,
-      largeEnd: largeEnd ?? this.largeEnd,
-      largeTop: largeTop ?? this.largeTop,
-      largeIncreased: largeIncreased ?? this.largeIncreased,
-      extraLarge: extraLarge ?? this.extraLarge,
-      extraLargeTop: extraLargeTop ?? this.extraLargeTop,
-      extraLargeIncreased: extraLargeIncreased ?? this.extraLargeIncreased,
-      extraExtraLarge: extraExtraLarge ?? this.extraExtraLarge,
-      full: full ?? this.full,
-    );
-  }
+  }) =>
+      none != null ||
+          extraSmall != null ||
+          extraSmallTop != null ||
+          small != null ||
+          medium != null ||
+          large != null ||
+          largeStart != null ||
+          largeEnd != null ||
+          largeTop != null ||
+          largeIncreased != null ||
+          extraLarge != null ||
+          extraLargeTop != null ||
+          extraLargeIncreased != null ||
+          extraExtraLarge != null ||
+          full != null
+      ? ShapeCornerThemeData.from(
+          none: none ?? this.none,
+          extraSmall: extraSmall ?? this.extraSmall,
+          extraSmallTop: extraSmallTop ?? this.extraSmallTop,
+          small: small ?? this.small,
+          medium: medium ?? this.medium,
+          large: large ?? this.large,
+          largeStart: largeStart ?? this.largeStart,
+          largeEnd: largeEnd ?? this.largeEnd,
+          largeTop: largeTop ?? this.largeTop,
+          largeIncreased: largeIncreased ?? this.largeIncreased,
+          extraLarge: extraLarge ?? this.extraLarge,
+          extraLargeTop: extraLargeTop ?? this.extraLargeTop,
+          extraLargeIncreased: extraLargeIncreased ?? this.extraLargeIncreased,
+          extraExtraLarge: extraExtraLarge ?? this.extraExtraLarge,
+          full: full ?? this.full,
+        )
+      : this;
 
   @override
-  ShapeCornerThemeData merge(ShapeCornerThemeDataPartial? other) {
-    if (other == null) return this;
-    return copyWith(
-      none: none,
-      extraSmall: extraSmall,
-      extraSmallTop: extraSmallTop,
-      small: small,
-      medium: medium,
-      large: large,
-      largeStart: largeStart,
-      largeEnd: largeEnd,
-      largeTop: largeTop,
-      largeIncreased: largeIncreased,
-      extraLarge: extraLarge,
-      extraLargeTop: extraLargeTop,
-      extraLargeIncreased: extraLargeIncreased,
-      extraExtraLarge: extraExtraLarge,
-      full: full,
-    );
-  }
+  ShapeCornerThemeData merge(ShapeCornerThemeDataPartial? other) =>
+      other != null
+      ? copyWith(
+          none: other.none,
+          extraSmall: other.extraSmall,
+          extraSmallTop: other.extraSmallTop,
+          small: other.small,
+          medium: other.medium,
+          large: other.large,
+          largeStart: other.largeStart,
+          largeEnd: other.largeEnd,
+          largeTop: other.largeTop,
+          largeIncreased: other.largeIncreased,
+          extraLarge: other.extraLarge,
+          extraLargeTop: other.extraLargeTop,
+          extraLargeIncreased: other.extraLargeIncreased,
+          extraExtraLarge: other.extraExtraLarge,
+          full: other.full,
+        )
+      : this;
 
   @override
   // ignore: must_call_super
@@ -383,26 +389,25 @@ abstract class ShapeCornerThemeData extends ShapeCornerThemeDataPartial {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is ShapeCornerThemeData &&
-            none == other.none &&
-            extraSmall == other.extraSmall &&
-            extraSmallTop == other.extraSmallTop &&
-            small == other.small &&
-            medium == other.medium &&
-            large == other.large &&
-            largeStart == other.largeStart &&
-            largeEnd == other.largeEnd &&
-            largeTop == other.largeTop &&
-            largeIncreased == other.largeIncreased &&
-            extraLarge == other.extraLarge &&
-            extraLargeTop == other.extraLargeTop &&
-            extraLargeIncreased == other.extraLargeIncreased &&
-            extraExtraLarge == other.extraExtraLarge &&
-            full == other.full;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is ShapeCornerThemeData &&
+          none == other.none &&
+          extraSmall == other.extraSmall &&
+          extraSmallTop == other.extraSmallTop &&
+          small == other.small &&
+          medium == other.medium &&
+          large == other.large &&
+          largeStart == other.largeStart &&
+          largeEnd == other.largeEnd &&
+          largeTop == other.largeTop &&
+          largeIncreased == other.largeIncreased &&
+          extraLarge == other.extraLarge &&
+          extraLargeTop == other.extraLargeTop &&
+          extraLargeIncreased == other.extraLargeIncreased &&
+          extraExtraLarge == other.extraExtraLarge &&
+          full == other.full;
 
   @override
   int get hashCode => Object.hash(
@@ -552,47 +557,44 @@ abstract class ShapeCornerValueThemeDataPartial with Diagnosticable {
     double? extraLarge,
     double? extraLargeIncreased,
     double? extraExtraLarge,
-  }) {
-    if (none == null &&
-        extraSmall == null &&
-        small == null &&
-        medium == null &&
-        large == null &&
-        largeIncreased == null &&
-        extraLarge == null &&
-        extraLargeIncreased == null &&
-        extraExtraLarge == null) {
-      return this;
-    }
-    return ShapeCornerValueThemeDataPartial.from(
-      none: none ?? this.none,
-      extraSmall: extraSmall ?? this.extraSmall,
-      small: small ?? this.small,
-      medium: medium ?? this.medium,
-      large: large ?? this.large,
-      largeIncreased: largeIncreased ?? this.largeIncreased,
-      extraLarge: extraLarge ?? this.extraLarge,
-      extraLargeIncreased: extraLargeIncreased ?? this.extraLargeIncreased,
-      extraExtraLarge: extraExtraLarge ?? this.extraExtraLarge,
-    );
-  }
+  }) =>
+      none != null ||
+          extraSmall != null ||
+          small != null ||
+          medium != null ||
+          large != null ||
+          largeIncreased != null ||
+          extraLarge != null ||
+          extraLargeIncreased != null ||
+          extraExtraLarge != null
+      ? ShapeCornerValueThemeDataPartial.from(
+          none: none ?? this.none,
+          extraSmall: extraSmall ?? this.extraSmall,
+          small: small ?? this.small,
+          medium: medium ?? this.medium,
+          large: large ?? this.large,
+          largeIncreased: largeIncreased ?? this.largeIncreased,
+          extraLarge: extraLarge ?? this.extraLarge,
+          extraLargeIncreased: extraLargeIncreased ?? this.extraLargeIncreased,
+          extraExtraLarge: extraExtraLarge ?? this.extraExtraLarge,
+        )
+      : this;
 
   ShapeCornerValueThemeDataPartial merge(
     ShapeCornerValueThemeDataPartial? other,
-  ) {
-    if (other == null) return this;
-    return copyWith(
-      none: other.none,
-      extraSmall: other.extraSmall,
-      small: other.small,
-      medium: other.medium,
-      large: other.large,
-      largeIncreased: other.largeIncreased,
-      extraLarge: other.extraLarge,
-      extraLargeIncreased: other.extraLargeIncreased,
-      extraExtraLarge: other.extraExtraLarge,
-    );
-  }
+  ) => other != null
+      ? copyWith(
+          none: other.none,
+          extraSmall: other.extraSmall,
+          small: other.small,
+          medium: other.medium,
+          large: other.large,
+          largeIncreased: other.largeIncreased,
+          extraLarge: other.extraLarge,
+          extraLargeIncreased: other.extraLargeIncreased,
+          extraExtraLarge: other.extraExtraLarge,
+        )
+      : this;
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -754,76 +756,74 @@ abstract class ShapeCornerValueThemeData
     double? extraLarge,
     double? extraLargeIncreased,
     double? extraExtraLarge,
-  }) {
-    if (none == null &&
-        extraSmall == null &&
-        small == null &&
-        medium == null &&
-        large == null &&
-        largeIncreased == null &&
-        extraLarge == null &&
-        extraLargeIncreased == null &&
-        extraExtraLarge == null) {
-      return this;
-    }
-    return ShapeCornerValueThemeData.from(
-      none: none ?? this.none,
-      extraSmall: extraSmall ?? this.extraSmall,
-      small: small ?? this.small,
-      medium: medium ?? this.medium,
-      large: large ?? this.large,
-      largeIncreased: largeIncreased ?? this.largeIncreased,
-      extraLarge: extraLarge ?? this.extraLarge,
-      extraLargeIncreased: extraLargeIncreased ?? this.extraLargeIncreased,
-      extraExtraLarge: extraExtraLarge ?? this.extraExtraLarge,
-    );
-  }
+  }) =>
+      none != null ||
+          extraSmall != null ||
+          small != null ||
+          medium != null ||
+          large != null ||
+          largeIncreased != null ||
+          extraLarge != null ||
+          extraLargeIncreased != null ||
+          extraExtraLarge != null
+      ? ShapeCornerValueThemeData.from(
+          none: none ?? this.none,
+          extraSmall: extraSmall ?? this.extraSmall,
+          small: small ?? this.small,
+          medium: medium ?? this.medium,
+          large: large ?? this.large,
+          largeIncreased: largeIncreased ?? this.largeIncreased,
+          extraLarge: extraLarge ?? this.extraLarge,
+          extraLargeIncreased: extraLargeIncreased ?? this.extraLargeIncreased,
+          extraExtraLarge: extraExtraLarge ?? this.extraExtraLarge,
+        )
+      : this;
 
   @override
-  ShapeCornerValueThemeData merge(ShapeCornerValueThemeDataPartial? other) {
-    if (other == null) return this;
-    return copyWith(
-      none: other.none,
-      extraSmall: other.extraSmall,
-      small: other.small,
-      medium: other.medium,
-      large: other.large,
-      largeIncreased: other.largeIncreased,
-      extraLarge: other.extraLarge,
-      extraLargeIncreased: other.extraLargeIncreased,
-      extraExtraLarge: other.extraExtraLarge,
-    );
-  }
+  ShapeCornerValueThemeData merge(ShapeCornerValueThemeDataPartial? other) =>
+      other != null
+      ? copyWith(
+          none: other.none,
+          extraSmall: other.extraSmall,
+          small: other.small,
+          medium: other.medium,
+          large: other.large,
+          largeIncreased: other.largeIncreased,
+          extraLarge: other.extraLarge,
+          extraLargeIncreased: other.extraLargeIncreased,
+          extraExtraLarge: other.extraExtraLarge,
+        )
+      : this;
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DoubleProperty("none", none));
-    properties.add(DoubleProperty("extraSmall", extraSmall));
-    properties.add(DoubleProperty("small", small));
-    properties.add(DoubleProperty("medium", medium));
-    properties.add(DoubleProperty("large", large));
-    properties.add(DoubleProperty("largeIncreased", largeIncreased));
-    properties.add(DoubleProperty("extraLarge", extraLarge));
-    properties.add(DoubleProperty("extraLargeIncreased", extraLargeIncreased));
-    properties.add(DoubleProperty("extraExtraLarge", extraExtraLarge));
+    properties
+      ..add(DoubleProperty("none", none))
+      ..add(DoubleProperty("extraSmall", extraSmall))
+      ..add(DoubleProperty("small", small))
+      ..add(DoubleProperty("medium", medium))
+      ..add(DoubleProperty("large", large))
+      ..add(DoubleProperty("largeIncreased", largeIncreased))
+      ..add(DoubleProperty("extraLarge", extraLarge))
+      ..add(DoubleProperty("extraLargeIncreased", extraLargeIncreased))
+      ..add(DoubleProperty("extraExtraLarge", extraExtraLarge));
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is ShapeCornerValueThemeData &&
-            none == other.none &&
-            extraSmall == other.extraSmall &&
-            small == other.small &&
-            medium == other.medium &&
-            large == other.large &&
-            largeIncreased == other.largeIncreased &&
-            extraLarge == other.extraLarge &&
-            extraLargeIncreased == other.extraLargeIncreased &&
-            extraExtraLarge == other.extraExtraLarge;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is ShapeCornerValueThemeData &&
+          none == other.none &&
+          extraSmall == other.extraSmall &&
+          small == other.small &&
+          medium == other.medium &&
+          large == other.large &&
+          largeIncreased == other.largeIncreased &&
+          extraLarge == other.extraLarge &&
+          extraLargeIncreased == other.extraLargeIncreased &&
+          extraExtraLarge == other.extraExtraLarge;
 
   @override
   int get hashCode => Object.hash(
@@ -903,66 +903,60 @@ abstract class ShapeThemeDataPartial with Diagnosticable {
   }) = _ShapeThemeDataPartial.from;
 
   ShapeCornerThemeDataPartial? get corner;
+
   ShapeCornerValueThemeDataPartial? get cornerValue;
 
   ShapeThemeDataPartial copyWith({
     covariant ShapeCornerThemeDataPartial? corner,
     covariant ShapeCornerValueThemeDataPartial? cornerValue,
-  }) {
-    if (corner == null && cornerValue == null) {
-      return this;
-    }
-    return ShapeThemeDataPartial.from(
-      corner: corner ?? this.corner,
-      cornerValue: cornerValue ?? this.cornerValue,
-    );
-  }
+  }) => corner != null || cornerValue != null
+      ? ShapeThemeDataPartial.from(
+          corner: corner ?? this.corner,
+          cornerValue: cornerValue ?? this.cornerValue,
+        )
+      : this;
 
   ShapeThemeDataPartial mergeWith({
     ShapeCornerThemeDataPartial? corner,
     ShapeCornerValueThemeDataPartial? cornerValue,
-  }) {
-    if (corner == null && cornerValue == null) {
-      return this;
-    }
-    return ShapeThemeDataPartial.from(
-      corner: this.corner?.merge(corner) ?? corner,
-      cornerValue: this.cornerValue?.merge(cornerValue) ?? cornerValue,
-    );
-  }
+  }) => corner != null || cornerValue != null
+      ? ShapeThemeDataPartial.from(
+          corner: this.corner?.merge(corner) ?? corner,
+          cornerValue: this.cornerValue?.merge(cornerValue) ?? cornerValue,
+        )
+      : this;
 
-  ShapeThemeDataPartial merge(ShapeThemeDataPartial? other) {
-    if (other == null) return this;
-    return mergeWith(corner: other.corner, cornerValue: other.cornerValue);
-  }
+  ShapeThemeDataPartial merge(ShapeThemeDataPartial? other) => other != null
+      ? mergeWith(corner: other.corner, cornerValue: other.cornerValue)
+      : this;
 
   @override
   // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties.add(
-      DiagnosticsProperty<ShapeCornerThemeDataPartial>(
-        "corner",
-        corner,
-        defaultValue: null,
-      ),
-    );
-    properties.add(
-      DiagnosticsProperty<ShapeCornerValueThemeDataPartial>(
-        "cornerValue",
-        cornerValue,
-        defaultValue: null,
-      ),
-    );
+    properties
+      ..add(
+        DiagnosticsProperty<ShapeCornerThemeDataPartial>(
+          "corner",
+          corner,
+          defaultValue: null,
+        ),
+      )
+      ..add(
+        DiagnosticsProperty<ShapeCornerValueThemeDataPartial>(
+          "cornerValue",
+          cornerValue,
+          defaultValue: null,
+        ),
+      );
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is ShapeThemeDataPartial &&
-            corner == other.corner &&
-            cornerValue == other.cornerValue;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is ShapeThemeDataPartial &&
+          corner == other.corner &&
+          cornerValue == other.cornerValue;
 
   @override
   int get hashCode => Object.hash(runtimeType, corner, cornerValue);
@@ -1000,56 +994,49 @@ abstract class ShapeThemeData extends ShapeThemeDataPartial {
   ShapeThemeData copyWith({
     covariant ShapeCornerThemeData? corner,
     covariant ShapeCornerValueThemeData? cornerValue,
-  }) {
-    if (corner == null && cornerValue == null) {
-      return this;
-    }
-    return ShapeThemeData.from(
-      corner: corner ?? this.corner,
-      cornerValue: cornerValue ?? this.cornerValue,
-    );
-  }
+  }) => corner != null || cornerValue != null
+      ? ShapeThemeData.from(
+          corner: corner ?? this.corner,
+          cornerValue: cornerValue ?? this.cornerValue,
+        )
+      : this;
 
   @override
   ShapeThemeData mergeWith({
     ShapeCornerThemeDataPartial? corner,
     ShapeCornerValueThemeDataPartial? cornerValue,
-  }) {
-    if (corner == null && cornerValue == null) {
-      return this;
-    }
-    return ShapeThemeData.from(
-      corner: this.corner.merge(corner),
-      cornerValue: this.cornerValue.merge(cornerValue),
-    );
-  }
+  }) => corner != null || cornerValue != null
+      ? ShapeThemeData.from(
+          corner: this.corner.merge(corner),
+          cornerValue: this.cornerValue.merge(cornerValue),
+        )
+      : this;
 
   @override
-  ShapeThemeData merge(ShapeThemeDataPartial? other) {
-    if (other == null) return this;
-    return mergeWith(corner: other.corner, cornerValue: other.cornerValue);
-  }
+  ShapeThemeData merge(ShapeThemeDataPartial? other) => other != null
+      ? mergeWith(corner: other.corner, cornerValue: other.cornerValue)
+      : this;
 
   @override
   // ignore: must_call_super
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties.add(DiagnosticsProperty<ShapeCornerThemeData>("corner", corner));
-    properties.add(
-      DiagnosticsProperty<ShapeCornerValueThemeData>(
-        "cornerValue",
-        cornerValue,
-      ),
-    );
+    properties
+      ..add(DiagnosticsProperty<ShapeCornerThemeData>("corner", corner))
+      ..add(
+        DiagnosticsProperty<ShapeCornerValueThemeData>(
+          "cornerValue",
+          cornerValue,
+        ),
+      );
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is ShapeThemeData &&
-            corner == other.corner &&
-            cornerValue == other.cornerValue;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is ShapeThemeData &&
+          corner == other.corner &&
+          cornerValue == other.cornerValue;
 
   @override
   int get hashCode => Object.hash(runtimeType, corner, cornerValue);
@@ -1077,14 +1064,11 @@ class ShapeTheme extends InheritedTheme {
   final ShapeThemeData data;
 
   @override
-  bool updateShouldNotify(covariant ShapeTheme oldWidget) {
-    return data != oldWidget.data;
-  }
+  bool updateShouldNotify(ShapeTheme oldWidget) => data != oldWidget.data;
 
   @override
-  Widget wrap(BuildContext context, Widget child) {
-    return ShapeTheme(data: data, child: child);
-  }
+  Widget wrap(BuildContext context, Widget child) =>
+      ShapeTheme(data: data, child: child);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -1101,13 +1085,9 @@ class ShapeTheme extends InheritedTheme {
         ShapeTheme(key: key, data: of(context).merge(data), child: child),
   );
 
-  static ShapeThemeData? maybeOf(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<ShapeTheme>()?.data;
-  }
+  static ShapeThemeData? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<ShapeTheme>()?.data;
 
-  static ShapeThemeData of(BuildContext context) {
-    final result = maybeOf(context);
-    if (result != null) return result;
-    return const ShapeThemeData.fallback();
-  }
+  static ShapeThemeData of(BuildContext context) =>
+      maybeOf(context) ?? const ShapeThemeData.fallback();
 }
