@@ -9,15 +9,17 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:material/material_shapes.dart';
+import 'package:materium/assets/assets.gen.dart';
 
 import 'package:materium/components/custom_app_bar.dart';
 import 'package:materium/components/custom_list.dart';
 import 'package:materium/components/custom_markdown.dart';
 import 'package:materium/components/custom_refresh_indicator.dart';
-import 'package:materium/flutter.dart';
+import 'package:materium/flutter.dart' hide Cubic;
 
 import 'package:markdown/markdown.dart' as md;
 import 'package:materium/theme/theme.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:super_editor/super_editor.dart';
 
 // ignore: implementation_imports
@@ -1868,7 +1870,7 @@ class _Settings2ViewState extends State<Settings2View> {
                     child: ListItemInteraction(
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => const _Settings2AboutView(),
+                          builder: (context) => const AboutPage(),
                         ),
                       ),
                       child: ListItemLayout(
@@ -1911,17 +1913,50 @@ class _Settings2ViewState extends State<Settings2View> {
   }
 }
 
-class _Settings2AboutView extends StatefulWidget {
-  const _Settings2AboutView({super.key});
+class AboutPage extends StatefulWidget {
+  const AboutPage({super.key});
 
   @override
-  State<_Settings2AboutView> createState() => _Settings2AboutViewState();
+  State<AboutPage> createState() => _AboutPageState();
 }
 
-class _Settings2AboutViewState extends State<_Settings2AboutView> {
+class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
+  late AnimationController _rotationController;
+  final Tween<double> _rotationTween = Tween<double>(
+    begin: 0.0,
+    end: 2.0 * math.pi,
+  );
+  late Animation<double> _rotationAnimation;
+  final Matrix4 _rotationMatrix = Matrix4.zero();
+
+  @override
+  void initState() {
+    super.initState();
+    _rotationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 30))
+          ..addListener(() {
+            _rotationMatrix
+              ..setIdentity()
+              ..translateByDouble(0.5, 0.5, 0.0, 1.0)
+              ..rotateZ(_rotationAnimation.value)
+              ..translateByDouble(-0.5, -0.5, 0.0, 1.0);
+          })
+          ..repeat();
+    _rotationAnimation = _rotationTween.animate(_rotationController);
+  }
+
+  @override
+  void dispose() {
+    _rotationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
     return Scaffold(
       backgroundColor: colorTheme.surfaceContainer,
       body: CustomScrollView(
@@ -1931,7 +1966,7 @@ class _Settings2AboutViewState extends State<_Settings2AboutView> {
               padding: EdgeInsets.only(left: 8.0 - 4.0),
               child: DeveloperPageBackButton(),
             ),
-            type: CustomAppBarType.largeFlexible,
+            type: CustomAppBarType.small,
             behavior: CustomAppBarBehavior.duplicate,
             expandedContainerColor: colorTheme.surfaceContainer,
             collapsedContainerColor: colorTheme.surfaceContainer,
@@ -1942,6 +1977,75 @@ class _Settings2AboutViewState extends State<_Settings2AboutView> {
               0.0,
             ),
             title: Text("About"),
+          ),
+          SliverList.list(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Flex.vertical(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox.square(
+                      dimension: 192.0,
+                      child: AnimatedBuilder(
+                        animation: _rotationController,
+                        builder: (context, child) {
+                          return Material(
+                            animationDuration: Duration.zero,
+                            clipBehavior: Clip.antiAlias,
+                            shape: RoundedPolygonBorder(
+                              polygon: MaterialShapes.cookie12Sided
+                                  .transformedWithMatrix(_rotationMatrix),
+                            ),
+                            color: colorTheme.surface,
+                            child: child!,
+                          );
+                        },
+                        child: InkWell(
+                          overlayColor: WidgetStateLayerColor(
+                            color: WidgetStatePropertyAll(colorTheme.primary),
+                            opacity: stateTheme.stateLayerOpacity,
+                          ),
+                          onTap: () {},
+                          child: Assets.icLauncher.foregroundInner.svg(),
+                        ),
+                      ),
+                    ),
+                    SelectableText(
+                      "Materium",
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      style: typescaleTheme.displaySmallEmphasized
+                          .toTextStyle()
+                          .copyWith(
+                            color: colorTheme.primary,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                    ),
+                    const SizedBox(height: 8.0),
+                    SelectableText(
+                      "Get Android app updates straight from the source",
+                      maxLines: null,
+                      textAlign: TextAlign.center,
+                      style: typescaleTheme.bodyLarge.toTextStyle().copyWith(
+                        color: colorTheme.onSurface,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const SizedBox(height: 16.0),
+                    ListItemContainer(
+                      isFirst: true,
+                      child: ListItemInteraction(
+                        child: ListItemLayout(
+                          isMultiline: true,
+                          headline: Text("Contributors"),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -2912,6 +3016,15 @@ class _MaterialDemoViewState extends State<_MaterialDemoView> {
   }
 }
 
+extension type const _Shape._(({RoundedPolygon polygon, String name}) _) {
+  const _Shape({required RoundedPolygon polygon, required String name})
+    : this._((polygon: polygon, name: name));
+
+  RoundedPolygon get polygon => _.polygon;
+
+  String get name => _.name;
+}
+
 class _ShapeLibraryView extends StatefulWidget {
   const _ShapeLibraryView({super.key});
 
@@ -3303,7 +3416,98 @@ class _ShapeLibraryViewState extends State<_ShapeLibraryView> {
                                 ),
                                 opacity: stateTheme.stateLayerOpacity,
                               ),
-                              onTap: () {},
+                              onTap: () => showDialog(
+                                context: context,
+                                builder: (context) {
+                                  final size = MediaQuery.sizeOf(context);
+
+                                  final colorTheme = ColorTheme.of(context);
+                                  final typescaleTheme = TypescaleTheme.of(
+                                    context,
+                                  );
+
+                                  final materialLocalizations =
+                                      MaterialLocalizations.of(context);
+
+                                  return AlertDialog(
+                                    constraints: BoxConstraints(
+                                      minWidth: 280.0,
+                                      maxWidth: 560.0,
+                                      minHeight: 240.0,
+                                      maxHeight: size.height * 2 / 3,
+                                    ),
+                                    title: Text(
+                                      name,
+                                      textAlign: TextAlign.center,
+                                      style: typescaleTheme
+                                          .headlineSmallEmphasized
+                                          .toTextStyle(
+                                            color: colorTheme.onSurface,
+                                          ),
+                                    ),
+                                    content: Flex.vertical(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: [
+                                        AspectRatio(
+                                          aspectRatio: 1.0,
+                                          child: Material(
+                                            animationDuration: Duration.zero,
+                                            clipBehavior: Clip.antiAlias,
+                                            shape: shape,
+                                            color: colorTheme.primary,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () async {
+                                          final pathData = _pathFromCubics(
+                                            repeatPath: false,
+                                            closePath: true,
+                                            cubics: polygon.cubics,
+                                            rotationPivotX: 0.5,
+                                            rotationPivotY: 0.5,
+                                          );
+                                          await SharePlus.instance.share(
+                                            ShareParams(
+                                              title: name,
+                                              text: pathData,
+                                            ),
+                                          );
+                                        },
+                                        child: Text(
+                                          materialLocalizations
+                                              .shareButtonLabel,
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () async {
+                                          final pathData = _pathFromCubics(
+                                            repeatPath: false,
+                                            closePath: true,
+                                            cubics: polygon.cubics,
+                                            rotationPivotX: 0.5,
+                                            rotationPivotY: 0.5,
+                                          );
+                                          await SharePlus.instance.share(
+                                            ShareParams(
+                                              title: name,
+                                              text: pathData,
+                                            ),
+                                          );
+                                        },
+                                        child: Text(
+                                          materialLocalizations
+                                              .closeButtonLabel,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         ),
@@ -3326,4 +3530,56 @@ class _ShapeLibraryViewState extends State<_ShapeLibraryView> {
       ),
     );
   }
+}
+
+String _pathFromCubics({
+  required bool repeatPath,
+  required bool closePath,
+  required List<Cubic> cubics,
+  required double rotationPivotX,
+  required double rotationPivotY,
+}) {
+  final buffer = StringBuffer();
+
+  var first = true;
+
+  for (int i = 0; i < cubics.length; i++) {
+    final it = cubics[i];
+
+    if (first) {
+      buffer.write("M${it.anchor0X} ${it.anchor0Y}");
+      first = false;
+    }
+
+    buffer.write(
+      "C${it.control0X} ${it.control0Y} "
+      "${it.control1X} ${it.control1Y} "
+      "${it.anchor1X} ${it.anchor1Y}",
+    );
+  }
+
+  if (repeatPath) {
+    var firstInRepeat = true;
+
+    for (int i = 0; i < cubics.length; i++) {
+      final it = cubics[i];
+
+      if (firstInRepeat) {
+        buffer.write("L${it.anchor0X} ${it.anchor0Y}");
+        firstInRepeat = false;
+      }
+
+      buffer.write(
+        "C${it.control0X} ${it.control0Y} "
+        "${it.control1X} ${it.control1Y} "
+        "${it.anchor1X} ${it.anchor1Y}",
+      );
+    }
+  }
+
+  if (closePath) {
+    buffer.write("Z");
+  }
+
+  return buffer.toString();
 }

@@ -409,12 +409,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   ListItemContainer(
                     isLast: true,
                     child: ListItemInteraction(
-                      onTap: () async {
-                        await Fluttertoast.showToast(
-                          msg: "Not yet implemented!",
-                          toastLength: Toast.LENGTH_SHORT,
-                        );
-                      },
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const AboutPage(),
+                        ),
+                      ),
                       child: ListItemLayout(
                         leading: SizedBox.square(
                           dimension: 40.0,
