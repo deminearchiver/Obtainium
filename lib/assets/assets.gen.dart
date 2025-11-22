@@ -90,61 +90,109 @@ class $AssetsIcLauncherGen {
   /// File path: assets/ic_launcher/background.svg
   SvgGenImage get background => const SvgGenImage(
     'assets/ic_launcher/background.svg',
-    size: Size(432.0, 432.0),
+    size: Size(108.0, 108.0),
+  );
+
+  /// File path: assets/ic_launcher/background_1.5x.png
+  AssetGenImage get background15x => const AssetGenImage(
+    'assets/ic_launcher/background_1.5x.png',
+    size: const Size(162.0, 162.0),
   );
 
   /// File path: assets/ic_launcher/background_1x.png
   AssetGenImage get background1x => const AssetGenImage(
     'assets/ic_launcher/background_1x.png',
-    size: const Size(432.0, 432.0),
+    size: const Size(108.0, 108.0),
   );
 
   /// File path: assets/ic_launcher/background_2x.png
   AssetGenImage get background2x => const AssetGenImage(
     'assets/ic_launcher/background_2x.png',
-    size: const Size(864.0, 864.0),
+    size: const Size(216.0, 216.0),
   );
 
   /// File path: assets/ic_launcher/background_3x.png
   AssetGenImage get background3x => const AssetGenImage(
     'assets/ic_launcher/background_3x.png',
-    size: const Size(1296.0, 1296.0),
+    size: const Size(324.0, 324.0),
   );
 
   /// File path: assets/ic_launcher/background_4x.png
   AssetGenImage get background4x => const AssetGenImage(
     'assets/ic_launcher/background_4x.png',
-    size: const Size(1728.0, 1728.0),
+    size: const Size(432.0, 432.0),
+  );
+
+  /// File path: assets/ic_launcher/circle.svg
+  SvgGenImage get circle => const SvgGenImage(
+    'assets/ic_launcher/circle.svg',
+    size: Size(108.0, 108.0),
+  );
+
+  /// File path: assets/ic_launcher/circle_1.5x.png
+  AssetGenImage get circle15x => const AssetGenImage(
+    'assets/ic_launcher/circle_1.5x.png',
+    size: const Size(162.0, 162.0),
+  );
+
+  /// File path: assets/ic_launcher/circle_1x.png
+  AssetGenImage get circle1x => const AssetGenImage(
+    'assets/ic_launcher/circle_1x.png',
+    size: const Size(108.0, 108.0),
+  );
+
+  /// File path: assets/ic_launcher/circle_2x.png
+  AssetGenImage get circle2x => const AssetGenImage(
+    'assets/ic_launcher/circle_2x.png',
+    size: const Size(216.0, 216.0),
+  );
+
+  /// File path: assets/ic_launcher/circle_3x.png
+  AssetGenImage get circle3x => const AssetGenImage(
+    'assets/ic_launcher/circle_3x.png',
+    size: const Size(324.0, 324.0),
+  );
+
+  /// File path: assets/ic_launcher/circle_4x.png
+  AssetGenImage get circle4x => const AssetGenImage(
+    'assets/ic_launcher/circle_4x.png',
+    size: const Size(432.0, 432.0),
   );
 
   /// File path: assets/ic_launcher/foreground_inner.svg
   SvgGenImage get foregroundInner => const SvgGenImage(
     'assets/ic_launcher/foreground_inner.svg',
-    size: Size(432.0, 436.0),
+    size: Size(108.0, 108.0),
+  );
+
+  /// File path: assets/ic_launcher/foreground_inner_1.5x.png
+  AssetGenImage get foregroundInner15x => const AssetGenImage(
+    'assets/ic_launcher/foreground_inner_1.5x.png',
+    size: const Size(162.0, 162.0),
   );
 
   /// File path: assets/ic_launcher/foreground_inner_1x.png
   AssetGenImage get foregroundInner1x => const AssetGenImage(
     'assets/ic_launcher/foreground_inner_1x.png',
-    size: const Size(432.0, 436.0),
+    size: const Size(108.0, 108.0),
   );
 
   /// File path: assets/ic_launcher/foreground_inner_2x.png
   AssetGenImage get foregroundInner2x => const AssetGenImage(
     'assets/ic_launcher/foreground_inner_2x.png',
-    size: const Size(864.0, 872.0),
+    size: const Size(216.0, 216.0),
   );
 
   /// File path: assets/ic_launcher/foreground_inner_3x.png
   AssetGenImage get foregroundInner3x => const AssetGenImage(
     'assets/ic_launcher/foreground_inner_3x.png',
-    size: const Size(1296.0, 1308.0),
+    size: const Size(324.0, 324.0),
   );
 
   /// File path: assets/ic_launcher/foreground_inner_4x.png
   AssetGenImage get foregroundInner4x => const AssetGenImage(
     'assets/ic_launcher/foreground_inner_4x.png',
-    size: const Size(1728.0, 1744.0),
+    size: const Size(432.0, 432.0),
   );
 
   /// File path: assets/ic_launcher/ic_launcher.png
@@ -165,11 +213,19 @@ class $AssetsIcLauncherGen {
   /// List of all assets
   List<dynamic> get values => [
     background,
+    background15x,
     background1x,
     background2x,
     background3x,
     background4x,
+    circle,
+    circle15x,
+    circle1x,
+    circle2x,
+    circle3x,
+    circle4x,
     foregroundInner,
+    foregroundInner15x,
     foregroundInner1x,
     foregroundInner2x,
     foregroundInner3x,
