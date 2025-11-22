@@ -316,6 +316,25 @@ class _CornerLerp implements Corner {
 abstract class CornersGeometry {
   const CornersGeometry();
 
+  const factory CornersGeometry.all(Corner corner) = Corners.all;
+
+  const factory CornersGeometry.only({
+    Corner topLeft,
+    Corner topRight,
+    Corner bottomLeft,
+    Corner bottomRight,
+  }) = Corners.only;
+
+  const factory CornersGeometry.directional({
+    Corner topStart,
+    Corner topEnd,
+    Corner bottomStart,
+    Corner bottomEnd,
+  }) = CornersDirectional.only;
+
+  const factory CornersGeometry.vertical({Corner top, Corner bottom}) =
+      Corners.vertical;
+
   const factory CornersGeometry.fromBorderRadius(
     BorderRadiusGeometry borderRadius,
   ) = _CornersGeometryFromBorderRadiusGeometry;
@@ -487,6 +506,8 @@ abstract class CornersGeometry {
     _bottomStart,
     _bottomEnd,
   );
+
+  static const CornersGeometry none = Corners.none;
 
   static CornersGeometry? lerp(
     CornersGeometry? a,
