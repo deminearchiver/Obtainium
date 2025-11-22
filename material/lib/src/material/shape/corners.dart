@@ -1,5 +1,5 @@
 import 'dart:math' as math;
-import 'dart:ui' as ui;
+import 'dart:ui';
 
 import 'package:material/src/material/flutter.dart';
 
@@ -7,7 +7,6 @@ double? _clampCornerComponent(double? value, double? min, double? max) {
   assert(
     (min == null || max == null) || (min <= max && !max.isNaN && !min.isNaN),
   );
-
   if (value == null) return max;
   if (min == null) return null;
   if (max == null) return value < min ? min : value;
@@ -24,12 +23,11 @@ class Corner {
   final double? x;
   final double? y;
 
-  Corner clamp({Corner minimum = Corner.none, Corner maximum = Corner.full}) {
-    return Corner.elliptical(
-      _clampCornerComponent(x, minimum.x, maximum.x),
-      _clampCornerComponent(y, minimum.y, maximum.y),
-    );
-  }
+  Corner clamp({Corner minimum = Corner.none, Corner maximum = Corner.full}) =>
+      Corner.elliptical(
+        _clampCornerComponent(x, minimum.x, maximum.x),
+        _clampCornerComponent(y, minimum.y, maximum.y),
+      );
 
   Corner clampValues({
     // TODO: investigate if change from -infinity to 0 affects any behaviors
@@ -37,64 +35,39 @@ class Corner {
     double? minimumY = 0.0,
     double? maximumX,
     double? maximumY,
-  }) {
-    return Corner.elliptical(
-      _clampCornerComponent(x, minimumX, maximumX),
-      _clampCornerComponent(y, minimumY, maximumY),
-    );
-  }
+  }) => Corner.elliptical(
+    _clampCornerComponent(x, minimumX, maximumX),
+    _clampCornerComponent(y, minimumY, maximumY),
+  );
 
   Radius toRadius({
     required Rect rect,
     required double? adjacentX,
     required double? adjacentY,
   }) {
-    final Rect(:width, :height, :shortestSide) = rect;
     final Corner(:x, :y) = this;
-    // double resultX;
-    // double resultY;
-    double resultX = switch ((x, adjacentX)) {
+    final Rect(:width, :height, :shortestSide) = rect;
+    var resultX = switch ((x, adjacentX)) {
       (null, null) => shortestSide / 2.0,
-      (null, final adjacentX?) => ui.clampDouble(
+      (null, final adjacentX?) => clampDouble(
         width - adjacentX,
         0.0,
         shortestSide,
       ),
       (final x?, _) => x,
     };
-    double resultY = switch ((y, adjacentY)) {
+    var resultY = switch ((y, adjacentY)) {
       (null, null) => shortestSide / 2.0,
-      (null, final adjacentY?) => ui.clampDouble(
+      (null, final adjacentY?) => clampDouble(
         height - adjacentY,
         0.0,
         shortestSide,
       ),
       (final y?, _) => y,
     };
-    // if (x == null) {
-    //   if (horizontalX == null) {
-    //     resultX = shortestSide / 2.0;
-    //   } else {
-    //     resultX = ui.clampDouble(width - horizontalX, 0.0, shortestSide);
-    //   }
-    // } else {
-    //   resultX = x;
-    // }
-    // if (y == null) {
-    //   if (verticalY == null) {
-    //     resultY = shortestSide / 2.0;
-    //   } else {
-    //     resultY = ui.clampDouble(height - verticalY, 0.0, shortestSide);
-    //   }
-    // } else {
-    //   resultY = y;
-    // }
-    if (x == null && y == null) {
-      final min = math.min(resultX, resultY);
-      resultX = min;
-      resultY = min;
-    }
-    return Radius.elliptical(resultX, resultY);
+    return x == null && y == null
+        ? Radius.circular(math.min(resultX, resultY))
+        : Radius.elliptical(resultX, resultY);
   }
 
   Corner operator -() =>
@@ -149,21 +122,20 @@ class Corner {
         );
       } else {
         return Corner.elliptical(
-          ui.lerpDouble(a.x, b.x, t),
-          ui.lerpDouble(a.y, b.y, t),
+          lerpDouble(a.x, b.x, t),
+          lerpDouble(a.y, b.y, t),
         );
       }
     }
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is Corner &&
-            x == other.x &&
-            y == other.y;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is Corner &&
+          x == other.x &&
+          y == other.y;
 
   @override
   int get hashCode => Object.hash(runtimeType, x, y);
@@ -195,24 +167,23 @@ class _CornerLerp implements Corner {
 
   @override
   double? get x => switch ((a.x, b.x)) {
-    (final aX?, final bX?) => ui.lerpDouble(aX, bX, t)!,
+    (final aX?, final bX?) => lerpDouble(aX, bX, t)!,
     _ => null,
   };
 
   @override
   double? get y => switch ((a.y, b.y)) {
-    (final aY?, final bY?) => ui.lerpDouble(aY, bY, t)!,
+    (final aY?, final bY?) => lerpDouble(aY, bY, t)!,
     _ => null,
   };
 
   @override
-  Corner clamp({Corner minimum = Corner.none, Corner maximum = Corner.full}) {
-    return _CornerLerp(
-      a.clamp(minimum: minimum, maximum: maximum),
-      b.clamp(minimum: minimum, maximum: maximum),
-      t,
-    );
-  }
+  Corner clamp({Corner minimum = Corner.none, Corner maximum = Corner.full}) =>
+      _CornerLerp(
+        a.clamp(minimum: minimum, maximum: maximum),
+        b.clamp(minimum: minimum, maximum: maximum),
+        t,
+      );
 
   @override
   Corner clampValues({
@@ -220,42 +191,32 @@ class _CornerLerp implements Corner {
     double? minimumY = 0.0,
     double? maximumX,
     double? maximumY,
-  }) {
-    return _CornerLerp(
-      a.clampValues(
-        minimumX: minimumX,
-        minimumY: minimumY,
-        maximumX: maximumX,
-        maximumY: maximumY,
-      ),
-      b.clampValues(
-        minimumX: minimumX,
-        minimumY: minimumY,
-        maximumX: maximumX,
-        maximumY: maximumY,
-      ),
-      t,
-    );
-  }
+  }) => _CornerLerp(
+    a.clampValues(
+      minimumX: minimumX,
+      minimumY: minimumY,
+      maximumX: maximumX,
+      maximumY: maximumY,
+    ),
+    b.clampValues(
+      minimumX: minimumX,
+      minimumY: minimumY,
+      maximumX: maximumX,
+      maximumY: maximumY,
+    ),
+    t,
+  );
 
   @override
   Radius toRadius({
     required Rect rect,
     required double? adjacentX,
     required double? adjacentY,
-  }) {
-    final aRadius = a.toRadius(
-      rect: rect,
-      adjacentX: adjacentX,
-      adjacentY: adjacentY,
-    );
-    final bRadius = b.toRadius(
-      rect: rect,
-      adjacentX: adjacentX,
-      adjacentY: adjacentY,
-    );
-    return Radius.lerp(aRadius, bRadius, t)!;
-  }
+  }) => Radius.lerp(
+    a.toRadius(rect: rect, adjacentX: adjacentX, adjacentY: adjacentY),
+    b.toRadius(rect: rect, adjacentX: adjacentX, adjacentY: adjacentY),
+    t,
+  )!;
 
   @override
   Corner operator -() => _CornerLerp(-a, -b, t);
@@ -280,20 +241,18 @@ class _CornerLerp implements Corner {
   Corner operator %(double operand) => _CornerLerp(a % operand, b % operand, t);
 
   @override
-  String toString() {
-    return "${objectRuntimeType(this, "Corner.lerp")}"
-        "($a, $b, ${t.toStringAsFixed(1)})";
-  }
+  String toString() =>
+      "${objectRuntimeType(this, "Corner.lerp")}"
+      "($a, $b, ${t.toStringAsFixed(1)})";
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is _CornerLerp &&
-            a == other.a &&
-            b == other.b &&
-            t == other.t;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is _CornerLerp &&
+          a == other.a &&
+          b == other.b &&
+          t == other.t;
 
   @override
   int get hashCode => Object.hash(runtimeType, a, b, t);
@@ -304,6 +263,8 @@ abstract class CornersGeometry {
   const CornersGeometry();
 
   const factory CornersGeometry.all(Corner corner) = Corners.all;
+
+  factory CornersGeometry.circular(double radius) = Corners.circular;
 
   const factory CornersGeometry.only({
     Corner topLeft,
@@ -327,43 +288,46 @@ abstract class CornersGeometry {
   ) = _CornersGeometryFromBorderRadiusGeometry;
 
   Corner get _topLeft;
+
   Corner get _topRight;
+
   Corner get _bottomLeft;
+
   Corner get _bottomRight;
+
   Corner get _topStart;
+
   Corner get _topEnd;
+
   Corner get _bottomStart;
+
   Corner get _bottomEnd;
 
   BorderRadiusGeometry toBorderRadius(Rect rect);
 
   Corners resolve(TextDirection? textDirection);
 
-  CornersGeometry add(CornersGeometry other) {
-    return _CornersMixed(
-      _topLeft + other._topLeft,
-      _topRight + other._topRight,
-      _bottomLeft + other._bottomLeft,
-      _bottomRight + other._bottomRight,
-      _topStart + other._topStart,
-      _topEnd + other._topEnd,
-      _bottomStart + other._bottomStart,
-      _bottomEnd + other._bottomEnd,
-    );
-  }
+  CornersGeometry add(CornersGeometry other) => _CornersMixed(
+    _topLeft + other._topLeft,
+    _topRight + other._topRight,
+    _bottomLeft + other._bottomLeft,
+    _bottomRight + other._bottomRight,
+    _topStart + other._topStart,
+    _topEnd + other._topEnd,
+    _bottomStart + other._bottomStart,
+    _bottomEnd + other._bottomEnd,
+  );
 
-  CornersGeometry subtract(CornersGeometry other) {
-    return _CornersMixed(
-      _topLeft - other._topLeft,
-      _topRight - other._topRight,
-      _bottomLeft - other._bottomLeft,
-      _bottomRight - other._bottomRight,
-      _topStart - other._topStart,
-      _topEnd - other._topEnd,
-      _bottomStart - other._bottomStart,
-      _bottomEnd - other._bottomEnd,
-    );
-  }
+  CornersGeometry subtract(CornersGeometry other) => _CornersMixed(
+    _topLeft - other._topLeft,
+    _topRight - other._topRight,
+    _bottomLeft - other._bottomLeft,
+    _bottomRight - other._bottomRight,
+    _topStart - other._topStart,
+    _topEnd - other._topEnd,
+    _bottomStart - other._bottomStart,
+    _bottomEnd - other._bottomEnd,
+  );
 
   CornersGeometry operator -();
   CornersGeometry operator *(double other);
@@ -467,19 +431,18 @@ abstract class CornersGeometry {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is CornersGeometry &&
-            _topLeft == other._topLeft &&
-            _topRight == other._topRight &&
-            _bottomLeft == other._bottomLeft &&
-            _bottomRight == other._bottomRight &&
-            _topStart == other._topStart &&
-            _topEnd == other._topEnd &&
-            _bottomStart == other._bottomStart &&
-            _bottomEnd == other._bottomEnd;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is CornersGeometry &&
+          _topLeft == other._topLeft &&
+          _topRight == other._topRight &&
+          _bottomLeft == other._bottomLeft &&
+          _bottomRight == other._bottomRight &&
+          _topStart == other._topStart &&
+          _topEnd == other._topEnd &&
+          _bottomStart == other._bottomStart &&
+          _bottomEnd == other._bottomEnd;
 
   @override
   int get hashCode => Object.hash(
@@ -495,19 +458,15 @@ abstract class CornersGeometry {
   );
 
   static const CornersGeometry none = Corners.none;
+  static const CornersGeometry full = Corners.full;
 
   static CornersGeometry? lerp(
     CornersGeometry? a,
     CornersGeometry? b,
     double t,
   ) {
-    if (identical(a, b)) {
-      return a;
-    }
-    a ??= Corners.none;
-    b ??= Corners.none;
-
-    return _CornersGeometryLerp(a, b, t);
+    if (identical(a, b)) return a;
+    return _CornersGeometryLerp(a ?? Corners.none, b ?? Corners.none, t);
   }
 }
 
@@ -544,53 +503,43 @@ class _CornersGeometryLerp extends CornersGeometry {
   Corner get _bottomEnd => Corner.none;
 
   @override
-  BorderRadiusGeometry toBorderRadius(Rect rect) {
-    return BorderRadiusGeometry.lerp(
-      a.toBorderRadius(rect),
-      b.toBorderRadius(rect),
-      t,
-    )!;
-  }
+  BorderRadiusGeometry toBorderRadius(Rect rect) => BorderRadiusGeometry.lerp(
+    a.toBorderRadius(rect),
+    b.toBorderRadius(rect),
+    t,
+  )!;
 
   @override
-  Corners resolve(TextDirection? textDirection) {
-    return _CornersLerp(a.resolve(textDirection), b.resolve(textDirection), t);
-  }
+  Corners resolve(TextDirection? textDirection) =>
+      _CornersLerp(a.resolve(textDirection), b.resolve(textDirection), t);
 
   @override
-  CornersGeometry operator -() {
-    return _CornersGeometryLerp(-a, -b, t);
-  }
+  CornersGeometry operator -() => _CornersGeometryLerp(-a, -b, t);
 
   @override
-  CornersGeometry operator *(double other) {
-    return _CornersGeometryLerp(a * other, b * other, t);
-  }
+  CornersGeometry operator *(double other) =>
+      _CornersGeometryLerp(a * other, b * other, t);
 
   @override
-  CornersGeometry operator /(double other) {
-    return _CornersGeometryLerp(a / other, b / other, t);
-  }
+  CornersGeometry operator /(double other) =>
+      _CornersGeometryLerp(a / other, b / other, t);
 
   @override
-  CornersGeometry operator ~/(double other) {
-    return _CornersGeometryLerp(a ~/ other, b ~/ other, t);
-  }
+  CornersGeometry operator ~/(double other) =>
+      _CornersGeometryLerp(a ~/ other, b ~/ other, t);
 
   @override
-  CornersGeometry operator %(double other) {
-    return _CornersGeometryLerp(a % other, b % other, t);
-  }
+  CornersGeometry operator %(double other) =>
+      _CornersGeometryLerp(a % other, b % other, t);
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is _CornersGeometryLerp &&
-            a == other.a &&
-            b == other.b &&
-            t == other.t;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is _CornersGeometryLerp &&
+          a == other.a &&
+          b == other.b &&
+          t == other.t;
 
   @override
   int get hashCode => Object.hash(runtimeType, a, b, t);
@@ -618,7 +567,6 @@ class Corners extends CornersGeometry {
          bottomRight: bottom,
        );
 
-  /// sides of the rectangle have the same radii.
   const Corners.horizontal({
     Corner left = Corner.none,
     Corner right = Corner.none,
@@ -629,8 +577,6 @@ class Corners extends CornersGeometry {
          bottomRight: right,
        );
 
-  /// Creates corners with only the given non-none values. The other
-  /// corners will be right angles.
   const Corners.only({
     this.topLeft = Corner.none,
     this.topRight = Corner.none,
@@ -644,25 +590,24 @@ class Corners extends CornersGeometry {
       bottomLeft = Corner.fromRadius(borderRadius.bottomLeft),
       bottomRight = Corner.fromRadius(borderRadius.bottomRight);
 
-  /// Returns a copy of this object with the given fields replaced with
-  /// the new values.
   Corners copyWith({
     Corner? topLeft,
     Corner? topRight,
     Corner? bottomLeft,
     Corner? bottomRight,
-  }) {
-    return Corners.only(
-      topLeft: topLeft ?? this.topLeft,
-      topRight: topRight ?? this.topRight,
-      bottomLeft: bottomLeft ?? this.bottomLeft,
-      bottomRight: bottomRight ?? this.bottomRight,
-    );
-  }
+  }) => Corners.only(
+    topLeft: topLeft ?? this.topLeft,
+    topRight: topRight ?? this.topRight,
+    bottomLeft: bottomLeft ?? this.bottomLeft,
+    bottomRight: bottomRight ?? this.bottomRight,
+  );
 
   final Corner topLeft;
+
   final Corner topRight;
+
   final Corner bottomLeft;
+
   final Corner bottomRight;
 
   @override
@@ -689,117 +634,12 @@ class Corners extends CornersGeometry {
   @override
   Corner get _bottomEnd => Corner.none;
 
-  // @override
-  // BorderRadius toBorderRadius(Rect rect) {
-  //   final topLeft = this.topLeft.clamp();
-  //   final topRight = this.topRight.clamp();
-  //   final bottomLeft = this.bottomLeft.clamp();
-  //   final bottomRight = this.bottomRight.clamp();
-
-  //   final Rect(:width, :height, :shortestSide) = rect;
-
-  //   double topLeftX;
-  //   double topLeftY;
-  //   double topRightX;
-  //   double topRightY;
-  //   double bottomLeftX;
-  //   double bottomLeftY;
-  //   double bottomRightX;
-  //   double bottomRightY;
-
-  //   if (topLeft.x == null) {
-  //     if (topRight.x == null) {
-  //       topLeftX = shortestSide / 2;
-  //       topRightX = shortestSide / 2;
-  //     } else {
-  //       topRightX = topRight.x!;
-  //       topLeftX = ui.clampDouble(width - topRightX, 0.0, shortestSide);
-  //     }
-  //   } else {
-  //     topLeftX = topLeft.x!;
-  //     topRightX =
-  //         topRight.x ?? ui.clampDouble(width - topLeftX, 0.0, shortestSide);
-  //   }
-
-  //   if (topRight.y == null) {
-  //     if (bottomRight.y == null) {
-  //       topRightY = shortestSide / 2;
-  //       bottomRightY = shortestSide / 2;
-  //     } else {
-  //       bottomRightY = bottomRight.y!;
-  //       topRightY = ui.clampDouble(height - bottomRightY, 0.0, shortestSide);
-  //     }
-  //   } else {
-  //     topRightY = topRight.y!;
-  //     bottomRightY =
-  //         bottomRight.y ??
-  //         ui.clampDouble(height - topRightY, 0.0, shortestSide);
-  //   }
-
-  //   if (bottomRight.x == null) {
-  //     if (bottomLeft.x == null) {
-  //       bottomRightX = shortestSide / 2;
-  //       bottomLeftX = shortestSide / 2;
-  //     } else {
-  //       bottomLeftX = bottomLeft.x!;
-  //       bottomRightX = ui.clampDouble(width - bottomLeftX, 0.0, shortestSide);
-  //     }
-  //   } else {
-  //     bottomRightX = bottomRight.x!;
-  //     bottomLeftX =
-  //         bottomLeft.x ??
-  //         ui.clampDouble(width - bottomRightX, 0.0, shortestSide);
-  //   }
-
-  //   if (bottomLeft.y == null) {
-  //     if (topLeft.y == null) {
-  //       bottomLeftY = shortestSide / 2;
-  //       topLeftY = shortestSide / 2;
-  //     } else {
-  //       topLeftY = topLeft.y!;
-  //       bottomLeftY = ui.clampDouble(height - topLeftY, 0.0, shortestSide);
-  //     }
-  //   } else {
-  //     bottomLeftY = bottomLeft.y!;
-  //     topLeftY =
-  //         topLeft.y ?? ui.clampDouble(height - bottomLeftY, 0.0, shortestSide);
-  //   }
-  //   if (topLeft.x == null && topLeft.y == null) {
-  //     final min = math.min(topLeftX, topLeftY);
-  //     topLeftX = min;
-  //     topLeftY = min;
-  //   }
-  //   if (topRight.x == null && topRight.y == null) {
-  //     final min = math.min(topRightX, topRightY);
-  //     topRightX = min;
-  //     topRightY = min;
-  //   }
-  //   if (bottomLeft.x == null && bottomLeft.y == null) {
-  //     final min = math.min(bottomLeftX, bottomLeftY);
-  //     bottomLeftX = min;
-  //     bottomLeftY = min;
-  //   }
-  //   if (bottomRight.x == null && bottomRight.y == null) {
-  //     final min = math.min(bottomRightX, bottomRightY);
-  //     bottomRightX = min;
-  //     bottomRightY = min;
-  //   }
-
-  //   return BorderRadius.only(
-  //     topLeft: Radius.elliptical(topLeftX, topLeftY),
-  //     topRight: Radius.elliptical(topRightX, topRightY),
-  //     bottomLeft: Radius.elliptical(bottomLeftX, bottomLeftY),
-  //     bottomRight: Radius.elliptical(bottomRightX, bottomRightY),
-  //   );
-  // }
-
   @override
   BorderRadius toBorderRadius(Rect rect) {
     final topLeft = this.topLeft.clamp();
     final topRight = this.topRight.clamp();
     final bottomLeft = this.bottomLeft.clamp();
     final bottomRight = this.bottomRight.clamp();
-
     return BorderRadius.only(
       topLeft: topLeft.toRadius(
         rect: rect,
@@ -824,129 +664,98 @@ class Corners extends CornersGeometry {
     );
   }
 
-  RRect toRRect(Rect rect) {
-    return toBorderRadius(rect).toRRect(rect);
-  }
+  RRect toRRect(Rect rect) => toBorderRadius(rect).toRRect(rect);
 
-  RSuperellipse toRSuperellipse(Rect rect) {
-    return toBorderRadius(rect).toRSuperellipse(rect);
-  }
+  RSuperellipse toRSuperellipse(Rect rect) =>
+      toBorderRadius(rect).toRSuperellipse(rect);
 
   @override
   Corners resolve(TextDirection? direction) => this;
 
   @override
-  CornersGeometry add(CornersGeometry other) {
-    if (other is Corners) {
-      return this + other;
-    }
-    return super.add(other);
-  }
+  CornersGeometry add(CornersGeometry other) =>
+      other is Corners ? this + other : super.add(other);
 
   @override
-  CornersGeometry subtract(CornersGeometry other) {
-    if (other is Corners) {
-      return this - other;
-    }
-    return super.subtract(other);
-  }
+  CornersGeometry subtract(CornersGeometry other) =>
+      other is Corners ? this - other : super.subtract(other);
 
-  Corners operator +(Corners other) {
-    return Corners.only(
-      topLeft: topLeft + other.topLeft,
-      topRight: topRight + other.topRight,
-      bottomLeft: bottomLeft + other.bottomLeft,
-      bottomRight: bottomRight + other.bottomRight,
-    );
-  }
+  Corners operator +(Corners other) => Corners.only(
+    topLeft: topLeft + other.topLeft,
+    topRight: topRight + other.topRight,
+    bottomLeft: bottomLeft + other.bottomLeft,
+    bottomRight: bottomRight + other.bottomRight,
+  );
 
-  Corners operator -(Corners other) {
-    return Corners.only(
-      topLeft: topLeft - other.topLeft,
-      topRight: topRight - other.topRight,
-      bottomLeft: bottomLeft - other.bottomLeft,
-      bottomRight: bottomRight - other.bottomRight,
-    );
-  }
+  Corners operator -(Corners other) => Corners.only(
+    topLeft: topLeft - other.topLeft,
+    topRight: topRight - other.topRight,
+    bottomLeft: bottomLeft - other.bottomLeft,
+    bottomRight: bottomRight - other.bottomRight,
+  );
 
   @override
-  Corners operator -() {
-    return Corners.only(
-      topLeft: -topLeft,
-      topRight: -topRight,
-      bottomLeft: -bottomLeft,
-      bottomRight: -bottomRight,
-    );
-  }
+  Corners operator -() => Corners.only(
+    topLeft: -topLeft,
+    topRight: -topRight,
+    bottomLeft: -bottomLeft,
+    bottomRight: -bottomRight,
+  );
 
   @override
-  Corners operator *(double other) {
-    return Corners.only(
-      topLeft: topLeft * other,
-      topRight: topRight * other,
-      bottomLeft: bottomLeft * other,
-      bottomRight: bottomRight * other,
-    );
-  }
+  Corners operator *(double other) => Corners.only(
+    topLeft: topLeft * other,
+    topRight: topRight * other,
+    bottomLeft: bottomLeft * other,
+    bottomRight: bottomRight * other,
+  );
 
   @override
-  Corners operator /(double other) {
-    return Corners.only(
-      topLeft: topLeft / other,
-      topRight: topRight / other,
-      bottomLeft: bottomLeft / other,
-      bottomRight: bottomRight / other,
-    );
-  }
+  Corners operator /(double other) => Corners.only(
+    topLeft: topLeft / other,
+    topRight: topRight / other,
+    bottomLeft: bottomLeft / other,
+    bottomRight: bottomRight / other,
+  );
 
   @override
-  Corners operator ~/(double other) {
-    return Corners.only(
-      topLeft: topLeft ~/ other,
-      topRight: topRight ~/ other,
-      bottomLeft: bottomLeft ~/ other,
-      bottomRight: bottomRight ~/ other,
-    );
-  }
+  Corners operator ~/(double other) => Corners.only(
+    topLeft: topLeft ~/ other,
+    topRight: topRight ~/ other,
+    bottomLeft: bottomLeft ~/ other,
+    bottomRight: bottomRight ~/ other,
+  );
 
   @override
-  Corners operator %(double other) {
-    return Corners.only(
-      topLeft: topLeft % other,
-      topRight: topRight % other,
-      bottomLeft: bottomLeft % other,
-      bottomRight: bottomRight % other,
-    );
-  }
+  Corners operator %(double other) => Corners.only(
+    topLeft: topLeft % other,
+    topRight: topRight % other,
+    bottomLeft: bottomLeft % other,
+    bottomRight: bottomRight % other,
+  );
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is Corners &&
-            topLeft == other.topLeft &&
-            topRight == other.topRight &&
-            bottomLeft == other.bottomLeft &&
-            bottomRight == other.bottomRight;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is Corners &&
+          topLeft == other.topLeft &&
+          topRight == other.topRight &&
+          bottomLeft == other.bottomLeft &&
+          bottomRight == other.bottomRight;
 
   @override
   int get hashCode =>
       Object.hash(runtimeType, topLeft, topRight, bottomLeft, bottomRight);
 
   static const Corners none = Corners.all(Corner.none);
+
   static const Corners full = Corners.all(Corner.full);
 
   static Corners? lerp(Corners? a, Corners? b, double t) {
-    if (identical(a, b)) {
-      return a;
-    }
-    if (a == null) {
-      return b! * t;
-    }
-    if (b == null) {
-      return a * (1.0 - t);
-    }
+    if (identical(a, b)) return a;
+    if (a == null) return b! * t;
+    if (b == null) return a * (1.0 - t);
     return _CornersLerp(a, b, t);
   }
 }
@@ -982,68 +791,54 @@ class _CornersGeometryFromBorderRadiusGeometry extends CornersGeometry {
   Corner get _bottomEnd => Corner.none;
 
   @override
-  BorderRadiusGeometry toBorderRadius(Rect rect) {
-    return _borderRadius;
-  }
+  BorderRadiusGeometry toBorderRadius(Rect rect) => _borderRadius;
 
   @override
-  Corners resolve(TextDirection? textDirection) {
-    final resolvedBorderRadius = _borderRadius.resolve(textDirection);
-    return Corners.fromBorderRadius(resolvedBorderRadius);
-  }
+  Corners resolve(TextDirection? textDirection) =>
+      Corners.fromBorderRadius(_borderRadius.resolve(textDirection));
 
   @override
-  CornersGeometry add(CornersGeometry other) {
-    if (other is _CornersGeometryFromBorderRadiusGeometry) {
-      return _CornersGeometryFromBorderRadiusGeometry(
-        _borderRadius.add(other._borderRadius),
-      );
-    }
-    return super.add(other);
-  }
+  CornersGeometry add(CornersGeometry other) =>
+      other is _CornersGeometryFromBorderRadiusGeometry
+      ? _CornersGeometryFromBorderRadiusGeometry(
+          _borderRadius.add(other._borderRadius),
+        )
+      : super.add(other);
 
   @override
-  CornersGeometry subtract(CornersGeometry other) {
-    if (other is _CornersGeometryFromBorderRadiusGeometry) {
-      return _CornersGeometryFromBorderRadiusGeometry(
-        _borderRadius.subtract(other._borderRadius),
-      );
-    }
-    return super.subtract(other);
-  }
+  CornersGeometry subtract(CornersGeometry other) =>
+      other is _CornersGeometryFromBorderRadiusGeometry
+      ? _CornersGeometryFromBorderRadiusGeometry(
+          _borderRadius.subtract(other._borderRadius),
+        )
+      : super.subtract(other);
 
   @override
-  CornersGeometry operator -() {
-    return _CornersGeometryFromBorderRadiusGeometry(-_borderRadius);
-  }
+  CornersGeometry operator -() =>
+      _CornersGeometryFromBorderRadiusGeometry(-_borderRadius);
 
   @override
-  CornersGeometry operator *(double other) {
-    return _CornersGeometryFromBorderRadiusGeometry(_borderRadius * other);
-  }
+  CornersGeometry operator *(double other) =>
+      _CornersGeometryFromBorderRadiusGeometry(_borderRadius * other);
 
   @override
-  CornersGeometry operator /(double other) {
-    return _CornersGeometryFromBorderRadiusGeometry(_borderRadius / other);
-  }
+  CornersGeometry operator /(double other) =>
+      _CornersGeometryFromBorderRadiusGeometry(_borderRadius / other);
 
   @override
-  CornersGeometry operator ~/(double other) {
-    return _CornersGeometryFromBorderRadiusGeometry(_borderRadius ~/ other);
-  }
+  CornersGeometry operator ~/(double other) =>
+      _CornersGeometryFromBorderRadiusGeometry(_borderRadius ~/ other);
 
   @override
-  CornersGeometry operator %(double other) {
-    return _CornersGeometryFromBorderRadiusGeometry(_borderRadius % other);
-  }
+  CornersGeometry operator %(double other) =>
+      _CornersGeometryFromBorderRadiusGeometry(_borderRadius % other);
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is _CornersGeometryFromBorderRadiusGeometry &&
-            _borderRadius == other._borderRadius;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is _CornersGeometryFromBorderRadiusGeometry &&
+          _borderRadius == other._borderRadius;
 
   @override
   int get hashCode => Object.hash(runtimeType, _borderRadius);
@@ -1058,23 +853,17 @@ class _CornersLerp extends Corners {
   final double t;
 
   @override
-  BorderRadius toBorderRadius(Rect rect) {
-    return BorderRadius.lerp(
-      a.toBorderRadius(rect),
-      b.toBorderRadius(rect),
-      t,
-    )!;
-  }
+  BorderRadius toBorderRadius(Rect rect) =>
+      BorderRadius.lerp(a.toBorderRadius(rect), b.toBorderRadius(rect), t)!;
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is _CornersLerp &&
-            a == other.a &&
-            b == other.b &&
-            t == other.t;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is _CornersLerp &&
+          a == other.a &&
+          b == other.b &&
+          t == other.t;
 
   @override
   int get hashCode => Object.hash(runtimeType, a, b, t);
@@ -1089,6 +878,9 @@ class CornersDirectional extends CornersGeometry {
         bottomStart: radius,
         bottomEnd: radius,
       );
+
+  CornersDirectional.circular(double radius)
+    : this.all(Corner.circular(radius));
 
   const CornersDirectional.vertical({
     Corner top = Corner.none,
@@ -1152,136 +944,12 @@ class CornersDirectional extends CornersGeometry {
   @override
   Corner get _bottomEnd => bottomEnd;
 
-  // @override
-  // BorderRadiusDirectional toBorderRadius(Rect rect) {
-  //   final topStart = this.topStart.clamp();
-  //   final topEnd = this.topEnd.clamp();
-  //   final bottomStart = this.bottomStart.clamp();
-  //   final bottomEnd = this.bottomEnd.clamp();
-
-  //   final Rect(:width, :height, :shortestSide) = rect;
-
-  //   double topStartX;
-  //   double topStartY;
-  //   double topEndX;
-  //   double topEndY;
-  //   double bottomStartX;
-  //   double bottomStartY;
-  //   double bottomEndX;
-  //   double bottomEndY;
-
-  //   if (topStart.x == null) {
-  //     if (topEnd.x == null) {
-  //       topStartX = shortestSide / 2;
-  //       topEndX = shortestSide / 2;
-  //     } else {
-  //       topEndX = topEnd.x!;
-  //       topStartX = ui.clampDouble(width - topEndX, 0.0, shortestSide);
-  //     }
-  //   } else {
-  //     topStartX = topStart.x!;
-  //     topEndX =
-  //         topEnd.x ?? ui.clampDouble(width - topStartX, 0.0, shortestSide);
-  //   }
-
-  //   if (topEnd.y == null) {
-  //     if (bottomEnd.y == null) {
-  //       topEndY = shortestSide / 2;
-  //       bottomEndY = shortestSide / 2;
-  //     } else {
-  //       bottomEndY = bottomEnd.y!;
-  //       topEndY = ui.clampDouble(height - bottomEndY, 0.0, shortestSide);
-  //     }
-  //   } else {
-  //     topEndY = topEnd.y!;
-  //     bottomEndY =
-  //         bottomEnd.y ?? ui.clampDouble(height - topEndY, 0.0, shortestSide);
-  //   }
-
-  //   if (bottomEnd.x == null) {
-  //     if (bottomStart.x == null) {
-  //       bottomEndX = shortestSide / 2;
-  //       bottomStartX = shortestSide / 2;
-  //     } else {
-  //       bottomStartX = bottomStart.x!;
-  //       bottomEndX = ui.clampDouble(width - bottomStartX, 0.0, shortestSide);
-  //     }
-  //   } else {
-  //     bottomEndX = bottomEnd.x!;
-  //     bottomStartX =
-  //         bottomStart.x ??
-  //         ui.clampDouble(width - bottomEndX, 0.0, shortestSide);
-  //   }
-
-  //   if (bottomStart.y == null) {
-  //     if (topStart.y == null) {
-  //       bottomStartY = shortestSide / 2;
-  //       topStartY = shortestSide / 2;
-  //     } else {
-  //       topStartY = topStart.y!;
-  //       bottomStartY = ui.clampDouble(height - topStartY, 0.0, shortestSide);
-  //     }
-  //   } else {
-  //     bottomStartY = bottomStart.y!;
-  //     topStartY =
-  //         topStart.y ??
-  //         ui.clampDouble(height - bottomStartY, 0.0, shortestSide);
-  //   }
-  //   if (topStart.x == null && topStart.y == null) {
-  //     final min = math.min(topStartX, topStartY);
-  //     topStartX = min;
-  //     topStartY = min;
-  //   }
-  //   if (topEnd.x == null && topEnd.y == null) {
-  //     final min = math.min(topEndX, topEndY);
-  //     topEndX = min;
-  //     topEndY = min;
-  //   }
-  //   if (bottomStart.x == null && bottomStart.y == null) {
-  //     final min = math.min(bottomStartX, bottomStartY);
-  //     bottomStartX = min;
-  //     bottomStartY = min;
-  //   }
-  //   if (bottomEnd.x == null && bottomEnd.y == null) {
-  //     final min = math.min(bottomEndX, bottomEndY);
-  //     bottomEndX = min;
-  //     bottomEndY = min;
-  //   }
-
-  //   return BorderRadiusDirectional.only(
-  //     topStart: Radius.elliptical(topStartX, topStartY),
-  //     topEnd: Radius.elliptical(topEndX, topEndY),
-  //     bottomStart: Radius.elliptical(bottomStartX, bottomStartY),
-  //     bottomEnd: Radius.elliptical(bottomEndX, bottomEndY),
-  //   );
-  // }
-
-  // @override
-  // Corners resolve(TextDirection? textDirection) {
-  //   assert(textDirection != null);
-  //   return switch (textDirection!) {
-  //     TextDirection.ltr => Corners.only(
-  //       topLeft: topStart,
-  //       topRight: topEnd,
-  //       bottomLeft: bottomStart,
-  //       bottomRight: bottomEnd,
-  //     ),
-  //     TextDirection.rtl => Corners.only(
-  //       topLeft: topEnd,
-  //       topRight: topStart,
-  //       bottomLeft: bottomEnd,
-  //       bottomRight: bottomStart,
-  //     ),
-  //   };
-  // }
-
   @override
   BorderRadiusDirectional toBorderRadius(Rect rect) {
     final topStart = this.topStart.clamp();
     final topEnd = this.topEnd.clamp();
     final bottomStart = this.bottomStart.clamp();
     final bottomEnd = this.bottomEnd.clamp();
-
     return BorderRadiusDirectional.only(
       topStart: topStart.toRadius(
         rect: rect,
@@ -1310,13 +978,13 @@ class CornersDirectional extends CornersGeometry {
   Corners resolve(TextDirection? textDirection) {
     assert(textDirection != null);
     return switch (textDirection!) {
-      TextDirection.ltr => Corners.only(
+      .ltr => Corners.only(
         topLeft: topStart,
         topRight: topEnd,
         bottomLeft: bottomStart,
         bottomRight: bottomEnd,
       ),
-      TextDirection.rtl => Corners.only(
+      .rtl => Corners.only(
         topLeft: topEnd,
         topRight: topStart,
         bottomLeft: bottomEnd,
@@ -1326,99 +994,78 @@ class CornersDirectional extends CornersGeometry {
   }
 
   @override
-  CornersGeometry add(CornersGeometry other) {
-    if (other is CornersDirectional) {
-      return this + other;
-    }
-    return super.add(other);
-  }
+  CornersGeometry add(CornersGeometry other) =>
+      other is CornersDirectional ? this + other : super.add(other);
 
   @override
-  CornersGeometry subtract(CornersGeometry other) {
-    if (other is CornersDirectional) {
-      return this - other;
-    }
-    return super.subtract(other);
-  }
+  CornersGeometry subtract(CornersGeometry other) =>
+      other is CornersDirectional ? this - other : super.subtract(other);
 
-  CornersDirectional operator +(CornersDirectional other) {
-    return CornersDirectional.only(
-      topStart: topStart + other.topStart,
-      topEnd: topEnd + other.topEnd,
-      bottomStart: bottomStart + other.bottomStart,
-      bottomEnd: bottomEnd + other.bottomEnd,
-    );
-  }
+  CornersDirectional operator +(CornersDirectional other) =>
+      CornersDirectional.only(
+        topStart: topStart + other.topStart,
+        topEnd: topEnd + other.topEnd,
+        bottomStart: bottomStart + other.bottomStart,
+        bottomEnd: bottomEnd + other.bottomEnd,
+      );
 
-  CornersDirectional operator -(CornersDirectional other) {
-    return CornersDirectional.only(
-      topStart: topStart - other.topStart,
-      topEnd: topEnd - other.topEnd,
-      bottomStart: bottomStart - other.bottomStart,
-      bottomEnd: bottomEnd - other.bottomEnd,
-    );
-  }
+  CornersDirectional operator -(CornersDirectional other) =>
+      CornersDirectional.only(
+        topStart: topStart - other.topStart,
+        topEnd: topEnd - other.topEnd,
+        bottomStart: bottomStart - other.bottomStart,
+        bottomEnd: bottomEnd - other.bottomEnd,
+      );
 
   @override
-  CornersDirectional operator -() {
-    return CornersDirectional.only(
-      topStart: -topStart,
-      topEnd: -topEnd,
-      bottomStart: -bottomStart,
-      bottomEnd: -bottomEnd,
-    );
-  }
+  CornersDirectional operator -() => CornersDirectional.only(
+    topStart: -topStart,
+    topEnd: -topEnd,
+    bottomStart: -bottomStart,
+    bottomEnd: -bottomEnd,
+  );
 
   @override
-  CornersDirectional operator *(double other) {
-    return CornersDirectional.only(
-      topStart: topStart * other,
-      topEnd: topEnd * other,
-      bottomStart: bottomStart * other,
-      bottomEnd: bottomEnd * other,
-    );
-  }
+  CornersDirectional operator *(double other) => CornersDirectional.only(
+    topStart: topStart * other,
+    topEnd: topEnd * other,
+    bottomStart: bottomStart * other,
+    bottomEnd: bottomEnd * other,
+  );
 
   @override
-  CornersDirectional operator /(double other) {
-    return CornersDirectional.only(
-      topStart: topStart / other,
-      topEnd: topEnd / other,
-      bottomStart: bottomStart / other,
-      bottomEnd: bottomEnd / other,
-    );
-  }
+  CornersDirectional operator /(double other) => CornersDirectional.only(
+    topStart: topStart / other,
+    topEnd: topEnd / other,
+    bottomStart: bottomStart / other,
+    bottomEnd: bottomEnd / other,
+  );
 
   @override
-  CornersDirectional operator ~/(double other) {
-    return CornersDirectional.only(
-      topStart: topStart ~/ other,
-      topEnd: topEnd ~/ other,
-      bottomStart: bottomStart ~/ other,
-      bottomEnd: bottomEnd ~/ other,
-    );
-  }
+  CornersDirectional operator ~/(double other) => CornersDirectional.only(
+    topStart: topStart ~/ other,
+    topEnd: topEnd ~/ other,
+    bottomStart: bottomStart ~/ other,
+    bottomEnd: bottomEnd ~/ other,
+  );
 
   @override
-  CornersDirectional operator %(double other) {
-    return CornersDirectional.only(
-      topStart: topStart % other,
-      topEnd: topEnd % other,
-      bottomStart: bottomStart % other,
-      bottomEnd: bottomEnd % other,
-    );
-  }
+  CornersDirectional operator %(double other) => CornersDirectional.only(
+    topStart: topStart % other,
+    topEnd: topEnd % other,
+    bottomStart: bottomStart % other,
+    bottomEnd: bottomEnd % other,
+  );
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is CornersDirectional &&
-            topStart == other.topStart &&
-            topEnd == other.topEnd &&
-            bottomStart == other.bottomStart &&
-            bottomEnd == other.bottomEnd;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is CornersDirectional &&
+          topStart == other.topStart &&
+          topEnd == other.topEnd &&
+          bottomStart == other.bottomStart &&
+          bottomEnd == other.bottomEnd;
 
   @override
   int get hashCode =>
@@ -1454,19 +1101,17 @@ class _CornersDirectionalLerp extends CornersDirectional {
   final double t;
 
   @override
-  Corners resolve(TextDirection? textDirection) {
-    return _CornersLerp(a.resolve(textDirection), b.resolve(textDirection), t);
-  }
+  Corners resolve(TextDirection? textDirection) =>
+      _CornersLerp(a.resolve(textDirection), b.resolve(textDirection), t);
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is _CornersDirectionalLerp &&
-            a == other.a &&
-            b == other.b &&
-            t == other.t;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is _CornersDirectionalLerp &&
+          a == other.a &&
+          b == other.b &&
+          t == other.t;
 
   @override
   int get hashCode => Object.hash(runtimeType, a, b, t);
@@ -1511,7 +1156,7 @@ class _CornersMixed extends CornersGeometry {
 
   @override
   BorderRadiusGeometry toBorderRadius(Rect rect) {
-    final cornersNonDirectional = Corners.only(
+    final corners = Corners.only(
       topLeft: _topLeft,
       topRight: _topRight,
       bottomLeft: _bottomLeft,
@@ -1523,24 +1168,22 @@ class _CornersMixed extends CornersGeometry {
       bottomStart: _bottomStart,
       bottomEnd: _bottomEnd,
     );
-    final borderRadiusNonDirectional = cornersNonDirectional.toBorderRadius(
-      rect,
-    );
+    final borderRadius = corners.toBorderRadius(rect);
     final borderRadiusDirectional = cornersDirectional.toBorderRadius(rect);
-    return borderRadiusNonDirectional.add(borderRadiusDirectional);
+    return borderRadius.add(borderRadiusDirectional);
   }
 
   @override
   Corners resolve(TextDirection? textDirection) {
     assert(textDirection != null);
     return switch (textDirection!) {
-      TextDirection.ltr => Corners.only(
+      .ltr => Corners.only(
         topLeft: _topLeft + _topStart,
         topRight: _topRight + _topEnd,
         bottomLeft: _bottomLeft + _bottomStart,
         bottomRight: _bottomRight + _bottomEnd,
       ),
-      TextDirection.rtl => Corners.only(
+      .rtl => Corners.only(
         topLeft: _topLeft + _topEnd,
         topRight: _topRight + _topStart,
         bottomLeft: _bottomLeft + _bottomEnd,
