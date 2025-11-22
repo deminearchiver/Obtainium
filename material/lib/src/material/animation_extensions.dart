@@ -3,17 +3,14 @@ import 'package:material/src/material/flutter.dart';
 extension AnimatableExtensions<T> on Animatable<T> {
   Animatable<T> get reversed => _ReversedAnimatable(this);
 
-  Animatable<T> mapPoint(AnimatableMapPointCallback callback) {
-    return _MapPointAnimatable(this, callback);
-  }
+  Animatable<T> mapPoint(AnimatableMapPointCallback callback) =>
+      _MapPointAnimatable(this, callback);
 
-  Animatable<U> mapValue<U>(AnimatableMapValueCallback<T, U> callback) {
-    return _MapValueAnimatable(this, callback);
-  }
+  Animatable<U> mapValue<U>(AnimatableMapValueCallback<T, U> callback) =>
+      _MapValueAnimatable(this, callback);
 
-  Animatable<T> clampPoint(double min, double max) {
-    return mapPoint((t) => clampDouble(t, min, max));
-  }
+  Animatable<T> clampPoint(double min, double max) =>
+      mapPoint((t) => clampDouble(t, min, max));
 
   Animatable<T> mapPointToInterval(
     double begin,
@@ -25,7 +22,6 @@ extension AnimatableExtensions<T> on Animatable<T> {
     assert(end >= 0.0);
     assert(end <= 1.0);
     assert(end >= begin);
-
     return mapPoint((t) {
       t = clampDouble((t - begin) / (end - begin), 0.0, 1.0);
       return t == 0.0 || t == 1.0 ? t : curve.transform(t);
@@ -43,9 +39,7 @@ class _ReversedAnimatable<T> extends Animatable<T> {
   final Animatable<T> _parent;
 
   @override
-  T transform(double t) {
-    return _parent.transform(1.0 - t);
-  }
+  T transform(double t) => _parent.transform(1.0 - t);
 
   @override
   String toString() => "$_parent.reversed";
@@ -61,9 +55,7 @@ class _MapPointAnimatable<T> extends Animatable<T> {
   final AnimatableMapPointCallback _callback;
 
   @override
-  T transform(double t) {
-    return _parent.transform(_callback(t));
-  }
+  T transform(double t) => _parent.transform(_callback(t));
 }
 
 class _MapValueAnimatable<From, To> extends Animatable<To> {
@@ -73,9 +65,7 @@ class _MapValueAnimatable<From, To> extends Animatable<To> {
   final AnimatableMapValueCallback<From, To> _callback;
 
   @override
-  To transform(double t) {
-    return _callback(_parent.transform(t));
-  }
+  To transform(double t) => _callback(_parent.transform(t));
 
   @override
   String toString() {
@@ -224,14 +214,12 @@ class _NonNullAnimation<T extends Object> extends Animation<T>
 }
 
 extension IntervalExtension on Interval {
-  Interval copyWith({double? begin, double? end, Curve? curve}) {
-    if (begin == null && end == null && curve == null) {
-      return this;
-    }
-    return Interval(
-      begin ?? this.begin,
-      end ?? this.end,
-      curve: curve ?? this.curve,
-    );
-  }
+  Interval copyWith({double? begin, double? end, Curve? curve}) =>
+      begin != null || end != null || curve != null
+      ? Interval(
+          begin ?? this.begin,
+          end ?? this.end,
+          curve: curve ?? this.curve,
+        )
+      : this;
 }
