@@ -1,6 +1,5 @@
 import 'package:material/src/material/flutter.dart';
 
-@immutable
 class WindowSizeClass with Diagnosticable {
   const WindowSizeClass({
     required this.windowWidthSizeClass,
@@ -8,8 +7,8 @@ class WindowSizeClass with Diagnosticable {
   });
 
   WindowSizeClass.fromSize(Size size)
-    : windowWidthSizeClass = WindowWidthSizeClass.fromWidth(size.width),
-      windowHeightSizeClass = WindowHeightSizeClass.fromHeight(size.height);
+    : windowWidthSizeClass = .fromWidth(size.width),
+      windowHeightSizeClass = .fromHeight(size.height);
 
   final WindowWidthSizeClass windowWidthSizeClass;
   final WindowHeightSizeClass windowHeightSizeClass;
@@ -17,28 +16,28 @@ class WindowSizeClass with Diagnosticable {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(
-      EnumProperty<WindowWidthSizeClass>(
-        "windowWidthSizeClass",
-        windowWidthSizeClass,
-      ),
-    );
-    properties.add(
-      EnumProperty<WindowHeightSizeClass>(
-        "windowHeightSizeClass",
-        windowHeightSizeClass,
-      ),
-    );
+    properties
+      ..add(
+        EnumProperty<WindowWidthSizeClass>(
+          "windowWidthSizeClass",
+          windowWidthSizeClass,
+        ),
+      )
+      ..add(
+        EnumProperty<WindowHeightSizeClass>(
+          "windowHeightSizeClass",
+          windowHeightSizeClass,
+        ),
+      );
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is WindowSizeClass &&
-            windowWidthSizeClass == other.windowWidthSizeClass &&
-            windowHeightSizeClass == other.windowHeightSizeClass;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is WindowSizeClass &&
+          windowWidthSizeClass == other.windowWidthSizeClass &&
+          windowHeightSizeClass == other.windowHeightSizeClass;
 
   @override
   int get hashCode =>
@@ -46,13 +45,11 @@ class WindowSizeClass with Diagnosticable {
 
   static WindowSizeClass? maybeOf(BuildContext context) {
     final size = MediaQuery.maybeSizeOf(context);
-    return size != null ? WindowSizeClass.fromSize(size) : null;
+    return size != null ? .fromSize(size) : null;
   }
 
-  static WindowSizeClass of(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
-    return WindowSizeClass.fromSize(size);
-  }
+  static WindowSizeClass of(BuildContext context) =>
+      .fromSize(MediaQuery.sizeOf(context));
 }
 
 enum WindowWidthSizeClass implements Comparable<WindowWidthSizeClass> {
@@ -77,26 +74,19 @@ enum WindowWidthSizeClass implements Comparable<WindowWidthSizeClass> {
 
   final double breakpoint;
 
-  bool operator <(WindowWidthSizeClass other) {
-    return breakpoint < other.breakpoint;
-  }
+  bool operator <(WindowWidthSizeClass other) => breakpoint < other.breakpoint;
 
-  bool operator <=(WindowWidthSizeClass other) {
-    return breakpoint <= other.breakpoint;
-  }
+  bool operator <=(WindowWidthSizeClass other) =>
+      breakpoint <= other.breakpoint;
 
-  bool operator >(WindowWidthSizeClass other) {
-    return breakpoint > other.breakpoint;
-  }
+  bool operator >(WindowWidthSizeClass other) => breakpoint > other.breakpoint;
 
-  bool operator >=(WindowWidthSizeClass other) {
-    return breakpoint >= other.breakpoint;
-  }
+  bool operator >=(WindowWidthSizeClass other) =>
+      breakpoint >= other.breakpoint;
 
   @override
-  int compareTo(WindowWidthSizeClass other) {
-    return breakpoint.compareTo(other.breakpoint);
-  }
+  int compareTo(WindowWidthSizeClass other) =>
+      breakpoint.compareTo(other.breakpoint);
 
   static const double _compactLowerBound = 0.0;
   static const double _mediumLowerBound = 600.0;
@@ -105,14 +95,12 @@ enum WindowWidthSizeClass implements Comparable<WindowWidthSizeClass> {
   static const double _extraLargeLowerBound = 1600.0;
 
   static WindowWidthSizeClass? maybeOf(BuildContext context) {
-    final size = MediaQuery.maybeSizeOf(context);
-    return size != null ? WindowWidthSizeClass.fromWidth(size.width) : null;
+    final width = MediaQuery.maybeWidthOf(context);
+    return width != null ? .fromWidth(width) : null;
   }
 
-  static WindowWidthSizeClass of(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
-    return WindowWidthSizeClass.fromWidth(size.width);
-  }
+  static WindowWidthSizeClass of(BuildContext context) =>
+      .fromWidth(MediaQuery.widthOf(context));
 }
 
 enum WindowHeightSizeClass implements Comparable<WindowHeightSizeClass> {
@@ -133,38 +121,29 @@ enum WindowHeightSizeClass implements Comparable<WindowHeightSizeClass> {
 
   final double breakpoint;
 
-  bool operator <(WindowHeightSizeClass other) {
-    return breakpoint < other.breakpoint;
-  }
+  bool operator <(WindowHeightSizeClass other) => breakpoint < other.breakpoint;
 
-  bool operator <=(WindowHeightSizeClass other) {
-    return breakpoint <= other.breakpoint;
-  }
+  bool operator <=(WindowHeightSizeClass other) =>
+      breakpoint <= other.breakpoint;
 
-  bool operator >(WindowHeightSizeClass other) {
-    return breakpoint > other.breakpoint;
-  }
+  bool operator >(WindowHeightSizeClass other) => breakpoint > other.breakpoint;
 
-  bool operator >=(WindowHeightSizeClass other) {
-    return breakpoint >= other.breakpoint;
-  }
+  bool operator >=(WindowHeightSizeClass other) =>
+      breakpoint >= other.breakpoint;
 
   @override
-  int compareTo(WindowHeightSizeClass other) {
-    return breakpoint.compareTo(other.breakpoint);
-  }
+  int compareTo(WindowHeightSizeClass other) =>
+      breakpoint.compareTo(other.breakpoint);
 
   static const double _compactLowerBound = 0.0;
   static const double _mediumLowerBound = 480.0;
   static const double _expandedLowerBound = 900.0;
 
   static WindowHeightSizeClass? maybeOf(BuildContext context) {
-    final size = MediaQuery.maybeSizeOf(context);
-    return size != null ? WindowHeightSizeClass.fromHeight(size.height) : null;
+    final height = MediaQuery.maybeHeightOf(context);
+    return height != null ? .fromHeight(height) : null;
   }
 
-  static WindowHeightSizeClass of(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
-    return WindowHeightSizeClass.fromHeight(size.height);
-  }
+  static WindowHeightSizeClass of(BuildContext context) =>
+      .fromHeight(MediaQuery.heightOf(context));
 }
