@@ -15,7 +15,7 @@ workspace:
   - shapes
 
 environment:
-  sdk: ^3.10.0
+  sdk: ^3.10.1
   flutter: ">=3.38.0"
 
 dependencies:
