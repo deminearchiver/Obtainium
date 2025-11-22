@@ -18,13 +18,12 @@ sealed class _StateCombo<S extends Object?> implements StatesConstraint<S> {
   final StatesConstraint<S> second;
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is _StateCombo<S> &&
-            first == other.first &&
-            second == other.second;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is _StateCombo<S> &&
+          first == other.first &&
+          second == other.second;
 
   @override
   int get hashCode => Object.hash(runtimeType, first, second);
@@ -34,36 +33,22 @@ class _StateAnd<S extends Object?> extends _StateCombo<S> {
   const _StateAnd(super.first, super.second);
 
   @override
-  bool isSatisfiedBy(S states) {
-    return first.isSatisfiedBy(states) && second.isSatisfiedBy(states);
-  }
+  bool isSatisfiedBy(S states) =>
+      first.isSatisfiedBy(states) && second.isSatisfiedBy(states);
 
   @override
-  // ignore: hash_and_equals, hashCode is defined in the sealed super-class
-  bool operator ==(Object other) {
-    return other is _StateAnd && other.first == first && other.second == second;
-  }
-
-  @override
-  String toString() => '($first & $second)';
+  String toString() => "($first & $second)";
 }
 
 class _StateOr<S extends Object?> extends _StateCombo<S> {
   const _StateOr(super.first, super.second);
 
   @override
-  bool isSatisfiedBy(S states) {
-    return first.isSatisfiedBy(states) || second.isSatisfiedBy(states);
-  }
+  bool isSatisfiedBy(S states) =>
+      first.isSatisfiedBy(states) || second.isSatisfiedBy(states);
 
   @override
-  // ignore: hash_and_equals, hashCode is defined in the sealed super-class
-  bool operator ==(Object other) {
-    return other is _StateOr && other.first == first && other.second == second;
-  }
-
-  @override
-  String toString() => '($first | $second)';
+  String toString() => "($first | $second)";
 }
 
 @immutable
@@ -79,12 +64,11 @@ class _StateNot<S extends Object?> implements StatesConstraint<S> {
   String toString() => "~$value";
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is _StateNot &&
-            value == other.value;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is _StateNot &&
+          value == other.value;
 
   @override
   int get hashCode => Object.hash(runtimeType, value);
@@ -133,12 +117,8 @@ abstract class StateProperty<T extends Object?, S extends Object?> {
 
   T resolve(S states);
 
-  static T resolveAs<T, S>(T value, S states) {
-    if (value is StateProperty<T, S>) {
-      return value.resolve(states);
-    }
-    return value;
-  }
+  static T resolveAs<T, S>(T value, S states) =>
+      value is StateProperty<T, S> ? value.resolve(states) : value;
 }
 
 @immutable
@@ -180,17 +160,15 @@ class StateMapper<T extends Object?, S extends Object?>
   }
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return "CustomStateMapper<$T, $S>($_map)";
-  }
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) =>
+      "CustomStateMapper<$T, $S>($_map)";
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is StateMapper<T, S> &&
-            mapEquals(_map, other._map);
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is StateMapper<T, S> &&
+          mapEquals(_map, other._map);
 
   @override
   int get hashCode => Object.hash(
@@ -221,6 +199,16 @@ class _StatePropertyOnce<T extends Object?, S extends Object?>
 
   @override
   String toString() => "CustomStateProperty.resolveOnce<$T, $S>()";
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is _StatePropertyOnce<T, S> &&
+          _resolve == other._resolve;
+
+  @override
+  int get hashCode => Object.hash(runtimeType, _resolve);
 }
 
 @immutable
@@ -237,12 +225,11 @@ class _StatePropertyAll<T extends Object?, S extends Object?>
   String toString() => "CustomStateProperty.all($value)";
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is _StatePropertyAll<T, S> &&
-            value == other.value;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is _StatePropertyAll<T, S> &&
+          value == other.value;
 
   @override
   int get hashCode => Object.hash(runtimeType, value);
@@ -250,13 +237,11 @@ class _StatePropertyAll<T extends Object?, S extends Object?>
 
 extension StatePropertyExtension1<T extends Object?, S extends Object?>
     on StateProperty<T, S> {
-  StateProperty<U, S> mapValue<U>(U Function(S states, T value) callback) {
-    return _MapValueWithStatesAndValue(this, callback);
-  }
+  StateProperty<U, S> mapValue<U>(U Function(S states, T value) callback) =>
+      _MapValueWithStatesAndValue(this, callback);
 
-  StateProperty<T, S> mapStates(S Function(S states) callback) {
-    return _MapStatesWithStates(this, callback);
-  }
+  StateProperty<T, S> mapStates(S Function(S states) callback) =>
+      _MapStatesWithStates(this, callback);
 
   WidgetStateProperty<T> toLegacy(WidgetPropertyResolver<S> callback) =>
       _LegacyFromCallback(this, callback);
@@ -264,17 +249,14 @@ extension StatePropertyExtension1<T extends Object?, S extends Object?>
 
 extension StatePropertyExtension2<T extends Object, S extends Object?>
     on StateProperty<T?, S> {
-  StateProperty<T, S> or(T defaultValue) {
-    return mapValue((_, value) => value ?? defaultValue);
-  }
+  StateProperty<T, S> or(T defaultValue) =>
+      mapValue((_, value) => value ?? defaultValue);
 
-  StateProperty<T, S> orElse(PropertyResolver<T, S> callback) {
-    return mapValue((states, value) => value ?? callback(states));
-  }
+  StateProperty<T, S> orElse(PropertyResolver<T, S> callback) =>
+      mapValue((states, value) => value ?? callback(states));
 
-  StateProperty<T, S> orWith(StateProperty<T, S> property) {
-    return mapValue((states, value) => value ?? property.resolve(states));
-  }
+  StateProperty<T, S> orWith(StateProperty<T, S> property) =>
+      mapValue((states, value) => value ?? property.resolve(states));
 }
 
 extension StatePropertyExtenion3<T extends Object?>
@@ -413,9 +395,8 @@ class WidgetStateMapper<T extends Object?> extends StateMapper<T, WidgetStates>
   }
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return "WidgetStateMapper<$T>($_map)";
-  }
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) =>
+      "WidgetStateMapper<$T>($_map)";
 
   @override
   Never noSuchMethod(Invocation invocation) {
@@ -445,13 +426,9 @@ class WidgetStatePropertyAll<T extends Object?>
   const WidgetStatePropertyAll(super.value);
 
   @override
-  String toString() {
-    if (value is double) {
-      return 'WidgetStatePropertyAll(${debugFormatDouble(value as double)})';
-    } else {
-      return 'WidgetStatePropertyAll($value)';
-    }
-  }
+  String toString() => value is double
+      ? "WidgetStatePropertyAll(${debugFormatDouble(value as double)})"
+      : "WidgetStatePropertyAll($value)";
 }
 
 class _WidgetStatePropertyWith<T extends Object?>
