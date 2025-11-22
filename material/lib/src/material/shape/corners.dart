@@ -8,19 +8,10 @@ double? _clampCornerComponent(double? value, double? min, double? max) {
     (min == null || max == null) || (min <= max && !max.isNaN && !min.isNaN),
   );
 
-  if (value == null) {
-    return max;
-  }
+  if (value == null) return max;
   if (min == null) return null;
-  if (max == null) {
-    return value < min ? min : value;
-  }
+  if (max == null) return value < min ? min : value;
   return value > max ? max : value;
-}
-
-extension RadiusExtension on Radius {
-  @Deprecated("Use Corner.fromRadius instead")
-  Corner toCorner() => Corner.fromRadius(this);
 }
 
 @immutable
