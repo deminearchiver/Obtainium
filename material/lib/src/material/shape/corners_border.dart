@@ -481,7 +481,7 @@ class CornersBorder extends OutlinedBorder {
   @override
   String toString() =>
       "${objectRuntimeType(this, "CornersBorder")}"
-      "($side, $delegate, $corners)";
+      "(side: $side, delegate: $delegate, corners: $corners)";
 
   @override
   bool operator ==(Object other) =>
