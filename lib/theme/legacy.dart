@@ -18,6 +18,11 @@ abstract final class LegacyThemeFactory {
       visualDensity: VisualDensity.standard,
       splashFactory: InkSparkle.splashFactory,
       textTheme: typescaleTheme.toBaselineTextTheme(),
+      textSelectionTheme: TextSelectionThemeData(
+        selectionColor: colorTheme.primary.withValues(alpha: 0.4),
+        cursorColor: colorTheme.primary,
+        selectionHandleColor: colorTheme.primary,
+      ),
       // TODO: remove this after migration to CustomScrollbar
       scrollbarTheme: ScrollbarThemeData(
         thickness: const WidgetStatePropertyAll(4.0),
