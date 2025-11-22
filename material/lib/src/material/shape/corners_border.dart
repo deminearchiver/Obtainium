@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:material/src/material/flutter.dart';
 
-@immutable
 abstract class CornersBorderDelegate {
   const CornersBorderDelegate();
 
@@ -44,19 +43,11 @@ abstract class CornersBorderDelegate {
     );
   }
 
-  CornersBorderDelegate? lerpFrom(CornersBorderDelegate? a, double t) {
-    if (a == null) {
-      return scale(t);
-    }
-    return null;
-  }
+  CornersBorderDelegate? lerpFrom(CornersBorderDelegate? a, double t) =>
+      a == null ? scale(t) : null;
 
-  CornersBorderDelegate? lerpTo(CornersBorderDelegate? b, double t) {
-    if (b == null) {
-      return scale(1.0 - t);
-    }
-    return null;
-  }
+  CornersBorderDelegate? lerpTo(CornersBorderDelegate? b, double t) =>
+      b == null ? scale(1.0 - t) : null;
 
   CornersBorderDelegate scale(double t);
 
@@ -65,46 +56,42 @@ abstract class CornersBorderDelegate {
     CornersBorderDelegate? b,
     double t,
   ) {
-    if (identical(a, b)) {
-      return a;
-    }
-    final result = b?.lerpFrom(a, t) ?? a?.lerpTo(b, t);
-    return result ?? (t < 0.5 ? a : b);
+    if (identical(a, b)) return a;
+    return b?.lerpFrom(a, t) ?? a?.lerpTo(b, t) ?? (t < 0.5 ? a : b);
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType && other is CornersBorderDelegate;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType && other is CornersBorderDelegate;
 
   @override
   int get hashCode => runtimeType.hashCode;
+
+  static const CornersBorderDelegate rounded = _RoundedCornersBorderDelegate();
+
+  static const CornersBorderDelegate cut = _CutCornersBorderDelegate();
+
+  static const CornersBorderDelegate superellipse =
+      _SuperellipseCornersBorderDelegate();
 }
 
-@immutable
-class RoundedCornersBorderDelegate extends CornersBorderDelegate {
-  const RoundedCornersBorderDelegate();
+class _RoundedCornersBorderDelegate extends CornersBorderDelegate {
+  const _RoundedCornersBorderDelegate();
 
   @override
   Path getInnerPath({
     required Rect rect,
     required BorderSide side,
     required BorderRadius borderRadius,
-  }) {
-    final RRect borderRect = borderRadius.toRRect(rect);
-    final RRect adjustedRect = borderRect.deflate(side.strokeInset);
-    return Path()..addRRect(adjustedRect);
-  }
+  }) => Path()..addRRect(borderRadius.toRRect(rect).deflate(side.strokeInset));
 
   @override
   Path getOuterPath({
     required Rect rect,
     required BorderSide side,
     required BorderRadius borderRadius,
-  }) {
-    return Path()..addRRect(borderRadius.toRRect(rect));
-  }
+  }) => Path()..addRRect(borderRadius.toRRect(rect));
 
   @override
   bool get preferPaintInterior => true;
@@ -123,10 +110,10 @@ class RoundedCornersBorderDelegate extends CornersBorderDelegate {
         if (side.width == 0.0) {
           canvas.drawRRect(borderRadius.toRRect(rect), side.toPaint());
         } else {
-          final Paint paint = Paint()..color = side.color;
-          final RRect borderRect = borderRadius.toRRect(rect);
-          final RRect inner = borderRect.deflate(side.strokeInset);
-          final RRect outer = borderRect.inflate(side.strokeOutset);
+          final paint = Paint()..color = side.color;
+          final borderRect = borderRadius.toRRect(rect);
+          final inner = borderRect.deflate(side.strokeInset);
+          final outer = borderRect.inflate(side.strokeOutset);
           canvas.drawDRRect(outer, inner, paint);
         }
     }
@@ -148,28 +135,25 @@ class RoundedCornersBorderDelegate extends CornersBorderDelegate {
   }
 
   @override
-  RoundedCornersBorderDelegate scale(double t) => this;
+  _RoundedCornersBorderDelegate scale(double t) => this;
 
   // TODO: implement lerpFrom and lerpTo
 
   @override
-  String toString() {
-    return objectRuntimeType(this, "RoundedCornersBorderDelegate");
-  }
+  String toString() => "CornersBorderDelegate.rounded";
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is RoundedCornersBorderDelegate;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is _RoundedCornersBorderDelegate;
 
   @override
   int get hashCode => runtimeType.hashCode;
 }
 
-class CutCornersBorderDelegate extends CornersBorderDelegate {
-  const CutCornersBorderDelegate();
+class _CutCornersBorderDelegate extends CornersBorderDelegate {
+  const _CutCornersBorderDelegate();
 
   Path _getPath(RRect rrect) {
     final centerLeft = Offset(rrect.left, rrect.center.dy);
@@ -205,18 +189,14 @@ class CutCornersBorderDelegate extends CornersBorderDelegate {
     required Rect rect,
     required BorderSide side,
     required BorderRadius borderRadius,
-  }) {
-    return _getPath(borderRadius.toRRect(rect).deflate(side.strokeInset));
-  }
+  }) => _getPath(borderRadius.toRRect(rect).deflate(side.strokeInset));
 
   @override
   Path getOuterPath({
     required Rect rect,
     required BorderSide side,
     required BorderRadius borderRadius,
-  }) {
-    return _getPath(borderRadius.toRRect(rect));
-  }
+  }) => _getPath(borderRadius.toRRect(rect));
 
   @override
   void paint({
@@ -242,48 +222,41 @@ class CutCornersBorderDelegate extends CornersBorderDelegate {
   }
 
   @override
-  CutCornersBorderDelegate scale(double t) => this;
+  _CutCornersBorderDelegate scale(double t) => this;
 
   // TODO: implement lerpFrom and lerpTo
 
   @override
-  String toString() {
-    return objectRuntimeType(this, "CutCornersBorderDelegate");
-  }
+  String toString() => "CornersBorderDelegate.cut";
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType && other is CutCornersBorderDelegate;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType && other is _CutCornersBorderDelegate;
 
   @override
   int get hashCode => runtimeType.hashCode;
 }
 
-@immutable
-class SuperellipseCornersBorderDelegate extends CornersBorderDelegate {
-  const SuperellipseCornersBorderDelegate();
+class _SuperellipseCornersBorderDelegate extends CornersBorderDelegate {
+  const _SuperellipseCornersBorderDelegate();
 
   @override
   Path getInnerPath({
     required Rect rect,
     required BorderSide side,
     required BorderRadius borderRadius,
-  }) {
-    final RSuperellipse borderRect = borderRadius.toRSuperellipse(rect);
-    final RSuperellipse adjustedRect = borderRect.deflate(side.strokeInset);
-    return Path()..addRSuperellipse(adjustedRect);
-  }
+  }) => Path()
+    ..addRSuperellipse(
+      borderRadius.toRSuperellipse(rect).deflate(side.strokeInset),
+    );
 
   @override
   Path getOuterPath({
     required Rect rect,
     required BorderSide side,
     required BorderRadius borderRadius,
-  }) {
-    return Path()..addRSuperellipse(borderRadius.toRSuperellipse(rect));
-  }
+  }) => Path()..addRSuperellipse(borderRadius.toRSuperellipse(rect));
 
   @override
   bool get preferPaintInterior => true;
@@ -328,27 +301,23 @@ class SuperellipseCornersBorderDelegate extends CornersBorderDelegate {
   }
 
   @override
-  SuperellipseCornersBorderDelegate scale(double t) => this;
+  _SuperellipseCornersBorderDelegate scale(double t) => this;
 
   // TODO: implement lerpFrom and lerpTo
 
   @override
-  String toString() {
-    return objectRuntimeType(this, "SuperellipseCornersBorderDelegate");
-  }
+  String toString() => "CornersBorderDelegate.superellipse";
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is SuperellipseCornersBorderDelegate;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is _SuperellipseCornersBorderDelegate;
 
   @override
   int get hashCode => runtimeType.hashCode;
 }
 
-@immutable
 class CornersBorder extends OutlinedBorder {
   const CornersBorder({
     super.side,
@@ -357,34 +326,32 @@ class CornersBorder extends OutlinedBorder {
   });
 
   const CornersBorder.rounded({super.side, this.corners = Corners.none})
-    : delegate = const RoundedCornersBorderDelegate();
+    : delegate = CornersBorderDelegate.rounded;
 
   const CornersBorder.cut({super.side, this.corners = Corners.none})
-    : delegate = const CutCornersBorderDelegate();
+    : delegate = CornersBorderDelegate.cut;
 
   const CornersBorder.superellipse({super.side, this.corners = Corners.none})
-    : delegate = const SuperellipseCornersBorderDelegate();
+    : delegate = CornersBorderDelegate.superellipse;
 
   final CornersBorderDelegate delegate;
   final CornersGeometry corners;
 
   @override
-  Path getInnerPath(Rect rect, {TextDirection? textDirection}) {
-    return delegate.getInnerPath(
-      rect: rect,
-      side: side,
-      borderRadius: corners.resolve(textDirection).toBorderRadius(rect),
-    );
-  }
+  Path getInnerPath(Rect rect, {TextDirection? textDirection}) =>
+      delegate.getInnerPath(
+        rect: rect,
+        side: side,
+        borderRadius: corners.resolve(textDirection).toBorderRadius(rect),
+      );
 
   @override
-  Path getOuterPath(Rect rect, {TextDirection? textDirection}) {
-    return delegate.getOuterPath(
-      rect: rect,
-      side: side,
-      borderRadius: corners.resolve(textDirection).toBorderRadius(rect),
-    );
-  }
+  Path getOuterPath(Rect rect, {TextDirection? textDirection}) =>
+      delegate.getOuterPath(
+        rect: rect,
+        side: side,
+        borderRadius: corners.resolve(textDirection).toBorderRadius(rect),
+      );
 
   @override
   bool get preferPaintInterior => delegate.preferPaintInterior;
@@ -425,7 +392,7 @@ class CornersBorder extends OutlinedBorder {
       );
     }
     if (a is RoundedRectangleBorder) {
-      const aDelegate = RoundedCornersBorderDelegate();
+      const aDelegate = CornersBorderDelegate.rounded;
       final aCorners = CornersGeometry.fromBorderRadius(a.borderRadius);
       return CornersBorder(
         side: BorderSide.lerp(a.side, side, t),
@@ -434,7 +401,7 @@ class CornersBorder extends OutlinedBorder {
       );
     }
     if (a is BeveledRectangleBorder) {
-      const aDelegate = CutCornersBorderDelegate();
+      const aDelegate = CornersBorderDelegate.cut;
       final aCorners = CornersGeometry.fromBorderRadius(a.borderRadius);
       return CornersBorder(
         side: BorderSide.lerp(a.side, side, t),
@@ -443,7 +410,7 @@ class CornersBorder extends OutlinedBorder {
       );
     }
     if (a is RoundedSuperellipseBorder) {
-      const aDelegate = SuperellipseCornersBorderDelegate();
+      const aDelegate = CornersBorderDelegate.superellipse;
       final aCorners = CornersGeometry.fromBorderRadius(a.borderRadius);
       return CornersBorder(
         side: BorderSide.lerp(a.side, side, t),
@@ -464,7 +431,7 @@ class CornersBorder extends OutlinedBorder {
       );
     }
     if (b is RoundedRectangleBorder) {
-      const bDelegate = RoundedCornersBorderDelegate();
+      const bDelegate = CornersBorderDelegate.rounded;
       final bCorners = CornersGeometry.fromBorderRadius(b.borderRadius);
       return CornersBorder(
         side: BorderSide.lerp(side, b.side, t),
@@ -473,7 +440,7 @@ class CornersBorder extends OutlinedBorder {
       );
     }
     if (b is BeveledRectangleBorder) {
-      const bDelegate = CutCornersBorderDelegate();
+      const bDelegate = CornersBorderDelegate.cut;
       final bCorners = CornersGeometry.fromBorderRadius(b.borderRadius);
       return CornersBorder(
         side: BorderSide.lerp(side, b.side, t),
@@ -482,7 +449,7 @@ class CornersBorder extends OutlinedBorder {
       );
     }
     if (b is RoundedSuperellipseBorder) {
-      const bDelegate = SuperellipseCornersBorderDelegate();
+      const bDelegate = CornersBorderDelegate.superellipse;
       final bCorners = CornersGeometry.fromBorderRadius(b.borderRadius);
       return CornersBorder(
         side: BorderSide.lerp(side, b.side, t),
@@ -512,19 +479,18 @@ class CornersBorder extends OutlinedBorder {
   );
 
   @override
-  String toString() {
-    return "${objectRuntimeType(this, "CornersBorder")}($side, $delegate, $corners)";
-  }
+  String toString() =>
+      "${objectRuntimeType(this, "CornersBorder")}"
+      "($side, $delegate, $corners)";
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        runtimeType == other.runtimeType &&
-            other is CornersBorder &&
-            side == other.side &&
-            delegate == other.delegate &&
-            corners == other.corners;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      runtimeType == other.runtimeType &&
+          other is CornersBorder &&
+          side == other.side &&
+          delegate == other.delegate &&
+          corners == other.corners;
 
   @override
   int get hashCode => Object.hash(runtimeType, side, delegate, corners);
