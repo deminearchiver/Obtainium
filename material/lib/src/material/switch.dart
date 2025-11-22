@@ -262,13 +262,14 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
     return UnmodifiableSetView(states);
   }
 
+  void _statesListener() {
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
-    _statesController = WidgetStatesController()
-      ..addListener(() {
-        setState(() {});
-      });
+    _statesController = WidgetStatesController()..addListener(_statesListener);
 
     final handlePosition = _isSelected ? 1.0 : 0.0;
     _handlePositionTween.begin = handlePosition;
@@ -453,6 +454,7 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
             : const Icon(Symbols.close_rounded, applyTextScaling: false),
       ),
     );
+
     return RepaintBoundary(
       child: Align.center(
         widthFactor: 1.0,
@@ -499,10 +501,10 @@ class _SwitchState extends State<Switch> with TickerProviderStateMixin {
                 handleSize: _handleSizeAnimation.nonNullOr(handleSize),
                 handleShape: handleShape,
                 handleColor: _handleColorAnimation.nonNullOr(handleColor),
-                childrenPaintOrder: _SwitchChildrenPaintOrder.handleChildIsTop,
-                trackChildPosition: SwitchChildPosition.middle,
+                childrenPaintOrder: .handleChildIsTop,
+                trackChildPosition: .middle,
                 trackChild: trackChild,
-                handleChildPosition: SwitchChildPosition.top,
+                handleChildPosition: .top,
                 handleChild: handleChild,
               ),
             ),
@@ -563,8 +565,8 @@ class _SwitchPaint
 
   @override
   Widget? childForSlot(_SwitchSlot slot) => switch (slot) {
-    _SwitchSlot.trackChild => trackChild,
-    _SwitchSlot.handleChild => handleChild,
+    .trackChild => trackChild,
+    .handleChild => handleChild,
   };
 
   @override
@@ -743,9 +745,9 @@ class _RenderSwitchPaint extends RenderBox
     _textDirection = value;
   }
 
-  RenderBox? get _trackChild => childForSlot(_SwitchSlot.trackChild);
+  RenderBox? get _trackChild => childForSlot(.trackChild);
 
-  RenderBox? get _handleChild => childForSlot(_SwitchSlot.handleChild);
+  RenderBox? get _handleChild => childForSlot(.handleChild);
 
   Size _computeOuterSize() {
     return Size(
@@ -834,8 +836,8 @@ class _RenderSwitchPaint extends RenderBox
   }
 
   void _positionChild(RenderBox child, Offset position) {
-    final parentData = child.parentData! as BoxParentData;
-    parentData.offset = position;
+    assert(child.parentData != null && child.parentData is BoxParentData);
+    (child.parentData! as BoxParentData).offset = position;
   }
 
   Size _layout({
@@ -890,13 +892,11 @@ class _RenderSwitchPaint extends RenderBox
   }
 
   @override
-  Size computeDryLayout(BoxConstraints constraints) {
-    return _layout(
-      constraints: constraints,
-      layoutChild: ChildLayoutHelper.dryLayoutChild,
-      positionChild: (_, _) {},
-    );
-  }
+  Size computeDryLayout(BoxConstraints constraints) => _layout(
+    constraints: constraints,
+    layoutChild: ChildLayoutHelper.dryLayoutChild,
+    positionChild: (_, _) {},
+  );
 
   @override
   double? computeDryBaseline(
@@ -959,10 +959,10 @@ class _RenderSwitchPaint extends RenderBox
   void _paintChildFor(PaintingContext context, SwitchChildPosition position) {
     if (trackChildPosition == position && handleChildPosition == position) {
       switch (childrenPaintOrder) {
-        case _SwitchChildrenPaintOrder.trackChildIsTop:
+        case .trackChildIsTop:
           _paintHandleChild(context);
           _paintTrackChild(context);
-        case _SwitchChildrenPaintOrder.handleChildIsTop:
+        case .handleChildIsTop:
           _paintTrackChild(context);
           _paintHandleChild(context);
       }
@@ -985,19 +985,19 @@ class _RenderSwitchPaint extends RenderBox
       }
 
       // Paint the child below the track, if any
-      _paintChildFor(context, SwitchChildPosition.bottom);
+      _paintChildFor(context, .bottom);
 
       // Paint the track
       _paintTrack(context, innerRect);
 
       // Paint the child between the track and the handle, if any
-      _paintChildFor(context, SwitchChildPosition.middle);
+      _paintChildFor(context, .middle);
 
       // Paint the handle
       _paintHandle(context, handleRect);
 
       // Paint the child above the handle, if any
-      _paintChildFor(context, SwitchChildPosition.top);
+      _paintChildFor(context, .top);
     });
   }
 

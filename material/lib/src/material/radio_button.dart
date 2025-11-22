@@ -150,14 +150,15 @@ class _RadioButtonState extends State<RadioButton>
     return UnmodifiableSetView(states);
   }
 
+  void _statesListener() {
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
 
-    _statesController = WidgetStatesController()
-      ..addListener(() {
-        setState(() {});
-      });
+    _statesController = WidgetStatesController()..addListener(_statesListener);
 
     _animationController = AnimationController.unbounded(
       vsync: this,
@@ -491,8 +492,8 @@ class _RenderRadioButtonPaint extends RenderBox
   }
 
   void _positionChild(RenderBox child, Offset position) {
-    final parentData = child.parentData! as BoxParentData;
-    parentData.offset = position;
+    assert(child.parentData != null && child.parentData is BoxParentData);
+    (child.parentData! as BoxParentData).offset = position;
   }
 
   Size _layout({
@@ -525,13 +526,11 @@ class _RenderRadioButtonPaint extends RenderBox
   }
 
   @override
-  Size computeDryLayout(BoxConstraints constraints) {
-    return _layout(
-      constraints: constraints,
-      layoutChild: ChildLayoutHelper.dryLayoutChild,
-      positionChild: (_, _) {},
-    );
-  }
+  Size computeDryLayout(BoxConstraints constraints) => _layout(
+    constraints: constraints,
+    layoutChild: ChildLayoutHelper.dryLayoutChild,
+    positionChild: (_, _) {},
+  );
 
   @override
   double? computeDryBaseline(

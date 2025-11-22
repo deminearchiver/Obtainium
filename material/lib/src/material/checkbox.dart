@@ -45,8 +45,7 @@ class _BiStateCheckbox extends Checkbox {
   final bool checked;
 
   @override
-  _CheckedState get _state =>
-      checked ? _CheckedState.checked : _CheckedState.off;
+  _CheckedState get _state => checked ? .checked : .off;
 
   @override
   VoidCallback? get _onTap => onCheckedChanged != null ? _onTapCallback : null;
@@ -66,9 +65,9 @@ class _TriStateCheckbox extends Checkbox {
 
   @override
   _CheckedState get _state => switch (state) {
-    false => _CheckedState.off,
-    null => _CheckedState.intermediate,
-    true => _CheckedState.checked,
+    false => .off,
+    null => .intermediate,
+    true => .checked,
   };
 
   @override
@@ -76,9 +75,9 @@ class _TriStateCheckbox extends Checkbox {
 }
 
 class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
-  bool get _isIntermediate => widget._state == _CheckedState.intermediate;
-  bool get _isChecked => widget._state == _CheckedState.checked;
-  bool get _isCheckedOrIntermediate => widget._state != _CheckedState.off;
+  bool get _isIntermediate => widget._state == .intermediate;
+  bool get _isChecked => widget._state == .checked;
+  bool get _isCheckedOrIntermediate => widget._state != .off;
 
   double get _checkedFraction => _isCheckedOrIntermediate ? 1.0 : 0.0;
   double get _crossCenterGravitation => _isIntermediate ? 1.0 : 0.0;
@@ -244,13 +243,14 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
     return UnmodifiableSetView(states);
   }
 
+  void _statesListener() {
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
-    _statesController = WidgetStatesController()
-      ..addListener(() {
-        setState(() {});
-      });
+    _statesController = WidgetStatesController()..addListener(_statesListener);
     _checkFractionController = AnimationController.unbounded(
       vsync: this,
       value: _checkedFraction,
@@ -271,7 +271,7 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
     final oldState = oldWidget._state;
     final newState = widget._state;
     if (oldState != newState) {
-      final oldCheckFraction = oldState == _CheckedState.off
+      final oldCheckFraction = oldState == .off
           ? 0.0
           : _checkFractionController.value;
       final newCheckFraction = _checkedFraction;
@@ -285,7 +285,7 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
         newCheckFraction,
         0.0,
       );
-      if (oldState != _CheckedState.off && newState == _CheckedState.off) {
+      if (oldState != .off && newState == .off) {
         const duration = Duration(milliseconds: 100);
         const curve = Threshold(1.0);
         if (newCheckFraction >= oldCheckFraction) {
@@ -317,9 +317,9 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
         newCrossCenterGravitation,
         0.0,
       );
-      if (oldState == _CheckedState.off) {
+      if (oldState == .off) {
         _crossCenterGravitationController.value = newCrossCenterGravitation;
-      } else if (newState == _CheckedState.off) {
+      } else if (newState == .off) {
         const duration = Duration(milliseconds: 100);
         const curve = Threshold(1.0);
         if (newCrossCenterGravitation >= oldCrossCenterGravitation) {
@@ -515,7 +515,7 @@ class _CheckboxState extends State<Checkbox> with TickerProviderStateMixin {
                   iconStrokeJoin: StrokeJoin.round,
                   checkFraction: _checkFractionController,
                   crossCenterGravitation: _crossCenterGravitationController,
-                  childPosition: _CheckboxChildPosition.bottom,
+                  childPosition: .bottom,
                   child: child,
                 ),
               ),
@@ -568,25 +568,24 @@ class _CheckboxPaint extends SingleChildRenderObjectWidget {
   final _CheckboxChildPosition childPosition;
 
   @override
-  _RenderCheckboxPaint createRenderObject(BuildContext context) {
-    return _RenderCheckboxPaint(
-      minTapTargetSize: minTapTargetSize,
-      containerSize: containerSize,
-      containerShape: containerShape,
-      containerColor: containerColor,
-      outlineColor: outlineColor,
-      outlineWidth: outlineWidth,
-      iconSize: iconSize,
-      iconColor: iconColor,
-      iconStrokeWidth: iconStrokeWidth,
-      iconStrokeCap: iconStrokeCap,
-      iconStrokeJoin: iconStrokeJoin,
-      checkFraction: checkFraction,
-      crossCenterGravitation: crossCenterGravitation,
-      childPosition: childPosition,
-      textDirection: Directionality.maybeOf(context),
-    );
-  }
+  _RenderCheckboxPaint createRenderObject(BuildContext context) =>
+      _RenderCheckboxPaint(
+        minTapTargetSize: minTapTargetSize,
+        containerSize: containerSize,
+        containerShape: containerShape,
+        containerColor: containerColor,
+        outlineColor: outlineColor,
+        outlineWidth: outlineWidth,
+        iconSize: iconSize,
+        iconColor: iconColor,
+        iconStrokeWidth: iconStrokeWidth,
+        iconStrokeCap: iconStrokeCap,
+        iconStrokeJoin: iconStrokeJoin,
+        checkFraction: checkFraction,
+        crossCenterGravitation: crossCenterGravitation,
+        childPosition: childPosition,
+        textDirection: Directionality.maybeOf(context),
+      );
 
   @override
   void updateRenderObject(
@@ -868,8 +867,8 @@ class _RenderCheckboxPaint extends RenderBox
   }
 
   void _positionChild(RenderBox child, Offset position) {
-    final parentData = child.parentData! as BoxParentData;
-    parentData.offset = position;
+    assert(child.parentData != null && child.parentData is BoxParentData);
+    (child.parentData! as BoxParentData).offset = position;
   }
 
   Size _layout({
@@ -902,13 +901,11 @@ class _RenderCheckboxPaint extends RenderBox
   }
 
   @override
-  Size computeDryLayout(BoxConstraints constraints) {
-    return _layout(
-      constraints: constraints,
-      layoutChild: ChildLayoutHelper.dryLayoutChild,
-      positionChild: (_, _) {},
-    );
-  }
+  Size computeDryLayout(BoxConstraints constraints) => _layout(
+    constraints: constraints,
+    layoutChild: ChildLayoutHelper.dryLayoutChild,
+    positionChild: (_, _) {},
+  );
 
   @override
   double? computeDryBaseline(
@@ -1139,19 +1136,19 @@ class _RenderCheckboxPaint extends RenderBox
       }
 
       // Paint the child below the container, if any
-      _paintChildFor(context, _CheckboxChildPosition.bottom);
+      _paintChildFor(context, .bottom);
 
       // Paint the container
       _paintBox(context, innerRect);
 
       // Paint the child between the container and the icon, if any
-      _paintChildFor(context, _CheckboxChildPosition.middle);
+      _paintChildFor(context, .middle);
 
       // Paint the icon
       _paintCheck(context, innerRect);
 
       // Paint the child above the icon, if any
-      _paintChildFor(context, _CheckboxChildPosition.top);
+      _paintChildFor(context, .top);
     });
   }
 
