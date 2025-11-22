@@ -44,10 +44,8 @@ class Corner {
     // TODO: investigate if change from -infinity to 0 affects any behaviors
     double? minimumX = 0.0,
     double? minimumY = 0.0,
-    // ignore: avoid_init_to_null
-    double? maximumX = null,
-    // ignore: avoid_init_to_null
-    double? maximumY = null,
+    double? maximumX,
+    double? maximumY,
   }) {
     return Corner.elliptical(
       _clampCornerComponent(x, minimumX, maximumX),
@@ -55,7 +53,7 @@ class Corner {
     );
   }
 
-  Radius resolve({
+  Radius toRadius({
     required Rect rect,
     required double? adjacentX,
     required double? adjacentY,
@@ -229,10 +227,8 @@ class _CornerLerp implements Corner {
   Corner clampValues({
     double? minimumX = 0.0,
     double? minimumY = 0.0,
-    // ignore: avoid_init_to_null
-    double? maximumX = null,
-    // ignore: avoid_init_to_null
-    double? maximumY = null,
+    double? maximumX,
+    double? maximumY,
   }) {
     return _CornerLerp(
       a.clampValues(
@@ -252,17 +248,17 @@ class _CornerLerp implements Corner {
   }
 
   @override
-  Radius resolve({
+  Radius toRadius({
     required Rect rect,
     required double? adjacentX,
     required double? adjacentY,
   }) {
-    final aRadius = a.resolve(
+    final aRadius = a.toRadius(
       rect: rect,
       adjacentX: adjacentX,
       adjacentY: adjacentY,
     );
-    final bRadius = b.resolve(
+    final bRadius = b.toRadius(
       rect: rect,
       adjacentX: adjacentX,
       adjacentY: adjacentY,
@@ -814,22 +810,22 @@ class Corners extends CornersGeometry {
     final bottomRight = this.bottomRight.clamp();
 
     return BorderRadius.only(
-      topLeft: topLeft.resolve(
+      topLeft: topLeft.toRadius(
         rect: rect,
         adjacentX: topRight.x,
         adjacentY: bottomLeft.y,
       ),
-      topRight: topRight.resolve(
+      topRight: topRight.toRadius(
         rect: rect,
         adjacentX: topLeft.x,
         adjacentY: bottomRight.y,
       ),
-      bottomLeft: bottomLeft.resolve(
+      bottomLeft: bottomLeft.toRadius(
         rect: rect,
         adjacentX: bottomRight.x,
         adjacentY: topLeft.y,
       ),
-      bottomRight: bottomRight.resolve(
+      bottomRight: bottomRight.toRadius(
         rect: rect,
         adjacentX: bottomLeft.x,
         adjacentY: topRight.y,
@@ -1296,22 +1292,22 @@ class CornersDirectional extends CornersGeometry {
     final bottomEnd = this.bottomEnd.clamp();
 
     return BorderRadiusDirectional.only(
-      topStart: topStart.resolve(
+      topStart: topStart.toRadius(
         rect: rect,
         adjacentX: topEnd.x,
         adjacentY: bottomStart.y,
       ),
-      topEnd: topEnd.resolve(
+      topEnd: topEnd.toRadius(
         rect: rect,
         adjacentX: topStart.x,
         adjacentY: bottomEnd.y,
       ),
-      bottomStart: bottomStart.resolve(
+      bottomStart: bottomStart.toRadius(
         rect: rect,
         adjacentX: bottomEnd.x,
         adjacentY: topStart.y,
       ),
-      bottomEnd: bottomEnd.resolve(
+      bottomEnd: bottomEnd.toRadius(
         rect: rect,
         adjacentX: bottomStart.x,
         adjacentY: topEnd.y,
