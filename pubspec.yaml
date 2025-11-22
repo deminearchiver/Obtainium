@@ -1,20 +1,8 @@
 name: materium
 description: Get Android app updates straight from the source.
-publish_to: none
-
-# The following defines the version and build number for the application.
-# A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
-# Both the version and the builder number may be overridden in flutter
-# build by specifying --build-name and --build-number, respectively.
-# In Android, build-name is used as versionName while build-number used as versionCode.
-# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
-# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
-# Read more about iOS versioning at
-# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-# In Windows, build-name is used as the major, minor, and patch parts
-# of the product and file versions while build-number is used as the build suffix.
 version: 1.2.8+2324
+repository: https://github.com/deminearchiver/materium
+publish_to: none
 
 workspace:
   - dynamic_color
@@ -120,24 +108,12 @@ dependency_overrides:
   meta: ^1.17.0
   device_info_plus: ^12.2.0
 
-flutter_launcher_icons:
-  android: "ic_launcher"
-  image_path: "assets/graphics/icon.png"
-
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
 flutter:
   uses-material-design: true
   generate: false
 
   assets:
-    - assets/translations/
-    - assets/graphics/
     - assets/ca/
-
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/to/resolution-aware-images
-
-  # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/to/asset-from-package
+    - assets/graphics/
+    - assets/ic_launcher/
+    - assets/translations/

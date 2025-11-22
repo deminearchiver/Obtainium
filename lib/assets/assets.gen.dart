@@ -84,6 +84,101 @@ class $AssetsGraphicsGen {
   ];
 }
 
+class $AssetsIcLauncherGen {
+  const $AssetsIcLauncherGen();
+
+  /// File path: assets/ic_launcher/background.svg
+  SvgGenImage get background => const SvgGenImage(
+    'assets/ic_launcher/background.svg',
+    size: Size(432.0, 432.0),
+  );
+
+  /// File path: assets/ic_launcher/background_1x.png
+  AssetGenImage get background1x => const AssetGenImage(
+    'assets/ic_launcher/background_1x.png',
+    size: const Size(432.0, 432.0),
+  );
+
+  /// File path: assets/ic_launcher/background_2x.png
+  AssetGenImage get background2x => const AssetGenImage(
+    'assets/ic_launcher/background_2x.png',
+    size: const Size(864.0, 864.0),
+  );
+
+  /// File path: assets/ic_launcher/background_3x.png
+  AssetGenImage get background3x => const AssetGenImage(
+    'assets/ic_launcher/background_3x.png',
+    size: const Size(1296.0, 1296.0),
+  );
+
+  /// File path: assets/ic_launcher/background_4x.png
+  AssetGenImage get background4x => const AssetGenImage(
+    'assets/ic_launcher/background_4x.png',
+    size: const Size(1728.0, 1728.0),
+  );
+
+  /// File path: assets/ic_launcher/foreground_inner.svg
+  SvgGenImage get foregroundInner => const SvgGenImage(
+    'assets/ic_launcher/foreground_inner.svg',
+    size: Size(432.0, 436.0),
+  );
+
+  /// File path: assets/ic_launcher/foreground_inner_1x.png
+  AssetGenImage get foregroundInner1x => const AssetGenImage(
+    'assets/ic_launcher/foreground_inner_1x.png',
+    size: const Size(432.0, 436.0),
+  );
+
+  /// File path: assets/ic_launcher/foreground_inner_2x.png
+  AssetGenImage get foregroundInner2x => const AssetGenImage(
+    'assets/ic_launcher/foreground_inner_2x.png',
+    size: const Size(864.0, 872.0),
+  );
+
+  /// File path: assets/ic_launcher/foreground_inner_3x.png
+  AssetGenImage get foregroundInner3x => const AssetGenImage(
+    'assets/ic_launcher/foreground_inner_3x.png',
+    size: const Size(1296.0, 1308.0),
+  );
+
+  /// File path: assets/ic_launcher/foreground_inner_4x.png
+  AssetGenImage get foregroundInner4x => const AssetGenImage(
+    'assets/ic_launcher/foreground_inner_4x.png',
+    size: const Size(1728.0, 1744.0),
+  );
+
+  /// File path: assets/ic_launcher/ic_launcher.png
+  AssetGenImage get icLauncher => const AssetGenImage(
+    'assets/ic_launcher/ic_launcher.png',
+    size: const Size(512.0, 512.0),
+  );
+
+  /// File path: assets/ic_launcher/play_graphic.png
+  AssetGenImage get playGraphic => const AssetGenImage(
+    'assets/ic_launcher/play_graphic.png',
+    size: const Size(1024.0, 500.0),
+  );
+
+  /// Directory path: assets/ic_launcher
+  String get path => 'assets/ic_launcher';
+
+  /// List of all assets
+  List<dynamic> get values => [
+    background,
+    background1x,
+    background2x,
+    background3x,
+    background4x,
+    foregroundInner,
+    foregroundInner1x,
+    foregroundInner2x,
+    foregroundInner3x,
+    foregroundInner4x,
+    icLauncher,
+    playGraphic,
+  ];
+}
+
 class $AssetsTranslationsGen {
   const $AssetsTranslationsGen();
 
@@ -216,6 +311,7 @@ class Assets {
 
   static const $AssetsCaGen ca = $AssetsCaGen();
   static const $AssetsGraphicsGen graphics = $AssetsGraphicsGen();
+  static const $AssetsIcLauncherGen icLauncher = $AssetsIcLauncherGen();
   static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
 }
 
